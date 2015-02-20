@@ -747,7 +747,7 @@ class td_module_single_base extends td_module {
     }
 
 
-    function related_posts() {
+    function related_posts($force_sidebar_position = '') {
 
         if (!$this->is_single) {
             return;
@@ -780,7 +780,7 @@ class td_module_single_base extends td_module {
             $tds_similar_articles_rows = 1;
         }
 
-        if (td_global::$cur_single_template_sidebar_pos == 'no_sidebar') {
+        if (td_global::$cur_single_template_sidebar_pos == 'no_sidebar' or $force_sidebar_position === 'no_sidebar') {
             $td_related_limit = 5 * $tds_similar_articles_rows;
             $td_related_class = 'td-related-full-width';
             $td_column_number = 5;
@@ -789,6 +789,8 @@ class td_module_single_base extends td_module {
             $td_related_class = '';
             $td_column_number = 3;
         }
+
+
 
         /**
          * 'td_ajax_filter_type' => 'td_custom_related' - this ajax filter type overwrites the live filter via ajax @see td_ajax_block
