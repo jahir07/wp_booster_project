@@ -204,34 +204,34 @@ var td_pulldown = {
         // the the extra space occupied by the horizontal jquery object is calculated
 
         var horizontal_jquery_obj_padding_left = item.horizontal_jquery_obj.css('padding-left');
-        if ((horizontal_jquery_obj_padding_left != 'undefined') && (horizontal_jquery_obj_padding_left != '')) {
+        if ((horizontal_jquery_obj_padding_left != undefined) && (horizontal_jquery_obj_padding_left != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_padding_left.replace('px', ''));
         }
 
         var horizontal_jquery_obj_padding_right = item.horizontal_jquery_obj.css('padding-right');
-        if ((horizontal_jquery_obj_padding_right != 'undefined') && (horizontal_jquery_obj_padding_right != '')) {
+        if ((horizontal_jquery_obj_padding_right != undefined) && (horizontal_jquery_obj_padding_right != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_padding_right.replace('px', ''));
         }
 
 
         var horizontal_jquery_obj_margin_left = item.horizontal_jquery_obj.css('margin-left');
-        if ((horizontal_jquery_obj_margin_left != 'undefined') && (horizontal_jquery_obj_margin_left != '')) {
+        if ((horizontal_jquery_obj_margin_left != undefined) && (horizontal_jquery_obj_margin_left != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_margin_left.replace('px', ''));
         }
 
         var horizontal_jquery_obj_margin_right = item.horizontal_jquery_obj.css('margin-right');
-        if ((horizontal_jquery_obj_margin_right != 'undefined') && (horizontal_jquery_obj_margin_right != '')) {
+        if ((horizontal_jquery_obj_margin_right != undefined) && (horizontal_jquery_obj_margin_right != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_margin_right.replace('px', ''));
         }
 
 
         var horizontal_jquery_obj_border_left = item.horizontal_jquery_obj.css('border-left');
-        if ((horizontal_jquery_obj_border_left != 'undefined') && (horizontal_jquery_obj_border_left != '')) {
+        if ((horizontal_jquery_obj_border_left != undefined) && (horizontal_jquery_obj_border_left != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_border_left.replace('px', ''));
         }
 
         var horizontal_jquery_obj_border_right = item.horizontal_jquery_obj.css('border-right');
-        if ((horizontal_jquery_obj_border_right != 'undefined') && (horizontal_jquery_obj_border_right != '')) {
+        if ((horizontal_jquery_obj_border_right != undefined) && (horizontal_jquery_obj_border_right != '')) {
             item._horizontal_extra_space += parseInt(horizontal_jquery_obj_border_right.replace('px', ''));
         }
 
@@ -336,7 +336,7 @@ var td_pulldown = {
         // the object container width
         var container_jquery_width = item.container_jquery_obj.css('width');
 
-        if ((container_jquery_width != 'undefined') && (container_jquery_width != '')) {
+        if ((container_jquery_width != undefined) && (container_jquery_width != '')) {
 
             // the space for new horizontal elements is initialized by the container width
             space_for_horizontal_elements = container_jquery_width.replace('px', '');
