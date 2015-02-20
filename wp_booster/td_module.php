@@ -139,7 +139,7 @@ abstract class td_module {
      */
     function get_image($thumbType) {
         $buffy = ''; //the output buffer
-        $featured_image_placeholder = td_util::get_option('tds_featured_image_placeholder');
+        $tds_hide_featured_image_placeholder = td_util::get_option('tds_hide_featured_image_placeholder');
 
         /*
         *  - if we have a post thumb - show that
@@ -147,7 +147,7 @@ abstract class td_module {
         */
 
 
-        if ($this->post_has_thumb or ($featured_image_placeholder == 'show_placeholder')) {
+        if ($this->post_has_thumb or ($tds_hide_featured_image_placeholder != 'hide_placeholder')) {
             if ($this->post_has_thumb) {
                 //if we have a thumb
 

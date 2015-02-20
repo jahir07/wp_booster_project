@@ -52,6 +52,7 @@ require_once('td_css_compiler.php');  // css compiler
 require_once('td_css_inline.php');  // css compiler
 require_once('td_page_views.php'); // page views counter
 require_once('td_module.php');           // module builder
+require_once('td_module_single_base.php');           // module single builder
 require_once('td_block.php');            // block builder
 require_once('td_cake.php');
 require_once('td_ads.php');       //handles background click ad
