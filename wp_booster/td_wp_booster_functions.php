@@ -17,7 +17,7 @@ require_once('td_util.php');
 
 // load the api
 
-/* @get_inline */
+/* @td_start get_inline td_api.php */
 require_once('td_api_base.php');
 require_once('td_api_block.php');
 require_once('td_api_block_template.php');
@@ -30,11 +30,11 @@ require_once('td_api_single_template.php');
 require_once('td_api_smart_list.php');
 require_once('td_api_thumb.php');
 require_once('td_api_top_bar_template.php');
-/* @end_get_inline */
+/* @td_end get_inline */
 
 do_action('td_global_after');
 
-/* @get_inline */
+
 require_once('td_block_template.php');          // block template base class
 require_once('td_category_template.php');       // block template base class
 require_once('td_category_top_posts_style.php');       // base class
@@ -72,7 +72,6 @@ require_once('td_login.php');  // modal window for user login
 require_once('td_more_article_box.php');  //handles more articles box
 require_once('td_block_widget.php');  //used to make widgets from our blocks
 require_once('td_autoload_classes.php');  //used to autoload classes [modules, blocks]
-/* @end_get_inline */
 
 
 /*
@@ -936,6 +935,24 @@ function td_custom_gallery_settings_hook () {
  */
 function td_change_backbone_js_hook() {
     //change the backbone js template
+
+
+    // make the buffer for the dropdown
+    $image_styles_buffer_for_select = '';
+    $image_styles_buffer_for_switch = '';
+
+
+    foreach (td_global::$tiny_mce_image_style_list as $tiny_mce_image_style_id => $tiny_mce_image_style_params) {
+        $image_styles_buffer_for_select .= "'<option value=\"" . $tiny_mce_image_style_id . "\">" . $tiny_mce_image_style_params['text'] . "</option>' + ";
+        $image_styles_buffer_for_switch .= "
+        case '$tiny_mce_image_style_id':
+            td_clear_all_classes(); //except the modal one
+            td_add_image_css_class('" . $tiny_mce_image_style_params['class'] . "');
+            break;
+        ";
+    }
+
+
     ?>
     <script type="text/javascript">
 
@@ -954,10 +971,7 @@ function td_change_backbone_js_hook() {
                 '<span>tagDiv image style</span>' +
                 '<select class="size td-wp-image-style">' +
                 '<option value="">Default</option>' +
-                '<option value="td_full_width">Full width</option>' +
-                '<option value="td_full_width_and_grid">Full width and grid border</option>' +
-                '<option value="td_left">Left ( Over grid )</option>' +
-                '<option value="td_right">Right ( Over grid )</option>' +
+                <?php echo $image_styles_buffer_for_select ?>
                 '</select>' +
                 '</div>' +
                 '</div>';
@@ -995,25 +1009,7 @@ function td_change_backbone_js_hook() {
             jQuery(".td-wp-image-style").live( "change", function() {
                 switch (jQuery( ".td-wp-image-style").val()) {
 
-                    case 'td_full_width':
-                        td_clear_all_classes(); //except the modal one
-                        td_add_image_css_class('td-post-image-full');
-                        break;
-
-                    case 'td_full_width_and_grid':
-                        td_clear_all_classes(); //except the modal one
-                        td_add_image_css_class('td-post-image-full-and-grid');
-                        break;
-
-                    case 'td_left':
-                        td_clear_all_classes(); //except the modal one
-                        td_add_image_css_class('td-post-image-left');
-                        break;
-
-                    case 'td_right':
-                        td_clear_all_classes(); //except the modal one
-                        td_add_image_css_class('td-post-image-right');
-                        break;
+                    <?php echo $image_styles_buffer_for_switch; ?>
 
                     default:
                         td_clear_all_classes(); //except the modal one

@@ -66,7 +66,22 @@ class td_global {
     );
 
 
+    /**
+     * @var array the tinyMCE style formats
+     */
     static $tiny_mce_style_formats = array();
+
+
+    /**
+     * @var array
+     *
+     *  'td_full_width' => array(           - id used in the drop down in tinyMCE
+     *      'text' => 'Full width',         - the text that will appear in the dropdown in tinyMCE
+     *      'class' => 'td-post-image-full' - the class tha this image style will add to the image
+     *  )
+     *
+     */
+    static $tiny_mce_image_style_list = array();
 
 
       /**
@@ -275,6 +290,9 @@ class td_global {
      * @var array
      */
     public static $stacks_list = array ();
+
+
+
 
 
 
