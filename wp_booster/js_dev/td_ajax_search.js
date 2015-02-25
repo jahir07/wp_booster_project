@@ -41,9 +41,9 @@ function td_ajax_search() {
 
     //show the search field and put focus on search box in header
     jQuery('#td-header-search-button').click(function(){
-        event.preventDefault();
         //show the search box
         jQuery('.dropdown-menu').toggle();
+        event.preventDefault();
     });
 
 
