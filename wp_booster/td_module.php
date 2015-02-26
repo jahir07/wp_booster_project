@@ -291,7 +291,8 @@ abstract class td_module {
                     $buffy .= td_util::excerpt($this->title, $db_title_excerpt, 'show_shortcodes');
                 } else {
                     //cut at the default size
-                    $buffy .= td_util::excerpt($this->title, td_api_module::get_by_id($current_module_class)['excerpt_title'], 'show_shortcodes');
+                    $module_api = td_api_module::get_by_id($current_module_class);
+                    $buffy .= td_util::excerpt($this->title, $module_api['excerpt_title'], 'show_shortcodes');
                 }
             } else {
                 /**
@@ -336,7 +337,8 @@ abstract class td_module {
                     $buffy .= td_util::excerpt($this->post->post_content, $db_content_excerpt);
                 } else {
                     //cut at the default size
-                    $buffy .= td_util::excerpt($this->post->post_content, td_api_module::get_by_id($current_module_class)['excerpt_content']);
+                    $module_api = td_api_module::get_by_id($current_module_class);
+                    $buffy .= td_util::excerpt($this->post->post_content, $module_api['excerpt_content']);
                 }
             } else {
                 /**

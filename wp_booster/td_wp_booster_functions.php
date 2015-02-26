@@ -17,7 +17,7 @@ require_once('td_util.php');
 
 // load the api
 
-/* @td_start get_inline td_api.php */
+/* @td_get_inline */
 require_once('td_api_base.php');
 require_once('td_api_block.php');
 require_once('td_api_block_template.php');
@@ -30,10 +30,9 @@ require_once('td_api_single_template.php');
 require_once('td_api_smart_list.php');
 require_once('td_api_thumb.php');
 require_once('td_api_top_bar_template.php');
-/* @td_end get_inline */
+/* @td_end_get_inline */
 
 do_action('td_global_after');
-
 
 require_once('td_block_template.php');          // block template base class
 require_once('td_category_template.php');       // block template base class
@@ -203,11 +202,11 @@ function load_front_js() {
 
     switch ($td_deploy_mode) {
         default: //deploy
-            wp_enqueue_script('td-site', get_template_directory_uri() . '/js/td_site.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site', get_template_directory_uri() . '/js/tagdiv_theme.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'demo':
-            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/td_site.min.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'dev':
@@ -252,7 +251,7 @@ function load_wp_admin_css() {
 
 
 /* ----------------------------------------------------------------------------
- * js for wp-admin / backend
+ * js for wp-admin / backend   admin js
  */
 add_action('admin_enqueue_scripts', 'load_wp_admin_js');
 function load_wp_admin_js() {
@@ -261,9 +260,9 @@ function load_wp_admin_js() {
     $last_js_file_id = '';
     foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file) {
         if ($last_js_file_id == '') {
-            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, true); //first, load it with jQuery dependency
+            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
         } else {
-            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array($last_js_file_id), TD_THEME_VERSION, true);  //not first - load with the last file dependency
+            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
         }
         $last_js_file_id = $js_file_id;
     }
@@ -1389,7 +1388,7 @@ function my_gallery_shortcode($output = '', $atts, $content = false, $tag = fals
 add_filter('shortcode_atts_gallery', 'my_gallery_atts_modifier', 1); //run with 1 priority, allow anyone to overwrite our hook.
 /**
  * @todo trebuie fixuite toate tipurile de imagini din gallerie in functie de setarile template-ului
-*/
+ */
 function my_gallery_atts_modifier($out) {
 
     // td_global::$cur_single_template_sidebar_pos; //is set in single.php @todo set it also on the page template
