@@ -41,7 +41,6 @@
                     <option value="1.5"<?php $mb->the_select_state('1.5'); ?>>1.5 stars</option>
                     <option value="1"<?php $mb->the_select_state('1'); ?>>1 stars</option>
                     <option value="0.5"<?php $mb->the_select_state('0.5'); ?>>0.5 stars</option>
-                    <option value="0"<?php $mb->the_select_state('0'); ?>>0 stars</option>
                 </select>
 
 
