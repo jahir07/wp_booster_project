@@ -87,8 +87,13 @@ if (TD_DEBUG_IOS_REDIRECT) {
 
 do_action('td_wp_booster_loaded'); //used by our plugins
 
-
-
+/**
+ * @deprecated
+ * support for the old old social counter todo delete in v2
+ */
+if (isset(td_global::$blocks_map_list['td_social_counter'])) {
+    td_api_block::add('td_social_counter', td_global::$blocks_map_list['td_social_counter']);
+}
 
 /* ----------------------------------------------------------------------------
  * Add theme support for features
@@ -206,7 +211,7 @@ function load_front_js() {
             break;
 
         case 'demo':
-            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/site.min.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'dev':

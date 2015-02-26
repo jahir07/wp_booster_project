@@ -239,6 +239,12 @@ class td_api_base {
                 td_util::error(__FILE__, "td_api_base: $id is not set");
             } else {
             */
+            /**
+             * @deprecated @todo should be removed in v2  compatiblity for social counter old old
+             */
+            if ($id == 'td_social_counter') {
+                return;
+            }
             throw new ErrorException("td_api_base::mark_used_on_page : a component with the ID: [$id] is not set");
         }
         self::$components_list[$id][self::USED_ON_PAGE] = true;

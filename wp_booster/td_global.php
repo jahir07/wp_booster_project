@@ -10,6 +10,12 @@
 
 class td_global {
 
+    /**
+     * @deprecated - used by the old old social counter
+     * @var array
+     */
+    static $blocks_map_list = array();
+
     static $td_options; //here we store all the options of the theme will be used in td_first_install.php
 
     static $current_template = ''; //used by page-homepage-loop, 404
