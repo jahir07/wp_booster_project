@@ -3,15 +3,6 @@
  * Created by ra on 2/13/2015.
  */
 
-/**
- * @deprecated used by social counter 2.9 @todo delete in v2
- * Class td_block_api
- */
-class td_block_api {
-    static function add($block_id, $params_array = '') {
-        td_api_block::add($block_id, $params_array);
-    }
-}
 
 /**
  * The theme's block api, usable via the td_global_after hook

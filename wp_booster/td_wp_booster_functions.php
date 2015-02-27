@@ -87,13 +87,7 @@ if (TD_DEBUG_IOS_REDIRECT) {
 
 do_action('td_wp_booster_loaded'); //used by our plugins
 
-/**
- * @deprecated
- * support for the old old social counter todo delete in v2
- */
-if (isset(td_global::$blocks_map_list['td_social_counter'])) {
-    td_api_block::add('td_social_counter', td_global::$blocks_map_list['td_social_counter']);
-}
+
 
 /* ----------------------------------------------------------------------------
  * Add theme support for features

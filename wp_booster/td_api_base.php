@@ -233,19 +233,31 @@ class td_api_base {
      */
     private static function mark_used_on_page($id) {
         if (!isset(self::$components_list[$id])) {
-            /*
-             * this check shows a soft error if the user is on wp-admin / login or register
-            if (is_admin() or in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
-                td_util::error(__FILE__, "td_api_base: $id is not set");
-            } else {
-            */
+
+
             /**
              * @deprecated @todo should be removed in v2  compatiblity for social counter old old
              */
-            if ($id == 'td_social_counter') {
+
+            if (($id == 'td_social_counter' or $id == 'td_block_social_counter')) {
+                if (is_user_logged_in()) {
+                    td_util::error('', "Please update your [tagDiv social counter] Plugin!");
+                }
                 return;
             }
-            throw new ErrorException("td_api_base::mark_used_on_page : a component with the ID: [$id] is not set");
+
+            /**
+             * show a soft error if
+             * - the user is logged in
+             * - the user is on the login page / register
+             * - the user tries to log in via wp-admin (that is why is_admin() is required)
+             */
+            if (is_user_logged_in() or is_admin() or in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
+                td_util::error(__FILE__, "td_api_base: $id is not set. A component with the id $id is missing. This can be due to an older plugin.");
+            } else {
+                throw new ErrorException("td_api_base::mark_used_on_page : a component with the ID: [$id] is not set");
+            }
+
         }
         self::$components_list[$id][self::USED_ON_PAGE] = true;
     }
