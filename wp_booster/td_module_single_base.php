@@ -696,7 +696,7 @@ class td_module_single_base extends td_module {
 
             $buffy .= '<div class="author-box-wrap">';
             $buffy .= '<a itemprop="author" href="' . get_author_posts_url($author_id) . '">' ;
-            $buffy .= get_avatar(get_the_author_meta('email', $author_id), '100');
+            $buffy .= get_avatar(get_the_author_meta('email', $author_id), '96');
             $buffy .= '</a>';
 
 
