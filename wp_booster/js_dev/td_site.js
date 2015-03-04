@@ -459,83 +459,83 @@ jQuery('.td-scroll-up').click(function(){
 
 
 
-// small down arrow on template 6 and full width index
-jQuery('.td-read-down a').click(function(event){
-    event.preventDefault();
-    td_util.scroll_to_position(jQuery('.td-full-screen-header-image-wrap').height(), 1200);
-
-});
+//// small down arrow on template 6 and full width index
+//jQuery('.td-read-down a').click(function(event){
+//    event.preventDefault();
+//    //td_util.scroll_to_position(jQuery('.td-full-screen-header-image-wrap').height(), 1200);
+//    td_util.scroll_to_position(jQuery('.td-full-screen-header-image-wrap').height() + jQuery('.td-full-screen-header-image-wrap').offset().top, 1200);
+//});
 
 /**
  * make td-post-template-6 title move down and blurry
  * called from single_tempalte_6.php via the js buffer
  */
-function td_post_template_6_title() {
-
-
-
-    //define all the variables - for better performance ?
-    var td_parallax_el = document.getElementById('td_parallax_header_6');
-
-    var td_parallax_bg_el = document.getElementById('td-full-screen-header-image');
-
-    var scroll_from_top = '';
-    var distance_from_bottom;
-
-    //attach the animation tick on scroll
-    jQuery(window).scroll(function(){
-        // with each scroll event request an animation frame (we have a polyfill for animation frame)
-        // the requestAnimationFrame is called only once and after that we wait
-        td_request_tick();
-    });
-
-
-    var td_animation_running = false; //if the tick is running, we set this to true
-
-    function td_request_tick() {
-        if (td_animation_running === false) {
-            window.requestAnimationFrame(td_do_animation);
-        }
-        td_animation_running = true;
-    }
-
-    /**
-     * the animation loop
-     */
-    function td_do_animation() {
-        scroll_from_top = jQuery(document).scrollTop();
-        if (scroll_from_top <= 950) { //stop the animation after scroll from top
-
-            var blur_value = 1 - (scroll_from_top / 800); // @todo trebuie verificata formula??
-            if (td_detect.is_ie8 === true) {
-                blur_value = 1;
-            }
-
-
-            blur_value = Math.round(blur_value * 100) / 100;
-
-            //opacity
-            td_parallax_el.style.opacity = blur_value;
-
-            //move the bg
-            var parallax_move = -Math.round(scroll_from_top / 4);
-            td_util.td_move_y(td_parallax_bg_el,-parallax_move);
-
-
-            //move the title + cat
-            distance_from_bottom = -Math.round(scroll_from_top / 8);
-            td_util.td_move_y(td_parallax_el,-distance_from_bottom);
-            //td_parallax_el.style.bottom = distance_from_bottom + "px";  //un accelerated version
-
-
-        }
-
-        td_animation_running = false;
-    }
-
-
-
-}
+//function td_post_template_6_title() {
+//
+//
+//
+//    //define all the variables - for better performance ?
+//    var td_parallax_el = document.getElementById('td_parallax_header_6');
+//
+//    var td_parallax_bg_el = document.getElementById('td-full-screen-header-image');
+//
+//    var scroll_from_top = '';
+//    var distance_from_bottom;
+//
+//    //attach the animation tick on scroll
+//    jQuery(window).scroll(function(){
+//        // with each scroll event request an animation frame (we have a polyfill for animation frame)
+//        // the requestAnimationFrame is called only once and after that we wait
+//        td_request_tick();
+//    });
+//
+//
+//    var td_animation_running = false; //if the tick is running, we set this to true
+//
+//    function td_request_tick() {
+//        if (td_animation_running === false) {
+//            window.requestAnimationFrame(td_do_animation);
+//        }
+//        td_animation_running = true;
+//    }
+//
+//    /**
+//     * the animation loop
+//     */
+//    function td_do_animation() {
+//        scroll_from_top = jQuery(document).scrollTop();
+//        if (scroll_from_top <= 950) { //stop the animation after scroll from top
+//
+//            var blur_value = 1 - (scroll_from_top / 800); // @todo trebuie verificata formula??
+//            if (td_detect.is_ie8 === true) {
+//                blur_value = 1;
+//            }
+//
+//
+//            blur_value = Math.round(blur_value * 100) / 100;
+//
+//            //opacity
+//            td_parallax_el.style.opacity = blur_value;
+//
+//            //move the bg
+//            var parallax_move = -Math.round(scroll_from_top / 4);
+//            td_util.td_move_y(td_parallax_bg_el,-parallax_move);
+//
+//
+//            //move the title + cat
+//            distance_from_bottom = -Math.round(scroll_from_top / 8);
+//            td_util.td_move_y(td_parallax_el,-distance_from_bottom);
+//            //td_parallax_el.style.bottom = distance_from_bottom + "px";  //un accelerated version
+//
+//
+//        }
+//
+//        td_animation_running = false;
+//    }
+//
+//
+//
+//}
 
 //used for smart lists
 function td_smart_lists_magnific_popup() {
