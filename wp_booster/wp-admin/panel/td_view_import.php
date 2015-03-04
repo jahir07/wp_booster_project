@@ -70,7 +70,7 @@
                             jQuery('.td-progress-show-details').click(function(){
                                 jQuery(this).hide();
                                 jQuery('.td-demo-msg').show('fast', function() {
-                                    jQuery('#wpwrap').backstretch("resize");
+                                    //jQuery('#wpwrap').backstretch("resize");
                                 });
 
                             });
