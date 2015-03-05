@@ -209,7 +209,20 @@ class td_background {
             $js .= "\n" . "
             //custom backstretch background
             jQuery().ready(function() {
-                jQuery.backstretch('$this->theme_bg_image', {fade:1200, centeredY:false});
+
+                var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
+                var image_jquery_obj = jQuery('<img class=\'td-backstretch\' src=\'" . $this->theme_bg_image . "\'>');
+
+                wrapper_image_jquery_obj.append(image_jquery_obj);
+
+                jQuery('body').prepend(wrapper_image_jquery_obj);
+
+                var td_backstr_item = new td_backstr.item();
+
+		        td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj
+		        td_backstr_item.image_jquery_obj = image_jquery_obj;
+
+		        td_backstr.add_item(td_backstr_item);
             });
              ";
         }
