@@ -50,7 +50,11 @@ var td_affix = {
         }
 
 
-
+        // a computation before jquery.ready is necessary for firefox, where td_events.scroll comes before
+        if (td_detect.is_firefox) {
+            td_affix.compute_top();
+            td_affix.compute_wrapper();
+        }
 
         jQuery().ready(function() {
             //compute on semi dom ready

@@ -37,6 +37,7 @@ var td_detect = new function () {
     this.is_ios = false;
     this.is_android = false;
     this.is_osx = false;
+    this.is_firefox = false;
 
 
 
@@ -133,6 +134,10 @@ var td_detect = new function () {
 
     if (navigator.userAgent.indexOf('Mac OS X') != -1) {
         this.is_osx = true;
+    }
+
+    if (navigator.userAgent.indexOf('Firefox') != -1) {
+        this.is_firefox = true;
     }
 
 };
