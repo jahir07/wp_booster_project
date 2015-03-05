@@ -15,45 +15,42 @@
 
 class td_autoload_classes {
 
-    private static $arr_path_regex = array('td');
+	private static $arr_path_regex = array('td');
 
-    /**
-     * The method uniquely instantiate td_autoload_classes class to ensure a unique spl_autoload_register.
-     * It also append a new regex path used to filter autoloaded classes
-     *
-     * @param $path_regex string A new regex string used to filter autoloaded classes
-     */
-    public static function init() {
+	/**
+	 * Be sure to uniquely call td_autoload_classes.init function to ensure a unique spl_autoload_register.
+	 */
+	public static function init() {
 
-        spl_autoload_register(array('td_autoload_classes', 'loading_classes'));
-    }
+		spl_autoload_register(array('td_autoload_classes', 'loading_classes'));
+	}
 
-    /**
-     * The callback function used by spl_autoload_register
-     * @param $class_name The class name
-     */
-    private static function loading_classes($class_name) {
+	/**
+	 * The callback function used by spl_autoload_register
+	 * @param $class_name The class name
+	 */
+	private static function loading_classes($class_name) {
 
-        foreach (self::$arr_path_regex as $path_regex) {
+		foreach (self::$arr_path_regex as $path_regex) {
 
-            // foreach regex path, the class name is verified for a start matching
-            if ((strpos($class_name, $path_regex) !== false) and (strpos($class_name, $path_regex) === 0)) {
-                $class_settings = td_api_base::get_by_id($class_name);
+			// foreach regex path, the class name is verified for a start matching
+			if ((strpos($class_name, $path_regex) !== false) and (strpos($class_name, $path_regex) === 0)) {
+				$class_settings = td_api_base::get_by_id($class_name);
 
-                if (isset($class_settings) and !empty($class_settings)) {
-                    if (array_key_exists('file', $class_settings)) {
-                        $class_file_path = $class_settings['file'];
+				if (isset($class_settings) and !empty($class_settings)) {
+					if (array_key_exists('file', $class_settings)) {
+						$class_file_path = $class_settings['file'];
 
-                        if (isset($class_file_path) and !empty($class_file_path)) {
-                            load_template($class_file_path, true);
-                        }
-                    } else {
-                        td_util::error(__FILE__, "Missing parameter: 'file'");
-                    }
-                }
-            }
-        }
-    }
+						if (isset($class_file_path) and !empty($class_file_path)) {
+							load_template($class_file_path, true);
+						}
+					} else {
+						td_util::error(__FILE__, "Missing parameter: 'file'");
+					}
+				}
+			}
+		}
+	}
 }
 
 td_autoload_classes::init();
