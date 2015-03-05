@@ -152,8 +152,8 @@ abstract class td_module {
                 //if we have a thumb
 
 
-                // check to see if the thumb size is enabled in the panel
-                if (td_util::get_option('tds_thumb_' . $thumbType) != 'yes') {
+                // check to see if the thumb size is enabled in the panel, we don't have to check for the default wordpress thumbs (the default ones are already cut and we don't have  a panel setting for them)
+                if (td_util::get_option('tds_thumb_' . $thumbType) != 'yes' and $thumbType != 'thumbnail') {
                     //the thumb is disabled, show a thumb from the theme with the thumb disabled message
                     global $_wp_additional_image_sizes;
 

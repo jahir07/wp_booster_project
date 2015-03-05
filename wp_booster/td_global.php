@@ -37,6 +37,12 @@ class td_global {
     static $custom_no_posts_message = '';  /** used to set a custom post message for the template. If this is set to false, the default message will not show @see td_page_generator::no_posts */
 
 
+    /**
+     * @var string used to store texts for: includes/wp_booster/wp-admin/content-metaboxes/td_set_video_meta.php
+     * is set in td_config @see td_wp_booster_config::td_global_after
+     */
+    static $text_wp_admin_featured_video = '';
+
 
     static $http_or_https = 'http'; //is set below with either http or https string  @see EOF
 
