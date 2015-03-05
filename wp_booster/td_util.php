@@ -781,7 +781,7 @@ class td_util {
 	 *
 	 * @return mixed
 	 */
-	function remove_script_tag($buffer) {
+	static function remove_script_tag($buffer) {
 		return str_replace(array("<script>", "</script>", "<script type='text/javascript'>"), '', $buffer);
 	}
 
