@@ -559,59 +559,7 @@ class td_global {
     }
 
 
-    /**
-     * This array is used only by blocks that have loops + title (it is merged with the array from get_map_filter_array)
-     * @return array
-     */
-    static function get_map_slide_array() {
-        return array(
-            array(
-                "param_name" => "autoplay",
-                "type" => "textfield",
-                "value" => '',
-                "heading" => 'Autoplay slider (at x seconds)',
-                "description" => "Leave empty do disable autoplay",
-                "holder" => "div",
-                "class" => ""
-            ),
-            array(
-                "type" => "colorpicker",
-                "holder" => "div",
-                "class" => "",
-                "heading" => 'Header color',
-                "param_name" => "header_color",
-                "value" => '', //Default Red color
-                "description" => 'Choose a custom header color for this block'
-            ),
-            array(
-                "type" => "colorpicker",
-                "holder" => "div",
-                "class" => "",
-                "heading" => 'Header text color',
-                "param_name" => "header_text_color",
-                "value" => '', //Default Red color
-                "description" => 'Choose a custom header color for this block'
-            ),
-            array(
-                "param_name" => "custom_title",
-                "type" => "textfield",
-                "value" => "",
-                "heading" => 'Optional - custom title for this block:',
-                "description" => "",
-                "holder" => "div",
-                "class" => ""
-            ),
-            array(
-                "param_name" => "custom_url",
-                "type" => "textfield",
-                "value" => "",
-                "heading" => 'Optional - custom url for this block (when the module title is clicked):',
-                "description" => "",
-                "holder" => "div",
-                "class" => ""
-            )
-        );
-    }
+
 
 
 

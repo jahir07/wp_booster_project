@@ -386,6 +386,12 @@ abstract class td_module {
     //get quotes on blocks
     function get_quotes_on_blocks() {
 
+        // do not show the quote on WordPress loops
+        if (td_global::$is_wordpress_loop === true or td_util::vc_get_column_number() != 1) {
+            return '';
+        }
+
+
         //get quotes data from database
         $post_data_from_db = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
 

@@ -90,7 +90,7 @@
         <?php $mb->the_field('td_quote_on_blocks'); ?>
         <span class="td_custom_label">Quote on blocks:</span>
         <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-        <span class="td_info_inline"></span>
+        <span class="td_info_inline td_info_inline_textarea">show a quote (only when this article shows up in blocks that support quote and only on blocks that are on one row)</span>
     </p>
 
     <p class="td_help_section">
