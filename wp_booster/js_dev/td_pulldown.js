@@ -88,6 +88,7 @@ var td_pulldown = {
 
 
 
+
     /**
      * - function used to init the td_pulldown object
      * - it must be called before any item adding
@@ -98,6 +99,7 @@ var td_pulldown = {
         td_pulldown._changed_view_port_width();
         td_pulldown.items = [];
     },
+
 
 
 
@@ -117,6 +119,7 @@ var td_pulldown = {
         //  the item is ready to be computed
         td_pulldown._compute_item(item);
     },
+
 
 
 
@@ -244,7 +247,7 @@ var td_pulldown = {
 
 
     /**
-     * An internal utility function used to summarize width of the horizontal elements
+     * - internal utility function used to summarize width of the horizontal elements
      *
      * @param item {td_pulldown.item} The item whose horizontal list is processed
      * @returns {number}
@@ -264,7 +267,7 @@ var td_pulldown = {
 
 
     /**
-     * Function used to reinitialize all items at the view resolution changing
+     * - internal utility function used to reinitialize all items at the view resolution changing
      */
     _reinitialize_all_items: function _reinitialize_all_items() {
 
@@ -277,7 +280,7 @@ var td_pulldown = {
 
 
     /**
-     * Function used to reinitialize an item when the view resolution changing
+     * - internal utility function used to reinitialize an item at the view resolution changing
      *
      * @param item The item being reinitialized
      */
@@ -460,6 +463,7 @@ var td_pulldown = {
 
 
 
+
     /**
      * - function used to compute all items in the item list
      *
@@ -474,6 +478,7 @@ var td_pulldown = {
             }
         }
     },
+
 
 
 
@@ -520,6 +525,7 @@ var td_pulldown = {
 
 
 
+
     /**
      * - function used to move one element from the horizontal list to the vertical one
      * - the function returns the element that has been moved, otherwise null
@@ -557,6 +563,7 @@ var td_pulldown = {
 
 
 
+
     /**
      * - function used to move all elements to the vertical list
      * - it's used when the minimum horizontal elements is greater than 0
@@ -569,6 +576,7 @@ var td_pulldown = {
             td_pulldown._make_element_vertical(item);
         }
     },
+
 
 
 
@@ -630,8 +638,6 @@ var td_pulldown = {
 
         td_pulldown._compute_all_items();
     },
-
-
 
 
 

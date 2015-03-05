@@ -202,32 +202,61 @@ class td_background {
 
 
 
-    //custom background js
+
+	//custom background js
     function add_js_hook($js) {
 
-        if (!empty($this->theme_bg_image) and $this->is_stretched_bg == true) {
-            $js .= "\n" . "
-            //custom backstretch background
-            jQuery().ready(function() {
+	    $buffer = '';
 
-                var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
-                var image_jquery_obj = jQuery('<img class=\'td-backstretch\' src=\'" . $this->theme_bg_image . "\'>');
+	    if (!empty($this->theme_bg_image) and $this->is_stretched_bg == true) {
 
-                wrapper_image_jquery_obj.append(image_jquery_obj);
+		    ob_start();
 
-                jQuery('body').prepend(wrapper_image_jquery_obj);
+		    ?>
 
-                var td_backstr_item = new td_backstr.item();
+		    <script>
 
-		        td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj
-		        td_backstr_item.image_jquery_obj = image_jquery_obj;
+			    jQuery(window).ready(function() {
 
-		        td_backstr.add_item(td_backstr_item);
-            });
-             ";
-        }
+				    // if the theme has td_backstr support, it means this already uses it
+				    if (typeof(td_backstr) === 'object') {
 
-        return $js;
+					    (function(){
+
+						    // the site background td-backstretch jquery object is dynamically added in DOM, and after any translation effects are applied over td-backstretch
+						    var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
+						    var image_jquery_obj = jQuery('<img class=\'td-backstretch\' src=\'<?php echo $this->theme_bg_image; ?>\'>');
+
+						    wrapper_image_jquery_obj.append(image_jquery_obj);
+
+						    jQuery('body').prepend(wrapper_image_jquery_obj);
+
+						    var td_backstr_item = new td_backstr.item();
+
+						    td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj
+						    td_backstr_item.image_jquery_obj = image_jquery_obj;
+
+						    td_backstr.add_item(td_backstr_item);
+
+					    })();
+
+				    } else {
+
+					    // - this is the old backstretch jquery plugin call
+					    // - td_backstretch.js is in wp_booster, so it is still used by the themes that don't use new td_backstr.js
+					    jQuery.backstretch('$this->theme_bg_image', {fade:1200, centeredY:false});
+				    }
+			    });
+
+		    </script>
+
+		    <?php
+
+		    $buffer = ob_get_clean();
+	    }
+	    $js .= "\n". td_util::remove_script_tag($buffer);
+
+	    return $js;
     }
 
 
@@ -323,3 +352,5 @@ function td_check_template_before_header() {
  * following queries, but before WordPress does any routing, processing, or handling
 */
 add_action('wp', 'td_check_template_before_header');
+
+
