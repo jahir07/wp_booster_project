@@ -37,6 +37,12 @@ class td_global {
     static $custom_no_posts_message = '';  /** used to set a custom post message for the template. If this is set to false, the default message will not show @see td_page_generator::no_posts */
 
 
+    /**
+     * @var string used to store texts for: includes/wp_booster/wp-admin/content-metaboxes/td_set_video_meta.php
+     * is set in td_config @see td_wp_booster_config::td_global_after
+     */
+    static $text_wp_admin_featured_video = '';
+
 
     static $http_or_https = 'http'; //is set below with either http or https string  @see EOF
 
@@ -559,59 +565,7 @@ class td_global {
     }
 
 
-    /**
-     * This array is used only by blocks that have loops + title (it is merged with the array from get_map_filter_array)
-     * @return array
-     */
-    static function get_map_slide_array() {
-        return array(
-            array(
-                "param_name" => "autoplay",
-                "type" => "textfield",
-                "value" => '',
-                "heading" => 'Autoplay slider (at x seconds)',
-                "description" => "Leave empty do disable autoplay",
-                "holder" => "div",
-                "class" => ""
-            ),
-            array(
-                "type" => "colorpicker",
-                "holder" => "div",
-                "class" => "",
-                "heading" => 'Header color',
-                "param_name" => "header_color",
-                "value" => '', //Default Red color
-                "description" => 'Choose a custom header color for this block'
-            ),
-            array(
-                "type" => "colorpicker",
-                "holder" => "div",
-                "class" => "",
-                "heading" => 'Header text color',
-                "param_name" => "header_text_color",
-                "value" => '', //Default Red color
-                "description" => 'Choose a custom header color for this block'
-            ),
-            array(
-                "param_name" => "custom_title",
-                "type" => "textfield",
-                "value" => "",
-                "heading" => 'Optional - custom title for this block:',
-                "description" => "",
-                "holder" => "div",
-                "class" => ""
-            ),
-            array(
-                "param_name" => "custom_url",
-                "type" => "textfield",
-                "value" => "",
-                "heading" => 'Optional - custom url for this block (when the module title is clicked):',
-                "description" => "",
-                "holder" => "div",
-                "class" => ""
-            )
-        );
-    }
+
 
 
 

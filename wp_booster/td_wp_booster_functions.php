@@ -1057,22 +1057,19 @@ function td_change_backbone_js_hook() {
                         jQuery(".td-modal-image-on").addClass('active');
                     }
 
-                    //change the select
-                    if (td_extra_classes_value.indexOf('td-post-image-full') > -1) {
-                        jQuery(".td-wp-image-style").val('td_full_width');
+                    <?php
+
+                    foreach (td_global::$tiny_mce_image_style_list as $tiny_mce_image_style_id => $tiny_mce_image_style_params) {
+                        ?>
+                        //change the select
+                        if (td_extra_classes_value.indexOf('<?php echo $tiny_mce_image_style_params['class'] ?>') > -1) {
+                            jQuery(".td-wp-image-style").val('<?php echo $tiny_mce_image_style_id ?>');
+                        }
+                        <?php
                     }
 
-                    if (td_extra_classes_value.indexOf('td-post-image-full-and-grid') > -1) {
-                        jQuery(".td-wp-image-style").val('td_full_width_and_grid');
-                    }
+                    ?>
 
-                    if (td_extra_classes_value.indexOf('td-post-image-left') > -1) {
-                        jQuery(".td-wp-image-style").val('td_left');
-                    }
-
-                    if (td_extra_classes_value.indexOf('td-post-image-right') > -1) {
-                        jQuery(".td-wp-image-style").val('td_right');
-                    }
                 }
             }, 1000);
         })(); //end anon function

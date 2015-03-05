@@ -641,6 +641,7 @@ class td_util {
 
         $image_src_array = self::attachment_get_src($attachment_id, $thumbType);
 
+        //print_r($attachment);
 
         return array (
             'alt' => get_post_meta($attachment->ID, '_wp_attachment_image_alt', true ),
