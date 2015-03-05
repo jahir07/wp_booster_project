@@ -10,7 +10,7 @@ class td_set_homepage_loop_filter {
     function homepage_filter_get_map () {
 
         //get the generic filter array
-        $generic_filter_array = td_global::get_map_filter_array();
+        $generic_filter_array = td_wp_booster_config::get_map_filter_array();
 
         //remove items from array
         $offset = 0;
