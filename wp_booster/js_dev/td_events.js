@@ -31,10 +31,6 @@ var td_events = {
 
 
             td_smart_sidebar.td_events_scroll(td_events.scroll_window_scrollTop); //smart sidebar scroll
-
-            td_animation_scroll.compute_all_items();    // animate items
-
-
         });
 
 
@@ -62,8 +58,6 @@ var td_events = {
                 td_events.resize_event_medium_run = false;
                 td_smart_sidebar.td_events_resize();
 
-                td_animation_scroll.td_events_resize();
-                td_backstr.td_events_resize();
             }
         }, 100);
 

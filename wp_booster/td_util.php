@@ -775,6 +775,16 @@ class td_util {
     }
 
 
+	/**
+	 * replace script tag from the parameter $buffer
+	 * @param $buffer string
+	 *
+	 * @return mixed
+	 */
+	static function remove_script_tag($buffer) {
+		return str_replace(array("<script>", "</script>", "<script type='text/javascript'>"), '', $buffer);
+	}
+
 
 
 }//end class td_util
