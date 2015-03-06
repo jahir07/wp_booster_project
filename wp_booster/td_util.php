@@ -80,7 +80,7 @@ class td_util {
             if (!empty($default_value)) {
                 return $default_value;
             } else {
-                return;
+                return '';
             }
         }
     }

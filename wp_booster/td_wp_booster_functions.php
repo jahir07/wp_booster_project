@@ -448,11 +448,9 @@ function my_theme_add_editor_styles() {
 add_action('wp_footer', 'td_bottom_code');
 function td_bottom_code() {
     global $post;
-    //buffy before pasting custom css code
-    $buffy_custom_css = '';
 
+    // try to detect speed booster
     $speed_booster = '';
-
     if (defined('TD_SPEED_BOOSTER')) {
         $speed_booster = 'Speed booster: ' . TD_SPEED_BOOSTER . "\n";
     }
@@ -471,82 +469,44 @@ function td_bottom_code() {
     ';
 
 
-    //get and paste user custom css
+    // get and paste user custom css
     $td_custom_css = stripslashes(td_util::get_option('tds_custom_css'));
 
-    //desktop
-    $td_responsive_css_desktop = stripslashes(td_util::get_option('tds_responsive_css_desktop'));
 
-    //ipad landscape
-    $td_responsive_css_ipad_landscape = stripslashes(td_util::get_option('tds_responsive_css_ipad_landscape'));
+    // get the custom css for the responsive values
+    $responsive_css_values = array();
+    foreach (td_global::$theme_panel_custom_css_fields_list as $option_id => $css_params) {
+        $responsive_css = td_util::get_option($option_id);
+        if ($responsive_css != '') {
+            $responsive_css_values[$css_params['media_query']] = $responsive_css;
+        }
+    }
 
-    //ipad portrait
-    $td_responsive_css_ipad_portrait = stripslashes(td_util::get_option('tds_responsive_css_ipad_portrait'));
 
-    //phone
-    $td_responsive_css_phone = stripslashes(td_util::get_option('tds_responsive_css_phone'));
 
-    //check if we have to add the custom css code
-    if(!empty($td_custom_css) || !empty($td_responsive_css_desktop) || !empty($td_responsive_css_ipad_landscape) || !empty($td_responsive_css_ipad_portrait) || !empty($td_responsive_css_phone)) {
-        $buffy_custom_css =  '
-            <style type="text/css" media="screen">';
+    // check if we have to show any css
+    if (!empty($td_custom_css) or count($responsive_css_values) > 0) {
+        $css_buffy = PHP_EOL . '<!-- Custom css form theme panel -->';
+        $css_buffy .= PHP_EOL . '<style type="text/css" media="screen">';
 
         //paste custom css
         if(!empty($td_custom_css)) {
-            $buffy_custom_css .= '
-                '.$td_custom_css.'
-                ';
+            $css_buffy .= PHP_EOL . '/* custom css theme panel */' . PHP_EOL;
+            $css_buffy .= $td_custom_css . PHP_EOL;
         }
 
-        //paste desktop custom css
-        if(!empty($td_responsive_css_desktop)) {
-            $buffy_custom_css .= '
-
-                  /* responsive monitor */
-                  @media (min-width: 1200px) {
-                  ' .
-                $td_responsive_css_desktop .
-                '}
-                  ';
+        foreach ($responsive_css_values as $media_query => $responsive_css) {
+            $css_buffy .= PHP_EOL . PHP_EOL . '/* custom responsive css from theme panel (Advanced CSS) */';
+            $css_buffy .= PHP_EOL . $media_query . ' {' . PHP_EOL;
+            $css_buffy .= $responsive_css;
+            $css_buffy .= PHP_EOL . '}' . PHP_EOL;
         }
+        $css_buffy .= '</style>' . PHP_EOL . PHP_EOL;
 
-        //paste ipad landscape custom css
-        if(!empty($td_responsive_css_ipad_landscape)) {
-            $buffy_custom_css .= '
-
-                  /* responsive landscape tablet */
-                  @media (min-width: 1019px) and (max-width: 1199px) {
-                  ' .
-                $td_responsive_css_ipad_landscape .
-                '}';
-        }
-
-        //paste ipad portrait custom css
-        if(!empty($td_responsive_css_ipad_portrait)) {
-            $buffy_custom_css .= '
-
-                 /* responsive portrait tablet */
-                  @media (min-width: 768px) and (max-width: 1018px) {
-                  ' .
-                $td_responsive_css_ipad_portrait .
-                '}';
-        }
-
-        //paste ipad portrait custom css
-        if(!empty($td_responsive_css_phone)) {
-            $buffy_custom_css .= '
-
-                 /* responsive phone */
-                 @media (max-width: 767px) {
-                 ' .
-                $td_responsive_css_phone .
-                '}';
-        }
-
-        $buffy_custom_css .= '</style>';
-
-        echo $buffy_custom_css;
+        // echo the css buffer
+        echo $css_buffy;
     }
+
 
     //get and paste user custom javascript
     $td_custom_javascript = stripslashes(td_util::get_option('tds_custom_javascript'));
