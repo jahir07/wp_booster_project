@@ -47,9 +47,10 @@ class td_global {
     static $http_or_https = 'http'; //is set below with either http or https string  @see EOF
 
 
-    static $get_template_directory = '';
+    static $get_template_directory = '';  // here we store the value from get_template_directory(); - it looks like the wp function does a lot of stuff each time is called
 
-    static $get_template_directory_uri = '';
+    static $get_template_directory_uri = ''; // here we store the value from get_template_directory_uri(); - it looks like the wp function does a lot of stuff each time is called
+
 
 
 
@@ -89,6 +90,13 @@ class td_global {
      *
      */
     static $tiny_mce_image_style_list = array();
+
+
+    /**
+     * here we store the fields form td-panel -> custom css
+     * @var array
+     */
+    static $theme_panel_custom_css_fields_list = array();
 
 
       /**
