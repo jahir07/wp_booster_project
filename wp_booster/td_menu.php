@@ -187,7 +187,7 @@ class td_menu {
                         'td_column_number' => 3,
                         'ajax_pagination' => 'next_prev',
                         'category_id' => $td_mega_menu_cat,
-                        'show_child_cat' => '5',
+                        'show_child_cat' => td_api_block::get_key('td_block_mega_menu', 'render_atts')['show_child_cat'],
                         'td_ajax_filter_type' => 'td_category_ids_filter'
                     ));
                 $new_item->title .= '</div></div>';
