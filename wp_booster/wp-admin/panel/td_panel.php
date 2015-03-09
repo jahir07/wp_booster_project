@@ -115,7 +115,7 @@ class td_panel {
             }
 
             if (empty($buffy)) {
-                $buffy = 'No ajax panel found ' . __FILE__;
+                $buffy = 'No ajax panel found OR Panel is empty! <br> ' . __FILE__;
             }
 
 
