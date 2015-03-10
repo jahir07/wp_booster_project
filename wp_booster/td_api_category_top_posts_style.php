@@ -57,7 +57,7 @@ class td_api_category_top_posts_style extends td_api_base {
 
         if (class_exists($template_id)) {
 
-            /** @var $td_category_template td_category_template */
+            /** @var $td_category_template td_category_top_posts_style */
             $td_category_template = new $template_id();
             $td_category_template->show_top_posts();
         } else {

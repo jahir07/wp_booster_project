@@ -99,6 +99,12 @@ class td_global {
     static $theme_panel_custom_css_fields_list = array();
 
 
+    /**
+     * the big grid styles used by the theme. This styles will show up in the panel @see td_panel_categories.php and on each big grid block
+     */
+    static $big_grid_styles_list = array();
+
+
       /**
      * the list of panels - NOTE that the system will not load from other paths outside of theme as of now (ex. cannot be used in plugins YET)
      * 1. try to locate the template in 'includes/panel/views/' (also checks in the child theme)

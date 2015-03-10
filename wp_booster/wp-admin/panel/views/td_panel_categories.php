@@ -134,14 +134,14 @@ class td_display_categories_sttings {
 
 
 <!-- CATEGORY page -->
-<?php echo td_panel_generator::box_start('Category posts style', true); ?>
+<?php echo td_panel_generator::box_start('Category global settings', true); ?>
 
 
     <div class="td-box-description td-box-full">
         <p>Set the default layout for all the categories. Note that you can change the layout and settings on each category from Theme panel ⇢ Categories</p>
         <ul>
             <li>You can view each category page by going to Posts ⇢ Categories ⇢ hover on a category ⇢ select view</li>
-            <li>This template is located in <strong>category.php</strong> file.</li>
+            <li>This WordPress template is located in <strong>category.php</strong> file.</li>
         </ul>
     </div>
 
@@ -164,6 +164,9 @@ class td_display_categories_sttings {
     </div>
 
 
+
+<div class="td-box-section-separator"></div>
+
     <!-- Category top posts style -->
     <div class="td-box-row">
         <div class="td-box-description">
@@ -181,8 +184,37 @@ class td_display_categories_sttings {
         </div>
     </div>
 
+    <?php
+    // show the $big_grid_styles_list only if we have big grids
+    // Newsmag as of 10 march is not using $big_grid_styles_list
+    if (!empty(td_global::$big_grid_styles_list)) {
+        ?>
+        <div class="td-box-row">
+            <div class="td-box-description">
+                <span class="td-box-title">Category top posts GRID STYLE</span>
+                <p>Each category grid supports multiple styles</p>
+            </div>
+            <div class="td-box-control-full">
+                <?php
 
+                $td_grid_style_values = array();
+                foreach (td_global::$big_grid_styles_list as $big_grid_id => $params) {
+                    $td_grid_style_values []= array(
+                        'text' => $params['text'],
+                        'val' => $big_grid_id
+                    );
+                }
+                echo td_panel_generator::dropdown(array(
+                    'ds' => 'td_option',
+                    'option_id' => 'tds_category_td_grid_style',
+                    'values' => $td_grid_style_values
+                ));
+                ?>
+            </div>
+        </div>
+    <?php } ?>
 
+<div class="td-box-section-separator"></div>
 
 
     <!-- DISPLAY VIEW -->
