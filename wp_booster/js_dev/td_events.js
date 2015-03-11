@@ -52,6 +52,7 @@ var td_events = {
                 td_events.scroll_event_medium_run = false;
                 //compute events for the infinite scroll
                 td_infinite_loader.compute_events();
+                td_animation_stack.td_events_scroll();
             }
 
             if (td_events.resize_event_medium_run) {

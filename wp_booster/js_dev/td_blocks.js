@@ -512,6 +512,10 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
         td_smart_sidebar.compute();
     }, 500);
 
+
+    setTimeout(function () {
+        td_animation_stack.td_events_scroll('#' + current_block_obj.id + ' .entry-thumb');
+    }, 200);
 }
 
 
