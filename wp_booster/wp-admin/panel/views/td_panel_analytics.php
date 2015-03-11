@@ -5,7 +5,7 @@
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
             <span class="td-box-title">GOOGLE ANALYTICS CODE</span>
-            <p>Google analytics heps track your site traffic</p>
+            <p>Google analytics helps track your site traffic</p>
         </div>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">PASTE YOUR CODE HERE</span>
-            <p>Google Analitycs code</p>
+            <p>Google Analytics code</p>
         </div>
         <div class="td-box-control-full">
             <?php

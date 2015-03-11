@@ -205,7 +205,7 @@ function load_front_js() {
             break;
 
         case 'demo':
-            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/site.min.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'dev':
