@@ -1,6 +1,6 @@
 <?php
 function td_js_generator() {
-    td_js_buffer::add_variable('td_ajax_url', admin_url('admin-ajax.php'));
+    td_js_buffer::add_variable('td_ajax_url', admin_url('admin-ajax.php?td_theme_name=' . TD_THEME_NAME . '&v=' . TD_THEME_VERSION));
     td_js_buffer::add_variable('td_get_template_directory_uri', get_template_directory_uri());
     td_js_buffer::add_variable('tds_snap_menu', td_util::get_option('tds_snap_menu'));
     td_js_buffer::add_variable('tds_logo_on_sticky', td_util::get_option('tds_logo_on_sticky'));
