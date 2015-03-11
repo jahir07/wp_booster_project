@@ -205,7 +205,7 @@ function load_front_js() {
             break;
 
         case 'demo':
-            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/site.min.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'dev':
@@ -763,7 +763,7 @@ add_filter('widget_text', 'do_shortcode');
 add_filter('the_content_more_link', 'td_remove_more_link_scroll');
 function td_remove_more_link_scroll($link) {
     $link = preg_replace('|#more-[0-9]+|', '', $link);
-    $link = '<div class="more-link-wrap wpb_button wpb_btn-danger">' . $link . '</div>';
+    $link = '<div class="more-link-wrap">' . $link . '</div>';
     return $link;
 }
 
