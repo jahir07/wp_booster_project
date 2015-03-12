@@ -1,4 +1,5 @@
 
-jQuery('body').addClass('td-js-loaded');
-
+jQuery(window).load(function() {
+    jQuery('body').addClass('td-js-loaded');
+});
 
