@@ -518,6 +518,24 @@ class td_util {
     }
 
 
+
+    /**
+     * receives a VC_MAP array and it removes param_name's from it
+     * @param $vc_map_array array contains a VC_MAP array - must have a ex: $vc_map_array[0]['param_name']
+     * @param $param_names array of param_name's that we will cut from the VC_MAP array
+     * @return array the cut VC_MAP array
+     */
+    static function vc_array_remove_params($vc_map_array, $param_names) {
+        foreach ($vc_map_array as $vc_map_index => $vc_map) {
+            if (in_array($vc_map['param_name'], $param_names)) {
+                unset($vc_map_array[$vc_map_index]);
+            }
+        }
+        return $vc_map_array;
+    }
+
+
+
     /**
      * tries to determine on how many td-columns a block is  (1, 2 or 3)
      * $td_row_count, $td_column_count are from the pagebuilder

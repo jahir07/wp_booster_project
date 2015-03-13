@@ -3,7 +3,7 @@
 
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
-            <span class="td-box-title">Notice:</span>
+            <span class="td-box-title">Just a tip:</span>
             <p>Adding a text as excerpt on post edit page (Excerpt box), will overwrite the theme excerpts</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
@@ -34,26 +34,6 @@
 
 
 
-<!-- Wordpress default -->
-<?php echo td_panel_generator::box_start('RSS FEED');?>
-
-<!-- TITLE LENGTH -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class=" td-box-title td-title-on-row">EXCERPT LENGTH</span>
-        <p></p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::input(array(
-            'ds' => 'td_option',
-            'option_id' => 'tds_wp_default_excerpt'
-        ));
-        ?>
-    </div>
-</div>
-
-<?php echo td_panel_generator::box_end();?>
 
 
 

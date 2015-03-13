@@ -728,23 +728,6 @@ function td_extra_contact_info_for_author($contactmethods) {
 
 
 
-/* ----------------------------------------------------------------------------
- * FILTER - excerpt_length
- */
-add_filter('excerpt_length', 'my_excerpt_length');
-function my_excerpt_length($length) {
-    // on feed show full content if it's set in wordpress
-    if (is_feed() and get_option('rss_use_excerpt') == 0) {
-        return 999999;
-    }
-
-    $excerpt_length = td_util::get_option('tds_wp_default_excerpt');
-    if (!empty($excerpt_length) and is_numeric($excerpt_length)) {
-        return $excerpt_length;
-    } else {
-        return 22; //default
-    }
-}
 
 
 
