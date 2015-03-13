@@ -514,7 +514,9 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
 
     setTimeout(function () {
-        td_animation_stack.td_events_scroll('#' + current_block_obj.id + ' .entry-thumb');
+        if (td_animation_stack != undefined) {
+            td_animation_stack.td_events_scroll('#' + current_block_obj.id + ' .entry-thumb');
+        }
     }, 200);
 }
 
