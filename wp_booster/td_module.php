@@ -311,7 +311,7 @@ abstract class td_module {
 
     /**
      * This method is used by modules to get content that has to be excerpted (cut)
-     * @NOTE: IT RETURNS THE EXCERPT FROM THE POST IF IT'S ENTERED IN THE EXCERPT CUSTOM POST FIELD BY THE USER
+     * IT RETURNS THE EXCERPT FROM THE POST IF IT'S ENTERED IN THE EXCERPT CUSTOM POST FIELD BY THE USER
      * @param string $cut_at - if provided the method will just cat at that point
      * @return string
      */
