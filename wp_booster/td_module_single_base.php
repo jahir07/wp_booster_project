@@ -586,11 +586,11 @@ class td_module_single_base extends td_module {
 
             $buffy .= '<div class="td-post-source-via">';
             if (!empty($this->td_post_theme_settings['td_via'])) {
-                $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA') . '</span><a rel="nofollow" href="' . $via_url . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
+                $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA') . '</span><a rel="nofollow" href="' . esc_url($via_url) . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
             }
 
             if (!empty($this->td_post_theme_settings['td_source'])) {
-                $buffy .= '<div class="td-post-small-box"><span>' . __td('SOURCE') . '</span><a rel="nofollow" href="' . $source_url . '">' . $this->td_post_theme_settings['td_source'] . '</a></div>';
+                $buffy .= '<div class="td-post-small-box"><span>' . __td('SOURCE') . '</span><a rel="nofollow" href="' . esc_url($source_url) . '">' . $this->td_post_theme_settings['td_source'] . '</a></div>';
             }
             $buffy .= '</div>';
         }

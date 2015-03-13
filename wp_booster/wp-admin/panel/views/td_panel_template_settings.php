@@ -497,6 +497,29 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Disable comments on pages -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">DISABLE COMMENTS ON PAGES</span>
+            <p>Enable or disable the comments on pages, on the entire site. This option is disabled by default</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_disable_comments_pages',
+                'true_value' => '',
+                'false_value' => 'show_comments'
+            ));
+            ?>
+        </div>
+    </div>
+
+
+
 <?php echo td_panel_generator::box_end();?>
 
 

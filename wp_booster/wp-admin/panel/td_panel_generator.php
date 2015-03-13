@@ -681,9 +681,8 @@ class td_panel_generator {
 
     static function helper_generate_used_on_block_list($used_on_block_list_array) {
         if (is_array($used_on_block_list_array)) {
-            return ' used on ' . str_replace(array('_'), ' ', implode(', ', $used_on_block_list_array));
+            return ' > ' . implode(', ', $used_on_block_list_array);
         }
-
         return '';
     }
 
