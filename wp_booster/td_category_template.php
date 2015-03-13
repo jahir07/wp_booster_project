@@ -48,21 +48,24 @@ abstract class td_category_template {
         //the subcategories
         if (!empty($this->current_category_obj->cat_ID)) {
 
-            // get child categories
-            $categories_objects = get_categories(array(
-                'parent' => $this->current_category_obj->cat_ID,
-                'hide_empty' => 0,
-                'number' => self::SIBLING_CATEGORY_LIMIT
-            ));
+	        if ($this->current_category_obj->parent === 0) {
 
-            // if no child categories get siblings
-            if (empty($categories_objects)) {
-                $categories_objects = get_categories(array(
-                    'parent' => $this->current_category_obj->parent,
-                    'hide_empty' => 0,
-                    'number' => self::SIBLING_CATEGORY_LIMIT
-                ));
-            }
+		        // get child categories
+		        $categories_objects = get_categories( array(
+			        'parent'     => $this->current_category_obj->cat_ID,
+			        'hide_empty' => 0,
+			        'number'     => self::SIBLING_CATEGORY_LIMIT
+		        ) );
+	        }
+
+	        // if no child categories get siblings
+	        if (empty($categories_objects)) {
+		        $categories_objects = get_categories(array(
+			        'parent' => $this->current_category_obj->parent,
+			        'hide_empty' => 0,
+			        'number' => self::SIBLING_CATEGORY_LIMIT
+		        ));
+	        }
 
         }
 
