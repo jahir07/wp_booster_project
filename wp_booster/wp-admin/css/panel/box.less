@@ -161,13 +161,17 @@
 
 .td-panel-module {
   margin-bottom: 15px;
-  width: 570px; //480px;
+  width: 570px;
 }
 .td-panel-sidebar-pos {
   margin-bottom: 27px;
 
   .td-small-wrapper-o-separator {
-    margin: 0px 5px 0px 0px;
+    margin: 0 8px 0 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 
@@ -445,5 +449,22 @@
     position: absolute;
     top: 4px;
     right: 4px;
+  }
+}
+
+// category panel
+#td-panel-categories {
+  .td-small-wrapper-o-separator {
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .td_panel_box_category_global_settings {
+    .td_sidebars_pulldown_align {
+      padding-left: 80px;
+    }
   }
 }

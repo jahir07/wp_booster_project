@@ -359,14 +359,14 @@
 }
 .td_sidebars_pulldown_align {
   vertical-align: top;
-  padding-left: 29px;
+  padding-left: 18px;
 }
 #td-panel-template-settings .td_sidebars_pulldown_align {
-  padding-left: 87px;
+  padding-left: 80px;
 }
 /*category breadcrumb*/
 .td-panel-breadcrumb {
-  padding: 0px 5px 0px 9px;
+  padding: 0 5px 0 9px;
 }
 /*  ----------------------------------------------------------------------------
     wp-admin - post panel
@@ -562,7 +562,7 @@
   transition: border-color 0.25s ease-out;
 }
 .td-panel-sidebar-pos .td-small-wrapper-o {
-  line-height: 0px;
+  line-height: 0;
 }
 .td-visual-selector-active {
   padding: 3px 3px 3px 3px !important;
@@ -719,7 +719,7 @@
   top: -8px;
 }
 .td_upload_field_link_image {
-  width: 474px;
+  width: 471px;
   height: 32px;
   border: 1px solid #e6e6e6;
   margin-bottom: 14px;
@@ -1159,7 +1159,10 @@ title one row controls
   margin-bottom: 27px;
 }
 .td-panel-sidebar-pos .td-small-wrapper-o-separator {
-  margin: 0px 5px 0px 0px;
+  margin: 0 8px 0 0;
+}
+.td-panel-sidebar-pos .td-small-wrapper-o-separator:last-child {
+  margin-right: 0;
 }
 /*  ----------------------------------------------------------------------------
     style content title + description text
@@ -1389,6 +1392,15 @@ title one row controls
   top: 4px;
   right: 4px;
 }
+#td-panel-categories .td-small-wrapper-o-separator {
+  margin-right: 8px;
+}
+#td-panel-categories .td-small-wrapper-o-separator:last-child {
+  margin-right: 0;
+}
+#td-panel-categories .td_panel_box_category_global_settings .td_sidebars_pulldown_align {
+  padding-left: 80px;
+}
 /*  ----------------------------------------------------------------------------
     pagebuilder
 */
@@ -1609,6 +1621,7 @@ title one row controls
   display: block;
   font-size: 11px;
 }
+/* some of the icons are not used on all the themes ? */
 .icon-pagebuilder-td_block_1 {
   background-image: url('../../../../images/pagebuilder/block1.png') !important;
 }
