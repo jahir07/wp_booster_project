@@ -1487,12 +1487,14 @@ function td_modify_main_query_for_category_page($query) {
                 break;
         }//end switch
 
-        // offset + custom pagination - if we have offset, wordpress overwrites the pagination and works with offset + limit
-        if (!empty($offset) and $paged > 1) {
-            $query->set('offset', $offset + (($paged - 1) * $limit));
-        } else {
-            $query->set('offset', $offset);
-        }
+	    // offset + custom pagination - if we have offset, wordpress overwrites the pagination and works with offset + limit
+	    if(empty($query->is_feed)) {
+		    if ( ! empty( $offset ) and $paged > 1 ) {
+			    $query->set( 'offset', $offset + ( ( $paged - 1 ) * $limit ) );
+		    } else {
+			    $query->set( 'offset', $offset );
+		    }
+	    }
         //print_r($query);
     }//end if main query
 }
