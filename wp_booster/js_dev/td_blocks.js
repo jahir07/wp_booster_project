@@ -522,10 +522,12 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
 
     // the .entry-thumb are searched for in the current block object, sorted and added into the view port array items
-    if (window.td_animation_stack != undefined) {
+    var td_animation_stack = td_util.get_backend_var('td_animation_stack');
+
+    if (td_animation_stack != '') {
         setTimeout(function () {
-            window.td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
-            window.td_animation_stack.compute_items();
+            td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
+            td_animation_stack.compute_items();
         }, 200);
     }
 }
