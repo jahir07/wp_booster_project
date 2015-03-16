@@ -265,9 +265,11 @@ function td_ajax_search_process_request(data) {
 
 
     // the .entry-thumb are searched for in the #td-aj-search object, sorted and added into the view port array items
-    if (window.td_animation_stack != undefined) {
-        window.td_animation_stack.check_for_new_items('#td-aj-search .entry-thumb', window.td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
-        window.td_animation_stack.compute_items();
+    var td_animation_stack = td_util.get_backend_var('td_animation_stack');
+
+    if (td_animation_stack != '') {
+        td_animation_stack.check_for_new_items('#td-aj-search .entry-thumb', td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
+        td_animation_stack.compute_items();
     }
 }
 
