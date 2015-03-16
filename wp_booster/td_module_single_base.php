@@ -505,7 +505,16 @@ class td_module_single_base extends td_module {
     }
 
 
+    /**
+     * returns the item scope meta. It returns an empty string if the module is used in a loop (not on a single page)
+     * 16 march 2015
+     * @return string
+     */
     function get_item_scope_meta() {
+
+        if (!is_single()) {
+            return '';
+        }
         $buffy = ''; //the vampire slayer
 
         $author_id = $this->post->post_author;
@@ -515,6 +524,8 @@ class td_module_single_base extends td_module {
 
         if (td_review::has_review($this->td_review)) {
             $td_article_date_unix = get_the_time('U', $this->post->ID);
+
+            $buffy .= '<meta itemprop="itemReviewed " content = "' . $this->title . '">';
 
             if (!empty($this->td_review['review'])) {
                 $buffy .= '<meta itemprop="about" content = "' . esc_attr($this->td_review['review']) . '">';

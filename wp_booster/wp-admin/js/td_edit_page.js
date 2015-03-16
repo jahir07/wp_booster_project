@@ -36,33 +36,26 @@ var td_edit_page = {
         jQuery('#td_homepage_loop_metabox, #td_homepage_loop_slide_metabox').hide(); //it's better to hide them by id for compatibility with other plugins
 
         var cur_template = jQuery('#page_template option:selected').text();
+
+        // the show only unique articles box is always visible
         switch (cur_template) {
             case 'Pagebuilder + latest articles + pagination':
                 jQuery('#td_homepage_loop_metabox').slideDown();
                 jQuery('#td_homepage_loop_filter_metabox').slideDown();
                 jQuery('.td-doc-image-homepage-loop-bg, #td_page_metabox').hide();
                 jQuery('.td-doc-image-homepage-loop').show();
-                //jQuery('#td_unique_articles_metabox').show();
-
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Homepage made from a pagebuilder section and a loop below. <ul><li>The loop supports an optional sidebar and advanced filtering options. </li> <li>You can find all the options of this template if you scroll down.</li></ul></span>');
                 break;
-
-
 
             case 'Pagebuilder + page title':
                 jQuery('#td_homepage_loop_filter_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
-
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using visual composer. We recommend that you select a NO SIDEBAR layout for best results.</span>');
                 break;
-
 
             default:
                 jQuery('#td_homepage_loop_filter_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
-
-
-
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for visual composer or content pages. <ul><li>If visual composer is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
                 break;
         }
@@ -70,7 +63,6 @@ var td_edit_page = {
 
 
     change_content: function (the_text) {
-
         if(document.getElementById("td_after_template_container_id")) {
             var after_element = document.getElementById("td_after_template_container_id");
             after_element.innerHTML = "";
@@ -78,7 +70,6 @@ var td_edit_page = {
                 after_element.innerHTML = the_text;
             }
         } else {
-
             if(document.getElementById("page_template")) {
                 //create the container
                 var after_element = document.createElement("div");

@@ -3,7 +3,7 @@ abstract class td_module {
     var $post;
 
     var $title_attribute;
-    var $title;
+    var $title;             // by default the WordPress title is not escaped on twenty fifteen
     var $href;
 
 
@@ -25,6 +25,7 @@ abstract class td_module {
 
         $this->post = $post;
 
+        // by default the WordPress title is not escaped on twenty fifteen
         $this->title = get_the_title($post->ID);
         $this->title_attribute = esc_attr(strip_tags($this->title));
         $this->href = esc_url(get_permalink($post->ID));
