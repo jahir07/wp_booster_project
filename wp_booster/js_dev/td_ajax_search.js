@@ -267,10 +267,8 @@ function td_ajax_search_process_request(data) {
 
     // the .entry-thumb are searched for in the #td-aj-search object, sorted and added into the view port array items
     if (window.td_animation_stack != undefined) {
-        setTimeout(function () {
-            window.td_animation_stack.check_for_new_items('#td-aj-search .entry-thumb', window.td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
-            window.td_animation_stack.compute_items();
-        }, 200);
+        window.td_animation_stack.check_for_new_items('#td-aj-search .entry-thumb', window.td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
+        window.td_animation_stack.compute_items();
     }
 }
 
