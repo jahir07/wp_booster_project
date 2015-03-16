@@ -514,12 +514,15 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
         td_smart_sidebar.compute();
     }, 500);
 
-    setTimeout(function () {
-        if (window.td_animation_stack != undefined) {
+
+
+    if (window.td_animation_stack != undefined) {
+
+        setTimeout(function () {
             window.td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
             window.td_animation_stack.compute_items();
-        }
-    }, 200);
+        }, 200);
+    }
 }
 
 
