@@ -28,6 +28,7 @@ function td_ajax_search() {
 
     jQuery(document).click(function(e) {//alert(e.target.className);
         if(e.target.className!=="td-icon-search" && e.target.id!=="td-header-search" && e.target.id!=="td-header-search-top") {
+            //alert('ra');
             jQuery(".dropdown-menu").hide();
         }
 
