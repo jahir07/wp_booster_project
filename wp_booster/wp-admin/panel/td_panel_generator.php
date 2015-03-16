@@ -680,10 +680,11 @@ class td_panel_generator {
 
 
     static function helper_generate_used_on_block_list($used_on_block_list_array) {
-        if (is_array($used_on_block_list_array)) {
-            return ' > ' . implode(', ', $used_on_block_list_array);
-        }
-        return '';
+		$excerpt_list = '<span class="td-excerpt-arrow"></span>';
+	    foreach ($used_on_block_list_array as $block_list => $block_list_val) {
+		    $excerpt_list.= '<span>' . $block_list_val . '</span>';
+	    }
+	    return $excerpt_list;
     }
 
 
