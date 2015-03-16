@@ -454,6 +454,8 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
     el_cur_td_block_inner.removeClass('animated_long fadeOut_to_1');
 
+
+    // by default, the sort method used to animate the ajax response is left to the right
     var td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_right_to_left;
 
 
@@ -464,7 +466,10 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
             break;
         case 'back':
             el_cur_td_block_inner.addClass('animated_xlong fadeInLeft');
+
+            // the default sort method is modified to work from right to the left
             td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_left_to_right;
+
             break;
 
         case 'pull_down':
@@ -516,8 +521,8 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
 
 
+    // the .entry-thumb are searched for in the current block object, sorted and added into the view port array items
     if (window.td_animation_stack != undefined) {
-
         setTimeout(function () {
             window.td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
             window.td_animation_stack.compute_items();
