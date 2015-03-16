@@ -67,11 +67,10 @@ class td_page_generator {
             if (td_util::get_option('tds_breadcrumbs_show_article') != 'hide') {
                 //child category
                 $breadcrumbs_array [] = array (
-                    'title_attribute' => '',
+                    'title_attribute' => $post_title,
                     'url' => '',
                     'display_name' => td_util::excerpt($post_title, 13)
                 );
-
             }
         }
 
@@ -555,6 +554,7 @@ class td_page_generator {
                 //no link - breadcrumb
                 $buffy .=  '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
                 $buffy .= '<meta itemprop="title" content = "' . $breadcrumb['display_name'] . '">';
+                $buffy .= '<meta itemprop="url" content = "' . get_permalink() . '">';
                 $buffy .= $breadcrumb['display_name'];
                 $buffy .= '</span>';
             } else {
