@@ -454,6 +454,7 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
     el_cur_td_block_inner.removeClass('animated_long fadeOut_to_1');
 
+    var td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_right_to_left;
 
 
 
@@ -463,6 +464,7 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
             break;
         case 'back':
             el_cur_td_block_inner.addClass('animated_xlong fadeInLeft');
+            td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_left_to_right;
             break;
 
         case 'pull_down':
@@ -512,11 +514,10 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
         td_smart_sidebar.compute();
     }, 500);
 
-
     setTimeout(function () {
         if (window.td_animation_stack != undefined) {
-            window.td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb');
-            window.td_animation_stack.compute_items(window.td_animation_stack.max_interval);
+            window.td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
+            window.td_animation_stack.compute_items();
         }
     }, 200);
 }
