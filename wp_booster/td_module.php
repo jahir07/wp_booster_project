@@ -60,14 +60,30 @@ abstract class td_module {
     }
 
 
-    function get_module_classes() {
+    function get_module_classes($additional_classes_array = '') {
         //add the wrap and module id class
         $buffy = 'td_module_wrap ' . get_class($this);
+
+
+	    // each module setting has a 'class' key to customize css
+	    $module_class = td_api_module::get_key(get_class($this), 'class');
+
+	    if ($module_class != '') {
+		    $buffy .= ' ' . $module_class;
+	    }
+
 
         //show no thumb only if image placeholders are disabled
         if ($this->post_has_thumb === false and td_util::get_option('tds_hide_featured_image_placeholder') == 'hide_placeholder') {
             $buffy .= ' td_module_no_thumb';
         }
+
+	    if ($additional_classes_array != '' && is_array($additional_classes_array)) {
+		    $buffy .= ' ' . implode(' ', $additional_classes_array);
+	    }
+
+	    // the following case could not be checked
+	    // $buffy = implode(' ', array_unique(explode(' ', $buffy)));
 
         return $buffy;
     }

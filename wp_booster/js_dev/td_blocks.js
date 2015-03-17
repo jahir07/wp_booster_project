@@ -526,7 +526,7 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
     if (td_animation_stack != '') {
         setTimeout(function () {
-            td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .entry-thumb', td_animation_stack_sort_type, true);
+            td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', td_animation_stack_sort_type, true);
             td_animation_stack.compute_items();
         }, 200);
     }
