@@ -75,7 +75,7 @@ var td_events = {
 
 
                 // call lazy td_custom_events scroll
-                td_custom_events._lazy_callback_scroll_100ms();
+                td_custom_events._lazy_callback_scroll_100();
             }
 
             if (td_events.resize_event_medium_run) {
@@ -84,7 +84,7 @@ var td_events = {
 
 
                 // call lazy td_custom_events resize
-                td_custom_events._lazy_callback_resize_100ms();
+                td_custom_events._lazy_callback_resize_100();
             }
         }, 100);
 
@@ -104,7 +104,7 @@ var td_events = {
 
 
                 // call lazy td_custom_events scroll
-                td_custom_events._lazy_callback_scroll_500ms();
+                td_custom_events._lazy_callback_scroll_500();
             }
 
             //resize event
@@ -116,7 +116,7 @@ var td_events = {
 
 
                 // call lazy td_custom_events resize
-                td_custom_events._lazy_callback_resize_500ms();
+                td_custom_events._lazy_callback_resize_500();
             }
         }, 500);
 
