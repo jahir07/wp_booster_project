@@ -456,9 +456,12 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
 
     // by default, the sort method used to animate the ajax response is left to the right
-    var td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_right_to_left;
 
+    var td_animation_stack_sort_type;
 
+    if (typeof window['td_animation_stack'] !== 'undefined') {
+        td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_right_to_left;
+    }
 
     switch(td_user_action) {
         case 'next':
@@ -468,7 +471,9 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
             el_cur_td_block_inner.addClass('animated_xlong fadeInLeft');
 
             // the default sort method is modified to work from right to the left
-            td_animation_stack_sort_type = window.td_animation_stack.SORTED_METHOD.sort_left_to_right;
+            if (td_animation_stack_sort_type !== undefined) {
+                td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_left_to_right;
+            }
 
             break;
 
@@ -522,12 +527,10 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
 
     // the .entry-thumb are searched for in the current block object, sorted and added into the view port array items
-    var td_animation_stack = td_util.get_backend_var('td_animation_stack');
-
-    if (td_animation_stack != '') {
+    if (td_animation_stack_sort_type !== undefined) {
         setTimeout(function () {
-            td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', td_animation_stack_sort_type, true);
-            td_animation_stack.compute_items();
+            window['td_animation_stack'].check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', td_animation_stack_sort_type, true);
+            window['td_animation_stack'].compute_items();
         }, 200);
     }
 }
