@@ -41,6 +41,7 @@ var td_detect = new function () {
 
 
 
+
     // is touch device ?
     this.is_touch_device = !!('ontouchstart' in window);
     this.is_mobile_device = false;
@@ -96,7 +97,13 @@ var td_detect = new function () {
 
 
 
-    this.is_ios = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+    if (/(iPad|iPhone|iPod)/g.test( navigator.userAgent )) {
+        this.html_jquery_obj.addClass('td_detect_is_ios'); //add class for ios
+        this.is_ios = true;
+    } else {
+        this.is_ios = false;
+    }
+
 
 
     //detect if we run on a mobile device - ipad included - used by the modal / scroll to @see scroll_into_view
@@ -130,7 +137,7 @@ var td_detect = new function () {
     if(user_agent.indexOf("android") > -1) {
         this.is_android = true;
         // we use this class to fix android problems
-        jQuery('body').addClass('td_detect_is_android');
+        this.html_jquery_obj.addClass('td_detect_is_android');
     }
 
 
