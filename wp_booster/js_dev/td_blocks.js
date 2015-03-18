@@ -460,21 +460,21 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
     var td_animation_stack_sort_type;
 
     if (typeof window['td_animation_stack'] !== 'undefined') {
-        td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_right_to_left;
+        td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_left_to_right;
     }
 
     switch(td_user_action) {
         case 'next':
             el_cur_td_block_inner.addClass('animated_xlong fadeInRight');
-            break;
-        case 'back':
-            el_cur_td_block_inner.addClass('animated_xlong fadeInLeft');
 
             // the default sort method is modified to work from right to the left
             if (td_animation_stack_sort_type !== undefined) {
-                td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_left_to_right;
+                td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_right_to_left;
             }
 
+            break;
+        case 'back':
+            el_cur_td_block_inner.addClass('animated_xlong fadeInLeft');
             break;
 
         case 'pull_down':
