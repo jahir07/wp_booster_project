@@ -113,16 +113,19 @@ var td_ajax_search = {
 
 
     show_search_box: function open_search_box() {
-        jQuery(".dropdown-menu").show();
-        setTimeout(function(){
-            document.getElementById("td-header-search").focus();
-        }, 200);
+        jQuery(".td-drop-down-search").addClass('td-drop-down-search-open');
+        // do not try to autofocus on ios. It's still buggy as of 18 march 2015
+        if (td_detect.is_ios !== true) {
+            setTimeout(function(){
+                document.getElementById("td-header-search").focus();
+            }, 200);
+        }
         td_ajax_search._is_search_open = true;
     },
 
 
     hide_search_box: function hide_search_box() {
-        jQuery(".dropdown-menu").hide();
+        jQuery(".td-drop-down-search").removeClass('td-drop-down-search-open');
         td_ajax_search._is_search_open = false;
     },
 

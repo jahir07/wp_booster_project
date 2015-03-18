@@ -131,7 +131,6 @@ var td_detect = new function () {
         this.is_android = true;
         // we use this class to fix android problems
         jQuery('body').addClass('td_detect_is_android');
-        alert('class added');
     }
 
 
