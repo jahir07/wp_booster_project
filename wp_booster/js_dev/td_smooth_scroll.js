@@ -8,7 +8,7 @@ if (td_detect.is_chrome === true && td_detect.is_android === false) {
 
 
 function td_smooth_scroll() {
-    //alert('smooth_scroll on');
+    //alert('smooth_scroll on'); ttt
 // SmoothScroll v1.2.1
 // Licensed under the terms of the MIT license.
 
