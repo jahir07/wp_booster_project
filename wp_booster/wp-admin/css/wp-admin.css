@@ -1591,8 +1591,8 @@ title one row controls
 .td_block_authors .wpb_element_wrapper div,
 .td_block_text_with_title .wpb_element_wrapper div,
 .td_block_slide .wpb_element_wrapper div,
-.wpb_td_text_with_title .wpb_element_wrapper div,
-.wpb_td_social_counter .wpb_element_wrapper div,
+.wpb_td_block_text_with_title .wpb_element_wrapper div,
+.wpb_td_block_social_counter .wpb_element_wrapper div,
 .td_block_video_playlist_youtube .wpb_element_wrapper div,
 .td_block_video_playlist_vimeo .wpb_element_wrapper div,
 .icon-pagebuilder-title .wpb_element_wrapper div {
@@ -1634,8 +1634,8 @@ title one row controls
 .td_block_authors .wpb_element_wrapper div[name="custom_title"],
 .td_block_text_with_title .wpb_element_wrapper div[name="custom_title"],
 .td_block_slide .wpb_element_wrapper div[name="custom_title"],
-.wpb_td_text_with_title .wpb_element_wrapper div[name="custom_title"],
-.wpb_td_social_counter .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_text_with_title .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_social_counter .wpb_element_wrapper div[name="custom_title"],
 .td_block_video_playlist_youtube .wpb_element_wrapper div[name="custom_title"],
 .td_block_video_playlist_vimeo .wpb_element_wrapper div[name="custom_title"],
 .icon-pagebuilder-title .wpb_element_wrapper div[name="custom_title"] {
