@@ -129,6 +129,9 @@ var td_detect = new function () {
     var user_agent = navigator.userAgent.toLowerCase();
     if(user_agent.indexOf("android") > -1) {
         this.is_android = true;
+        // we use this class to fix android problems
+        jQuery('body').addClass('td_detect_is_android');
+        alert('class added');
     }
 
 
