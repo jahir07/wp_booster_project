@@ -139,6 +139,7 @@ class td_menu {
                 // the parent item (the one that appears in the main menu)
                 $item->classes[] = 'td-menu-item';
                 $item->classes[] = 'td-mega-menu';
+                $item->classes[] = 'td-mega-menu-page';
                 $items_buffy[] = $item;
 
                 //create a new mega menu item: - this is just the dropdown menu / not the parrent
