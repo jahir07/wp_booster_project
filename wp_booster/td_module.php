@@ -62,7 +62,7 @@ abstract class td_module {
 
     function get_module_classes($additional_classes_array = '') {
         //add the wrap and module id class
-        $buffy = 'td_module_wrap ' . get_class($this);
+        $buffy = get_class($this);
 
 
 	    // each module setting has a 'class' key to customize css
