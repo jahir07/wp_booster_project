@@ -61,12 +61,11 @@ abstract class td_category_template {
 	        // if no child categories get siblings
 	        if (empty($categories_objects)) {
 		        $categories_objects = get_categories(array(
-			        'parent' => $this->current_category_obj->parent,
-			        'hide_empty' => 0,
-			        'number' => self::SIBLING_CATEGORY_LIMIT
+			        'parent'        => $this->current_category_obj->parent,
+			        'hide_empty'    => 0,
+			        'number'        => self::SIBLING_CATEGORY_LIMIT
 		        ));
 	        }
-
         }
 
 
@@ -78,8 +77,9 @@ abstract class td_category_template {
                 $buffy .= '<ul class="td-category">';
                     foreach ($categories_objects as $category_object) {
 
-                        // ignore featured cat, @todo check if we also have to ignore uncategorized ?
-                        if ($category_object->name == TD_FEATURED_CAT) {
+                        // ignore featured cat and uncategorized
+                        if (($category_object->name == TD_FEATURED_CAT) OR
+	                        (strtolower($category_object->cat_name) == 'uncategorized')) {
                             continue;
                         }
 
