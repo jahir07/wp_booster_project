@@ -219,7 +219,7 @@ class td_background {
 			    jQuery(window).ready(function() {
 
 				    // if the theme has td_backstr support, it means this already uses it
-				    if (typeof(td_backstr) === 'object') {
+				    if (typeof window.td_backstr !== 'undefined') {
 
 					    (function(){
 
@@ -233,7 +233,7 @@ class td_background {
 
 						    var td_backstr_item = new td_backstr.item();
 
-						    td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj
+						    td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj;
 						    td_backstr_item.image_jquery_obj = image_jquery_obj;
 
 						    td_backstr.add_item(td_backstr_item);
@@ -244,7 +244,7 @@ class td_background {
 
 					    // - this is the old backstretch jquery plugin call
 					    // - td_backstretch.js is in wp_booster, so it is still used by the themes that don't use new td_backstr.js
-					    jQuery.backstretch('$this->theme_bg_image', {fade:1200, centeredY:false});
+					    jQuery.backstretch('<?php echo $this->theme_bg_image; ?>', {fade:1200, centeredY:false});
 				    }
 			    });
 
