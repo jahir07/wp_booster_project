@@ -325,7 +325,8 @@ function td_ajax_block_process_response(data, td_user_action) {
 
     //load the content (in place or append)
     if (td_user_action == 'load_more' || td_user_action == 'infinite_load') {
-        jQuery(td_reply_obj.td_data).addClass('animated_xxlong').appendTo('#' + td_reply_obj.td_block_id).addClass('fadeIn');
+        jQuery(td_reply_obj.td_data).appendTo('#' + td_reply_obj.td_block_id);
+        //jQuery(td_reply_obj.td_data).addClass('animated_xxlong').appendTo('#' + td_reply_obj.td_block_id).addClass('fadeIn');
         //jQuery('#' + td_reply_obj.td_block_id).append(td_reply_obj.td_data); //append
     } else {
         jQuery('#' + td_reply_obj.td_block_id).html(td_reply_obj.td_data); //in place
