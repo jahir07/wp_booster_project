@@ -1456,6 +1456,14 @@ title one row controls
 .td_panel_box_category_tag_on_modulesblocks .td-box-row {
   border-bottom: 1px dashed #dddddd;
   height: 53px;
+  margin-right: 22px;
+}
+.td_panel_box_category_tag_on_modulesblocks .td-box-content .td-box-row:first-child {
+  border: 0;
+  margin-bottom: 30px;
+}
+.td_panel_box_category_tag_on_modulesblocks .td-box-content .td-box-row:nth-last-child(2) {
+  border: 0;
 }
 /*  ----------------------------------------------------------------------------
     pagebuilder
