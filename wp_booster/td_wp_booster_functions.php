@@ -196,7 +196,7 @@ function load_front_js() {
 
     //switch the deploy mode to demo if we have tagDiv speed booster
     if (defined('TD_SPEED_BOOSTER')) {
-        $td_deploy_mode = 'demo';
+        //$td_deploy_mode = 'demo';
     }
 
     switch ($td_deploy_mode) {
@@ -329,8 +329,45 @@ function hook_wp_head() {
     if(!empty($tds_ios_144)) {
         echo '<link rel="apple-touch-icon-precomposed" sizes="144x144" href="' . $tds_ios_144 . '"/>';
     }
-}
 
+
+
+	// lazy loading images - animation effect
+	$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
+
+	if (empty($tds_lazy_loading_image)) {
+		add_filter('td_js_buffer_footer_render', 'td_hook_add_js_lazy_load');
+		add_filter('body_class','td_hook_add_custom_body_class');
+	}
+}
+function td_hook_add_js_lazy_load($js) {
+
+	ob_start();
+
+	?>
+
+	<script>
+		jQuery(window).load(function() {
+
+			// if the theme has td_animation_stack, initialize it
+			if (typeof window.td_animation_stack !== 'undefined') {
+				td_animation_stack.init();
+			}
+		});
+	</script>
+
+	<?php
+
+	$buffer = ob_get_clean();
+
+	$js .= "\n". td_util::remove_script_tag($buffer);
+
+	return $js;
+}
+function td_hook_add_custom_body_class($classes) {
+	$classes[] = 'lazy-animation';
+	return $classes;
+}
 
 
 
