@@ -91,6 +91,36 @@
 
 
 
+<!-- Lazy loading animation -->
+<?php echo td_panel_generator::box_start('Lazy image animation', false); ?>
+
+
+<!-- text -->
+<div class="td-box-row">
+	<div class="td-box-description td-box-full">
+		<p>Lazy loading animation image</p>
+	</div>
+	<div class="td-box-row-margin-bottom"></div>
+</div>
+
+<!-- use lazy loading animation -->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">Lazy load img</span>
+		<p>description</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_option',
+			'option_id' => 'tds_lazy_loading_image',
+			'true_value' => '',
+			'false_value' => 'no'
+		));
+		?>
+	</div>
+</div>
+<?php echo td_panel_generator::box_end();?>
 
 
 <hr>

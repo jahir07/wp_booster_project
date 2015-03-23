@@ -460,7 +460,7 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
     var td_animation_stack_sort_type;
 
-    if (typeof window['td_animation_stack'] !== 'undefined') {
+    if (typeof window['td_animation_stack'] !== 'undefined' && (window['td_animation_stack'].initialized === true)) {
         td_animation_stack_sort_type = window['td_animation_stack'].SORTED_METHOD.sort_left_to_right;
     }
 
@@ -531,7 +531,6 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
     if (td_animation_stack_sort_type !== undefined) {
         setTimeout(function () {
             window['td_animation_stack'].check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', td_animation_stack_sort_type, true);
-            window['td_animation_stack'].compute_items();
         }, 200);
     }
 }
