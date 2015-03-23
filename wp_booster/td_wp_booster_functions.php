@@ -196,7 +196,7 @@ function load_front_js() {
 
     //switch the deploy mode to demo if we have tagDiv speed booster
     if (defined('TD_SPEED_BOOSTER')) {
-        //$td_deploy_mode = 'demo';
+        $td_deploy_mode = 'demo';
     }
 
     switch ($td_deploy_mode) {
