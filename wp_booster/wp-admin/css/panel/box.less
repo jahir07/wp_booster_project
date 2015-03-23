@@ -489,10 +489,68 @@
     .td-excerpt-arrow {
       padding: 0;
       margin-right: 0;
-      width: 20px;
-      height: 14px;
-      display: inline-block;
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHAQMAAAD6aRWtAAAABlBMVEUAAABJSUn0lwL4AAAAAXRSTlMAQObYZgAAABVJREFUCNdjOMDwgKGAwYKhAEgfAAAedgRZ5TNOtgAAAABJRU5ErkJggg==) no-repeat 7px 6px;
+      background-color: transparent;
     }
   }
 }
+
+.td-excerpt-arrow {
+  padding: 0;
+  margin-right: 0;
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHAQMAAAD6aRWtAAAABlBMVEUAAABJSUn0lwL4AAAAAXRSTlMAQObYZgAAABVJREFUCNdjOMDwgKGAwYKhAEgfAAAedgRZ5TNOtgAAAABJRU5ErkJggg==) no-repeat 7px 6px;
+}
+
+// Category tag on Modules/Blocks
+.td_panel_box_category_tag_on_modulesblocks {
+  .td-box-title {
+    span {
+      background-color: #ededed;
+      color: #666;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 8px;
+      margin-right: 5px;
+      position: relative;
+      top: 0;
+      vertical-align: top;
+      display: inline-block;
+      line-height: 1;
+      text-transform: lowercase;
+    }
+
+    .td-excerpt-arrow {
+      padding: 0;
+      margin-right: 0;
+      background-color: transparent;
+    }
+  }
+
+  .td-box-description {
+    width: 350px;
+    padding-bottom: 37px;
+  }
+
+  .td-box-control-full {
+    width: 370px;
+  }
+
+  .td-box-row {
+    border-bottom: 1px dashed rgb(221, 221, 221);
+    height: 53px;
+    margin-right: 22px;
+  }
+
+  .td-box-content {
+    .td-box-row:first-child {
+      border: 0;
+      margin-bottom: 30px;
+    }
+    .td-box-row:nth-last-child(2) {
+      border: 0;
+    }
+  }
+}
+
