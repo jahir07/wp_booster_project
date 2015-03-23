@@ -108,9 +108,11 @@ class td_menu {
                     if (!empty($td_subcategories)) {
                         $item->classes[] = 'menu-item-has-children'; // add the extra class for the dropdown to work
 
+	                    $td_render_atts = td_api_block::get_key('td_block_mega_menu', 'render_atts');
+
                         $sub_categories_count = 0;
                         foreach ($td_subcategories as $td_category) {
-                            if ($sub_categories_count == 5) { // only show 5 subcategories in the mobile menu - the same limit applies to the mega menu
+                            if ($sub_categories_count == parseInt($td_render_atts['show_child_cat'], 10)) { // only show 5 subcategories in the mobile menu - the same limit applies to the mega menu
                                 break;
                             }
                             $new_item = $this->generate_wp_post();
@@ -182,13 +184,16 @@ class td_menu {
                 $new_item->menu_item_parent = $item->ID;
                 $new_item->url = '';
                 $new_item->title = '<div class="td-container-border"><div class="td-mega-grid">';
+
+	            $td_render_atts = td_api_block::get_key('td_block_mega_menu', 'render_atts');
+
                 $new_item->title .= td_global_blocks::get_instance('td_block_mega_menu')->render(
                     array(
                         'limit' => '5',
                         'td_column_number' => 3,
                         'ajax_pagination' => 'next_prev',
                         'category_id' => $td_mega_menu_cat,
-                        'show_child_cat' => td_api_block::get_key('td_block_mega_menu', 'render_atts')['show_child_cat'],
+                        'show_child_cat' => $td_render_atts['show_child_cat'],
                         'td_ajax_filter_type' => 'td_category_ids_filter'
                     ));
                 $new_item->title .= '</div></div>';
