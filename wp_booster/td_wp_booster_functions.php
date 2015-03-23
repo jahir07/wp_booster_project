@@ -351,7 +351,7 @@ function td_hook_add_js_lazy_load($js) {
 
 			// if the theme has td_animation_stack, initialize it
 			if (typeof window.td_animation_stack !== 'undefined') {
-				td_animation_stack.init();
+				window.td_animation_stack.init();
 			}
 		});
 	</script>
