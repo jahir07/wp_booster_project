@@ -118,7 +118,7 @@ function load_js_composer_front() {
 add_action('wp_enqueue_scripts', 'load_front_css', 1001);   // 1001 priority because visual composer uses 1000
 function load_front_css() {
     if (TD_DEBUG_USE_LESS) {
-        wp_enqueue_style('td-theme', get_template_directory_uri() . '/td_less_style.css.php',  '', TD_THEME_VERSION, 'all' );
+        wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php',  '', TD_THEME_VERSION, 'all' );
     } else {
         wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
     }
@@ -196,16 +196,16 @@ function load_front_js() {
 
     //switch the deploy mode to demo if we have tagDiv speed booster
     if (defined('TD_SPEED_BOOSTER')) {
-        $td_deploy_mode = 'demo';
+        //$td_deploy_mode = 'demo';
     }
 
     switch ($td_deploy_mode) {
         default: //deploy
-            wp_enqueue_script('td-site', get_template_directory_uri() . '/js/tagdiv_theme.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site', td_global::$get_template_directory_uri . '/js/tagdiv_theme.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'demo':
-            wp_enqueue_script('td-site-min', get_template_directory_uri() . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
+            wp_enqueue_script('td-site-min', td_global::$get_template_directory_uri . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
             break;
 
         case 'dev':
@@ -213,9 +213,9 @@ function load_front_js() {
             $last_js_file_id = '';
             foreach (td_global::$js_files as $js_file_id => $js_file) {
                 if ($last_js_file_id == '') {
-                    wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array('jquery'), TD_THEME_VERSION, true); //first, load it with jQuery dependency
+                    wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array('jquery'), TD_THEME_VERSION, true); //first, load it with jQuery dependency
                 } else {
-                    wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array($last_js_file_id), TD_THEME_VERSION, true);  //not first - load with the last file dependency
+                    wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array($last_js_file_id), TD_THEME_VERSION, true);  //not first - load with the last file dependency
                 }
                 $last_js_file_id = $js_file_id;
             }
@@ -240,7 +240,7 @@ function load_wp_admin_css() {
     //load the panel font in wp-admin
     $td_protocol = is_ssl() ? 'https' : 'http';
     wp_enqueue_style('google-font-ubuntu', $td_protocol . '://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic&amp;subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic'); //used on content
-    wp_enqueue_style('td-wp-admin-td-panel-2', get_template_directory_uri() . '/includes/wp_booster/wp-admin/css/wp-admin.css', false, TD_THEME_VERSION, 'all' );
+    wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/css/wp-admin.css', false, TD_THEME_VERSION, 'all' );
 
     //load the colorpicker
     wp_enqueue_style( 'wp-color-picker' );
@@ -259,9 +259,9 @@ function load_wp_admin_js() {
     $last_js_file_id = '';
     foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file) {
         if ($last_js_file_id == '') {
-            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
+            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
         } else {
-            wp_enqueue_script($js_file_id, get_template_directory_uri() . $js_file, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
+            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
         }
         $last_js_file_id = $js_file_id;
     }
@@ -1667,7 +1667,7 @@ if (is_admin()) {
                 'screen' => 'page', // this is the page hook we want our pointer to show on
                 'target' => '.composer-switch', // the css selector for the pointer to be tied to, best to use ID's
                 'title' => TD_THEME_NAME . ' (tagDiv) tip',
-                'content' => '<img src="' . get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/td_helper_pointers/vc-columns.png' . '">',
+                'content' => '<img src="' . td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/td_helper_pointers/vc-columns.png' . '">',
                 'position' => array(
                     'edge' => 'top', //top, bottom, left, right
                     'align' => 'left' //top, bottom, left, right, middle
