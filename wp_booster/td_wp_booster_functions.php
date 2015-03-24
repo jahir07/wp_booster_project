@@ -1691,7 +1691,7 @@ if (is_admin()) {
             array(
                 'name' => 'Visual Composer ( required )', // The plugin name
                 'slug' => 'js_composer', // The plugin slug (typically the folder name)
-                'source' => get_stylesheet_directory() . '/includes/plugins/js_composer.zip', // The plugin source
+                'source' => td_global::$get_template_directory_uri . '/includes/plugins/js_composer.zip', // The plugin source
                 'required' => true, // If false, the plugin is only 'recommended' instead of required
                 'version' => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
                 'force_activation' => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
@@ -1701,7 +1701,7 @@ if (is_admin()) {
             array(
                 'name' => 'tagDiv social counter ( This plugin is optional )', // The plugin name
                 'slug' => 'td-social-counter', // The plugin slug (typically the folder name)
-                'source' => get_template_directory_uri() . '/includes/plugins/td-social-counter.zip', // The plugin source
+                'source' => td_global::$get_template_directory_uri . '/includes/plugins/td-social-counter.zip', // The plugin source
                 'required' => false, // If false, the plugin is only 'recommended' instead of required
                 'version' => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
                 'force_activation' => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
