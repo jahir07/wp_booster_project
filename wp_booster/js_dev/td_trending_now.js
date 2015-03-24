@@ -42,7 +42,8 @@ function td_trending_now() {
 
         //take the text from each post from current trending-now-wrapper
         jQuery("#" + wrapper_id + " .td-trending-now-post").each(function() {
-            trending_list_posts[i_cont] = jQuery(this).html();
+            //trending_list_posts[i_cont] = jQuery(this)[0].outerHTML;
+            trending_list_posts[i_cont] = jQuery(this);
 
             //increment the counter
             i_cont++;
@@ -53,7 +54,7 @@ function td_trending_now() {
         td_trending_now_object[wrapper_id + '_position'] = 0;
     });
 
-    jQuery(".td-trending-now-nav-left, .td-trending-now-nav-right").click(function(event){
+    jQuery(".td-trending-now-nav-left").click(function(event){
         event.preventDefault();
         var wrapper_id_for_nav = jQuery(this).data("wrapper-id");
         var data_moving = jQuery(this).data("moving");
@@ -65,12 +66,33 @@ function td_trending_now() {
          */
         if(control_start != 'manual'){
             clearInterval(td_trending_now_object[wrapper_id_for_nav + "_timer"]);
-            td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'left']);}, 3000);
+            td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'right'], false);}, 3000);
         }
 
 
         //call to change the text
-        td_trending_now_change_text([wrapper_id_for_nav, data_moving]);
+        td_trending_now_change_text([wrapper_id_for_nav, data_moving], false);
+    });
+
+
+    jQuery(".td-trending-now-nav-right").click(function(event){
+        event.preventDefault();
+        var wrapper_id_for_nav = jQuery(this).data("wrapper-id");
+        var data_moving = jQuery(this).data("moving");
+        var control_start = jQuery(this).data("control-start");
+
+        /**
+         * used when the trending now block is used on auto mod and we click on show prev or show next article title
+         * this will make the auto mode wait another xx seconds before displaying the next article title
+         */
+        if(control_start != 'manual'){
+            clearInterval(td_trending_now_object[wrapper_id_for_nav + "_timer"]);
+            td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'left'], true);}, 3000);
+        }
+
+
+        //call to change the text
+        td_trending_now_change_text([wrapper_id_for_nav, data_moving], true);
     });
 
     //console.log(td_trending_now_object);
@@ -83,7 +105,7 @@ function td_trending_now() {
  *array_param[0] : the id of current `trending now wrapper`
  *array_param[1] : moving direction (left or right)
  */
-function td_trending_now_change_text(array_param) {
+function td_trending_now_change_text(array_param, to_right) {
 
     //for consistency use the same variables names as thh parent function
     var wrapper_id_for_nav = array_param[0];
@@ -92,6 +114,8 @@ function td_trending_now_change_text(array_param) {
     //get the list of post and position for this trending now block
     var posts_array_list_for_this_trend = td_trending_now_object[wrapper_id_for_nav];
     var posts_array_list_position = td_trending_now_object[wrapper_id_for_nav + '_position'];
+
+    var previous_post_array_list_position = posts_array_list_position;
 
     //count how many post are in the list
     var post_count = posts_array_list_for_this_trend.length - 1;
@@ -114,8 +138,18 @@ function td_trending_now_change_text(array_param) {
     //update the new position in the global `td_trending_now_object`
     td_trending_now_object[wrapper_id_for_nav + '_position'] = posts_array_list_position;
 
-    //write the data to `trending now` display area
-    jQuery("#" + wrapper_id_for_nav + " .td-trending-now-display-area").html("").html(posts_array_list_for_this_trend[posts_array_list_position]);
+    posts_array_list_for_this_trend[previous_post_array_list_position].css('opacity', 0);
+    posts_array_list_for_this_trend[previous_post_array_list_position].removeClass('animated_xlong fadeInLeft fadeInRight');
+
+    posts_array_list_for_this_trend[posts_array_list_position].css('opacity', 1);
+
+    if (to_right === true) {
+
+        posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInRight');
+    } else {
+
+        posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInLeft');
+    }
 }
 
 
@@ -128,7 +162,7 @@ function td_trending_now_auto_start() {
         (function(i) {
             td_trending_now_object[list[i] + "_timer"] = setInterval(function() {
                 //console.log(i + "=>" + list[i] + "\n");
-                td_trending_now_change_text([list[i], 'left']);
+                td_trending_now_change_text([list[i], 'left'], true);
             }, 3000)
         })(i);
     }
