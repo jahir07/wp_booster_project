@@ -66,12 +66,12 @@ function td_trending_now() {
          */
         if(control_start != 'manual'){
             clearInterval(td_trending_now_object[wrapper_id_for_nav + "_timer"]);
-            td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'right'], false);}, 3000);
+            td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'left'], true);}, 3000);
         }
 
 
         //call to change the text
-        td_trending_now_change_text([wrapper_id_for_nav, data_moving], false);
+        td_trending_now_change_text([wrapper_id_for_nav, 'right'], false);
     });
 
 
@@ -90,9 +90,8 @@ function td_trending_now() {
             td_trending_now_object[wrapper_id_for_nav + "_timer"] = setInterval(function() {td_trending_now_change_text([wrapper_id_for_nav, 'left'], true);}, 3000);
         }
 
-
         //call to change the text
-        td_trending_now_change_text([wrapper_id_for_nav, data_moving], true);
+        td_trending_now_change_text([wrapper_id_for_nav, 'left'], true);
     });
 
     //console.log(td_trending_now_object);
@@ -139,15 +138,20 @@ function td_trending_now_change_text(array_param, to_right) {
     td_trending_now_object[wrapper_id_for_nav + '_position'] = posts_array_list_position;
 
     posts_array_list_for_this_trend[previous_post_array_list_position].css('opacity', 0);
-    posts_array_list_for_this_trend[previous_post_array_list_position].removeClass('animated_xlong fadeInLeft fadeInRight');
+
+    for (var trending_post in posts_array_list_for_this_trend) {
+        posts_array_list_for_this_trend[trending_post].removeClass('animated_xlong fadeInLeft fadeInRight fadeOutLeft fadeOutRight');
+    }
 
     posts_array_list_for_this_trend[posts_array_list_position].css('opacity', 1);
 
     if (to_right === true) {
 
+        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('animated_xlong fadeOutLeft');
         posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInRight');
     } else {
 
+        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('animated_xlong fadeOutRight');
         posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInLeft');
     }
 }
