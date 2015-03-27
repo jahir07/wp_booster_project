@@ -275,11 +275,15 @@ class td_panel_data_source {
                 }
             }else {
                 if($box_add == 'background_click') {
-                    //check if we have something in the link input
-                    if(trim(empty($values['link']))){
-                        //remove if no link
-                        unset($wp_option_array[$box_add]);
-                    }
+	                //check if we have something in the link input
+	                $link = trim($values['link']);
+
+	                if(empty($link)){
+		                //remove if no link
+		                unset($wp_option_array[$box_add]);
+	                } else {
+		                $wp_option_array[$box_add]['link'] = esc_attr(strip_tags($values['link']));
+	                }
                 } else {
                     //remove if no ad code
                     unset($wp_option_array[$box_add]);
