@@ -90,8 +90,8 @@ class td_video_playlist_render {
                 //get title
                 $playlist_structure_title = '<div class="td_video_title_and_time">';
                 if(!empty($video_data['title'])){
-                    $playlist_structure_title .= '<div class="td_video_title">' . $video_data['title'] . '</div>';
-                    $video_data_propeties .= 'title:"' . $video_data['title'] . '",';
+                    $playlist_structure_title .= '<div class="td_video_title">' . htmlentities($video_data['title'], ENT_QUOTES, 'UTF-8') . '</div>';
+                    $video_data_propeties .= 'title:"' . htmlentities($video_data['title'], ENT_QUOTES, 'UTF-8') . '",';
                 }
 
                 //get time
@@ -162,7 +162,7 @@ class td_video_playlist_render {
             }
 
             //$js_object is there so we can take the string and parsit as json to create an object in jQuery
-            return '<div class="' . $column_number_class . '">' . $td_video_title . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player td_wrapper_playlist_player_' . $list_type . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
+            return '<div class="' . $column_number_class . '">' . $td_video_title  . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player td_wrapper_playlist_player_' . $list_type . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
                             <div id="player_' . $list_type . '"></div>
                        </div><div class="td_container_video_playlist " >
                                                 <div class="td_video_controls_playlist_wrapper"><div class="td_video_stop_play_control"><a class="' . $td_class_autoplay_control . ' td-sp td_' . $list_type . '_control"></a></div><div id="td_current_video_play_title_' . $list_type . '" class="td_video_title_playing"></div><div id="td_current_video_play_time_' . $list_type . '" class="td_video_time_playing"></div></div>

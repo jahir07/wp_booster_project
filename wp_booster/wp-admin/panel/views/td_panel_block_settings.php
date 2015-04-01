@@ -92,13 +92,14 @@
 
 
 <!-- Lazy loading animation -->
-<?php echo td_panel_generator::box_start('Lazy image animation', false); ?>
+<?php echo td_panel_generator::box_start('Lazy animation image', false); ?>
 
 
 <!-- text -->
 <div class="td-box-row">
 	<div class="td-box-description td-box-full">
-		<p>Lazy loading animation image</p>
+		<p>The effect animation allows you to animate your theme images as you scroll, from top to the bottom.
+			It applies even on the next and prev operations creating an effect of loading images to the right or to the left.</p>
 	</div>
 	<div class="td-box-row-margin-bottom"></div>
 </div>
@@ -106,8 +107,8 @@
 <!-- use lazy loading animation -->
 <div class="td-box-row">
 	<div class="td-box-description">
-		<span class="td-box-title">Lazy load img</span>
-		<p>description</p>
+		<span class="td-box-title">Use lazy animation image</span>
+		<p>Enable or disable lazy animation effect.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
