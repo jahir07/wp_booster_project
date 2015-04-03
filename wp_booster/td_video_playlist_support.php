@@ -180,15 +180,15 @@ class td_video_playlist_support {
                 //get the info data for video
                 switch ($video_provider) {
                     case 'youtube_ids':
-                        $response = wp_remote_fopen('http://gdata.youtube.com/feeds/api/videos/' . $id_video . '?format=5&alt=json');
+                        $response = wp_remote_fopen(td_global::$http_or_https . '://gdata.youtube.com/feeds/api/videos/' . $id_video . '?format=5&alt=json');
                         $obj = json_decode($response, true);
-                        $buffy[$id_video]['thumb'] = 'http://img.youtube.com/vi/' . $id_video . '/default.jpg';
+                        $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
                         $buffy[$id_video]['title'] = $obj['entry']['media$group']['media$title']['$t']; //@todo htmlentities should be used when the title is displayed, not here
                         $buffy[$id_video]['time'] = gmdate("H:i:s", intval($obj['entry']['media$group']['yt$duration']['seconds']));
                         break;
 
                     case 'vimeo_ids':
-                        $html_returned = unserialize(wp_remote_fopen('http://vimeo.com/api/v2/video/' . $id_video . '.php'));
+                        $html_returned = unserialize(wp_remote_fopen(td_global::$http_or_https . '://vimeo.com/api/v2/video/' . $id_video . '.php'));
 
                         $buffy[$id_video]['thumb'] = $html_returned[0]['thumbnail_small'];
                         $buffy[$id_video]['title'] = $html_returned[0]['title'];  //@todo htmlentities should be used when the title is displayed, not here

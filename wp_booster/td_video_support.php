@@ -119,15 +119,15 @@ class td_video_support{
     function getThumbUrl($videoUrl) {
         switch ($this->detectVideoSearvice($videoUrl)) {
             case 'youtube':
-                if (!$this->is404('http://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg')) {
-                    return 'http://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg';
+                if (!$this->is404(td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg')) {
+                    return td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg';
                 } else {
-                    return 'http://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/hqdefault.jpg';
+                    return td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/hqdefault.jpg';
                 }
 
                 break;
             case 'dailymotion':
-                $dailyMotionApi = @file_get_contents('https://api.dailymotion.com/video/' . $this->getDailymotionID($videoUrl) . '?fields=thumbnail_url');
+                $dailyMotionApi = @file_get_contents(td_global::$http_or_https . '://api.dailymotion.com/video/' . $this->getDailymotionID($videoUrl) . '?fields=thumbnail_url');
                 $dailyMotionDecoded = @json_decode($dailyMotionApi);
                 if (!empty($dailyMotionDecoded) and !empty($dailyMotionDecoded->thumbnail_url)) {
                     return $dailyMotionDecoded->thumbnail_url;
@@ -135,7 +135,7 @@ class td_video_support{
                 //print_r($dailyMotionDecoded);
                 break;
             case 'vimeo':
-                $vimeoApi = @file_get_contents('http://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
+                $vimeoApi = @file_get_contents(td_global::$http_or_https . '://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
                 if (!empty($vimeoApi)) {
                     $vimeoApiData = @unserialize($vimeoApi);
                     if (!empty($vimeoApiData[0]['thumbnail_large'])) {
@@ -154,7 +154,7 @@ class td_video_support{
             case 'youtube':
                 $buffy .= '
                 <div class="wpb_video_wrapper">
-                    <iframe width="600" height="560" src="http://www.youtube.com/embed/' . $this->getYoutubeId($videoUrl) . '?feature=oembed&wmode=opaque&vq=hd720' . $this->getYoutubeTimeParam($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
+                    <iframe width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . $this->getYoutubeId($videoUrl) . '?feature=oembed&wmode=opaque&vq=hd720' . $this->getYoutubeTimeParam($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
                 </div>
                 ';
 
@@ -162,14 +162,14 @@ class td_video_support{
             case 'dailymotion':
                 $buffy .= '
                     <div class="wpb_video_wrapper">
-                        <iframe frameborder="0" width="600" height="560" src="http://www.dailymotion.com/embed/video/' . $this->getDailymotionID($videoUrl) . '"></iframe>
+                        <iframe frameborder="0" width="600" height="560" src="' . td_global::$http_or_https . '://www.dailymotion.com/embed/video/' . $this->getDailymotionID($videoUrl) . '"></iframe>
                     </div>
                 ';
                 break;
             case 'vimeo':
                 $buffy = '
                 <div class="wpb_video_wrapper">
-                    <iframe src="http://player.vimeo.com/video/' . $this->getVimeoId($videoUrl) . '" width="500" height="212" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                    <iframe src="' . td_global::$http_or_https . '://player.vimeo.com/video/' . $this->getVimeoId($videoUrl) . '" width="500" height="212" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                 </div>
                 ';
                 break;

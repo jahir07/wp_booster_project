@@ -740,7 +740,7 @@ function td_my_custom_class_names_on_body($classes) {
 add_action('wp_head', 'add_ie_html5_shim');
 function add_ie_html5_shim () {
     echo '<!--[if lt IE 9]>';
-    echo '<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>';
+    echo '<script src="' . td_global::$http_or_https . '://html5shim.googlecode.com/svn/trunk/html5.js"></script>';
     echo '<![endif]-->
     ';
 }
