@@ -27,6 +27,10 @@ class td_api_smart_list extends td_api_base {
         parent::add_component(__CLASS__, $smart_list_id, $params_array);
     }
 
+	static function update($smart_list_id, $params_array = '') {
+		parent::update_component(__CLASS__, $smart_list_id, $params_array);
+	}
+
     static function get_all() {
         return parent::get_all_components(__CLASS__);
     }

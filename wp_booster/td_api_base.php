@@ -164,8 +164,9 @@ class td_api_base {
      * @param $params_array array The array value set for the self::$component_list[$class_name][$id]
      * @throws ErrorException The error exception thrown by check_used_on_page method call
      */
-    static function update($id, $params_array) {
+    static function update_component($class_name, $id, $params_array) {
         self::check_used_on_page($id);
+	    $params_array[self::TYPE] = $class_name;
         self::$components_list[$id] = $params_array;
     }
 

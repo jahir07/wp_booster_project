@@ -25,6 +25,10 @@ class td_api_single_template extends td_api_base {
         parent::add_component(__CLASS__, $single_template_id, $params_array);
     }
 
+	static function update($single_template_id, $params_array = '') {
+		parent::update_component(__CLASS__, $single_template_id, $params_array);
+	}
+
     static function get_all() {
         return parent::get_all_components(__CLASS__);
     }

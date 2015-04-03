@@ -36,6 +36,10 @@ class td_api_module extends td_api_base {
         parent::add_component(__CLASS__, $module_id, $params_array);
     }
 
+	static function update($module_id, $params_array = '') {
+		parent::update_component(__CLASS__, $module_id, $params_array);
+	}
+
 
     /**
      * This method gets the value for the ('td_api_module') key in the main settings array of the theme.

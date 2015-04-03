@@ -26,6 +26,10 @@ class td_api_thumb extends td_api_base {
         parent::add_component(__CLASS__, $thumb_id, $params_array);
     }
 
+	static function update($thumb_id, $params_array = '') {
+		parent::update_component(__CLASS__, $thumb_id, $params_array);
+	}
+
     static function get_all() {
         return parent::get_all_components(__CLASS__);
     }
