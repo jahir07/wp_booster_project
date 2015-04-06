@@ -201,7 +201,7 @@ abstract class td_module {
 
 
 
-                    $attachment_title = ' title="' . $this->title . '"';
+                    $attachment_title = ' title="' . esc_attr(strip_tags($this->title)) . '"';
 
 
 
