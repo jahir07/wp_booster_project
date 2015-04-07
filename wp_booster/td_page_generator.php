@@ -414,7 +414,7 @@ class td_page_generator {
             if ($start_page >= 2 && $pages_to_show < $max_page) {
                 $first_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['first_text']);
                 echo '<a href="'.esc_url(get_pagenum_link()).'" class="first" title="'.$first_page_text.'">'.$first_page_text.'</a>';
-                if(!empty($pagenavi_options['dotleft_text'])) {
+                if(!empty($pagenavi_options['dotleft_text']) && ($start_page > 2)) {
                     echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
                 }
             }
@@ -442,9 +442,10 @@ class td_page_generator {
                 }
             }
             if ($end_page < $max_page) {
-                if(!empty($pagenavi_options['dotright_text'])) {
+                if(!empty($pagenavi_options['dotright_text']) && ($end_page + 1 < $max_page)) {
                     echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
                 }
+
                 $last_page_text = str_replace("%TOTAL_PAGES%", number_format_i18n($max_page), $pagenavi_options['last_text']);
                 echo '<a href="'.esc_url(get_pagenum_link($max_page)).'" class="last" title="'.$last_page_text.'">'.$last_page_text.'</a>';
             }
