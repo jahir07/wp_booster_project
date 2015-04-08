@@ -73,6 +73,10 @@ function td_on_ready_ajax_blocks() {
 
         current_block_obj.td_current_page++;
         td_ajax_do_block_request(current_block_obj, 'load_more');
+
+        if (current_block_obj.max_num_pages <= current_block_obj.td_current_page) {
+            jQuery(this).css('opacity', 0);
+        }
     });
 
 
