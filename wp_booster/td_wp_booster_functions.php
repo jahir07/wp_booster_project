@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-    require_once('external/kint/Kint.class.php');
+    //require_once('external/kint/Kint.class.php');
 }
 
 
@@ -1624,6 +1624,16 @@ function td_init_booster() {
             ));
         } //end foreach
     }
+
+	$smooth_scroll = td_util::get_option('tds_smooth_scroll');
+
+	if (!empty($smooth_scroll)) {
+
+		add_action('wp_enqueue_scripts',  'load_js_smooth_scroll', 1000);
+		function load_js_smooth_scroll() {
+			wp_enqueue_script('td_smooth_scroll', get_template_directory_uri() . '/includes/wp_booster/js_dev/td_smooth_scroll.js', array('jquery'), TD_THEME_VERSION, true);
+		}
+	}
 }
 
 
