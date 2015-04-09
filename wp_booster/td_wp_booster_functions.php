@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-    //require_once('external/kint/Kint.class.php');
+    require_once('external/kint/Kint.class.php');
 }
 
 
