@@ -90,8 +90,8 @@ class td_video_playlist_render {
                 //get title
                 $playlist_structure_title = '<div class="td_video_title_and_time">';
                 if(!empty($video_data['title'])){
-                    $playlist_structure_title .= '<div class="td_video_title">' . htmlentities($video_data['title'], ENT_QUOTES, 'UTF-8') . '</div>';
-                    $video_data_propeties .= 'title:"' . htmlentities($video_data['title'], ENT_QUOTES, 'UTF-8') . '",';
+                    $playlist_structure_title .= '<div class="td_video_title">' . mb_convert_encoding($video_data['title'], 'UTF-8') . '</div>';
+                    $video_data_propeties .= 'title:"' . esc_attr(mb_convert_encoding($video_data['title'], 'UTF-8')) . '",';
                 }
 
                 //get time
