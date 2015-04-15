@@ -604,18 +604,21 @@ class td_panel_data_source {
 
         //check sections from db and add them to the saving array if ar not set to empty by the user
         $font_sections_from_db = td_util::get_option('td_fonts');//get the fonts from db
-        foreach(td_fonts::$typography_sections as $section_id => $section_name) {
 
-            //check each item from section, and delete the empty ones
-            $typo_section = array_filter($user_custom_fonts_array[$section_id]);
+        foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
+            foreach ($font_settings_array as $font_setting_id => $font_setting_name) {
 
-            //if the section is set but empty, don't added to the  $td_fonts_save
-            if(isset($user_custom_fonts_array[$section_id]) and empty($typo_section)) {
-                //do nothing
-            } else {
-                //if the section exists in the database but is not in the saving array, then added to the saving array
-                if (array_key_exists($section_id, $font_sections_from_db) and !empty($font_sections_from_db[$section_id]) and !array_key_exists($section_id, $td_fonts_save)) {
-                    $td_fonts_save[$section_id] = $font_sections_from_db[$section_id];
+                //check each item from section, and delete the empty ones
+                $typo_section = array_filter($user_custom_fonts_array[$font_setting_id]);
+
+                //if the section is set but empty, don't added to the  $td_fonts_save
+                if (isset($user_custom_fonts_array[$font_setting_id]) and empty($typo_section)) {
+                    //do nothing
+                } else {
+                    //if the section exists in the database but is not in the saving array, then added to the saving array
+                    if (array_key_exists($font_setting_id, $font_sections_from_db) and !empty($font_sections_from_db[$font_setting_id]) and !array_key_exists($font_setting_id, $td_fonts_save)) {
+                        $td_fonts_save[$font_setting_id] = $font_sections_from_db[$font_setting_id];
+                    }
                 }
             }
         }

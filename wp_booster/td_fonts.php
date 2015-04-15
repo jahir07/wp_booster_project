@@ -2,141 +2,6 @@
 
 class td_fonts {
 
-    //font sections
-    static $typography_sections = array(
-        'top_menu' => 'Top Menu',
-        'top_sub_menu' => 'Top Sub-Menu',
-        'main_menu' => 'Main Menu',
-        'main_sub_menu' => 'Main Sub-Menu',
-        'mega_menu' => 'Mega Menu',
-        'mega_menu_categ' => 'Mega Menu Sub-Categories',
-        'mobile_menu' => 'Mobile Menu',
-        'mobile_sub_menu' => 'Mobile Sub-Menu',
-
-
-        'blocks_title' => 'Blocks/Widgets Title',
-        'blocks_author' => 'Author',
-        'blocks_date' => 'Date',
-        'blocks_comment' => 'Comment',
-        'blocks_category' => 'Category tag',
-        'blocks_filter' => 'Filter dropdown',
-        'blocks_excerpt' => 'Excerpt',
-
-
-		'module_1' => 'Module 1',
-		'module_2' => 'Module 2',
-		'module_3' => 'Module 3',
-		'module_4' => 'Module 4',
-		'module_5' => 'Module 5',
-		'module_6' => 'Module 6',
-		'module_7' => 'Module 7',
-		'module_8' => 'Module 8',
-		'module_9' => 'Module 9',
-		'module_10' => 'Module 10',
-		'module_11' => 'Module 11',
-		'module_12' => 'Module 12',
-		'module_13' => 'Module 13',
-		'module_14' => 'Module 14',
-		'module_15' => 'Module 15',
-		'module_mx1' => 'Module MX1',
-		'module_mx2' => 'Module MX2',
-		'module_mx3' => 'Module MX3',
-		'module_mx4' => 'Module MX4',
-		'news_ticker' => 'News Ticker',
-        'big_grid_large_image' => 'Big Grid Large Image',
-        'big_grid_small_images' => 'Big Grid Small Images',
-        'slider_1column' => 'Slider on 3 columns',
-        'slider_2columns' => 'Slider on 2 columns',
-        'slider_3columns' => 'Slider 1 column',
-        'homepage_post' => 'Homepage post',
-
-
-        'post_title' => 'Default template',
-        'post_title_style1' => 'Style 1 template',
-        'post_title_style2' => 'Style 2 template',
-        'post_title_style3' => 'Style 3 template',
-        'post_title_style4' => 'Style 4 template',
-        'post_title_style5' => 'Style 5 template',
-        'post_title_style6' => 'Style 6 template',
-        'post_title_style7' => 'Style 7 template',
-        'post_title_style8' => 'Style 8 template',
-
-
-        'post_content' => 'Post Content',
-        'post_box_quote' => 'Box Quote',
-        'post_pull_quote' => 'Pull Quote',
-        'post_blockquote' => 'Default Blockquote',
-        'post_h1' => 'H1',
-        'post_h2' => 'H2',
-        'post_h3' => 'H3',
-        'post_h4' => 'H4',
-        'post_h5' => 'H5',
-        'post_h6' => 'H6',
-
-
-        'post_category' => 'Category tag',
-        'post_author' => 'Author',
-        'post_date' => 'Date',
-        'post_comment' => 'Views and Comments',
-        'via_source_tag' => 'Via/Source/Tags',
-        'post_next_prev_text' => 'Next/Prev Text',
-        'post_next_prev' => 'Next/Prev Post Title',
-        'box_author_name' => 'Box Author Name',
-        'box_author_url' => 'Box Author URL',
-        'box_author_description' => 'Box Author Description',
-        'post_related' => 'Related Article Title',
-        'post_share' => 'Share Text',
-        'post_image_caption' => 'Image caption',
-        'post_subtitle_small' => 'Subtitle for post style Default, 1, 5, 7, 8',
-        'post_subtitle_large' => 'Subtitle for post style 2, 3, 4, 6',
-
-
-        'page_title' => 'Page title',
-        'page_content' => 'Page content',
-        'page_h1' => 'H1',
-        'page_h2' => 'H2',
-        'page_h3' => 'H3',
-        'page_h4' => 'H4',
-        'page_h5' => 'H5',
-        'page_h6' => 'H6',
-
-
-
-        'footer_text_about' => 'Text under logo',
-        'footer_copyright_text' => 'Copyright text',
-        'footer_menu_text' => 'Footer menu',
-
-
-
-        'breadcrumb' => 'Breadcrumb',
-        'category_tag' => 'Sub-Category tags from Category pages',
-        'news_ticker_title' => 'News Ticker title',
-        'pagination' => 'Pagination',
-        'dropcap' => 'Dropcap',
-        'default_widgets' => 'Default Widgets',
-        'default_buttons' => 'Default Buttons',
-        'woocommerce_products' => 'Woocommerce products titles',
-        'woocommerce_product_title' => 'Woocommerce product title on product page',
-
-
-
-
-        'body_text' => 'Body - General font',
-
-
-
-
-        'bbpress_header' => 'Header',
-        'bbpress_titles' => 'Forums and Topics Titles',
-        'bbpress_subcategories' => 'Subcategories Titles',
-        'bbpress_description' => 'Categories Description',
-        'bbpress_author' => 'Author name',
-        'bbpress_replies' => 'Replies content',
-        'bbpress_notices' => 'Notices/Messages',
-        'bbpress_pagination' => 'Pagination text',
-        'bbpress_topic' => 'Topic details'
-    );
-
 
     //font stacks
     static $font_stack_list = array(
@@ -860,26 +725,27 @@ class td_fonts {
 
         $typography_sections_css_array = array();
 
-        foreach(self::$typography_sections as $section_id => $section_name) {
+        foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
+            foreach($font_settings_array as $font_setting_id => $font_setting_name) {
 
-            //store $typography section array in a variable
+                //store $typography section array in a variable
+                if(!empty(td_global::$td_options['td_fonts'][$font_setting_id])) {
+                    $section_css = td_global::$td_options['td_fonts'][$font_setting_id];
+                    /**
+                     * replace the font family in this section
+                     * - in database the font family is stored like g_xxx for google, tk_x for typekit, fs_x for font stacks, where x are integers
+                     *   and here we replace with their css corespondent
+                     */
+                    if(!empty($section_css['font_family'])) {
+                        $section_css = self::css_get_font_family($section_css);
+                    }
 
-
-
-            if(!empty(td_global::$td_options['td_fonts'][$section_id])) {
-                $section_css = td_global::$td_options['td_fonts'][$section_id];
-                /**
-                 * replace the font family in this section
-                 * - in database the font family is stored like g_xxx for google, tk_x for typekit, fs_x for font stacks, where x are integers
-                 *   and here we replace with their css corespondent
-                 */
-                if(!empty($section_css['font_family'])) {
-                    $section_css = self::css_get_font_family($section_css);
+                    $typography_sections_css_array[$font_setting_id] = $section_css;
                 }
-
-                $typography_sections_css_array[$section_id] = $section_css;
             }
         }
+
+
 
         if(!empty($typography_sections_css_array)) {
             return $typography_sections_css_array;

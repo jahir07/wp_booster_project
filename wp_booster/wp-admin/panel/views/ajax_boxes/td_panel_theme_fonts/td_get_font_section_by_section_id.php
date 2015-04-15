@@ -219,97 +219,93 @@ class td_panel_custom_typography_ajax {
         ob_start();
 
         //get the sections start and end
-        $start_section = intval(json_decode(td_util::get_http_post_val('start_section')));
-        $end_section = intval(json_decode(td_util::get_http_post_val('end_section')));
+        $section_name = td_util::get_http_post_val('section_name');
 
-        $td_section_counter = 0;
-        foreach(td_fonts::$typography_sections as $font_section_settings_id => $font_section_name) {
-
-            //sections can start from 0, this is way we use : `$start_section >=`
-            if($td_section_counter >= $start_section and  $td_section_counter <= $end_section) {
+        $show_section_headers = true;
+        foreach(td_global::$typography_settings_list[$section_name] as $font_setting_id => $font_setting_name) {
 
                 ?>
                 <div class="td-box-row td-panel-font-typography">
                 <div class="td-box-description">
-                    <?php if ($td_section_counter == $start_section) { ?>
+                    <?php if ($show_section_headers === true) { ?>
                         <div class="td-panel-font-description"></div>
                     <?php } ?>
-                    <span class="td-box-title td-title-on-row"><?php echo $font_section_name ?></span>
+                    <span class="td-box-title td-title-on-row"><?php echo $font_setting_name ?></span>
                 </div>
                 <div class="td-box-control-full">
                     <div class="td-panel-font-family">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Font family</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'font_family',
                             'values' => $this->td_typology_fonts_array
                         ));
                         ?>
                     </div>
                     <div class="td-panel-font-size">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Size</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'font_size',
                             'values' => $this->td_font_size_list
                         ));
                         ?>
                     </div>
                     <div class="td-panel-font-line-height">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Line height</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'line_height',
                             'values' => $this->td_line_height_list
                         ));
                         ?>
                     </div>
                     <div class="td-panel-font-style">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Style</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'font_style',
                             'values' => $this->td_font_style_list
                         ));
                         ?>
                     </div>
                     <div class="td-panel-font-weight">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Weight</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'font_weight',
                             'values' => $this->td_font_weight
                         ));
                         ?>
                     </div>
                     <div class="td-panel-font-transform">
-                        <?php if ($td_section_counter == $start_section) { ?>
+                        <?php if ($show_section_headers === true) { ?>
                             <div class="td-panel-font-description">Transform</div>
                         <?php } ?>
                         <?php
                         echo td_panel_generator::dropdown(array(
                             'ds' => 'td_fonts',
-                            'item_id' => $font_section_settings_id,
+                            'item_id' => $font_setting_id,
                             'option_id' => 'text_transform',
                             'values' => $this->td_text_transform
                         ));
@@ -317,9 +313,8 @@ class td_panel_custom_typography_ajax {
                     </div>
                 </div>
                 </div><?php
-            }
 
-            $td_section_counter++;
+            $show_section_headers = false;
         }//end foreach
 
         return ob_get_clean();

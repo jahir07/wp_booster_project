@@ -38,87 +38,149 @@
 <!-- breadcrumbs -->
 <?php echo td_panel_generator::box_start('Breadcrumbs', false); ?>
 
-<!-- Show breadcrumbs on post -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW BREADCRUMBS</span>
-        <p>Enable or disable the breadcrumbs</p>
+    <!-- Show breadcrumbs on post -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">SHOW BREADCRUMBS</span>
+            <p>Enable or disable the breadcrumbs</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_breadcrumbs_show',
+                'true_value' => '',
+                'false_value' => 'hide'
+            ));
+            ?>
+        </div>
     </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_option',
-            'option_id' => 'tds_breadcrumbs_show',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
+
+
+    <div class="td-box-section-separator"></div>
+
+
+    <!-- Show breadcrumbs home link -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">SHOW BREADCRUMBS HOME LINK</span>
+            <p>Show or hide the home link in breadcrumbs</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_breadcrumbs_show_home',
+                'true_value' => '',
+                'false_value' => 'hide'
+            ));
+            ?>
+        </div>
     </div>
-</div>
 
 
-<div class="td-box-section-separator"></div>
 
-
-<!-- Show breadcrumbs home link -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW BREADCRUMBS HOME LINK</span>
-        <p>Show or hide the home link in breadcrumbs</p>
+    <!-- Show breadcrumbs parent category -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">SHOW PARENT CATEGORY</span>
+            <p>Show or hide the parent category link ex: Home > parent category > category </p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_breadcrumbs_show_parent',
+                'true_value' => '',
+                'false_value' => 'hide'
+            ));
+            ?>
+        </div>
     </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_option',
-            'option_id' => 'tds_breadcrumbs_show_home',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
 
 
-
-<!-- Show breadcrumbs parent category -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW PARENT CATEGORY</span>
-        <p>Show or hide the parent category link ex: Home > parent category > category </p>
+    <!-- show Breadcrumbs article title -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">SHOW ARTICLE TITLE</span>
+            <p>Show or hide the article title on post pages</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_breadcrumbs_show_article',
+                'true_value' => '',
+                'false_value' => 'hide'
+            ));
+            ?>
+        </div>
     </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_option',
-            'option_id' => 'tds_breadcrumbs_show_parent',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
-
-
-<!-- show Breadcrumbs article title -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW ARTICLE TITLE</span>
-        <p>Show or hide the article title on post pages</p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_option',
-            'option_id' => 'tds_breadcrumbs_show_article',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
 
 <?php echo td_panel_generator::box_end();?>
 
+
+
+
+<!-- Lazy loading animation -->
+<?php echo td_panel_generator::box_start('Lazy animation image', false); ?>
+    <!-- text -->
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <p>The effect animation allows you to animate your theme images as you scroll, from top to the bottom.
+                It applies even on the next and prev operations creating an effect of loading images to the right or to the left.</p>
+        </div>
+        <div class="td-box-row-margin-bottom"></div>
+    </div>
+
+    <!-- use lazy loading animation -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Use lazy animation image</span>
+            <p>Disable or enable lazy animation effect.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_lazy_loading_image',
+                'true_value' => '',
+                'false_value' => 'no'
+            ));
+            ?>
+        </div>
+    </div>
+<?php echo td_panel_generator::box_end();?>
+
+
+
+<!-- Lazy loading animation -->
+<?php echo td_panel_generator::box_start('Smooth scroll', false); ?>
+    <!-- text -->
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <p>Enable or disable smooth scroll on browsers that do not have smooth scroll built in (google chrome)</p>
+        </div>
+        <div class="td-box-row-margin-bottom"></div>
+    </div>
+    <!-- Stretch background -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">SMOOTH SCROLL</span>
+            <p>Disable or enable smooth scroll</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_smooth_scroll',
+                'true_value' => 'yes',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+<?php echo td_panel_generator::box_end();?>
 
 
 
