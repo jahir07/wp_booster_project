@@ -1488,6 +1488,7 @@ title one row controls
 .vc_modal-content #td_block_18,
 .vc_modal-content #td_block_19,
 .vc_modal-content #td_block_20,
+.vc_modal-content #td_block_21,
 .vc_modal-content #td_block_big_grid,
 .vc_modal-content #td_block_big_grid_1,
 .vc_modal-content #td_block_big_grid_2,
@@ -1530,6 +1531,7 @@ title one row controls
 .icon-pagebuilder-td_block_18,
 .icon-pagebuilder-td_block_19,
 .icon-pagebuilder-td_block_20,
+.icon-pagebuilder-td_block_21,
 .icon-pagebuilder-slide,
 .icon-pagebuilder-td_block_big_grid,
 .icon-pagebuilder-td_block_big_grid_1,
@@ -1576,6 +1578,7 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td_block_18,
 .wpb_element_title .icon-pagebuilder-td_block_19,
 .wpb_element_title .icon-pagebuilder-td_block_20,
+.wpb_element_title .icon-pagebuilder-td_block_21,
 .wpb_element_title .icon-pagebuilder-slide,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_1,
@@ -1618,6 +1621,7 @@ title one row controls
 .td_block_18 .wpb_element_wrapper div,
 .td_block_19 .wpb_element_wrapper div,
 .td_block_20 .wpb_element_wrapper div,
+.td_block_21 .wpb_element_wrapper div,
 .td_block_big_grid .wpb_element_wrapper div,
 .td_block_big_grid_1 .wpb_element_wrapper div,
 .td_block_big_grid_2 .wpb_element_wrapper div,
@@ -1661,6 +1665,7 @@ title one row controls
 .td_block_18 .wpb_element_wrapper div[name="custom_title"],
 .td_block_19 .wpb_element_wrapper div[name="custom_title"],
 .td_block_20 .wpb_element_wrapper div[name="custom_title"],
+.td_block_21 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_1 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_2 .wpb_element_wrapper div[name="custom_title"],
@@ -1745,6 +1750,9 @@ title one row controls
 }
 .icon-pagebuilder-td_block_20 {
   background-image: url('../../../../images/pagebuilder/block20.png') !important;
+}
+.icon-pagebuilder-td_block_21 {
+  background-image: url('../../../../images/pagebuilder/block21.png') !important;
 }
 .icon-pagebuilder-td_block_trending_now {
   background-image: url('../../../../images/pagebuilder/news-ticker.png') !important;

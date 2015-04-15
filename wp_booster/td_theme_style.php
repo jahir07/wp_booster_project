@@ -3,7 +3,7 @@
  * td_style_customizer.js is added in td_global.php -> $js_files array @see td_global.php
 */
 
-//the bottom code for analitics and stuff
+//the bottom code for analytics and stuff
 function td_theme_style_footer() {
     ?>
     <div id="td-theme-settings" class="td-theme-settings-small">
