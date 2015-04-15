@@ -63,7 +63,7 @@ class td_panel_generator {
         }
 
         //return the damn input
-        return '<input type="text" class="td-panel-input" name="' . self::generate_name($params_array) . '" value="' . stripcslashes(htmlspecialchars(td_panel_data_source::read($params_array), ENT_QUOTES)) . '" ' . $placeholder . '/>';
+        return '<input type="text" class="td-panel-input" name="' . self::generate_name($params_array) . '" value="' . esc_attr(strip_tags(stripcslashes(td_panel_data_source::read($params_array)))) . '" ' . $placeholder . '/>';
     }
 
 

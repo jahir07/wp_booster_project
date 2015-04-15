@@ -226,10 +226,6 @@ class td_panel_data_source {
      */
     private static function update_td_ads($wp_option_array) {
 
-
-        //temp vars
-        $ad_code = $explode_ad_code = '';
-
         //pass tru the array, check what type it is, extract the info about it, if google ad
         foreach($wp_option_array as $box_add => $values){
             if(!empty($values['ad_code'])) {
@@ -273,26 +269,26 @@ class td_panel_data_source {
                 } else {
                     $wp_option_array[$box_add]['current_ad_type'] = 'other';
                 }
-            }else {
+            } else {
+                //@todo move this to the td_options data source
+                // here we handle empty values
                 if($box_add == 'background_click') {
 	                //check if we have something in the link input
 	                $link = trim($values['link']);
-
-	                if(empty($link)){
-		                //remove if no link
-		                unset($wp_option_array[$box_add]);
-	                } else {
-		                $wp_option_array[$box_add]['link'] = esc_attr(strip_tags($values['link']));
+	                if(!empty($link)){
+                        $wp_option_array[$box_add]['link'] = $values['link'];
 	                }
-                } else {
-                    //remove if no ad code
-                    unset($wp_option_array[$box_add]);
                 }
             }
         }
 
+        foreach($wp_option_array as $box_add => $values){
+            td_global::$td_options['td_ads'][$box_add] = $values;
+        }
+
+
         //print_r($wp_option_array);
-        td_global::$td_options['td_ads'] = $wp_option_array;
+        //td_global::$td_options['td_ads'] = $wp_option_array;
     }
 
 
@@ -465,7 +461,7 @@ class td_panel_data_source {
     }
 
 
-    public function update_td_social_networks($social_networks_array) {
+    public static function update_td_social_networks($social_networks_array) {
         $save_social_networks = array();
 
         foreach ($social_networks_array as $social_net_id => $social_net_link) {
@@ -481,6 +477,7 @@ class td_panel_data_source {
     /**
      * insert user fonts
      * @param $user_font_option_array
+     * @return bool
      */
     public static function insert_in_system_fonts_user($user_font_option_array) {
         //save the inserted user fonts into themes td_options
