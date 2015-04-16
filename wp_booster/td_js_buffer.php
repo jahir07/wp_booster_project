@@ -19,8 +19,12 @@ class td_js_buffer {
     }
 
 
+    /**
+     * @param $var string the full javascript name
+     * @param $value mixed the value to assign to the javascript variable - the value is json_encode'd
+     */
     static function add_variable($var, $value) {
-        self::$js_variables_buffer .= "\n" .'var ' . $var . '="' . $value . '";';
+        self::$js_variables_buffer .= "\n" .'var ' . $var . '=' . json_encode($value) . ';';
     }
 
     //renders the variables + custom js

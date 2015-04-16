@@ -9,10 +9,10 @@ function td_js_generator() {
 
     td_js_buffer::add_variable('td_search_url', get_search_link());
 
-    td_js_buffer::add_variable('td_please_wait', str_replace(array('"', "'"), array('`'),__td("Please wait...")));
-    td_js_buffer::add_variable('td_email_user_pass_incorrect', str_replace(array('"', "'"), array('`'),__td("User or password incorrect!")));
-    td_js_buffer::add_variable('td_email_user_incorrect', str_replace(array('"', "'"), array('`'),__td("Email or username incorrect!")));
-    td_js_buffer::add_variable('td_email_incorrect', str_replace(array('"', "'"), array('`'),__td("Email incorrect!")));
+    td_js_buffer::add_variable('td_please_wait', __td("Please wait..."));
+    td_js_buffer::add_variable('td_email_user_pass_incorrect', __td("User or password incorrect!"));
+    td_js_buffer::add_variable('td_email_user_incorrect', __td("Email or username incorrect!"));
+    td_js_buffer::add_variable('td_email_incorrect', __td("Email incorrect!"));
 
     //use for more articles on post pages
     td_js_buffer::add_variable('tds_more_articles_on_post_enable', td_util::get_option('tds_more_articles_on_post_pages_enable'));

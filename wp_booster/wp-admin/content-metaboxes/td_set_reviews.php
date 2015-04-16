@@ -18,7 +18,7 @@
 
 
     <div class="rating_type rate_Stars">
-        <div><strong>Add star ratings for this product:</strong></div>
+        <div><strong>Add star ratings for this product:</strong><p></p></div>
         <div class="my_meta_control td-not-home">
             <?php while($mb->have_fields_and_multi('p_review_stars')): ?>
             <?php $mb->the_group_open(); ?>
@@ -55,7 +55,7 @@
 
 
     <div class="rating_type rate_Percentages">
-        <div><strong>Add percent ratings for this product:</strong></div>
+        <div><strong>Add percent ratings for this product:</strong><p></p></div>
         <div class="my_meta_control td-not-home">
             <?php while($mb->have_fields_and_multi('p_review_percents')): ?>
                 <?php $mb->the_group_open(); ?>
@@ -79,7 +79,10 @@
 
 
     <div class="rating_type rate_Points">
-        <div><strong>Add points ratings for this product:</strong></div>
+        <div>
+            <strong>Add points ratings for this product:</strong>
+            <p><strong>Note:</strong> The points range is between 1 and 10.</p>
+        </div>
         <div class="my_meta_control td-not-home">
             <?php while($mb->have_fields_and_multi('p_review_points')): ?>
                 <?php $mb->the_group_open(); ?>

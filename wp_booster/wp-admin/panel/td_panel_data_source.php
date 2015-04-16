@@ -133,7 +133,8 @@ class td_panel_data_source {
     /*
      * Updates all the settings for all of the types  [setting_type][etc]
      * this called at the end of this file
-     * this function updates the form - first it reads all the settings from wordpress and then it saves them after the update
+     * this function updates the form - first it reads all the settings from WordPress and then it saves them after the update
+     * NOTICE! $_POST is altered by WordPress and it has slashes added to "
     */
     static function update() {
 
@@ -145,6 +146,7 @@ class td_panel_data_source {
             save the data
          */
 
+        //print_r($_POST);
         foreach ($_POST as $post_data_source => $post_value) {
             switch ($post_data_source) {
 
@@ -273,6 +275,7 @@ class td_panel_data_source {
                 //@todo move this to the td_options data source
                 // here we handle empty values
                 if($box_add == 'background_click') {
+                    //print_r($values);
 	                //check if we have something in the link input
 	                $link = trim($values['link']);
 	                if(!empty($link)){
