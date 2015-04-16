@@ -12,7 +12,7 @@ class td_tagdiv_ads {
 
         //adds the javascript variables with background click options
         if(!empty($this->background_click_td_option_array['background_click']['link'])) {
-            td_js_buffer::add_variable('td_ad_background_click_link', $this->background_click_td_option_array['background_click']['link']);
+            td_js_buffer::add_variable('td_ad_background_click_link', stripslashes($this->background_click_td_option_array['background_click']['link'])); // the slashes are added by wp in the panel submit
         } else {
             //add empty variables to prevent errors in js (js dosn't check for undefined ! ) @todo fix this
             td_js_buffer::add_variable('td_ad_background_click_link', '');
