@@ -720,7 +720,7 @@ class td_module_single_base extends td_module {
                 $buffy .= '<div class="td-author-url"><a href="' . get_the_author_meta('user_url', $author_id) . '">' . get_the_author_meta('user_url', $author_id) . '</a></div>';
             }
 
-            $buffy .= '<div>';
+            $buffy .= '<div class="td-author-description">';
             $buffy .=  get_the_author_meta('description', $author_id);
             $buffy .= '</div>';
 
