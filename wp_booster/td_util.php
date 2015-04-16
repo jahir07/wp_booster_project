@@ -214,6 +214,12 @@ class td_util {
 
 
     //converts a sidebar name to an id that can be used by word press
+    /**
+     * @todo https://github.com/opradu/newspaper/issues/630
+     * @todo the name has issues with multiple spaces, one after another:  "  " -> "--" wp has problems with -- in name
+     * @param $sidebar_name
+     * @return string
+     */
     static function sidebar_name_to_id($sidebar_name) {
         $clean_name = str_replace(array(' '), '-', trim($sidebar_name));
         $clean_name = str_replace(array("'", '"'), '', trim($clean_name));
