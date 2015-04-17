@@ -191,11 +191,24 @@ class td_video_playlist_support {
 
 						// end - old youtube v2
 
-						$response = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id=' . $id_video . '&part=id,contentDetails,snippet&key=AIzaSyBneuqXGHEXQiJlWUOv23_FA4CzpsHaS6I');
+		                $response = wp_remote_get('https://www.googleapis.com/youtube/v3/videos?id=' . $id_video . '&part=id,contentDetails,snippet&key=AIzaSyBneuqXGHEXQiJlWUOv23_FA4CzpsHaS6I', array(
+							'sslverify' => false
+						));
 
-	                    $obj = json_decode($response, true);
-	                    $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
-						$duration = @$obj['items'][0]['contentDetails']['duration'];
+		                if (is_wp_error($response)) {
+			                break;
+		                }
+
+						$data = wp_remote_retrieve_body($response);
+
+		                if (is_wp_error($data)) {
+			                break;
+		                }
+
+						$obj = json_decode($data, true);
+
+						$buffy[$id_video]['thumb'] = 'http://img.youtube.com/vi/' . $id_video . '/default.jpg';
+						$duration = $obj['items'][0]['contentDetails']['duration'];
 
 						if (!empty($duration)) {
 							preg_match('/(\d+)H/', $duration, $match);
@@ -215,7 +228,7 @@ class td_video_playlist_support {
                         break;
 
                     case 'vimeo_ids':
-                        $html_returned = unserialize(wp_remote_fopen(td_global::$http_or_https . '://vimeo.com/api/v2/video/' . $id_video . '.php'));
+                        $html_returned = unserialize(wp_remote_fopen('http://vimeo.com/api/v2/video/' . $id_video . '.php'));
 
                         $buffy[$id_video]['thumb'] = $html_returned[0]['thumbnail_small'];
                         $buffy[$id_video]['title'] = $html_returned[0]['title'];  //@todo htmlentities should be used when the title is displayed, not here
