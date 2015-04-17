@@ -138,12 +138,14 @@ function td_trending_now_change_text(array_param, to_right) {
     td_trending_now_object[wrapper_id_for_nav + '_position'] = posts_array_list_position;
 
     posts_array_list_for_this_trend[previous_post_array_list_position].css('opacity', 0);
+    posts_array_list_for_this_trend[previous_post_array_list_position].css('z-index', 0);
 
     for (var trending_post in posts_array_list_for_this_trend) {
         posts_array_list_for_this_trend[trending_post].removeClass('animated_xlong fadeInLeft fadeInRight fadeOutLeft fadeOutRight');
     }
 
     posts_array_list_for_this_trend[posts_array_list_position].css('opacity', 1);
+    posts_array_list_for_this_trend[posts_array_list_position].css('z-index', 1);
 
     if (to_right === true) {
 
