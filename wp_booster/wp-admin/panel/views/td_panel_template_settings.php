@@ -129,6 +129,7 @@
         <div class="td-box-description td-box-full">
             <p>The effect animation allows you to animate your theme images as you scroll, from top to the bottom.
                 It applies even on the next and prev operations creating an effect of loading images to the right or to the left.</p>
+	        <p>Exceeding the limit of <b>2 sec</b> for loading all images, the lazy animation effect is canceled. This rule is also available at block's loading content using ajax, if the animation is enabled.</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
