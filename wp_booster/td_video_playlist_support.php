@@ -180,30 +180,35 @@ class td_video_playlist_support {
                 //get the info data for video
                 switch ($video_provider) {
                     case 'youtube_ids':
-                        $response = wp_remote_fopen(td_global::$http_or_https . '://gdata.youtube.com/feeds/api/videos/' . $id_video . '?format=5&alt=json');
-                        $obj = json_decode($response, true);
-                        $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
-                        $buffy[$id_video]['title'] = $obj['entry']['media$group']['media$title']['$t']; //@todo htmlentities should be used when the title is displayed, not here
-                        $buffy[$id_video]['time'] = gmdate("H:i:s", intval($obj['entry']['media$group']['yt$duration']['seconds']));
 
-//						$response = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id=' . $id_video . '&part=id,contentDetails,snippet&key=AIzaSyCaCpuS5LaTK6vaGja4d_A_Fx_OqyQqXjM');
-//
-//	                    $obj = json_decode($response, true);
-//	                    $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
-//						$duration = $obj['items'][0]['contentDetails']['duration'];
-//
-//		                preg_match('/(\d+)H/', $duration, $match);
-//		                $h = $match[0] ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
-//
-//		                preg_match('/(\d+)M/', $duration, $match);
-//		                $m = $match[0] ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
-//
-//		                preg_match('/(\d+)S/', $duration, $match);
-//		                $s = $match[0] ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
-//
-//		                $buffy[$id_video]['title'] = $obj['items'][0]['snippet']['title'];
-//
-//	                    $buffy[$id_video]['time'] = gmdate("H:i:s", intval($h * 3600 + $m * 60  + $s));
+						// start - old youtube v2
+
+//                        $response = wp_remote_fopen(td_global::$http_or_https . '://gdata.youtube.com/feeds/api/videos/' . $id_video . '?format=5&alt=json');
+//                        $obj = json_decode($response, true);
+//                        $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
+//                        $buffy[$id_video]['title'] = $obj['entry']['media$group']['media$title']['$t'];
+//                        $buffy[$id_video]['time'] = gmdate("H:i:s", intval($obj['entry']['media$group']['yt$duration']['seconds']));
+
+						// end - old youtube v2
+
+						$response = file_get_contents('https://www.googleapis.com/youtube/v3/videos?id=' . $id_video . '&part=id,contentDetails,snippet&key=AIzaSyBneuqXGHEXQiJlWUOv23_FA4CzpsHaS6I');
+
+	                    $obj = json_decode($response, true);
+	                    $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
+						$duration = $obj['items'][0]['contentDetails']['duration'];
+
+		                preg_match('/(\d+)H/', $duration, $match);
+		                $h = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+
+		                preg_match('/(\d+)M/', $duration, $match);
+		                $m = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+
+		                preg_match('/(\d+)S/', $duration, $match);
+		                $s = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+
+		                $buffy[$id_video]['title'] = $obj['items'][0]['snippet']['title'];
+
+	                    $buffy[$id_video]['time'] = gmdate("H:i:s", intval($h * 3600 + $m * 60  + $s));
 
                         break;
 
