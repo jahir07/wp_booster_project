@@ -195,20 +195,22 @@ class td_video_playlist_support {
 
 	                    $obj = json_decode($response, true);
 	                    $buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
-						$duration = $obj['items'][0]['contentDetails']['duration'];
+						$duration = @$obj['items'][0]['contentDetails']['duration'];
 
-		                preg_match('/(\d+)H/', $duration, $match);
-		                $h = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+						if (!empty($duration)) {
+							preg_match('/(\d+)H/', $duration, $match);
+							$h = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
 
-		                preg_match('/(\d+)M/', $duration, $match);
-		                $m = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+							preg_match('/(\d+)M/', $duration, $match);
+							$m = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
 
-		                preg_match('/(\d+)S/', $duration, $match);
-		                $s = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+							preg_match('/(\d+)S/', $duration, $match);
+							$s = count($match) ? filter_var($match[0], FILTER_SANITIZE_NUMBER_INT) : 0;
 
-		                $buffy[$id_video]['title'] = $obj['items'][0]['snippet']['title'];
+							$buffy[$id_video]['title'] = $obj['items'][0]['snippet']['title'];
 
-	                    $buffy[$id_video]['time'] = gmdate("H:i:s", intval($h * 3600 + $m * 60  + $s));
+							$buffy[$id_video]['time'] = gmdate("H:i:s", intval($h * 3600 + $m * 60  + $s));
+						}
 
                         break;
 
