@@ -76,7 +76,7 @@ function td_on_ready_ajax_blocks() {
 
         // load_more is hidden if there are no more posts
         if (current_block_obj.max_num_pages <= current_block_obj.td_current_page) {
-            jQuery(this).css('opacity', 0);
+            jQuery(this).addClass('ajax-page-disabled');
         }
     });
 

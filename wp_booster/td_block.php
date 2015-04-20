@@ -212,25 +212,28 @@ class td_block {
                 break;
 
             case 'load_more':
-                $buffy .= '<div class="td-load-more-wrap">';
+	            if ($this->td_query->found_posts > $limit) {
+		            $buffy .= '<div class="td-load-more-wrap">';
                 $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more');
-                $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
-                $buffy .= '</a>';
-                $buffy .= '</div>';
+		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
+		            $buffy .= '</a>';
+		            $buffy .= '</div>';
+	            }
                 break;
 
             case 'infinite':
-                $buffy .= '<div class="td_ajax_infinite" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">';
-                $buffy .= ' ';
-                $buffy .= '</div>';
+	            if ($this->td_query->found_posts > $limit) {
+		            $buffy .= '<div class="td_ajax_infinite" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">';
+		            $buffy .= ' ';
+		            $buffy .= '</div>';
 
 
-
-                $buffy .= '<div class="td-load-more-wrap td-load-more-infinite-wrap" id="infinite-lm-' . $this->block_uid . '">';
+		            $buffy .= '<div class="td-load-more-wrap td-load-more-infinite-wrap" id="infinite-lm-' . $this->block_uid . '">';
                 $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more');
-                $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
-                $buffy .= '</a>';
-                $buffy .= '</div>';
+		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
+		            $buffy .= '</a>';
+		            $buffy .= '</div>';
+	            }
                 break;
 
         }

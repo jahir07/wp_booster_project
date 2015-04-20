@@ -147,10 +147,11 @@ jQuery('.td_ajax_infinite').each(function() {
              * show the load more button. The button is already there, hidden - do not know if it's the best solution :)
              * @see td_block::get_block_pagination  in td_block.php
              */
-            setTimeout(function(){
-                jQuery('#infinite-lm-' + current_block_obj.id).show();
-            }, 400);
-
+            if (current_block_obj.td_current_page < current_block_obj.max_num_pages) {
+                setTimeout(function(){
+                    jQuery('#infinite-lm-' + current_block_obj.id).show();
+                }, 400);
+            }
         }
 
 
