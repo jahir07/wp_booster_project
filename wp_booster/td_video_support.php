@@ -127,7 +127,7 @@ class td_video_support{
 
                 break;
             case 'dailymotion':
-                $dailyMotionApi = @file_get_contents(td_global::$http_or_https . '://api.dailymotion.com/video/' . $this->getDailymotionID($videoUrl) . '?fields=thumbnail_url');
+                $dailyMotionApi = @file_get_contents('https://api.dailymotion.com/video/' . $this->getDailymotionID($videoUrl) . '?fields=thumbnail_url');
                 $dailyMotionDecoded = @json_decode($dailyMotionApi);
                 if (!empty($dailyMotionDecoded) and !empty($dailyMotionDecoded->thumbnail_url)) {
                     return $dailyMotionDecoded->thumbnail_url;
@@ -135,7 +135,7 @@ class td_video_support{
                 //print_r($dailyMotionDecoded);
                 break;
             case 'vimeo':
-                $vimeoApi = @file_get_contents(td_global::$http_or_https . '://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
+                $vimeoApi = @file_get_contents('http://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
                 if (!empty($vimeoApi)) {
                     $vimeoApiData = @unserialize($vimeoApi);
                     if (!empty($vimeoApiData[0]['thumbnail_large'])) {
