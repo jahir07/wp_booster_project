@@ -1539,11 +1539,14 @@ function td_modify_main_query_for_category_page($query) {
 
 
 
-/* ----------------------------------------------------------------------------
- * update category shared terms - since wp 4.2 version
+/** ----------------------------------------------------------------------------
+ *  update category shared terms
+ *  @since WordPress 4.2
+ *  @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/
  */
+add_action('split_shared_term', 'td_category_split_shared_term');
 function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id, $taxonomy) {
-	if (($taxonomy === 'category') AND (isset(td_global::$td_options['category_options'][$term_id]))) {
+	if (($taxonomy === 'category') and (isset(td_global::$td_options['category_options'][$term_id]))) {
 
 		$current_settings = td_global::$td_options['category_options'][$term_id];
 		td_global::$td_options['category_options'][$new_term_id] = $current_settings;
@@ -1552,7 +1555,6 @@ function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id
 		update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 	}
 }
-add_action('split_shared_term', 'td_category_split_shared_term');
 
 
 
