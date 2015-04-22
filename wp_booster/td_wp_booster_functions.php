@@ -414,8 +414,8 @@ function td_wp_title( $title, $sep ) {
 
 
 
-/*  ----------------------------------------------------------------------------
-    archive widget - add current class
+/**  ----------------------------------------------------------------------------
+    archive widget - adds .current class in the archive widget and maybe it's used in other places too!
  */
 add_filter('get_archives_link', 'theme_get_archives_link');
 function theme_get_archives_link ( $link_html ) {
