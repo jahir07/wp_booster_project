@@ -1544,7 +1544,7 @@ function td_modify_main_query_for_category_page($query) {
  *  @since WordPress 4.2
  *  @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/
  */
-add_action('split_shared_term', 'td_category_split_shared_term');
+add_action('split_shared_term', 'td_category_split_shared_term', 10, 4);
 function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id, $taxonomy) {
 	if (($taxonomy === 'category') and (isset(td_global::$td_options['category_options'][$term_id]))) {
 
