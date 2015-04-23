@@ -798,7 +798,7 @@ function td_remove_more_link_scroll($link) {
  * visual composer rewrite classes
  * Filter to Replace default css class for vc_row shortcode and vc_column
  */
-add_filter('vc_shortcodes_css_class', 'custom_css_classes_for_vc_row_and_vc_column', 10, 2);
+//add_filter('vc_shortcodes_css_class', 'custom_css_classes_for_vc_row_and_vc_column', 10, 2);
 function custom_css_classes_for_vc_row_and_vc_column($class_string, $tag)
 {
     //vc_span4
