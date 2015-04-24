@@ -877,7 +877,7 @@ title one row controls
   margin-bottom: 26px;
 }
 .wp-picker-container input.wp-color-picker[type="text"] {
-  height: 32px;
+  height: 32px !important;
   box-shadow: none !important;
 }
 .wp-picker-container .button {
