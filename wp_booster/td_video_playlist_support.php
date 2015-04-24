@@ -207,7 +207,7 @@ class td_video_playlist_support {
 
 						$obj = json_decode($data, true);
 
-						$buffy[$id_video]['thumb'] = 'http://img.youtube.com/vi/' . $id_video . '/default.jpg';
+						$buffy[$id_video]['thumb'] = td_global::$http_or_https . '://img.youtube.com/vi/' . $id_video . '/default.jpg';
 						$duration = $obj['items'][0]['contentDetails']['duration'];
 
 						if (!empty($duration)) {
