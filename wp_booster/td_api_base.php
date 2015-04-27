@@ -30,9 +30,8 @@ class td_api_base {
             self::$components_list[$id] = $params_array;
 
         } else {
-            td_util::error(__FILE__, "td_api_base: $id already present in list");
+            td_util::error(__FILE__, "td_api_base: A component with the ID: $id it's already registered in td_api_base", self::$components_list[$id]);
         }
-
     }
 
 
@@ -78,7 +77,8 @@ class td_api_base {
             }
 
         }
-        td_util::error(__FILE__, "td_api_base::get_default  : no component of type $class_name");
+        td_util::error(__FILE__, "td_api_base::get_default : no component of type $class_name . Wp booster tried to get
+        the default component (the first registered component) but there are no components registered.");
     }
 
 
@@ -110,7 +110,8 @@ class td_api_base {
             }
 
         }
-        td_util::error(__FILE__, "td_api_base::get_default_component_id  : no component of type $class_name");
+        td_util::error(__FILE__, "td_api_base::get_default_component_id  : no component of type $class_name . Wp booster tried to get
+        the default component (the first registered component) but there are no components registered.");
     }
 
 
@@ -253,7 +254,7 @@ class td_api_base {
              * - the user is on the login page / register
              * - the user tries to log in via wp-admin (that is why is_admin() is required)
              */
-            td_util::error(__FILE__, "td_api_base::mark_used_on_page :  a component with the ID: $id is not set.");
+            td_util::error(__FILE__, "td_api_base::mark_used_on_page : a component with the ID: $id is not set.");
         }
         self::$components_list[$id][self::USED_ON_PAGE] = true;
     }
@@ -269,7 +270,7 @@ class td_api_base {
      */
     private static function check_used_on_page($id, $requested_operation) {
         if (array_key_exists(self::USED_ON_PAGE, self::$components_list[$id])) {
-            td_util::error(__FILE__, "td_api_base::check_used_on_page: You requested a $requested_operation for ID: $id BUT it's already used on page. This usually means that you are using a wrong hook - you are trying to modify the component after it already rendered / was used.");
+            td_util::error(__FILE__, "td_api_base::check_used_on_page: You requested a $requested_operation for ID: $id BUT it's already used on page. This usually means that you are using a wrong hook - you are trying to modify the component after it already rendered / was used.", self::$components_list[$id]);
         }
     }
 
