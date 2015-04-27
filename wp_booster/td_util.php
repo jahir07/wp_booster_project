@@ -776,12 +776,17 @@ class td_util {
 
 
     /**
-     * shows an error
+     * Shows a soft error. The site will run as usual if possible. If the user is logged in and has 'switch_themes'
+     * privileges this will also output the caller file path
      * @param $file - The file should be __FILE__
      * @param $msg
      */
     static function error($file, $msg) {
-        echo '<br><br>' . $msg . '<br>' . $file;
+        echo '<br><br>wp booster error:<br>';
+        echo $msg;
+        if (is_user_logged_in() and current_user_can('switch_themes')){
+            echo '<br>' . $file;
+        };
     }
 
 

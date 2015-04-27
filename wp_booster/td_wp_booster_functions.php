@@ -30,6 +30,7 @@ require_once('td_api_single_template.php');
 require_once('td_api_smart_list.php');
 require_once('td_api_thumb.php');
 require_once('td_api_top_bar_template.php');
+require_once('td_api_tinymce_formats.php');
 /* @td_end_get_inline */
 
 do_action('td_global_after');

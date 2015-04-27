@@ -30,7 +30,7 @@ class td_api_base {
             self::$components_list[$id] = $params_array;
 
         } else {
-            throw new ErrorException("td_api_base: $id already present in list");
+            td_util::error(__FILE__, "td_api_base: $id already present in list");
         }
 
     }
@@ -78,7 +78,7 @@ class td_api_base {
             }
 
         }
-        throw new ErrorException("td_api_base::get_default  : no component of type $class_name");
+        td_util::error(__FILE__, "td_api_base::get_default  : no component of type $class_name");
     }
 
 
@@ -110,7 +110,7 @@ class td_api_base {
             }
 
         }
-        throw new ErrorException("td_api_base::get_default_component_id  : no component of type $class_name");
+        td_util::error(__FILE__, "td_api_base::get_default_component_id  : no component of type $class_name");
     }
 
 
@@ -165,7 +165,7 @@ class td_api_base {
      * @throws ErrorException The error exception thrown by check_used_on_page method call
      */
     static function update_component($class_name, $id, $params_array) {
-        self::check_used_on_page($id);
+        self::check_used_on_page($id, 'update');
 	    $params_array[self::TYPE] = $class_name;
         self::$components_list[$id] = $params_array;
     }
@@ -187,7 +187,7 @@ class td_api_base {
      * @throws ErrorException The error exception thrown by check_used_on_page method call
      */
     static function update_key($id, $key, $value) {
-        self::check_used_on_page($id);
+        self::check_used_on_page($id, 'update_key');
         self::$components_list[$id][$key] = $value;
     }
 
@@ -206,7 +206,7 @@ class td_api_base {
      * @throws ErrorException The error exception thrown by check_used_on_page method call
      */
     static function delete($id) {
-        self::check_used_on_page($id);
+        self::check_used_on_page($id, 'delete');
         unset(self::$components_list[$id]);
     }
 
@@ -253,29 +253,23 @@ class td_api_base {
              * - the user is on the login page / register
              * - the user tries to log in via wp-admin (that is why is_admin() is required)
              */
-            if (is_user_logged_in() or is_admin() or in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
-                td_util::error(__FILE__, "td_api_base: $id is not set. A component with the id $id is missing. This can be due to an older plugin.");
-            } else {
-                throw new ErrorException("td_api_base::mark_used_on_page : a component with the ID: [$id] is not set");
-            }
-
+            td_util::error(__FILE__, "td_api_base::mark_used_on_page :  a component with the ID: $id is not set.");
         }
         self::$components_list[$id][self::USED_ON_PAGE] = true;
     }
-
 
 
     /**
      * This method check the self::USED_ON_PAGE flag for the ($class_name, $id) key and it throws an exception
      * if it's already set, that means the settings are already used to build a component in the user interface.
      *
-     * @param $class_name string The array key in self::$component_list
      * @param $id string The array key in the self::$component_list[$class_name]
-     * @throws ErrorException The error thrown when the self::USED_ON_PAGE flag is already set
+     * @param $requested_operation string (delete|update|update_key)
+     * @internal param string $class_name The array key in self::$component_list
      */
-    private static function check_used_on_page($id) {
+    private static function check_used_on_page($id, $requested_operation) {
         if (array_key_exists(self::USED_ON_PAGE, self::$components_list[$id])) {
-            throw new ErrorException("td_api_base: $id is already used on page");
+            td_util::error(__FILE__, "td_api_base::check_used_on_page: You requested a $requested_operation for ID: $id BUT it's already used on page. This usually means that you are using a wrong hook - you are trying to modify the component after it already rendered / was used.");
         }
     }
 

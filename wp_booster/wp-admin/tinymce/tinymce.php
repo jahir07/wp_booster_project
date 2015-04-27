@@ -46,6 +46,8 @@ function td_mce_before_init_insert_formats( $init_array ) {
     // Insert the array, JSON ENCODED, into 'style_formats'
     $init_array['style_formats'] = json_encode( td_global::$tiny_mce_style_formats );
 
+
+    //print_r($init_array);
     return $init_array;
 
 }
