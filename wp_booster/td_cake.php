@@ -373,7 +373,7 @@ class td_cake {
              */
         </script>
         <div class="error">
-            <p><?php echo '<strong style="color:red"> --- Please activate the theme! --- </strong> <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at activate@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
+            <p><?php echo '<strong style="color:red"> --- Please activate the theme! --- </strong> <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
         </div>
     <?php
     }
@@ -382,7 +382,7 @@ class td_cake {
     function td_cake_msg() {
         ?>
         <div class="updated">
-            <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at activate@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
+            <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
         </div>
     <?php
     }
