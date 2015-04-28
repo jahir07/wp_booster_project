@@ -6,22 +6,231 @@
  */
 
 
+$background_params = array (
+    'is_boxed_layout' => false,
+    'is_stretched_bg' => true,
+    'theme_bg_image' => 'http://0div.com:69/wp_011/wp-content/uploads/2015/03/4ec0a389-d9a8-4f87-b84a-6daccdbab12d.jpg',
+    'theme_bg_repeat' => '',
+    'theme_bg_position' => '',
+    'theme_bg_attachment' => '',
+    'theme_bg_color' => '',
+);
+//$td_background_render = new td_background_render($background_params);
+
+
+
+class td_background_render {
+
+    // here we store the background parameters
+    private $background_parameters = array();
+
+
+    /**
+     * all the data transfer happens from this constructor. The class will make sure to apply the settings on WP
+     * @param $background_parameters
+     *        array (
+     *            'is_boxed_layout' => false,
+     *            'is_stretched_bg' => true,
+     *            'theme_bg_image' => '',
+     *            'theme_bg_repeat' => '',
+     *            'theme_bg_position' => '',
+     *            'theme_bg_attachment' => '',
+     *            'theme_bg_color' => '',
+     *        );
+     *
+     */
+    function __construct($background_parameters) {
+        $this->background_parameters = $background_parameters;
+
+        // all the needed js and css is generated via our own filters that register on wp_head
+        // @legacy we have to hook our filters to wp_head action - for them to work in theme customizer.
+        // The theme does not use the theme customizer now but we may switch back
+        add_action('wp_head', array($this, 'wp_head_hook'), 10);
+
+        // here we manipulate the body_class-es, we remove the WordPress ones and add our own + boxed version class
+        add_filter('body_class', array($this,'add_slug_to_body_class'));
+    }
+
+
+
+    function wp_head_hook() {
+        if ($this->background_parameters['theme_bg_image'] != '' or  $this->background_parameters['theme_bg_color'] != '') {
+            add_filter( 'td_css_buffer_render', array($this, 'add_css_custom_background'));
+        }
+
+        if ($this->background_parameters['is_stretched_bg'] == true) {
+            add_filter( 'td_js_buffer_footer_render', array($this, 'add_js_hook'));
+        }
+    }
+
+
+    /**
+     * we emulate the WordPress background function using our own setting
+     * @param $css string - the existing css rendered by wp booster
+     * @return string - the new css
+     */
+    function add_css_custom_background($css) {
+        $css .= "\n" . "body {";
+
+        //color handling
+        if (!empty($this->background_parameters['theme_bg_color'])) {
+            $css.= "\n" . 'background-color:' . $this->background_parameters['theme_bg_color'] . ';';
+        }
+
+        //image handling; if there is no image stretching
+        if(!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == false) {
+
+            //add the image
+            $css.= "\n" . "background-image:url('" . $this->background_parameters['theme_bg_image'] . "');";
+
+            //repeat image option
+            switch ($this->background_parameters['theme_bg_repeat']) {
+                case '':
+                    $css.= "\n" . 'background-repeat:no-repeat;';
+                    break;
+
+                case 'repeat':
+                    //$css.= "\n" . 'background-repeat:repeat;';//default value `background-repeat`
+                    break;
+
+                case 'repeat-x':
+                    $css.= "\n" . 'background-repeat:repeat-x;';
+                    break;
+
+                case 'repeat-y':
+                    $css.= "\n" . 'background-repeat:repeat-y;';
+                    break;
+            }//end switch
+
+
+            //position image option
+            switch ($this->background_parameters['theme_bg_position']) {
+                case '':
+                    //$css.= "\n" . 'background-position:left top;';//default value `background-position`
+                    break;
+
+                case 'center':
+                    $css.= "\n" . 'background-position:center top;';
+                    break;
+
+                case 'right':
+                    $css.= "\n" . 'background-position:right top;';
+                    break;
+            }//end switch
+
+
+            //background attachment options
+            switch ($this->background_parameters['theme_bg_attachment']) {
+                case '':
+                    //$css.= "\n" . 'background-attachment:scroll;';//default value `background-attachment`
+                    break;
+
+                case 'fixed':
+                    $css.= "\n" . 'background-attachment:fixed;';
+                    break;
+            }//end switch
+        }
+
+        return $css . "
+                    }";
+    }
+
+
+
+    //custom background js
+    function add_js_hook($js) {
+        if (!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == true) {
+            ob_start();
+            // @todo chestia asta ar trebuii trecuta pe flag sau ceva in td_config ?
+            ?>
+
+            <script>
+
+                jQuery(window).ready(function() {
+
+                    // if the theme has td_backstr support, it means this already uses it
+                    if (typeof window.td_backstr !== 'undefined') {
+
+                        (function(){
+
+                            // the site background td-backstretch jquery object is dynamically added in DOM, and after any translation effects are applied over td-backstretch
+                            var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
+                            var image_jquery_obj = jQuery('<img class=\'td-backstretch\' src=\'<?php echo $this->background_parameters['theme_bg_image']; ?>\'>');
+
+                            wrapper_image_jquery_obj.append(image_jquery_obj);
+
+                            jQuery('body').prepend(wrapper_image_jquery_obj);
+
+                            var td_backstr_item = new td_backstr.item();
+
+                            td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj;
+                            td_backstr_item.image_jquery_obj = image_jquery_obj;
+
+                            td_backstr.add_item(td_backstr_item);
+
+                        })();
+
+                    } else {
+
+                        // - this is the old backstretch jquery plugin call
+                        // - td_backstretch.js is in wp_booster, so it is still used by the themes that don't use new td_backstr.js
+                        jQuery.backstretch('<?php echo $this->background_parameters['theme_bg_image']; ?>', {fade:1200, centeredY:false});
+                    }
+                });
+
+            </script>
+            <?php
+            $buffer = ob_get_clean();
+            $js .= "\n". td_util::remove_script_tag($buffer);
+        } //end if
+
+        return $js;
+    }
+
+
+
+    /**
+     * Adds the boxed layout or full layout classes
+     * @param $classes
+     * @return array
+     */
+    function add_slug_to_body_class($classes) {
+        if ($this->background_parameters['is_boxed_layout']) {
+            $classes[] = 'td-boxed-layout';
+        } else {
+            $classes[] = 'td-full-layout';
+        }
+        return $classes;
+    }
+
+}
+
+
+
 
 class td_background {
 
-    //if it's a the box version of the theme (we have bg color or a bg)
-    var $is_boxed_layout = false;
 
-    //if it's a stretched background
-    var $is_stretched_bg = false;
+    /**
+     * is true if it's a the box version of the theme (we have background color or a background image)
+     * @var bool
+     */
+    public $is_boxed_layout = false;
+
+
+    /**
+     * if true, the theme will use the stretched background. Newsmag and Newspaper use different versions of the backstratch now.
+     * @var bool
+     */
+    public $is_stretched_bg = false;
 
     //the background image of the theme; this will be overwritten by category settings if on category or post page
-    var $theme_bg_image = '';
+    public $theme_bg_image = '';
 
     //background image options
-    var $theme_bg_repeat = '';
-    var $theme_bg_position = '';
-    var $theme_bg_attachment = '';
+    public $theme_bg_repeat = '';
+    public $theme_bg_position = '';
+    public $theme_bg_attachment = '';
 
 
     //the background color of the theme; this will be overwritten by category settings if on category or post page
@@ -29,6 +238,9 @@ class td_background {
 
 
     function __construct() {
+
+
+
         add_action('wp_head', array($this, 'wp_head_hook'), 10);
 
         //clean up the wp custom-background class if needed
@@ -43,19 +255,6 @@ class td_background {
         $category_id = 0;
 
 
-        //background settings (color and images) for pages (except categories and post that are in a category)
-        $this->theme_bg_image = td_util::get_option('tds_site_background_image');
-        $this->theme_bg_color = td_util::get_option('tds_site_background_color');
-
-        //background image options
-        $this->theme_bg_repeat = td_util::get_option('tds_site_background_repeat');
-        $this->theme_bg_position = td_util::get_option('tds_site_background_position_x');
-        $this->theme_bg_attachment = td_util::get_option('tds_site_background_attachment');
-
-        //setting variable : is_stretched_bg
-        if (td_util::get_option('tds_stretch_background') == 'yes') {
-            $this->is_stretched_bg = true;
-        }
 
 
         //background settings for category and post page (post that are in a category)
@@ -212,6 +411,9 @@ class td_background {
 
 		    ob_start();
 
+
+            // @todo chestia asta ar trebuii trecuta pe flag sau ceva in td_config ?
+
 		    ?>
 
 		    <script>
@@ -314,7 +516,12 @@ function td_check_template_before_header() {
         }
 
         //this check is used (instead of is_page($post->ID) wordpress function), because not all of is_page() properties are set this early in wordpress workflow(when wp hook is run) and theme pagination was not working
-        if (!empty($wp_query->posts[0]->post_type) and $wp_query->posts[0]->post_type == 'page' and !empty($wp_query->posts[0]->ID) and $wp_query->posts[0]->ID == $post->ID) {
+        if (
+            !empty($wp_query->posts[0]->post_type)
+            and $wp_query->posts[0]->post_type == 'page'
+            and !empty($wp_query->posts[0]->ID)
+            and $wp_query->posts[0]->ID == $post->ID
+        ) {
             $page_content = get_post($post->ID);//get the page content; usually this are js_Visual_Composer made shortcodes
 
             //print_r($page_content);
@@ -337,7 +544,24 @@ function td_check_template_before_header() {
 
     //run the background class if necessary
     if($flag_initialize_background){
-        new td_background();
+        $td_background  = new td_background();
+
+
+        //background settings (color and images) for pages (except categories and post that are in a category)
+        $td_background->theme_bg_image = td_util::get_option('tds_site_background_image');
+        $td_background->theme_bg_color = td_util::get_option('tds_site_background_color');
+
+        //setting variable : is_stretched_bg
+        if (td_util::get_option('tds_stretch_background') == 'yes') {
+            $td_background->is_stretched_bg = true;
+        }
+
+        // WordPress normal background positions settings (used when the background is not stretched)
+        $td_background->theme_bg_repeat = td_util::get_option('tds_site_background_repeat');
+        $td_background->theme_bg_position = td_util::get_option('tds_site_background_position_x');
+        $td_background->theme_bg_attachment = td_util::get_option('tds_site_background_attachment');
+
+
     }
 
 }
@@ -351,6 +575,6 @@ function td_check_template_before_header() {
  * This hook is one effective place to perform any high-level filtering or validation,
  * following queries, but before WordPress does any routing, processing, or handling
 */
-add_action('wp', 'td_check_template_before_header');
+//add_action('wp', 'td_check_template_before_header');
 
 
