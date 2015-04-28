@@ -31,6 +31,7 @@ require_once('td_api_smart_list.php');
 require_once('td_api_thumb.php');
 require_once('td_api_top_bar_template.php');
 require_once('td_api_tinymce_formats.php');
+require_once('td_api_autoload.php');
 /* @td_end_get_inline */
 
 do_action('td_global_after');
@@ -55,7 +56,6 @@ require_once('td_module.php');           // module builder
 require_once('td_module_single_base.php');           // module single builder
 require_once('td_block.php');            // block builder
 require_once('td_cake.php');
-require_once('td_ads.php');       //handles background click ad
 require_once('td_widget_builder.php');  // widget builder
 require_once('td_first_install.php');  //the code that runs on the first install of the theme
 require_once("td_fonts.php"); //fonts support
@@ -64,14 +64,25 @@ require_once('td_video_support.php');  // video thumbnail support
 require_once('td_video_playlist_support.php'); //video playlist support
 require_once('td_css_buffer.php'); // css buffer class
 require_once('td_js_generator.php');  // ~ app config ~ css generator
-require_once('td_background.php');  //the background support
+
 require_once('td_demo_site.php');  // the demo site
 require_once('td_smart_list.php');  //the smart lists
 require_once('td_generic_filter_builder.php');  // generic filter buider class
 require_once('td_login.php');  // modal window for user login
 require_once('td_more_article_box.php');  //handles more articles box
 require_once('td_block_widget.php');  //used to make widgets from our blocks
+
+
+
+// Every class after this (that has td_ in the name) is auto loaded
 require_once('td_autoload_classes.php');  //used to autoload classes [modules, blocks]
+
+
+// add auto loading classes
+td_api_autoload::add('td_background_render', td_global::$get_template_directory . '/includes/wp_booster/td_background_render.php');
+
+require_once('td_background.php');  //the background support
+
 
 
 /*

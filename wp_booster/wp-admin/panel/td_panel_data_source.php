@@ -271,27 +271,13 @@ class td_panel_data_source {
                 } else {
                     $wp_option_array[$box_add]['current_ad_type'] = 'other';
                 }
-            } else {
-                //@todo move this to the td_options data source
-                // here we handle empty values
-                if($box_add == 'background_click') {
-                    //print_r($values);
-	                //check if we have something in the link input
-	                $link = trim($values['link']);
-	                if(!empty($link)){
-                        $wp_option_array[$box_add]['link'] = $values['link'];
-	                }
-                }
-            }
-        }
+            }   // end ad_code if
+        }       // end for each
 
         foreach($wp_option_array as $box_add => $values){
             td_global::$td_options['td_ads'][$box_add] = $values;
         }
 
-
-        //print_r($wp_option_array);
-        //td_global::$td_options['td_ads'] = $wp_option_array;
     }
 
 
