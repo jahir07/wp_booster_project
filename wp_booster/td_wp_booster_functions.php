@@ -344,29 +344,7 @@ function hook_wp_head() {
 
 
 
-	td_js_buffer::add("
 
-		(function(){
-			var html_jquery_obj = jQuery('html');
-
-			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
-
-				jQuery.get('wp-content/themes/010/td_less_style.css.php', function(data) {
-
-				    var arr_splits = data.split('#td_css_split_separator');
-
-				    var arr_length = arr_splits.length;
-
-				    if (arr_length > 1) {
-					    for (var i = 0; i < arr_length; i++) {
-
-				            jQuery('head').append(\"<style>\" + arr_splits[i] + \"</style>\");
-				        }
-				    }
-			    });
-			}
-		})();
-	");
 
 
 	// lazy loading images - animation effect
