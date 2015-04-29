@@ -20,7 +20,6 @@ class td_background_render {
      *            'theme_bg_position' => '',
      *            'theme_bg_attachment' => '',
      *            'theme_bg_color' => '',
-     *
      *            //the background ad support was merged with this from td_ads.php
      *            'td_ad_background_click_link' => '',
      *            'td_ad_background_click_target' => ''
@@ -32,9 +31,22 @@ class td_background_render {
         // save a local copy
         $this->background_parameters = $background_parameters;
 
-        // background ad variables
-        td_js_buffer::add_variable('td_ad_background_click_link', $this->background_parameters['td_ad_background_click_link']);
-        td_js_buffer::add_variable('td_ad_background_click_target', $this->background_parameters['td_ad_background_click_target']);
+
+        //adds the javascript variables with background click options
+        if(!empty($this->background_parameters['td_ad_background_click_link'])) {
+            td_js_buffer::add_variable('td_ad_background_click_link', stripslashes($this->background_parameters['td_ad_background_click_link'])); // the slashes are added by wp in the panel submit
+        } else {
+            //add empty variables to prevent errors in js (js dosn't check for undefined ! ) @todo fix this
+            td_js_buffer::add_variable('td_ad_background_click_link', '');
+        }
+
+        //adds the javascript variables with background click options
+        if(!empty($this->background_parameters['td_ad_background_click_target'])) {
+            td_js_buffer::add_variable('td_ad_background_click_target', $this->background_parameters['td_ad_background_click_target']);
+        } else {
+            //add empty variables to prevent errors in js (js dosn't check for undefined ! ) @todo fix this
+            td_js_buffer::add_variable('td_ad_background_click_target', '');
+        }
 
 
 
