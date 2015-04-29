@@ -1,7 +1,5 @@
 <?php
-
-function td_js_buffer_render_filter($js) {
-    return $js . "\n" . "
+td_js_buffer::add_to_header("\n" . "
 
 //themeforest iframe removal code - used only on demo
 var td_is_safari = false;
@@ -35,7 +33,4 @@ if(td_is_ios || td_is_safari || td_is_windows_phone || td_is_android) {
         top.location.replace('" . TD_THEME_DEMO_URL . "/');
     }
 }
-    ";
-}
-add_filter( 'td_js_buffer_render', 'td_js_buffer_render_filter');
-
+    ");

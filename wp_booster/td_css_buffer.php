@@ -49,9 +49,7 @@ class td_css_buffer {
 
     static function _render_header() {
         self::$css_header_buffer_has_rendered = true;
-        //run the filter
-        self::$css_header_buffer = apply_filters("td_css_buffer_render", self::$css_header_buffer);
-
+       
         if (trim(self::$css_header_buffer) != '') {
             self::$css_header_buffer = "\n<!-- Header style compiled by theme -->" . "\n\n<style>\n    " . self::$css_header_buffer . "\n</style>\n\n";
             echo self::$css_header_buffer; // echo out the buffer

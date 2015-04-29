@@ -37,7 +37,7 @@ function td_js_generator() {
     td_js_buffer::add_variable('td_magnific_popup_translation_image_tError', __td('The image #%curr% could not be loaded.'));
 
 
-    td_js_buffer::add("
+    td_js_buffer::add_to_header("
 var td_blocks = []; //here we store all the items for the current page
 
 //td_block class - each ajax block uses a object of this class for requests
@@ -61,5 +61,7 @@ function td_block() {
     ");
 }
 
+// we have to call the td_js_generator on "some" hook due to the fact that td_translate is loaded on 'after_setup_theme'
+// and we don't have the _td translation function yet
 add_action('wp_head', 'td_js_generator', 10);
 add_action('admin_head', 'td_js_generator', 10);
