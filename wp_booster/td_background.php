@@ -77,7 +77,8 @@ class td_background {
                 and (empty($paged) or $paged < 2)) {
                 // deactivate the background only on td_block_homepage_full_1 + page 1.
                 // on the second page, load it with the normal site wide background
-                return;
+                //$background_params['theme_bg_image']  = '';
+                //return; // THIS SHORTCODE disables the background AND background color!
             }
         }
 

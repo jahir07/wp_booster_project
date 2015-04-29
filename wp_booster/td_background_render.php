@@ -20,12 +20,12 @@ class td_background_render {
         td_js_buffer::add_variable('td_ad_background_click_target', $this->background_parameters['td_ad_background_click_target']);
 
 
-        // add the css if needed
+        // add the css if needed - the css knows about the stretched background!
         if ($this->background_parameters['theme_bg_image'] != '' or  $this->background_parameters['theme_bg_color'] != '') {
             td_css_buffer::add_to_header($this->add_css_custom_background());
         }
 
-        // add the js if needed
+        // add the js if needed - needed only for stretch background
         if ($this->background_parameters['is_stretched_bg'] == true) {
             td_js_buffer::add_to_footer($this->add_js_hook());
         }
@@ -44,16 +44,16 @@ class td_background_render {
      * @return string - the new css
      */
     private function add_css_custom_background() {
-        $css = "\n" . "body {";
+        $css = '';
 
         //color handling
         if (!empty($this->background_parameters['theme_bg_color'])) {
             $css.= "\n" . 'background-color:' . $this->background_parameters['theme_bg_color'] . ';';
         }
 
-        //image handling; if there is no image stretching
-        if(!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == false) {
 
+        // image handling; if there is no image stretching
+        if(!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == false) {
             //add the image
             $css.= "\n" . "background-image:url('" . $this->background_parameters['theme_bg_image'] . "');";
 
@@ -105,8 +105,10 @@ class td_background_render {
             }//end switch
         }
 
-        return $css . "
-                    }";
+        if (!empty($css)) {
+            $css = PHP_EOL . "body {" . $css . PHP_EOL . '}';
+        }
+        return $css;
     }
 
 
