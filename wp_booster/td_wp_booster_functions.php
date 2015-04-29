@@ -345,6 +345,48 @@ function hook_wp_head() {
 
 
 
+	if (TD_DEBUG_USE_LESS) {
+		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
+	} else {
+		$style_sheet_path = get_stylesheet_uri();
+	}
+
+	ob_start();
+	?>
+
+	<script>
+
+		(function(){
+			var html_jquery_obj = jQuery('html');
+
+			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
+
+				jQuery.get('<?php echo $style_sheet_path ?>', function(data) {
+
+					var arr_splits = data.split('#td_css_split_separator');
+
+					var arr_length = arr_splits.length;
+
+					if (arr_length > 1) {
+						for (var i = 0; i < arr_length; i++) {
+
+							jQuery('head').append('<style>' + arr_splits[i] + '</style>');
+						}
+					}
+				});
+			}
+		})();
+
+	</script>
+
+
+
+	<?php
+	$script_buffer = ob_get_clean();
+	$js_script = "\n". td_util::remove_script_tag($script_buffer);
+	td_js_buffer::add_to_header($js_script);
+
+
 
 
 	// lazy loading images - animation effect
