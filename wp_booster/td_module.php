@@ -380,20 +380,32 @@ abstract class td_module {
             $selected_category_obj = get_category($td_post_theme_settings['td_primary_cat']);
         } else {
 
+            //get one auto
+            $categories = get_the_category($this->post->ID);
+
+
+            $selected_category_obj = '';
+
+
             if (is_category()) {
-                $current_cat_id = get_query_var('cat');
-                $selected_category_obj = get_category($current_cat_id);
-            } else {
-                //get one auto
-                $categories = get_the_category($this->post->ID);
-                if (!empty($categories[0])) {
-                    if ($categories[0]->name === TD_FEATURED_CAT and !empty($categories[1])) {
-                        $selected_category_obj = $categories[1];
-                    } else {
-                        $selected_category_obj = $categories[0];
+                foreach ($categories as $category) {
+                    if ($category->term_id == get_query_var('cat')) {
+                        $selected_category_obj = $category;
+                        break;
                     }
                 }
             }
+
+
+            if (empty($selected_category_obj) and !empty($categories[0])) {
+                if ($categories[0]->name === TD_FEATURED_CAT and !empty($categories[1])) {
+                    $selected_category_obj = $categories[1];
+                } else {
+                    $selected_category_obj = $categories[0];
+                }
+            }
+
+
 
         }
 
