@@ -9,51 +9,26 @@ class td_background_render {
     private $background_parameters = array();
 
 
-    /**
-     * all the data transfer happens from this constructor. The class will make sure to apply the settings on WP
-     * @param $background_parameters
-     *        array (
-     *            'is_boxed_layout' => false,
-     *            'is_stretched_bg' => true,
-     *            'theme_bg_image' => '',
-     *            'theme_bg_repeat' => '',
-     *            'theme_bg_position' => '',
-     *            'theme_bg_attachment' => '',
-     *            'theme_bg_color' => '',
-     *            //the background ad support was merged with this from td_ads.php
-     *            'td_ad_background_click_link' => '',
-     *            'td_ad_background_click_target' => ''
-     *        );
-     *
-     */
+
     function __construct($background_parameters) {
 
         // save a local copy
         $this->background_parameters = $background_parameters;
 
+        // bg click ad
+        td_js_buffer::add_variable('td_ad_background_click_link', stripslashes($this->background_parameters['td_ad_background_click_link'])); // the slashes are added by wp in the panel submit
+        td_js_buffer::add_variable('td_ad_background_click_target', $this->background_parameters['td_ad_background_click_target']);
 
-        //adds the javascript variables with background click options
-        if(!empty($this->background_parameters['td_ad_background_click_link'])) {
-            td_js_buffer::add_variable('td_ad_background_click_link', stripslashes($this->background_parameters['td_ad_background_click_link'])); // the slashes are added by wp in the panel submit
-        } else {
-            //add empty variables to prevent errors in js (js dosn't check for undefined ! ) @todo fix this
-            td_js_buffer::add_variable('td_ad_background_click_link', '');
+
+        // add the css if needed
+        if ($this->background_parameters['theme_bg_image'] != '' or  $this->background_parameters['theme_bg_color'] != '') {
+            td_css_buffer::add_to_header($this->add_css_custom_background());
         }
 
-        //adds the javascript variables with background click options
-        if(!empty($this->background_parameters['td_ad_background_click_target'])) {
-            td_js_buffer::add_variable('td_ad_background_click_target', $this->background_parameters['td_ad_background_click_target']);
-        } else {
-            //add empty variables to prevent errors in js (js dosn't check for undefined ! ) @todo fix this
-            td_js_buffer::add_variable('td_ad_background_click_target', '');
+        // add the js if needed
+        if ($this->background_parameters['is_stretched_bg'] == true) {
+            td_js_buffer::add_to_footer($this->add_js_hook());
         }
-
-
-
-        // all the needed js and css is generated via our own filters that register on wp_head
-        // @legacy we have to hook our filters to wp_head action - for them to work in theme customizer.
-        // The theme does not use the theme customizer now but we may switch back
-        add_action('wp_head', array($this, 'wp_head_hook'), 10);
 
         // here we manipulate the body_class-es, we remove the WordPress ones and add our own + boxed version class
         add_filter('body_class', array($this,'add_slug_to_body_class'));
@@ -61,15 +36,6 @@ class td_background_render {
 
 
 
-    function wp_head_hook() {
-        if ($this->background_parameters['theme_bg_image'] != '' or  $this->background_parameters['theme_bg_color'] != '') {
-            add_filter( 'td_css_buffer_render', array($this, 'add_css_custom_background'));
-        }
-
-        if ($this->background_parameters['is_stretched_bg'] == true) {
-            add_filter( 'td_js_buffer_footer_render', array($this, 'add_js_hook'));
-        }
-    }
 
 
     /**
@@ -77,8 +43,8 @@ class td_background_render {
      * @param $css string - the existing css rendered by wp booster
      * @return string - the new css
      */
-    function add_css_custom_background($css) {
-        $css .= "\n" . "body {";
+    private function add_css_custom_background() {
+        $css = "\n" . "body {";
 
         //color handling
         if (!empty($this->background_parameters['theme_bg_color'])) {
@@ -146,7 +112,7 @@ class td_background_render {
 
 
     //custom background js
-    function add_js_hook($js) {
+    private function add_js_hook() {
         if (!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == true) {
             ob_start();
             // @todo chestia asta ar trebuii trecuta pe flag sau ceva in td_config ?
@@ -189,7 +155,7 @@ class td_background_render {
             </script>
             <?php
             $buffer = ob_get_clean();
-            $js .= "\n". td_util::remove_script_tag($buffer);
+            $js = "\n". td_util::remove_script_tag($buffer);
         } //end if
 
         return $js;

@@ -348,34 +348,26 @@ function hook_wp_head() {
 	$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
 
 	if (empty($tds_lazy_loading_image)) {
-		add_filter('td_js_buffer_footer_render', 'td_hook_add_js_lazy_load');
+        ob_start();
+        ?>
+        <script>
+            jQuery(window).load(function() {
+
+                // if the theme has td_animation_stack, initialize it
+                if (typeof window.td_animation_stack !== 'undefined') {
+                    window.td_animation_stack.init();
+                }
+            });
+        </script>
+        <?php
+        $buffer = ob_get_clean();
+        $js = "\n". td_util::remove_script_tag($buffer);
+        td_js_buffer::add_to_footer($js);
+
 		add_filter('body_class','td_hook_add_custom_body_class');
 	}
 }
-function td_hook_add_js_lazy_load($js) {
 
-	ob_start();
-
-	?>
-
-	<script>
-		jQuery(window).load(function() {
-
-			// if the theme has td_animation_stack, initialize it
-			if (typeof window.td_animation_stack !== 'undefined') {
-				window.td_animation_stack.init();
-			}
-		});
-	</script>
-
-	<?php
-
-	$buffer = ob_get_clean();
-
-	$js .= "\n". td_util::remove_script_tag($buffer);
-
-	return $js;
-}
 function td_hook_add_custom_body_class($classes) {
 	$classes[] = 'lazy-animation';
 	return $classes;

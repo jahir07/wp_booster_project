@@ -6,15 +6,14 @@
 
 class td_background {
     function __construct() {
-        add_action('wp_head', array($this, 'wp_head_hook'), 1);
+        add_action('wp_head', array($this, 'wp_head_hook_background_logic'));
     }
 
 
 
-    function wp_head_hook() {
+    function wp_head_hook_background_logic() {
         global $post, $paged;
 
-        $render_background_flag = true;
 
 
         $background_params = array (
@@ -54,7 +53,7 @@ class td_background {
         /*  --------------------------------------------------------------------------
             we are on a category
         */
-        elseif (is_category()) {
+        if (is_category()) {
             // try to read the category settings
             $post_primary_category_id = intval(get_query_var('cat')); //we are on a category, get the id @todo verify this, get_query_var('cat') may not work with permalinks
             $background_params = $this->get_category_bg_settings($post_primary_category_id, $background_params);
@@ -64,7 +63,7 @@ class td_background {
         /*  --------------------------------------------------------------------------
             we are on a page
         */
-        if (is_page()) {
+        elseif (is_page()) {
             $td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
             $td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
             if ($td_paged > $td_page) {
@@ -78,7 +77,7 @@ class td_background {
                 and (empty($paged) or $paged < 2)) {
                 // deactivate the background only on td_block_homepage_full_1 + page 1.
                 // on the second page, load it with the normal site wide background
-                $render_background_flag = false;
+                return;
             }
         }
 
@@ -91,7 +90,7 @@ class td_background {
             if(!empty($post_meta_values['td_post_template'])) {
 
                 if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'disable_background') === true) {
-                    $render_background_flag = false;
+                    return;
                 }
 
                 if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'use_featured_image_as_background') === true) {
@@ -113,9 +112,9 @@ class td_background {
 
 
 
-        if ($render_background_flag === true) {
-            new td_background_render($background_params);
-        }
+
+        new td_background_render($background_params);
+
     }
 
 
@@ -125,7 +124,7 @@ class td_background {
      * @param $background_params - the current background settings
      * @return array - the patched background settings
      */
-    function get_category_bg_settings($category_id, $background_params) {
+    private function get_category_bg_settings($category_id, $background_params) {
         // read the background settings from the category if needed
         if (!empty($category_id)) {
             //get the category bg image
