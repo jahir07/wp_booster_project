@@ -24,12 +24,10 @@ class td_css_inline {
 
 
     /**
-     * returns the inline css, must be called in the atts section of a HTML tag ex: <div <?php echo $td_css_inline->get_inline_css() ?> class="test">
-     * @param bool $wrap_in_style_att
+     * Converts a CSS array (color=>red) to CSS  color:red;
      * @return string
      */
-    public function get_inline_css($wrap_in_style_att = true) {
-
+    private function get_css_block($add_new_line_after_prop = false) {
         if (empty($this->buffy_array)) {
             return '';
         }
@@ -39,18 +37,50 @@ class td_css_inline {
             if (empty($buffy)) {
                 $buffy = $css_property . ':' . $css_property_value;
             } else {
-                $buffy .= ';' . $css_property . ':' . $css_property_value;
+                if ($add_new_line_after_prop === true) {
+                    $buffy .= ';' . PHP_EOL . "\t" . $css_property . ':' . $css_property_value;
+                } else {
+                    $buffy .= ';' . $css_property . ':' . $css_property_value;
+                }
+
             }
         }
-
         $buffy = trim($buffy);
-
-
-        if (!empty($buffy) and $wrap_in_style_att === true) {
-            $buffy = 'style="' . $buffy . '"';
+        if (!empty($buffy)) {
+            $buffy .= ';'; //add the last ; if the buffer is not empty
         }
 
+        return trim($buffy);
+    }
 
-        return $buffy;
+
+    /**
+     * returns a css like:
+     *  .my-class {
+     *      color:red;
+     *  }
+     * @param $selector string the css selector to append to the generated css
+     * @return string the css in the selectors brackets
+     */
+    public function get_css_for_selector($selector) {
+        $buffy = $this->get_css_block(true);
+        if (!empty($buffy)) {
+            $buffy = PHP_EOL . $selector . ' {' . PHP_EOL . "\t" . $buffy . PHP_EOL . '}';
+            return $buffy;
+        }
+        return '';
+    }
+
+    /**
+     * returns the inline css, must be called in the atts section of a HTML tag ex: <div <?php echo $td_css_inline->get_inline_css() ?> class="test">
+     * @return string
+     */
+    public function get_inline_css() {
+        $buffy = $this->get_css_block();
+        if (!empty($buffy)) {
+            $buffy = 'style="' . $buffy . '"';
+            return $buffy;
+        }
+        return '';
     }
 }

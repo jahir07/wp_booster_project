@@ -5,6 +5,8 @@ class td_api_base {
     // flag marked by get_by_id and get_key function. It's used just for debugging
     const USED_ON_PAGE = 'used_on_page';
 
+    const CLASS_AUTOLOADED = 'class_autoloaded'; // flag for marking autoloaded classes
+
     const TYPE = 'type';
 
     // the main array settings
@@ -215,12 +217,50 @@ class td_api_base {
 
     /**
      * This is an internal function used just for debugging
-     *
+     * @internal
      * @return array with all theme settings
      */
-    static function debug_get_components_list() {
+    static function _debug_get_components_list() {
         return self::$components_list;
     }
+
+
+    /**
+     * returns only the used on page component - useful for debug
+     * @return array
+     */
+    static function _debug_get_used_on_page_components() {
+        $buffy_array = array();
+        foreach (self::$components_list as $component_id => $component) {
+
+            if (isset($component[self::CLASS_AUTOLOADED]) and $component[self::CLASS_AUTOLOADED] === true) {
+                $buffy_array [$component_id]= $component;
+            }
+        }
+
+
+        ob_start();
+        ?>
+
+        <div style="z-index: 9999; width: 300px; height: 400px; position: absolute; left:0px; top:50px; background-color: #e8e8e8; font-size:12px;">
+            <?php
+            foreach ($buffy_array as $component_id => $component) {
+                echo str_pad($component_id, 20) . '<br>';
+            }
+            ?>
+        </div>
+
+        <?php
+        echo ob_get_clean();
+
+        return $buffy_array;
+    }
+
+    static function _debug_update_key_no_check($id, $key, $value) {
+        self::$components_list[$id][$key] = $value;
+    }
+
+
 
 
 

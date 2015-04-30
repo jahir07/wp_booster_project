@@ -44,23 +44,23 @@ class td_background_render {
      * @return string - the new css
      */
     private function add_css_custom_background() {
-        $css = '';
+        $css_array = array();
 
         //color handling
         if (!empty($this->background_parameters['theme_bg_color'])) {
-            $css.= "\n" . 'background-color:' . $this->background_parameters['theme_bg_color'] . ';';
+            $css_array['background-color'] = $this->background_parameters['theme_bg_color'];
         }
-
 
         // image handling; if there is no image stretching
         if(!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == false) {
+
             //add the image
-            $css.= "\n" . "background-image:url('" . $this->background_parameters['theme_bg_image'] . "');";
+            $css_array['background-image'] = 'url("' . $this->background_parameters['theme_bg_image'] . '")';
 
             //repeat image option
             switch ($this->background_parameters['theme_bg_repeat']) {
                 case '':
-                    $css.= "\n" . 'background-repeat:no-repeat;';
+                    $css_array['background-repeat'] = 'no-repeat';
                     break;
 
                 case 'repeat':
@@ -68,11 +68,11 @@ class td_background_render {
                     break;
 
                 case 'repeat-x':
-                    $css.= "\n" . 'background-repeat:repeat-x;';
+                    $css_array['background-repeat'] = 'repeat-x';
                     break;
 
                 case 'repeat-y':
-                    $css.= "\n" . 'background-repeat:repeat-y;';
+                    $css_array['background-repeat'] = 'repeat-y';
                     break;
             }//end switch
 
@@ -84,11 +84,11 @@ class td_background_render {
                     break;
 
                 case 'center':
-                    $css.= "\n" . 'background-position:center top;';
+                    $css_array['background-position'] = 'center top';
                     break;
 
                 case 'right':
-                    $css.= "\n" . 'background-position:right top;';
+                    $css_array['background-position'] = 'right top';
                     break;
             }//end switch
 
@@ -100,15 +100,15 @@ class td_background_render {
                     break;
 
                 case 'fixed':
-                    $css.= "\n" . 'background-attachment:fixed;';
+                    $css_array['background-attachment'] = 'fixed';
                     break;
             }//end switch
         }
 
-        if (!empty($css)) {
-            $css = PHP_EOL . "body {" . $css . PHP_EOL . '}';
-        }
-        return $css;
+        $td_css_inline = new td_css_inline();
+        $td_css_inline->add_css($css_array);
+
+        return $td_css_inline->get_css_for_selector('body');
     }
 
 

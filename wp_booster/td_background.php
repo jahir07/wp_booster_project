@@ -87,6 +87,12 @@ class td_background {
             we are on a single post
         */
         elseif (is_singular('post')) {   //is_single runs on all the posts types, that's why we need is_singular
+
+            // try to read the background settings for the parent category of this post
+            $post_primary_category_id = intval(td_global::get_primary_category_id());  // we are on single post - get the primary category id
+            $background_params = $this->get_category_bg_settings($post_primary_category_id, $background_params);
+
+
             $post_meta_values = get_post_meta($post->ID, 'td_post_theme_settings', true);
             if(!empty($post_meta_values['td_post_template'])) {
 
@@ -123,15 +129,15 @@ class td_background {
 
             }
 
-            // try to read the background settings for the parent category of this post
-            $post_primary_category_id = intval(td_global::get_primary_category_id());  // we are on single post - get the primary category id
-            $background_params = $this->get_category_bg_settings($post_primary_category_id, $background_params);
+
         }
 
 
+        // WE HAVE TO HAVE A IMAGE OR COLOR
+        if ($background_params['theme_bg_image'] != '' or  $background_params['theme_bg_color'] != '') {
+            new td_background_render($background_params);
+        }
 
-        //print_r($background_params);
-        new td_background_render($background_params);
 
     }
 
@@ -149,12 +155,14 @@ class td_background {
             $tdc_image = td_util::get_category_option($category_id, 'tdc_image');
             if (!empty($tdc_image)) {
                 $background_params['theme_bg_image'] = $tdc_image;
+                $background_params['is_boxed_layout'] = true;
             }
 
             //get the category bg color
             $tdc_bg_color = td_util::get_category_option($category_id, 'tdc_bg_color');
             if (!empty($tdc_bg_color)) {
                 $background_params['theme_bg_image'] = $tdc_bg_color;
+                $background_params['is_boxed_layout'] = true;
             }
 
             //get the bg style - from category specific

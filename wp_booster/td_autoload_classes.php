@@ -27,6 +27,8 @@ class td_autoload_classes {
                     $class_file_path = $class_settings['file'];
 
                     if (isset($class_file_path) and !empty($class_file_path)) {
+                        td_api_base::_debug_update_key_no_check($class_name, td_api_base::CLASS_AUTOLOADED, true);
+
                         //@todo - verificat daca schimbarea asta e ok. Se pierd globalele, ca si arhitectura e mai ok fara globale
                         require_once($class_file_path);
                     }

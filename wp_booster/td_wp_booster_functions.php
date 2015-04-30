@@ -36,7 +36,7 @@ require_once('td_api_autoload.php');
 
 do_action('td_global_after');
 
-require_once('td_block_template.php');          // block template base class
+
 require_once('td_category_template.php');       // block template base class
 require_once('td_category_top_posts_style.php');       // base class
 require_once('td_global_blocks.php');
@@ -50,7 +50,6 @@ require_once('td_template_layout.php'); // template layout
 require_once('td_unique_posts.php');    //unique posts (uses hooks + do_action('td_wp_boost_new_module'); )
 require_once('td_data_source.php');      // data source
 require_once('td_css_compiler.php');  // css compiler
-require_once('td_css_inline.php');  // css compiler
 require_once('td_page_views.php'); // page views counter
 require_once('td_module.php');           // module builder
 require_once('td_module_single_base.php');           // module single builder
@@ -68,7 +67,6 @@ require_once('td_js_generator.php');  // ~ app config ~ css generator
 require_once('td_demo_site.php');  // the demo site
 require_once('td_smart_list.php');  //the smart lists
 require_once('td_generic_filter_builder.php');  // generic filter buider class
-require_once('td_login.php');  // modal window for user login
 require_once('td_more_article_box.php');  //handles more articles box
 require_once('td_block_widget.php');  //used to make widgets from our blocks
 
@@ -80,6 +78,11 @@ require_once('td_autoload_classes.php');  //used to autoload classes [modules, b
 
 // add auto loading classes
 td_api_autoload::add('td_background_render', td_global::$get_template_directory . '/includes/wp_booster/td_background_render.php');
+td_api_autoload::add('td_css_inline', td_global::$get_template_directory . '/includes/wp_booster/td_css_inline.php');
+td_api_autoload::add('td_login', td_global::$get_template_directory . '/includes/wp_booster/td_login.php');
+td_api_autoload::add('td_block_template', td_global::$get_template_directory . '/includes/wp_booster/td_block_template.php');
+
+
 
 require_once('td_background.php');  //the background support
 
@@ -341,51 +344,6 @@ function hook_wp_head() {
     if(!empty($tds_ios_144)) {
         echo '<link rel="apple-touch-icon-precomposed" sizes="144x144" href="' . $tds_ios_144 . '"/>';
     }
-
-
-
-
-	if (TD_DEBUG_USE_LESS) {
-		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
-	} else {
-		$style_sheet_path = get_stylesheet_uri();
-	}
-
-	ob_start();
-	?>
-
-	<script>
-
-		(function(){
-			var html_jquery_obj = jQuery('html');
-
-			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
-
-				jQuery.get('<?php echo $style_sheet_path ?>', function(data) {
-
-					var arr_splits = data.split('#td_css_split_separator');
-
-					var arr_length = arr_splits.length;
-
-					if (arr_length > 1) {
-						for (var i = 0; i < arr_length; i++) {
-
-							jQuery('head').append('<style>' + arr_splits[i] + '</style>');
-						}
-					}
-				});
-			}
-		})();
-
-	</script>
-
-
-
-	<?php
-	$script_buffer = ob_get_clean();
-	$js_script = "\n". td_util::remove_script_tag($script_buffer);
-	td_js_buffer::add_to_header($js_script);
-
 
 
 
