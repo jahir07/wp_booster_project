@@ -26,7 +26,7 @@ class td_background_render {
         }
 
         // add the js if needed - needed only for stretch background
-        if ($this->background_parameters['is_stretched_bg'] == true) {
+        if (!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == true) {
             td_js_buffer::add_to_footer($this->add_js_hook());
         }
 
@@ -115,7 +115,6 @@ class td_background_render {
 
     //custom background js
     private function add_js_hook() {
-        if (!empty($this->background_parameters['theme_bg_image']) and $this->background_parameters['is_stretched_bg'] == true) {
             ob_start();
             // @todo chestia asta ar trebuii trecuta pe flag sau ceva in td_config ?
             ?>
@@ -158,8 +157,6 @@ class td_background_render {
             <?php
             $buffer = ob_get_clean();
             $js = "\n". td_util::remove_script_tag($buffer);
-        } //end if
-
         return $js;
     }
 
@@ -171,7 +168,7 @@ class td_background_render {
      * @return array
      */
     function add_slug_to_body_class($classes) {
-        if ($this->background_parameters['is_boxed_layout']) {
+        if ($this->background_parameters['is_boxed_layout'] === true) {
             $classes[] = 'td-boxed-layout';
         } else {
             $classes[] = 'td-full-layout';

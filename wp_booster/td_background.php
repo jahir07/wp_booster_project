@@ -78,7 +78,7 @@ class td_background {
                 // deactivate the background only on td_block_homepage_full_1 + page 1.
                 // on the second page, load it with the normal site wide background
                 //$background_params['theme_bg_image']  = '';
-                //return; // THIS SHORTCODE disables the background AND background color!
+                return; // THIS SHORTCODE disables the background AND background color!
             }
         }
 
@@ -90,20 +90,37 @@ class td_background {
             $post_meta_values = get_post_meta($post->ID, 'td_post_theme_settings', true);
             if(!empty($post_meta_values['td_post_template'])) {
 
-                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'disable_background') === true) {
-                    return;
-                }
 
-                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'use_featured_image_as_background') === true) {
+                // overwrite the theme_bg_image with the featured image if needed
+                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_use_featured_image_as_background') === true) {
                     $background_params['theme_bg_image'] = td_util::get_featured_image_src($post->ID, 'full');
                     $background_params['is_stretched_bg'] = true;
                 }
 
-                /*
-                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'disable_boxed_layout') === true) {
-                    $background_params['is_boxed_layout'] = false;
+                // disable the background image if needed - used by singe_post_templates that implement their own backgrounds
+                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_disable_background') === true) {
+                    $background_params['theme_bg_image'] = '';
+                    $background_params['theme_bg_color'] = '';
                 }
-                */
+
+
+                // overwrite the box layout settings with the ones provided here
+                switch (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_box_layout_config')) {
+                    case 'auto':
+                        // do nothing - the site will load the site wide boxed layout settings
+                        break;
+
+                    case 'td-boxed-layout':  //force a boxed layout regardless if the site has a bg image or bg color
+                        $background_params['is_boxed_layout'] = true;
+                        break;
+
+
+                    case 'td-full-layout':  //force a full layout regardless if the site has a bg image or bg color
+                        $background_params['is_boxed_layout'] = false;
+                        break;
+                }
+
+
             }
 
             // try to read the background settings for the parent category of this post
@@ -113,7 +130,7 @@ class td_background {
 
 
 
-
+        //print_r($background_params);
         new td_background_render($background_params);
 
     }
