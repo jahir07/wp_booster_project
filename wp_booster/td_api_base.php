@@ -242,7 +242,7 @@ class td_api_base {
         ob_start();
         ?>
 
-        <div style="z-index: 9999; width: 300px; position: absolute; left:0; top:50px; background-color: #e8e8e8; font-size:12px; font-family: 'Lucida Sans Typewriter', 'Lucida Console', monaco, 'Bitstream Vera Sans Mono', monospace;; padding: 10px;">
+        <div style="pointer-events:none; z-index: 9999; width: 300px; position: absolute; left:0; top:50px; background-color: rgba(232, 232, 232, 0.35); font-size:12px; font-family: 'Lucida Sans Typewriter', 'Lucida Console', monaco, 'Bitstream Vera Sans Mono', monospace;; padding: 10px;">
             <?php
             foreach ($buffy_array as $component_id => $component) {
                 echo str_pad($component_id, 20) . '<br>';

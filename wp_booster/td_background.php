@@ -134,11 +134,7 @@ class td_background {
 
 
         // WE HAVE TO HAVE A IMAGE OR COLOR
-        if ($background_params['theme_bg_image'] != '' or  $background_params['theme_bg_color'] != '') {
             new td_background_render($background_params);
-        }
-
-
     }
 
 
