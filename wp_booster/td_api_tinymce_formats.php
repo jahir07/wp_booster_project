@@ -40,13 +40,13 @@ class td_api_tinymce_formats extends td_api_base {
     static function _helper_get_tinymce_format() {
 	    self::$tiny_mce_format_list = self::get_all();
 
-        array_walk(self::$tiny_mce_format_list, array(self, '_connect_to_parent'));
+        array_walk(self::$tiny_mce_format_list, array('td_api_tinymce_formats', '_connect_to_parent'));
 
-	    td_global::$tiny_mce_style_formats = array_filter(self::$tiny_mce_format_list, array(self, '_get_root_elements'));
+	    td_global::$tiny_mce_style_formats = array_filter(self::$tiny_mce_format_list, array('td_api_tinymce_formats', '_get_root_elements'));
     }
 
 
-	private static function _connect_to_parent($value, $key) {
+	static function _connect_to_parent($value, $key) {
 
 		if (!empty($value['parent_id'])
 		    && isset(self::$tiny_mce_format_list[$value['parent_id']])
@@ -57,7 +57,7 @@ class td_api_tinymce_formats extends td_api_base {
 	}
 
 
-	private static function _get_root_elements($value) {
+	static function _get_root_elements($value) {
 		return empty($value['parent_id']);
 	}
 
