@@ -120,7 +120,7 @@ var td_affix = {
         /*  ---------------------------------------------------------------------------- */
 
         // show the logo on sticky menu if is always snap setting
-        if (td_affix.tds_snap_menu == 'snap' && td_affix.tds_snap_menu_logo == 'show') {
+        if (td_affix.tds_snap_menu == 'snap' && td_affix.tds_snap_menu_logo != '') {
             jQuery('.td-main-menu-logo').addClass('td-logo-sticky');
         }
 
@@ -206,7 +206,7 @@ var td_affix = {
                             }
 
                             //show the logo on smart sticky menu
-                            if(td_affix.tds_snap_menu_logo == 'show') {
+                            if(td_affix.tds_snap_menu_logo != '') {
                                 jQuery('.td-main-menu-logo').addClass('td-logo-sticky');
                             }
                         } else {
@@ -312,7 +312,7 @@ var td_affix = {
             jQuery(td_affix.menu_selector).removeClass('td-affix');
 
             //hide the logo from sticky menu when the menu is not affix
-            if(td_affix.tds_snap_menu_logo == 'show') {
+            if(td_affix.tds_snap_menu_logo != '') {
                 jQuery('.td-main-menu-logo').removeClass('td-logo-sticky');
             }
 
