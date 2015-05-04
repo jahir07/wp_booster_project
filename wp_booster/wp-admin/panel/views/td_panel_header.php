@@ -252,15 +252,18 @@
 		<div class="td-box-description">
 			<span class="td-box-title">LOGO ON STICKY MENU</span>
 			<p>Show / Hide the Logo on sticky menu</p>
-			<p><strong>Notice: </strong>Upload a logo in <strong>Logo for Mobile</strong> section if you want a different logo instead of the default one</p>
+			<p><strong>Notice: </strong>If you choose <strong>Mobile logo </strong> upload a logo in <strong>Logo for Mobile</strong> section</p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
-			echo td_panel_generator::checkbox(array(
+			echo td_panel_generator::radio_button_control(array(
 				'ds' => 'td_option',
 				'option_id' => 'tds_logo_on_sticky',
-				'true_value' => 'show',
-				'false_value' => ''
+				'values' => array (
+					array('text' => '<strong>Disabled</strong>', 'val' => ''),
+					array('text' => '<strong>Header logo </strong> - show the header logo', 'val' => 'show_header_logo'),
+					array('text' => '<strong>Mobile logo </strong> - show the mobile logo', 'val' => 'show'),
+				)
 			));
 			?>
 		</div>
