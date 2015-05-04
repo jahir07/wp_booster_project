@@ -252,7 +252,7 @@
 		<div class="td-box-description">
 			<span class="td-box-title">LOGO ON STICKY MENU</span>
 			<p>Show / Hide the Logo on sticky menu</p>
-			<p><strong>Notice: </strong>If you choose <strong>Mobile logo </strong> upload a logo in <strong>Logo for Mobile</strong> section</p>
+			<p><strong>Notice: </strong>If you choose <strong>Mobile logo</strong>, upload a logo in <strong>Logo for Mobile</strong> section</p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
