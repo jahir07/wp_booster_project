@@ -379,7 +379,7 @@
 			echo td_panel_generator::input(array(
 				'ds' => 'td_option',
 				'option_id' => 'tds_logo_text',
-				'placeholder' => 'NEWSPAPER'
+				'placeholder' => TD_THEME_NAME
 			));
 			?>
 		</div>
