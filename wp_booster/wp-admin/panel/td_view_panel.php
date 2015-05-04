@@ -13,7 +13,7 @@
 
 <div class="td-panel-main-header">
     <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
-    <span>NEWSPAPER - Theme panel</span>
+    <span><?php echo sprintf('%s - Theme panel', strtoupper(TD_THEME_NAME)) ?></span>
 </div>
 
 
