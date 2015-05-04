@@ -102,7 +102,6 @@ td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
 td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
-td_api_autoload::add('td_generic_filter_builder', td_global::$get_template_directory . '/includes/wp_booster/td_generic_filter_builder.php');
 
 
 
@@ -1715,6 +1714,7 @@ if (is_admin()) {
     /**
      * Custom content metaboxes (the select sidebar dropdown/post etc)
      */
+    require_once('td_metabox_generator.php');
     require_once('wp-admin/content-metaboxes/td_templates_settings.php');
 
     /**
