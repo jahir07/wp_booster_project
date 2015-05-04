@@ -365,8 +365,8 @@
 
     <div class="td-box-row" style="margin-top: 85px;">
         <div class="td-box-description td-box-full">
-            <span class="td-box-title">Text logo for header style 10 :</span>
-            <p>The text logo is used only by Style 10 - full menu + text logo. The other header styles use only images for logos</p>
+            <span class="td-box-title">Text logo for header style 9, 10 and 11 :</span>
+            <p>The text logo is used only by Style 9, 10 and 11 - full menu + text logo. The other header styles use only images for logos</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
