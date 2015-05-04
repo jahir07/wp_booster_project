@@ -1707,6 +1707,11 @@ if (is_admin()) {
      */
     require_once('wp-admin/tinymce/tinymce.php');
 
+	/**
+	 * get tinymce formats
+	 */
+	td_api_tinymce_formats::_helper_get_tinymce_format();
+
     /**
      * Custom content metaboxes (the select sidebar dropdown/post etc)
      */
