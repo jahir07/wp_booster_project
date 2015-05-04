@@ -58,7 +58,7 @@ class td_set_homepage_loop_filter {
 $obj_td_homepage_filter_add = new td_set_homepage_loop_filter;
 
 //instantiates the filter render object, passing metabox object
-$obj_homepage_filter = new td_set_homepage_loop_filter_render($mb);
+$td_metabox_generator = new td_metabox_generator($mb);
 
 //call to create the filter
-$obj_homepage_filter->td_render_homepage_loop_filter($obj_td_homepage_filter_add->homepage_filter_get_map());
+$td_metabox_generator->td_render_homepage_loop_filter($obj_td_homepage_filter_add->homepage_filter_get_map());

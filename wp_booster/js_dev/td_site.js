@@ -294,7 +294,7 @@ jQuery('body').click(function(e){
 });*/
 
 //click only on BACKGROUND, for devices that don't have touch (ex: phone, tablets)
-if(!td_detect.is_touch_device && td_ad_background_click_link != '') {
+if(!td_detect.is_touch_device && td_util.get_backend_var('td_ad_background_click_link') != '') {
 
 
     //var ev = ev || window.event;

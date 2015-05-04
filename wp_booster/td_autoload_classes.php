@@ -28,9 +28,10 @@ class td_autoload_classes {
 
                     if (isset($class_file_path) and !empty($class_file_path)) {
                         td_api_base::_debug_update_key_no_check($class_name, td_api_base::CLASS_AUTOLOADED, true);
-
-                        //@todo - verificat daca schimbarea asta e ok. Se pierd globalele, ca si arhitectura e mai ok fara globale
-                        require_once($class_file_path);
+                        // require_once($class_file_path); - we need to use load_template to make our single_templates work like wordpress
+                        // with load_template we prepare the globals ($post etc for the files)
+                        // we should not use the global $post or any other globals in our classes without explicit declaration
+                        load_template($class_file_path, true);
                     }
                 } else {
                     td_util::error(__FILE__, "Missing parameter: 'file'");

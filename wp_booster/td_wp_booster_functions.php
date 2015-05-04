@@ -1710,6 +1710,7 @@ if (is_admin()) {
     /**
      * Custom content metaboxes (the select sidebar dropdown/post etc)
      */
+    require_once('td_metabox_generator.php');
     require_once('wp-admin/content-metaboxes/td_templates_settings.php');
 
     /**
