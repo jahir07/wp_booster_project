@@ -385,18 +385,21 @@ function hook_wp_head() {
 
 		(function(){
 			var html_jquery_obj = jQuery('html');
+			var str_split_separator = '#td_css_split_separator';
+
 			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
 				jQuery.get('<?php echo $style_sheet_path ?>', function(data) {
-					var arr_splits = data.split('#td_css_split_separator');
+					var arr_splits = data.split(str_split_separator);
 					var arr_length = arr_splits.length;
 					if (arr_length > 1) {
 						for (var i = 0; i < arr_length; i++) {
+							if (i > 0) {
+								arr_splits[i] = str_split_separator + arr_splits[i];
+							}
 							jQuery('head').append('<style>' + arr_splits[i] + '</style>');
-                            //alert(arr_splits[i]);
 						}
 					}
 				});
-                //alert('css splitter activated');
 			}
 		})();
 	</script>
