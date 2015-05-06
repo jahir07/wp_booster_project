@@ -394,7 +394,7 @@ function hook_wp_head() {
 					if (arr_length > 1) {
 						for (var i = 0; i < arr_length; i++) {
 							if (i > 0) {
-								arr_splits[i] = str_split_separator + arr_splits[i];
+								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
 							}
 							jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 						}
