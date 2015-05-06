@@ -388,21 +388,32 @@ function hook_wp_head() {
 
 			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
 
-				jQuery.get('<?php echo $style_sheet_path ?>', function(data) {
+				var path = '';
+				var demo_jquery_obj = jQuery('link#contact-form-7-group-css');
 
-					var str_split_separator = '#td_css_split_separator';
-					var arr_splits = data.split(str_split_separator);
-					var arr_length = arr_splits.length;
+				if (demo_jquery_obj.length) {
+					path = demo_jquery_obj.attr('href');
+				} else {
+					path = '<?php echo $style_sheet_path ?>';
+				}
 
-					if (arr_length > 1) {
-						for (var i = 0; i < arr_length; i++) {
-							if (i > 0) {
-								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
+				if ((path != '') {
+					jQuery.get(path, function(data) {
+
+						var str_split_separator = '#td_css_split_separator';
+						var arr_splits = data.split(str_split_separator);
+						var arr_length = arr_splits.length;
+
+						if (arr_length > 1) {
+							for (var i = 0; i < arr_length; i++) {
+								if (i > 0) {
+									arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
+								}
+								jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 							}
-							jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 						}
-					}
-				});
+					});
+				}
 			}
 		})();
 	</script>
