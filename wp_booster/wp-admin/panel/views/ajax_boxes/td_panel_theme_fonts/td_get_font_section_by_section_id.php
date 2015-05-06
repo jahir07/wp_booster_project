@@ -222,14 +222,14 @@ class td_panel_custom_typography_ajax {
         $section_name = td_util::get_http_post_val('section_name');
 
 	    ?>
-
-	    <div class="td-panel-font-description td-panel-font-family">Font family</div>
-		<div class="td-panel-font-description td-panel-font-size">Size</div>
-	    <div class="td-panel-font-description td-panel-font-line-height">Line height</div>
-	    <div class="td-panel-font-description td-panel-font-style">Style</div>
-	    <div class="td-panel-font-description td-panel-font-weight">Weight</div>
-	    <div class="td-panel-font-description td-panel-font-transform">Transform</div>
-
+		<div class="td-panel-fonts-header">
+		    <div class="td-panel-font-description td-panel-font-family">Font family</div>
+			<div class="td-panel-font-description td-panel-font-size">Size</div>
+		    <div class="td-panel-font-description td-panel-font-line-height">Line height</div>
+		    <div class="td-panel-font-description td-panel-font-style">Style</div>
+		    <div class="td-panel-font-description td-panel-font-weight">Weight</div>
+		    <div class="td-panel-font-description td-panel-font-transform">Transform</div>
+		</div>
 	    <?php
 
         foreach(td_global::$typography_settings_list[$section_name] as $font_setting_id => $font_setting) {

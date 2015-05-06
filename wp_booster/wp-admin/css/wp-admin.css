@@ -1355,6 +1355,27 @@ title one row controls
   text-align: center;
   top: -8px;
 }
+.td-panel-fonts-header {
+  margin-left: 165px;
+}
+.td-panel-fonts-header .td-panel-font-family {
+  width: 140px;
+}
+.td-panel-fonts-header .td-panel-font-size {
+  width: 85px;
+}
+.td-panel-fonts-header .td-panel-font-line-height {
+  width: 85px;
+}
+.td-panel-fonts-header .td-panel-font-style {
+  width: 85px;
+}
+.td-panel-fonts-header .td-panel-font-weight {
+  width: 85px;
+}
+.td-panel-fonts-header .td-panel-font-transform {
+  width: 102px;
+}
 @-moz-document url-prefix() {
   .td-panel-font-family .td-select-style-overwrite select {
     width: 154px;
