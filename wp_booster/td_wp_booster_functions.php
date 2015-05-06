@@ -397,7 +397,7 @@ function hook_wp_head() {
 					path = '<?php echo $style_sheet_path ?>';
 				}
 
-				if ((path != '') {
+				if (path != '') {
 					jQuery.get(path, function(data) {
 
 						var str_split_separator = '#td_css_split_separator';
