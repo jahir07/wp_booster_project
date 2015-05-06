@@ -365,8 +365,8 @@
 
     <div class="td-box-row" style="margin-top: 85px;">
         <div class="td-box-description td-box-full">
-            <span class="td-box-title">Text logo for header Style 9, Style 10 and Style 11 :</span>
-            <p>The text logo is used only by Style 9, Style 10 and Style 11 - full menu + text logo. The other header styles use only images for logos</p>
+            <span class="td-box-title"><?php echo td_global::$td_wp_admin_text_list['text_header_logo'] ?></span>
+            <p><?php echo td_global::$td_wp_admin_text_list['text_header_logo_description'] ?></p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
@@ -417,7 +417,7 @@
         <div class="td-box-description td-box-full">
             <p>You can optionally load a different logo on mobile phones and small screens. Usually the logo is smaller so that it can fit in the smart affix menu. iPhone, iPad, Samsung S3 S4 S5 and a lot of phones use the retina logo.</p>
             <p>If you don't upload any Logo Mobile by default will be used the Logo that you uploaded in the section above. This Option is recommended when your logo will not scale perfect on mobile devices.</p>
-	        <p><strong>Notice: </strong>Don't upload a logo for Mobile if you use <strong>Header Style: </strong>Style 4, Style 5, Style 6, Style 7, Style 8 and Style 12</strong>, It's not necessary.</p>
+	        <p><strong>Notice: </strong>Don't upload a logo for Mobile if you use <strong>Header Style: </strong><?php echo td_global::$td_wp_admin_text_list['text_header_logo_mobile'] ?></strong>, It's not necessary.</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
@@ -427,9 +427,9 @@
 	<!-- LOGO MOBILE -->
 	<div class="td-box-row">
 		<div class="td-box-description">
-			<span class="td-box-title">LOGO MOBILE & STICKY MENU</span>
+			<span class="td-box-title">LOGO MOBILE</span>
 			<p>Upload your logo</p>
-            <p><strong>Note: </strong>For best results logo mobile size: 140 x 48px</p>
+            <p><strong>Note: </strong>For best results logo mobile size: <?php echo td_global::$td_wp_admin_text_list['text_header_logo_mobile_image'] ?></p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
@@ -446,7 +446,7 @@
 		<div class="td-box-description">
 			<span class="td-box-title">RETINA LOGO MOBILE</span>
 			<p>Upload your retina logo (double size)</p>
-            <p><strong>Note: </strong>For best results retina logo mobile size: 280 x 96px</p>
+            <p><strong>Note: </strong>For best results retina logo mobile size: <?php echo td_global::$td_wp_admin_text_list['text_header_logo_mobile_image_retina'] ?></p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
