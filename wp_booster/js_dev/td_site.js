@@ -296,7 +296,6 @@ jQuery('body').click(function(e){
 //click only on BACKGROUND, for devices that don't have touch (ex: phone, tablets)
 if(!td_detect.is_touch_device && td_util.get_backend_var('td_ad_background_click_link') != '') {
 
-
     //var ev = ev || window.event;
     //var target = ev.target || ev.srcElement;
     jQuery('body').click(function(event) {
@@ -305,17 +304,21 @@ if(!td_detect.is_touch_device && td_util.get_backend_var('td_ad_background_click
         var target = (event.target) ? event.target : event.srcElement;
 
         //only click on background
-        if(jQuery(target).hasClass('td-content-wrap')) {
 
-                //open the link ad page
-                if(td_ad_background_click_target == '_blank') {
-                    //open in a new window
-                    window.open(td_ad_background_click_link)
-                } else {
-                    //open in the same window
-                    location.href = td_ad_background_click_link;
-                }
+        var target_jquery_obj = jQuery(target);
+
+        // td-content-wrap for NEWSMAG and td-boxex-layout for NEWSPAPER
+        if (target_jquery_obj.hasClass('td-content-wrap') || target_jquery_obj.hasClass('td-boxed-layout')) {
+
+            //open the link ad page
+            if(td_ad_background_click_target == '_blank') {
+                //open in a new window
+                window.open(td_ad_background_click_link)
+            } else {
+                //open in the same window
+                location.href = td_ad_background_click_link;
             }
+        }
 
         //e.stopPropagation();
         //stopBubble(event);
