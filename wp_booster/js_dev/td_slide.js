@@ -54,6 +54,8 @@ function td_resize_smartlist_sliders_and_update() {
             jQuery("#" + current_slider + " .td-item").css("overflow", "visible");
         }
 
+        jQuery("#" + current_slider + " .td-item").css("min-width", jQuery(this).css('width'));
+
         var setHeight = 0;
         setHeight = jQuery("#" + current_slider + "_item_" + td_history.get_current_page("slide")).outerHeight(true);
 
