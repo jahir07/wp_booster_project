@@ -9,6 +9,7 @@ abstract class td_module {
 
     var $td_review; //review meta
 
+	var $post_has_thumb = false;
 
     /**
      * @param $post WP_Post
@@ -32,8 +33,6 @@ abstract class td_module {
 
         if (has_post_thumbnail($this->post->ID)) {
             $this->post_has_thumb = true;
-        } else {
-            $this->post_has_thumb = false;
         }
 
         //get the review metadata
