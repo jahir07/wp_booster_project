@@ -56,7 +56,8 @@ class td_block {
             switch($td_ajax_filter_type) {
                 case 'td_category_ids_filter': // by category
                     $td_categories = get_categories(array(
-                        'include' => $td_ajax_filter_ids
+                        'include' => $td_ajax_filter_ids,
+	                    'exclude' => '1'
                     ));
                     foreach ($td_categories as $td_category) {
                         $td_pull_down_items []= array (
