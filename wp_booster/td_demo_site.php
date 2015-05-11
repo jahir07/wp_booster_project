@@ -480,8 +480,8 @@ class td_demo_site {
 
 
 
-        ob_flush();
-        flush();
+//        ob_flush();
+//        flush();
     }
 
 
