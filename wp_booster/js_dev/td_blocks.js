@@ -230,6 +230,22 @@ function td_on_ready_ajax_blocks() {
     }
 
 
+    jQuery('.td-subcat-item a').click(function(event) {
+        event.preventDefault();
+
+        var current_block_obj = td_getBlockObjById(jQuery(this).data('td_block_id'));
+
+        if(jQuery(this).hasClass('ajax-page-disabled') || current_block_obj.is_ajax_running === true) {
+            return;
+        }
+
+        current_block_obj.is_ajax_running = true; // ajax is running and we're waiting for a reply from server
+
+        //change current filter value - the filter type is read by td_ajax from the atts of the shortcode
+        current_block_obj.td_filter_value = jQuery(this).data('td_filter_value');
+
+        td_ajax_do_block_request(current_block_obj, 'pull_down');
+    });
 
 } // end td_on_ready_ajax_blocks()
 
