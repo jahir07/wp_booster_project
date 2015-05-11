@@ -48,7 +48,7 @@ class td_page_generator {
             //parent category (only if we have one and if the theme is set to show it)
             if (!empty($category_2_name) and td_util::get_option('tds_breadcrumbs_show_parent') != 'hide' ) {
                 $breadcrumbs_array [] = array (
-                    'title_attribute' => __td('View all posts in') . ' ' . htmlspecialchars($category_2_name),
+                    'title_attribute' => __td('View all posts in', TD_THEME_NAME) . ' ' . htmlspecialchars($category_2_name),
                     'url' => $category_2_url,
                     'display_name' => $category_2_name
                 );
@@ -58,7 +58,7 @@ class td_page_generator {
 
             //child category
             $breadcrumbs_array [] = array (
-                'title_attribute' => __td('View all posts in') . ' ' . htmlspecialchars($category_1_name),
+                'title_attribute' => __td('View all posts in', TD_THEME_NAME) . ' ' . htmlspecialchars($category_1_name),
                 'url' => $category_1_url,
                 'display_name' => $category_1_name
             );
@@ -92,7 +92,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' => __td('Authors')
+            'display_name' => __td('Authors', TD_THEME_NAME)
         );
 
 
@@ -148,11 +148,10 @@ class td_page_generator {
             //parent category
             if (!empty($category_2_name) and td_util::get_option('tds_breadcrumbs_show_parent') != 'hide' ) {
                 $breadcrumbs_array [] = array (
-                    'title_attribute' => __td('View all posts in') . ' ' . htmlspecialchars($category_2_name),
+                    'title_attribute' => __td('View all posts in', TD_THEME_NAME) . ' ' . htmlspecialchars($category_2_name),
                     'url' => $category_2_url,
                     'display_name' => $category_2_name
                 );
-
             }
 
 
@@ -181,7 +180,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' =>  __td('Tags')
+            'display_name' =>  __td('Tags', TD_THEME_NAME)
         );
 
 
@@ -256,7 +255,7 @@ class td_page_generator {
             $breadcrumbs_array [] = array (
                 'title_attribute' => '',
                 'url' =>'',
-                'display_name' =>  __td('Page') . ' ' . $td_paged
+                'display_name' =>  __td('Page', TD_THEME_NAME) . ' ' . $td_paged
             );
         }
 
