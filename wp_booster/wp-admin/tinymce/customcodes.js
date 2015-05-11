@@ -28,36 +28,6 @@
                 }},
 
 
-                {text: 'Quotes', classes: 'td_tinymce_dropdown_title'},
-                {text: 'Quote center', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_center]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_center]');
-                }},
-                {text: 'Quote right', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_right]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_right]');
-                }},
-                {text: 'Quote left', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_left]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_left]');
-                }},
-                {text: 'Quote box center', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_box_center]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_box_center]');
-                }},
-                {text: 'Quote box left', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_box_left]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_box_left]');
-                }},
-                {text: 'Quote box right', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[quote_box_right]' + tinyMCE.activeEditor.selection.getContent() + '[/quote_box_right]');
-                }},
-                {text: 'Pull quote center', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[pull_quote_center]' + tinyMCE.activeEditor.selection.getContent() + '[/pull_quote_center]');
-                }},
-                {text: 'Pull quote left', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[pull_quote_left]' + tinyMCE.activeEditor.selection.getContent() + '[/pull_quote_left]');
-                }},
-                {text: 'Pull quote right', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[pull_quote_right]' + tinyMCE.activeEditor.selection.getContent() + '[/pull_quote_right]');
-                }},
-
-
                 {text: 'Dropcaps', classes: 'td_tinymce_dropdown_title'},
                 {text: 'Box', onclick : function() {
                     tinymce.activeEditor.execCommand('mceInsertContent', false, '[dropcap]' + tinyMCE.activeEditor.selection.getContent() + '[/dropcap]');
