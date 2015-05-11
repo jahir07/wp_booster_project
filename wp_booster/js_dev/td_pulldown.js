@@ -16,6 +16,11 @@ var td_pulldown = {
 
 
 
+    // this flag mark that the td_pulldown.items must be reinitialized at the changing view port size
+    reinitialize_items_at_change_view_port: false,
+
+
+
     // - the list of items
     items: [],
 
@@ -632,7 +637,7 @@ var td_pulldown = {
             return;
         }
 
-        if (td_pulldown._changed_view_port_width()) {
+        if (td_pulldown.reinitialize_items_at_change_view_port === true && td_pulldown._changed_view_port_width()) {
             td_pulldown._reinitialize_all_items();
         }
 
@@ -643,7 +648,7 @@ var td_pulldown = {
 
 
     log: function log(msg) {
-        console.log(msg);
+        //console.log(msg);
     }
 };
 
