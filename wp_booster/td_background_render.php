@@ -170,6 +170,10 @@ class td_background_render {
     function add_slug_to_body_class($classes) {
         if ($this->background_parameters['is_boxed_layout'] === true) {
             $classes[] = 'td-boxed-layout';
+
+	        if ($this->background_parameters['td_ad_background_click_link'] != '') {
+		        $classes[] = 'td-ad-background-link';
+	        }
         } else {
             $classes[] = 'td-full-layout';
         }
