@@ -244,6 +244,10 @@ function td_on_ready_ajax_blocks() {
         //change current filter value - the filter type is read by td_ajax from the atts of the shortcode
         current_block_obj.td_filter_value = jQuery(this).data('td_filter_value');
 
+        //reset the page
+        current_block_obj.td_current_page = 1;
+
+        // we ues 'pull_down' just for the 'animated_xlong fadeInDown' effect
         td_ajax_do_block_request(current_block_obj, 'pull_down');
     });
 
