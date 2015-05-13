@@ -146,12 +146,12 @@ abstract class td_category_template {
         $filter_by = get_query_var('filter_by');
 
         $td_category_big_grid_drop_down_filter_options = array(
-            array('id' => 'latest', 'value' => $this->current_category_link, 'caption' => __td('Latest')),
-            array('id' => 'featured' , 'value' => esc_url(add_query_arg('filter_by', 'featured', $this->current_category_link)), 'caption' => __td('Featured posts')),
-            array('id' => 'popular', 'value' => esc_url(add_query_arg('filter_by', 'popular', $this->current_category_link)), 'caption' => __td('Most popular')),
-            array('id' => 'popular7' , 'value' => esc_url(add_query_arg('filter_by', 'popular7', $this->current_category_link)), 'caption' => __td('7 days popular')),
-            array('id' => 'review_high' , 'value' => esc_url(add_query_arg('filter_by', 'review_high', $this->current_category_link)), 'caption' => __td('By review score')),
-            array('id' => 'random_posts' , 'value' => esc_url(add_query_arg('filter_by', 'random_posts', $this->current_category_link)), 'caption' => __td('Random'))
+            array('id' => 'latest', 'value' => $this->current_category_link, 'caption' => __td('Latest', TD_THEME_NAME)),
+            array('id' => 'featured' , 'value' => esc_url(add_query_arg('filter_by', 'featured', $this->current_category_link)), 'caption' => __td('Featured posts', TD_THEME_NAME)),
+            array('id' => 'popular', 'value' => esc_url(add_query_arg('filter_by', 'popular', $this->current_category_link)), 'caption' => __td('Most popular', TD_THEME_NAME)),
+            array('id' => 'popular7' , 'value' => esc_url(add_query_arg('filter_by', 'popular7', $this->current_category_link)), 'caption' => __td('7 days popular', TD_THEME_NAME)),
+            array('id' => 'review_high' , 'value' => esc_url(add_query_arg('filter_by', 'review_high', $this->current_category_link)), 'caption' => __td('By review score', TD_THEME_NAME)),
+            array('id' => 'random_posts' , 'value' => esc_url(add_query_arg('filter_by', 'random_posts', $this->current_category_link)), 'caption' => __td('Random', TD_THEME_NAME))
         );
 
         //create the drop-down filter on category pages

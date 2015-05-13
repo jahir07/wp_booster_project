@@ -60,7 +60,7 @@ $td_translation_map = array(
     'Name:' => __('Name:', TD_THEME_NAME),
     'Email:' => __('Email:', TD_THEME_NAME),
     'Website:' => __('Website:', TD_THEME_NAME),
-    'Comment:' => 'Comment:',
+    'Comment:' => __('Comment:', TD_THEME_NAME),
     'LEAVE A REPLY' => __('LEAVE A REPLY', TD_THEME_NAME),  //on Newspaper4 it was lowercase
     'Post Comment' => __('Post Comment', TD_THEME_NAME),
     'Cancel reply' => __('Cancel reply', TD_THEME_NAME),
@@ -168,10 +168,14 @@ $td_translation_map = array(
 
     //used in Popular Category widget (td_block_popular_categories.php file)
     'POPULAR CATEGORY' => __('POPULAR CATEGORY', TD_THEME_NAME),
+    'POPULAR POSTS' => __('POPULAR POSTS', TD_THEME_NAME),
+    'EDITOR PICKS' => __('EDITOR PICKS', TD_THEME_NAME),
+    'ABOUT US' => __('ABOUT US', TD_THEME_NAME),
+    'FOLLOW US' => __('FOLLOW US', TD_THEME_NAME),
     'EVEN MORE NEWS' => __('EVEN MORE NEWS', TD_THEME_NAME),
 
 
-    //magnific popup
+	//magnific popup
     'Previous (Left arrow key)' => __('Previous (Left arrow key)', TD_THEME_NAME),
     'Next (Right arrow key)' => __('Next (Right arrow key)', TD_THEME_NAME),
     '%curr% of %total%' => __('%curr% of %total%', TD_THEME_NAME),

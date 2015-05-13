@@ -99,7 +99,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' => __td('Posts by') . ' ' . $part_cur_auth_obj->display_name
+            'display_name' => __td('Posts by', TD_THEME_NAME) . ' ' . $part_cur_auth_obj->display_name
         );
 
         return self::get_breadcrumbs($breadcrumbs_array);
@@ -187,7 +187,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' =>  __td('Posts tagged with') . ' "' . $current_tag_name . '"'
+            'display_name' =>  __td('Posts tagged with', TD_THEME_NAME) . ' "' . $current_tag_name . '"'
         );
 
         return self::get_breadcrumbs($breadcrumbs_array);
@@ -237,15 +237,15 @@ class td_page_generator {
 
         if (td_util::get_home_url()) {
             $breadcrumbs_array [] = array (
-                'title_attribute' => __td('Blog'),
+                'title_attribute' => __td('Blog', TD_THEME_NAME),
                 'url' => td_util::get_home_url(),
-                'display_name' =>  __td('Blog')
+                'display_name' =>  __td('Blog', TD_THEME_NAME)
             );
         } else {
             $breadcrumbs_array [] = array (
                 'title_attribute' => '',
                 'url' =>'',
-                'display_name' =>  __td('Blog')
+                'display_name' =>  __td('Blog', TD_THEME_NAME)
             );
         }
 
@@ -328,7 +328,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' =>  __td('Search')
+            'display_name' =>  __td('Search', TD_THEME_NAME)
         );
         return self::get_breadcrumbs($breadcrumbs_array);
     }
@@ -469,7 +469,7 @@ class td_page_generator {
     //the default options
     static function pagenavi_init() {
         $pagenavi_options = array();
-        $pagenavi_options['pages_text'] = __td('Page %CURRENT_PAGE% of %TOTAL_PAGES%');
+        $pagenavi_options['pages_text'] = __td('Page %CURRENT_PAGE% of %TOTAL_PAGES%', TD_THEME_NAME);
         $pagenavi_options['current_text'] = '%PAGE_NUMBER%';
         $pagenavi_options['page_text'] = '%PAGE_NUMBER%';
         $pagenavi_options['first_text'] = __td('1');
@@ -507,7 +507,7 @@ class td_page_generator {
 
             $buffy = '<div class="no-results td-pb-padding-side">';
             if (empty(td_global::$custom_no_posts_message)) {
-                $buffy .= '<h2>' . __td('No posts to display') . '</h2>';
+                $buffy .= '<h2>' . __td('No posts to display', TD_THEME_NAME) . '</h2>';
             } else {
                 $buffy .= '<h2>' . td_global::$custom_no_posts_message . '</h2>';
             }

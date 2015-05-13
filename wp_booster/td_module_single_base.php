@@ -47,7 +47,7 @@ class td_module_single_base extends td_module {
         $twitter_user = td_util::get_option('tds_tweeter_username');
 
 
-        $buffy .= '<div class="td-post-sharing td-post-sharing-top td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE') . '</span>';
+        $buffy .= '<div class="td-post-sharing td-post-sharing-top td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE', TD_THEME_NAME) . '</span>';
 
         if (td_util::get_option('tds_top_social_show') != 'hide') {
             $buffy .= '
@@ -101,7 +101,7 @@ class td_module_single_base extends td_module {
         $buffy = '';
         // @todo single-post-thumbnail appears to not be in used! please check
         $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->post->ID ), 'single-post-thumbnail' );
-        $buffy .= '<div class="td-post-sharing td-post-sharing-bottom td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE') . '</span>';
+        $buffy .= '<div class="td-post-sharing td-post-sharing-bottom td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE', TD_THEME_NAME) . '</span>';
 
 
         if (td_util::get_option('tds_bottom_social_show') != 'hide') {
@@ -597,11 +597,11 @@ class td_module_single_base extends td_module {
 
             $buffy .= '<div class="td-post-source-via">';
             if (!empty($this->td_post_theme_settings['td_via'])) {
-                $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA') . '</span><a rel="nofollow" href="' . esc_url($via_url) . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
+                $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA', TD_THEME_NAME) . '</span><a rel="nofollow" href="' . esc_url($via_url) . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
             }
 
             if (!empty($this->td_post_theme_settings['td_source'])) {
-                $buffy .= '<div class="td-post-small-box"><span>' . __td('SOURCE') . '</span><a rel="nofollow" href="' . esc_url($source_url) . '">' . $this->td_post_theme_settings['td_source'] . '</a></div>';
+                $buffy .= '<div class="td-post-small-box"><span>' . __td('SOURCE', TD_THEME_NAME) . '</span><a rel="nofollow" href="' . esc_url($source_url) . '">' . $this->td_post_theme_settings['td_source'] . '</a></div>';
             }
             $buffy .= '</div>';
         }
@@ -626,7 +626,7 @@ class td_module_single_base extends td_module {
         $td_post_tags = get_the_tags();
         if ($td_post_tags) {
             $buffy .= '<ul class="td-tags td-post-small-box clearfix">';
-            $buffy .= '<li><span>' . __td('TAGS') . '</span></li>';
+            $buffy .= '<li><span>' . __td('TAGS', TD_THEME_NAME) . '</span></li>';
             foreach ($td_post_tags as $tag) {
                 $buffy .=  '<li><a href="' . get_tag_link($tag->term_id) . '">' . $tag->name . '</a></li>';
             }

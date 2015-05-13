@@ -1,5 +1,5 @@
 <?php
-class td_new_article_box {
+class td_more_article_box {
 
     function __construct() {
         add_action('wp_footer', array($this, 'td_render_more_article_box'));
@@ -108,7 +108,7 @@ class td_new_article_box {
             if(!empty($td_query_more_article->posts)) {?>
                 <div class="td-more-articles-box">
                     <i class="td-icon-close td-close-more-articles-box"></i>
-                    <span class="td-more-articles-box-title"><?php echo __td('MORE STORIES') ?></span>
+                    <span class="td-more-articles-box-title"><?php echo __td('MORE STORIES', TD_THEME_NAME) ?></span>
                     <div class="td-content-more-articles-box">
 
                     <?php
@@ -180,4 +180,4 @@ class td_new_article_box {
 }
 
 //instantiate the class to create the more article box
-new td_new_article_box();
+new td_more_article_box();

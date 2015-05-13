@@ -267,7 +267,7 @@ function td_mod_login(){
     global $post;
 
     //json login fail
-    $json_login_fail = json_encode(array('login', 0, __td('User or password incorrect!')));
+    $json_login_fail = json_encode(array('login', 0, __td('User or password incorrect!', TD_THEME_NAME)));
 
     //get the email address from ajax() call
     $login_email = '';
@@ -311,8 +311,8 @@ function td_mod_register(){
         global $post;
 
         //json predifined return text
-        $json_fail = json_encode(array('register', 0, __td('Email or username incorrect!')));
-        $json_user_pass_exists = json_encode(array('register', 0, __td('User or email already exists!')));
+        $json_fail = json_encode(array('register', 0, __td('Email or username incorrect!', TD_THEME_NAME)));
+        $json_user_pass_exists = json_encode(array('register', 0, __td('User or email already exists!', TD_THEME_NAME)));
 
         //get the email address from ajax() call
         $register_email = '';
@@ -344,7 +344,7 @@ function td_mod_register(){
                     //send email to $register_email
                     wp_new_user_notification($user_id, $random_password);
 
-                    die(json_encode(array('register', 1,__td('Please check you email (index or spam folder), the password was sent there.'))));
+                    die(json_encode(array('register', 1,__td('Please check you email (index or spam folder), the password was sent there.', TD_THEME_NAME))));
                 } else {
                     die($json_user_pass_exists);
                 }
@@ -371,7 +371,7 @@ function td_mod_remember_pass(){
     global $post;
 
     //json predifined return text
-    $json_fail = json_encode(array('remember_pass', 0, __td('Email address not found!')));
+    $json_fail = json_encode(array('remember_pass', 0, __td('Email address not found!', TD_THEME_NAME)));
 
     //get the email address from ajax() call
     $remember_email = '';
@@ -380,7 +380,7 @@ function td_mod_remember_pass(){
     }
 
     if (td_login::recover_password($remember_email)) {
-        die(json_encode(array('remember_pass', 1, __td('Your password is reset, check your email.'))));
+        die(json_encode(array('remember_pass', 1, __td('Your password is reset, check your email.', TD_THEME_NAME))));
     } else {
         die($json_fail);
     }
