@@ -9,12 +9,6 @@
 var td_pulldown = {
 
 
-    // - it's the screen type resolution
-    // - 0 is the initial value (no resolution)
-    // - at runtime it can have just 1 (mini tablet), 2 (tablet) or 3 (desktop)
-    _view_port_flag: 0,
-
-
 
     // this flag mark that the td_pulldown.items must be reinitialized at the changing view port size
     reinitialize_items_at_change_view_port: false,
@@ -97,11 +91,10 @@ var td_pulldown = {
     /**
      * - function used to init the td_pulldown object
      * - it must be called before any item adding
-     * - the _view_port_flag flag is initialized
      * - the items list is initialized
      */
     init: function init() {
-        td_pulldown._changed_view_port_width();
+
         td_pulldown.items = [];
     },
 
@@ -585,47 +578,6 @@ var td_pulldown = {
 
 
 
-    /**
-     * - function used to check the view port width changing
-     *
-     * @returns {boolean}
-     * @private
-     */
-    _changed_view_port_width: function _changed_view_port_width() {
-        var local_view_port_flag = 0;
-        var real_view_port_width = 0;
-
-        if (td_detect.is_safari === true) {
-            real_view_port_width = td_safari_view_port_width.get_real_width();
-        } else {
-            real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        }
-
-        if (real_view_port_width > 1023) {
-
-            // desktop viewport
-            local_view_port_flag = 3;
-
-        } else if (real_view_port_width > 767 && real_view_port_width <= 1023) {
-
-            // tablet viewport
-            local_view_port_flag = 2;
-
-        } else {
-
-            // mini tablet viewport
-            local_view_port_flag = 1;
-        }
-
-        if (td_pulldown._view_port_flag != local_view_port_flag) {
-            td_pulldown._view_port_flag = local_view_port_flag;
-            return true;
-        }
-
-        return false;
-    },
-
-
 
 
     /**
@@ -637,7 +589,7 @@ var td_pulldown = {
             return;
         }
 
-        if (td_pulldown.reinitialize_items_at_change_view_port === true && td_pulldown._changed_view_port_width()) {
+        if (td_pulldown.reinitialize_items_at_change_view_port === true && td_viewport.detect_changes()) {
             td_pulldown._reinitialize_all_items();
         }
 
