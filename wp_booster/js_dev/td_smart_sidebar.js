@@ -571,45 +571,122 @@ var td_smart_sidebar = {
         console.log(real_view_port_width);
         */
 
-        if (real_view_port_width > 767 && real_view_port_width <= 1023) {
-            // we are on tablet
-            if (td_smart_sidebar.is_tablet_grid === false) { // we switched
-                td_smart_sidebar.reset_run_once_flags();
+        //if (real_view_port_width > 767 && real_view_port_width <= 1023) {
+        //    // we are on tablet
+        //    if (td_smart_sidebar.is_tablet_grid === false) { // we switched
+        //        td_smart_sidebar.reset_run_once_flags();
+        //
+        //        td_smart_sidebar.is_tablet_grid = true;
+        //        td_smart_sidebar.log('view port tablet');
+        //    }
+        //
+        //
+        //} else if (real_view_port_width > 1023) {
+        //    // we are on desktop
+        //    if (td_smart_sidebar.is_tablet_grid === true) {
+        //        td_smart_sidebar.reset_run_once_flags();
+        //
+        //        td_smart_sidebar.is_tablet_grid = false;
+        //
+        //        td_smart_sidebar.log('view port desktop');
+        //    }
+        //
+        //}
+        //
+        //
+        //// check to see if we are mobile grid / AKA disable the sidebar
+        //if (real_view_port_width <= 767) {
+        //    // disable the sidebar
+        //    td_smart_sidebar.is_enabled_state_run_once = false;
+        //    td_smart_sidebar.is_enabled = false;
+        //
+        //} else {
+        //    // enable the sidebar
+        //    td_smart_sidebar.is_disabled_state_run_once = false;
+        //    if (td_smart_sidebar.is_enabled_state_run_once === false) {
+        //        td_smart_sidebar.is_enabled_state_run_once = true;
+        //        td_smart_sidebar.log('smart_sidebar_enabled');
+        //        td_smart_sidebar.is_enabled = true;
+        //    }
+        //
+        //}
 
-                td_smart_sidebar.is_tablet_grid = true;
-                td_smart_sidebar.log('view port tablet');
-            }
 
 
-        } else if (real_view_port_width > 1023) {
-            // we are on desktop
-            if (td_smart_sidebar.is_tablet_grid === true) {
-                td_smart_sidebar.reset_run_once_flags();
 
-                td_smart_sidebar.is_tablet_grid = false;
+        //if (real_view_port_width > 1023) {
+        //
+        //    // we are on desktop
+        //    if (td_smart_sidebar.is_tablet_grid === true) { // we switched
+        //
+        //        td_smart_sidebar.reset_run_once_flags();
+        //        td_smart_sidebar.is_tablet_grid = false;
+        //
+        //        td_smart_sidebar.log('view port desktop');
+        //    }
+        //
+        //    td_smart_sidebar.is_enabled = true;
+        //
+        //    td_smart_sidebar.is_disabled_state_run_once = false;
+        //
+        //}
+        //else if (real_view_port_width > 767 && real_view_port_width <= 1023) {
+        //
+        //    // we are on tablet
+        //    if (td_smart_sidebar.is_tablet_grid === false) { // we switched
+        //
+        //        td_smart_sidebar.reset_run_once_flags();
+        //        td_smart_sidebar.is_tablet_grid = true;
+        //
+        //        td_smart_sidebar.log('view port tablet');
+        //    }
+        //
+        //    td_smart_sidebar.is_enabled = true;
+        //    td_smart_sidebar.is_disabled_state_run_once = false;
+        //
+        //} else { // check to see if we are mobile grid / AKA disable the sidebar
+        //
+        //    // disable the sidebar
+        //    td_smart_sidebar.is_enabled = false;
+        //
+        //}
 
-                td_smart_sidebar.log('view port desktop');
-            }
-
-        }
 
 
-        // check to see if we are mobile grid / AKA disable the sidebar
-        if (real_view_port_width <= 767) {
-            // disable the sidebar
-            td_smart_sidebar.is_enabled_state_run_once = false;
-            td_smart_sidebar.is_enabled = false;
+        switch (td_viewport.view_port_flag) {
 
-        } else {
-            // enable the sidebar
-            td_smart_sidebar.is_disabled_state_run_once = false;
-            if (td_smart_sidebar.is_enabled_state_run_once === false) {
-                td_smart_sidebar.is_enabled_state_run_once = true;
-                td_smart_sidebar.log('smart_sidebar_enabled');
+            case 0 :
+
+                td_smart_sidebar.is_enabled = false;
+                break;
+
+            case 1 :
+
+                if (td_smart_sidebar.is_tablet_grid === false) { // we switched
+
+                    td_smart_sidebar.reset_run_once_flags();
+                    td_smart_sidebar.is_tablet_grid = true;
+                    td_smart_sidebar.log('view port tablet');
+                }
                 td_smart_sidebar.is_enabled = true;
-            }
+                td_smart_sidebar.is_disabled_state_run_once = false;
 
+                break;
+
+            case 2 :
+            case 3 :
+                if (td_smart_sidebar.is_tablet_grid === true) { // we switched
+
+                    td_smart_sidebar.reset_run_once_flags();
+                    td_smart_sidebar.is_tablet_grid = false;
+                    td_smart_sidebar.log('view port desktop');
+                }
+                td_smart_sidebar.is_enabled = true;
+                td_smart_sidebar.is_disabled_state_run_once = false;
+
+                break;
         }
+
 
         // @todo we may be able to delay the compute a bit (aka run it on the 500ms timer)
         td_smart_sidebar.compute();
@@ -620,7 +697,7 @@ var td_smart_sidebar = {
 
 
     log: function log(msg) {
-        //console.log(msg);
+        console.log(msg);
     },
 
 

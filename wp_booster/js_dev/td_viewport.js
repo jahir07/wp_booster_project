@@ -9,7 +9,7 @@
 var td_viewport = {
 
 
-    _view_port_flag: -1,
+    view_port_flag: -1,
 
 
     interval_list: [],
@@ -39,9 +39,11 @@ var td_viewport = {
 
             if (real_view_port_width <= td_viewport.interval_list[i]) {
 
-                if (local_view_port_flag != td_viewport._view_port_flag) {
-                    td_viewport._view_port_flag = local_view_port_flag;
+                if (local_view_port_flag != td_viewport.view_port_flag) {
+                    td_viewport.view_port_flag = local_view_port_flag;
                     result = true;
+
+                    td_viewport.log('schimbare ' + td_viewport.view_port_flag + ' ~ ' + real_view_port_width);
                 }
 
                 break;
@@ -49,9 +51,11 @@ var td_viewport = {
             local_view_port_flag++;
         }
 
-        if ((result == false) && (local_view_port_flag != td_viewport._view_port_flag)) {
-            td_viewport._view_port_flag = local_view_port_flag;
+        if ((result == false) && (local_view_port_flag != td_viewport.view_port_flag)) {
+            td_viewport.view_port_flag = local_view_port_flag;
             result = true;
+
+            td_viewport.log('schimbare ' + td_viewport.view_port_flag + ' ~ ' + real_view_port_width);
         }
 
         return result;
