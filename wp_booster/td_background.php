@@ -93,25 +93,34 @@ class td_background {
             $background_params = $this->get_category_bg_settings($post_primary_category_id, $background_params);
 
 
+            // read the per post single_template
             $post_meta_values = get_post_meta($post->ID, 'td_post_theme_settings', true);
-            if(!empty($post_meta_values['td_post_template'])) {
 
+            // if we don't have any single_template set on this post, try to laod the default global setting
+            if(empty($post_meta_values['td_post_template'])) {
+                $td_site_post_template = td_util::get_option('td_default_site_post_template');
+            } else {
+                $td_site_post_template = $post_meta_values['td_post_template'];
+            }
+
+
+            if(!empty($td_site_post_template)) { // we have a single_template set on a per post basis or on the global setting in the pane > post settings -> default post template (site wide)
 
                 // overwrite the theme_bg_image with the featured image if needed
-                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_use_featured_image_as_background') === true) {
+                if (td_api_single_template::get_key($td_site_post_template, 'bg_use_featured_image_as_background') === true) {
                     $background_params['theme_bg_image'] = td_util::get_featured_image_src($post->ID, 'full');
                     $background_params['is_stretched_bg'] = true;
                 }
 
                 // disable the background image if needed - used by singe_post_templates that implement their own backgrounds
-                if (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_disable_background') === true) {
+                if (td_api_single_template::get_key($td_site_post_template, 'bg_disable_background') === true) {
                     $background_params['theme_bg_image'] = '';
                     $background_params['theme_bg_color'] = '';
                 }
 
 
                 // overwrite the box layout settings with the ones provided here
-                switch (td_api_single_template::get_key($post_meta_values['td_post_template'], 'bg_box_layout_config')) {
+                switch (td_api_single_template::get_key($td_site_post_template, 'bg_box_layout_config')) {
                     case 'auto':
                         // do nothing - the site will load the site wide boxed layout settings
                         break;
@@ -134,7 +143,7 @@ class td_background {
 
 
         // WE HAVE TO HAVE A IMAGE OR COLOR
-            new td_background_render($background_params);
+        new td_background_render($background_params);
     }
 
 

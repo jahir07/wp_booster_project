@@ -22,7 +22,7 @@ abstract class td_module {
 
 
         //this filter is used by td_unique_posts.php - to add unique posts to the array for the datasource
-        apply_filters("td_wp_boost_new_module", $post);
+        apply_filters("td_wp_booster_module_constructor", $this, $post);
 
         $this->post = $post;
 
