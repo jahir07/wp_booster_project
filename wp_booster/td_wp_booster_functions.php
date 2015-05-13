@@ -369,6 +369,13 @@ function hook_wp_head() {
 
 
 
+	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
+
+
+
+
+
+
 	if (TD_DEBUG_USE_LESS) {
 		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
 	} else {
@@ -503,7 +510,7 @@ function td_wp_title( $title, $sep ) {
 
     // Add a page number if necessary.
     if ( $paged >= 2 || $page >= 2 )
-        $title = "$title $sep " . __td('Page') . ' ' .  max( $paged, $page );
+        $title = "$title $sep " . __td('Page', TD_THEME_NAME) . ' ' .  max( $paged, $page );
 
     return $title;
 }
