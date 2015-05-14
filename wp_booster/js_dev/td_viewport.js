@@ -30,7 +30,7 @@ var td_viewport = {
         var local_view_port_flag = 0;
 
         if (td_detect.is_safari === true) {
-            real_view_port_width = td_safari_view_port_width.get_real_width();
+            real_view_port_width = this._safari_view_port_width.get_real_width();
         } else {
             real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         }
@@ -60,6 +60,38 @@ var td_viewport = {
 
         return result;
     },
+
+
+    /**
+     * get the real view port width on safari
+     * @type {{div_added: boolean, div_jquery_object: string, get_real_width: Function}}
+     */
+    _safari_view_port_width : {
+        div_added : false,
+        div_jquery_object : '',
+
+        get_real_width: function () {
+            if (this.div_added === false) {
+                // we don't have a div present
+                this.div_jquery_object = jQuery('<div>')
+                    .css({
+
+                        "height": "1px",
+                        "position": "absolute",
+                        "top": "-1",
+                        "left": "0",
+                        "right": "0",
+                        "visibility": "hidden",
+                        "z-index": "-1"
+
+                    });
+                this.div_jquery_object.appendTo('body');
+                this.div_added = true;
+            }
+            return this.div_jquery_object.width();
+        }
+    },
+
 
 
     log: function log(msg) {
