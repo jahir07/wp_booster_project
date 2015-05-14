@@ -10,11 +10,19 @@ var td_viewport = {
 
 
     /**
+     * - initial (default) value of the _current_interval_index
+     * - it's used by third part libraries
+     * - it used just as constant value
+     */
+    INTERVAL_INITIAL_INDEX : -1,
+
+
+    /**
      * - keep the current interval index
      * - it should be modified/taken just by setter/getter methods
      * - after computing, it should not be a negative value
      */
-    _current_interval_index: -1,
+    _current_interval_index: td_viewport.INTERVAL_INITIAL_INDEX,
 
 
     /**
