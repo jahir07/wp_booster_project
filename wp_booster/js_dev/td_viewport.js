@@ -11,14 +11,16 @@ var td_viewport = {
 
     /**
      * - keep the current interval index
-     * - it should be a positive value
+     * - it should be modified/taken just by setter/getter methods
+     * - after computing, it should not be a negative value
      */
     _current_interval_index: -1,
 
 
     /**
      * - it keeps the interval index
-     * - it should be a crescendo positive values
+     * - it should be modified/taken just by setter/getter methods
+     * - it must be a crescendo positive values
      */
     _interval_list: [],
 
