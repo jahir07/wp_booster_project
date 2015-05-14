@@ -625,6 +625,8 @@ var td_smart_sidebar = {
             case 0 :
 
                 td_smart_sidebar.is_enabled = false;
+
+                // flag marked false to be made true only once, when the view port has not the first interval index [0]
                 td_smart_sidebar.is_enabled_state_run_once = false;
 
                 break;
