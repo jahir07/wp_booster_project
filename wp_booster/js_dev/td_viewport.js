@@ -22,7 +22,7 @@ var td_viewport = {
      * - it should be modified/taken just by setter/getter methods
      * - after computing, it should not be a negative value
      */
-    _current_interval_index: td_viewport.INTERVAL_INITIAL_INDEX,
+    _current_interval_index: this.INTERVAL_INITIAL_INDEX,
 
 
     /**
@@ -86,7 +86,7 @@ var td_viewport = {
 
 
     /**
-     * - detect viewport changes
+     * - detect view port changes
      * - it returns true if the change view port has changed, false otherwise
      * - it also sets the _current_interval_index
      * @returns {boolean} True when viewport has changed
