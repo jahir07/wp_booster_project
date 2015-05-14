@@ -86,7 +86,9 @@ var td_viewport = {
 
 
     /**
-     * detect viewport changes
+     * - detect viewport changes
+     * - it returns true if the change view port has changed, false otherwise
+     * - it also sets the _current_interval_index
      * @returns {boolean} True when viewport has changed
      */
     detect_changes: function detect_changes() {
