@@ -658,6 +658,8 @@ var td_smart_sidebar = {
             case 0 :
 
                 td_smart_sidebar.is_enabled = false;
+                td_smart_sidebar.is_enabled_state_run_once = false;
+
                 break;
 
             case 1 :
@@ -671,6 +673,11 @@ var td_smart_sidebar = {
                 td_smart_sidebar.is_enabled = true;
                 td_smart_sidebar.is_disabled_state_run_once = false;
 
+                if (td_smart_sidebar.is_enabled_state_run_once === false) {
+                    td_smart_sidebar.is_enabled_state_run_once = true;
+                    td_smart_sidebar.log('smart_sidebar_enabled');
+                }
+
                 break;
 
             case 2 :
@@ -683,6 +690,11 @@ var td_smart_sidebar = {
                 }
                 td_smart_sidebar.is_enabled = true;
                 td_smart_sidebar.is_disabled_state_run_once = false;
+
+                if (td_smart_sidebar.is_enabled_state_run_once === false) {
+                    td_smart_sidebar.is_enabled_state_run_once = true;
+                    td_smart_sidebar.log('smart_sidebar_enabled');
+                }
 
                 break;
         }
