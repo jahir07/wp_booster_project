@@ -7,38 +7,6 @@
 
 "use strict";
 
-/**
- * get the real view port width on safari
- * @type {{div_added: boolean, div_jquery_object: string, get_real_width: Function}}
- */
-var td_safari_view_port_width = {
-    div_added:false,
-    div_jquery_object: '',
-
-    get_real_width: function () {
-        if (this.div_added === false) {
-            // we don't have a div present
-            this.div_jquery_object = jQuery('<div>')
-                .css({
-
-                    "height": "1px",
-                    "position": "absolute",
-                    "top": "-1",
-                    "left": "0",
-                    "right": "0",
-                    "visibility": "hidden",
-                    "z-index": "-1"
-
-                });
-            this.div_jquery_object.appendTo('body');
-            this.div_added = true;
-        }
-        return this.div_jquery_object.width();
-    }
-};
-
-
-
 
 var td_smart_sidebar = {
     has_items: false, // this class will only work when this flag is true. If we don't have any items, all the calculations on scroll will be disabled by this flag
