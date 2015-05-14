@@ -67,6 +67,10 @@ var td_events = {
 
         //medium resolution timer for rest?
         setInterval(function() {
+
+            // it must run before any others
+            td_viewport.detect_changes();
+
             //scroll event
             if (td_events.scroll_event_medium_run) {
                 td_events.scroll_event_medium_run = false;
