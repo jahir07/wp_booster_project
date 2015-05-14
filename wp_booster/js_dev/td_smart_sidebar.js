@@ -620,8 +620,7 @@ var td_smart_sidebar = {
         //}
 
 
-
-        switch (td_viewport.view_port_flag) {
+        switch (td_viewport.get_current_interval_index()) {
 
             case 0 :
 
@@ -677,7 +676,7 @@ var td_smart_sidebar = {
 
 
     log: function log(msg) {
-        console.log(msg);
+        //console.log(msg);
     },
 
 

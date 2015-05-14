@@ -13,7 +13,7 @@ var td_viewport = {
      * - keep the current interval index
      * - it should be a positive value
      */
-    _view_port_interval_index: -1,
+    _current_interval_index: -1,
 
 
     /**
@@ -35,22 +35,22 @@ var td_viewport = {
 
 
     /**
-     * - setter of the _view_port_interval_index
+     * - setter of the _current_interval_index
      * - it should be used by outsiders libraries
      * @param value
      */
     set_view_port_interval_index : function set_view_port_interval_index(value) {
-        this._view_port_interval_index = value;
+        this._current_interval_index = value;
     },
 
 
     /**
-     * - getter of the _view_port_interval_index
+     * - getter of the _current_interval_index
      * - it should be used by outsiders libraries
      * @returns {*}
      */
-    get_view_port_interval_index : function get_view_port_interval_index() {
-        return this._view_port_interval_index;
+    get_current_interval_index : function get_current_interval_index() {
+        return this._current_interval_index;
     },
 
 
@@ -83,7 +83,7 @@ var td_viewport = {
         var result = false;
 
         var real_view_port_width = 0;
-        var local_view_port_interval_index = 0;
+        var local_current_interval_index = 0;
 
         if (td_detect.is_safari === true) {
             real_view_port_width = this._safari_view_port_width.get_real_width();
@@ -95,23 +95,23 @@ var td_viewport = {
 
             if (real_view_port_width <= td_viewport._interval_list[i]) {
 
-                if (local_view_port_interval_index != td_viewport._view_port_interval_index) {
-                    td_viewport._view_port_interval_index = local_view_port_interval_index;
+                if (local_current_interval_index != td_viewport._current_interval_index) {
+                    td_viewport._current_interval_index = local_current_interval_index;
                     result = true;
 
-                    td_viewport.log('changing viewport ' + td_viewport._view_port_interval_index + ' ~ ' + real_view_port_width);
+                    td_viewport.log('changing viewport ' + td_viewport._current_interval_index + ' ~ ' + real_view_port_width);
                 }
 
                 break;
             }
-            local_view_port_interval_index++;
+            local_current_interval_index++;
         }
 
-        if ((result == false) && (local_view_port_interval_index != td_viewport._view_port_interval_index)) {
-            td_viewport._view_port_interval_index = local_view_port_interval_index;
+        if ((result == false) && (local_current_interval_index != td_viewport._current_interval_index)) {
+            td_viewport._current_interval_index = local_current_interval_index;
             result = true;
 
-            td_viewport.log('changing viewport ' + td_viewport._view_port_interval_index + ' ~ ' + real_view_port_width);
+            td_viewport.log('changing viewport ' + td_viewport._current_interval_index + ' ~ ' + real_view_port_width);
         }
 
         return result;
