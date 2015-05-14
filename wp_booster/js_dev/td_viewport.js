@@ -95,7 +95,7 @@ var td_viewport = {
 
 
     log: function log(msg) {
-        console.log(msg);
+        //console.log(msg);
     }
 };
 
