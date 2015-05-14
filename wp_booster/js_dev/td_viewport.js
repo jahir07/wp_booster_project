@@ -9,12 +9,14 @@
 var td_viewport = {
 
 
+
     /**
      * - initial (default) value of the _current_interval_index
      * - it's used by third part libraries
      * - it used just as constant value
      */
-    INTERVAL_INITIAL_INDEX : -1,
+    INTERVAL_INITIAL_INDEX: -1,
+
 
 
     /**
@@ -22,7 +24,8 @@ var td_viewport = {
      * - it should be modified/taken just by setter/getter methods
      * - after computing, it should not be a negative value
      */
-    _current_interval_index: this.INTERVAL_INITIAL_INDEX,
+    _current_interval_index : this.INTERVAL_INITIAL_INDEX,
+
 
 
     /**
@@ -30,7 +33,8 @@ var td_viewport = {
      * - it should be modified/taken just by setter/getter methods
      * - it must be a crescendo positive values
      */
-    _interval_list: [],
+    _interval_list : [],
+
 
 
     /**
@@ -38,20 +42,27 @@ var td_viewport = {
      */
     init: function init() {
         if ((typeof window.td_viewport_interval_list !== undefined) && (window.td_viewport_interval_list.constructor === Array)) {
-            this.set_interval_list(window.td_viewport_interval_list);
+
+            for (var i = 0; i < window.td_viewport_interval_list.length; i++) {
+                var item = new td_viewport.item();
+
+                var current_val = window.td_viewport_interval_list[i];
+
+                // the check is done to be sure that the intervals are well formatted
+                if (!current_val.hasOwnProperty('limit_bottom') || !current_val.hasOwnProperty('sidebar_width')) {
+                    break;
+                }
+
+                item.limit_bottom = current_val['limit_bottom'];
+                item.sidebar_width = current_val['sidebar_width'];
+
+                td_viewport._items.push(item);
+            }
+
             td_viewport.detect_changes();
         }
     },
 
-
-    /**
-     * - setter of the _current_interval_index
-     * - it should be used by outsiders libraries
-     * @param value
-     */
-    set_view_port_interval_index : function set_view_port_interval_index(value) {
-        this._current_interval_index = value;
-    },
 
 
     /**
@@ -60,8 +71,9 @@ var td_viewport = {
      * @returns {*}
      */
     get_current_interval_index : function get_current_interval_index() {
-        return this._current_interval_index;
+        return td_viewport._current_interval_index;
     },
+
 
 
     /**
@@ -70,19 +82,54 @@ var td_viewport = {
      * @param value
      */
     set_interval_list : function set_interval_list(value) {
-        this._interval_list = value;
+        td_viewport._interval_list = value;
     },
+
 
 
     /**
      * - getter of the _interval_list
      * - it should be used by outsiders libraries
-     * @param value
      * @returns {*}
      */
     get_interval_list : function get_interval_list() {
-        return this._interval_list;
+        return td_viewport._interval_list;
     },
+
+
+
+    /**
+     * - getter of the td_viewport current item
+     * - it should be used by outsiders libraries
+     * @returns {*}
+     */
+    get_current_interval_item : function get_current_interval_item() {
+
+        if (td_viewport._current_interval_index == td_viewport.INTERVAL_INITIAL_INDEX ||
+            td_viewport._current_interval_index == 0) {
+
+            return null;
+        }
+
+        return td_viewport._items[td_viewport._current_interval_index - 1];
+    },
+
+
+
+
+
+    _items : [],
+
+
+
+
+    item : function item() {
+        this.limit_bottom = undefined;
+        this.sidebar_width = undefined;
+    },
+
+
+
 
 
     /**
@@ -103,9 +150,9 @@ var td_viewport = {
             real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         }
 
-        for (var i = 0; i < td_viewport._interval_list.length; i++) {
+        for (var i = 0; i < td_viewport._items.length; i++) {
 
-            if (real_view_port_width <= td_viewport._interval_list[i]) {
+            if (real_view_port_width <= td_viewport._items[i].limit_bottom) {
 
                 if (local_current_interval_index != td_viewport._current_interval_index) {
                     td_viewport._current_interval_index = local_current_interval_index;

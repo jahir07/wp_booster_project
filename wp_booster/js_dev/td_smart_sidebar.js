@@ -31,6 +31,10 @@ var td_smart_sidebar = {
 
 
 
+    _view_port_current_interval_index: td_viewport.get_current_interval_index(),
+
+
+
     item: function() {
         this.content_jquery_obj = '';
         this.sidebar_jquery_obj = '';
@@ -316,9 +320,20 @@ var td_smart_sidebar = {
                  */
 
                 // we have to set the content width via JS
-                var column_content_width = 339;
-                if (td_smart_sidebar.is_tablet_grid) {
-                    column_content_width = 251;
+                //var column_content_width = 339;
+                //if (td_smart_sidebar.is_tablet_grid) {
+                //    column_content_width = 251;
+                //}
+
+
+
+                var column_content_width = 0;
+
+                var view_port_current_item = td_viewport.get_current_interval_item();
+
+                if (view_port_current_item != null) {
+                    column_content_width = view_port_current_item.sidebar_width;
+                    td_smart_sidebar.log("column sidebar width : " + column_content_width);
                 }
 
 
@@ -620,7 +635,9 @@ var td_smart_sidebar = {
         //}
 
 
-        switch (td_viewport.get_current_interval_index()) {
+        td_smart_sidebar._view_port_current_interval_index = td_viewport.get_current_interval_index();
+
+        switch (td_smart_sidebar._view_port_current_interval_index) {
 
             case 0 :
 
@@ -636,7 +653,10 @@ var td_smart_sidebar = {
                 if (td_smart_sidebar.is_tablet_grid === false) { // we switched
 
                     td_smart_sidebar.reset_run_once_flags();
+
                     td_smart_sidebar.is_tablet_grid = true;
+                    td_smart_sidebar.is_desktop_grid = false;
+
                     td_smart_sidebar.log('view port tablet');
                 }
                 td_smart_sidebar.is_enabled = true;
@@ -654,7 +674,10 @@ var td_smart_sidebar = {
                 if (td_smart_sidebar.is_tablet_grid === true) { // we switched
 
                     td_smart_sidebar.reset_run_once_flags();
+
                     td_smart_sidebar.is_tablet_grid = false;
+                    td_smart_sidebar.is_desktop_grid = true;
+
                     td_smart_sidebar.log('view port desktop');
                 }
                 td_smart_sidebar.is_enabled = true;
