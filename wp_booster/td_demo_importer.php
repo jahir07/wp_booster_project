@@ -316,7 +316,7 @@ class td_demo_media {
      * @param string $desc Optional. Description of the image
      * @return string|WP_Error Populated HTML img tag on success
      */
-    static function add_image_to_media_gallery($file, $post_id, $desc = null ) {
+    static function add_image_to_media_gallery($file, $td_attachment_id, $post_id = '', $desc = null ) {
         require_once(ABSPATH . 'wp-admin/includes/media.php');
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -346,7 +346,7 @@ class td_demo_media {
         }
 
 
-        update_post_meta($id, 'td_demo_attachment', true);
+        update_post_meta($id, 'td_demo_attachment', $td_attachment_id);
 
         return $id;
     }

@@ -89,8 +89,8 @@ class td_demo_installer {
 
     function __construct() {
         //AJAX VIEW PANEL LOADING
-        add_action( 'wp_ajax_nopriv_td_ajax_view_panel_loading', array($this, 'ajax_stacks_controller'));
-        add_action( 'wp_ajax_td_ajax_view_panel_loading', array($this, 'ajax_stacks_controller'));
+        add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
+        add_action( 'wp_ajax_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
     }
 
 
@@ -100,6 +100,9 @@ class td_demo_installer {
 
 
         if ($td_stack == 'uninstall_all') {
+
+
+
             foreach ($this->td_array_import_settings_from_file as $import_setting_from_file) {
                 td_global::$td_options[$import_setting_from_file] = '';
             }
@@ -119,11 +122,11 @@ class td_demo_installer {
         }
 
         switch ($td_view) {
-            case 'td_media';
+            case 'td_media_1';
                 // load panel settings
                 $this->import_panel_settings(td_global::$stacks_list[$td_stack]['folder'] . 'td_panel_settings.txt');
                 // load the media import script
-                require_once(td_global::$stacks_list[$td_stack]['folder'] . 'td_media.php');
+                require_once(td_global::$stacks_list[$td_stack]['folder'] . 'td_media_1.php');
                 break;
 
             case 'td_import';
