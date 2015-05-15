@@ -74,9 +74,6 @@ class td_panel {
             elseif ($_REQUEST['td_page'] == 'td_view_import_export_settings') {
                 include 'td_view_import_export_settings.php';
             }
-            elseif ($_REQUEST['td_page'] == 'td_view_import_stacks') {
-                include 'td_view_import_stacks.php';
-            }
             elseif ($_REQUEST['td_page'] == 'td_view_custom_fonts') {
                 include 'td_view_custom_fonts.php';
             }
