@@ -72,7 +72,8 @@ class td_global {
         'td_wp_admin' => '/includes/wp_booster/wp-admin/js/td_wp_admin.js',
         'td_wp_admin_color_picker' => '/includes/wp_booster/wp-admin/js/td_wp_admin_color_picker.js',
         'td_wp_admin_panel' => '/includes/wp_booster/wp-admin/js/td_wp_admin_panel.js',
-        'td_edit_page' => '/includes/wp_booster/wp-admin/js/td_edit_page.js'
+        'td_edit_page' => '/includes/wp_booster/wp-admin/js/td_edit_page.js',
+        'td_wp_admin_stacks' => '/includes/wp_booster/wp-admin/js/td_wp_admin_stacks.js',
     );
 
 

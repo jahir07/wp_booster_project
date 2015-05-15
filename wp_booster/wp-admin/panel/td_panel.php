@@ -18,9 +18,30 @@ class td_panel {
      * register our theme panel via the hook
      */
     function register_theme_panel() {
-        add_menu_page('Theme panel', 'Theme panel', "edit_posts", "td_theme_panel", array($this, "td_theme_panel"), null); /* wp doc: add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position ); */
+        /* wp doc: add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position ); */
+        add_menu_page('Theme panel', TD_THEME_NAME, "edit_posts", "td_theme_welcome", array($this, "td_view_welcome"), null, 3);
+
+        add_submenu_page( "td_theme_welcome", 'Install demos', 'Install demos', 'edit_posts', 'td_theme_demos',  array($this, "td_theme_demos") );
+        add_submenu_page( "td_theme_welcome", 'Theme panel', 'Theme panel', 'edit_posts', 'td_theme_panel',  array($this, "td_theme_panel") );
+
+
+        // shit hack for welcome menu
+        global $submenu; // this is a global from WordPress
+        $submenu['td_theme_welcome'][0][0] = 'Welcome';
+
+
     }
 
+
+
+    function td_view_welcome() {
+        require_once "td_view_welcome.php";
+    }
+
+
+    function td_theme_demos() {
+        require_once "td_view_install_demos.php";
+    }
 
     /**
      * this is our theme panel
@@ -53,8 +74,8 @@ class td_panel {
             elseif ($_REQUEST['td_page'] == 'td_view_import_export_settings') {
                 include 'td_view_import_export_settings.php';
             }
-            elseif ($_REQUEST['td_page'] == 'td_view_import_theme_styles') {
-                include 'td_view_import_theme_styles.php';
+            elseif ($_REQUEST['td_page'] == 'td_view_import_stacks') {
+                include 'td_view_import_stacks.php';
             }
             elseif ($_REQUEST['td_page'] == 'td_view_custom_fonts') {
                 include 'td_view_custom_fonts.php';

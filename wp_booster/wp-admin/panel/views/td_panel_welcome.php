@@ -76,26 +76,6 @@
 <?php echo td_panel_generator::box_end();?>
 
 
-<!-- One click demo install -->
-<?php echo td_panel_generator::box_start('Install demo data', false); ?>
-
-<!-- Install demo data -->
-<div class="td-box-row">
-    <div class="td-box-description td-box-full">
-        <p>With just one click you can install the demo on your site. The install process only takes one or two minutes and it will not create duplicated content.</p><p><span style="color: #ff0000">NOTE</span> - this will install new posts, categories, pages, menus and widgets and they cannot be removed automatically, you have to remove them manually. It's recommended to be used on a development/testing setup.</p>
-    </div>
-    <div class="td-box-row-margin-bottom"></div>
-</div>
-
-<div class="td-box-row">
-    <a class="td-big-button" href="?page=td_theme_panel&td_page=td_view_import" onclick="return confirm('Are you sure? The demo content cannot be uninstalled. You will have to manually delete the posts/menus/widgets. The demo content does not make duplicated posts.')">Install demo</a>
-</div>
-
-
-<?php echo td_panel_generator::box_end();?>
-
-
-
 
 <!-- Import / Export Demo Fonts Settings -->
 <?php echo td_panel_generator::box_start('Import predefined styles (stacks)', false); ?>
@@ -109,7 +89,7 @@
 </div>
 
 <div class="td-box-row">
-    <a class="td-big-button" href="?page=td_theme_panel&td_page=td_view_import_theme_styles">Go to: Import predefined styles panel</a>
+    <a class="td-big-button" href="?page=td_theme_panel&td_page=td_view_import_stacks">Go to: Import predefined styles panel</a>
 </div>
 
 
