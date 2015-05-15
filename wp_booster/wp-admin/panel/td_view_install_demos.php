@@ -180,8 +180,8 @@ if(!empty($_REQUEST['td_option'])) {
 				<!-- Import content -->
 				<div class="theme-screenshot">
 					<img src="<?php echo td_global::$stacks_list[$stack_id]['img'] ?>"/>
+					<div class="td-progress-bar-wrap"><div class="td-progress-bar td-progress-bar-<?php echo $stack_id ?>"></div></div>
 				</div>
-				<div class="td-progress-bar-wrap"><div class="td-progress-bar td-progress-bar-<?php echo $stack_id ?>"></div></div>
 				<h3 class="theme-name"><?php echo $stack_params['text'] ?></h3>
 
 				<div class="td-admin-checkbox td-small-checkbox">

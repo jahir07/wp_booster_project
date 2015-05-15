@@ -9,7 +9,7 @@
   position: relative;
   margin: 10px 40px 0 20px;
   max-width: 1050px;
-  display: inline-block;
+  clear: both;
 
   p {
     font-size: 15px;
@@ -18,11 +18,29 @@
 
   .theme-screenshot {
     background-color: #fff;
+    z-index: -1;
+    overflow: auto;
+
+    /* responsive portrait phone */
+    @media (min-width: 1600px) {
+        height: 213px;
+    }
   }
   .theme .theme-actions {
     opacity: 1;
     height: 35px;
     padding-top: 7px;
+
+    /* responsive portrait phone */
+    @media (max-width: 782px) {
+      width: 96%;
+      padding: 12px 2% 0;
+      text-align: center;
+      height: 46px;
+      right: 1px;
+      position: relative;
+      border-top: 1px solid #dadada;
+    }
 
     .button {
       margin: 0;
@@ -35,10 +53,17 @@
   .theme {
     cursor: auto !important;
 
+    /* responsive portrait phone */
+    @media (min-width: 1600px) {
+      width: 30.6%;
+      margin: 0 4% 4% 0;
+    }
+
     .theme-name {
       text-align: center;
       padding: 18px 10px;
       box-shadow: none;
+      background-color: #f5f5f5;
     }
   }
 }
@@ -74,6 +99,14 @@
 .td-admin-box-three {
   margin-top: 40px;
   width: 33.3333333%;
+
+  /* responsive portrait phone */
+  @media (max-width: 768px) {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: 0;
+  }
 }
 
 
@@ -109,7 +142,7 @@
 
   // small checkbox
   .td-small-checkbox {
-    border-top: 1px solid rgba(204, 204, 204, 0.45);
+    border-top: 1px solid #dadada;
     padding: 10px;
 
     p {

@@ -2009,7 +2009,7 @@ title one row controls
   position: relative;
   margin: 10px 40px 0 20px;
   max-width: 1050px;
-  display: inline-block;
+  clear: both;
 }
 .td-admin-wrap p {
   font-size: 15px;
@@ -2017,11 +2017,31 @@ title one row controls
 }
 .td-admin-wrap .theme-screenshot {
   background-color: #fff;
+  z-index: -1;
+  overflow: auto;
+  /* responsive portrait phone */
+}
+@media (min-width: 1600px) {
+  .td-admin-wrap .theme-screenshot {
+    height: 213px;
+  }
 }
 .td-admin-wrap .theme .theme-actions {
   opacity: 1;
   height: 35px;
   padding-top: 7px;
+  /* responsive portrait phone */
+}
+@media (max-width: 782px) {
+  .td-admin-wrap .theme .theme-actions {
+    width: 96%;
+    padding: 12px 2% 0;
+    text-align: center;
+    height: 46px;
+    right: 1px;
+    position: relative;
+    border-top: 1px solid #dadada;
+  }
 }
 .td-admin-wrap .theme .theme-actions .button {
   margin: 0;
@@ -2031,11 +2051,19 @@ title one row controls
 }
 .td-admin-wrap .theme {
   cursor: auto !important;
+  /* responsive portrait phone */
+}
+@media (min-width: 1600px) {
+  .td-admin-wrap .theme {
+    width: 30.6%;
+    margin: 0 4% 4% 0;
+  }
 }
 .td-admin-wrap .theme .theme-name {
   text-align: center;
   padding: 18px 10px;
   box-shadow: none;
+  background-color: #f5f5f5;
 }
 .td-admin-box-text {
   display: inline-block;
@@ -2062,6 +2090,15 @@ title one row controls
 .td-admin-box-three {
   margin-top: 40px;
   width: 33.3333333%;
+  /* responsive portrait phone */
+}
+@media (max-width: 768px) {
+  .td-admin-box-three {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: 0;
+  }
 }
 .td-admin-container.about-wrap .about-text {
   margin-right: 290px;
@@ -2086,7 +2123,7 @@ title one row controls
   text-align: right;
 }
 .td-admin-wrap .td-small-checkbox {
-  border-top: 1px solid rgba(204, 204, 204, 0.45);
+  border-top: 1px solid #dadada;
   padding: 10px;
 }
 .td-admin-wrap .td-small-checkbox p {
@@ -2121,7 +2158,7 @@ title one row controls
   width: 100%;
   height: 5px;
   position: absolute;
-  bottom: 96px;
+  bottom: -5px;
 }
 .td-progress-bar {
   background-color: #222;
