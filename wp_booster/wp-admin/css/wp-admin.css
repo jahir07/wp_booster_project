@@ -2000,6 +2000,24 @@ title one row controls
   text-align: center;
   color: #999;
 }
+/*
+
+  General CSS for WP admin panel
+
+*/
+.about-wrap .about-text {
+  margin-right: 290px;
+  min-height: 160px;
+}
+.about-wrap .wp-badge {
+  background: url("../../../../images/panel/admin-panel/logo-panel.png") no-repeat #111111;
+  width: 270px;
+  padding-top: 160px;
+  height: 0;
+  line-height: 34px;
+  color: #000;
+  text-align: right;
+}
 .td-progress-bar-wrap {
   background-color: gray;
   width: 100%;
