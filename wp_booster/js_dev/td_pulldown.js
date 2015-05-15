@@ -9,6 +9,11 @@
 var td_pulldown = {
 
 
+    // - keeps internally the current interval index
+    // - it's set at init()
+    _view_port_interval_index : td_viewport.INTERVAL_INITIAL_INDEX,
+
+
 
     // this flag mark that the td_pulldown.items must be reinitialized at the changing view port size
     reinitialize_items_at_change_view_port: false,
@@ -91,9 +96,12 @@ var td_pulldown = {
     /**
      * - function used to init the td_pulldown object
      * - it must be called before any item adding
+     * - it initializes the _view_port_interval_index
      * - the items list is initialized
      */
     init: function init() {
+
+        td_pulldown._view_port_interval_index = td_viewport.get_current_interval_index();
 
         td_pulldown.items = [];
     },
@@ -589,7 +597,7 @@ var td_pulldown = {
             return;
         }
 
-        if (td_pulldown.reinitialize_items_at_change_view_port === true && td_viewport.detect_changes()) {
+        if (td_pulldown.reinitialize_items_at_change_view_port === true && (td_pulldown._view_port_interval_index != td_viewport.get_current_interval_index())) {
             td_pulldown._reinitialize_all_items();
         }
 

@@ -233,6 +233,9 @@ function td_on_ready_ajax_blocks() {
     jQuery('.td-subcat-item a').click(function(event) {
         event.preventDefault();
 
+        jQuery('.td-subcat-item a').removeClass('td-cur-simple-item');
+        jQuery(this).addClass('td-cur-simple-item');
+
         var current_block_obj = td_getBlockObjById(jQuery(this).data('td_block_id'));
 
         if(jQuery(this).hasClass('ajax-page-disabled') || current_block_obj.is_ajax_running === true) {

@@ -7,38 +7,6 @@
 
 "use strict";
 
-/**
- * get the real view port width on safari
- * @type {{div_added: boolean, div_jquery_object: string, get_real_width: Function}}
- */
-var td_safari_view_port_width = {
-    div_added:false,
-    div_jquery_object: '',
-
-    get_real_width: function () {
-        if (this.div_added === false) {
-            // we don't have a div present
-            this.div_jquery_object = jQuery('<div>')
-                .css({
-
-                    "height": "1px",
-                    "position": "absolute",
-                    "top": "-1",
-                    "left": "0",
-                    "right": "0",
-                    "visibility": "hidden",
-                    "z-index": "-1"
-
-                });
-            this.div_jquery_object.appendTo('body');
-            this.div_added = true;
-        }
-        return this.div_jquery_object.width();
-    }
-};
-
-
-
 
 var td_smart_sidebar = {
     has_items: false, // this class will only work when this flag is true. If we don't have any items, all the calculations on scroll will be disabled by this flag
@@ -60,6 +28,10 @@ var td_smart_sidebar = {
 
 
     is_tablet_grid: false, //we detect if the current grid is the tablet portrait one
+
+
+
+    _view_port_current_interval_index: td_viewport.get_current_interval_index(),
 
 
 
@@ -348,9 +320,20 @@ var td_smart_sidebar = {
                  */
 
                 // we have to set the content width via JS
-                var column_content_width = 339;
-                if (td_smart_sidebar.is_tablet_grid) {
-                    column_content_width = 251;
+                //var column_content_width = 339;
+                //if (td_smart_sidebar.is_tablet_grid) {
+                //    column_content_width = 251;
+                //}
+
+
+
+                var column_content_width = 0;
+
+                var view_port_current_item = td_viewport.get_current_interval_item();
+
+                if (view_port_current_item != null) {
+                    column_content_width = view_port_current_item.sidebar_width;
+                    td_smart_sidebar.log("column sidebar width : " + column_content_width);
                 }
 
 
@@ -548,14 +531,14 @@ var td_smart_sidebar = {
         // enable and disable the smart sidebar
 
 
-        var real_view_port_width = 0;
-
-        if (td_detect.is_safari === true) {
-            real_view_port_width = td_safari_view_port_width.get_real_width();
-        } else {
-            // not safari
-            real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        }
+        //var real_view_port_width = 0;
+        //
+        //if (td_detect.is_safari === true) {
+        //    real_view_port_width = td_safari_view_port_width.get_real_width();
+        //} else {
+        //    // not safari
+        //    real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        //}
 
 
 
@@ -652,12 +635,17 @@ var td_smart_sidebar = {
         //}
 
 
+        td_smart_sidebar._view_port_current_interval_index = td_viewport.get_current_interval_index();
 
-        switch (td_viewport.view_port_flag) {
+        switch (td_smart_sidebar._view_port_current_interval_index) {
 
             case 0 :
 
                 td_smart_sidebar.is_enabled = false;
+
+                // flag marked false to be made true only once, when the view port has not the first interval index [0]
+                td_smart_sidebar.is_enabled_state_run_once = false;
+
                 break;
 
             case 1 :
@@ -665,11 +653,19 @@ var td_smart_sidebar = {
                 if (td_smart_sidebar.is_tablet_grid === false) { // we switched
 
                     td_smart_sidebar.reset_run_once_flags();
+
                     td_smart_sidebar.is_tablet_grid = true;
+                    td_smart_sidebar.is_desktop_grid = false;
+
                     td_smart_sidebar.log('view port tablet');
                 }
                 td_smart_sidebar.is_enabled = true;
                 td_smart_sidebar.is_disabled_state_run_once = false;
+
+                if (td_smart_sidebar.is_enabled_state_run_once === false) {
+                    td_smart_sidebar.is_enabled_state_run_once = true;
+                    td_smart_sidebar.log('smart_sidebar_enabled');
+                }
 
                 break;
 
@@ -678,11 +674,19 @@ var td_smart_sidebar = {
                 if (td_smart_sidebar.is_tablet_grid === true) { // we switched
 
                     td_smart_sidebar.reset_run_once_flags();
+
                     td_smart_sidebar.is_tablet_grid = false;
+                    td_smart_sidebar.is_desktop_grid = true;
+
                     td_smart_sidebar.log('view port desktop');
                 }
                 td_smart_sidebar.is_enabled = true;
                 td_smart_sidebar.is_disabled_state_run_once = false;
+
+                if (td_smart_sidebar.is_enabled_state_run_once === false) {
+                    td_smart_sidebar.is_enabled_state_run_once = true;
+                    td_smart_sidebar.log('smart_sidebar_enabled');
+                }
 
                 break;
         }
@@ -697,7 +701,7 @@ var td_smart_sidebar = {
 
 
     log: function log(msg) {
-        console.log(msg);
+        //console.log(msg);
     },
 
 
