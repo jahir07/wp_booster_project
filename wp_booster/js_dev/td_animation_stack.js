@@ -17,18 +17,34 @@
 
 var td_animation_stack = {
 
+    /*
+        Important:
+        1. The first animation step is produced by the the body selector @see animation-stack.less
+        2. The second animation step can be applied by the animation_css_class1
+        3. The final (the main) animation step is applied by the animation_css_class2
+     */
 
 
 
 
-    animation_css_class1: '',
-    animation_css_class2: '',
+    // - flag css class used just to look for not yet computed item
+    // - it's set by ready_init (on ready)
+    // - all dom components that need to be animated will be marked with this css class in ready_init
+    // - it can be used for a precomputed style, but carefully, because it's applied at ready_init (on ready)
+    _animation_css_class1: '',
+
+
+
+    // - flag css class used to animate custom
+    // - it's set by ready_init (on ready)
+    // - this css class applies the final animation
+    _animation_css_class2: '',
 
 
 
 
-    // td_animation_stack runs just only when this flag is true
-    // it's done true by the init function
+    // - td_animation_stack runs just only when this flag is true
+    // - it's done true by the init function
     activated: false,
 
 
@@ -53,12 +69,12 @@ var td_animation_stack = {
      */
     ready_init: function ready_init() {
 
-        if (td_lazy_loading_image_effect != undefined) {
-            td_animation_stack.animation_css_class1 = 'td-animation-stack-' + td_lazy_loading_image_effect + '-1';
-            td_animation_stack.animation_css_class2 = 'td-animation-stack-' + td_lazy_loading_image_effect + '-2';
+        if (td_animation_stack_effect != undefined) {
+            td_animation_stack._animation_css_class1 = 'td-animation-stack-' + td_animation_stack_effect + '-1';
+            td_animation_stack._animation_css_class2 = 'td-animation-stack-' + td_animation_stack_effect + '-2';
         }
 
-        jQuery('.td-animation-stack .entry-thumb, .post img').addClass(td_animation_stack.animation_css_class1);
+        jQuery('.td-animation-stack .entry-thumb, .post .entry-thumb, .post img[class*="wp-image-"]').addClass(td_animation_stack._animation_css_class1);
 
 
         var date = new Date();
@@ -88,7 +104,7 @@ var td_animation_stack = {
 
                 // remove 'lazy-animation' class from the body
                 // this class is applied from the theme settings
-                jQuery('body').removeClass('lazy-animation-type0,lazy-animation-type1');
+                //jQuery('body').removeClass('lazy-animation');
             }
 
         }, 50);
@@ -259,15 +275,19 @@ var td_animation_stack = {
 
 
 
+
+        jQuery('.td-animation-stack .entry-thumb, .post .entry-thumb, .post img[class*="wp-image-"]').not('.' + td_animation_stack._animation_css_class2).addClass(td_animation_stack._animation_css_class1);
+
+
+
+
         // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
-        var founded_elements = jQuery(selector + ', .post').find('.entry-thumb, img').filter(function() {
-
-
+        var founded_elements = jQuery(selector + ', .post').find('.entry-thumb, img[class*="wp-image-"]').filter(function() {
 
 
 
             //return jQuery(this).css('opacity') === '0';
-            return jQuery(this).hasClass(td_animation_stack.animation_css_class1);
+            return jQuery(this).hasClass(td_animation_stack._animation_css_class1);
 
 
 
@@ -334,8 +354,8 @@ var td_animation_stack = {
 
 
                             //local_stack[i].jquery_obj.css('opacity', 1);
-                            local_stack[i].jquery_obj.removeClass(td_animation_stack.animation_css_class1);
-                            local_stack[i].jquery_obj.addClass(td_animation_stack.animation_css_class2);
+                            local_stack[i].jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                            local_stack[i].jquery_obj.addClass(td_animation_stack._animation_css_class2);
 
 
 
@@ -473,8 +493,8 @@ var td_animation_stack = {
 
 
             //item_above_view_port.jquery_obj.css('opacity', 1);
-            item_above_view_port.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
-            item_above_view_port.jquery_obj.addClass(td_animation_stack.animation_css_class2);
+            item_above_view_port.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+            item_above_view_port.jquery_obj.addClass(td_animation_stack._animation_css_class2);
 
 
         }
@@ -492,8 +512,8 @@ var td_animation_stack = {
 
 
             //current_animation_item.jquery_obj.css('opacity', 1);
-            current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
-            current_animation_item.jquery_obj.addClass(td_animation_stack.animation_css_class2);
+            current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+            current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
 
 
 
@@ -527,8 +547,8 @@ var td_animation_stack = {
 
 
                 //current_animation_item.jquery_obj.css('opacity', 1);
-                current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
-                current_animation_item.jquery_obj.addClass(td_animation_stack.animation_css_class2);
+                current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
 
 
 

@@ -123,13 +123,13 @@
 
 
 <!-- Lazy loading animation -->
-<?php echo td_panel_generator::box_start('Lazy animation image', false); ?>
+<?php echo td_panel_generator::box_start('Loading animation image', false); ?>
     <!-- text -->
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
             <p>The effect animation allows you to animate your theme images as you scroll, from top to the bottom.
                 It applies even on the next and prev operations creating an effect of loading images to the right or to the left.</p>
-	        <p>Exceeding the limit of <b>2 sec</b> for loading all images, the lazy animation effect is canceled. This rule is also available at block's loading content using ajax, if the animation is enabled.</p>
+	        <p>Exceeding the limit of <b>2 sec</b> for loading all images, the animation effect is canceled. This rule is also available at block's loading content using ajax, if the animation is enabled.</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
@@ -137,14 +137,14 @@
     <!-- use lazy loading animation -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">Use lazy animation image</span>
-            <p>Disable or enable lazy animation effect.</p>
+            <span class="td-box-title">Use loading animation image</span>
+            <p>Disable or enable loading animation effect.</p>
         </div>
         <div class="td-box-control-full">
             <?php
             echo td_panel_generator::checkbox(array(
                 'ds' => 'td_option',
-                'option_id' => 'tds_lazy_loading_image',
+                'option_id' => 'tds_animation_stack',
                 'true_value' => '',
                 'false_value' => 'no'
             ));
@@ -154,18 +154,20 @@
 
 	<div class="td-box-row">
 		<div class="td-box-description">
-			<span class="td-box-title">Effect</span>
-			<p>Efectul ales</p>
+			<span class="td-box-title">Loading effect</span>
+			<p>You can choose one of the following effects which will be used at the first images loading.</p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
 			echo td_panel_generator::radio_button_control(array(
 				'ds' => 'td_option',
-				'option_id' => 'tds_lazy_loading_image_effect',
+				'option_id' => 'tds_animation_stack_effect',
 				'values' => array(
 					array('text' => 'Fade', 'val' => 'type0'),
 					array('text' => 'Margin', 'val' => 'type1'),
 					array('text' => 'Scale', 'val' => 'type2'),
+					array('text' => 'Fade & Margin', 'val' => 'type3'),
+					array('text' => 'Fade & Scale', 'val' => 'type4'),
 				)
 			));
 			?>
