@@ -2018,6 +2018,9 @@ title one row controls
   color: #000;
   text-align: right;
 }
+.media-sidebar .gallery-settings .setting select {
+  float: right;
+}
 .td-progress-bar-wrap {
   background-color: gray;
   width: 100%;
