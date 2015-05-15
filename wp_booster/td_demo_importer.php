@@ -1,26 +1,15 @@
 <?php
 
-/**
- * Class td_stacks_importer
- *
- * menu
- * widgets
- * homepage
- *
- */
-class td_stacks_importer {
-
-}
 
 class td_demo_category {
 
-    static function add_category($category_name, $parent_id=0) {
+    static function add_category($category_name, $parent_id = 0) {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
         $new_cat_id = wp_create_category($category_name, $parent_id);
 
         // keep a list of installed category ids so we can delete them later if needed
         $td_stacks_demo_categories_id []= $new_cat_id;
-        td_util::update_option('td_stacks_demo_categories_id', $td_stacks_demo_categories_id);
+        td_util::update_option('td_demo_categories_id', $td_stacks_demo_categories_id);
 
         return $new_cat_id;
     }
@@ -34,14 +23,56 @@ class td_demo_category {
 }
 
 class td_demo_content {
+
+
+    static private function parse_content_file($file_path) {
+        $file_content = file_get_contents($file_path);
+
+        preg_match_all("/xxx_(.*)_xxx/U", $file_content, $matches, PREG_PATTERN_ORDER);
+
+        /*
+        $matches =
+        [0] => Array
+        (
+            [0] => xxx_td_pic_5:300x200_xxx
+            [1] => xxx_td_pic_5_xxx
+        )
+
+        [1] => Array
+        (
+            [0] => td_pic_5:300x200
+            [1] => td_pic_5
+        )
+        */
+        if (!empty($matches) and is_array($matches)) {
+            foreach ($matches[1] as $index => $match) {
+                $size = ''; //default image size
+                //try to read the size form the match
+                if (strpos($match, ':') !== false) {
+                    $match_parts = explode(':', $match);
+                    $match = $match_parts[0];
+                    $size = explode('x', $match_parts[1]);
+                    print_r($size);
+                }
+
+
+
+                $file_content = str_replace($matches[0][$index], td_demo_media::get_image_url_by_td_id($match, $size), $file_content);
+            }
+        }
+
+        return $file_content;
+    }
+
+
     static function add_post($params) {
         $new_post = array(
             'post_title' => $params['title'],
             'post_status' => 'publish',
             'post_type' => 'post',
-            'post_content' => file_get_contents($params['file']),
+            'post_content' => self::parse_content_file($params['file']),
             'comment_status' => 'open',
-            'post_category' => '', //adding category to this post
+            'post_category' => $params['categories_id_array'], //adding category to this post
             'guid' => td_global::td_generate_unique_id()
         );
 
@@ -51,6 +82,8 @@ class td_demo_content {
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($post_id, 'td_demo_content', true);
 
+
+        set_post_thumbnail($post_id, td_demo_media::get_by_td_id($params['featured_image_td_id']));
         return $post_id;
     }
 
@@ -60,7 +93,7 @@ class td_demo_content {
             'post_title' => $params['title'],
             'post_status' => 'publish',
             'post_type' => 'page',
-            'post_content' => file_get_contents($params['file']),
+            'post_content' => self::parse_content_file($params['file']),
             'comment_status' => 'open',
             'guid' => td_global::td_generate_unique_id()
         );
@@ -74,6 +107,12 @@ class td_demo_content {
         //set the page template if we have one
         if (!empty($params['page_template'])) {
             update_post_meta($page_id, '_wp_page_template', $params['page_template']);
+        }
+
+
+        if (!empty($params['homepage']) and $params['homepage'] === true) {
+            update_option( 'page_on_front', $page_id);
+            update_option( 'show_on_front', 'page' );
         }
         return $page_id;
     }
@@ -117,6 +156,12 @@ class td_demo_widgets {
 
     //adds a widget to the default sidebar
     static function add_widget_to_sidebar($sidebar_name, $widget_name, $atts) {
+
+        $tmp_sidebars = td_util::get_option('sidebars');
+        if (!in_array($sidebar_name,$tmp_sidebars)) {
+            td_util::error(__FILE__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_name);
+        }
+
         $widget_instances = get_option('widget_' . $widget_name);
         //in the demo mode, all the widgets will have an istance id of 70+
         $widget_instances[self::$last_widget_instance] = $atts;
@@ -142,9 +187,11 @@ class td_demo_widgets {
      */
     static function remove() {
         $tmp_sidebars = td_util::get_option('sidebars');
-        foreach ($tmp_sidebars as $index => $sidebar) {
-            if (substr($sidebar, 0, 8) == 'td_demo_') {
-                unset($tmp_sidebars[$index]);
+        if (!empty($tmp_sidebars)) {
+            foreach ($tmp_sidebars as $index => $sidebar) {
+                if (substr($sidebar, 0, 8) == 'td_demo_') {
+                    unset($tmp_sidebars[$index]);
+                }
             }
         }
         td_util::update_option('sidebars', $tmp_sidebars);
@@ -316,7 +363,7 @@ class td_demo_media {
      * @param string $desc Optional. Description of the image
      * @return string|WP_Error Populated HTML img tag on success
      */
-    static function add_image_to_media_gallery($file, $td_attachment_id, $post_id = '', $desc = null ) {
+    static function add_image_to_media_gallery($td_attachment_id, $file, $post_id = '', $desc = null ) {
         require_once(ABSPATH . 'wp-admin/includes/media.php');
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -367,5 +414,42 @@ class td_demo_media {
                 wp_delete_attachment($post->ID, true);
             }
         }
+    }
+
+
+    static function get_by_td_id($td_id) {
+        $args = array(
+            'post_type' => array('attachment'),
+            'post_status' => 'inherit',
+            'meta_key'  => 'td_demo_attachment',
+        );
+
+        //@todo big problem here - we rely on the wp_cache from get_post_meta too much
+        $query = new WP_Query( $args );
+        if (!empty($query->posts)) {
+            foreach ($query->posts as $post) {
+                //search for our td_id in the post meta
+                $pic_td_id = get_post_meta($post->ID, 'td_demo_attachment', true);
+                if ($pic_td_id == $td_id) {
+                    return $post->ID;
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    static function get_image_url_by_td_id($td_id, $size = 'full') {
+        $image_id = self::get_by_td_id($td_id);
+        if($image_id !== false) {
+
+            $attachement_array = wp_get_attachment_image_src($image_id, $size, false );
+            if (!empty($attachement_array[0])) {
+                return $attachement_array[0];
+            }
+
+        }
+        return false;
     }
 }
