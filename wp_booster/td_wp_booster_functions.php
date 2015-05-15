@@ -104,6 +104,9 @@ td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/incl
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
 
+// tagdiv stacks importer
+require_once('td_demo_importer.php');
+require_once('td_demo_installer.php');
 
 require_once('td_background.php');  //the background support
 

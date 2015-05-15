@@ -70,7 +70,12 @@ class td_util {
     }
 
 
-    //reads a theme option from wp
+    /**
+     * reads a theme option from wp
+     * @param $optionName
+     * @param string $default_value
+     * @return string|array
+     */
     static function get_option($optionName, $default_value = '') {
         //$theme_options = get_option(TD_THEME_OPTIONS_NAME);
 

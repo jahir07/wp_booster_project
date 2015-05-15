@@ -147,6 +147,7 @@ $td_translation_map = array(
 
     //social counters
     'Like' => __('Like', TD_THEME_NAME),
+    'Likes' => __('Likes', TD_THEME_NAME),
     'Fans' => __('Fans', TD_THEME_NAME),
     'Follow' => __('Follow', TD_THEME_NAME),
     'Followers' => __('Followers', TD_THEME_NAME),
