@@ -371,6 +371,7 @@ function hook_wp_head() {
 
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
+	td_js_buffer::add_variable('td_lazy_loading_image_effect', td_global::$td_options['tds_lazy_loading_image_effect']);
 
 
 
@@ -451,13 +452,11 @@ function hook_wp_head() {
         ob_start();
         ?>
         <script>
-            jQuery(window).load(function() {
 
-                // if the theme has td_animation_stack, initialize it
-                if (typeof window.td_animation_stack !== 'undefined') {
-                    window.td_animation_stack.init();
-                }
+            jQuery(window).load(function() {
+                window.td_animation_stack.init();
             });
+
         </script>
         <?php
         $buffer = ob_get_clean();
@@ -469,7 +468,13 @@ function hook_wp_head() {
 }
 
 function td_hook_add_custom_body_class($classes) {
-	$classes[] = 'lazy-animation';
+
+	$effect_type = td_global::$td_options['tds_lazy_loading_image_effect'];
+
+	if (!empty($effect_type)) {
+		$classes[] = 'lazy-animation-' . $effect_type;
+	}
+
 	return $classes;
 }
 

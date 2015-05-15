@@ -151,6 +151,26 @@
             ?>
         </div>
     </div>
+
+	<div class="td-box-row">
+		<div class="td-box-description">
+			<span class="td-box-title">Effect</span>
+			<p>Efectul ales</p>
+		</div>
+		<div class="td-box-control-full">
+			<?php
+			echo td_panel_generator::radio_button_control(array(
+				'ds' => 'td_option',
+				'option_id' => 'tds_lazy_loading_image_effect',
+				'values' => array(
+					array('text' => 'Fade', 'val' => 'type0'),
+					array('text' => 'Margin', 'val' => 'type1'),
+					array('text' => 'Scale', 'val' => 'type2'),
+				)
+			));
+			?>
+		</div>
+	</div>
 <?php echo td_panel_generator::box_end();?>
 
 

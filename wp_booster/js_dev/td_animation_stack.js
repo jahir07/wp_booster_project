@@ -21,7 +21,8 @@ var td_animation_stack = {
 
 
 
-    animation_css_class: '',
+    animation_css_class1: '',
+    animation_css_class2: '',
 
 
 
@@ -52,6 +53,14 @@ var td_animation_stack = {
      */
     ready_init: function ready_init() {
 
+        if (td_lazy_loading_image_effect != undefined) {
+            td_animation_stack.animation_css_class1 = 'td-animation-stack-' + td_lazy_loading_image_effect + '-1';
+            td_animation_stack.animation_css_class2 = 'td-animation-stack-' + td_lazy_loading_image_effect + '-2';
+        }
+
+        jQuery('.td-animation-stack .entry-thumb, .post img').addClass(td_animation_stack.animation_css_class1);
+
+
         var date = new Date();
         var ready_time = date.getTime();
 
@@ -79,7 +88,7 @@ var td_animation_stack = {
 
                 // remove 'lazy-animation' class from the body
                 // this class is applied from the theme settings
-                jQuery('body').removeClass('lazy-animation');
+                jQuery('body').removeClass('lazy-animation-type0,lazy-animation-type1');
             }
 
         }, 50);
@@ -258,7 +267,7 @@ var td_animation_stack = {
 
 
             //return jQuery(this).css('opacity') === '0';
-            return jQuery(this).hasClass(td_animation_stack.animation_css_class);
+            return jQuery(this).hasClass(td_animation_stack.animation_css_class1);
 
 
 
@@ -323,8 +332,13 @@ var td_animation_stack = {
 
 
 
+
                             //local_stack[i].jquery_obj.css('opacity', 1);
-                            local_stack[i].jquery_obj.removeClass(td_animation_stack.animation_css_class);
+                            local_stack[i].jquery_obj.removeClass(td_animation_stack.animation_css_class1);
+                            local_stack[i].jquery_obj.addClass(td_animation_stack.animation_css_class2);
+
+
+
 
                         }
                         return;
@@ -459,7 +473,8 @@ var td_animation_stack = {
 
 
             //item_above_view_port.jquery_obj.css('opacity', 1);
-            item_above_view_port.jquery_obj.removeClass(td_animation_stack.animation_css_class);
+            item_above_view_port.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
+            item_above_view_port.jquery_obj.addClass(td_animation_stack.animation_css_class2);
 
 
         }
@@ -477,7 +492,8 @@ var td_animation_stack = {
 
 
             //current_animation_item.jquery_obj.css('opacity', 1);
-            current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class);
+            current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
+            current_animation_item.jquery_obj.addClass(td_animation_stack.animation_css_class2);
 
 
 
@@ -511,7 +527,8 @@ var td_animation_stack = {
 
 
                 //current_animation_item.jquery_obj.css('opacity', 1);
-                current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class);
+                current_animation_item.jquery_obj.removeClass(td_animation_stack.animation_css_class1);
+                current_animation_item.jquery_obj.addClass(td_animation_stack.animation_css_class2);
 
 
 
