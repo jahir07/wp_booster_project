@@ -78,7 +78,7 @@
 
 
 <!-- Import / Export Demo Fonts Settings -->
-<?php echo td_panel_generator::box_start('Import predefined styles (stacks)', false); ?>
+<?php echo td_panel_generator::box_start('Import predefined styles (demos)', false); ?>
 
 <div class="td-box-row">
     <div class="td-box-description td-box-full">

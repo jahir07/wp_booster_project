@@ -12,7 +12,7 @@ class td_stacks_importer {
 
 }
 
-class td_stacks_category {
+class td_demo_category {
 
     static function add_category($category_name, $parent_id=0) {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
@@ -33,7 +33,7 @@ class td_stacks_category {
     }
 }
 
-class td_stacks_content {
+class td_demo_content {
     static function add_post($params) {
         $new_post = array(
             'post_title' => $params['title'],
@@ -94,7 +94,7 @@ class td_stacks_content {
 }
 
 
-class td_stacks_widgets {
+class td_demo_widgets {
 
     private static $last_widget_instance = 70;
     private static $last_sidebar_widget_position = 0;
@@ -152,7 +152,7 @@ class td_stacks_widgets {
 }
 
 
-class td_stacks_menus {
+class td_demo_menus {
 
 
     private static $allowed_menu_names = array(
@@ -305,7 +305,7 @@ class td_stacks_menus {
 
 
 //$td_stacks_media->td_media_sideload_image('http://demo.tagdiv.com/newsmag/wp-content/uploads/2014/08/38.jpg', '');
-class td_stacks_media {
+class td_demo_media {
     /**
      * Download an image from the specified URL and attach it to a post.
      *
