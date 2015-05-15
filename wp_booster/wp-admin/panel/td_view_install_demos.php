@@ -429,7 +429,7 @@ if(!empty($_REQUEST['td_option'])) {
                                     </div>
 
 
-                                    <div class="td-progress-bar-wrap"><div class="td-progress-bar"></div></div>
+                                    <div class="td-progress-bar-wrap"><div class="td-progress-bar td-progress-bar-<?php echo $stack_id ?>"></div></div>
                                 </div>
                             <?php } ?>
 
