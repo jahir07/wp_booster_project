@@ -375,6 +375,10 @@ function hook_wp_head() {
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
 
+	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
+		td_js_buffer::add_variable('td_animation_stack_effect', td_global::$td_options['tds_animation_stack_effect']);
+	}
+
 
 
 
@@ -447,20 +451,20 @@ function hook_wp_head() {
 
 
 
+	// @todo aici se va schimba setarea, iar userii isi pierd setarea existenta
 	// lazy loading images - animation effect
-	$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
+	//$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
+	$tds_animation_stack = td_util::get_option('tds_animation_stack');
 
-	if (empty($tds_lazy_loading_image)) {
+	if (empty($tds_animation_stack)) {
         ob_start();
         ?>
         <script>
-            jQuery(window).load(function() {
 
-                // if the theme has td_animation_stack, initialize it
-                if (typeof window.td_animation_stack !== 'undefined') {
-                    window.td_animation_stack.init();
-                }
+            jQuery(window).load(function() {
+                window.td_animation_stack.init();
             });
+
         </script>
         <?php
         $buffer = ob_get_clean();
@@ -472,7 +476,11 @@ function hook_wp_head() {
 }
 
 function td_hook_add_custom_body_class($classes) {
-	$classes[] = 'lazy-animation';
+
+	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
+		$classes[] = 'td-animation-stack-' . td_global::$td_options['tds_animation_stack_effect'];
+	}
+
 	return $classes;
 }
 
