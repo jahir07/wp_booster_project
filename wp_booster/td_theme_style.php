@@ -7,7 +7,7 @@
 function td_theme_style_footer() {
     ?>
     <div id="td-theme-settings" class="td-theme-settings-small">
-        <div class="td-skin-header">DEMO STACKS</div>
+        <div class="td-skin-header">One click demos</div>
         <div class="td-skin-content">
             <div class="td-set-theme-style"><a href="http://demo.tagdiv.com/newsmag" class="td-set-theme-style-link">DEFAULT</a></div>
             <div class="td-set-theme-style"><a href="http://demo.tagdiv.com/newsmag_fashion" class="td-set-theme-style-link">FASHION</a></div>
