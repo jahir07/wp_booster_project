@@ -371,15 +371,15 @@ function hook_wp_head() {
 
 
 
-
+	// js variable td_viewport_interval_list added to the window object
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
 
+	// js variable td_animation_stack_effect added to the window object
 	$td_animation_stack_effect_type = '';
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
 		$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
 	}
-
 	td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
 
 
@@ -478,12 +478,19 @@ function hook_wp_head() {
 	}
 }
 
+/** ----------------------------------------------------------------------------
+ * The function hook to alter body css classes.
+ * It applies the necessary animation images effect to body @see animation-stack.less
+ *
+ * @param $classes
+ *
+ * @return array
+ */
 function td_hook_add_custom_body_class($classes) {
 
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
 		$classes[] = 'td-animation-stack-' . td_global::$td_options['tds_animation_stack_effect'];
 	}
-
 	return $classes;
 }
 
