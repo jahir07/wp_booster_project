@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-    require_once('external/kint/Kint.class.php');
+    //require_once('external/kint/Kint.class.php');
 }
 
 
@@ -435,7 +435,7 @@ function hook_wp_head() {
 								//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 
 								var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
-									return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '').trim();
+									return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '');
 								});
 
 								jQuery('head').append("<style>" + formated_str + "</style>");
@@ -445,6 +445,7 @@ function hook_wp_head() {
 				}
 			}
 		})();
+
 	</script>
 	<?php
 	$script_buffer = ob_get_clean();
