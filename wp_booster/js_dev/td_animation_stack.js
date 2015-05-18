@@ -105,6 +105,10 @@ var td_animation_stack = {
                 // remove 'lazy-animation' class from the body
                 // this class is applied from the theme settings
                 //jQuery('body').removeClass('lazy-animation');
+
+                if (td_animation_stack_effect != undefined) {
+                    jQuery('body').removeClass('body.td-animation-stack-' + td_animation_stack_effect);
+                }
             }
 
         }, 50);
