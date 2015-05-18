@@ -375,10 +375,12 @@ function hook_wp_head() {
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
 
+	$td_animation_stack_effect_type = '';
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-		td_js_buffer::add_variable('td_animation_stack_effect', td_global::$td_options['tds_animation_stack_effect']);
+		$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
 	}
 
+	td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
 
 
 
