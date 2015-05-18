@@ -39,6 +39,7 @@ class td_demo_history {
         $local_td_demo_history['theme_options'] = get_option(TD_THEME_OPTIONS_NAME);
 
 
+        $local_td_demo_history['td_social_networks'] = get_option('td_social_networks');
 
         $local_td_demo_history['demo_settings_date'] = time();
         update_option(TD_THEME_NAME . '_demo_history', $local_td_demo_history);
@@ -59,6 +60,8 @@ class td_demo_history {
         }
 
         update_option(TD_THEME_OPTIONS_NAME, $this->td_demo_history['theme_options']);
+
+        update_option('td_social_networks', $this->td_demo_history['td_social_networks']);
 
         // delete the demo history
         delete_option(TD_THEME_NAME . '_demo_history');
@@ -84,6 +87,31 @@ class td_demo_history {
         return preg_replace( '/-[0-9]+$/', '', $id );
     }
 }
+
+
+
+
+class td_demo_misc {
+
+    /**
+     * updates the logo of the site, will be rollback via the td_demo_history when the theme settings are loaded back
+     * @param $logo_params array
+     */
+    static function update_logo($logo_params) {
+        td_util::update_option('tds_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['normal']));
+        td_util::update_option('tds_logo_upload_r', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
+        td_util::update_option('tds_logo_menu_upload', td_demo_media::get_image_url_by_td_id($logo_params['mobile']));
+    }
+
+
+    static function add_social_buttons($social_icons) {
+        td_util::update_option('td_social_networks', $social_icons);
+    }
+
+
+}
+
+
 
 class td_demo_category {
 
