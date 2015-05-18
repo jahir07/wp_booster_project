@@ -107,7 +107,7 @@ var td_animation_stack = {
                 //jQuery('body').removeClass('lazy-animation');
 
                 if (td_animation_stack_effect != undefined) {
-                    jQuery('body').removeClass('body.td-animation-stack-' + td_animation_stack_effect);
+                    jQuery('body').removeClass('td-animation-stack-' + td_animation_stack_effect);
                 }
             }
 
