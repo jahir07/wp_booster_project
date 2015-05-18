@@ -2090,7 +2090,7 @@ title one row controls
 }
 .td-admin-box-text .button {
   margin-right: 10px;
-  vertical-align: middle;
+  vertical-align: middle !important;
 }
 .td-admin-box-text h2 {
   color: #111;
