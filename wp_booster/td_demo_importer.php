@@ -1,6 +1,90 @@
 <?php
 
 
+
+class td_demo_history {
+    private $td_demo_history = array();
+
+    /**
+     * read the current history
+     */
+    function __construct() {
+        $this->td_demo_history = get_option(TD_THEME_NAME . '_demo_history');
+    }
+
+    function save_all() {
+        if (isset($this->td_demo_history['demo_settings_date'])) {
+            //return;
+        }
+
+        $local_td_demo_history = array();
+
+        $local_td_demo_history['page_on_front'] = get_option('page_on_front');
+        $local_td_demo_history['show_on_front'] = get_option('show_on_front');
+        $local_td_demo_history['nav_menu_locations'] = get_theme_mod('nav_menu_locations');
+
+        $sidebar_widgets = get_option('sidebars_widgets');
+        $local_td_demo_history['sidebars_widgets'] = $sidebar_widgets;
+
+        $used_widgets = $this->get_used_widgets($sidebar_widgets);
+
+
+        if (is_array($used_widgets)) {
+            foreach ($used_widgets as $used_widget) {
+                $local_td_demo_history['used_widgets'][$used_widget] = get_option('widget_' . $used_widget);
+            }
+        }
+
+        //print_r( get_option('sidebars_widgets'));
+        $local_td_demo_history['theme_options'] = get_option(TD_THEME_OPTIONS_NAME);
+
+
+
+        $local_td_demo_history['demo_settings_date'] = time();
+        update_option(TD_THEME_NAME . '_demo_history', $local_td_demo_history);
+
+    }
+
+
+    function restore_all() {
+        update_option('page_on_front', $this->td_demo_history['page_on_front']);
+        update_option('show_on_front',  $this->td_demo_history['show_on_front']);
+        set_theme_mod('nav_menu_locations', $this->td_demo_history['nav_menu_locations']);
+        update_option('sidebars_widgets', $this->td_demo_history['sidebars_widgets']);
+
+        if (isset($this->td_demo_history['used_widgets']) and is_array($this->td_demo_history['used_widgets'])) {
+            foreach ($this->td_demo_history['used_widgets'] as $used_widget => $used_widget_value) {
+                update_option('widget_' . $used_widget, $used_widget_value);
+            }
+        }
+
+        update_option(TD_THEME_OPTIONS_NAME, $this->td_demo_history['theme_options']);
+
+        // delete the demo history
+        delete_option(TD_THEME_NAME . '_demo_history');
+    }
+
+
+    private function get_used_widgets($sidebar_widgets_option) {
+        $used_widgets = array();
+        if ( is_array($sidebar_widgets_option) ) {
+            foreach ( $sidebar_widgets_option as $sidebar => $widgets ) {
+                if ( is_array($widgets) ) {
+                    foreach ( $widgets as $widget ) {
+                        $used_widgets[]= $this->_get_widget_id_base($widget);
+                    }
+                }
+            }
+        }
+
+        return array_unique($used_widgets);
+    }
+
+    private function _get_widget_id_base($id) {
+        return preg_replace( '/-[0-9]+$/', '', $id );
+    }
+}
+
 class td_demo_category {
 
     static function add_category($category_name, $parent_id = 0) {
