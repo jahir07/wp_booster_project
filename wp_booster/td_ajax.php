@@ -213,10 +213,10 @@ function td_ajax_search() {
 
     if (count($td_query->posts) == 0) {
         //no results
-        $buffy = '<div class="result-msg no-result">' . __td('No results') . '</div>';
+        $buffy = '<div class="result-msg no-result">' . __td('No results', TD_THEME_NAME) . '</div>';
     } else {
         //show the resutls
-        $buffy_msg .= '<div class="result-msg"><a href="' . get_search_link($td_string) . '">' . __td('View all results') . '</a></div>';
+        $buffy_msg .= '<div class="result-msg"><a href="' . get_search_link($td_string) . '">' . __td('View all results', TD_THEME_NAME) . '</a></div>';
         //add wrap
         $buffy = '<div class="td-aj-search-results">' . $buffy . '</div>' . $buffy_msg;
     }

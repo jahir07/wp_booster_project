@@ -91,11 +91,11 @@ class td_block {
 
                 case 'td_popularity_filter_fa': // by popularity
                     $td_pull_down_items []= array (
-                        'name' => __td('Featured'),
+                        'name' => __td('Featured', TD_THEME_NAME),
                         'id' => 'featured',
                     );
                     $td_pull_down_items []= array (
-                        'name' => __td('All time popular'),
+                        'name' => __td('All time popular', TD_THEME_NAME),
                         'id' => 'popular',
                     );
                     break;

@@ -186,7 +186,12 @@ $td_translation_map = array(
     //blog
     'Blog' => __('Blog', TD_THEME_NAME),
     'Share on Facebook' => __('Share on Facebook', TD_THEME_NAME),
-    'Tweet on Twitter' => __('Tweet on Twitter', TD_THEME_NAME)
+    'Tweet on Twitter' => __('Tweet on Twitter', TD_THEME_NAME),
+
+    'Featured' => __('Featured', TD_THEME_NAME),
+    'All time popular' => __('All time popular', TD_THEME_NAME),
+
+    'More' => __('More', TD_THEME_NAME),
 );
 
 
