@@ -7,7 +7,7 @@
 // admin wrap
 .td-admin-wrap {
   position: relative;
-  margin: 26px 40px 0 20px;
+  margin: 26px 30px 0 20px;
   max-width: 1050px;
   clear: both;
 
@@ -52,6 +52,7 @@
   }
   .theme {
     cursor: auto !important;
+    margin-bottom: 5%;
 
     /* responsive portrait phone */
     @media (min-width: 1600px) {
@@ -62,7 +63,6 @@
     .theme-name {
       text-align: center;
       padding: 18px 10px;
-      box-shadow: none;
       background-color: #f5f5f5;
     }
   }
@@ -73,6 +73,10 @@
     @media (max-width: 780px) {
       display: block;
     }
+  }
+
+  &.theme-browser .theme:nth-child(3n) {
+    margin-right: 0;
   }
 }
 
@@ -94,7 +98,7 @@
 
   .button {
     margin-right: 10px;
-    vertical-align: middle;
+    vertical-align: middle !important;
   }
 
   h2 {
