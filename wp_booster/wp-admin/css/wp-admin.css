@@ -2007,7 +2007,7 @@ title one row controls
 */
 .td-admin-wrap {
   position: relative;
-  margin: 10px 40px 0 20px;
+  margin: 26px 40px 0 20px;
   max-width: 1050px;
   clear: both;
 }
@@ -2065,52 +2065,89 @@ title one row controls
   box-shadow: none;
   background-color: #f5f5f5;
 }
+.td-admin-wrap .theme:not(.active):hover .theme-actions {
+  /* responsive portrait phone */
+}
+@media (max-width: 780px) {
+  .td-admin-wrap .theme:not(.active):hover .theme-actions {
+    display: block;
+  }
+}
 .td-admin-box-text {
-  display: inline-block;
+  float: left;
   padding: 6px 26px;
   background-color: #FFF;
   margin-bottom: 30px;
+  margin-top: 15px;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 .td-admin-box-text p {
   font-size: 15px;
   line-height: 25px;
+  display: inline-block;
+  margin-right: 10px;
 }
 .td-admin-box-text .button {
-  margin-bottom: 16px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 .td-admin-box-text h2 {
   color: #111;
   font-size: 1.8em;
   font-weight: bold;
+  line-height: 1.1em;
 }
 .td-admin-columns {
   margin-top: 30px;
 }
 .td-admin-box-three {
-  margin-top: 40px;
-  width: 33.3333333%;
+  width: 32%;
+  margin-right: 2%;
   /* responsive portrait phone */
 }
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .td-admin-box-three {
-    width: 90%;
-    padding-left: 5%;
-    padding-right: 5%;
+    width: 100%;
     margin-bottom: 0;
+    margin-right: 0;
   }
+}
+.td-admin-box-three .button {
+  margin-bottom: 16px;
+  margin-right: 10px;
+}
+.td-admin-box-three p {
+  margin-right: 0;
+}
+.td-admin-box-last {
+  margin-right: 0;
 }
 .td-admin-container.about-wrap .about-text {
   margin-right: 290px;
   min-height: 160px;
+  /* responsive portrait phone */
+}
+@media (max-width: 600px) {
+  .td-admin-container.about-wrap .about-text {
+    margin-right: 0;
+    min-height: 0;
+    margin-bottom: 1em;
+  }
 }
 .td-admin-container.about-wrap h1 {
   margin-right: 290px;
+  /* responsive portrait phone */
   /* responsive portrait phone */
 }
 @media (max-width: 1030px) {
   .td-admin-container.about-wrap h1 {
     font-size: 1.8em;
+  }
+}
+@media (max-width: 600px) {
+  .td-admin-container.about-wrap h1 {
+    margin-right: 0;
   }
 }
 .td-admin-container.about-wrap .wp-badge {
@@ -2121,6 +2158,17 @@ title one row controls
   line-height: 34px;
   color: #000;
   text-align: right;
+  /* responsive portrait phone */
+}
+@media (max-width: 600px) {
+  .td-admin-container.about-wrap .wp-badge {
+    position: relative;
+    margin-bottom: 48px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 }
 .td-admin-wrap .td-small-checkbox {
   border-top: 1px solid #dadada;
