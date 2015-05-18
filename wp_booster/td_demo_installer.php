@@ -95,11 +95,18 @@ class td_demo_installer {
 
 
     function ajax_stacks_controller() {
-        $td_stack = td_util::get_http_post_val('td_stack');
-        $td_view = td_util::get_http_post_val('td_view');
+        $td_demo = td_util::get_http_post_val('td_demo');
+        $td_demo_view = td_util::get_http_post_val('td_demo_view');
 
 
-        if ($td_stack == 'uninstall_all') {
+        if ($td_demo == 'uninstall_all') {
+
+
+            td_demo_media::remove();
+            td_demo_content::remove();
+            td_demo_category::remove();
+            td_demo_menus::remove();
+            td_demo_widgets::remove();
 
 
 
@@ -121,16 +128,16 @@ class td_demo_installer {
             return;
         }
 
-        switch ($td_view) {
+        switch ($td_demo_view) {
             case 'td_media_1';
                 // load panel settings
-                $this->import_panel_settings(td_global::$stacks_list[$td_stack]['folder'] . 'td_panel_settings.txt');
+                $this->import_panel_settings(td_global::$stacks_list[$td_demo]['folder'] . 'td_panel_settings.txt');
                 // load the media import script
-                require_once(td_global::$stacks_list[$td_stack]['folder'] . 'td_media_1.php');
+                require_once(td_global::$stacks_list[$td_demo]['folder'] . 'td_media_1.php');
                 break;
 
             case 'td_import';
-                require_once(td_global::$stacks_list[$td_stack]['folder'] . 'td_import.php');
+                require_once(td_global::$stacks_list[$td_demo]['folder'] . 'td_import.php');
                 break;
         }
     }

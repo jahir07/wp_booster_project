@@ -162,137 +162,56 @@ if(!empty($_REQUEST['td_option'])) {
 
 
 ?>
-    <input type="hidden" name="action" value="td_ajax_update_panel">
-    <div class="td_displaying_saving"></div>
-    <div class="td_wrapper_saving_gifs">
-        <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
-        <img class="td_displaying_ok_gif" src="">
-    </div>
+
+	<!--    <input type="hidden" name="action" value="td_ajax_update_panel">-->
+	<!--    <div class="td_displaying_saving"></div>-->
+	<!--    <div class="td_wrapper_saving_gifs">-->
+	<!--        <img class="td_displaying_saving_gif" src="--><?php //echo get_template_directory_uri();?><!--/includes/wp_booster/wp-admin/images/panel/loading.gif">-->
+	<!--        <img class="td_displaying_ok_gif" src="">-->
+	<!--    </div>-->
+<div class="td-admin-wrap theme-browser">
+	<p>The footer uses sidebars to show information. Here you can customize the number of sidebars and the layout. To add content to the footer head go to the widgets section and drag widget to the Footer 1, Footer 2 and Footer 3 sidebars.</p>
+
+	<div class="td-admin-columns">
+		<?php foreach (td_global::$stacks_list as $stack_id => $stack_params) { ?>
+
+			<div class="<?php echo $stack_id ?> td-wp-admin-stack theme">
+
+				<!-- Import content -->
+				<div class="theme-screenshot">
+					<img src="<?php echo td_global::$stacks_list[$stack_id]['img'] ?>"/>
+					<div class="td-progress-bar-wrap"><div class="td-progress-bar td-progress-bar-<?php echo $stack_id ?>"></div></div>
+				</div>
+				<h3 class="theme-name"><?php echo $stack_params['text'] ?></h3>
+
+				<div class="td-admin-checkbox td-small-checkbox">
+					<?php
+					echo td_panel_generator::checkbox(array(
+						'ds' => 'td_import_theme_styles',
+						'option_id' => 'td_import_menus',
+						'true_value' => '',
+						'false_value' => 'no'
+					));
+					?>
+					<p>Include content</p>
+				</div>
+
+				<div class="theme-actions">
+					<a class="button button-secondary" href="#" target="_blank">Preview</a>
+					<a class="button button-primary button-install-demo" href="#" data-stack-id="<?php echo $stack_id ?>">Install</a>
+				</div>
+			</div>
+		<?php } ?>
+	</div>
 
 
-    <div class="wrap">
-
-        <div class="td-container-wrap">
-
-            <div class="td-panel-main-header">
-                <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
-                <span><?php echo sprintf('%s - Theme panel', strtoupper(TD_THEME_NAME)) ?></span>
-            </div>
+</div>
 
 
-            <div id="td-container-left">
-                <div id="td-container-right">
-                    <div id="td-col-left">
-                        <ul class="td-panel-menu">
-                            <li class="td-welcome-menu">
-                                <a data-td-is-back="yes" class="td-panel-menu-active" href="?page=td_theme_panel">
-                                    <span class="td-sp-nav-icon td-ico-welcome"></span>
-                                    PREDEFINED STYLES
-                                    <span class="td-no-arrow"></span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a data-td-is-back="yes" href="?page=td_theme_panel">
-                                    <span class="td-sp-nav-icon td-ico-back"></span>
-                                    Back
-                                    <span class="td-no-arrow"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="td-col-rigth" class="td-panel-content">
-
-                        <!-- Export theme settings -->
-                        <div id="td-panel-welcome" class="td-panel-active td-panel">
-
-                            <?php echo td_panel_generator::box_start('Import predefined styles'); ?>
+<div class="td-admin-wrap">
+	<p>This option will delete all settings except license key</p>
+	<a onclick="return confirm('Are you sure? This will reset all the theme settings to default!')" href="?page=td_theme_panel&td_page=td_view_import_theme_styles&td_option=factory_restore" class="td-big-button">Factory restore !!! ( RESET ALL SETTINGS )</a>
+</div>
 
 
-
-                            <div class="td-box-row">
-                                <div class="td-box-description td-box-full">
-                                    <span class="td-box-title">More information:</span>
-                                    <p>The footer uses sidebars to show information. Here you can customize the number of sidebars and the layout. To add content to the footer head go to the widgets section and drag widget to the Footer 1, Footer 2 and Footer 3 sidebars.</p>
-                                </div>
-                                <div class="td-box-row-margin-bottom"></div>
-                            </div>
-
-
-
-
-
-
-
-
-
-                            <?php foreach (td_global::$stacks_list as $stack_id => $stack_params) { ?>
-                                <hr>
-
-
-
-                                <div class="<?php echo $stack_id ?> td-wp-admin-stack">
-
-                                    <!-- Import content -->
-                                    <div class="td-box-row">
-                                        <img style="width:220px" src="<?php echo td_global::$stacks_list[$stack_id]['img'] ?>"/>
-                                        <div class="td-box-description">
-                                            <span class="td-box-title">Import demo content</span>
-                                            <p>Show or hide the footer</p>
-                                        </div>
-                                        <div class="td-box-control-full">
-                                            <?php
-                                            echo td_panel_generator::checkbox(array(
-                                                'ds' => 'td_import_theme_styles',
-                                                'option_id' => 'td_import_menus',
-                                                'true_value' => '',
-                                                'false_value' => 'no'
-                                            ));
-                                            ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="td-box-row">
-                                        <div class="td-box-control-full">
-                                            <a class="td-big-button" data-stack-id="<?php echo $stack_id ?>" style="width: 150px; text-align: center"><?php echo $stack_params['text'] ?></a>
-                                        </div>
-                                        <div class="td-box-row-margin-bottom"></div>
-                                    </div>
-
-
-                                    <div class="td-progress-bar-wrap"><div class="td-progress-bar td-progress-bar-<?php echo $stack_id ?>"></div></div>
-                                </div>
-                            <?php } ?>
-
-
-
-
-                            <div class="td-box-row">
-                                <div class="td-box-description td-box-full">
-                                    <span class="td-box-title"></span>
-                                    <p>This option will delete all settings except license key</p>
-                                </div>
-                                <div class="td-box-control-full">
-                                    <a onclick="return confirm('Are you sure? This will reset all the theme settings to default!')" href="?page=td_theme_panel&td_page=td_view_import_theme_styles&td_option=factory_restore" class="td-big-button">Factory restore !!! ( RESET ALL SETTINGS )</a>
-                                </div>
-                                <div class="td-box-row-margin-bottom"></div>
-                            </div>
-
-
-
-                            <?php echo td_panel_generator::box_end();?>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="td-clear"></div>
-
-        </div>
-
-        <div class="td-clear"></div>
-
-    </div>
 <?php if($td_import_fonts_show_update_msg == 1){?><script type="text/javascript">alert('Import is done!');</script><?php }?>

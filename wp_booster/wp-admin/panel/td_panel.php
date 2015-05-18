@@ -23,6 +23,7 @@ class td_panel {
 
         add_submenu_page( "td_theme_welcome", 'Install demos', 'Install demos', 'edit_posts', 'td_theme_demos',  array($this, "td_theme_demos") );
         add_submenu_page( "td_theme_welcome", 'Theme panel', 'Theme panel', 'edit_posts', 'td_theme_panel',  array($this, "td_theme_panel") );
+	    add_submenu_page( "td_theme_welcome", 'Support', 'Support', 'edit_posts', 'td_theme_support',  array($this, "td_theme_support") );
 
 
         // shit hack for welcome menu
@@ -42,6 +43,10 @@ class td_panel {
     function td_theme_demos() {
         require_once "td_view_install_demos.php";
     }
+
+	function td_theme_support() {
+		require_once "td_view_support.php";
+	}
 
     /**
      * this is our theme panel
@@ -73,9 +78,6 @@ class td_panel {
 
             elseif ($_REQUEST['td_page'] == 'td_view_import_export_settings') {
                 include 'td_view_import_export_settings.php';
-            }
-            elseif ($_REQUEST['td_page'] == 'td_view_import_stacks') {
-                include 'td_view_import_stacks.php';
             }
             elseif ($_REQUEST['td_page'] == 'td_view_custom_fonts') {
                 include 'td_view_custom_fonts.php';
