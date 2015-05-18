@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-    require_once('external/kint/Kint.class.php');
+    //require_once('external/kint/Kint.class.php');
 }
 
 
@@ -371,14 +371,16 @@ function hook_wp_head() {
 
 
 
-
+	// js variable td_viewport_interval_list added to the window object
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
 
+	// js variable td_animation_stack_effect added to the window object
+	$td_animation_stack_effect_type = '';
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-		td_js_buffer::add_variable('td_animation_stack_effect', td_global::$td_options['tds_animation_stack_effect']);
+		$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
 	}
-
+	td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
 
 
 
@@ -433,7 +435,7 @@ function hook_wp_head() {
 								//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 
 								var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
-									return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '').trim();
+									return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '');
 								});
 
 								jQuery('head').append("<style>" + formated_str + "</style>");
@@ -443,6 +445,7 @@ function hook_wp_head() {
 				}
 			}
 		})();
+
 	</script>
 	<?php
 	$script_buffer = ob_get_clean();
@@ -475,12 +478,19 @@ function hook_wp_head() {
 	}
 }
 
+/** ----------------------------------------------------------------------------
+ * The function hook to alter body css classes.
+ * It applies the necessary animation images effect to body @see animation-stack.less
+ *
+ * @param $classes
+ *
+ * @return array
+ */
 function td_hook_add_custom_body_class($classes) {
 
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
 		$classes[] = 'td-animation-stack-' . td_global::$td_options['tds_animation_stack_effect'];
 	}
-
 	return $classes;
 }
 
