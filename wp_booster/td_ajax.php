@@ -162,7 +162,7 @@ function td_ajax_block(){
         $td_hide_prev = true; //hide link on page 1
     }
 
-	if (!empty($td_atts['offset'])) {
+	if (!empty($td_atts['offset']) && ($td_atts['limit'] != 0)) {
 		if ($td_current_page >= ceil(($td_query->found_posts - $td_atts['offset']) / $td_atts['limit'])) {
 			$td_hide_next = true; //hide link on last page
 		}
