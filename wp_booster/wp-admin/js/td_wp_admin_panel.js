@@ -685,11 +685,14 @@ function td_ajax_form_submit() {
                 jQuery('.td_displaying_saving').css('display', 'none');
                 jQuery('.td_displaying_saving_gif').css('display', 'none');
 
-                jQuery('.td_displaying_ok_gif').attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/saved.gif').css('display', 'block');
-                jQuery('.td_displaying_ok_gif').fadeOut(2400, function() {
-                    jQuery('.td_displaying_ok_gif').attr('src', '');
-                    jQuery('.td_wrapper_saving_gifs').css('display', 'none');
-                });
+                // we need to add the image and remove it again because the GIF will not play from the beginning otherwise
+                jQuery('.td_displaying_ok_gif')
+                    .attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/saved.gif')
+                    .css('display', 'block')
+                    .fadeOut(2400, function() {
+                        jQuery('.td_displaying_ok_gif').attr('src', '');
+                        jQuery('.td_wrapper_saving_gifs').css('display', 'none');
+                    });
             }
         });
     });

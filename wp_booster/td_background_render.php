@@ -40,7 +40,6 @@ class td_background_render {
 
     /**
      * we emulate the WordPress background function using our own setting
-     * @param $css string - the existing css rendered by wp booster
      * @return string - the new css
      */
     private function add_css_custom_background() {

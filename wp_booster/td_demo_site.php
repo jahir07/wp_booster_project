@@ -393,10 +393,10 @@ class td_demo_site {
 
 
     //ads a new ad spot
-    function add_ad_spot($name, $ad_code = '') {
+    function add_ad_spot($name, $td_pic_id = '') {
         $td_ad_spots = td_util::get_option('td_ads'); //read the sidebars
 
-	    $new_ad_spot['ad_code']= $ad_code;
+	    $new_ad_spot['ad_code']= '<a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_pic_id) . '"></a>';
 	    $new_ad_spot['current_ad_type']= 'other';
 
         $td_ad_spots[strtolower($name)] = $new_ad_spot;

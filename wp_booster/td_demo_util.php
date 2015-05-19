@@ -12,9 +12,10 @@ class td_demo_history {
         $this->td_demo_history = get_option(TD_THEME_NAME . '_demo_history');
     }
 
+
     function save_all() {
         if (isset($this->td_demo_history['demo_settings_date'])) {
-            //return;
+            return;
         }
 
         $local_td_demo_history = array();
@@ -89,7 +90,30 @@ class td_demo_history {
 }
 
 
+class td_demo_state {
 
+
+    static function update_state($demo_id, $demo_install_type) {
+        $new_state = array(
+            'demo_id' => $demo_id,
+            'demo_install_type' => $demo_install_type
+        );
+        update_option(TD_THEME_NAME . '_demo_state', $new_state);
+    }
+
+
+
+    /**
+     * @return bool|array
+     */
+    static function get_installed_demo() {
+        $demo_state = get_option(TD_THEME_NAME . '_demo_state');
+        if (isset($demo_state['demo_install_type']) and $demo_state['demo_install_type'] != '') {
+            return $demo_state;
+        }
+        return false;
+    }
+}
 
 class td_demo_misc {
 
@@ -106,6 +130,27 @@ class td_demo_misc {
 
     static function add_social_buttons($social_icons) {
         td_util::update_option('td_social_networks', $social_icons);
+    }
+
+    static function clear_all_ads() {
+        td_util::update_option('td_ads', '');
+    }
+
+    static function add_ad_image($ad_spot_name, $td_pic_id) {
+        $td_ad_spots = td_util::get_option('td_ads');
+        $new_ad_spot['ad_code']= '<a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_pic_id) . '"/></a>';;
+        $new_ad_spot['current_ad_type']= 'other';
+        $td_ad_spots[strtolower($ad_spot_name)] = $new_ad_spot;
+        td_util::update_option('td_ads', $td_ad_spots);
+    }
+
+
+    static function update_background($td_image_id) {
+        if ($td_image_id == '') {
+            td_util::update_option('tds_site_background_image', '');
+        }
+        td_util::update_option('tds_site_background_image', td_demo_media::get_image_url_by_td_id($td_image_id));
+        td_util::update_option('tds_stretch_background', 'yes');
     }
 
 
@@ -128,8 +173,10 @@ class td_demo_category {
 
     static function remove() {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
-        foreach ($td_stacks_demo_categories_id as $td_stacks_demo_category_id) {
-            wp_delete_category($td_stacks_demo_category_id);
+        if (is_array($td_stacks_demo_categories_id)) {
+            foreach ($td_stacks_demo_categories_id as $td_stacks_demo_category_id) {
+                wp_delete_category($td_stacks_demo_category_id);
+            }
         }
     }
 }
@@ -267,11 +314,14 @@ class td_demo_widgets {
 
 
     //adds a widget to the default sidebar
-    static function add_widget_to_sidebar($sidebar_name, $widget_name, $atts) {
+    static function add_widget_to_sidebar($sidebar_id, $widget_name, $atts) {
 
         $tmp_sidebars = td_util::get_option('sidebars');
-        if (!in_array($sidebar_name,$tmp_sidebars)) {
-            td_util::error(__FILE__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_name);
+        if (
+            !in_array($sidebar_id, $tmp_sidebars)
+            and $sidebar_id != 'default'
+        ) {
+            td_util::error(__FILE__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_id);
         }
 
         $widget_instances = get_option('widget_' . $widget_name);
@@ -281,16 +331,29 @@ class td_demo_widgets {
         //add the widget instance to the database
         update_option('widget_' . $widget_name, $widget_instances);
 
+        //print_r($widget_instances);
         $sidebars_widgets = get_option( 'sidebars_widgets' );
 
-
-        $sidebars_widgets['td-' . td_util::sidebar_name_to_id($sidebar_name)][self::$last_sidebar_widget_position] = $widget_name . '-' . self::$last_widget_instance;
+        //print_r($sidebars_widgets);
+        $sidebars_widgets['td-' . td_util::sidebar_name_to_id($sidebar_id)][self::$last_sidebar_widget_position] = $widget_name . '-' . self::$last_widget_instance;
+        //print_r($sidebars_widgets);
         update_option('sidebars_widgets', $sidebars_widgets);
 
 
         self::$last_sidebar_widget_position++;
         self::$last_widget_instance++;
 
+    }
+
+    static function remove_widgets_from_sidebar($sidebar_id) {
+        $sidebar_id = td_util::sidebar_name_to_id($sidebar_id);
+        $sidebars_widgets = get_option( 'sidebars_widgets' );
+
+        if (isset($sidebars_widgets['td-' . $sidebar_id])) {
+            //empty the default sidebar
+            unset($sidebars_widgets['td-' . $sidebar_id]);
+            update_option('sidebars_widgets', $sidebars_widgets);
+        }
     }
 
 
@@ -315,9 +378,9 @@ class td_demo_menus {
 
 
     private static $allowed_menu_names = array(
-        'td_stack_top',
-        'td_stack_main',
-        'td_stack_footer',
+        'td-demo-top-menu',
+        'td-demo-header-menu',
+        'td-demo-footer-menu',
     );
 
 
@@ -350,105 +413,86 @@ class td_demo_menus {
 
 
 
-    /**
-     * @param $menu_id
-     * @param $title
-     * @param $url
-     * @param string $parent_id
-     * @return int|WP_Error
-     */
-    static function add_link($menu_id, $title, $url, $parent_id = '') {
+
+    static function add_link($menu_params) {
         $itemData =  array(
             'menu-item-object' => '',
             'menu-item-type'      => 'custom',
-            'menu-item-title'    => $title,
-            'menu-item-url' => $url,
+            'menu-item-title'    => $menu_params['title'],
+            'menu-item-url' => $menu_params['url'],
             'menu-item-status'    => 'publish'
         );
 
-        if (!empty($parent_id)) {
-            $itemData['menu-item-parent-id'] = $parent_id;
+        if (!empty($menu_params['parent_id'])) {
+            $itemData['menu-item-parent-id'] = $menu_params['parent_id'];
         }
 
-        $menu_item_id = wp_update_nav_menu_item($menu_id, 0, $itemData);
+        $menu_item_id = wp_update_nav_menu_item($menu_params['add_to_menu_id'], 0, $itemData);
         return $menu_item_id;
     }
 
 
 
-    /**
-     * @param $menu_id
-     * @param string $title
-     * @param $page_id
-     * @param string $parent_id
-     * @return int|WP_Error
-     */
-    static function add_page($menu_id, $title='', $page_id, $parent_id = '') {
+
+    static function add_page($menu_params) {
+        //$menu_id, $title='', $page_id, $parent_id = ''
         $itemData =  array(
-            'menu-item-object-id' => $page_id,
+            'menu-item-object-id' => $menu_params['page_id'],
             'menu-item-parent-id' => 0,
             'menu-item-object' => 'page',
             'menu-item-type'      => 'post_type',
             'menu-item-status'    => 'publish'
         );
 
-        if (!empty($parent_id)) {
-            $itemData['menu-item-parent-id'] = $parent_id;
+        if (!empty($menu_params['parent_id'])) {
+            $itemData['menu-item-parent-id'] = $menu_params['parent_id'];
         }
 
-        if (!empty($title)) {
-            $itemData['menu-item-title'] = $title;
+        if (!empty($menu_params['title'])) {
+            $itemData['menu-item-title'] = $menu_params['title'];
         }
 
-        $menu_item_id = wp_update_nav_menu_item($menu_id, 0, $itemData);
+        $menu_item_id = wp_update_nav_menu_item($menu_params['add_to_menu_id'], 0, $itemData);
         return $menu_item_id;
     }
 
 
-
     /**
-     * @param $menu_id
-     * @param $title
-     * @param $category_id
+     * @param $menu_params
      * @return int|WP_Error
      */
-    static function add_mega_menu($menu_id, $title, $category_id) {
+    static function add_mega_menu($menu_params) {
         $itemData =  array(
             'menu-item-object' => '',
             'menu-item-type'      => 'custom',
-            'menu-item-title'    => $title,
+            'menu-item-title'    => $menu_params['title'],
             'menu-item-url' => '#',
             'menu-item-status'    => 'publish'
         );
 
-        $menu_item_id =  wp_update_nav_menu_item($menu_id, 0, $itemData);
-        update_post_meta($menu_item_id, 'td_mega_menu_cat', $category_id);
+        $menu_item_id =  wp_update_nav_menu_item($menu_params['add_to_menu_id'], 0, $itemData);
+        update_post_meta($menu_item_id, 'td_mega_menu_cat', $menu_params['category_id']);
         return $menu_item_id;
     }
 
 
-    /**
-     * @param $menu_id
-     * @param $title
-     * @param $category_id
-     * @param string $parent_id
-     */
-    static function add_category($menu_id, $title, $category_id, $parent_id = '') {
+
+    static function add_category($menu_params) {
         $itemData =  array(
-            'menu-item-title' => $title,
-            'menu-item-object-id' => $category_id,
+            'menu-item-title' => $menu_params['title'],
+            'menu-item-object-id' => $menu_params['category_id'],
             'menu-item-db-id' => 0,
-            'menu-item-url' => get_category_link($category_id),
+            'menu-item-url' => get_category_link($menu_params['category_id']),
             'menu-item-type' => 'taxonomy', //taxonomy
             'menu-item-status' => 'publish',
             'menu-item-object' => 'category',
         );
 
-        if (!empty($parent_id)) {
-            $itemData['menu-item-parent-id'] = $parent_id;
+        if (!empty($menu_params['parent_id'])) {
+            $itemData['menu-item-parent-id'] = $menu_params['parent_id'];
         }
 
-        wp_update_nav_menu_item($menu_id, 0, $itemData);
+        wp_update_nav_menu_item($menu_params['add_to_menu_id'], 0, $itemData);
     }
 
 
@@ -476,6 +520,7 @@ class td_demo_media {
      * @return string|WP_Error Populated HTML img tag on success
      */
     static function add_image_to_media_gallery($td_attachment_id, $file, $post_id = '', $desc = null ) {
+
         require_once(ABSPATH . 'wp-admin/includes/media.php');
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -492,6 +537,7 @@ class td_demo_media {
         // If error storing temporarily, return the error.
         if ( is_wp_error( $file_array['tmp_name'] ) ) {
             @unlink($file_array['tmp_name']);
+            echo 'is_wp_error $file_array: ' . $file_array['tmp_name']->get_error_messages() . ' ' . $file;
             return $file_array['tmp_name'];
         }
 
@@ -501,6 +547,7 @@ class td_demo_media {
         // If error storing permanently, unlink.
         if ( is_wp_error( $id ) ) {
             @unlink( $file_array['tmp_name'] );
+            echo 'is_wp_error $id: ' . $file_array['tmp_name']->get_error_messages() . ' ' . $file;
             return $id;
         }
 

@@ -77,24 +77,6 @@
 
 
 
-<!-- Import / Export Demo Fonts Settings -->
-<?php echo td_panel_generator::box_start('Import predefined styles (demos)', false); ?>
-
-<div class="td-box-row">
-    <div class="td-box-description td-box-full">
-
-        <p>Import predefined styles from the demo. (This option imports the color settings, font settings and some of the layout settings from our demo styles: sport, cafe, fashion, tech)</p>
-    </div>
-    <div class="td-box-row-margin-bottom"></div>
-</div>
-
-<div class="td-box-row">
-    <a class="td-big-button" href="?page=td_theme_panel&td_page=td_view_import_stacks">Go to: Import predefined styles panel</a>
-</div>
-
-
-<?php echo td_panel_generator::box_end();?>
-
 
 
 

@@ -596,6 +596,9 @@ function td_smart_lists_magnific_popup() {
 }
 
 
+
+
+
 function td_get_document_width() {
     var x = 0;
     if (self.innerHeight)

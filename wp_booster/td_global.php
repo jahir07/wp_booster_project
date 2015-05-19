@@ -313,7 +313,7 @@ class td_global {
      * stack_filename => stack_name
      * @var array
      */
-    public static $stacks_list = array ();
+    public static $demo_list = array ();
 
 
 

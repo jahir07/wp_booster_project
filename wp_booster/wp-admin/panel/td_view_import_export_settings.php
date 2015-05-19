@@ -16,7 +16,7 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
 <div class="td_displaying_saving"></div>
 <div class="td_wrapper_saving_gifs">
     <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
-    <img class="td_displaying_ok_gif" src="">
+    <img class="td_displaying_ok_gif" src="<?php echo get_template_directory_uri()?>/includes/wp_booster/wp-admin/images/panel/saved.gif">
 </div>
 
 
