@@ -194,7 +194,13 @@ class td_block {
                 'ajax_pagination' => ''
             ),$this->atts));
 
-        $buffy = '';
+	    $offset = 0;
+
+	    if (isset($this->atts['offset'])) {
+		    $offset = $this->atts['offset'];
+	    }
+
+	    $buffy = '';
 
         switch ($ajax_pagination) {
 
@@ -202,7 +208,8 @@ class td_block {
                     $buffy .= '<div class="td-next-prev-wrap">';
                     $buffy .= '<a href="#" class="td-ajax-prev-page ajax-page-disabled" id="prev-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '"><i class="td-icon-font td-icon-menu-left"></i></a>';
 
-                    if ($this->td_query->found_posts <= $limit) {
+					//if ($this->td_query->found_posts <= $limit) {
+					if ($this->td_query->found_posts - $offset <= $limit) {
                         //hide next page because we don't have enough results
                         $buffy .= '<a href="#"  class="td-ajax-next-page ajax-page-disabled" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '"><i class="td-icon-font td-icon-menu-right"></i></a>';
                     } else {
@@ -213,7 +220,8 @@ class td_block {
                 break;
 
             case 'load_more':
-	            if ($this->td_query->found_posts > $limit) {
+	            //if ($this->td_query->found_posts > $limit) {
+	            if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td-load-more-wrap">';
                 $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
 		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
@@ -223,7 +231,8 @@ class td_block {
                 break;
 
             case 'infinite':
-	            if ($this->td_query->found_posts > $limit) {
+	            //if ($this->td_query->found_posts > $limit) {
+		        if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td_ajax_infinite" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">';
 		            $buffy .= ' ';
 		            $buffy .= '</div>';
@@ -280,6 +289,8 @@ class td_block {
         if (empty($td_column_number)) {
             $td_column_number = td_util::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
         }
+
+
         $block_item = 'block_' . $this->block_uid;
 
         $buffy = '';
@@ -295,9 +306,13 @@ class td_block {
         $buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
         $buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
         $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
-        $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
+
+	    $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
         $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $ajax_pagination_infinite_stop . '";' . "\n";
 
+	    if (!empty($this->atts['offset']) and $limit != 0) {
+		    $buffy .= $block_item . '.max_num_pages_with_offset = "' . ceil(($this->td_query->found_posts - $this->atts['offset']) / $limit) . '";' . "\n";
+	    }
 
         $buffy .= 'td_blocks.push(' . $block_item . ');' . "\n";
         $buffy .= '</script>';
