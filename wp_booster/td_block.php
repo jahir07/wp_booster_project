@@ -289,6 +289,12 @@ class td_block {
         if (empty($td_column_number)) {
             $td_column_number = td_util::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
         }
+
+	    $offset = 0;
+	    if (!empty($this->atts['offset'])) {
+		    $offset = $this->atts['offset'];
+	    }
+
         $block_item = 'block_' . $this->block_uid;
 
         $buffy = '';
@@ -304,6 +310,10 @@ class td_block {
         $buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
         $buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
         $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
+
+	    // this should be equal with max_num_pages when there's no offset
+	    $buffy .= $block_item . '.max_num_pages_with_offset = "' . ceil(($this->td_query->found_posts - $offset) / $limit) . '";' . "\n";
+
         $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
         $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $ajax_pagination_infinite_stop . '";' . "\n";
 
