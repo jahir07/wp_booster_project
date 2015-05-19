@@ -162,7 +162,13 @@ function td_ajax_block(){
         $td_hide_prev = true; //hide link on page 1
     }
 
-    if ($td_current_page >= $td_query->max_num_pages ) {
+	$offset = 0;
+	if (!empty($td_atts['offset'])) {
+		$offset = $td_atts['offset'];
+	}
+
+    //if ($td_current_page >= $td_query->max_num_pages ) {
+	if ($td_current_page >= ceil(($td_query->found_posts - $offset) / $td_atts['limit'])) {
         $td_hide_next = true; //hide link on last page
     }
 
