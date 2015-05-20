@@ -315,21 +315,19 @@ class td_block {
 	    $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
         $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $ajax_pagination_infinite_stop . '";' . "\n";
 
+
+		// The max_num_pages is computed so it considers the offset and the limit atts settings
+	    // There were necessary these changes because on the user interface there are js scripts that use the max_num_pages js variable to show/hide some ui components
 	    if (!empty($this->atts['offset'])) {
 
 		    if ($this->atts['limit'] != 0) {
-
 			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / $this->atts['limit'] ) . '";' . "\n";
 
 		    } else if (get_option('posts_per_page') != 0) {
-
 			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / get_option('posts_per_page') ) . '";' . "\n";
-
 		    }
 	    } else {
-
 		    $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
-
 	    }
 
         $buffy .= 'td_blocks.push(' . $block_item . ');' . "\n";
