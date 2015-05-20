@@ -272,7 +272,7 @@ var td_affix = {
      */
     compute_wrapper: function compute_wrapper() {
 
-        // td-affix class is removed to compute a real height
+        // td-affix class is removed to compute a real height when the compute_wrapper is done on a scrolled page
         if (jQuery(td_affix.menu_selector).hasClass('td-affix')) {
             jQuery(td_affix.menu_selector).removeClass('td-affix');
 
