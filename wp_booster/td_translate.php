@@ -192,6 +192,7 @@ $td_translation_map = array(
     'All time popular' => __('All time popular', TD_THEME_NAME),
 
     'More' => __('More', TD_THEME_NAME),
+    'Register' => __('Register', TD_THEME_NAME),
 );
 
 
