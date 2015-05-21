@@ -21,42 +21,30 @@ class td_metabox_generator {
 
         $buffer_field = '';
         foreach ($arry_params as $array_field) {
-            $buffer_field =  '<div class="my_meta_control td-page-module-loop-wrap">
-
-            <p class="td_help_section">';
+            $buffer_field =  '<div class="td-meta-box-row">';
 
             switch ($array_field['type']) {
                 case 'dropdown':
                     $this->mb->the_field($array_field['param_name']);
 
-                    $buffer_field .=  '<p class="td_help_section td-help-select">';
-
-                    $buffer_field .=  '<span class="td_custom_label" >' . $array_field['heading'] . ' </span>';
-
-                    $buffer_field .=  '<div class="td-select-style-overwrite td-inline-block-wrap">';
-
-                    $buffer_field .=  '<select class="' . $array_field['class'] . ' td-panel-dropdown" name="' . $this->mb->get_the_name() . '">';
-
-                    //creating options for select
-                    foreach ($array_field['value'] as $select_option_key => $select_option_val) {
-                        if($this->mb->get_the_value() == $select_option_val) {
-                            $var_selected = ' selected="selected" ';
-                        } else {
-                            $var_selected = '';
-                        }
-                        $buffer_field .=  '
-                                        <option value="' . $select_option_val . '" ' . $var_selected . '>' . $select_option_key . '</option>';
-                    }
-
-                    $buffer_field .=  '</select>';
-
+                    $buffer_field .=  '<span class="td-page-o-custom-label" >' . $array_field['heading'] . '</span>';
+                    $buffer_field .=  '<div class="td-select-style-overwrite">';
+                        $buffer_field .=  '<select class="' . $array_field['class'] . ' td-panel-dropdown" name="' . $this->mb->get_the_name() . '">';
+                            //creating options for select
+                            foreach ($array_field['value'] as $select_option_key => $select_option_val) {
+                                if($this->mb->get_the_value() == $select_option_val) {
+                                    $var_selected = ' selected="selected" ';
+                                } else {
+                                    $var_selected = '';
+                                }
+                                $buffer_field .=  '<option value="' . $select_option_val . '" ' . $var_selected . '>' . $select_option_key . '</option>';
+                            }
+                        $buffer_field .=  '</select>';
                     $buffer_field .=  '</div>';
-
-                    $buffer_field .=  '<p>';
 
                     if (!empty($array_field['description'])) {
                         $buffer_field .=  '
-                        <span class="td_info_inline"> - ' . $array_field['description'] . '</span>';
+                        <span class="td-page-o-info">' . $array_field['description'] . '</span>';
                     }
                     break;
 
@@ -70,20 +58,17 @@ class td_metabox_generator {
                         $value_input = $array_field['value'];
                     }
 
-                    $buffer_field .=  '<span class="td_custom_label">' . $array_field['heading'] . ' </span>
+                    $buffer_field .=  '<span class="td-page-o-custom-label">' . $array_field['heading'] . ' </span>
                     <input type="text" class="' . $array_field['class'] . ' td-input-text-backend-generic-filter" name="' . $this->mb->get_the_name() . '" value="' . $value_input . '" />';
 
                     if (!empty($array_field['description'])) {
                         $buffer_field .=  '
-                        <span class="td_info_inline"> - ' . $array_field['description'] . '</span>';
+                        <span class="td-page-o-info">' . $array_field['description'] . '</span>';
                     }
                     break;
             }
 
-            $buffer_field .=  '
-            </p>
-
-            </div>';
+            $buffer_field .=  '</div>';
             echo $buffer_field;
         }
 

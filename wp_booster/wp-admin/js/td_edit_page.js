@@ -1,8 +1,4 @@
 /**
- * Created by ra on 2/18/2015.
- */
-
-/**
  * used in wp-admin -> edit page, not on posts
  * this class hides and shows the metaboxes acording to the selected template
  * @type {{init: Function, show_template_settings: Function, change_content: Function}}
@@ -82,7 +78,3 @@ var td_edit_page = {
 };
 
 td_edit_page.init();
-
-
-
-

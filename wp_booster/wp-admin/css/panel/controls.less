@@ -279,8 +279,8 @@
 .td_new_sidebar_field{
   display: inline-block;
   margin: 15px 15px 0px 15px;
-  width: 191px;
-  height: 30px;
+  width: 191px !important; //nothing should overwrite this (for page options panel)
+  height: 30px !important; //nothing should overwrite this (for page options panel)
   border: 1px solid @td_color_border_controls;
   font-family: @font_open_sans;
   font-size: 12px;
