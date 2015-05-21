@@ -30,8 +30,14 @@ class td_block {
 
         $this->atts = $this->add_live_filter_atts($atts); //add live filter atts
         $this->block_uid = td_global::td_generate_unique_id(); //update unique id on each render
-        $this->td_query = &td_data_source::get_wp_query($this->atts); //by ref do the query
 
+	    if (!array_key_exists('limit', $this->atts)) {
+
+		    // this should be a general block limit setting defined in global/config file
+		    $this->atts['limit'] = 5;
+	    }
+
+        $this->td_query = &td_data_source::get_wp_query($this->atts); //by ref do the query
 
 
         extract(shortcode_atts(
@@ -236,7 +242,7 @@ class td_block {
                 break;
 
             case 'infinite':
-	            //if ($this->td_query->found_posts > $limit) {
+				//if ($this->td_query->found_posts > $limit) {
 		        if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td_ajax_infinite" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">';
 		            $buffy .= ' ';
@@ -283,7 +289,7 @@ class td_block {
             ), $this->atts));
 
 
-        if (!empty($this->atts['custom_title'])) {
+	    if (!empty($this->atts['custom_title'])) {
             $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
         }
 
@@ -310,13 +316,23 @@ class td_block {
         //wordpress wp query parms
         $buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
         $buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
-        $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
 
 	    $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
         $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $ajax_pagination_infinite_stop . '";' . "\n";
 
-	    if (!empty($this->atts['offset']) and $limit != 0) {
-		    $buffy .= $block_item . '.max_num_pages_with_offset = "' . ceil(($this->td_query->found_posts - $this->atts['offset']) / $limit) . '";' . "\n";
+
+		// The max_num_pages is computed so it considers the offset and the limit atts settings
+	    // There were necessary these changes because on the user interface there are js scripts that use the max_num_pages js variable to show/hide some ui components
+	    if (!empty($this->atts['offset'])) {
+
+		    if ($this->atts['limit'] != 0) {
+			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / $this->atts['limit'] ) . '";' . "\n";
+
+		    } else if (get_option('posts_per_page') != 0) {
+			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / get_option('posts_per_page') ) . '";' . "\n";
+		    }
+	    } else {
+		    $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
 	    }
 
         $buffy .= 'td_blocks.push(' . $block_item . ');' . "\n";

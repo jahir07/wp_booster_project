@@ -272,8 +272,19 @@ var td_affix = {
      */
     compute_wrapper: function compute_wrapper() {
 
-        //read the height of the menu
-        td_affix.main_menu_height = jQuery(td_affix.menu_selector).height();
+        // td-affix class is removed to compute a real height when the compute_wrapper is done on a scrolled page
+        if (jQuery(td_affix.menu_selector).hasClass('td-affix')) {
+            jQuery(td_affix.menu_selector).removeClass('td-affix');
+
+            //read the height of the menu
+            td_affix.main_menu_height = jQuery(td_affix.menu_selector).height();
+
+            jQuery(td_affix.menu_selector).addClass('td-affix');
+
+        } else {
+            //read the height of the menu
+            td_affix.main_menu_height = jQuery(td_affix.menu_selector).height();
+        }
 
         // put the menu height to the wrapper. The wrapper remains in the place when the menu is affixed
         jQuery(td_affix.menu_wrap_selector).css('height', td_affix.main_menu_height);
