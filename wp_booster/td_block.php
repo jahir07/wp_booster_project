@@ -38,8 +38,13 @@ class td_block {
             array(
                 'td_ajax_filter_type' => '',
                 'td_ajax_filter_ids' => '',
-                'td_filter_default_txt' => __td('All', TD_THEME_NAME)
+                'td_filter_default_txt' => __td('All', TD_THEME_NAME),
+                //'css' => ''  //visual composer designer options
             ),$this->atts));
+
+        // add the visual composer class for the designer option
+        // $vc_class = preg_replace( '/\s*\.([^\{]+)\s*\{\s*([^\}]+)\s*\}\s*/', '$1', $css);
+        // $this->add_class($vc_class);
 
 
 
