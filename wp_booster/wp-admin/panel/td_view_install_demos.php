@@ -10,6 +10,19 @@ td_demo_content::add_post(array(
     'template' => 'single_template_10'
 ));
 */
+td_demo_category::remove();
+td_demo_category::add_category(array(
+    'category_name' => 'testsssss',
+    'parent_id' => 0,
+    'category_template' => 'td_category_template_4',
+    'top_posts_style' => 'td_category_top_posts_style_4',
+    'description' => 'description shit',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => 'no_sidebar', //sidebar_left, sidebar_right, no_sidebar
+
+));
 ?>
 
 <div class="td-admin-wrap theme-browser">

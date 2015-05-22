@@ -160,28 +160,54 @@ class td_demo_misc {
 
 class td_demo_category {
 
-    /**
-     * @param $category_name
-     * @param int $parent_id
-     * @param string $top_posts_style_id
-     * @param string $description
-     * @return int|WP_Error
-     */
-    static function add_category($category_name, $parent_id = 0, $top_posts_style_id = '', $description = '') {
+
+    static function add_category($params_array) {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
-        $new_cat_id = wp_create_category($category_name, $parent_id);
+        $new_cat_id = wp_create_category($params_array['category_name'], $params_array['parent_id']);
 
         //update category descriptions
-        if(!empty($description)) {
+        if(!empty($params_array['description'])) {
             wp_update_term($new_cat_id, 'category', array(
-                'description' => $description
+                'description' => $params_array['description']
             ));
         }
 
+
         // update the category top post style
-        if (!empty($top_posts_style_id)) {
-            td_util::update_category_option($new_cat_id, 'tdc_category_top_posts_style', $top_posts_style_id);
+        if (!empty($params_array['top_posts_style'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
         }
+
+        // update the category template
+        if (!empty($params_array['category_template'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
+        }
+
+
+        // update the background if needed
+        if (!empty($params_array['background_td_pic_id'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_image'] = td_demo_media::get_image_url_by_td_id($params_array['background_td_pic_id']);
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_bg_repeat'] = 'stretch';
+        }
+
+
+        // update the sidebar if needed
+        if (!empty($params_array['sidebar_id'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_name'] = $params_array['sidebar_id'];
+        }
+
+        // moduel id to sue 123456 (NO MODULE JUST THE NUMBER)
+        if (!empty($params_array['tdc_layout'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_layout'] = $params_array['tdc_layout'];
+        }
+
+        // update the sidebar position
+        // sidebar_left, sidebar_right, no_sidebar
+        if (!empty($params_array['tdc_sidebar_pos'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_pos'] = $params_array['tdc_sidebar_pos'];
+        }
+
+
 
 
         // keep a list of installed category ids so we can delete them later if needed
