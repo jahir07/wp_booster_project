@@ -281,6 +281,7 @@ class td_demo_content {
         $args = array(
             'post_type' => array('page', 'post'),
             'meta_key'  => 'td_demo_content',
+            'posts_per_page' => '-1'
         );
         $query = new WP_Query( $args );
         if (!empty($query->posts)) {
@@ -537,7 +538,8 @@ class td_demo_media {
         // If error storing temporarily, return the error.
         if ( is_wp_error( $file_array['tmp_name'] ) ) {
             @unlink($file_array['tmp_name']);
-            echo 'is_wp_error $file_array: ' . $file_array['tmp_name']->get_error_messages() . ' ' . $file;
+            echo 'is_wp_error $file_array: ' . $file;
+            print_r($file_array['tmp_name']);
             return $file_array['tmp_name'];
         }
 
@@ -564,13 +566,18 @@ class td_demo_media {
             'post_type' => array('attachment'),
             'post_status' => 'inherit',
             'meta_key'  => 'td_demo_attachment',
+            'posts_per_page' => '-1'
         );
         $query = new WP_Query( $args );
 
 
         if (!empty($query->posts)) {
             foreach ($query->posts as $post) {
-                wp_delete_attachment($post->ID, true);
+                $return_value = wp_delete_attachment($post->ID, true);
+                if ($return_value === false) {
+                    echo 'td_demo_media::remove - failed to delete image id:' . $post->ID ;
+                }
+                //echo 'deleting: ' . $post->ID;
             }
         }
     }
@@ -581,6 +588,7 @@ class td_demo_media {
             'post_type' => array('attachment'),
             'post_status' => 'inherit',
             'meta_key'  => 'td_demo_attachment',
+            'posts_per_page' => '-1'
         );
 
         //@todo big problem here - we rely on the wp_cache from get_post_meta too much
