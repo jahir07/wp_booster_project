@@ -160,13 +160,35 @@ class td_demo_misc {
 
 class td_demo_category {
 
-    static function add_category($category_name, $parent_id = 0) {
+    /**
+     * @param $category_name
+     * @param int $parent_id
+     * @param string $top_posts_style_id
+     * @param string $description
+     * @return int|WP_Error
+     */
+    static function add_category($category_name, $parent_id = 0, $top_posts_style_id = '', $description = '') {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
         $new_cat_id = wp_create_category($category_name, $parent_id);
+
+        //update category descriptions
+        if(!empty($description)) {
+            wp_update_term($new_cat_id, 'category', array(
+                'description' => $description
+            ));
+        }
+
+        // update the category top post style
+        if (!empty($top_posts_style_id)) {
+            td_util::update_category_option($new_cat_id, 'tdc_category_top_posts_style', $top_posts_style_id);
+        }
+
 
         // keep a list of installed category ids so we can delete them later if needed
         $td_stacks_demo_categories_id []= $new_cat_id;
         td_util::update_option('td_demo_categories_id', $td_stacks_demo_categories_id);
+
+
 
         return $new_cat_id;
     }
@@ -243,6 +265,10 @@ class td_demo_content {
 
 
         set_post_thumbnail($post_id, td_demo_media::get_by_td_id($params['featured_image_td_id']));
+        if (!empty($params['template'])) {
+            $td_post_theme_settings['td_post_template'] = $params['template'];
+            update_post_meta($post_id, 'td_post_theme_settings', $td_post_theme_settings, true);
+        }
         return $post_id;
     }
 
@@ -263,12 +289,12 @@ class td_demo_content {
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($page_id, 'td_demo_content', true);
 
-        //set the page template if we have one
-        if (!empty($params['page_template'])) {
-            update_post_meta($page_id, '_wp_page_template', $params['page_template']);
+        // set the page template if we have one
+        if (!empty($params['template'])) {
+            update_post_meta($page_id, '_wp_page_template', $params['template']);
         }
 
-
+        // set as homepage?
         if (!empty($params['homepage']) and $params['homepage'] === true) {
             update_option( 'page_on_front', $page_id);
             update_option( 'show_on_front', 'page' );

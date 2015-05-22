@@ -40,6 +40,12 @@ class td_util {
         }
     }
 
+    static function update_category_option($category_id, $option_id, $new_value) {
+        td_global::$td_options['category_options'][$category_id][$option_id] = $new_value;
+        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+    }
+
+
 
     /**
      * reads an ad from our data

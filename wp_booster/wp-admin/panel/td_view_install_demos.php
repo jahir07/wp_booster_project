@@ -1,23 +1,15 @@
 <?php
 require_once "td_view_header.php";
-//@todo big problem here - we rely on the wp_cache from get_post_meta too much
-$args = array(
-    'post_type' => array('attachment'),
-    'post_status' => 'inherit',
-    'meta_key'  => 'td_demo_attachment',
-    //'nopaging' => false,
-    'posts_per_page' => '-1'
-);
-$query = new WP_Query( $args );
-if (!empty($query->posts)) {
-    foreach ($query->posts as $post) {
-        //search for our td_id in the post meta
-        $pic_td_id = get_post_meta($post->ID, 'td_demo_attachment', true);
-        echo $pic_td_id . '<br>';
-        //wp_delete_attachment($post->ID, true);
-    }
-}
-//die;
+
+
+td_demo_content::add_post(array(
+    'title' => 'saf11111sas jhtsj jh sjrjr',
+    'file' => td_global::$get_template_directory . '/includes/demos/fashion/posts/post1.txt',
+    'categories_id_array' => array(),
+    'featured_image_td_id' => 'td_pic_10',
+    'template' => 'single_template_10'
+));
+
 ?>
 
 <div class="td-admin-wrap theme-browser">
@@ -29,7 +21,6 @@ if (!empty($query->posts)) {
         $installed_demo = td_demo_state::get_installed_demo();
 
         foreach (td_global::$demo_list as $demo_id => $stack_params) {
-
             $tmp_class = '';
             if ($installed_demo !== false and $installed_demo['demo_id'] == $demo_id) {
                 $tmp_class = 'td-demo-installed';
