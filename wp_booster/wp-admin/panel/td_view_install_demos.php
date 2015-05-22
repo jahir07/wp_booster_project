@@ -1,7 +1,7 @@
 <?php
 require_once "td_view_header.php";
 
-
+/*
 td_demo_content::add_post(array(
     'title' => 'saf11111sas jhtsj jh sjrjr',
     'file' => td_global::$get_template_directory . '/includes/demos/fashion/posts/post1.txt',
@@ -9,7 +9,7 @@ td_demo_content::add_post(array(
     'featured_image_td_id' => 'td_pic_10',
     'template' => 'single_template_10'
 ));
-
+*/
 ?>
 
 <div class="td-admin-wrap theme-browser">
