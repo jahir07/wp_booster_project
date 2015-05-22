@@ -10,6 +10,7 @@ td_demo_content::add_post(array(
     'template' => 'single_template_10'
 ));
 */
+/*
 td_demo_category::remove();
 td_demo_category::add_category(array(
     'category_name' => 'testsssss',
@@ -23,6 +24,7 @@ td_demo_category::add_category(array(
     'tdc_sidebar_pos' => 'no_sidebar', //sidebar_left, sidebar_right, no_sidebar
 
 ));
+*/
 ?>
 
 <div class="td-admin-wrap theme-browser">
