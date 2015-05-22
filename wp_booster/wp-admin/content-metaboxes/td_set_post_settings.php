@@ -12,7 +12,19 @@
     <div class="td-page-option-panel td-post-option-general td-page-option-panel-active">
 
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Post template:</span>
+            <span class="td-page-o-custom-label">
+                Post template:
+                <?php
+                    td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <div class="td-inline-block-wrap">
                 <?php
                 echo td_panel_generator::visual_select_o(array(
@@ -27,9 +39,21 @@
         </div>
 
 
-
+        <!-- sidebar position -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Sidebar position:</span>
+            <span class="td-page-o-custom-label">
+                Sidebar position:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
                 <?php
                 echo td_panel_generator::visual_select_o(array(
                     'ds' => 'td_post_theme_settings',
@@ -47,9 +71,21 @@
         </div>
 
 
-
+        <!-- custom sidebar -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label ">Custom sidebar:</span>
+            <span class="td-page-o-custom-label">
+                Custom sidebar:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <?php
             echo td_panel_generator::sidebar_pulldown(array(
                 'ds' => 'td_post_theme_settings',
@@ -61,8 +97,21 @@
         </div>
 
 
+        <!-- primary category -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Primary category:</span>
+            <span class="td-page-o-custom-label">
+                Primary category:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <?php $mb->the_field('td_primary_cat'); ?>
             <div class="td-select-style-overwrite td-inline-block-wrap">
                 <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">
@@ -137,8 +186,21 @@
 
     <!-- post option smart list -->
     <div class="td-page-option-panel td-page-option-post-smart-list">
+            <!-- smart list -->
             <div class="td-meta-box-row">
-                <span class="td-page-o-custom-label">Use a smart list? :</span>
+                <span class="td-page-o-custom-label">
+                    Use a smart list? :
+                    <?php
+                    td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                    ?>
+                </span>
 
                 <div class="td-inline-block-wrap">
                     <?php
@@ -154,10 +216,21 @@
             </div>
 
 
-
-
+            <!-- title tag -->
             <div class="td-meta-box-row">
-                <span class="td-page-o-custom-label">Title tags:</span>
+                <span class="td-page-o-custom-label">
+                    Title tags:
+                    <?php
+                    td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                    ?>
+                </span>
                 <?php $mb->the_field('td_smart_list_h'); ?>
                 <div class="td-select-style-overwrite td-inline-block-wrap">
                     <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">
@@ -173,9 +246,21 @@
             </div>
 
 
-
+            <!-- smart list numbering -->
             <div class="td-meta-box-row">
-                <span class="td-page-o-custom-label">Smart list numbering:</span>
+                <span class="td-page-o-custom-label">
+                    Smart list numbering:
+                    <?php
+                    td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                    ?>
+                </span>
                 <?php $mb->the_field('td_smart_list_order'); ?>
                 <div class="td-select-style-overwrite td-inline-block-wrap">
                     <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">

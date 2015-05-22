@@ -827,6 +827,15 @@ class td_util {
 
 
 
+    static function tooltip($content, $position = 'top') {
+        echo '<a href="#" class="td-tooltip" data-position="' . $position . '" title="' . $content . '">?</a>';
+    }
+
+    static function tooltip_html($content, $position = 'top') {
+        echo '<a href="#" class="td-tooltip" data-position="' . $position . '" data-content-as-html="true" title="' . esc_attr($content) . '">?</a>';
+    }
+
+
 }//end class td_util
 
 

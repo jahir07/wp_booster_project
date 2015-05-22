@@ -13,8 +13,21 @@
     <div class="td-page-option-panel td-page-option-panel-active td-page-option-general">
 
 
+        <!-- sidebar position -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Sidebar position:</span>
+            <span class="td-page-o-custom-label">
+                Sidebar position:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <?php
             echo td_panel_generator::visual_select_o(array(
                 'ds' => 'td_homepage_loop',
@@ -31,8 +44,21 @@
         </div>
 
 
+        <!-- sidebar -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Sidebar:</span>
+            <span class="td-page-o-custom-label">
+                Sidebar:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <?php
             echo td_panel_generator::sidebar_pulldown(array(
                 'ds' => 'td_homepage_loop',
@@ -46,7 +72,7 @@
 
 
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Sidebar position:</span>
+            <span class="td-page-o-custom-label">Template layout:</span>
             <img class="td-doc-image-wp td-doc-image-homepage-loop" style="max-width: 100%" src="<?php echo get_template_directory_uri() ?>/includes/wp_booster/wp-admin/images/info-homepage-loop.jpg" />
         </div>
     </div>
@@ -57,8 +83,21 @@
 
     <!-- Posts loop settings -->
     <div class="td-page-option-panel td-page-option-post-list">
+        <!-- Layout -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Layout:</span>
+            <span class="td-page-o-custom-label">
+                Layout:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
                 <div class="td-page-o-visual-select-modules">
                     <?php
                     echo td_panel_generator::visual_select_o(array(
@@ -72,10 +111,22 @@
                 </div>
         </div>
 
-
+        <!-- show or hide the title -->
         <div class="td-meta-box-row">
             <?php $mb->the_field('list_custom_title_show'); ?>
-            <span class="td-page-o-custom-label">Show list title:</span>
+            <span class="td-page-o-custom-label">
+                Show list title:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <div class="td-select-style-overwrite">
                 <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">
                     <option value="">Show title</option>
@@ -84,10 +135,23 @@
             </div>
        </div>
 
-
+        <!-- custom title for article list -->
         <div class="td-meta-box-row">
             <?php $mb->the_field('list_custom_title'); ?>
-            <span class="td-page-o-custom-label">Article list title: </span><input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
+            <span class="td-page-o-custom-label">
+                Article list title:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
+            <input type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
             <span class="td-page-o-info">Custom title for the article list section</span>
         </div>
 
@@ -159,6 +223,9 @@
 
     <!-- page option general -->
     <div class="td-page-option-panel td-page-option-unique-articles">
+        <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
+
+
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">Unique articles:</span>
             <?php $mb->the_field('td_unique_articles'); ?>

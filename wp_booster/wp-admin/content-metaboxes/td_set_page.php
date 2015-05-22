@@ -1,6 +1,6 @@
 <div class="td-page-options-tab-wrap">
     <div class="td-page-options-tab td-page-options-tab-active" data-panel-class="td-page-option-general"><a href="#">General</a></div>
-    <div class="td-page-options-tab" data-panel-class="td-page-option-unique-articles"><a href="#">Unique articles</a></div>
+    <div class="td-page-options-tab" data-panel-class="td-page-option-unique-articles-2"><a href="#">Unique articles</a></div>
 </div>
 <div class="td-meta-box-inside">
 
@@ -10,8 +10,22 @@
     <div class="td-page-option-panel td-page-option-panel-active td-page-option-general">
         <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
 
+
+        <!-- sidebar position -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Sidebar position:</span>
+            <span class="td-page-o-custom-label">
+                Sidebar position:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <div class="td-inline-block-wrap">
                 <?php
                 echo td_panel_generator::visual_select_o(array(
@@ -30,8 +44,22 @@
             </div>
         </div>
 
+
+        <!-- custom sidebar -->
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Custom sidebar:</span>
+            <span class="td-page-o-custom-label">
+                Custom sidebar:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Post template:</h3>
+                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <ul>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
             <?php
             echo td_panel_generator::sidebar_pulldown(array(
                 'ds' => 'td_page',
@@ -46,10 +74,15 @@
 
 
 
-    <!-- page option general -->
-    <div class="td-page-option-panel td-page-option-unique-articles">
+    <!-- unique articles tab -->
+    <div class="td-page-option-panel td-page-option-unique-articles-2">
+
+        <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
+
         <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">Unique articles:</span>
+            <span class="td-page-o-custom-label">
+                Unique articles:
+            </span>
             <?php $mb->the_field('td_unique_articles'); ?>
             <div class="td-select-style-overwrite td-inline-block-wrap">
                 <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">

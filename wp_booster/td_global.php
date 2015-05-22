@@ -75,6 +75,8 @@ class td_global {
         'td_edit_page' => '/includes/wp_booster/wp-admin/js/td_edit_page.js',
         'td_wp_admin_demos' => '/includes/wp_booster/wp-admin/js/td_wp_admin_demos.js',
         'td_page_options' => '/includes/wp_booster/wp-admin/js/td_page_options.js',
+        'td_tooltip' => '/includes/wp_booster/wp-admin/js/tooltip.js'
+
     );
 
 
