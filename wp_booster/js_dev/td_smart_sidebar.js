@@ -230,6 +230,9 @@ var td_smart_sidebar = {
                                 // Make sure that we have space for the sidebar to affix it to the top
                                 cur_item_ref.sidebar_state = 'case_4_fixed_up';  // we are not at the bottom of the content
                             } else {
+
+                                // this case isn't reached. It's accomplish by the td_smart_sidebar._is_smaller_or_equal(cur_item_ref.content_bottom, cur_item_ref.sidebar_bottom) case
+
                                 cur_item_ref.sidebar_state = 'case_3_bottom_of_content';
                             }
                             //console.log(cur_item_ref.content_bottom + ' >= ' +  cur_item_ref.sidebar_bottom); //@todo fix this case pe http://0div.com:69/wp_marius/wp_010/homepage-with-a-post-featured/
@@ -249,10 +252,37 @@ var td_smart_sidebar = {
 
                 } else {
 
-                    // if the sidebar is above the view port and nothing is visible, place the sidebar at the bottom of the column
+                    //// if the sidebar is above the view port and nothing is visible, place the sidebar at the bottom of the column
+                    //if (td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, scrollTop) === true) {
+                    //    cur_item_ref.sidebar_state = 'case_3_bottom_of_content';
+                    //    td_smart_sidebar.log(cur_item_ref.sidebar_bottom + ' ~ ' + scrollTop);
+                    //}
+
+
+                    // if the sidebar is above the view port and nothing is visible, place the sidebar fixed up if it's smaller than the viewport,
+                    //      fixed down, meaning that a possible previous operation could be 'scroll down'
+                    // if none of the above operations meets the conditions, the sidebar is placed at the bottom of the content
                     if (td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, scrollTop) === true) {
-                        cur_item_ref.sidebar_state = 'case_3_bottom_of_content';
+
+                        if (td_smart_sidebar._is_smaller_or_equal(scrollTop, cur_item_ref.sidebar_top) === true
+
+                            && td_smart_sidebar._is_smaller_or_equal(cur_item_ref.content_top, scrollTop) === true //we are scrolling up ... make sure that we don't overshoot the sidebar by going over content_top. This happens when the sidebar is offseted by x number of pixels vs content
+                        ) {
+                            //console.log('sidebar_top' + cur_item_ref.sidebar_top + ' content top:' + cur_item_ref.content_top);
+                            cur_item_ref.sidebar_state = 'case_4_fixed_up';
+                        }
+                        else if (
+                            td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, view_port_bottom) === true &&
+                            td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, cur_item_ref.content_bottom) === true &&
+                            cur_item_ref.content_bottom >= view_port_bottom
+                        ) {
+                            cur_item_ref.sidebar_state = 'case_1_fixed_down';
+                        }
+                        else {
+                            cur_item_ref.sidebar_state = 'case_3_bottom_of_content';
+                        }
                     }
+
 
 
                     // position:fixed; bottom:0
