@@ -13,17 +13,20 @@
     <div class="td-page-option-panel td-page-option-panel-active td-page-option-general">
 
 
+        <p><strong>Note:</strong> Unlike the default template, the settings from this panel applies to the bottom part of the page (where the loop + sidebar is). </p>
+
+
+
         <!-- sidebar position -->
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">
                 Sidebar position:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Sidebar position:</h3>
+                        <p>From here you can set the sidebar position for the bottom part of the page.</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>With no selection</strong> - the template will load the sidebar on the right</li>
                         </ul>
                     ', 'right')
                 ?>
@@ -50,11 +53,10 @@
                 Sidebar:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Sidebar:</h3>
+                        <p>From here you can set select a custom sidebar for the bottom part of the page.</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>With no selection</strong> - the template will load the <i>' . TD_THEME_NAME . ' default</i> sidebar</li>
                         </ul>
                     ', 'right')
                 ?>
@@ -89,11 +91,10 @@
                 Layout:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Layout select:</h3>
+                        <p>Select a custom module to be used in the loop of this page.</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li>If you want to make you own modules, please go to our <a href="http://forum.tagdiv.com/api-modules-introduction/" target="_blank">API section</a> of the documentation</li>
                         </ul>
                     ', 'right')
                 ?>
@@ -118,12 +119,8 @@
                 Show list title:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
-                        <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                        </ul>
+                        <h3>Show the list title:</h3>
+                        <p>Hide or show the loop title. It can be something like "Latest articles" etc.</p>
                     ', 'right')
                 ?>
             </span>
@@ -142,12 +139,8 @@
                 Article list title:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
-                        <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                        </ul>
+                        <h3>The title to use for the loop:</h3>
+                        <p>It can be something like "Latest articles" etc.</p>
                     ', 'right')
                 ?>
             </span>
@@ -155,6 +148,10 @@
             <span class="td-page-o-info">Custom title for the article list section</span>
         </div>
 
+
+        <div class="td-meta-box-row td-meta-box-row-separator">
+            <h3>Filters for the loop:</h3>
+        </div>
 
         <?php
         class td_set_homepage_loop_filter {
@@ -223,8 +220,9 @@
 
     <!-- page option general -->
     <div class="td-page-option-panel td-page-option-unique-articles">
-        <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
-
+        <p>
+            <strong>Note:</strong> We recommand to not use the Unique articles feature if you plan to use ajax blocks that have sub categories or pagination. This feature will make sure that only unique articles are loaded on the initial page load.
+        </p>
 
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">Unique articles:</span>

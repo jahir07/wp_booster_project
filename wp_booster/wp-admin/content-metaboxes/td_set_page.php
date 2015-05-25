@@ -17,11 +17,15 @@
                 Sidebar position:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Sidebar position:</h3>
+                        <p>From here you can set the sidebar position for this page only.</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Template settings > Page template</i></li>
+                            <li><strong>On default</strong> - the template will load the sidebar position that is set in the Theme panel: <i>Template settings > Page template</i></li>
+                            <li>This setting is intended to be use for content pages, When this template detects
+                            that Visual Composer is used, it will switch to a full width layout (with no sidebar). </li>
+                            <li>If you want to use a sidebar with Visual Composer please use the Widgetised Sidebar block</li>
+
                         </ul>
                     ', 'right')
                 ?>
@@ -51,11 +55,14 @@
                 Custom sidebar:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Custom sidebar:</h3>
+                        <p>From here you can set a custom sidebar for this page only.</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Template settings > Page template</i></li>
+                            <li><strong>On default</strong> - the template will load the sidebar that is set in the Theme panel: <i>Template settings > Page template</i></li>
+                            <li>This setting is intended to be use for content pages, When this template detects
+                            that Visual Composer is used, it will switch to a full width layout (with no sidebar). </li>
+                            <li>If you want to use a sidebar with Visual Composer please use the Widgetised Sidebar block</li>
                         </ul>
                     ', 'right')
                 ?>
@@ -77,7 +84,9 @@
     <!-- unique articles tab -->
     <div class="td-page-option-panel td-page-option-unique-articles-2">
 
-        <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
+        <p>
+            <strong>Note:</strong> We recommand to not use the Unique articles feature if you plan to use ajax blocks that have sub categories or pagination. This feature will make sure that only unique articles are loaded on the initial page load.
+        </p>
 
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">

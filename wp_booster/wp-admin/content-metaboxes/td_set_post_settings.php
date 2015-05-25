@@ -16,11 +16,11 @@
                 Post template:
                 <?php
                     td_util::tooltip_html('
-                        <h3>Post template:</h3>
+                        <h3>Post templates:</h3>
                         <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i></li>
+                            <li><strong>On default</strong> - the post will load the template that is set in the Theme panel: <i>Post settings > Default post template</i></li>
                         </ul>
                     ', 'right')
                 ?>
@@ -39,17 +39,63 @@
         </div>
 
 
+        <!-- primary category -->
+        <div class="td-meta-box-row">
+            <span class="td-page-o-custom-label">
+                Primary category:
+                <?php
+                td_util::tooltip_html('
+                        <h3>Primary category explained:</h3>
+                        <p>In '. TD_THEME_NAME . ' theme each post has a <i>Primary category</i> and all the settings from that category will be trasfered to the post. The Primary category will
+                        also be used as a category label that appears on the thumbs and the category breadcrumb</p>
+
+                        <p>Here are the settings that are inherited from the <i>Primary category</i>: Custom sidebars, Sidebar position and Background</p>
+                        <p>How the Primary category is picked</p>
+                        <ul>
+                            <li><strong>Manually</strong> - If you select it from this box, this post will inherit all the settings form the <i>Primary category</i>.</li>
+                            <li><strong>If the post has only one category</strong> - that will be the <i>Primary category</i></li>
+                            <li><strong>If the post has multiple categories and no manual Primary category</strong>, the theme will pick the first category from the categories of this post ordered alphabetically</li>
+
+                        </ul>
+                    ', 'right')
+                ?>
+            </span>
+            <?php $mb->the_field('td_primary_cat'); ?>
+            <div class="td-select-style-overwrite td-inline-block-wrap">
+                <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">
+                    <option value="">Auto select a category</option>
+                    <?php
+                    $td_current_categories = td_util::get_category2id_array(false);
+
+                    //print_r($td_current_categories);
+                    //die;
+                    foreach ($td_current_categories as $td_category => $td_category_id) {
+                        ?>
+                        <option value="<?php echo $td_category_id?>"<?php $mb->the_select_state($td_category_id); ?>><?php echo $td_category?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <span class="td-page-o-info">If the posts has multiple categories, the one selected here will be used for settings and it appear on labels.</span>
+        </div>
+
+
+
         <!-- sidebar position -->
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">
                 Sidebar position:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Sidebar position:</h3>
+                        <p>For best results and easy to maintain websites we recommend that you set the sidebar from the <i>Primary category</i> of this post. That way if you have
+                        multiple posts, when you change the category settings all the posts will match the category</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i> and the <i>Category settings</i></li>
+                            <li><strong>On default</strong> - the post will look at the primary category settings and it will try to get the position form there. If the primary category
+                            does not have a custom sidebar position, the post will load the setting from <i>Template settings > Blog and posts template</i></li>
+
                         </ul>
                     ', 'right')
                 ?>
@@ -77,11 +123,13 @@
                 Custom sidebar:
                 <?php
                 td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Custom sidebar:</h3>
+                        <p>For best results and easy to maintain websites we recommend that you set the sidebar from the <i>Primary category</i> of this post. That way if you have
+                        multiple posts, when you change the category settings all the posts will match the category</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i> and the <i>Category settings</i></li>
+                            <li><strong>On default</strong> - the post will look at the primary category settings and it will try to get the sidebar form there. If the primary category
+                            does not have a custom sidebar, the post will load the setting from <i>Template settings > Blog and posts template</i></li>
                         </ul>
                     ', 'right')
                 ?>
@@ -97,40 +145,7 @@
         </div>
 
 
-        <!-- primary category -->
-        <div class="td-meta-box-row">
-            <span class="td-page-o-custom-label">
-                Primary category:
-                <?php
-                td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
-                        <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                        </ul>
-                    ', 'right')
-                ?>
-            </span>
-            <?php $mb->the_field('td_primary_cat'); ?>
-            <div class="td-select-style-overwrite td-inline-block-wrap">
-                <select name="<?php $mb->the_name(); ?>" class="td-panel-dropdown">
-                    <option value="">Auto select a category</option>
-                    <?php
-                    $td_current_categories = td_util::get_category2id_array(false);
 
-                    //print_r($td_current_categories);
-                    //die;
-                    foreach ($td_current_categories as $td_category => $td_category_id) {
-                        ?>
-                        <option value="<?php echo $td_category_id?>"<?php $mb->the_select_state($td_category_id); ?>><?php echo $td_category?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-            <span class="td-page-o-info">If the posts has multiple categories, the one selected here will show up in blocks.</span>
-        </div>
 
 
         <div class="td-meta-box-row">
@@ -192,12 +207,17 @@
                     Use a smart list? :
                     <?php
                     td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <h3>Smart Lists:</h3>
+                        <p>Using <i>Smart lists</i> you can transform your article in a list of items. Each item must have a title, an image and a description</p>
+                        <p>How to make an item:</p>
                         <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
+                            <li><strong>add a text wrapped in H3</strong> - this will be the title of the item</li>
+                            <li><strong>add any picture</strong> from the media library</li>
+                            <li>in a new paragraph below the picture, <strong>add some text</strong></li>
+                            <li><i>repeat the last 3 steps for each item that you want to add</i></li>
                         </ul>
+
+                        <p>The system will use the H3 from the tiles to split your article and make each individual slide or numbered item</p>
                     ', 'right')
                     ?>
                 </span>
@@ -222,12 +242,8 @@
                     Title tags:
                     <?php
                     td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
-                        <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                        </ul>
+                        <h3>Smart lists title tags:</h3>
+                        <p>Customize what tag is used for <i>Title</i> lookup. This setting is useful if for example, you already have articles that use H2 for items</p>
                     ', 'right')
                     ?>
                 </span>
@@ -251,14 +267,7 @@
                 <span class="td-page-o-custom-label">
                     Smart list numbering:
                     <?php
-                    td_util::tooltip_html('
-                        <h3>Post template:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
-                        <ul>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                            <li>When the default post template is set, the theme will load the global setting form the panel <code>Post settings - default post template</code></li>
-                        </ul>
-                    ', 'right')
+                    td_util::tooltip('Change the sort order of the items', 'right')
                     ?>
                 </span>
                 <?php $mb->the_field('td_smart_list_order'); ?>
