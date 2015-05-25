@@ -353,6 +353,14 @@ function td_ajax_block_process_response(data, td_user_action) {
 
     //load the content (in place or append)
     if (td_user_action == 'load_more' || td_user_action == 'infinite_load') {
+
+        // fix needed to keep sidebars fixed down when they are bottom of the content and the content grows up
+        for (var i = 0; i < td_smart_sidebar.items.length; i++) {
+            if (td_smart_sidebar.items[i].sidebar_state == 'case_3_bottom_of_content') {
+                td_smart_sidebar.items[i].sidebar_state = 'case_1_fixed_down';
+            }
+        }
+
         jQuery(td_reply_obj.td_data).appendTo('#' + td_reply_obj.td_block_id);
         //jQuery(td_reply_obj.td_data).addClass('animated_xxlong').appendTo('#' + td_reply_obj.td_block_id).addClass('fadeIn');
         //jQuery('#' + td_reply_obj.td_block_id).append(td_reply_obj.td_data); //append
