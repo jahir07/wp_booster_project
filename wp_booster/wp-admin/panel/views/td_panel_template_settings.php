@@ -163,7 +163,7 @@
 				'ds' => 'td_option',
 				'option_id' => 'tds_animation_stack_effect',
 				'values' => array(
-					array('text' => 'Fade', 'val' => 'type0'),
+					array('text' => 'Fade', 'val' => ''),
 					array('text' => 'Margin', 'val' => 'type1'),
 					array('text' => 'Scale', 'val' => 'type2'),
 					array('text' => 'Fade & Margin', 'val' => 'type3'),

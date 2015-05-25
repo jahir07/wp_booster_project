@@ -42,6 +42,10 @@ var td_animation_stack = {
 
 
 
+    // - the default animation effect that should be applied if not other effect is specified
+    _animation_defalt_effect: 'type0',
+
+
 
     // - td_animation_stack runs just only when this flag is true
     // - it's done true by the init function
@@ -70,6 +74,9 @@ var td_animation_stack = {
     ready_init: function ready_init() {
 
         if (td_animation_stack_effect != undefined) {
+            if (td_animation_stack_effect == '') {
+                td_animation_stack_effect = td_animation_stack._animation_defalt_effect;
+            }
             td_animation_stack._animation_css_class1 = 'td-animation-stack-' + td_animation_stack_effect + '-1';
             td_animation_stack._animation_css_class2 = 'td-animation-stack-' + td_animation_stack_effect + '-2';
         }
