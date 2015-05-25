@@ -1,7 +1,7 @@
 <?php
 require_once "td_view_header.php";
 
-
+/*
 td_demo_content::remove();
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Newseeeeeeeexxxx',
@@ -12,6 +12,7 @@ $td_homepage_id = td_demo_content::add_page(array(
 ));
 
 die;
+*/
 ?>
 
 <div class="td-admin-wrap theme-browser">
