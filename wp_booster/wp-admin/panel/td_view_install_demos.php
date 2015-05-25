@@ -1,30 +1,17 @@
 <?php
 require_once "td_view_header.php";
 
-/*
-td_demo_content::add_post(array(
-    'title' => 'saf11111sas jhtsj jh sjrjr',
-    'file' => td_global::$get_template_directory . '/includes/demos/fashion/posts/post1.txt',
-    'categories_id_array' => array(),
-    'featured_image_td_id' => 'td_pic_10',
-    'template' => 'single_template_10'
-));
-*/
-/*
-td_demo_category::remove();
-td_demo_category::add_category(array(
-    'category_name' => 'testsssss',
-    'parent_id' => 0,
-    'category_template' => 'td_category_template_4',
-    'top_posts_style' => 'td_category_top_posts_style_4',
-    'description' => 'description shit',
-    'background_td_pic_id' => '',
-    'sidebar_id' => '',
-    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-    'tdc_sidebar_pos' => 'no_sidebar', //sidebar_left, sidebar_right, no_sidebar
 
+td_demo_content::remove();
+$td_homepage_id = td_demo_content::add_page(array(
+    'title' => 'Newseeeeeeeexxxx',
+    'file' => td_global::$get_template_directory . '/includes/demos/fashion/pages/homepage.txt',
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'homepage' => true,
+    'td_layout' => 5
 ));
-*/
+
+die;
 ?>
 
 <div class="td-admin-wrap theme-browser">

@@ -289,6 +289,9 @@ class td_demo_content {
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($post_id, 'td_demo_content', true);
 
+        if(!empty($params['post_format'])) {
+            set_post_format($post_id, $params['post_format']);
+        }
 
         set_post_thumbnail($post_id, td_demo_media::get_by_td_id($params['featured_image_td_id']));
         if (!empty($params['template'])) {
@@ -318,6 +321,11 @@ class td_demo_content {
         // set the page template if we have one
         if (!empty($params['template'])) {
             update_post_meta($page_id, '_wp_page_template', $params['template']);
+        }
+
+        if (!empty($params['td_layout'])) {
+            $tmp_meta['td_layout'] = $params['td_layout'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
         }
 
         // set as homepage?
