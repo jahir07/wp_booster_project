@@ -1,6 +1,18 @@
 <?php
 require_once "td_view_header.php";
 
+/*
+td_demo_content::remove();
+$td_homepage_id = td_demo_content::add_page(array(
+    'title' => 'Newseeeeeeeexxxx',
+    'file' => td_global::$get_template_directory . '/includes/demos/fashion/pages/homepage.txt',
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'homepage' => true,
+    'td_layout' => 5
+));
+
+die;
+*/
 ?>
 
 <div class="td-admin-wrap theme-browser">
@@ -12,7 +24,6 @@ require_once "td_view_header.php";
         $installed_demo = td_demo_state::get_installed_demo();
 
         foreach (td_global::$demo_list as $demo_id => $stack_params) {
-
             $tmp_class = '';
             if ($installed_demo !== false and $installed_demo['demo_id'] == $demo_id) {
                 $tmp_class = 'td-demo-installed';

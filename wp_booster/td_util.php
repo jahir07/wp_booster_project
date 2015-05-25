@@ -40,6 +40,12 @@ class td_util {
         }
     }
 
+    static function update_category_option($category_id, $option_id, $new_value) {
+        td_global::$td_options['category_options'][$category_id][$option_id] = $new_value;
+        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+    }
+
+
 
     /**
      * reads an ad from our data
@@ -825,6 +831,15 @@ class td_util {
 		return str_replace(array("<script>", "</script>", "<script type='text/javascript'>"), '', $buffer);
 	}
 
+
+
+    static function tooltip($content, $position = 'top') {
+        echo '<a href="#" class="td-tooltip" data-position="' . $position . '" title="' . $content . '">?</a>';
+    }
+
+    static function tooltip_html($content, $position = 'top') {
+        echo '<a href="#" class="td-tooltip" data-position="' . $position . '" data-content-as-html="true" title="' . esc_attr($content) . '">?</a>';
+    }
 
 
 }//end class td_util

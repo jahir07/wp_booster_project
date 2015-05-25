@@ -1,8 +1,4 @@
 /**
- * Created by ra on 2/18/2015.
- */
-
-/**
  * used in wp-admin -> edit page, not on posts
  * this class hides and shows the metaboxes acording to the selected template
  * @type {{init: Function, show_template_settings: Function, change_content: Function}}
@@ -32,29 +28,25 @@ var td_edit_page = {
 
 
         //hide all elements
-        //jQuery('#postbox-container-2 [id$=_metabox]').hide();
-        jQuery('#td_homepage_loop_metabox, #td_homepage_loop_slide_metabox').hide(); //it's better to hide them by id for compatibility with other plugins
 
         var cur_template = jQuery('#page_template option:selected').text();
 
         // the show only unique articles box is always visible
         switch (cur_template) {
             case 'Pagebuilder + latest articles + pagination':
+                jQuery('#td_page_metabox').hide();
                 jQuery('#td_homepage_loop_metabox').slideDown();
-                jQuery('#td_homepage_loop_filter_metabox').slideDown();
-                jQuery('.td-doc-image-homepage-loop-bg, #td_page_metabox').hide();
-                jQuery('.td-doc-image-homepage-loop').show();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Homepage made from a pagebuilder section and a loop below. <ul><li>The loop supports an optional sidebar and advanced filtering options. </li> <li>You can find all the options of this template if you scroll down.</li></ul></span>');
                 break;
 
             case 'Pagebuilder + page title':
-                jQuery('#td_homepage_loop_filter_metabox').hide();
+                jQuery('#td_homepage_loop_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using visual composer. We recommend that you select a NO SIDEBAR layout for best results.</span>');
                 break;
 
-            default:
-                jQuery('#td_homepage_loop_filter_metabox').hide();
+            default: //default template
+                jQuery('#td_homepage_loop_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for visual composer or content pages. <ul><li>If visual composer is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
                 break;
@@ -82,7 +74,3 @@ var td_edit_page = {
 };
 
 td_edit_page.init();
-
-
-
-

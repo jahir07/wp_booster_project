@@ -160,13 +160,61 @@ class td_demo_misc {
 
 class td_demo_category {
 
-    static function add_category($category_name, $parent_id = 0) {
+
+    static function add_category($params_array) {
         $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
-        $new_cat_id = wp_create_category($category_name, $parent_id);
+        $new_cat_id = wp_create_category($params_array['category_name'], $params_array['parent_id']);
+
+        //update category descriptions
+        if(!empty($params_array['description'])) {
+            wp_update_term($new_cat_id, 'category', array(
+                'description' => $params_array['description']
+            ));
+        }
+
+
+        // update the category top post style
+        if (!empty($params_array['top_posts_style'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
+        }
+
+        // update the category template
+        if (!empty($params_array['category_template'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
+        }
+
+
+        // update the background if needed
+        if (!empty($params_array['background_td_pic_id'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_image'] = td_demo_media::get_image_url_by_td_id($params_array['background_td_pic_id']);
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_bg_repeat'] = 'stretch';
+        }
+
+
+        // update the sidebar if needed
+        if (!empty($params_array['sidebar_id'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_name'] = $params_array['sidebar_id'];
+        }
+
+        // moduel id to sue 123456 (NO MODULE JUST THE NUMBER)
+        if (!empty($params_array['tdc_layout'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_layout'] = $params_array['tdc_layout'];
+        }
+
+        // update the sidebar position
+        // sidebar_left, sidebar_right, no_sidebar
+        if (!empty($params_array['tdc_sidebar_pos'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_pos'] = $params_array['tdc_sidebar_pos'];
+        }
+
+
+
 
         // keep a list of installed category ids so we can delete them later if needed
         $td_stacks_demo_categories_id []= $new_cat_id;
         td_util::update_option('td_demo_categories_id', $td_stacks_demo_categories_id);
+
+
 
         return $new_cat_id;
     }
@@ -241,8 +289,15 @@ class td_demo_content {
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($post_id, 'td_demo_content', true);
 
+        if(!empty($params['post_format'])) {
+            set_post_format($post_id, $params['post_format']);
+        }
 
         set_post_thumbnail($post_id, td_demo_media::get_by_td_id($params['featured_image_td_id']));
+        if (!empty($params['template'])) {
+            $td_post_theme_settings['td_post_template'] = $params['template'];
+            update_post_meta($post_id, 'td_post_theme_settings', $td_post_theme_settings, true);
+        }
         return $post_id;
     }
 
@@ -263,12 +318,17 @@ class td_demo_content {
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($page_id, 'td_demo_content', true);
 
-        //set the page template if we have one
-        if (!empty($params['page_template'])) {
-            update_post_meta($page_id, '_wp_page_template', $params['page_template']);
+        // set the page template if we have one
+        if (!empty($params['template'])) {
+            update_post_meta($page_id, '_wp_page_template', $params['template']);
         }
 
+        if (!empty($params['td_layout'])) {
+            $tmp_meta['td_layout'] = $params['td_layout'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+        }
 
+        // set as homepage?
         if (!empty($params['homepage']) and $params['homepage'] === true) {
             update_option( 'page_on_front', $page_id);
             update_option( 'show_on_front', 'page' );
@@ -281,6 +341,7 @@ class td_demo_content {
         $args = array(
             'post_type' => array('page', 'post'),
             'meta_key'  => 'td_demo_content',
+            'posts_per_page' => '-1'
         );
         $query = new WP_Query( $args );
         if (!empty($query->posts)) {
@@ -537,7 +598,8 @@ class td_demo_media {
         // If error storing temporarily, return the error.
         if ( is_wp_error( $file_array['tmp_name'] ) ) {
             @unlink($file_array['tmp_name']);
-            echo 'is_wp_error $file_array: ' . $file_array['tmp_name']->get_error_messages() . ' ' . $file;
+            echo 'is_wp_error $file_array: ' . $file;
+            print_r($file_array['tmp_name']);
             return $file_array['tmp_name'];
         }
 
@@ -564,13 +626,18 @@ class td_demo_media {
             'post_type' => array('attachment'),
             'post_status' => 'inherit',
             'meta_key'  => 'td_demo_attachment',
+            'posts_per_page' => '-1'
         );
         $query = new WP_Query( $args );
 
 
         if (!empty($query->posts)) {
             foreach ($query->posts as $post) {
-                wp_delete_attachment($post->ID, true);
+                $return_value = wp_delete_attachment($post->ID, true);
+                if ($return_value === false) {
+                    echo 'td_demo_media::remove - failed to delete image id:' . $post->ID ;
+                }
+                //echo 'deleting: ' . $post->ID;
             }
         }
     }
@@ -581,6 +648,7 @@ class td_demo_media {
             'post_type' => array('attachment'),
             'post_status' => 'inherit',
             'meta_key'  => 'td_demo_attachment',
+            'posts_per_page' => '-1'
         );
 
         //@todo big problem here - we rely on the wp_cache from get_post_meta too much
