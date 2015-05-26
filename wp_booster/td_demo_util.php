@@ -122,9 +122,27 @@ class td_demo_misc {
      * @param $logo_params array
      */
     static function update_logo($logo_params) {
-        td_util::update_option('tds_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['normal']));
-        td_util::update_option('tds_logo_upload_r', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
-        td_util::update_option('tds_logo_menu_upload', td_demo_media::get_image_url_by_td_id($logo_params['mobile']));
+        if(empty($logo_params['normal'])) {
+            td_util::update_option('tds_logo_upload', '');
+        } else {
+            td_util::update_option('tds_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['normal']));
+        }
+
+        if (empty($logo_params['retina'])) {
+            td_util::update_option('tds_logo_upload_r', '');
+        } else {
+            td_util::update_option('tds_logo_upload_r', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
+        }
+
+
+        if (empty($logo_params['mobile'])) {
+            td_util::update_option('tds_logo_menu_upload', '');
+        } else {
+            td_util::update_option('tds_logo_menu_upload', td_demo_media::get_image_url_by_td_id($logo_params['mobile']));
+        }
+
+
+
     }
 
 
@@ -154,6 +172,32 @@ class td_demo_misc {
     }
 
 
+    /**
+     * updates the text form the footer
+     * @param $new_text
+     */
+    static function update_footer_text($new_text) {
+        td_util::update_option('tds_footer_text', $new_text);
+    }
+
+
+    /**
+     * updates the footer logo, this one can also clear the logo
+     * @param $logo_params
+     */
+    static function update_footer_logo($logo_params) {
+        if (empty($logo_params['normal'])) {
+            td_util::update_option('tds_footer_logo_upload', '');
+        } else {
+            td_util::update_option('tds_footer_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['normal']));
+        }
+
+        if (empty($logo_params['retina'])) {
+            td_util::update_option('tds_footer_retina_logo_upload', '');
+        } else {
+            td_util::update_option('tds_footer_retina_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
+        }
+    }
 }
 
 

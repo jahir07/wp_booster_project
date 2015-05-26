@@ -1795,6 +1795,12 @@ if (is_admin()) {
 
 
 
+    if (current_user_can('switch_themes')) {
+        // the panel
+        require_once('wp-admin/panel/td_panel.php');
+    }
+
+
     /**
      * the wp-admin TinyMCE editor buttons
      */
@@ -1881,9 +1887,5 @@ if (is_admin()) {
         tgmpa(td_global::$theme_plugins_list, $config);
 
 
-        if (current_user_can('switch_themes')) {
-            // the panel
-            require_once('wp-admin/panel/td_panel.php');
-        }
     }
 }
