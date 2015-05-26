@@ -8,7 +8,7 @@ class td_demo_installer {
      * here we define what fields to import from the import file
      * @var array
      */
-    private $td_array_import_settings_from_file = array(
+    public $td_array_import_settings_from_file = array( //it's public only for testing
         // header
         'tds_header_style',
         'tds_top_menu',
@@ -191,7 +191,7 @@ class td_demo_installer {
     }
 
 
-    private function import_panel_settings($file_path) {
+    public function import_panel_settings($file_path) { //it's public only for testing
 
 
         //read the settings file
