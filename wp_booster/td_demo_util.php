@@ -346,6 +346,11 @@ class td_demo_content {
             $td_post_theme_settings['td_post_template'] = $params['template'];
             update_post_meta($post_id, 'td_post_theme_settings', $td_post_theme_settings, true);
         }
+
+        if (!empty($params['featured_video_url'])) {
+            $tmp_meta['td_video'] = $params['featured_video_url'];
+            update_post_meta($post_id, 'td_post_video', $tmp_meta);
+        }
         return $post_id;
     }
 

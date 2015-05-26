@@ -1,5 +1,17 @@
 <?php
 require_once "td_view_header.php";
+
+
+td_demo_content::remove();
+td_demo_content::add_post(array(
+    'title' => 'Are You Already Wearing the Hottest Brands in Your City?',
+    'file' => td_global::$get_template_directory . '/includes/demos/video/pages/post_default.txt',
+    'categories_id_array' => array(get_cat_ID(TD_FEATURED_CAT)),
+    'featured_image_td_id' => 'td_pic_1',
+    'featured_video_url' => 'https://www.youtube.com/watch?v=rVeMiVU77wo&list=RD1FH-q0I1fJY&index=4',
+    'template' => 'single_template_10',
+    'post_format' => 'video'
+));
 /*
 td_demo_widgets::remove();
 
