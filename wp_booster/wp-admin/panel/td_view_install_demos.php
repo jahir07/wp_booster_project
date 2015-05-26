@@ -1,6 +1,17 @@
 <?php
 require_once "td_view_header.php";
+/*
+td_demo_widgets::remove();
 
+td_demo_widgets::add_widget_to_sidebar('default', 'td_block_ad_box_widget',
+    array (
+        'spot_title' => '- Advertisement -',
+        'spot_id' => 'sidebar'
+    )
+);
+
+
+die;
 /*
 td_demo_content::remove();
 $td_homepage_id = td_demo_content::add_page(array(

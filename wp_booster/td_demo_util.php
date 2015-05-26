@@ -206,7 +206,7 @@ class td_demo_category {
 
 
     static function add_category($params_array) {
-        $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
+
         $new_cat_id = wp_create_category($params_array['category_name'], $params_array['parent_id']);
 
         //update category descriptions
@@ -251,12 +251,16 @@ class td_demo_category {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_pos'] = $params_array['tdc_sidebar_pos'];
         }
 
+        //update once the category options
+        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 
 
 
         // keep a list of installed category ids so we can delete them later if needed
+        // ths is NOT IN WP_011, it's a WordPress option
+        $td_stacks_demo_categories_id = get_option('td_demo_categories_id');
         $td_stacks_demo_categories_id []= $new_cat_id;
-        td_util::update_option('td_demo_categories_id', $td_stacks_demo_categories_id);
+        update_option('td_demo_categories_id', $td_stacks_demo_categories_id);
 
 
 
@@ -264,7 +268,7 @@ class td_demo_category {
     }
 
     static function remove() {
-        $td_stacks_demo_categories_id = td_util::get_option('td_stacks_demo_categories_id');
+        $td_stacks_demo_categories_id = get_option('td_demo_categories_id');
         if (is_array($td_stacks_demo_categories_id)) {
             foreach ($td_stacks_demo_categories_id as $td_stacks_demo_category_id) {
                 wp_delete_category($td_stacks_demo_category_id);
@@ -423,8 +427,8 @@ class td_demo_widgets {
 
         $tmp_sidebars = td_util::get_option('sidebars');
         if (
+            $sidebar_id != 'default' and
             !in_array($sidebar_id, $tmp_sidebars)
-            and $sidebar_id != 'default'
         ) {
             td_util::error(__FILE__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_id);
         }
