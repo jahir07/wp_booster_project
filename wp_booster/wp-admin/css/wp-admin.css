@@ -2478,6 +2478,7 @@ title one row controls
 .td-admin-wrap .td-small-checkbox {
   border-top: 1px solid #dadada;
   padding: 10px;
+  min-height: 22px;
 }
 .td-admin-wrap .td-small-checkbox p {
   display: inline-block;
@@ -2604,6 +2605,41 @@ title one row controls
 .td-demo-disabled .td-button-demo-disabled {
   display: inline-block;
 }
+.td-wp-admin-plugin .td-button-install-plugin {
+  display: none;
+}
+.td-wp-admin-plugin .td-button-uninstall-plugin {
+  display: none;
+}
+.td-wp-admin-plugin .td-button-activate-plugin {
+  display: none;
+}
+.td-plugin-active .td-button-uninstall-plugin {
+  display: inline-block;
+}
+.td-plugin-inactive .td-button-activate-plugin {
+  display: inline-block;
+}
+.td-plugin-not-installed .td-button-install-plugin {
+  display: inline-block;
+}
+.td-admin-required-plugins {
+  float: none;
+  width: 100%;
+  border-left: 2px solid greenyellow;
+  position: relative;
+}
+.td-admin-required-plugins .button {
+  position: absolute;
+  right: 14px;
+  top: 19px;
+}
+.td-admin-required-plugins-wrap {
+  margin-right: 170px;
+}
+.td-admin-welcome-left {
+  width: 600px;
+}
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox
 */
@@ -2639,11 +2675,13 @@ title one row controls
   padding-left: 141px;
 }
 .td-meta-box-row-separator {
-  border-bottom: 1px solid #D2D2D2;
-  padding-left: 0px;
+  border-top: 1px solid #e9e9e9;
+  margin: 30px -24px 30px -24px;
+  padding-top: 27px;
+  padding-left: 24px;
 }
 .td-meta-box-row-separator h3 {
-  font-size: 15px !important;
+  font-size: 17px !important;
   font-weight: normal;
   padding: 0 !important;
 }

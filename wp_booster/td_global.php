@@ -63,6 +63,8 @@ class td_global {
      */
     static $js_files = array ();
 
+    static $theme_plugins_list = array();
+
 
     /**
      * the js files that are used in wp-admin

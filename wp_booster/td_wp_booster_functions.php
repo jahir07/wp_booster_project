@@ -1793,10 +1793,7 @@ if (is_admin()) {
     require_once('wp-admin/panel/td_panel_generator.php');
     require_once('wp-admin/panel/td_panel_data_source.php');
 
-    if (current_user_can('switch_themes')) {
-        // the panel
-        require_once('wp-admin/panel/td_panel.php');
-    }
+
 
     /**
      * the wp-admin TinyMCE editor buttons
@@ -1846,39 +1843,18 @@ if (is_admin()) {
      */
     require_once 'external/class-tgm-plugin-activation.php';
 
-    add_action('tgmpa_register', 'td_required_plugins');
-    function td_required_plugins()
-    {
-        $plugins = array(
-            array(
-                'name' => 'Visual Composer ( required )', // The plugin name
-                'slug' => 'js_composer', // The plugin slug (typically the folder name)
-                'source' => td_global::$get_template_directory_uri . '/includes/plugins/js_composer.zip', // The plugin source
-                'required' => true, // If false, the plugin is only 'recommended' instead of required
-                'version' => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-                'force_activation' => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-                'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-                'external_url' => '', // If set, overrides default API URL and points to an external URL
-            ),
-            array(
-                'name' => 'tagDiv social counter ( This plugin is optional )', // The plugin name
-                'slug' => 'td-social-counter', // The plugin slug (typically the folder name)
-                'source' => td_global::$get_template_directory_uri . '/includes/plugins/td-social-counter.zip', // The plugin source
-                'required' => false, // If false, the plugin is only 'recommended' instead of required
-                'version' => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-                'force_activation' => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-                'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-                'external_url' => '', // If set, overrides default API URL and points to an external URL
-            )
-        );
 
+
+
+    add_action('tgmpa_register', 'td_required_plugins');
+    function td_required_plugins() {
         $config = array(
             'domain' => TD_THEME_NAME,            // Text domain - likely want to be the same as your theme.
             'default_path' => '',                            // Default absolute path to pre-packaged plugins
             'parent_menu_slug' => 'themes.php',                // Default parent menu slug
             'parent_url_slug' => 'themes.php',                // Default parent URL slug
             'menu' => 'td_plugins',    // Menu slug
-            'has_notices' => true,                        // Show admin notices or not
+            'has_notices' => false,                        // Show admin notices or not
             'is_automatic' => true,                        // Automatically activate plugins after installation or not
             'message' => '',                            // Message to output right before the plugins table
             'strings' => array(
@@ -1896,12 +1872,18 @@ if (is_admin()) {
                 'notice_cannot_update' => _n_noop('Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.'), // %1$s = plugin name(s)
                 'install_link' => _n_noop('Go to plugin instalation', ' Begin installing plugins'),
                 'activate_link' => _n_noop('Go to activation panel', 'Activate installed plugins'),
-                'return' => __('Return to Required Plugins Installer', TD_THEME_NAME),
+                'return' => __('Return to tagDiv plugins panel', TD_THEME_NAME),
                 'plugin_activated' => __('Plugin activated successfully.', TD_THEME_NAME),
                 'complete' => __('All plugins installed and activated successfully. %s', TD_THEME_NAME), // %1$s = dashboard link
                 'nag_type' => 'updated' // Determines admin notice type - can only be 'updated' or 'error'
             )
         );
-        tgmpa($plugins, $config);
+        tgmpa(td_global::$theme_plugins_list, $config);
+
+
+        if (current_user_can('switch_themes')) {
+            // the panel
+            require_once('wp-admin/panel/td_panel.php');
+        }
     }
 }

@@ -12,6 +12,8 @@ class td_panel {
         add_action( 'wp_ajax_nopriv_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
         add_action( 'wp_ajax_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
 
+
+
     }
 
     /**
@@ -21,9 +23,12 @@ class td_panel {
         /* wp doc: add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position ); */
         add_menu_page('Theme panel', TD_THEME_NAME, "edit_posts", "td_theme_welcome", array($this, "td_view_welcome"), null, 3);
 
+        if (current_user_can( 'activate_plugins' )) {
+            add_submenu_page("td_theme_welcome", 'Plugins', 'Plugins', 'edit_posts', 'td_theme_plugins', array($this, "td_theme_plugins"));
+        }
         add_submenu_page( "td_theme_welcome", 'Install demos', 'Install demos', 'edit_posts', 'td_theme_demos',  array($this, "td_theme_demos") );
+        add_submenu_page( "td_theme_welcome", 'Support', 'Support', 'edit_posts', 'td_theme_support',  array($this, "td_theme_support") );
         add_submenu_page( "td_theme_welcome", 'Theme panel', 'Theme panel', 'edit_posts', 'td_theme_panel',  array($this, "td_theme_panel") );
-	    add_submenu_page( "td_theme_welcome", 'Support', 'Support', 'edit_posts', 'td_theme_support',  array($this, "td_theme_support") );
 
 
         // shit hack for welcome menu
@@ -47,6 +52,10 @@ class td_panel {
 	function td_theme_support() {
 		require_once "td_view_support.php";
 	}
+
+    function td_theme_plugins() {
+        require_once "td_view_theme_plugins.php";
+    }
 
     /**
      * this is our theme panel
