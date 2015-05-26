@@ -19,6 +19,8 @@ class td_demo_installer {
         'tds_logo_on_sticky',
         'td_social_networks_show',
 
+        'tds_custom_css',
+
         // footer
         'tds_footer',
 
@@ -175,8 +177,10 @@ class td_demo_installer {
         else if ($td_demo_action == 'td_media_1') {
             // change our state
             td_demo_state::update_state($td_demo_id, 'full');
+
             // load panel settings
             $this->import_panel_settings(td_global::$demo_list[$td_demo_id]['folder'] . 'td_panel_settings.txt');
+
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_1.php');
         }
