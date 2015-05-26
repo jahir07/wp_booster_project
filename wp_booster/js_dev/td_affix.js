@@ -7,6 +7,9 @@
 
 var td_affix = {
 
+    // flag used to stop scrolling
+    allow_scroll: true,
+
     //settings, obtained from ext
     menu_selector: '', //the affix menu (this element will get the td-affix)
     menu_wrap_selector: '', //the menu wrapper / placeholder
@@ -82,6 +85,10 @@ var td_affix = {
      * called by td_events.js on scroll
      */
     td_events_scroll: function td_events_scroll(scrollTop) {
+
+        if (!td_affix.allow_scroll) {
+            return;
+        }
 
         //do not run if we don't have a snap menu
         if (!td_affix.tds_snap_menu) {

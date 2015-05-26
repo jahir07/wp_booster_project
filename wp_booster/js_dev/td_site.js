@@ -589,7 +589,7 @@ function td_smart_lists_magnific_popup() {
                 }
             },
             beforeClose: function() {
-                //td_util.scroll_into_view(td_modal_image_last_el);
+                td_util.scroll_into_view(td_modal_image_last_el);
             }
         }
     });
