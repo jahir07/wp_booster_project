@@ -86,8 +86,18 @@ function td_modal_image() {
             },
             beforeClose: function() {
                 td_util.scroll_into_view(td_modal_image_last_el);
-            }
 
+                var interval_td_affix_scroll = setInterval(function() {
+
+                    if (!td_is_scrolling_animation) {
+                        clearInterval(interval_td_affix_scroll);
+                        setTimeout(function() {
+                            td_affix.allow_scroll = true;
+                            td_affix.td_events_scroll(td_events.scroll_window_scrollTop);
+                        }, 100);
+                    }
+                }, 100);
+            }
         }
     });
 
