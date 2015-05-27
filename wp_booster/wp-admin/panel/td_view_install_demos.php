@@ -49,8 +49,8 @@ if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
     $td_demo_installer = new td_demo_installer();
 
     // remove panel settings and recompile the css as empty
-    foreach ($td_demo_installer->td_array_import_settings_from_file as $import_setting_from_file) {
-        td_global::$td_options[$import_setting_from_file] = '';
+    foreach (td_global::$td_options as $option_id => $option_value) {
+        td_global::$td_options[$option_id] = '';
     }
     //typography settings
     td_global::$td_options['td_fonts'] = '';

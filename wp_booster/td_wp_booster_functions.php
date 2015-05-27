@@ -100,7 +100,7 @@ td_api_autoload::add('td_block_layout', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_template_layout', td_global::$get_template_directory . '/includes/wp_booster/td_template_layout.php');
 td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/includes/wp_booster/td_css_compiler.php');
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
-td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
+//td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
 
