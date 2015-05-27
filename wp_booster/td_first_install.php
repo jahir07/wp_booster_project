@@ -37,13 +37,14 @@ td_after_theme_is_activated();
 
 
 function td_theme_migration() {
+
 	if (defined('TD_DEPLOY_MODE') and ((TD_DEPLOY_MODE == 'demo') or (TD_DEPLOY_MODE == 'dev'))) {
 		return;
 	}
 
 	$current_version = td_util::get_option('td_version');
 
-	if (!empty($current_version) and version_compare($current_version, TD_THEME_VERSION, '<')) {
+	if (empty($current_version) or (!empty($current_version) and version_compare($current_version, TD_THEME_VERSION, '<'))) {
 
 		// wp_parse_args format
 		$args = array(
@@ -113,7 +114,6 @@ function td_theme_migration() {
 		//delete_post_meta_by_key('td_smart_list');
 		//delete_post_meta_by_key('td_review');
 
-	} else {
 		td_util::update_option('td_version', TD_THEME_VERSION);
 	}
 }
