@@ -225,7 +225,7 @@
                 <div class="td-inline-block-wrap">
                     <?php
                     echo td_panel_generator::visual_select_o(array(
-                        'ds' => 'td_smart_list',
+                        'ds' => 'td_post_theme_settings',
                         'item_id' => '',
                         'option_id' => 'smart_list_template',
                         'values' => td_api_smart_list::_helper_td_smart_list_api_to_panel_values(),
