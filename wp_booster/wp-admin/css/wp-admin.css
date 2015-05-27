@@ -658,95 +658,6 @@ a.td-tooltip {
   padding: 0 5px 0 9px;
 }
 /*  ----------------------------------------------------------------------------
-    wp-admin - post panel
-*/
-/* post template */
-/*
-.my_meta_control {
-  .td-inline-block-wrap {
-    display: inline-block;
-  }
-
-  .td-post-settings-post-template {
-    width: 120px !important;
-  }
-
-  .td-help-select {
-    display: inline-block;
-    position: relative;
-    top: -15px;
-    width: 200px;
-  }
-
-  .td-select-style-overwrite {
-    margin: 11px 0px 0px -77px;
-
-    .td-panel-dropdown {
-      max-width: 120%;
-    }
-  }
-
-  .td-help-info-inline {
-     position: relative;
-     top: -15px;
-     margin-left: 5px;
-  }
-
-  .td-textarea-subtitle {
-    width: 549px;
-    //max-width: 549px;
-    //min-width: 549px;
-    height: 103px;
-    min-height: 103px;
-    border: 1px solid #e6e6e6;
-    box-shadow: none;
-    font-size: 12px;
-    color: #555555;
-    //margin-bottom: 32px;
-
-    @media (max-width: 1100px) {
-      width: 99%;
-    }
-  }
-
-  .td_info_inline_textarea {
-    display: block;
-    margin-bottom: 32px;
-  }
-
-  .td-input-text-post-settings,
-  .td-input-text-backend,
-  .td-input-text-backend-generic-filter {
-    width: 549px !important;
-    height: 32px !important;
-    border: 1px solid #e6e6e6 !important;
-    margin: 0px 0px 32px 0px;
-    //font-family: 'Open Sans', arial, sans-serif;
-    color: #555555;
-    font-size: 12px;
-    box-shadow: none !important;
-    padding-left: 10px;
-
-    @media (max-width: 1100px) {
-      width: 99% !important;
-    }
-  }
-  .td-input-text-backend {
-    width: 224px !important;
-  }
-  .td-input-text-backend-generic-filter {
-    width: 220px !important;
-  }
-
-  .td-new-sidebar-input {
-    .td_new_sidebar_field {
-      width: 191px !important;
-    }
-  }
-
-}
-*/
-/*  ----------------------------------------------------------------------------
     style for controls
 */
 /* global variables */
@@ -1386,7 +1297,7 @@ title one row controls
 .td-box-close-open-icon {
   width: 38px;
   height: 38px;
-  background: #ffffff url("../images/panel/panel-wrap/panel-arrow-close.png") repeat-y;
+  background: white url("../images/panel/panel-wrap/panel-arrow-close.png") repeat-y;
   background-position: 0px 0px;
 }
 .td-box-close .td-box-close-open-icon {
@@ -2359,7 +2270,7 @@ title one row controls
 @media (min-width: 1600px) {
   .td-admin-wrap .theme {
     width: 30.6%;
-    margin: 0 4% 4% 0;
+    margin: 0 0 4% 4% !important;
   }
 }
 .td-admin-wrap .theme .theme-name {
@@ -2375,8 +2286,8 @@ title one row controls
     display: block;
   }
 }
-.td-admin-wrap.theme-browser .theme:nth-child(3n) {
-  margin-right: 0;
+.td-admin-wrap.theme-browser .theme:nth-of-type(3n+1) {
+  margin-left: 0 !important;
 }
 .td-admin-box-text {
   float: left;
