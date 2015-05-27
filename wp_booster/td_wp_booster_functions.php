@@ -430,43 +430,32 @@ function hook_wp_head() {
 		(function(){
 			var html_jquery_obj = jQuery('html');
 
-
-			var full_path = '<?php echo get_template_directory_uri() ?>';
-
 			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
 
-				var path = '';
-				var demo_jquery_obj = jQuery('link#contact-form-7-group-css');
+				var full_path = '<?php echo get_template_directory_uri() ?>';
+				var path = '<?php echo $style_sheet_path; ?>';
 
-				if (demo_jquery_obj.length) {
-					path = demo_jquery_obj.attr('href');
-				} else {
-					path = '<?php echo $style_sheet_path; ?>';
-				}
+				jQuery.get(path, function(data) {
 
-				if (path != '') {
-					jQuery.get(path, function(data) {
+					var str_split_separator = '#td_css_split_separator';
+					var arr_splits = data.split(str_split_separator);
+					var arr_length = arr_splits.length;
 
-						var str_split_separator = '#td_css_split_separator';
-						var arr_splits = data.split(str_split_separator);
-						var arr_length = arr_splits.length;
-
-						if (arr_length > 1) {
-							for (var i = 0; i < arr_length; i++) {
-								if (i > 0) {
-									arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
-								}
-								//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
-
-								var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
-									return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '');
-								});
-
-								jQuery('head').append("<style>" + formated_str + "</style>");
+					if (arr_length > 1) {
+						for (var i = 0; i < arr_length; i++) {
+							if (i > 0) {
+								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
 							}
+							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
+
+							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
+								return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '');
+							});
+
+							jQuery('head').append("<style>" + formated_str + "</style>");
 						}
-					});
-				}
+					}
+				});
 			}
 		})();
 
