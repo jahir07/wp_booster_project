@@ -432,7 +432,6 @@ function hook_wp_head() {
 
 			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
 
-				var full_path = '<?php echo get_template_directory_uri() ?>';
 				var path = '<?php echo $style_sheet_path; ?>';
 
 				jQuery.get(path, function(data) {
@@ -442,6 +441,9 @@ function hook_wp_head() {
 					var arr_length = arr_splits.length;
 
 					if (arr_length > 1) {
+
+						var full_path = '<?php echo get_template_directory_uri() ?>';
+
 						for (var i = 0; i < arr_length; i++) {
 							if (i > 0) {
 								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
