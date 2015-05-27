@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-    //require_once('external/kint/Kint.class.php');
+    require_once('external/kint/Kint.class.php');
 }
 
 
@@ -376,7 +376,7 @@ function hook_wp_head() {
 
 
 	// js variable td_animation_stack_effect added to the window object
-	$td_animation_stack_effect_type = '';
+	$td_animation_stack_effect_type = 'type0';
 	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
 		$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
 	}
@@ -418,8 +418,14 @@ function hook_wp_head() {
  */
 function td_hook_add_custom_body_class($classes) {
 
-	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-		$classes[] = 'td-animation-stack-' . td_global::$td_options['tds_animation_stack_effect'];
+	if (empty(td_global::$td_options['tds_animation_stack'])) {
+
+		$td_animation_stack_effect_type = 'type0';
+		if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
+			$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
+		}
+
+		$classes[] = 'td-animation-stack-' . $td_animation_stack_effect_type;
 	}
 	return $classes;
 }
