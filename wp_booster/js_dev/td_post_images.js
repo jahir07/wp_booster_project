@@ -95,7 +95,7 @@ function td_modal_image() {
                         clearInterval(interval_td_affix_scroll);
                         setTimeout(function() {
                             td_affix.allow_scroll = true;
-                            td_affix.td_events_scroll(td_events.scroll_window_scrollTop);
+                            //td_affix.td_events_scroll(td_events.scroll_window_scrollTop);
                         }, 100);
                     }
                 }, 100);
