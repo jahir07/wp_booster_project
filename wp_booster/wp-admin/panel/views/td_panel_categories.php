@@ -15,7 +15,19 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">Category template</span>
-            <p>This is the header of the category</p>
+            <p>
+                This is the header of the category
+                <?php td_util::tooltip_html('
+                        <h3>Category template:</h3>
+                        <p>From here you can change the category header.</p>
+                        <ul>
+                            <li>This setting can be overwritten on a per category basis from the boxes below</li>
+                            <li>Some of the headers also show the category description</li>
+                            <li>For advanced users who want to customize the category header, here is the <a target="_blank" href="http://forum.tagdiv.com/api-category-top-section-template-introduction/">API documentation</a></li>
+                            <li>Have fun finding the header that you like!</li>
+                        </ul>
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -36,7 +48,18 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">Category top posts style</span>
-            <p>Set top post style</p>
+            <p>
+                Set top post style
+                <?php td_util::tooltip_html('
+                        <h3>Category top post styles:</h3>
+                        <p>Highlight the latest posts on a category page</p>
+                        <ul>
+                            <li>This setting can be overwritten on a per category basis from the boxes below</li>
+                            <li>Use this setting + the <i>grid style</i> setting to get the results that you want</li>
+                            <li>For advanced users, here is the <a target="_blank" href="http://forum.tagdiv.com/api-category-top-section-style-introduction/">API documentation</a></li>
+                        </ul>
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -86,7 +109,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">ARTICLE DISPLAY VIEW</span>
-            <p>Select a module type, this is how your article list will be displayed</p>
+            <p>Select a module type, this is how your article list will be displayed. For custom modules or tuning, read <a target="_blank" href="http://forum.tagdiv.com/api-modules-introduction/">the module API</a></p>
         </div>
         <div class="td-box-control-full td-panel-module">
             <?php

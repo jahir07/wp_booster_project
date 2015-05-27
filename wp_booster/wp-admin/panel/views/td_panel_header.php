@@ -29,6 +29,15 @@
 <?php echo td_panel_generator::box_start('Top Bar', false); ?>
 
 
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <p>
+            The top bar is the black top menu. It is very useful when you want to add a <i>login option, social icons</i> and pages like <i>About us, Contact us etc..</i>.
+            If you are an advanced user and want to customize it or register new top bar layouts, have a look at our <a target="_blank" href="http://forum.tagdiv.com/api-top-bar-template-introduction/">top bar template API</a>
+            </p>
+        </div>
+        <div class="td-box-row-margin-bottom"></div>
+    </div>
 
     <!-- Top bar: enable disable -->
     <div class="td-box-row">
