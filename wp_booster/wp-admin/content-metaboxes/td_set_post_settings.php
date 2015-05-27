@@ -400,7 +400,7 @@
             <p class="td_help_section">
                 <?php $mb->the_field('review'); ?>
 
-                <textarea class="td-textarea-subtitle" " type="text" name="<?php $mb->the_name(); ?>"><?php $mb->the_value(); ?></textarea>
+                <textarea class="td-textarea-subtitle" type="text" name="<?php $mb->the_name(); ?>"><?php $mb->the_value(); ?></textarea>
             </p>
         </div>
 

@@ -100,7 +100,7 @@ td_api_autoload::add('td_block_layout', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_template_layout', td_global::$get_template_directory . '/includes/wp_booster/td_template_layout.php');
 td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/includes/wp_booster/td_css_compiler.php');
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
-td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
+//td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
 
@@ -1795,6 +1795,12 @@ if (is_admin()) {
 
 
 
+    if (current_user_can('switch_themes')) {
+        // the panel
+        require_once('wp-admin/panel/td_panel.php');
+    }
+
+
     /**
      * the wp-admin TinyMCE editor buttons
      */
@@ -1881,9 +1887,5 @@ if (is_admin()) {
         tgmpa(td_global::$theme_plugins_list, $config);
 
 
-        if (current_user_can('switch_themes')) {
-            // the panel
-            require_once('wp-admin/panel/td_panel.php');
-        }
     }
 }
