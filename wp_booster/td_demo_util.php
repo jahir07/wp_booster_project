@@ -222,6 +222,12 @@ class td_demo_category {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
         }
 
+
+        // update the category top post grid style
+        if (!empty($params_array['tdc_category_td_grid_style'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_td_grid_style'] = $params_array['tdc_category_td_grid_style'];
+        }
+
         // update the category template
         if (!empty($params_array['category_template'])) {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
