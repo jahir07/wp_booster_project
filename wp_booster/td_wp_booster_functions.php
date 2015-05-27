@@ -384,15 +384,6 @@ function hook_wp_head() {
 
 
 
-
-	if (TD_DEBUG_USE_LESS) {
-		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
-	} else {
-		$style_sheet_path = get_stylesheet_uri();
-	}
-
-
-
 	// @todo aici se va schimba setarea, iar userii isi pierd setarea existenta
 	// lazy loading images - animation effect
 	//$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
@@ -415,63 +406,6 @@ function hook_wp_head() {
 
 		add_filter('body_class','td_hook_add_custom_body_class');
 	}
-
-
-
-
-	/**
-	 * javascript splitter js split for IE8 and IE9.
-	 * It searches in the stylesheet for #td_css_split_separator and adds it in two pieces for ie8 ie9 selector bug
-	 */
-	ob_start();
-	?>
-	<script>
-
-		(function(){
-			var html_jquery_obj = jQuery('html');
-
-			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
-
-				var path = '<?php echo $style_sheet_path; ?>';
-
-				jQuery.get(path, function(data) {
-
-					var str_split_separator = '#td_css_split_separator';
-					var arr_splits = data.split(str_split_separator);
-					var arr_length = arr_splits.length;
-
-					if (arr_length > 1) {
-
-						var full_path = '<?php echo get_template_directory_uri() ?>';
-
-						for (var i = 0; i < arr_length; i++) {
-							if (i > 0) {
-								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
-							}
-							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
-
-							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
-								return ' url(\'' + full_path + '/' + str.replace(/url\(\'/gi, '');
-							});
-
-							jQuery('head').append("<style>" + formated_str + "</style>");
-						}
-					}
-				});
-			}
-		})();
-
-	</script>
-	<?php
-	$script_buffer = ob_get_clean();
-	$js_script = "\n". td_util::remove_script_tag($script_buffer);
-
-	if ((defined('TD_DEPLOY_MODE') and (TD_DEPLOY_MODE == 'demo')) or defined('TD_SPEED_BOOSTER')) {
-		td_js_buffer::add_to_footer($js_script);
-	} else {
-		td_js_buffer::add_to_header($js_script);
-	}
-
 }
 
 /** ----------------------------------------------------------------------------
@@ -689,6 +623,62 @@ function td_bottom_code() {
             }
         }
     }
+
+
+
+	if (TD_DEBUG_USE_LESS) {
+		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
+	} else {
+		$style_sheet_path = get_stylesheet_uri();
+	}
+
+	/**
+	 * javascript splitter js split for IE8 and IE9.
+	 * It searches in the stylesheet for #td_css_split_separator and adds it in two pieces for ie8 ie9 selector bug
+	 */
+	ob_start();
+	?>
+	<script>
+
+		(function(){
+			var html_jquery_obj = jQuery('html');
+
+			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
+
+				var path = '<?php echo $style_sheet_path; ?>';
+
+				jQuery.get(path, function(data) {
+
+					var str_split_separator = '#td_css_split_separator';
+					var arr_splits = data.split(str_split_separator);
+					var arr_length = arr_splits.length;
+
+					if (arr_length > 1) {
+
+						var dir_path = '<?php echo get_template_directory_uri() ?>';
+
+						for (var i = 0; i < arr_length; i++) {
+							if (i > 0) {
+								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
+							}
+							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
+
+							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
+								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '');
+							});
+
+							jQuery('head').append("<style>" + formated_str + "</style>");
+						}
+					}
+				});
+			}
+		})();
+
+	</script>
+	<?php
+	$script_buffer = ob_get_clean();
+	$js_script = "\n". td_util::remove_script_tag($script_buffer);
+	td_js_buffer::add_to_footer($js_script);
 }
 
 
