@@ -34,3 +34,87 @@ function td_after_theme_is_activated() {
 td_after_theme_is_activated();
 
 
+
+
+function td_theme_migration() {
+	if (defined('TD_DEPLOY_MODE') and ((TD_DEPLOY_MODE == 'demo') or (TD_DEPLOY_MODE == 'dev'))) {
+		return;
+	}
+
+	$current_version = td_util::get_option('td_version');
+
+	if (!empty($current_version) and version_compare($current_version, TD_THEME_VERSION, '<')) {
+
+		// wp_parse_args format
+		$args = array(
+			'post_type' => array('page', 'post'),
+			'numberposts' => '100',
+			'orderby' => 'post_date',
+			'order' => 'DESC'
+		);
+
+		$recent_posts = wp_get_recent_posts($args);
+
+		foreach ($recent_posts as $recent_post) {
+
+			// page settings
+			$update_td_homepage_loop = false;
+			$td_homepage_loop = get_post_meta($recent_post['ID'], 'td_homepage_loop');
+			$td_homepage_loop_filter = get_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
+			$td_unique_articles = get_post_meta($recent_post['ID'], 'td_unique_articles');
+
+			if (!empty($td_homepage_loop_filter) and is_array($td_homepage_loop_filter) and (count($td_homepage_loop_filter) > 0)) {
+				foreach ($td_homepage_loop_filter[0] as $filter_key => $filter_value) {
+					$td_homepage_loop[0][$filter_key] = $filter_value;
+				}
+				$update_td_homepage_loop = true;
+			}
+
+			if (!empty($td_unique_articles) and is_array($td_unique_articles) and (count($td_unique_articles) > 0)) {
+				foreach ($td_unique_articles[0] as $filter_key => $filter_value) {
+					$td_homepage_loop[0][$filter_key] = $filter_value;
+				}
+				$update_td_homepage_loop = true;
+			}
+
+			if ($update_td_homepage_loop == true) {
+				update_post_meta($recent_post['ID'], 'td_homepage_loop', $td_homepage_loop[0]);
+			}
+
+
+			// post settings
+			$update_td_post_theme_settings = false;
+			$td_post_theme_settings = get_post_meta($recent_post['ID'], 'td_post_theme_settings');
+			$td_smart_list = get_post_meta($recent_post['ID'], 'td_smart_list');
+			$td_review = get_post_meta($recent_post['ID'], 'td_review');
+
+			if (!empty($td_review) and is_array($td_review) and (count($td_review) > 0)) {
+				foreach ($td_review[0] as $filter_key => $filter_value) {
+					$td_post_theme_settings[0][$filter_key] = $filter_value;
+				}
+				$update_td_post_theme_settings = true;
+			}
+
+			if (!empty($td_smart_list) and is_array($td_smart_list) and (count($td_smart_list) > 0)) {
+				foreach ($td_smart_list[0] as $filter_key => $filter_value) {
+					$td_post_theme_settings[0][$filter_key] = $filter_value;
+				}
+				$update_td_post_theme_settings = true;
+			}
+
+			if ($update_td_post_theme_settings == true) {
+				update_post_meta($recent_post['ID'], 'td_post_theme_settings', $td_post_theme_settings[0]);
+			}
+		}
+
+		// the following delete operations must be done
+		//delete_post_meta_by_key('td_homepage_loop_filter');
+		//delete_post_meta_by_key('td_unique_articles');
+		//delete_post_meta_by_key('td_smart_list');
+		//delete_post_meta_by_key('td_review');
+
+	} else {
+		td_util::update_option('td_version', TD_THEME_VERSION);
+	}
+}
+//td_theme_migration();

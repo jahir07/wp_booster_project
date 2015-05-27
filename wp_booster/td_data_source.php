@@ -226,7 +226,7 @@ class td_data_source {
 
     /**
      * converts a post metabox value array to a wordpress query args array
-     * @param $td_homepage_loop_filter - the post loop filer metadata array
+     * @param $td_homepage_loop_filter - the post loop filer metadata array [$td_homepage_loop will be applied actually]
      * @param string $paged
      * @return array
      */

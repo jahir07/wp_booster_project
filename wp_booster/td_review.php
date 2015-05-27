@@ -311,7 +311,8 @@ class td_review {
 
 
     static function save_post_hook($post_id) {
-        $td_review = get_post_meta($post_id, 'td_review', true);
+        //$td_review = get_post_meta($post_id, 'td_review', true);
+	    $td_review = get_post_meta($post_id, 'td_post_theme_settings', true);
         if (self::has_review($td_review)) {
             update_post_meta($post_id, self::$td_review_key, self::calculate_total_key_value($td_review));
             /*
