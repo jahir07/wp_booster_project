@@ -58,7 +58,7 @@
     /* responsive portrait phone */
     @media (min-width: 1600px) {
       width: 30.6%;
-      margin: 0 4% 4% 0;
+      margin: 0 0 4% 4% !important;
     }
 
     .theme-name {
@@ -76,8 +76,8 @@
     }
   }
 
-  &.theme-browser .theme:nth-child(3n) {
-    margin-right: 0;
+  &.theme-browser .theme:nth-of-type(3n+1) {
+    margin-left: 0 !important;
   }
 }
 

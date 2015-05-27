@@ -36,7 +36,8 @@ abstract class td_module {
         }
 
         //get the review metadata
-        $this->td_review = get_post_meta($this->post->ID, 'td_review', true);
+        //$this->td_review = get_post_meta($this->post->ID, 'td_review', true); @todo $this->td_review variable name must be replaced and the 'get_quotes_on_blocks', 'get_category' methods also
+	    $this->td_review = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
     }
 
 

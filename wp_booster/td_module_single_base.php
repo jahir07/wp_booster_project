@@ -412,7 +412,8 @@ class td_module_single_base extends td_module {
          * Smart list support. class_exists and new object WORK VIA AUTOLOAD
          * @see td_autoload_classes::loading_classes
          */
-        $td_smart_list = get_post_meta($this->post->ID, 'td_smart_list', true);
+	    //$td_smart_list = get_post_meta($this->post->ID, 'td_smart_list', true);
+        $td_smart_list = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
         if (!empty($td_smart_list['smart_list_template'])) {
 
             $td_smart_list_class = $td_smart_list['smart_list_template'];
