@@ -51,7 +51,16 @@ function td_theme_migration() {
 			'post_type' => array('page', 'post'),
 			'numberposts' => '100',
 			'orderby' => 'post_date',
-			'order' => 'DESC'
+			'order' => 'DESC',
+
+//			'meta_query' => array(
+//				'relation' => 'OR',
+//				array('key' => 'td_homepage_loop_filter'),
+//				array('key' => 'td_unique_articles'),
+//				array('key' => 'td_smart_list'),
+//				array('key' => 'td_review')
+//			),
+//			update_post_term_cache => false,
 		);
 
 		$recent_posts = wp_get_recent_posts($args);
