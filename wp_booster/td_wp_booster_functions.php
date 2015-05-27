@@ -391,20 +391,44 @@ function hook_wp_head() {
 		$style_sheet_path = get_stylesheet_uri();
 	}
 
-    /**
-     * javascript splitter js split for IE8 and IE9.
-     * It searches in the stylesheet for #td_css_split_separator and adds it in two pieces for ie8 ie9 selector bug
-     */
+
+
+	// @todo aici se va schimba setarea, iar userii isi pierd setarea existenta
+	// lazy loading images - animation effect
+	//$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
+	$tds_animation_stack = td_util::get_option('tds_animation_stack');
+
+	if (empty($tds_animation_stack)) {
+        ob_start();
+        ?>
+        <script>
+
+            jQuery(window).load(function() {
+                window.td_animation_stack.init();
+            });
+
+        </script>
+        <?php
+        $buffer = ob_get_clean();
+        $js = "\n". td_util::remove_script_tag($buffer);
+        td_js_buffer::add_to_footer($js);
+
+		add_filter('body_class','td_hook_add_custom_body_class');
+	}
+
+
+
+
+	/**
+	 * javascript splitter js split for IE8 and IE9.
+	 * It searches in the stylesheet for #td_css_split_separator and adds it in two pieces for ie8 ie9 selector bug
+	 */
 	ob_start();
 	?>
 	<script>
 
 		(function(){
 			var html_jquery_obj = jQuery('html');
-
-//			alert('<?php //echo get_template_directory_uri() ?>//'); //http://192.168.0.100/wp_011/wp-content/themes/011
-//			alert('<?php //echo get_stylesheet_uri() ?>//'); //http://192.168.0.100/wp_011/wp-content/themes/011/style.css
-//			var site_url = '<?php //echo site_url(); ?>//';
 
 
 			var full_path = '<?php echo get_template_directory_uri() ?>';
@@ -450,32 +474,13 @@ function hook_wp_head() {
 	<?php
 	$script_buffer = ob_get_clean();
 	$js_script = "\n". td_util::remove_script_tag($script_buffer);
-	td_js_buffer::add_to_header($js_script);
 
-
-
-	// @todo aici se va schimba setarea, iar userii isi pierd setarea existenta
-	// lazy loading images - animation effect
-	//$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
-	$tds_animation_stack = td_util::get_option('tds_animation_stack');
-
-	if (empty($tds_animation_stack)) {
-        ob_start();
-        ?>
-        <script>
-
-            jQuery(window).load(function() {
-                window.td_animation_stack.init();
-            });
-
-        </script>
-        <?php
-        $buffer = ob_get_clean();
-        $js = "\n". td_util::remove_script_tag($buffer);
-        td_js_buffer::add_to_footer($js);
-
-		add_filter('body_class','td_hook_add_custom_body_class');
+	if ((defined('TD_DEPLOY_MODE') and (TD_DEPLOY_MODE == 'demo')) or defined('TD_SPEED_BOOSTER')) {
+		td_js_buffer::add_to_footer($js_script);
+	} else {
+		td_js_buffer::add_to_header($js_script);
 	}
+
 }
 
 /** ----------------------------------------------------------------------------
