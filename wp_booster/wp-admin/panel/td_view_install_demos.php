@@ -73,8 +73,16 @@ if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
 
 ?>
 
-<div class="td-admin-wrap theme-browser">
-	<p>The footer uses sidebars to show information. Here you can customize the number of sidebars and the layout. To add content to the footer head go to the widgets section and drag widget to the Footer 1, Footer 2 and Footer 3 sidebars.</p>
+<div class=" about-wrap td-admin-wrap theme-browser">
+    <h1><?php echo TD_THEME_NAME ?> demos</h1>
+    <div class="about-text">
+        <p>
+            Newspaper brings you six  unique designs for your website. Our demos were carefully tested so you don’t have to create everything from scratch.  With the theme demos you know exactly which predefined templates is perfectly designed to start build upon. Each demo is fully customizable (fonts, colors and layouts) -
+            <a href="http://forum.tagdiv.com/introduction/" target="_blank">read more</a>.
+        </p>
+    </div>
+    <hr/>
+
 
 	<div class="td-admin-columns">
 		<?php

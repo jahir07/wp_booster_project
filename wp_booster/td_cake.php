@@ -362,7 +362,19 @@ class td_cake {
     <?php
     }
 
+
+    // all admin pages that begin with td_ do now show the message
+    private function check_if_is_our_page() {
+        if (isset($_GET['page']) and substr($_GET['page'], 0, 3) == 'td_') {
+            return true;
+        }
+        return false;
+    }
+
     function td_cake_close() {
+        if ($this->check_if_is_our_page() === true) {
+            return;
+        }
         ?>
         <script type="text/javascript">
             /*
@@ -380,6 +392,9 @@ class td_cake {
 
 
     function td_cake_msg() {
+        if ($this->check_if_is_our_page() === true) {
+            return;
+        }
         ?>
         <div class="updated">
             <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>

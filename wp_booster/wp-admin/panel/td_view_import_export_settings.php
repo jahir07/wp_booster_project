@@ -51,7 +51,7 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
                 </li>
             </ul>
         </div>
-        <div id="td-col-rigth" class="td-panel-content">
+        <div id="td-col-rigth" class="td-panel-content" style="min-height: 900px">
 
             <!-- Export theme settings -->
             <div id="td-panel-welcome" class="td-panel-active td-panel">
@@ -115,3 +115,4 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
 </form>
 </div>
 <?php if($show_update_msg == 1){?><script type="text/javascript">alert('Import is done!');</script><?php }?>
+<br><br><br><br><br><br><br>

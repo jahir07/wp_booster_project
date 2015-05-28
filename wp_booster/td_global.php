@@ -120,11 +120,6 @@ class td_global {
      * @var array
      */
     static $theme_panels_list = array (
-        'td-panel-welcome' => array(
-            'text' => 'WELCOME',
-            'ico_class' => 'td-ico-welcome',
-            'file_id' => 'td_panel_welcome'
-        ),
         'td-panel-header' => array(
             'text' => 'HEADER',
             'ico_class' => 'td-ico-header',
