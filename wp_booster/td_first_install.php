@@ -53,14 +53,14 @@ function td_theme_migration() {
 			'orderby' => 'post_date',
 			'order' => 'DESC',
 
-//			'meta_query' => array(
-//				'relation' => 'OR',
-//				array('key' => 'td_homepage_loop_filter'),
-//				array('key' => 'td_unique_articles'),
-//				array('key' => 'td_smart_list'),
-//				array('key' => 'td_review')
-//			),
-//			update_post_term_cache => false,
+			'meta_query' => array(
+				'relation' => 'OR',
+				array('key' => 'td_homepage_loop_filter'),
+				array('key' => 'td_unique_articles'),
+				array('key' => 'td_smart_list'),
+				array('key' => 'td_review')
+			),
+			update_post_term_cache => false,
 		);
 
 		$recent_posts = wp_get_recent_posts($args);
@@ -115,6 +115,11 @@ function td_theme_migration() {
 			if ($update_td_post_theme_settings == true) {
 				update_post_meta($recent_post['ID'], 'td_post_theme_settings', $td_post_theme_settings[0]);
 			}
+
+			delete_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
+			delete_post_meta($recent_post['ID'], 'td_unique_articles');
+			delete_post_meta($recent_post['ID'], 'td_smart_list');
+			delete_post_meta($recent_post['ID'], 'td_review');
 		}
 
 		// the following delete operations must be done
