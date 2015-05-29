@@ -31,8 +31,9 @@ class td_block {
         $this->atts = $this->add_live_filter_atts($atts); //add live filter atts
         $this->block_uid = td_global::td_generate_unique_id(); //update unique id on each render
 
-	    if (!array_key_exists('limit', $this->atts)) {
-
+        // This makes sure that the limit is set to the default magic value of 5
+        // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
+	    if (!isset($this->atts['limit'])) {
 		    // this should be a general block limit setting defined in global/config file
 		    $this->atts['limit'] = 5;
 	    }

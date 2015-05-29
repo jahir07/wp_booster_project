@@ -6,6 +6,7 @@
         <a href="admin.php?page=td_theme_plugins" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_plugins') { echo 'nav-tab-active'; }?>"><?php _e( 'Plugins' ); ?></a>
         <a href="admin.php?page=td_theme_demos" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_demos') { echo 'nav-tab-active'; }?>"><?php _e( 'Install demos' ); ?></a>
 	    <a href="admin.php?page=td_theme_support" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_support') { echo 'nav-tab-active'; }?>"><?php _e( 'Support' ); ?></a>
+        <a href="admin.php?page=td_system_status" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_system_status') { echo 'nav-tab-active'; }?>"><?php _e( 'System status' ); ?></a>
         <a href="admin.php?page=td_theme_panel" class="nav-tab"><?php _e( 'Theme panel' ); ?></a>
     </h2>
 </div>

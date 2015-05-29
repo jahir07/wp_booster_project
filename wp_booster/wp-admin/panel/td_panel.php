@@ -45,6 +45,7 @@ class td_panel {
         }
         add_submenu_page( "td_theme_welcome", 'Install demos', 'Install demos', 'edit_posts', 'td_theme_demos',  array($this, "td_theme_demos") );
         add_submenu_page( "td_theme_welcome", 'Support', 'Support', 'edit_posts', 'td_theme_support',  array($this, "td_theme_support") );
+        add_submenu_page( "td_theme_welcome", 'System status', 'System status', 'edit_posts', 'td_system_status',  array($this, "td_system_status") );
         add_submenu_page( "td_theme_welcome", 'Theme panel', 'Theme panel', 'edit_posts', 'td_theme_panel',  array($this, "td_theme_panel") );
 
 
@@ -72,6 +73,10 @@ class td_panel {
 
     function td_theme_plugins() {
         require_once "td_view_theme_plugins.php";
+    }
+
+    function td_system_status() {
+        require_once 'td_view_system_status.php';
     }
 
     /**
