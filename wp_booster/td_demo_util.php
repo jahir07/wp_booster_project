@@ -290,7 +290,6 @@ class td_demo_content {
         $file_content = file_get_contents($file_path);
 
         preg_match_all("/xxx_(.*)_xxx/U", $file_content, $matches, PREG_PATTERN_ORDER);
-
         /*
         $matches =
         [0] => Array
@@ -308,17 +307,23 @@ class td_demo_content {
         if (!empty($matches) and is_array($matches)) {
             foreach ($matches[1] as $index => $match) {
                 $size = ''; //default image size
-                //try to read the size form the match
+                //try to read the size form the match - NOT USED 29.05.2015
                 if (strpos($match, ':') !== false) {
                     $match_parts = explode(':', $match);
                     $match = $match_parts[0];
                     $size = explode('x', $match_parts[1]);
-                    print_r($size);
+                    //print_r($size);
                 }
-
-
-
                 $file_content = str_replace($matches[0][$index], td_demo_media::get_image_url_by_td_id($match, $size), $file_content);
+            }
+        }
+
+
+        unset($matches);
+        preg_match_all("/iii_(.*)_iii/U", $file_content, $matches, PREG_PATTERN_ORDER);
+        if (!empty($matches) and is_array($matches)) {
+            foreach ($matches[1] as $index => $match) {
+                $file_content = str_replace($matches[0][$index], td_demo_media::get_by_td_id($match), $file_content);
             }
         }
 
@@ -729,7 +734,6 @@ class td_demo_media {
     static function get_image_url_by_td_id($td_id, $size = 'full') {
         $image_id = self::get_by_td_id($td_id);
         if($image_id !== false) {
-
             $attachement_array = wp_get_attachment_image_src($image_id, $size, false );
             if (!empty($attachement_array[0])) {
                 return $attachement_array[0];

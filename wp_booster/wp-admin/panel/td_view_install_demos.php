@@ -1,7 +1,7 @@
 <?php
 require_once "td_view_header.php";
 
-/*
+
 td_demo_content::remove();
 td_demo_content::add_post(array(
     'title' => 'Are You Already Wearing the Hottest Brands in Your City?',
@@ -12,7 +12,6 @@ td_demo_content::add_post(array(
     'template' => 'single_template_10',
     'post_format' => 'video'
 ));
-*/
 /*
 td_demo_widgets::remove();
 
