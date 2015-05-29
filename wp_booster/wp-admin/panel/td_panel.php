@@ -12,8 +12,25 @@ class td_panel {
         add_action( 'wp_ajax_nopriv_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
         add_action( 'wp_ajax_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
 
+        if (isset($_GET['page']) and $_GET['page'] == 'td_theme_panel') {
+            add_filter('admin_body_class', array($this, 'add_body_class'));
+        }
 
 
+    }
+
+
+    function add_body_class($classes) {
+        $classes .= ' td-theme-panel-body ';
+        return $classes;
+    }
+
+    function change_panel_css_style() {
+        echo "
+        <style>
+
+        </style>
+    ";
     }
 
     /**
@@ -64,20 +81,7 @@ class td_panel {
 
         //run the wp-admin panel background
 
-        echo "
-        <style>
-        #wpcontent {
-            background-color: #3b7fa8 !important;
-            background: url('" . get_template_directory_uri() . "/includes/wp_booster/wp-admin/images/panel/bg/1.jpg');
-            background-repeat: no-repeat;
-            background-position: left top;
-        }
 
-        ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:after {
-            border-right-color: #30749B;
-        }
-        </style>
-    ";
 
         // load the view based on the td_page parameter
         if (!empty($_REQUEST['td_page'])) {

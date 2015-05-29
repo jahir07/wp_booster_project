@@ -156,7 +156,7 @@ class td_demo_misc {
 
     static function add_ad_image($ad_spot_name, $td_pic_id) {
         $td_ad_spots = td_util::get_option('td_ads');
-        $new_ad_spot['ad_code']= '<div class="td-visible-desktop"><a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_pic_id) . '"/></a></div>';
+        $new_ad_spot['ad_code']= '<div class="td-all-devices"><a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_pic_id) . '"/></a></div>';
         $new_ad_spot['current_ad_type']= 'other';
         $td_ad_spots[strtolower($ad_spot_name)] = $new_ad_spot;
         td_util::update_option('td_ads', $td_ad_spots);
@@ -220,6 +220,12 @@ class td_demo_category {
         // update the category top post style
         if (!empty($params_array['top_posts_style'])) {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
+        }
+
+
+        // update the category top post grid style
+        if (!empty($params_array['tdc_category_td_grid_style'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_td_grid_style'] = $params_array['tdc_category_td_grid_style'];
         }
 
         // update the category template

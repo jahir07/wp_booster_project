@@ -910,6 +910,11 @@ function td_remove_more_link_scroll($link) {
 /* ----------------------------------------------------------------------------
  * Visual Composer init
  */
+register_activation_hook('js_composer/js_composer.php', 'td_vc_kill_welcome', 11);
+function td_vc_kill_welcome() {
+    remove_action('vc_activation_hook', 'vc_page_welcome_set_redirect');
+}
+
 
 /**
  * visual composer rewrite classes

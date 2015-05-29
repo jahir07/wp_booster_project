@@ -1,3 +1,5 @@
+
+
 <form id="td_panel_big_form" action="?page=td_theme_panel" method="post">
 <input type="hidden" name="action" value="td_ajax_update_panel">
 <div class="td_displaying_saving"></div>
@@ -13,7 +15,8 @@
 
 <div class="td-panel-main-header">
     <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
-    <span><?php echo sprintf('%s - Theme panel', strtoupper(TD_THEME_NAME)) ?></span>
+    <span class="td-panel-header-name"><?php echo TD_THEME_NAME . ' - Theme panel'; ?></span>
+    <span class="td-panel-header-version">version: <?php echo TD_THEME_VERSION; ?></span>
 </div>
 
 
@@ -51,6 +54,15 @@
                     $td_first_menu_welcome_menu = '';
                 }
                 ?>
+
+
+                <li>
+                    <a href="?page=td_theme_panel&td_page=td_view_import_export_settings">
+                        <span class="td-sp-nav-icon <?php echo $panel_array['ico_class'] ?>"></span>
+                        Import / export
+                        <span class="td-arrow"></span>
+                    </a>
+                </li>
 
             </ul>
         </div>
