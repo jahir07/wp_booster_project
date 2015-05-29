@@ -228,6 +228,11 @@ class td_demo_category {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_category_td_grid_style'] = $params_array['tdc_category_td_grid_style'];
         }
 
+        if (!empty($params_array['tdc_color'])) {
+            td_global::$td_options['category_options'][$new_cat_id]['tdc_color'] = $params_array['tdc_color'];
+        }
+
+
         // update the category template
         if (!empty($params_array['category_template'])) {
             td_global::$td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
@@ -364,6 +369,11 @@ class td_demo_content {
             $tmp_meta['td_video'] = $params['featured_video_url'];
             update_post_meta($post_id, 'td_post_video', $tmp_meta);
         }
+
+
+
+
+
         return $post_id;
     }
 
@@ -398,6 +408,11 @@ class td_demo_content {
         if (!empty($params['homepage']) and $params['homepage'] === true) {
             update_option( 'page_on_front', $page_id);
             update_option( 'show_on_front', 'page' );
+        }
+
+        if (!empty($params['sidebar_position'])) {
+            $tmp_meta_2['td_sidebar_position'] = $params['sidebar_position'];
+            update_post_meta($page_id, 'td_page', $tmp_meta_2);
         }
         return $page_id;
     }
