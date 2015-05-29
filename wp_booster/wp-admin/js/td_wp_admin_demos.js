@@ -398,7 +398,7 @@ var td_wp_progress_bar = {
                 //console.log(tmp_value);
             }
 
-        }, 200);
+        }, 1000);
         td_wp_progress_bar.last_goto_value = new_progress;
     },
 

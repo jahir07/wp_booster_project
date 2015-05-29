@@ -2,6 +2,18 @@
 require_once "td_view_header.php";
 
 /*
+td_demo_media::remove();
+td_demo_content::remove();
+td_demo_media::add_image_to_media_gallery('td_pic_1',                   "http://td_cake.themesafe.com/Newspaper_6/blog/1.jpg");
+$td_aboutme_id = td_demo_content::add_page(array(
+    'title' => 'About Me',
+    'file' => td_global::$get_template_directory . '/includes/demos/blog/pages/about.txt',
+    'template' => 'page-pagebuilder-title.php',   // the page template full file name with .php
+    'td_layout' => '',
+    'homepage' => false
+));
+*/
+/*
 td_demo_content::remove();
 td_demo_content::add_post(array(
     'title' => 'Are You Already Wearing the Hottest Brands in Your City?',

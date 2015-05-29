@@ -321,8 +321,10 @@ class td_demo_content {
 
         unset($matches);
         preg_match_all("/iii_(.*)_iii/U", $file_content, $matches, PREG_PATTERN_ORDER);
+
         if (!empty($matches) and is_array($matches)) {
             foreach ($matches[1] as $index => $match) {
+
                 $file_content = str_replace($matches[0][$index], td_demo_media::get_by_td_id($match), $file_content);
             }
         }
