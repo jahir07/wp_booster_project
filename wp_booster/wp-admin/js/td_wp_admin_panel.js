@@ -400,24 +400,26 @@ function stopBubble(e){
 function td_upload_image(id_upload_field) {
     var button = '#' + id_upload_field + '_button';
     jQuery(button).click(function() {
+
         window.original_send_to_editor = window.send_to_editor;
 
+        wp.media.editor.open(jQuery(this));
+
         //open the modal window
-        tb_show('', 'media-upload.php?referer=td_upload&amp;type=image&amp;TB_iframe=true&amp;post_id=0');
+        //tb_show('', 'media-upload.php?referer=td_upload&amp;type=image&amp;TB_iframe=true&amp;post_id=0');
 
         //resizing the upload tb_window
-        var document_height = jQuery(window).height();
-        var upload_windpw_height = document_height;
-
+        //var document_height = jQuery(window).height();
+        //var upload_windpw_height = document_height;
 
         //alert(document_height);
 
         //resize the upload window
-        upload_windpw_height = document_height - 200;
-
-        jQuery("#TB_iframeContent").css("height", upload_windpw_height + 'px').css("width", "670px");
-
-        jQuery("#TB_window").css("margin-left", '-300px').css("top", '29px').css("margin-top",'0px').css("visibility", "visible").css("width", "670px");
+        //upload_windpw_height = document_height - 200;
+        //
+        //jQuery("#TB_iframeContent").css("height", upload_windpw_height + 'px').css("width", "670px");
+        //
+        //jQuery("#TB_window").css("margin-left", '-300px').css("top", '29px').css("margin-top",'0px').css("visibility", "visible").css("width", "670px");
 
         window.send_to_editor = function(html) {
             img_link = jQuery('img', html).attr('src');

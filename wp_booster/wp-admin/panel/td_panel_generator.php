@@ -401,7 +401,9 @@ class td_panel_generator {
             $image_path = get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/no_img_upload.png';
         }
 
-        $buffy = '
+	    wp_enqueue_media();
+
+	    $buffy = '
             <div class="td_wrapper_upload_control">
                 <div id="' . $contro_unique_id . '_display" class="td_upload_container_for_image ' . $class_hidden . '"><img src="' . $image_path .  '" id="' . $display_img_id . '" width="66" height="66" class="td_upd_image_display_small_image"></div>
                 <div class="td_upload_image_controls">
