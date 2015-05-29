@@ -3,11 +3,7 @@
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
             <p>From here you can enable and disable the smart sidebar on all the templates. The smart sidebar is an affix (sticky) sidebar that has auto resize and it scrolls with the content. The smart sidebar reverts back to a normal sidebar on iOS (iPad) and on mobile devices. The following widgets are not supported in the smart sidebar:</p>
-            <ul>
-                <li>[tagDiv] Block 14</li>
-                <li>[tagDiv] Block 15</li>
-                <li>[tagDiv] Slide</li>
-            </ul>
+            <?php echo td_global::$td_wp_admin_text_list['text_smart_sidebar_widget_support'] ?>
         </div>
 
 
