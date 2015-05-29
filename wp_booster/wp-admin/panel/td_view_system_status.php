@@ -6,8 +6,11 @@ require_once "td_view_header.php";
     <h1><?php echo TD_THEME_NAME ?> system status</h1>
     <div class="about-text" style="margin-bottom: 32px;">
 
-        <p>We know what it’s like to need support. This is the reason why our customers are the top priority and we treat every issue with utmost seriousness. The team is working hard to help every customer, to keep the theme’s documentation up to date, to produce video tutorials and to develop new ways to make everything easier.</p>
-        <p>You can count on us, we are here for you!</p>
+        <p>
+            Here you can check the system status. Yellow status means that the site will work as expected on the front end but it may cause problems in wp-admin.
+            <strong>Memory notice:</strong> - the theme is well tested with a limit of 40MB/request but plugins may require more, for example woocommerce requires 64MB.
+        </p>
+
 
     </div>
 
@@ -84,7 +87,7 @@ require_once "td_view_header.php";
     td_system_status::add('php.ini configuration', array(
         'check_name' => 'post_max_size',
         'tooltip' => '',
-        'value' =>  ini_get('post_max_size'),
+        'value' =>  ini_get('post_max_size') . '<span class="td-status-small-text"> - You cannot upload images, themes and plugins that have a size bigger than this value.</span>',
         'status' => 'info'
     ));
 
@@ -95,13 +98,13 @@ require_once "td_view_header.php";
             'check_name' => 'max_execution_time',
             'tooltip' => '',
             'value' =>  $max_execution_time,
-            'status' => 'ok'
+            'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_execution_time',
             'tooltip' => '',
-            'value' =>  $max_execution_time . ' - the execution time should be bigger than 60 if you plan to use the demos',
+            'value' =>  $max_execution_time . '<span class="td-status-small-text"> - the execution time should be bigger than 60 if you plan to use the demos</span>',
             'status' => 'yellow'
         ));
     }
@@ -114,13 +117,13 @@ require_once "td_view_header.php";
             'check_name' => 'max_input_vars',
             'tooltip' => '',
             'value' =>  $max_input_vars,
-            'status' => 'ok'
+            'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_input_vars',
             'tooltip' => '',
-            'value' =>  $max_input_vars . ' - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress',
+            'value' =>  $max_input_vars . '<span class="td-status-small-text"> - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress</span>',
             'status' => 'yellow'
         ));
     }
@@ -131,13 +134,13 @@ require_once "td_view_header.php";
             'check_name' => 'SUHOSIN Installed',
             'tooltip' => '',
             'value' => 'False',
-            'status' => 'ok'
+            'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'SUHOSIN Installed',
             'tooltip' => '',
-            'value' =>  'SUHOSIN may cause problems with saving the theme panel if it\'s not properly configured',
+            'value' =>  'SUHOSIN is installed <span class="td-status-small-text"> - it may cause problems with saving the theme panel if it\'s not properly configured</span>',
             'status' => 'yellow'
         ));
     }
@@ -156,7 +159,7 @@ require_once "td_view_header.php";
         'check_name' => 'WP Home URL',
         'tooltip' => 'test tooltip',
         'value' => home_url(),
-        'status' => 'green'
+        'status' => 'info'
     ));
 
     // site url
@@ -164,7 +167,7 @@ require_once "td_view_header.php";
         'check_name' => 'WP Site URL',
         'tooltip' => 'test tooltip',
         'value' => site_url(),
-        'status' => 'green'
+        'status' => 'info'
     ));
 
     // home_url == site_url
@@ -172,7 +175,7 @@ require_once "td_view_header.php";
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'Home URL - Site URL',
             'tooltip' => 'Home URL not equal to Site URL, this may indicate a problem with your WordPress configuration.',
-            'value' => 'Home URL != Site URL',
+            'value' => 'Home URL != Site URL <span class="td-status-small-text">Home URL not equal to Site URL, this may indicate a problem with your WordPress configuration.</span>',
             'status' => 'yellow'
         ));
     }
@@ -182,7 +185,7 @@ require_once "td_view_header.php";
         'check_name' => 'WP version',
         'tooltip' => '',
         'value' => get_bloginfo('version'),
-        'status' => 'green'
+        'status' => 'info'
     ));
 
 
@@ -193,38 +196,6 @@ require_once "td_view_header.php";
         'value' => is_multisite() ? 'Yes' : 'No',
         'status' => 'info'
     ));
-
-    // memory limit
-    $memory_limit = td_system_status::wp_memory_notation_to_number(WP_MEMORY_LIMIT);
-    if ( $memory_limit < 67108864 ) {
-        td_system_status::add('WordPress and plugins', array(
-            'check_name' => 'WP Memory Limit',
-            'tooltip' => '',
-            'value' => size_format( $memory_limit ) . ' - We recommend setting memory to at least 64MB. See: <a href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">Increasing memory allocated to PHP</a>',
-            'status' => 'yellow'
-        ));
-    } else {
-        td_system_status::add('WordPress and plugins', array(
-            'check_name' => 'WP Memory Limit',
-            'tooltip' => '',
-            'value' => size_format( $memory_limit ),
-            'status' => 'green'
-        ));
-    }
-
-
-    // wp debug
-    $tmp_val = 'False';
-    if (defined('WP_DEBUG') and WP_DEBUG === true) {
-        $tmp_val = 'WP_DEBUG is enabled';
-    }
-    td_system_status::add('WordPress and plugins', array(
-        'check_name' => 'WP_DEBUG',
-        'tooltip' => '',
-        'value' => $tmp_val,
-        'status' => 'info'
-    ));
-
 
 
     // language
@@ -237,11 +208,52 @@ require_once "td_view_header.php";
 
 
 
+    // memory limit
+    $memory_limit = td_system_status::wp_memory_notation_to_number(WP_MEMORY_LIMIT);
+    if ( $memory_limit < 67108864 ) {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP Memory Limit',
+            'tooltip' => '',
+            'value' => size_format( $memory_limit ) . '/request <span class="td-status-small-text">- We recommend setting memory to at least 64MB. The theme is well tested with a 40MB/request limit, but if you are using multiple plugins that may not be enough. See: <a href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">Increasing memory allocated to PHP</a></span>',
+            'status' => 'yellow'
+        ));
+    } else {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP Memory Limit',
+            'tooltip' => '',
+            'value' => size_format( $memory_limit ) . '/request',
+            'status' => 'green'
+        ));
+    }
+
+
+    // wp debug
+    if (defined('WP_DEBUG') and WP_DEBUG === true) {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP_DEBUG',
+            'tooltip' => '',
+            'value' => 'WP_DEBUG is enabled',
+            'status' => 'yellow'
+        ));
+    } else {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP_DEBUG',
+            'tooltip' => '',
+            'value' => 'False',
+            'status' => 'green'
+        ));
+    }
+
+
+
+
+
+
     // caching
     $caching_plugin_list = array(
         'wp-super-cache/wp-cache.php' => array(
             'name' => 'WP super cache',
-            'status' => 'ok',
+            'status' => 'green',
         ),
         'w3-total-cache/w3-total-cache.php' => array(
             'name' => 'W3 total cache (we recommend WP super cache)',
@@ -286,21 +298,7 @@ require_once "td_view_header.php";
     ?>
 
 
-    <table class="widefat td-system-status-table" cellspacing="0">
-        <thead>
-        <tr>
-            <th colspan="4">Theme diagnostics</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="td-system-status-name"></td>
-                <td class="td-system-status-help"></td>
-                <td class="td-system-status-status"></td>
-                <td class="td-system-status-value"></td>
-            </tr>
-        </tbody>
-    </table>
+
 
 </div>
 
@@ -330,8 +328,25 @@ require_once "td_view_header.php";
                         ?>
                         <tr>
                             <td class="td-system-status-name"><?php echo $status_params['check_name'] ?></td>
-                            <td class="td-system-status-help"><a href="#" class="help_tip">[?]</a></td>
-                            <td class="td-system-status-status"><?php echo $status_params['status'] ?></td>
+                            <td class="td-system-status-help"><!--<a href="#" class="help_tip">[?]</a>--></td>
+                            <td class="td-system-status-status">
+                                <?php
+                                    switch ($status_params['status']) {
+                                        case 'green':
+                                            echo '<div class="td-system-status-led td-system-status-green td-tooltip" data-position="right" title="Green status: this check passed our system status test!"></div>';
+                                            break;
+                                        case 'yellow':
+                                            echo '<div class="td-system-status-led td-system-status-yellow td-tooltip" data-position="right" title="Yellow status: this setting may affect the backend of the site. The front end should still run as expected. We recommend that you fix this."></div>';
+                                            break;
+                                        case 'info':
+                                            echo '<div class="td-system-status-led td-system-status-info td-tooltip" data-position="right" title="Info status: this is just for information purposes and easier debug if a problem appears">i</div>';
+                                            break;
+
+                                    }
+
+
+                                ?>
+                            </td>
                             <td class="td-system-status-value"><?php echo $status_params['value'] ?></td>
                         </tr>
                         <?php
@@ -375,9 +390,7 @@ require_once "td_view_header.php";
                     }
                     ?>
 
-                    <tr>
-                        <td colspan="6"><a href="">Reset cache</a></td>
-                    </tr>
+
                     </tbody>
                 </table>
                 <?php
