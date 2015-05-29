@@ -1,0 +1,410 @@
+<?php
+
+require_once "td_view_header.php";
+?>
+<div class="about-wrap td-admin-wrap">
+    <h1><?php echo TD_THEME_NAME ?> system status</h1>
+    <div class="about-text" style="margin-bottom: 32px;">
+
+        <p>We know what it’s like to need support. This is the reason why our customers are the top priority and we treat every issue with utmost seriousness. The team is working hard to help every customer, to keep the theme’s documentation up to date, to produce video tutorials and to develop new ways to make everything easier.</p>
+        <p>You can count on us, we are here for you!</p>
+
+    </div>
+
+
+
+
+    <?php
+
+
+    /*  ----------------------------------------------------------------------------
+        Theme config
+     */
+
+    // Theme name
+    td_system_status::add('Theme config', array(
+        'check_name' => 'Theme name',
+        'tooltip' => '',
+        'value' =>  TD_THEME_NAME,
+        'status' => 'info'
+    ));
+
+    // Theme version
+    td_system_status::add('Theme config', array(
+        'check_name' => 'Theme version',
+        'tooltip' => '',
+        'value' =>  TD_THEME_VERSION,
+        'status' => 'info'
+    ));
+
+    // speed booster
+    if (defined('TD_SPEED_BOOSTER')) {
+        if (defined('TD_SPEED_BOOSTER_INCOMPATIBLE')) {
+            td_system_status::add('Theme config', array(
+                'check_name' => 'Speed Booster',
+                'tooltip' => '',
+                'value' =>  TD_SPEED_BOOSTER . ' - Disabled - incompatible plugin detected: <strong>' . TD_SPEED_BOOSTER_INCOMPATIBLE . '</strong>',
+                'status' => 'yellow'
+            ));
+        } else {
+            td_system_status::add('Theme config', array(
+                'check_name' => 'Speed Booster',
+                'tooltip' => '',
+                'value' =>  TD_SPEED_BOOSTER . ' - Active',
+                'status' => 'info'
+            ));
+        }
+
+
+    }
+
+
+
+    /*  ----------------------------------------------------------------------------
+        Server status
+     */
+
+    // server info
+    td_system_status::add('php.ini configuration', array(
+        'check_name' => 'Server software',
+        'tooltip' => '',
+        'value' =>  esc_html( $_SERVER['SERVER_SOFTWARE'] ),
+        'status' => 'info'
+    ));
+
+    // php version
+    td_system_status::add('php.ini configuration', array(
+        'check_name' => 'PHP Version',
+        'tooltip' => '',
+        'value' => phpversion(),
+        'status' => 'info'
+    ));
+
+    // post_max_size
+    td_system_status::add('php.ini configuration', array(
+        'check_name' => 'post_max_size',
+        'tooltip' => '',
+        'value' =>  ini_get('post_max_size'),
+        'status' => 'info'
+    ));
+
+    // php time limit
+    $max_execution_time = ini_get('max_execution_time');
+    if ($max_execution_time == 0 or $max_execution_time >= 60) {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'max_execution_time',
+            'tooltip' => '',
+            'value' =>  $max_execution_time,
+            'status' => 'ok'
+        ));
+    } else {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'max_execution_time',
+            'tooltip' => '',
+            'value' =>  $max_execution_time . ' - the execution time should be bigger than 60 if you plan to use the demos',
+            'status' => 'yellow'
+        ));
+    }
+
+
+    // php max input vars
+    $max_input_vars = ini_get('max_input_vars');
+    if ($max_input_vars == 0 or $max_input_vars >= 2000) {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'max_input_vars',
+            'tooltip' => '',
+            'value' =>  $max_input_vars,
+            'status' => 'ok'
+        ));
+    } else {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'max_input_vars',
+            'tooltip' => '',
+            'value' =>  $max_input_vars . ' - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress',
+            'status' => 'yellow'
+        ));
+    }
+
+    // suhosin
+    if (extension_loaded('suhosin') !== true) {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'SUHOSIN Installed',
+            'tooltip' => '',
+            'value' => 'False',
+            'status' => 'ok'
+        ));
+    } else {
+        td_system_status::add('php.ini configuration', array(
+            'check_name' => 'SUHOSIN Installed',
+            'tooltip' => '',
+            'value' =>  'SUHOSIN may cause problems with saving the theme panel if it\'s not properly configured',
+            'status' => 'yellow'
+        ));
+    }
+
+
+
+
+
+
+
+    /*  ----------------------------------------------------------------------------
+        WordPress
+    */
+    // home url
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP Home URL',
+        'tooltip' => 'test tooltip',
+        'value' => home_url(),
+        'status' => 'green'
+    ));
+
+    // site url
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP Site URL',
+        'tooltip' => 'test tooltip',
+        'value' => site_url(),
+        'status' => 'green'
+    ));
+
+    // home_url == site_url
+    if (home_url() != site_url()) {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'Home URL - Site URL',
+            'tooltip' => 'Home URL not equal to Site URL, this may indicate a problem with your WordPress configuration.',
+            'value' => 'Home URL != Site URL',
+            'status' => 'yellow'
+        ));
+    }
+
+    // version
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP version',
+        'tooltip' => '',
+        'value' => get_bloginfo('version'),
+        'status' => 'green'
+    ));
+
+
+    // is_multisite
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP multisite enabled',
+        'tooltip' => '',
+        'value' => is_multisite() ? 'Yes' : 'No',
+        'status' => 'info'
+    ));
+
+    // memory limit
+    $memory_limit = td_system_status::wp_memory_notation_to_number(WP_MEMORY_LIMIT);
+    if ( $memory_limit < 67108864 ) {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP Memory Limit',
+            'tooltip' => '',
+            'value' => size_format( $memory_limit ) . ' - We recommend setting memory to at least 64MB. See: <a href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">Increasing memory allocated to PHP</a>',
+            'status' => 'yellow'
+        ));
+    } else {
+        td_system_status::add('WordPress and plugins', array(
+            'check_name' => 'WP Memory Limit',
+            'tooltip' => '',
+            'value' => size_format( $memory_limit ),
+            'status' => 'green'
+        ));
+    }
+
+
+    // wp debug
+    $tmp_val = 'False';
+    if (defined('WP_DEBUG') and WP_DEBUG === true) {
+        $tmp_val = 'WP_DEBUG is enabled';
+    }
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP_DEBUG',
+        'tooltip' => '',
+        'value' => $tmp_val,
+        'status' => 'info'
+    ));
+
+
+
+    // language
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'WP Language',
+        'tooltip' => '',
+        'value' => get_locale(),
+        'status' => 'info'
+    ));
+
+
+
+    // caching
+    $caching_plugin_list = array(
+        'wp-super-cache/wp-cache.php' => array(
+            'name' => 'WP super cache',
+            'status' => 'ok',
+        ),
+        'w3-total-cache/w3-total-cache.php' => array(
+            'name' => 'W3 total cache (we recommend WP super cache)',
+            'status' => 'yellow',
+        ),
+        'wp-fastest-cache/wpFastestCache.php' => array(
+            'name' => 'WP Fastest Cache (we recommend WP super cache)',
+            'status' => 'yellow',
+        ),
+    );
+    $active_plugins = get_option('active_plugins');
+    $caching_plugin = 'No caching plugin detected';
+    $caching_plugin_status = 'yellow';
+    foreach ($active_plugins as $active_plugin) {
+        if (isset($caching_plugin_list[$active_plugin])) {
+            $caching_plugin = $caching_plugin_list[$active_plugin]['name'];
+            $caching_plugin_status = $caching_plugin_list[$active_plugin]['status'];
+            break;
+        }
+    }
+    td_system_status::add('WordPress and plugins', array(
+        'check_name' => 'Caching plugin',
+        'tooltip' => '',
+        'value' =>  $caching_plugin,
+        'status' => $caching_plugin_status
+    ));
+
+    td_system_status::render_tables();
+
+
+
+    // social counter cache
+    $cache_content = get_option('td_social_api_v3_last_val', '');
+    td_system_status::render_social_cache($cache_content);
+
+
+
+
+
+
+
+    ?>
+
+
+    <table class="widefat td-system-status-table" cellspacing="0">
+        <thead>
+        <tr>
+            <th colspan="4">Theme diagnostics</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="td-system-status-name"></td>
+                <td class="td-system-status-help"></td>
+                <td class="td-system-status-status"></td>
+                <td class="td-system-status-value"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<?php
+   class td_system_status {
+       static $system_status = array();
+       static function add($section, $status_array) {
+           self::$system_status[$section] []= $status_array;
+       }
+
+
+       static function render_tables() {
+           foreach (self::$system_status as $section_name => $section_statuses) {
+                ?>
+                <table class="widefat td-system-status-table" cellspacing="0">
+                    <thead>
+                        <tr>
+                           <th colspan="4"><?php echo $section_name ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php
+
+                    foreach ($section_statuses as $status_params) {
+                        ?>
+                        <tr>
+                            <td class="td-system-status-name"><?php echo $status_params['check_name'] ?></td>
+                            <td class="td-system-status-help"><a href="#" class="help_tip">[?]</a></td>
+                            <td class="td-system-status-status"><?php echo $status_params['status'] ?></td>
+                            <td class="td-system-status-value"><?php echo $status_params['value'] ?></td>
+                        </tr>
+                        <?php
+                    }
+
+                ?>
+                    </tbody>
+                </table>
+                <?php
+           }
+       }
+
+
+       static function render_social_cache($cache_entries) {
+           if (!empty($cache_entries) and is_array($cache_entries)) {
+                ?>
+                <table class="widefat td-system-status-table" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Social network cache status:</th>
+                            <th>Last request count:</th>
+                            <th>Last good count:</th>
+                            <th>Timestamp - (h:m:s) ago:</th>
+                            <th>Expires:</th>
+                            <th>SN User:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($cache_entries as $social_network_id => $cache_params) {
+                        ?>
+                        <tr>
+                            <td class="td-system-status-name"><?php echo $social_network_id ?></td>
+                            <td><?php echo $cache_params['count'] ?></td>
+                            <td><?php echo $cache_params['ok_count'] ?></td>
+                            <td><?php echo $cache_params['timestamp'] . ' - ' . gmdate("H:i:s", time() - $cache_params['timestamp'])?> ago</td>
+                            <td><?php echo $cache_params['expires'] ?></td>
+                            <td><?php echo $cache_params['uid'] ?></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+
+                    <tr>
+                        <td colspan="6"><a href="">Reset cache</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <?php
+           }
+       }
+
+
+       static function render_diagnostics() {
+
+       }
+
+       static function wp_memory_notation_to_number( $size ) {
+           $l   = substr( $size, -1 );
+           $ret = substr( $size, 0, -1 );
+           switch ( strtoupper( $l ) ) {
+               case 'P':
+                   $ret *= 1024;
+               case 'T':
+                   $ret *= 1024;
+               case 'G':
+                   $ret *= 1024;
+               case 'M':
+                   $ret *= 1024;
+               case 'K':
+                   $ret *= 1024;
+           }
+           return $ret;
+       }
+   }
+?>
