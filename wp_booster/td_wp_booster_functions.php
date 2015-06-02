@@ -357,7 +357,9 @@ function hook_wp_head() {
 	//$tds_lazy_loading_image = td_util::get_option('tds_lazy_loading_image');
 	$tds_animation_stack = td_util::get_option('tds_animation_stack');
 
+	// the body css supplementary classes and the global js animation effects variables are set only if the option 'tds_animation_stack' is set
 	if (empty($tds_animation_stack)) {
+
 		// js variable td_animation_stack_effect added to the window object
 		$td_animation_stack_effect_type = 'type0';
 		if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
@@ -377,7 +379,6 @@ function hook_wp_head() {
 				break;
 			}
 		}
-
         add_filter('body_class','td_hook_add_custom_body_class');
 	}
 }
