@@ -43,7 +43,7 @@ var td_animation_stack = {
 
 
     // - the default animation effect that should be applied if not other effect is specified
-    _animation_defalt_effect: 'type0',
+    _animation_default_effect: 'type0',
 
 
 
@@ -57,11 +57,19 @@ var td_animation_stack = {
     _ready_for_initialization: true,
 
     // interval used by ready_init to check td_animation_stack state
-    _ready_init_interval: undefined,
+    _ready_init_timeout: undefined,
 
 
     // max time[ms] interval waiting for first td_animation_stack.init call
     max_waiting_for_init: 3000,
+
+
+
+    _specific_selectors: '',
+
+    _general_selectors: '',
+
+
 
 
 
@@ -73,33 +81,26 @@ var td_animation_stack = {
      */
     ready_init: function ready_init() {
 
-        if (td_animation_stack_effect != undefined) {
-            if (td_animation_stack_effect == '') {
-                td_animation_stack_effect = td_animation_stack._animation_defalt_effect;
+        if (window.tds_animation_stack != undefined && window.td_animation_stack_effect != undefined) {
+
+            if (window.td_animation_stack_specific_selectors != undefined) {
+                td_animation_stack._specific_selectors = window.td_animation_stack_specific_selectors;
             }
-            td_animation_stack._animation_css_class1 = 'td-animation-stack-' + td_animation_stack_effect + '-1';
-            td_animation_stack._animation_css_class2 = 'td-animation-stack-' + td_animation_stack_effect + '-2';
-        }
 
-        jQuery('.td-animation-stack .entry-thumb, .post .entry-thumb, .post img[class*="wp-image-"]').addClass(td_animation_stack._animation_css_class1);
+            if (window.td_animation_stack_effect == '') {
+                window.td_animation_stack_effect = td_animation_stack._animation_default_effect;
+            } else {
+                td_animation_stack._animation_css_class1 = 'td-animation-stack-' + window.td_animation_stack_effect + '-1';
+                td_animation_stack._animation_css_class2 = 'td-animation-stack-' + window.td_animation_stack_effect + '-2';
 
+                if (window.td_animation_stack_general_selectors != undefined) {
+                    td_animation_stack._general_selectors = window.td_animation_stack_general_selectors;
+                }
 
-        var date = new Date();
-        var ready_time = date.getTime();
+                jQuery(td_animation_stack._general_selectors).addClass(td_animation_stack._animation_css_class1);
+            }
 
-        td_animation_stack.log('ready started - current time: ' + ready_time);
-
-        td_animation_stack._ready_init_interval = setInterval(function() {
-
-            date = new Date();
-
-            // the time is elapsed and the check is done
-            if ((date.getTime() - ready_time) > td_animation_stack.max_waiting_for_init) {
-
-                td_animation_stack.log('ready finished - elapsed time: ' + (date.getTime() - ready_time) / 1000);
-
-                // clear the ready_init_interval
-                clearInterval(td_animation_stack._ready_init_interval);
+            td_animation_stack._ready_init_timeout = setTimeout(function() {
 
                 // if td_animation_stack is activated, do nothing
                 if (td_animation_stack.activated === true) {
@@ -111,14 +112,17 @@ var td_animation_stack = {
 
                 // remove 'lazy-animation' class from the body
                 // this class is applied from the theme settings
-                //jQuery('body').removeClass('lazy-animation');
 
-                if (td_animation_stack_effect != undefined) {
-                    jQuery('body').removeClass('td-animation-stack-' + td_animation_stack_effect);
+                if (window.td_animation_stack_effect != undefined) {
+                    jQuery('body').removeClass('td-animation-stack-' + window.td_animation_stack_effect);
                 }
-            }
 
-        }, 50);
+            }, td_animation_stack.max_waiting_for_init);
+
+        } else {
+            // lock any further operation using the _ready_for_initialization flag
+            td_animation_stack._ready_for_initialization = false;
+        }
     },
 
 
@@ -286,24 +290,22 @@ var td_animation_stack = {
 
 
 
+        if (window.td_animation_stack_effect === 'type0') {
+            // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
+            var founded_elements = jQuery(selector + ', .post').find(td_animation_stack._specific_selectors).filter(function() {
+                return jQuery(this).css('opacity') === '0';
+            });
 
-        jQuery('.td-animation-stack .entry-thumb, .post .entry-thumb, .post img[class*="wp-image-"]').not('.' + td_animation_stack._animation_css_class2).addClass(td_animation_stack._animation_css_class1);
+        } else {
+            jQuery(td_animation_stack._general_selectors).not('.' + td_animation_stack._animation_css_class2).addClass(td_animation_stack._animation_css_class1);
+
+            // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
+            var founded_elements = jQuery(selector + ', .post').find(td_animation_stack._specific_selectors).filter(function() {
+                return jQuery(this).hasClass(td_animation_stack._animation_css_class1);
+            });
+        }
 
 
-
-
-        // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
-        var founded_elements = jQuery(selector + ', .post').find('.entry-thumb, img[class*="wp-image-"]').filter(function() {
-
-
-
-            //return jQuery(this).css('opacity') === '0';
-            return jQuery(this).hasClass(td_animation_stack._animation_css_class1);
-
-
-
-
-        });
 
         founded_elements.each(function(index, element) {
 
@@ -364,9 +366,14 @@ var td_animation_stack = {
 
 
 
-                            //local_stack[i].jquery_obj.css('opacity', 1);
-                            local_stack[i].jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                            local_stack[i].jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                            if (window.td_animation_stack_effect === 'type0') {
+                                local_stack[i].jquery_obj.css('opacity', 1);
+                            } else {
+                                local_stack[i].jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                                local_stack[i].jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                            }
+
+
 
 
 
@@ -448,13 +455,17 @@ var td_animation_stack = {
      * - the arrays are cleared to be prepared for a reinitialization
      */
     init: function init() {
+        if (window.tds_animation_stack === undefined) {
+            return;
+        }
+
         // td_animation_stack must not be already stopped for initialization by a pre_init checker
         if (td_animation_stack._ready_for_initialization === false) {
             return;
         }
 
-        // clear the _ready_init_interval, to stop it doing more checking
-        clearInterval(td_animation_stack._ready_init_interval);
+        // clear the _ready_init_timeout, to stop it doing more checking
+        clearTimeout(td_animation_stack._ready_init_timeout);
 
         // the td_animation_stack is activated
         td_animation_stack.activated = true;
@@ -503,9 +514,14 @@ var td_animation_stack = {
 
 
 
-            //item_above_view_port.jquery_obj.css('opacity', 1);
-            item_above_view_port.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-            item_above_view_port.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+            if (window.td_animation_stack_effect === 'type0') {
+                item_above_view_port.jquery_obj.css('opacity', 1);
+            } else {
+                item_above_view_port.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                item_above_view_port.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+            }
+
+
 
 
         }
@@ -522,9 +538,13 @@ var td_animation_stack = {
 
 
 
-            //current_animation_item.jquery_obj.css('opacity', 1);
-            current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-            current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+            if (window.td_animation_stack_effect === 'type0') {
+                current_animation_item.jquery_obj.css('opacity', 1);
+            } else {
+                current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+            }
+
 
 
 
@@ -557,9 +577,12 @@ var td_animation_stack = {
 
 
 
-                //current_animation_item.jquery_obj.css('opacity', 1);
-                current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                if (window.td_animation_stack_effect === 'type0') {
+                    current_animation_item.jquery_obj.css('opacity', 1);
+                } else {
+                    current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
+                    current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                }
 
 
 

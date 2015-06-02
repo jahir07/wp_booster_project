@@ -27,7 +27,8 @@ class td_autoload_classes {
                     $class_file_path = $class_settings['file'];
 
                     if (isset($class_file_path) and !empty($class_file_path)) {
-                        td_api_base::_debug_update_key_no_check($class_name, td_api_base::CLASS_AUTOLOADED, true);
+                        // set the autoloaded key for that component
+                        td_api_base::_debug_set_class_is_autoloaded($class_name);
                         // require_once($class_file_path); - we need to use load_template to make our single_templates work like wordpress
                         // with load_template we prepare the globals ($post etc for the files)
                         // we should not use the global $post or any other globals in our classes without explicit declaration

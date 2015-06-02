@@ -12,4 +12,10 @@ class td_api_autoload extends td_api_base {
         return parent::get_all_components(__CLASS__);
     }
 
+
+
+
+
+
+
 }

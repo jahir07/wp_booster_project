@@ -158,13 +158,7 @@
 			echo td_panel_generator::radio_button_control(array(
 				'ds' => 'td_option',
 				'option_id' => 'tds_animation_stack_effect',
-				'values' => array(
-					array('text' => 'Fade', 'val' => ''),
-					array('text' => 'Margin', 'val' => 'type1'),
-					array('text' => 'Scale', 'val' => 'type2'),
-					array('text' => 'Fade & Margin', 'val' => 'type3'),
-					array('text' => 'Fade & Scale', 'val' => 'type4'),
-				)
+				'values' => td_global::$td_animation_stack_effects
 			));
 			?>
 		</div>

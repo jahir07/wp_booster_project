@@ -225,11 +225,13 @@ class td_api_base {
     }
 
 
+
+
     /**
      * returns only the used on page component - useful for debug
      * @return array
      */
-    static function _debug_get_used_on_page_components() {
+    static function _debug_show_autoloaded_components() {
         $buffy_array = array();
         foreach (self::$components_list as $component_id => $component) {
 
@@ -253,11 +255,19 @@ class td_api_base {
         <?php
         echo ob_get_clean();
 
+
+
         return $buffy_array;
     }
 
-    static function _debug_update_key_no_check($id, $key, $value) {
-        self::$components_list[$id][$key] = $value;
+
+
+    /**
+     * sets the component's td_api_base::CLASS_AUTOLOADED key to true at runtime.
+     * @param $component_id
+     */
+    static function _debug_set_class_is_autoloaded($component_id) {
+        self::$components_list[$component_id][td_api_base::CLASS_AUTOLOADED] = true;
     }
 
 
