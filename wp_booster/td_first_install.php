@@ -38,9 +38,9 @@ td_after_theme_is_activated();
 
 function td_theme_migration() {
 
-	if (defined('TD_DEPLOY_MODE') and ((TD_DEPLOY_MODE == 'demo') or (TD_DEPLOY_MODE == 'dev'))) {
-		return;
-	}
+//	if (defined('TD_DEPLOY_MODE') and ((TD_DEPLOY_MODE == 'demo') or (TD_DEPLOY_MODE == 'dev'))) {
+//		return;
+//	}
 
 	$current_version = td_util::get_option('td_version');
 
