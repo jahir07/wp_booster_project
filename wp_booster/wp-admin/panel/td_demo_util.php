@@ -420,6 +420,11 @@ class td_demo_content {
             update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_3);
         }
 
+        if (!empty($params['limit'])) {
+            $tmp_meta_4['limit'] = $params['limit'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_4);
+        }
+
         return $page_id;
     }
 
