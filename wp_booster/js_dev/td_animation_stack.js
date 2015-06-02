@@ -464,6 +464,7 @@ var td_animation_stack = {
 
 
     /**
+     * - IT'S CALLED ON PAGE LOAD [actually in td_last_init.js]
      * - the general init function
      * - the items are added to the td_animation_stack.items using check_for_new_items method, and then computed
      * - the arrays are cleared to be prepared for a reinitialization
