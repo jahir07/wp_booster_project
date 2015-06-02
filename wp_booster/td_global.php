@@ -66,6 +66,9 @@ class td_global {
     static $theme_plugins_list = array();
 
 
+	static $td_animation_stack_effects = array();
+
+
     /**
      * the js files that are used in wp-admin
      * @var array

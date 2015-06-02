@@ -375,14 +375,6 @@ function hook_wp_head() {
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
 
 
-	// js variable td_animation_stack_effect added to the window object
-	$td_animation_stack_effect_type = 'type0';
-	if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-		$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
-	}
-	td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
-
-
 
 	// @todo aici se va schimba setarea, iar userii isi pierd setarea existenta
 	// lazy loading images - animation effect
@@ -390,21 +382,27 @@ function hook_wp_head() {
 	$tds_animation_stack = td_util::get_option('tds_animation_stack');
 
 	if (empty($tds_animation_stack)) {
-        ob_start();
-        ?>
-        <script>
+		// js variable td_animation_stack_effect added to the window object
+		$td_animation_stack_effect_type = 'type0';
+		if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
+			$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
+		}
 
-            jQuery(window).load(function() {
-                window.td_animation_stack.init();
-            });
+		td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
+		td_js_buffer::add_variable('tds_animation_stack', true);
 
-        </script>
-        <?php
-        $buffer = ob_get_clean();
-        $js = "\n". td_util::remove_script_tag($buffer);
-        td_js_buffer::add_to_footer($js);
+		foreach (td_global::$td_animation_stack_effects as $td_animation_stack_effect) {
+			if ((($td_animation_stack_effect['val'] == '') and ($td_animation_stack_effect_type == 'type0')) ||
+			    ($td_animation_stack_effect['val'] == $td_animation_stack_effect_type)) {
 
-		add_filter('body_class','td_hook_add_custom_body_class');
+				td_js_buffer::add_variable('td_animation_stack_specific_selectors', $td_animation_stack_effect['specific_selectors']);
+				td_js_buffer::add_variable('td_animation_stack_general_selectors', $td_animation_stack_effect['general_selectors']);
+
+				break;
+			}
+		}
+
+        add_filter('body_class','td_hook_add_custom_body_class');
 	}
 }
 
