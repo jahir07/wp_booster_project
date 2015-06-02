@@ -416,8 +416,13 @@ class td_demo_content {
         }
 
         if (!empty($params['list_custom_title_show'])) {
-            $tmp_meta_3['list_custom_title_show'] = $params['list_custom_title_show'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_3);
+            $tmp_meta['list_custom_title_show'] = $params['list_custom_title_show'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+        }
+
+        if (!empty($params['limit'])) {
+            $tmp_meta['limit'] = $params['limit'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
         }
 
         return $page_id;
