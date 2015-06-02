@@ -27,7 +27,8 @@ var td_animation_stack = {
 
 
 
-    // - flag css class used just to look for not yet computed item
+    // - flag css class used by the non 'type0' animation effect
+    // - flag used just to look for not yet computed item
     // - it's set by ready_init (on ready)
     // - all dom components that need to be animated will be marked with this css class in ready_init
     // - it can be used for a precomputed style, but carefully, because it's applied at ready_init (on ready)
@@ -35,14 +36,15 @@ var td_animation_stack = {
 
 
 
+    // - flag css class used by the non 'type0' animation effect
     // - flag css class used to animate custom
-    // - it's set by ready_init (on ready)
     // - this css class applies the final animation
     _animation_css_class2: '',
 
 
 
-    // - the default animation effect that should be applied if not other effect is specified
+    // - the default animation effect 'type0' is applied if the global window.td_animation_stack_effect is the empty string
+    // - it's used for consistency of animation effects presented into the animation-stack.less [all types have a name (...type...)]
     _animation_default_effect: 'type0',
 
 
@@ -65,8 +67,10 @@ var td_animation_stack = {
 
 
 
+    // the specific selectors are used to look for new elements inside of the specific sections
     _specific_selectors: '',
 
+    // the general selectors are used to look for elements over extend areas in DOM
     _general_selectors: '',
 
 
@@ -83,23 +87,34 @@ var td_animation_stack = {
 
         if (window.tds_animation_stack != undefined && window.td_animation_stack_effect != undefined) {
 
+            // the td_animation_stack._specific_selectors is set by the global variable window.td_animation_stack_specific_selectors
             if (window.td_animation_stack_specific_selectors != undefined) {
                 td_animation_stack._specific_selectors = window.td_animation_stack_specific_selectors;
             }
 
+
+            // if the global variable window.td_animation_stack_effect has the empty string value, the 'full fade' (type0) effect is prepared to be applied
             if (window.td_animation_stack_effect == '') {
                 window.td_animation_stack_effect = td_animation_stack._animation_default_effect;
             } else {
+                // - if not, the td-animation-stacks with class 1 and class 2 are applied
                 td_animation_stack._animation_css_class1 = 'td-animation-stack-' + window.td_animation_stack_effect + '-1';
                 td_animation_stack._animation_css_class2 = 'td-animation-stack-' + window.td_animation_stack_effect + '-2';
 
+
+                // - the td_animation_stack._general_selectors is set by the global variable window.td_animation_stack_general_selectors
+                // - it's used only by the non 'full fade' (type0) effects
                 if (window.td_animation_stack_general_selectors != undefined) {
                     td_animation_stack._general_selectors = window.td_animation_stack_general_selectors;
                 }
 
+                // the td_animation_stack._animation_css_class1 css class is applied for all elements need to be animated later
                 jQuery(td_animation_stack._general_selectors).addClass(td_animation_stack._animation_css_class1);
             }
 
+
+            // - timeout used by the ready_init function, to cut down td_animation_stack.init calling at loading page, when the call comes too late
+            // - if td_animation_stack.init comes earlier, it does a clearTimeout call over the td_animation_stack._ready_init_timeout variable
             td_animation_stack._ready_init_timeout = setTimeout(function() {
 
                 // if td_animation_stack is activated, do nothing
@@ -110,9 +125,8 @@ var td_animation_stack = {
                 // lock any further operation using the _ready_for_initialization flag
                 td_animation_stack._ready_for_initialization = false;
 
-                // remove 'lazy-animation' class from the body
+                // remove the loading animation css class effect from the body
                 // this class is applied from the theme settings
-
                 if (window.td_animation_stack_effect != undefined) {
                     jQuery('body').removeClass('td-animation-stack-' + window.td_animation_stack_effect);
                 }
