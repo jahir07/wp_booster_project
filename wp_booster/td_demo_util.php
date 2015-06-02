@@ -414,6 +414,12 @@ class td_demo_content {
             $tmp_meta_2['td_sidebar_position'] = $params['sidebar_position'];
             update_post_meta($page_id, 'td_page', $tmp_meta_2);
         }
+
+        if (!empty($params['list_custom_title_show'])) {
+            $tmp_meta_3['list_custom_title_show'] = $params['list_custom_title_show'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_3);
+        }
+
         return $page_id;
     }
 
