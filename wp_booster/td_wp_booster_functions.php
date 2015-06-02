@@ -41,30 +41,11 @@ require_once('td_global_blocks.php');
 require_once('td_menu.php');            //theme menu support
 require_once('td_social_icons.php');    // The social icons
 require_once('td_review.php');          // Review js buffer class      //@todo de vazut pt autoload
-
-
-
 require_once('td_js_buffer.php');       // page generator
 require_once('td_unique_posts.php');    //unique posts (uses hooks + do_action('td_wp_boost_new_module'); )
 require_once('td_data_source.php');      // data source
 require_once('td_page_views.php'); // page views counter
 require_once('td_module.php');           // module builder
-
-
-//require_once('td_css_inline.php');       // block template base class
-//require_once('td_login.php');       // block template base class
-//require_once('td_category_template.php');       // block template base class
-//require_once('td_category_top_posts_style.php');       // base class
-//require_once('td_page_generator.php');  //
-//require_once('td_block_layout.php');    // block layout
-//require_once('td_template_layout.php'); // template layout
-//require_once('td_css_compiler.php');  // css compiler
-//require_once('td_module_single_base.php');           // module single builder
-//require_once('td_demo_site.php');  // the demo site
-//require_once('td_smart_list.php');  //the smart lists
-//require_once('td_generic_filter_builder.php');  // generic filter buider class
-
-
 require_once('td_block.php');            // block builder
 require_once('td_cake.php');
 require_once('td_widget_builder.php');  // widget builder
@@ -75,22 +56,16 @@ require_once('td_video_support.php');  // video thumbnail support
 require_once('td_video_playlist_support.php'); //video playlist support
 require_once('td_css_buffer.php'); // css buffer class
 require_once('td_js_generator.php');  // ~ app config ~ css generator
-
-
-
-
 require_once('td_more_article_box.php');  //handles more articles box
 require_once('td_block_widget.php');  //used to make widgets from our blocks
-
+// background support - is not autoloaded
+require_once('td_background.php');
+require_once('td_background_render.php');
 
 
 // Every class after this (that has td_ in the name) is auto loaded
 require_once('td_autoload_classes.php');  //used to autoload classes [modules, blocks]
-
-
 // add auto loading classes
-
-td_api_autoload::add('td_background_render', td_global::$get_template_directory . '/includes/wp_booster/td_background_render.php');
 td_api_autoload::add('td_css_inline', td_global::$get_template_directory . '/includes/wp_booster/td_css_inline.php');
 td_api_autoload::add('td_login', td_global::$get_template_directory . '/includes/wp_booster/td_login.php');
 td_api_autoload::add('td_category_template', td_global::$get_template_directory . '/includes/wp_booster/td_category_template.php');
@@ -100,16 +75,17 @@ td_api_autoload::add('td_block_layout', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_template_layout', td_global::$get_template_directory . '/includes/wp_booster/td_template_layout.php');
 td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/includes/wp_booster/td_css_compiler.php');
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
-//td_api_autoload::add('td_demo_site', td_global::$get_template_directory . '/includes/wp_booster/td_demo_site.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
 
-// tagdiv stacks importer
-require_once('td_demo_util.php');
-require_once('td_demo_installer.php');
 
-require_once('td_background.php');  //the background support
 
+/*
+add_action('wp_footer', 'td_wp_footer_debug');
+function td_wp_footer_debug() {
+    td_api_base::_debug_show_autoloaded_components();
+}
+*/
 
 
 /*
@@ -1790,7 +1766,9 @@ if (is_admin()) {
     require_once('wp-admin/panel/td_panel_generator.php');
     require_once('wp-admin/panel/td_panel_data_source.php');
 
-
+    // demo inmporter
+    require_once('wp-admin/panel/td_demo_installer.php');
+    require_once('wp-admin/panel/td_demo_util.php');
 
     if (current_user_can('switch_themes')) {
         // the panel

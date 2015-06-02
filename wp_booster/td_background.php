@@ -142,7 +142,7 @@ class td_background {
         }
 
 
-        // WE HAVE TO HAVE A IMAGE OR COLOR
+        // WE HAVE TO HAVE A IMAGE OR COLOR - @todo wtf needs to be refactorized
         new td_background_render($background_params);
     }
 
