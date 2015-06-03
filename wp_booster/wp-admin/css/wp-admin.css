@@ -336,7 +336,7 @@ a.td-tooltip {
   background-color: darkgray;
   width: 32px;
   height: 32px;
-  background-position: 0px 0px;
+  background-position: 0 0;
   position: absolute;
   top: 10px;
   left: 10px;
@@ -398,12 +398,15 @@ a.td-tooltip {
 .td-ico-social {
   background: transparent url("../images/panel/panel-icons/ico-social.png") no-repeat;
 }
+.td-ico-export {
+  background: transparent url("../images/panel/panel-icons/ico-export.png") no-repeat;
+}
 .td-panel-menu {
-  margin: 0px;
+  margin: 0;
   /* navigation links */
 }
 .td-panel-menu li {
-  margin: 0px;
+  margin: 0;
 }
 .td-panel-menu a {
   display: block;
@@ -437,7 +440,7 @@ a.td-tooltip {
   text-decoration: none;
   text-transform: uppercase;
   padding: 6px 10px 7px 10px;
-  margin: 11px 0px 1px 0px;
+  margin: 11px 0 1px 0;
   outline: 0;
   background-color: rgba(30, 30, 30, 0.5);
   font-family: 'Ubuntu', sans-serif;
@@ -452,7 +455,7 @@ a.td-tooltip {
   display: none;
   position: absolute;
   right: -5px;
-  top: 0px;
+  top: 0;
   background-color: darkgray;
   width: 32px;
   height: 53px;
@@ -480,8 +483,8 @@ a.td-tooltip {
 }
 .td-panel-menu .td-panel-menu-active:before {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   display: block;
   content: '';
   height: 4px;
@@ -494,8 +497,8 @@ a.td-tooltip {
 }
 .td-panel-menu .td-panel-menu-active:after {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
   display: block;
   content: '';
   height: 4px;
@@ -552,7 +555,7 @@ a.td-tooltip {
   overflow: hidden;
   background-color: rgba(34, 34, 34, 0.3);
 }
-#td-col-rigth {
+#td-col-right {
   float: left;
   width: 885px;
   position: relative;
@@ -2245,6 +2248,29 @@ title one row controls
   font-size: 15px;
   line-height: 25px;
 }
+.td-admin-wrap .td-plugin-required {
+  display: inline-block;
+  height: 21px;
+  z-index: 1;
+  position: absolute;
+  padding: 0 15px;
+  color: #fff;
+  font-size: 12px;
+  vertical-align: middle;
+  font-weight: 700;
+  text-transform: capitalize;
+  line-height: 21px;
+  letter-spacing: 0.2px;
+}
+.td-admin-wrap .td-plugin-required.required {
+  background-color: #aa0100;
+}
+.td-admin-wrap .td-plugin-required.recommended {
+  background-color: #3c80dc;
+}
+.td-admin-wrap .td-plugin-required.active {
+  background-color: #b0d029;
+}
 .td-admin-wrap .theme-screenshot {
   background-color: #fff;
   z-index: -1;
@@ -2406,6 +2432,46 @@ title one row controls
 }
 .media-sidebar .gallery-settings .setting select {
   float: right;
+}
+@font-face {
+  font-family: 'tagDiv';
+  src: url('../images/font/tagDiv.eot?m8e83u');
+  src: url('../images/font/tagDiv.eot?#iefixm8e83u') format('embedded-opentype'), url('../images/font/tagDiv.ttf?m8e83u') format('truetype'), url('../images/font/tagDiv.woff?m8e83u') format('woff'), url('../images/font/tagDiv.svg?m8e83u#tagDiv') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: 'tagDiv';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-tagdiv-ico:before {
+  content: "\e800";
+}
+#toplevel_page_td_cake_panel .dashicons-admin-generic:before,
+#toplevel_page_td_theme_welcome .dashicons-admin-generic:before {
+  font-family: 'tagDiv';
+  content: "\e800";
+  font-size: 14px;
+  top: 3px;
+  position: relative;
+}
+@-moz-document url-prefix() {
+  #toplevel_page_td_cake_panel .dashicons-admin-generic:before,
+  #toplevel_page_td_theme_welcome .dashicons-admin-generic:before {
+    top: 2px;
+  }
+}
+#adminmenu #toplevel_page_td_cake_panel.current .wp-menu-name span {
+  color: #fff !important;
 }
 .td-admin-title {
   position: relative;

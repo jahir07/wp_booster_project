@@ -41,7 +41,7 @@
                 </li>
             </ul>
         </div>
-        <div id="td-col-rigth" class="td-panel-content">
+        <div id="td-col-right" class="td-panel-content">
 
             <!-- import data -->
             <div id="td-panel-import" class="td-panel-active td-panel">
