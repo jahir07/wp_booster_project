@@ -789,7 +789,8 @@ a.td-tooltip {
   margin-right: 17px;
   margin-bottom: 13px;
 }
-.td-visual-selector-o-img {
+.td-visual-selector-o-img,
+.td-doc-image-homepage-loop {
   padding: 5px 5px 5px 5px;
   border: 1px solid #e6e6e6;
   transition: border-color 0.25s ease-out;
