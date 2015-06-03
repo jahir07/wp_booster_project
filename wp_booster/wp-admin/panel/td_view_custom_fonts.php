@@ -12,10 +12,11 @@ if(!empty($_REQUEST['td_option']) and $_REQUEST['td_option'] == 'save_fonts') {
 <form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_custom_fonts&td_option=save_fonts" method="post">
     <div class="td-container-wrap">
 
-        <div class="td-panel-main-header">
-            <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
-            <span><?php echo sprintf('%s - Theme panel', strtoupper(TD_THEME_NAME)) ?></span>
-        </div>
+	    <div class="td-panel-main-header">
+		    <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
+		    <span class="td-panel-header-name"><?php echo TD_THEME_NAME . ' - Theme panel'; ?></span>
+		    <span class="td-panel-header-version">version: <?php echo TD_THEME_VERSION; ?></span>
+	    </div>
 
 
         <div id="td-container-left">
@@ -24,8 +25,8 @@ if(!empty($_REQUEST['td_option']) and $_REQUEST['td_option'] == 'save_fonts') {
                     <ul class="td-panel-menu">
                         <li class="td-welcome-menu">
                             <a data-td-is-back="yes" class="td-panel-menu-active" href="?page=td_theme_panel">
-                                <span class="td-sp-nav-icon td-ico-welcome"></span>
-                                FONTS SETTINGS
+                                <span class="td-sp-nav-icon td-ico-typography"></span>
+                                CUSTOM FONTS
                                 <span class="td-no-arrow"></span>
                             </a>
                         </li>
@@ -39,7 +40,7 @@ if(!empty($_REQUEST['td_option']) and $_REQUEST['td_option'] == 'save_fonts') {
                         </li>
                     </ul>
                 </div>
-                <div id="td-col-rigth" class="td-panel-content">
+                <div id="td-col-right" class="td-panel-content">
 
 
                     <!-- Custom fonts files -->
