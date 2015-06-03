@@ -2499,6 +2499,46 @@ title one row controls
 .media-sidebar .gallery-settings .setting select {
   float: right;
 }
+@font-face {
+  font-family: 'tagDiv';
+  src: url('../images/font/tagDiv.eot?m8e83u');
+  src: url('../images/font/tagDiv.eot?#iefixm8e83u') format('embedded-opentype'), url('../images/font/tagDiv.ttf?m8e83u') format('truetype'), url('../images/font/tagDiv.woff?m8e83u') format('woff'), url('../images/font/tagDiv.svg?m8e83u#tagDiv') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: 'tagDiv';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-tagdiv-ico:before {
+  content: "\e800";
+}
+#toplevel_page_td_cake_panel .dashicons-admin-generic:before,
+#toplevel_page_td_theme_welcome .dashicons-admin-generic:before {
+  font-family: 'tagDiv';
+  content: "\e800";
+  font-size: 14px;
+  top: 3px;
+  position: relative;
+}
+@-moz-document url-prefix() {
+  #toplevel_page_td_cake_panel .dashicons-admin-generic:before,
+  #toplevel_page_td_theme_welcome .dashicons-admin-generic:before {
+    top: 2px;
+  }
+}
+#adminmenu #toplevel_page_td_cake_panel.current .wp-menu-name span {
+  color: #fff !important;
+}
 .td-admin-title {
   position: relative;
 }
