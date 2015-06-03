@@ -911,10 +911,10 @@ function custom_css_classes_for_vc_row_and_vc_column($class_string, $tag)
 
 
 // visual composer rewrite templates
-add_filter('vc_load_default_templates', 'my_custom_template_modify_array');
-function my_custom_template_modify_array($data) {
-    return array(); // This will remove all default templates
-}
+//add_filter('vc_load_default_templates', 'my_custom_template_modify_array');
+//function my_custom_template_modify_array($data) {
+//    return array(); // This will remove all default templates
+//}
 
 
 add_action('vc_load_default_templates_action','my_custom_template_for_vc');
