@@ -15,25 +15,48 @@ var td_wp_admin_demos = {
             jQuery('.td-wp-admin-demo .td-button-install-demo').click(function(event) {
                 event.preventDefault();
 
-                var td_confirm = confirm('Are you sure? This will import our predefined settings for the stack (background, template layouts, fonts, colors etc...). Please backup your settings to be sure that you don`t lose them by accident.');
-                if (td_confirm === true) {
-                    var demo_id = jQuery(this).data('demo-id');
+                var include_demo_content_check = jQuery(this).parent().parent().find('input[type=hidden]');
+                var demo_id = jQuery(this).data('demo-id');
+                var td_confirm = '';
 
-                    var include_demo_content_check = jQuery(this).parent().parent().find('input[type=hidden]');
-                    // check the checkbox, if we include demo content or not
-                    if (include_demo_content_check.val() == 'no') {
+
+
+                if (include_demo_content_check.val() == 'no') {
+                    // install no content
+                    td_confirm = confirm('' +
+                    'Install demo without content:\n' +
+                    '-----------------------------------------\n' +
+                    'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) \n\n' +
+                    'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n');
+
+                    if (td_confirm === true) {
                         td_wp_admin_demos._install_no_content(demo_id);
-                    } else {
+                    }
+                } else {
+                    // install with content
+                    td_confirm = confirm('' +
+                    'Install the full demo:\n' +
+                    '-----------------------------------------\n' +
+                    'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) and our sample content. \n\n' +
+                    'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n' +
+                    '-----------------------------------------\n' +
+                    'Uninstall: The demo can be fully uninstalled and the system will attempt to rollback to your previous state. Any content, menus and attachment created by the demo are removable via the uninstall button.');
+
+                    if (td_confirm === true) {
                         td_wp_admin_demos._install_full(demo_id);
                     }
                 }
+
             });
 
             // install without content
             jQuery('.td-wp-admin-demo .td-button-uninstall-demo').click(function(event) {
                 event.preventDefault();
 
-                var td_confirm = confirm('Are you sure? This will import our predefined settings for the stack (background, template layouts, fonts, colors etc...). Please backup your settings to be sure that you don`t lose them by accident.');
+                var td_confirm = confirm('' +
+                'Uninstall demo:\n' +
+                '-----------------------------------------\n' +
+                'Are you sure? The theme will remove all the installed content and settings and it will try to reverte your site to the previous state');
                 if (td_confirm === true) {
                     var demo_id = jQuery(this).data('demo-id');
                     td_wp_admin_demos._uninstall(demo_id);
