@@ -399,10 +399,22 @@ class td_demo_content {
             update_post_meta($page_id, '_wp_page_template', $params['template']);
         }
 
+
+        // on homepage latest articles
         if (!empty($params['td_layout'])) {
             $tmp_meta['td_layout'] = $params['td_layout'];
             update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
         }
+        if (!empty($params['list_custom_title_show'])) {
+            $tmp_meta['list_custom_title_show'] = $params['list_custom_title_show'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+        }
+        if (!empty($params['sidebar_id'])) {
+            $tmp_meta_sidebar['td_sidebar'] = $params['sidebar_id'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_sidebar);
+        }
+
+
 
         // set as homepage?
         if (!empty($params['homepage']) and $params['homepage'] === true) {
@@ -410,15 +422,12 @@ class td_demo_content {
             update_option( 'show_on_front', 'page' );
         }
 
+        // on the default template
         if (!empty($params['sidebar_position'])) {
             $tmp_meta_2['td_sidebar_position'] = $params['sidebar_position'];
             update_post_meta($page_id, 'td_page', $tmp_meta_2);
         }
 
-        if (!empty($params['list_custom_title_show'])) {
-            $tmp_meta['list_custom_title_show'] = $params['list_custom_title_show'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
-        }
 
         if (!empty($params['limit'])) {
             $tmp_meta['limit'] = $params['limit'];
