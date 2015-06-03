@@ -40,7 +40,7 @@ require_once "td_view_header.php";
 
 
         <div class="col">
-            <img src="//s.w.org/images/core/4.2/press-this.jpg">
+            <img src="<?php echo get_template_directory_uri()?>/images/panel/admin-panel/logo-panel.png">
         </div>
     </div>
 
