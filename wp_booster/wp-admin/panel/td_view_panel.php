@@ -58,7 +58,7 @@
 
                 <li>
                     <a href="?page=td_theme_panel&td_page=td_view_import_export_settings">
-                        <span class="td-sp-nav-icon <?php echo $panel_array['ico_class'] ?>"></span>
+                        <span class="td-sp-nav-icon td-ico-export"></span>
                         Import / export
                         <span class="td-arrow"></span>
                     </a>
@@ -66,7 +66,7 @@
 
             </ul>
         </div>
-        <div id="td-col-rigth" class="td-panel-content">
+        <div id="td-col-right" class="td-panel-content">
 
             <?php
             // show the panel views
