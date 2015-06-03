@@ -909,17 +909,29 @@ function custom_css_classes_for_vc_row_and_vc_column($class_string, $tag)
     return $class_string;
 }
 
+add_action('vc_load_default_templates','my_custom_template_for_vc');
+function my_custom_template_for_vc($templates) {
 
-// visual composer rewrite templates
-//add_filter('vc_load_default_templates', 'my_custom_template_modify_array');
-//function my_custom_template_modify_array($data) {
-//    return array(); // This will remove all default templates
-//}
-
-
-add_action('vc_load_default_templates_action','my_custom_template_for_vc');
-function my_custom_template_for_vc() {
     require_once(get_template_directory() . '/includes/td_templates_builder.php');
+
+	global $td_vc_templates;
+	global $vc_manager;
+
+	if (isset($vc_manager) and is_object($vc_manager) and method_exists($vc_manager, 'vc')) {
+		$vc = $vc_manager->vc();
+
+		if (isset($vc) and is_object($vc) and method_exists($vc, 'templatesPanelEditor')) {
+			$vc_template_panel_editor = $vc->templatesPanelEditor();
+
+			if (isset($vc_template_panel_editor)
+			    and is_object($vc_template_panel_editor)
+		        and has_filter('vc_load_default_templates_welcome_block', array($vc_template_panel_editor, 'loadDefaultTemplatesLimit'))) {
+
+				remove_filter('vc_load_default_templates_welcome_block', array($vc_template_panel_editor, 'loadDefaultTemplatesLimit'));
+			}
+		}
+	}
+	return $td_vc_templates;
 }
 
 
