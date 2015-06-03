@@ -100,6 +100,7 @@ $wp_plugin_list = get_plugins();
 
             <!-- Import content -->
             <div class="theme-screenshot">
+                <span class="td-plugin-required <?php echo $theme_plugin['required_label'] ?>"><?php echo $theme_plugin['required_label'] ?></span>
                 <img class="td-demo-thumb" src="<?php echo $theme_plugin['img'] ?>"/>
             </div>
 
