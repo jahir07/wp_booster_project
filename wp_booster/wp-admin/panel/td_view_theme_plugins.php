@@ -80,9 +80,11 @@ $wp_plugin_list = get_plugins();
     foreach ($theme_plugins as $theme_plugin) {
 
         $tmp_class = 'td-plugin-not-installed';
+        $required_label = $theme_plugin['required_label'];
 
         if (is_plugin_active( $theme_plugin['file_path'])) {
             $tmp_class = 'td-plugin-active';
+            $required_label = 'active';
         }
         else if (isset($wp_plugin_list[$theme_plugin['file_path']])) {
             $tmp_class = 'td-plugin-inactive';
@@ -100,7 +102,7 @@ $wp_plugin_list = get_plugins();
 
             <!-- Import content -->
             <div class="theme-screenshot">
-                <span class="td-plugin-required <?php echo $theme_plugin['required_label'] ?>"><?php echo $theme_plugin['required_label'] ?></span>
+                <span class="td-plugin-required <?php echo $required_label; ?>"><?php echo $required_label; ?></span>
                 <img class="td-demo-thumb" src="<?php echo $theme_plugin['img'] ?>"/>
             </div>
 

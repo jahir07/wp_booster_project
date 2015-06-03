@@ -2268,6 +2268,9 @@ title one row controls
 .td-admin-wrap .td-plugin-required.recommended {
   background-color: #3c80dc;
 }
+.td-admin-wrap .td-plugin-required.active {
+  background-color: #b0d029;
+}
 .td-admin-wrap .theme-screenshot {
   background-color: #fff;
   z-index: -1;
