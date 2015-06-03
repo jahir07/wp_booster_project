@@ -4,6 +4,20 @@
  */
 class td_demo_installer {
 
+    private $ignored_settings = array(
+        'tds_logo_upload',
+        'tds_logo_upload_r',
+        'tds_favicon_upload',
+        'tds_logo_menu_upload',
+        'tds_logo_menu_upload_r',
+        'tds_footer_logo_upload',
+        'tds_footer_retina_logo_upload',
+        'tds_site_background_image',
+        'category_options',
+        'td_ads',
+        'sidebars'
+    );
+
     function __construct() {
         //AJAX VIEW PANEL LOADING
         add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
@@ -113,6 +127,11 @@ class td_demo_installer {
         //read the settings file
         $file_settings = unserialize(base64_decode(file_get_contents($file_path, true)));
         td_global::$td_options = $file_settings;
+
+        foreach ($this->ignored_settings as $setting) {
+            td_global::$td_options[$setting] = '';
+        }
+
         //compile user css if any
         td_global::$td_options['tds_user_compile_css'] = td_css_generator();
         //write the changes to the database
