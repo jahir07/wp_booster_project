@@ -789,7 +789,8 @@ a.td-tooltip {
   margin-right: 17px;
   margin-bottom: 13px;
 }
-.td-visual-selector-o-img {
+.td-visual-selector-o-img,
+.td-doc-image-homepage-loop {
   padding: 5px 5px 5px 5px;
   border: 1px solid #e6e6e6;
   transition: border-color 0.25s ease-out;
@@ -2267,6 +2268,9 @@ title one row controls
 }
 .td-admin-wrap .td-plugin-required.recommended {
   background-color: #3c80dc;
+}
+.td-admin-wrap .td-plugin-required.active {
+  background-color: #b0d029;
 }
 .td-admin-wrap .theme-screenshot {
   background-color: #fff;
