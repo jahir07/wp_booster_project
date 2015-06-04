@@ -65,7 +65,6 @@ var td_detect = new function () {
 
     // detect ie10 - also adds the ie10 class //it also detects windows mobile IE as IE10
     if(navigator.userAgent.indexOf("MSIE 10.0") > -1){
-        this.html_jquery_obj.addClass("ie10");
         this.is_ie10 = true;
         this.is_ie = true;
         //alert('10');
@@ -73,7 +72,6 @@ var td_detect = new function () {
 
     //ie 11 check - also adds the ie11 class - it may detect ie on windows mobile
     if(!!navigator.userAgent.match(/Trident.*rv\:11\./)){
-        this.html_jquery_obj.addClass("ie11");
         this.is_ie11 = true;
         //this.is_ie = true; //do not flag ie11 as is_ie
         //alert('11');
@@ -98,7 +96,6 @@ var td_detect = new function () {
 
 
     if (/(iPad|iPhone|iPod)/g.test( navigator.userAgent )) {
-        this.html_jquery_obj.addClass('td_detect_is_ios'); //add class for ios
         this.is_ios = true;
     } else {
         this.is_ios = false;
@@ -136,8 +133,6 @@ var td_detect = new function () {
     var user_agent = navigator.userAgent.toLowerCase();
     if(user_agent.indexOf("android") > -1) {
         this.is_android = true;
-        // we use this class to fix android problems
-        this.html_jquery_obj.addClass('td_detect_is_android');
     }
 
 
