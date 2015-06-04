@@ -744,11 +744,11 @@
 
 
 
-    <!-- Custom Sidebar + position -->
+    <!-- Shop homepage + archives - custom Sidebar + position -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">CUSTOM SIDEBAR + POSITION</span>
-            <p>Sidebar position and custom sidebars</p>
+            <span class="td-box-title">Shop homepage + archives</span>
+            <p>Sidebar position and custom sidebar</p>
         </div>
         <div class="td-box-control-full td-panel-sidebar-pos">
             <div class="td-display-inline-block">
@@ -775,7 +775,44 @@
                 <div class="td-panel-control-comment td-text-align-right">Create or select an existing sidebar</div>
             </div>
         </div>
-</div>
+    </div>
+
+
+    <!-- Shop single product page - custom Sidebar + position -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Shop single product page</span>
+            <p>Sidebar position and custom sidebar</p>
+        </div>
+        <div class="td-box-control-full td-panel-sidebar-pos">
+            <div class="td-display-inline-block">
+                <?php
+                echo td_panel_generator::visual_select_o(array(
+                    'ds' => 'td_option',
+                    'option_id' => 'tds_woo-single_sidebar_pos',
+                    'values' => array(
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                    )
+                ));
+                ?>
+                <div class="td-panel-control-comment td-text-align-right">Select sidebar position</div>
+            </div>
+            <div class="td-display-inline-block td_sidebars_pulldown_align">
+                <?php
+                echo td_panel_generator::sidebar_pulldown(array(
+                    'ds' => 'td_option',
+                    'option_id' => 'tds_woo-single_sidebar'
+                ));
+                ?>
+                <div class="td-panel-control-comment td-text-align-right">Create or select an existing sidebar</div>
+            </div>
+        </div>
+    </div>
+
+
+
 <?php echo td_panel_generator::box_end();?>
 
 

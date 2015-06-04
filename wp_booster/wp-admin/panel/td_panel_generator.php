@@ -28,12 +28,15 @@ class td_panel_generator {
 
         //read the user created menu from wordpress
         $td_menus_array = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
-        foreach ($td_menus_array as $td_menu) {
-            self::$td_user_created_menus[] = array(
-                'val' => $td_menu->term_id,
-                'text' => $td_menu->name
-            );
+        if (is_array($td_menus_array)) {
+            foreach ($td_menus_array as $td_menu) {
+                self::$td_user_created_menus[] = array(
+                    'val' => $td_menu->term_id,
+                    'text' => $td_menu->name
+                );
+            }
         }
+
 
         //adding empty val
         self::$td_user_created_menus[] = array(
