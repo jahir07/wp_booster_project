@@ -1,6 +1,23 @@
 <?php
 require_once "td_view_header.php";
 
+
+/*
+
+td_demo_widgets::remove();
+td_demo_widgets::add_sidebar('td_demo_xxx');
+
+
+td_demo_content::remove();
+td_demo_content::add_page(array(
+    'title' => 'About Me',
+    'file' => td_global::$get_template_directory . '/includes/demos/blog/pages/about.txt',
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'td_layout' => '',
+    'homepage' => false,
+    'sidebar_id' => 'td_demo_xxx'
+));
+*/
 /*
 td_demo_content::remove();
 $td_aboutme_id = td_demo_content::add_page(array(

@@ -412,6 +412,9 @@ class td_demo_content {
         if (!empty($params['sidebar_id'])) {
             $tmp_meta_sidebar['td_sidebar'] = $params['sidebar_id'];
             update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_sidebar);
+
+            $tmp_meta_2_2['td_sidebar'] = $params['sidebar_id'];
+            update_post_meta($page_id, 'td_page', $tmp_meta_2_2);
         }
 
 
@@ -426,6 +429,9 @@ class td_demo_content {
         if (!empty($params['sidebar_position'])) {
             $tmp_meta_2['td_sidebar_position'] = $params['sidebar_position'];
             update_post_meta($page_id, 'td_page', $tmp_meta_2);
+
+            $tmp_meta_2_33['td_sidebar_position'] = $params['sidebar_position'];
+            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_2_33);
         }
 
 
