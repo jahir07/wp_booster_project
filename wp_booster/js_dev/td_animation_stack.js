@@ -85,6 +85,21 @@ var td_animation_stack = {
      */
     ready_init: function ready_init() {
 
+        // - special case for IE8 and IE9
+        // - the animation is forced removed and the altered css body is cleaned
+        if (td_detect.is_ie8 || td_detect.is_ie9) {
+            td_animation_stack._ready_for_initialization = false;
+
+            if (window.td_animation_stack_effect != undefined) {
+                if (window.td_animation_stack_effect == '') {
+                    window.td_animation_stack_effect = td_animation_stack._animation_default_effect;
+                }
+                jQuery('body').removeClass('td-animation-stack-' + window.td_animation_stack_effect);
+            }
+            return;
+        }
+
+
         if (window.tds_animation_stack != undefined && window.td_animation_stack_effect != undefined) {
 
             // the td_animation_stack._specific_selectors is set by the global variable window.td_animation_stack_specific_selectors

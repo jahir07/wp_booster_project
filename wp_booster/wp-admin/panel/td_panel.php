@@ -90,15 +90,15 @@ class td_panel {
 
         // load the view based on the td_page parameter
         if (!empty($_REQUEST['td_page'])) {
-            if ($_REQUEST['td_page'] == 'td_view_import') {
-                include 'td_view_import.php';
-            }
 
-            elseif ($_REQUEST['td_page'] == 'td_view_import_export_settings') {
+            if ($_REQUEST['td_page'] == 'td_view_import_export_settings') {
                 include 'td_view_import_export_settings.php';
             }
             elseif ($_REQUEST['td_page'] == 'td_view_custom_fonts') {
                 include 'td_view_custom_fonts.php';
+            }
+            elseif ($_REQUEST['td_page'] == 'td_view_update_newspaper_6') {
+                include 'td_view_update_newspaper_6.php';
             }
 
 

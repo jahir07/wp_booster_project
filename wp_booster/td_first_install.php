@@ -37,14 +37,11 @@ td_after_theme_is_activated();
 
 
 function td_theme_migration() {
+	$td_db_version = td_util::get_option('td_version');
 
-//	if (defined('TD_DEPLOY_MODE') and ((TD_DEPLOY_MODE == 'demo') or (TD_DEPLOY_MODE == 'dev'))) {
-//		return;
-//	}
 
-	$current_version = td_util::get_option('td_version');
-
-	if (empty($current_version) or (!empty($current_version) and version_compare($current_version, TD_THEME_VERSION, '<'))) {
+    // empty -> any version
+	if (empty($td_db_version)) {
 
 		// wp_parse_args format
 		$args = array(
@@ -60,7 +57,7 @@ function td_theme_migration() {
 				array('key' => 'td_smart_list'),
 				array('key' => 'td_review')
 			),
-			update_post_term_cache => false,
+			'update_post_term_cache' => false,
 		);
 
 		$recent_posts = wp_get_recent_posts($args);
@@ -87,7 +84,7 @@ function td_theme_migration() {
 				$update_td_homepage_loop = true;
 			}
 
-			if ($update_td_homepage_loop == true) {
+			if ($update_td_homepage_loop === true) {
 				update_post_meta($recent_post['ID'], 'td_homepage_loop', $td_homepage_loop[0]);
 			}
 
@@ -112,14 +109,14 @@ function td_theme_migration() {
 				$update_td_post_theme_settings = true;
 			}
 
-			if ($update_td_post_theme_settings == true) {
+			if ($update_td_post_theme_settings === true) {
 				update_post_meta($recent_post['ID'], 'td_post_theme_settings', $td_post_theme_settings[0]);
 			}
 
-			delete_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
-			delete_post_meta($recent_post['ID'], 'td_unique_articles');
-			delete_post_meta($recent_post['ID'], 'td_smart_list');
-			delete_post_meta($recent_post['ID'], 'td_review');
+			//delete_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
+			//delete_post_meta($recent_post['ID'], 'td_unique_articles');
+			//delete_post_meta($recent_post['ID'], 'td_smart_list');
+			//delete_post_meta($recent_post['ID'], 'td_review');
 		}
 
 		// the following delete operations must be done
@@ -127,8 +124,14 @@ function td_theme_migration() {
 		//delete_post_meta_by_key('td_unique_articles');
 		//delete_post_meta_by_key('td_smart_list');
 		//delete_post_meta_by_key('td_review');
-
-		td_util::update_option('td_version', TD_THEME_VERSION);
 	}
+
+
+    // update the database version
+    if ($td_db_version != TD_THEME_VERSION) {
+        td_util::update_option('td_version', TD_THEME_VERSION);
+    }
+
+
 }
-//td_theme_migration();
+td_theme_migration();

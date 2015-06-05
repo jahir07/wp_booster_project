@@ -34,8 +34,13 @@ require_once "td_view_header.php";
     <div class="feature-section two-col">
         <div class="col">
             <h3>Fast start:</h3>
-            <p>Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="">plugins panel</a></p>
-            <p><a href="">Try our demos</a> on your testing site. Our demo system supports complete uninstalling + rollback to your original site.</p>
+            <p>Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a></p>
+            <p><a href="admin.php?page=td_theme_demos">Try our demos</a> on your testing site. Our demo system supports complete uninstalling + rollback to your original site.</p>
+
+
+            <h3>Update from Newspaper 4:</h3>
+            <p>To update from version 4 please run this <a href="admin.php?page=td_theme_panel&td_page=td_view_update_newspaper_6" onclick="return confirm('Are you sure? Please backup your site before running the update script!')">update script</a>. Note: please backup your site before updating!</p>
+
         </div>
 
 

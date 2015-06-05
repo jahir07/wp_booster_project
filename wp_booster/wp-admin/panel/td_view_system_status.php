@@ -40,6 +40,14 @@ require_once "td_view_header.php";
         'status' => 'info'
     ));
 
+    // Theme database version
+    td_system_status::add('Theme config', array(
+        'check_name' => 'Theme database version',
+        'tooltip' => '',
+        'value' =>  td_util::get_option('td_version'),
+        'status' => 'info'
+    ));
+
     // speed booster
     if (defined('TD_SPEED_BOOSTER')) {
         if (defined('TD_SPEED_BOOSTER_INCOMPATIBLE')) {
