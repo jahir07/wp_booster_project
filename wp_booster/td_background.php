@@ -166,7 +166,7 @@ class td_background {
             //get the category bg color
             $tdc_bg_color = td_util::get_category_option($category_id, 'tdc_bg_color');
             if (!empty($tdc_bg_color)) {
-                $background_params['theme_bg_image'] = $tdc_bg_color;
+                $background_params['theme_bg_color'] = $tdc_bg_color;
                 $background_params['is_boxed_layout'] = true;
             }
 
