@@ -57,7 +57,12 @@ add_filter( 'tiny_mce_before_init', 'td_mce_before_init_insert_formats' );
 
 // Callback function to insert 'styleselect' into the $buttons array
 function td_mce_buttons_2( $buttons ) {
+    //if ( 'content' != $id ) return $buttons;
+
+    array_splice( $buttons, 4, 0, 'backcolor' );
+
     array_unshift( $buttons, 'styleselect' );
+
     return $buttons;
 }
 // Register our callback to the appropriate filter

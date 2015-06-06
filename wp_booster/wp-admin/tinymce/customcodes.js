@@ -28,21 +28,6 @@
                 }},
 
 
-                {text: 'Dropcaps', classes: 'td_tinymce_dropdown_title'},
-                {text: 'Box', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[dropcap]' + tinyMCE.activeEditor.selection.getContent() + '[/dropcap]');
-                }},
-                {text: 'Circle', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[dropcap type="1"]' + tinyMCE.activeEditor.selection.getContent() + '[/dropcap]');
-                }},
-                {text: 'Regular', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[dropcap type="2"]' + tinyMCE.activeEditor.selection.getContent() + '[/dropcap]');
-                }},
-                {text: 'Bold', onclick : function() {
-                    tinymce.activeEditor.execCommand('mceInsertContent', false, '[dropcap type="3"]' + tinyMCE.activeEditor.selection.getContent() + '[/dropcap]');
-                }},
-
-
                 {text: 'Button', classes: 'td_tinymce_dropdown_title'},
                 {text: 'Default', onclick : function() {
                     tinymce.activeEditor.execCommand('mceInsertContent', false, '[button color="" size="" type="" target="" link=""]' + tinyMCE.activeEditor.selection.getContent() + '[/button]');
