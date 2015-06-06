@@ -18,7 +18,7 @@ abstract class td_smart_list {
 
         //read the smart list settings
         global $post;
-        $td_smart_list = get_post_meta($post->ID, 'td_smart_list', true);
+        $td_smart_list = get_post_meta($post->ID, 'td_post_theme_settings', true);
 
 
 
