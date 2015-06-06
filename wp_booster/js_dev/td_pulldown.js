@@ -338,6 +338,13 @@ var td_pulldown = {
         }
 
 
+
+        // the horizontal header margin is set 0 and the horizontal space is computing without its margin
+        // @see td_pulldown._prepare_horizontal_header
+        td_pulldown._prepare_horizontal_header(item, true);
+
+
+
         // - the space where horizontal elements lie
         // - it is the container width minus any extra horizontal space
         var space_for_horizontal_elements = 0;
@@ -381,6 +388,14 @@ var td_pulldown = {
 
                 // all elements are moved to the vertical list
                 td_pulldown._make_all_elements_vertical(item);
+
+
+
+
+                // the horizontal header margin is set before return
+                td_pulldown._prepare_horizontal_header(item);
+
+
 
                 // the following checks are not more eligible to do
                 return;
@@ -434,6 +449,13 @@ var td_pulldown = {
                     local_space += local_current_element.calculated_width;
                     local_minimum_elements--;
                 } else {
+
+
+
+                    // the horizontal header margin is set before return
+                    td_pulldown._prepare_horizontal_header(item);
+
+
                     return;
                 }
 
@@ -454,6 +476,12 @@ var td_pulldown = {
             if (local_current_element != null) {
                 space_for_horizontal_elements -= local_current_element.calculated_width;
             } else {
+
+
+                // the horizontal header margin is set before return
+                td_pulldown._prepare_horizontal_header(item);
+
+
                 return;
             }
         }
@@ -464,6 +492,39 @@ var td_pulldown = {
         if ((item._vertical_elements.length == 1)
             && (space_for_horizontal_elements + item._vertical_jquery_obj_outer_width >= item._vertical_elements[0].calculated_width)) {
             td_pulldown._make_element_horizontal(item);
+        }
+
+
+        // the horizontal header margin is set before return
+        td_pulldown._prepare_horizontal_header(item);
+    },
+
+
+    /**
+     * - add margin to the element with '.block-title' css class, to keep the vertical_jquery_obj not overlapping over it when
+     * there are no horizontal elements
+     * @param item td_pulldown.item
+     * @param clear_margin boolean True to just clear margin, or false to check the horizontal elements length and then set the margin
+     * @private
+     */
+    _prepare_horizontal_header: function _prepare_horizontal_header(item, clear_margin) {
+        var block_title_jquery_obj = item.horizontal_jquery_obj.parent().siblings('.block-title:first');
+
+        if (block_title_jquery_obj.length) {
+            var content_element = block_title_jquery_obj.find('span:first');
+
+            if (content_element.length) {
+
+                if (undefined != typeof(clear_margin) && clear_margin == true) {
+                    content_element.css('margin-right', 0);
+                } else {
+                    if (item._horizontal_elements.length == 0) {
+                        content_element.css('margin-right', item._vertical_jquery_obj_outer_width + 'px');
+                    } else {
+                        content_element.css('margin-right', 0);
+                    }
+                }
+            }
         }
     },
 
