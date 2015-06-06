@@ -502,7 +502,7 @@ var td_pulldown = {
 
     /**
      * - add margin to the element with '.block-title' css class, to keep the vertical_jquery_obj not overlapping over it when
-     * there are no horizontal elements
+     * there are no horizontal elements and it is too wide [more strings in name]
      * @param item td_pulldown.item
      * @param clear_margin boolean True to just clear margin, or false to check the horizontal elements length and then set the margin
      * @private
