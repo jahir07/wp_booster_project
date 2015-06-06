@@ -193,7 +193,7 @@ var td_viewport = {
 
                         "height": "1px",
                         "position": "absolute",
-                        "top": "-1",
+                        "top": "-1px",
                         "left": "0",
                         "right": "0",
                         "visibility": "hidden",
