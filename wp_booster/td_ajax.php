@@ -4,10 +4,8 @@
 
 
 function td_ajax_block(){
-    global $post;
+
     //get the data from ajax() call
-
-
     $td_atts = '';              //original block atts
     $td_column_number = 0;      //should not be 0 (1 - 2 - 3)
     $td_current_page = 1;       //the current page of the block
@@ -133,27 +131,11 @@ function td_ajax_block(){
         }
     }
 
-
-
     //file_put_contents('d:\filename.txt', print_r($_POST, true));
-
-
-    //file_put_contents('d:\filename.txt', print_r($td_atts, true));
-
-
-
-
-
-
     $td_query = &td_data_source::get_wp_query($td_atts, $td_current_page); //by ref  do the query
 
-
     $buffy ='';
-
-
     $buffy .= td_global_blocks::get_instance($block_type)->inner($td_query->posts, $td_column_number, '', true);
-
-
 
     //pagination
     $td_hide_prev = false;
@@ -162,11 +144,9 @@ function td_ajax_block(){
         $td_hide_prev = true; //hide link on page 1
     }
 
-
     if ($td_current_page >= $td_query->max_num_pages ) {
 	    $td_hide_next = true; //hide link on last page
     }
-
 
     $buffyArray = array(
         'td_data' => $buffy,
@@ -217,7 +197,12 @@ function td_ajax_search() {
         $buffy = '<div class="result-msg no-result">' . __td('No results', TD_THEME_NAME) . '</div>';
     } else {
         //show the resutls
-        $buffy_msg .= '<div class="result-msg"><a href="' . get_search_link($td_string) . '">' . __td('View all results', TD_THEME_NAME) . '</a></div>';
+        /**
+         * @note:
+         * we use esc_url(home_url( '/' )) instead of the WordPress @see get_search_link function because that's what the internal
+         * WordPress widget it's using and it was creating duplicate links like: yoursite.com/search/search_query and yoursite.com?s=search_query
+         */
+        $buffy_msg .= '<div class="result-msg"><a href="' . esc_url(home_url('/?s=' . $td_string )) . '">' . __td('View all results', TD_THEME_NAME) . '</a></div>';
         //add wrap
         $buffy = '<div class="td-aj-search-results">' . $buffy . '</div>' . $buffy_msg;
     }

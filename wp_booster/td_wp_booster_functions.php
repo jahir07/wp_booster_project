@@ -896,8 +896,7 @@ function td_vc_kill_welcome() {
  * Filter to Replace default css class for vc_row shortcode and vc_column
  */
 add_filter('vc_shortcodes_css_class', 'custom_css_classes_for_vc_row_and_vc_column', 10, 2);
-function custom_css_classes_for_vc_row_and_vc_column($class_string, $tag)
-{
+function custom_css_classes_for_vc_row_and_vc_column($class_string, $tag) {
     //vc_span4
     if ($tag == 'vc_row' || $tag == 'vc_row_inner') {
         $class_string = str_replace('vc_row-fluid', 'td-pb-row', $class_string);

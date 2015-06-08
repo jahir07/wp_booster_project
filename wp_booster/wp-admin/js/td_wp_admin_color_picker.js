@@ -1,4 +1,5 @@
-
+// @tagDiv - used on widgets? when we have a color select
+// @todo lamurita treaba asta
 // by https://github.com/Codestar/codestar-wp-color-picker
 
 // the semi-colon before the function invocation is a safety

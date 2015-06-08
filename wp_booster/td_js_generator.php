@@ -6,9 +6,6 @@ function td_js_generator() {
     td_js_buffer::add_variable('tds_logo_on_sticky', td_util::get_option('tds_logo_on_sticky'));
     td_js_buffer::add_variable('tds_header_style', td_util::get_option('tds_header_style'));
 
-
-    td_js_buffer::add_variable('td_search_url', get_search_link());
-
     td_js_buffer::add_variable('td_please_wait', __td('Please wait...', TD_THEME_NAME));
     td_js_buffer::add_variable('td_email_user_pass_incorrect', __td('User or password incorrect!', TD_THEME_NAME));
     td_js_buffer::add_variable('td_email_user_incorrect', __td('Email or username incorrect!', TD_THEME_NAME));
