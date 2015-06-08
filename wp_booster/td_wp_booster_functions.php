@@ -645,7 +645,7 @@ function td_bottom_code() {
 							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
 
 							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
-								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '');
+								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '').replace(/^\s+|\s+$/gm,'');
 							});
 
 							jQuery('head').append("<style>" + formated_str + "</style>");
