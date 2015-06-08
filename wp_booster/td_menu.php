@@ -112,7 +112,7 @@ class td_menu {
 
                         $sub_categories_count = 0;
                         foreach ($td_subcategories as $td_category) {
-                            if ($sub_categories_count == $td_render_atts['show_child_cat']) { // only show 5 subcategories in the mobile menu - the same limit applies to the mega menu
+                            if (isset($td_render_atts['show_child_cat']) and is_int($td_render_atts['show_child_cat']) and $sub_categories_count == $td_render_atts['show_child_cat']) { // only show 5 subcategories in the mobile menu - the same limit applies to the mega menu
                                 break;
                             }
                             $new_item = $this->generate_wp_post();
