@@ -77,7 +77,7 @@
                     ?>
                 </select>
             </div>
-            <span class="td-page-o-info">If the posts has multiple categories, the one selected here will be used for settings and it appear on labels.</span>
+            <span class="td-page-o-info">If the posts has multiple categories, the one selected here will be used for settings and it appears in the category labels.</span>
         </div>
 
 
