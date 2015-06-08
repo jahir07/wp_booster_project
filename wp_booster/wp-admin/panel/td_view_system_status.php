@@ -58,12 +58,23 @@ require_once "td_view_header.php";
                 'status' => 'yellow'
             ));
         } else {
-            td_system_status::add('Theme config', array(
-                'check_name' => 'Speed Booster',
-                'tooltip' => '',
-                'value' =>  TD_SPEED_BOOSTER . ' - Active',
-                'status' => 'info'
-            ));
+            if (version_compare(TD_SPEED_BOOSTER, 'v4.0', '<')) {
+                td_system_status::add('Theme config', array(
+                    'check_name' => 'Speed Booster',
+                    'tooltip' => '',
+                    'value' =>  TD_SPEED_BOOSTER . ' - Old version of speed booster detected. Please uninstall it!',
+                    'status' => 'red'
+                ));
+            } else {
+                td_system_status::add('Theme config', array(
+                    'check_name' => 'Speed Booster',
+                    'tooltip' => '',
+                    'value' =>  TD_SPEED_BOOSTER . ' - Active',
+                    'status' => 'info'
+                ));
+            }
+
+
         }
 
 
@@ -345,6 +356,9 @@ require_once "td_view_header.php";
                                             break;
                                         case 'yellow':
                                             echo '<div class="td-system-status-led td-system-status-yellow td-tooltip" data-position="right" title="Yellow status: this setting may affect the backend of the site. The front end should still run as expected. We recommend that you fix this."></div>';
+                                            break;
+                                        case 'red' :
+                                            echo '<div class="td-system-status-led td-system-status-red td-tooltip" data-position="right" title="Red status: the site may not work as expected with this option."></div>';
                                             break;
                                         case 'info':
                                             echo '<div class="td-system-status-led td-system-status-info td-tooltip" data-position="right" title="Info status: this is just for information purposes and easier debug if a problem appears">i</div>';

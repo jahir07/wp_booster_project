@@ -1,14 +1,9 @@
-/* ========================================================================
- * Bootstrap: tooltip.js v3.3.4
- * http://getbootstrap.com/javascript/#tooltip
- * Inspired by the original jQuery.tipsy by Jason Frame
- * ========================================================================
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
 
 
-// hook the bootstrap tooltip
+
+
+// hook the tooltip
+//
 jQuery().ready(function() {
 
     jQuery('.td-tooltip').each(function( index ) {
@@ -26,11 +21,9 @@ jQuery().ready(function() {
             //autoClose:false
         });
     });
-
-
-
-
 });
+
+
 
 
 /*

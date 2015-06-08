@@ -30,6 +30,7 @@ var td_wp_admin_demos = {
                     'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n');
 
                     if (td_confirm === true) {
+                        td_wp_admin_demos._block_navigation();
                         td_wp_admin_demos._install_no_content(demo_id);
                     }
                 } else {
@@ -43,13 +44,14 @@ var td_wp_admin_demos = {
                     'Uninstall: The demo can be fully uninstalled and the system will attempt to rollback to your previous state. Any content, menus and attachment created by the demo are removable via the uninstall button.');
 
                     if (td_confirm === true) {
+                        td_wp_admin_demos._block_navigation();
                         td_wp_admin_demos._install_full(demo_id);
                     }
                 }
 
             });
 
-            // install without content
+            // uninstall
             jQuery('.td-wp-admin-demo .td-button-uninstall-demo').click(function(event) {
                 event.preventDefault();
 
@@ -334,6 +336,8 @@ var td_wp_admin_demos = {
     },
 
     _ui_install_end: function (demo_id) {
+        td_wp_admin_demos._unblock_navigation();
+
         td_wp_progress_bar.change(100);
 
 
@@ -352,7 +356,19 @@ var td_wp_admin_demos = {
 
         }, 500);
 
+    },
+
+
+
+    _block_navigation: function () {
+        window.onbeforeunload = function() {
+            return "Are you sure you want to navigate away? The demo is still installing. If it's stuck, refresh this page and Uninstall the demo, it should bring your site to the previous state";
+        }
+    },
+    _unblock_navigation: function() {
+        window.onbeforeunload = '';
     }
+
 
 
 

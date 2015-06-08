@@ -46,8 +46,12 @@ class td_video_playlist_render {
                 $td_column_number = 2;
             }
         } else {
-            //page
-            $td_column_number = td_util::vc_get_column_number(); // get the column width of the block
+            if (td_global::$cur_single_template_sidebar_pos == 'no_sidebar') {
+                $td_column_number = 3;
+            } else {
+                //page
+                $td_column_number = td_util::vc_get_column_number(); // get the column width of the block
+            }
         }
 
         $td_current_column = 1; //the current column

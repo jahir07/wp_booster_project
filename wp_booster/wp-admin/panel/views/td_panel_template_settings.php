@@ -606,7 +606,7 @@
     <div class="td-box-description td-box-full">
         <p>Select the layout for the search page.</p>
         <ul>
-            <li>Check a <a href="<?php echo get_search_link('and') ?>" target="_blank">sample search page</a> from your site.</li>
+            <li>Check a <a href="<?php echo esc_url(home_url('/?s=and')) /** @see page-search-box.php */?>" target="_blank">sample search page</a> from your site.</li>
             <li>This template is located in <strong>search.php</strong> file.</li>
         </ul>
     </div>
