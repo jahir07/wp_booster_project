@@ -134,7 +134,7 @@ var td_youtube_player = {
             window.onYouTubePlayerAPIReady = function() {
                 td_youtube_player.loadPlayer(td_youtube_player.td_player_container, videoId);
             };
-            jQuery.getScript('//www.youtube.com/player_api');
+            jQuery.getScript('https://www.youtube.com/player_api');
         } else {
             td_youtube_player.loadPlayer(td_youtube_player.td_player_container, videoId);
         }
@@ -259,7 +259,7 @@ var td_vimeo_playlist_obj = {
 
 
             jQuery('.td_wrapper_playlist_player_vimeo').html('');
-            jQuery('.td_wrapper_playlist_player_vimeo').html('<iframe id="player_vimeo_1" src="//player.vimeo.com/video/' + video_id + '?api=1&player_id=player_vimeo_1' + vimeo_iframe_autoplay + '"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');//width="100%" height="100%"
+            jQuery('.td_wrapper_playlist_player_vimeo').html('<iframe id="player_vimeo_1" src="https://player.vimeo.com/video/' + video_id + '?api=1&player_id=player_vimeo_1' + vimeo_iframe_autoplay + '"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');//width="100%" height="100%"
 
             this.create_vimeo_object_player(jQuery);
         }
