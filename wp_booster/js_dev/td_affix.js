@@ -237,7 +237,7 @@ var td_affix = {
                         }
 
 
-                        if (offset == -(td_affix.main_menu_height)) {
+                        if (offset == -td_affix._get_menu_affix_height()) {
                             td_affix.menu_offset_max_hit = true;
                             //also hide the menu when it's 100% out of view on ios - the safari header is transparent and we can see the menu
                             if(td_detect.is_ios === true || td_detect.is_safari) { // safari also
@@ -292,7 +292,7 @@ var td_affix = {
         td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top + jQuery(td_affix.menu_wrap_selector).height();
 
         //check to see if the menu is at the top of the screen
-        if (td_affix.top_offset == 1) {
+        if (td_affix.top_offset == (jQuery(td_affix.menu_wrap_selector).height()) + 1) {
             //switch to affix - because the menu is at the top of the page
             //td_affix._affix_on(jQuery(td_affix.menu_selector));
             td_affix.is_top_menu = true;
@@ -347,7 +347,9 @@ var td_affix = {
             // Bug.Fix - affix menu flickering
             // - the td_affix_menu_element is hidden because he is outside of the viewport
             // - without it, there's a flicker effect of applying css style (classes) over it
-            td_affix_menu_element.css('visibility', 'hidden');
+            if (td_detect.is_phone_screen !== true) {
+                td_affix_menu_element.css('visibility', 'hidden');
+            }
 
             //add body-td-affix class on body for header style 8 -> when scrolling down the window jumps 76px up when the menu is changing from header style 8 default to header style 8 affix
             jQuery('body').addClass('body-td-affix');
@@ -356,7 +358,9 @@ var td_affix = {
         } else {
 
             // the td_affix_menu element is kept visible
-            td_affix_menu_element.css('visibility', '');
+            if (td_detect.is_phone_screen !== true) {
+                td_affix_menu_element.css('visibility', '');
+            }
         }
     },
 
