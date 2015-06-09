@@ -18,6 +18,7 @@ var td_affix = {
 
 
     menu_affix_height: 0, // the menu affix height [the height when it's really affix]
+    menu_affix_height_on_mobile: 0, // the menu affix height on mobile [the height when it's really affix]
 
 
     main_menu_height: 0, // main menu height
@@ -51,6 +52,7 @@ var td_affix = {
         td_affix.tds_snap_menu = atts.tds_snap_menu;
         td_affix.tds_snap_menu_logo = atts.tds_snap_menu_logo;
         td_affix.menu_affix_height = atts.menu_affix_height;
+        td_affix.menu_affix_height_on_mobile = atts.menu_affix_height_on_mobile;
 
         //the snap menu is disabled from the panel
         if (!td_affix.tds_snap_menu) {
@@ -85,6 +87,22 @@ var td_affix = {
 
 
     },
+
+
+    /**
+     * - get the real affix height
+     * @returns {number} affix height
+     * @private
+     */
+    _get_menu_affix_height: function _get_menu_affix_height() {
+
+        if (td_detect.is_phone_screen === true) {
+            return td_affix.menu_affix_height_on_mobile;
+        }
+        return td_affix.menu_affix_height;
+    },
+
+
 
     /**
      * called by td_events.js on scroll
@@ -143,7 +161,7 @@ var td_affix = {
             // - the affix is OFF when the next condition is not accomplished, which means that the affix is ON
             // and the scroll to the top is LOWER than the initial td_affix.top_offset reduced by the affix real height
             // - this condition makes the transition from the small affix menu to the larger menu of the page
-            || ((td_affix.is_menu_affix === true) && scrollTop > (td_affix.top_offset - td_affix.menu_affix_height))
+            || ((td_affix.is_menu_affix === true) && scrollTop > (td_affix.top_offset - td_affix._get_menu_affix_height()))
 
             || td_affix.is_top_menu === true) {
 
@@ -186,8 +204,8 @@ var td_affix = {
 
                                 // the offset is a value in the [-td_affix.menu_affix_height, 0] and
                                 // not into the interval [-td_affix.main_menu_height, 0]
-                                if (offset < -td_affix.menu_affix_height) {
-                                    offset = -td_affix.menu_affix_height;
+                                if (offset < -td_affix._get_menu_affix_height()) {
+                                    offset = -td_affix._get_menu_affix_height();
                                 }
 
                             } else if (scroll_direction == 'up') {

@@ -114,8 +114,8 @@ var td_events = {
             //resize event
             if (td_events.resize_event_slow_run) {
                 td_events.resize_event_slow_run = false;
-                td_affix.compute_top();
                 td_affix.compute_wrapper();
+                td_affix.compute_top();
                 td_detect.run_is_phone_screen();
 
 
