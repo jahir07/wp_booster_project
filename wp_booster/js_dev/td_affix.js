@@ -16,6 +16,11 @@ var td_affix = {
     tds_snap_menu: '', //the panel setting
     tds_snap_menu_logo: '', //the panel setting
 
+
+    menu_affix_height: 0, // the menu affix height [the height when it's really affix]
+    menu_affix_height_on_mobile: 0, // the menu affix height on mobile [the height when it's really affix]
+
+
     main_menu_height: 0, // main menu height
     top_offset: 0, //how much the menu is moved from the original position when it's affixed
     menu_offset: 0, //used to hide the menu on scroll
@@ -46,6 +51,8 @@ var td_affix = {
         td_affix.menu_wrap_selector = atts.menu_wrap_selector;
         td_affix.tds_snap_menu = atts.tds_snap_menu;
         td_affix.tds_snap_menu_logo = atts.tds_snap_menu_logo;
+        td_affix.menu_affix_height = atts.menu_affix_height;
+        td_affix.menu_affix_height_on_mobile = atts.menu_affix_height_on_mobile;
 
         //the snap menu is disabled from the panel
         if (!td_affix.tds_snap_menu) {
@@ -80,6 +87,22 @@ var td_affix = {
 
 
     },
+
+
+    /**
+     * - get the real affix height
+     * @returns {number} affix height
+     * @private
+     */
+    _get_menu_affix_height: function _get_menu_affix_height() {
+
+        if (td_detect.is_phone_screen === true) {
+            return td_affix.menu_affix_height_on_mobile;
+        }
+        return td_affix.menu_affix_height;
+    },
+
+
 
     /**
      * called by td_events.js on scroll
@@ -133,7 +156,14 @@ var td_affix = {
 
 
         //if the menu is in the affix state
-        if (scrollTop > td_affix.top_offset || td_affix.is_top_menu === true) {
+        if ((scrollTop > td_affix.top_offset)
+
+            // - the affix is OFF when the next condition is not accomplished, which means that the affix is ON
+            // and the scroll to the top is LOWER than the initial td_affix.top_offset reduced by the affix real height
+            // - this condition makes the transition from the small affix menu to the larger menu of the page
+            || ((td_affix.is_menu_affix === true) && scrollTop > (td_affix.top_offset - td_affix._get_menu_affix_height()))
+
+            || td_affix.is_top_menu === true) {
 
             //get the menu element
             var td_affix_menu_element = jQuery(td_affix.menu_selector);
@@ -155,7 +185,6 @@ var td_affix = {
              */
 
 
-
             // boundary check - to not run the position on each scroll event
             if ((td_affix.menu_offset_max_hit === false && scroll_direction=='down') || (td_affix.menu_offset_min_hit === false && scroll_direction=='up')) {
                 //request animation frame
@@ -172,8 +201,11 @@ var td_affix = {
 
                                 //compute the offset
                                 offset = td_affix.menu_offset - scrollDelta;
-                                if (offset < -(td_affix.main_menu_height)) {
-                                    offset = -(td_affix.main_menu_height);
+
+                                // the offset is a value in the [-td_affix.menu_affix_height, 0] and
+                                // not into the interval [-td_affix.main_menu_height, 0]
+                                if (offset < -td_affix._get_menu_affix_height()) {
+                                    offset = -td_affix._get_menu_affix_height();
                                 }
 
                             } else if (scroll_direction == 'up') {
@@ -205,7 +237,7 @@ var td_affix = {
                         }
 
 
-                        if (offset == -(td_affix.main_menu_height)) {
+                        if (offset == -td_affix._get_menu_affix_height()) {
                             td_affix.menu_offset_max_hit = true;
                             //also hide the menu when it's 100% out of view on ios - the safari header is transparent and we can see the menu
                             if(td_detect.is_ios === true || td_detect.is_safari) { // safari also
@@ -255,10 +287,12 @@ var td_affix = {
      * @see td_events
      */
     compute_top: function compute_top() {
-        td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top;
+
+        // to compute from the bottom of the menu, the top offset is incremented by the menu wrap height
+        td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top + jQuery(td_affix.menu_wrap_selector).height();
 
         //check to see if the menu is at the top of the screen
-        if (td_affix.top_offset == 1) {
+        if (td_affix.top_offset == (jQuery(td_affix.menu_wrap_selector).height()) + 1) {
             //switch to affix - because the menu is at the top of the page
             //td_affix._affix_on(jQuery(td_affix.menu_selector));
             td_affix.is_top_menu = true;
@@ -305,15 +339,28 @@ var td_affix = {
     _affix_on: function _affix_on(td_affix_menu_element) {
         if (td_affix.is_menu_affix === false) {
 
-            td_affix.menu_offset = 0;
+            td_affix.menu_offset = -td_affix.top_offset;
 
             //make the menu fixed
             td_affix_menu_element.addClass('td-affix');
+
+            // Bug.Fix - affix menu flickering
+            // - the td_affix_menu_element is hidden because he is outside of the viewport
+            // - without it, there's a flicker effect of applying css style (classes) over it
+            if (td_detect.is_phone_screen !== true) {
+                td_affix_menu_element.css('visibility', 'hidden');
+            }
 
             //add body-td-affix class on body for header style 8 -> when scrolling down the window jumps 76px up when the menu is changing from header style 8 default to header style 8 affix
             jQuery('body').addClass('body-td-affix');
 
             td_affix.is_menu_affix = true;
+        } else {
+
+            // the td_affix_menu element is kept visible
+            if (td_detect.is_phone_screen !== true) {
+                td_affix_menu_element.css('visibility', '');
+            }
         }
     },
 
