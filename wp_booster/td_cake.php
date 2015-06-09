@@ -1,9 +1,18 @@
 <?php
 
+// - to reset the counter uncomment the 3 lines :
+//td_util::update_option('td_cake_status_time', '');
+//td_util::update_option('td_cake_status', '');
+//td_util::update_option('td_cake_lp_status', '');
+//die;
+
+
 /**
  * Class td_cake
  */
 
+//define ('TD_CAKE_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
+define ('TD_CAKE_THEME_VERSION_URL', 'http://0div.com:69/td_cake/version.php');
 
 class td_cake {
 
@@ -12,55 +21,45 @@ class td_cake {
      * is running on each page load
      */
     function __construct() {
-
-
         // not admin
         if (!is_admin()) {
             return;
         }
 
-        // - to reset the counter uncomment the 3 lines :
-        // td_util::update_option('td_cake_status_time', '');
-        // td_util::update_option('td_cake_status', '');
-        // die;
-
-        // last time the status changed
-        $status_time = td_util::get_option('td_cake_status_time');
-
-        // the current status time
-        $status = td_util::get_option('td_cake_status');
-
+        $status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
+        $status = td_util::get_option('td_cake_status');              // the current status time
+        $lp_status = td_util::get_option('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
-
         if (!empty($status_time)) {
 
-            // the theme is registered, return :)
-            if ($status == 2) {
-                return;
-            }
 
             // the time since the last status change
             $status_time_delta = time() - $status_time;
 
-            //echo '$status_time_delta: ' . $status_time_delta;
-            //echo '$status: ' . $status;
 
-            // check the status if the full amount of time passed
+            // version check after 30
             if (TD_DEPLOY_MODE == 'dev') {
                 $delta_max = 40;
             } else {
-                $delta_max = 345600;
+                $delta_max = 2592000;
             }
-            if ($status_time_delta > $delta_max) {
-                add_action( 'admin_notices', array($this, 'td_cake_close'));
-                add_action('admin_menu', array($this, 'td_cake_register_panel'));
-                td_util::update_option('td_cake_status', '4');
+            if ($status_time_delta > $delta_max and $lp_status != 'lp_sent') {
+                td_util::update_option('td_cake_lp_status', 'lp_sent');
+                @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
                 return;
             }
 
 
-            // check the status if the half amount of time passed
+            // the theme is registered, return
+            if ($status == 2) {
+                return;
+            }
+
+
+            //echo '$status_time_delta: ' . $status_time_delta;
+            //echo '$status: ' . $status;
+
             if (TD_DEPLOY_MODE == 'dev') {
                 $delta_max = 20;
             } else {
@@ -69,32 +68,19 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
                 add_action('admin_menu', array($this, 'td_cake_register_panel'));
-                td_util::update_option('td_cake_status', '3');
+                if ($status != '3') {
+                    td_util::update_option('td_cake_status', '3');
+                }
                 return;
             }
-
 
             // if some time passed and status is empty - do ping
             if ($status_time_delta > 0 and empty($status)) {
-
-                //check version
-                if (TD_DEPLOY_MODE == 'dev') {
-                    $td_cake_response = @wp_remote_get('http://td_cake.themesafe.com/td_cake/version.php?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array(
-                        'blocking' => false
-                    ));
-                } else {
-                    $td_cake_response = @wp_remote_get('http://td_cake.themesafe.com/td_cake/version.php?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array(
-                        'blocking' => false
-                    ));
-                }
-
                 td_util::update_option('td_cake_status_time', time());
                 td_util::update_option('td_cake_status', '1');
+                @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
                 return;
             }
-
-
-
 
         } else {
             // update the status time first time - we do nothing
@@ -217,7 +203,9 @@ class td_cake {
                     ));
                 }
 
+
                 if (is_wp_error($td_cake_response)) {
+
                     //error http
                     ?>
                     <script type="text/javascript">
@@ -225,6 +213,14 @@ class td_cake {
                     </script>
                 <?php
                 } else {
+                    if (isset($td_cake_response['response']['code']) and $td_cake_response['response']['code'] != '200') {
+                        ?>
+                        <script type="text/javascript">
+                            alert('Error accessing our activation service. Please use the manual activation. Sorry about this. Server code: <?php echo $td_cake_response['response']['code'] ?>');
+                        </script>
+                    <?php
+                    }
+
                     if (!empty($td_cake_response['body'])) {
                         $api_response = @unserialize($td_cake_response['body']);
 
