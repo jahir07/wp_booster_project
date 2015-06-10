@@ -4,20 +4,8 @@
  */
 class td_demo_installer {
 
-    // this settings will be "" out when any of the imports is runned
-    private $ignored_settings = array(
-        'tds_logo_upload',
-        'tds_logo_upload_r',
-        'tds_favicon_upload',
-        'tds_logo_menu_upload',
-        'tds_logo_menu_upload_r',
-        'tds_footer_logo_upload',
-        'tds_footer_retina_logo_upload',
-        'tds_site_background_image',
-        'category_options',
-        'td_ads',
-        'sidebars'
-    );
+
+
 
     function __construct() {
         //AJAX VIEW PANEL LOADING
@@ -146,20 +134,42 @@ class td_demo_installer {
 
 
     public function import_panel_settings($file_path, $empty_ignored_settings = false) { //it's public only for testing
+
+        // this settings will be "" out when any of the imports is runned
+        $ignored_settings = array(
+            'tds_logo_upload',
+            'tds_logo_upload_r',
+            'tds_favicon_upload',
+            'tds_logo_menu_upload',
+            'tds_logo_menu_upload_r',
+            'tds_footer_logo_upload',
+            'tds_footer_retina_logo_upload',
+            'tds_site_background_image',
+            'category_options',
+            'td_ads',
+            'sidebars'
+        );
+
+
         //read the settings file
         $file_settings = unserialize(base64_decode(file_get_contents($file_path, true)));
+
+        //apply td_cake variables
+        $file_settings['td_cake_status_time'] = td_util::get_option('td_cake_status_time');
+        $file_settings['td_cake_status'] = td_util::get_option('td_cake_status');
+        $file_settings['envato_key'] = td_util::get_option('envato_key');
+
 
         if ($empty_ignored_settings === true) {
             // we empty the ignored settings
             td_global::$td_options = $file_settings;
-
-            foreach ($this->ignored_settings as $setting) {
+            foreach ($ignored_settings as $setting) {
                 td_global::$td_options[$setting] = '';
             }
         } else {
             // we leave the ignored settings alone
             foreach ($file_settings as $setting_id => $setting_value) {
-                if (!in_array($setting_id, $this->ignored_settings)) {
+                if (!in_array($setting_id, $ignored_settings)) {
                     td_global::$td_options[$setting_id] = $setting_value;
                 }
             }

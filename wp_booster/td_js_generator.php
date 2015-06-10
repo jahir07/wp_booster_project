@@ -25,6 +25,8 @@ function td_js_generator() {
 
     td_js_buffer::add_variable('tds_smart_sidebar', td_util::get_option('tds_smart_sidebar'));
 
+    td_js_buffer::add_variable('td_theme_v', base64_encode(TD_THEME_VERSION));
+    td_js_buffer::add_variable('td_theme_n', base64_encode(TD_THEME_NAME));
 
     // magnific popup translations
     td_js_buffer::add_variable('td_magnific_popup_translation_tPrev', __td('Previous (Left arrow key)', TD_THEME_NAME));
