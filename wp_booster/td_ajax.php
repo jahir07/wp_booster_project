@@ -144,9 +144,17 @@ function td_ajax_block(){
         $td_hide_prev = true; //hide link on page 1
     }
 
-    if ($td_current_page >= $td_query->max_num_pages ) {
-	    $td_hide_next = true; //hide link on last page
-    }
+	if (!empty($td_atts['offset']) && !empty($td_atts['limit']) && ($td_atts['limit'] != 0)) {
+		if ($td_current_page >= ceil(($td_query->found_posts - $td_atts['offset']) / $td_atts['limit'])) {
+			$td_hide_next = true; //hide link on last page
+		}
+	} else if ($td_current_page >= $td_query->max_num_pages) {
+		$td_hide_next = true; //hide link on last page
+	}
+
+//    if ($td_current_page >= $td_query->max_num_pages ) {
+//	    $td_hide_next = true; //hide link on last page
+//    }
 
     $buffyArray = array(
         'td_data' => $buffy,
