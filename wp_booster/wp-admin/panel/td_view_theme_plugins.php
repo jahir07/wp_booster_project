@@ -25,22 +25,22 @@ if (current_user_can( 'activate_plugins' )) {
 
     // Activate a plugin
     if (isset($_GET['td_activate_plugin_slug'])) {
-            $td_activate_plugin_slug = $_GET['td_activate_plugin_slug'];
-            if (!empty($td_activate_plugin_slug)) {
-                $plugins = TGM_Plugin_Activation::$instance->plugins;
+        $td_activate_plugin_slug = $_GET['td_activate_plugin_slug'];
+        if (!empty($td_activate_plugin_slug)) {
+            $plugins = TGM_Plugin_Activation::$instance->plugins;
 
-                foreach ($plugins as $plugin) {
-                    if ($plugin['slug'] == $td_activate_plugin_slug) {
-                        activate_plugins($plugin['file_path']);
-                        ?>
-                        <script type="text/javascript">
-                            window.location = "admin.php?page=td_theme_plugins";
-                        </script>
-                        <?php
-                        break;
-                    }
+            foreach ($plugins as $plugin) {
+                if ($plugin['slug'] == $td_activate_plugin_slug) {
+                    activate_plugins($plugin['file_path']);
+                    ?>
+                    <script type="text/javascript">
+                        window.location = "admin.php?page=td_theme_plugins";
+                    </script>
+                    <?php
+                    break;
                 }
             }
+        }
     }
 }
 

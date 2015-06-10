@@ -6,13 +6,14 @@
 //td_util::update_option('td_cake_lp_status', '');
 //die;
 
+//echo td_util::get_option('td_cake_status');
 
 /**
  * Class td_cake
  */
 
-//define ('TD_CAKE_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
-define ('TD_CAKE_THEME_VERSION_URL', 'http://0div.com:69/td_cake/version.php');
+define ('TD_CAKE_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
+//define ('TD_CAKE_THEME_VERSION_URL', 'http://0div.com:69/td_cake/version.php');
 
 class td_cake {
 
@@ -26,60 +27,71 @@ class td_cake {
             return;
         }
 
-        $status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
-        $status = td_util::get_option('td_cake_status');              // the current status time
-        $lp_status = td_util::get_option('td_cake_lp_status');
+        $td_cake_status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
+        $td_cake_status = td_util::get_option('td_cake_status');              // the current status time
+        $td_cake_lp_status = td_util::get_option('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
-        if (!empty($status_time)) {
+        if (!empty($td_cake_status_time)) {
 
 
             // the time since the last status change
-            $status_time_delta = time() - $status_time;
+            $status_time_delta = time() - $td_cake_status_time;
 
 
-            // version check after 30
+            // late version check after 30
             if (TD_DEPLOY_MODE == 'dev') {
                 $delta_max = 40;
             } else {
                 $delta_max = 2592000;
             }
-            if ($status_time_delta > $delta_max and $lp_status != 'lp_sent') {
+            if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
                 td_util::update_option('td_cake_lp_status', 'lp_sent');
-                @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
-                return;
+                $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
+                return $td_theme_version;
             }
 
 
             // the theme is registered, return
-            if ($status == 2) {
-                return;
+            if ($td_cake_status == 2) {
+                return '';
             }
 
 
-            //echo '$status_time_delta: ' . $status_time_delta;
-            //echo '$status: ' . $status;
+            if (TD_DEPLOY_MODE == 'dev') {
+                $delta_max = 40;
+            } else {
+                $delta_max = 1209600; // 14 days
+            }
+            if ($status_time_delta > $delta_max) {
+                add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
+                add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
+                if ($td_cake_status != '4') {
+                    td_util::update_option('td_cake_status', '4');
+                }
+                return '';
+            }
 
             if (TD_DEPLOY_MODE == 'dev') {
                 $delta_max = 20;
             } else {
-                $delta_max = 259200;
+                $delta_max = 604800; // 7 days
             }
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
-                add_action('admin_menu', array($this, 'td_cake_register_panel'));
-                if ($status != '3') {
+                add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
+                if ($td_cake_status != '3') {
                     td_util::update_option('td_cake_status', '3');
                 }
-                return;
+                return '';
             }
 
             // if some time passed and status is empty - do ping
-            if ($status_time_delta > 0 and empty($status)) {
+            if ($status_time_delta > 0 and empty($td_cake_status)) {
                 td_util::update_option('td_cake_status_time', time());
                 td_util::update_option('td_cake_status', '1');
-                @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
-                return;
+                $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
+                return $td_theme_version;
             }
 
         } else {
@@ -87,6 +99,7 @@ class td_cake {
             td_util::update_option('td_cake_status_time', time());
         }
 
+        return '';
     }
 
 
@@ -113,7 +126,8 @@ class td_cake {
      */
 
     function td_cake_register_panel() {
-        add_menu_page('Activate theme', '<span style="color:red; font-weight: bold">Activate theme</span>', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null);
+
+        add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
     }
 
 
@@ -269,10 +283,24 @@ class td_cake {
 
         ?>
 
+        <?php
+
+        require_once "wp-admin/panel/td_view_header.php";
+
+        ?>
 
 
-        <div class="wrap">
-            <h2>Activate theme</h2>
+        <div class="about-wrap td-admin-wrap">
+            <h1>Activate <?php echo TD_THEME_NAME ?></h1>
+            <div class="about-text" style="margin-bottom: 32px;">
+                <p>
+                    Please activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
+                    mass piracy of our themes, this allows us to better serve our paying customers.
+
+                    <strong>Once activated</strong> you can easily register for support form the support tab.
+                </p>
+            </div>
+
 
 
             <form method="post" action="admin.php?page=td_cake_panel">
@@ -301,7 +329,7 @@ class td_cake {
 
             <div class="td-manual-activation">
                 <ul>
-                    <li>1. Go to our activation page: <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">http://tagdiv.com/td_cake/manual.php</a></li>
+                    <li>1. <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">Go to our manual activation page</a></li>
                     <li>2. Paste your unique ID there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">envato purchase code</a></li>
                     <li>3. <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">Get the activation code</a> and paste it in this form</li>
                 </ul>
@@ -367,24 +395,6 @@ class td_cake {
         return false;
     }
 
-    function td_cake_close() {
-        if ($this->check_if_is_our_page() === true) {
-            return;
-        }
-        ?>
-        <script type="text/javascript">
-            /*
-             jQuery('a[href*="td_theme_panel"]').click(function(){
-             event.preventDefault();
-             alert('Please activate the theme to use the theme panel! If you think this is an error, please contact us at activate@tagdiv.com');
-             });
-             */
-        </script>
-        <div class="error">
-            <p><?php echo '<strong style="color:red"> --- Please activate the theme! --- </strong> <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
-        </div>
-    <?php
-    }
 
 
     function td_cake_msg() {
@@ -392,7 +402,26 @@ class td_cake {
             return;
         }
         ?>
-        <div class="updated">
+        <div class="error">
+            <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
+        </div>
+    <?php
+    }
+
+
+    function td_cake_msg_2() {
+        if ($this->check_if_is_our_page() === true) {
+            return;
+        }
+        ?>
+        <div class="error">
+            <p>
+                Activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
+                mass piracy of our themes, this allows us to better serve our paying customers.
+
+                <strong>An active theme comes with free updates, top notch support, guaranteed latest WordPress support</strong>.
+
+            </p>
             <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
         </div>
     <?php
