@@ -58,6 +58,10 @@ class td_cake {
             }
 
 
+            // add the menu
+            add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
+
+
             if (TD_DEPLOY_MODE == 'dev') {
                 $delta_max = 40;
             } else {
@@ -65,7 +69,6 @@ class td_cake {
             }
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
-                add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
                 if ($td_cake_status != '4') {
                     td_util::update_option('td_cake_status', '4');
                 }
@@ -79,7 +82,6 @@ class td_cake {
             }
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
-                add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
                 if ($td_cake_status != '3') {
                     td_util::update_option('td_cake_status', '3');
                 }
@@ -97,6 +99,8 @@ class td_cake {
         } else {
             // update the status time first time - we do nothing
             td_util::update_option('td_cake_status_time', time());
+            // add the menu
+            add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
         }
 
         return '';

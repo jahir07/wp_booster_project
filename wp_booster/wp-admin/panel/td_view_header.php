@@ -1,13 +1,28 @@
-<div class="wrap about-wrap td-wp-admin-header ">
+<?php
+
+global $submenu;
+
+if (isset($submenu['td_theme_welcome'])) {
+    $td_welcome_menu_items = $submenu['td_theme_welcome'];
+}
+
+if (is_array($td_welcome_menu_items)) {
+    ?>
+    <div class="wrap about-wrap td-wp-admin-header ">
+        <h2 class="nav-tab-wrapper">
+
+            <?php
+                foreach ($td_welcome_menu_items as $td_welcome_menu_item) {
+                    ?>
+                        <a href="admin.php?page=<?php echo $td_welcome_menu_item[2]?>" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == $td_welcome_menu_item[2]) { echo 'nav-tab-active'; }?> "><?php echo $td_welcome_menu_item[0] ?></a>
+                    <?php
+                }
+            ?>
+        </h2>
+    </div>
+    <?php
+}
+
+?>
 
 
-    <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=td_theme_welcome" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_welcome') { echo 'nav-tab-active'; }?> "><?php _e( 'Welcome' ); ?></a>
-        <a href="admin.php?page=td_theme_plugins" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_plugins') { echo 'nav-tab-active'; }?>"><?php _e( 'Plugins' ); ?></a>
-        <a href="admin.php?page=td_theme_demos" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_demos') { echo 'nav-tab-active'; }?>"><?php _e( 'Install demos' ); ?></a>
-	    <a href="admin.php?page=td_theme_support" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_theme_support') { echo 'nav-tab-active'; }?>"><?php _e( 'Support' ); ?></a>
-        <a href="admin.php?page=td_system_status" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_system_status') { echo 'nav-tab-active'; }?>"><?php _e( 'Status' ); ?></a>
-        <a href="admin.php?page=td_cake_panel" class="nav-tab <?php if(isset($_GET['page']) and $_GET['page'] == 'td_cake_panel') { echo 'nav-tab-active'; }?>"><?php _e( 'Activate theme' ); ?></a>
-        <a href="admin.php?page=td_theme_panel" class="nav-tab"><?php _e( 'Theme panel' ); ?></a>
-    </h2>
-</div>
