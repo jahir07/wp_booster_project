@@ -394,7 +394,7 @@ class td_block {
 	     * - the class has a force css transform for lazy devices
 	     */
 	    if (array_key_exists('ajax_pagination', $this->atts)) {
-		    $block_classes[]= 'td_loading';
+		    $block_classes[]= 'td_block_loading';
 	    }
 
 
