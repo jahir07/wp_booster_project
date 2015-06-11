@@ -173,7 +173,8 @@
 
 // get all the categories
 $categories = get_categories(array(
-    'hide_empty' => 0
+    'hide_empty' => 0,
+    'number' => 1000
 ));
 
 // 'walk' all the categories

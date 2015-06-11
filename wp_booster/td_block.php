@@ -69,7 +69,8 @@ class td_block {
                 case 'td_category_ids_filter': // by category
                     $td_categories = get_categories(array(
                         'include' => $td_ajax_filter_ids,
-	                    'exclude' => '1'
+	                    'exclude' => '1',
+                        'number' => 100 //limit the number of categories shown in the drop down
                     ));
                     foreach ($td_categories as $td_category) {
                         $td_pull_down_items []= array (

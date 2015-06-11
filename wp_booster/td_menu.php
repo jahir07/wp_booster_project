@@ -97,33 +97,31 @@ class td_menu {
                 if ($td_mega_menu_cat != '') {
                     //this is a mega menu, do a category check
 
-
-
-
                     //add the parent item
                     $items_buffy[] = $item;
 
+
+                    $td_render_atts = td_api_block::get_key('td_block_mega_menu', 'render_atts');
+
+                    $td_show_child_cat = 5;
+                    if (isset($td_render_atts['show_child_cat'])) {
+                        $td_show_child_cat = $td_render_atts['show_child_cat'];
+                    }
+
                     //check for subcategories
-                    $td_subcategories = get_categories(array('child_of' => $td_mega_menu_cat));
+                    $td_subcategories = get_categories(array(
+                        'child_of' => $td_mega_menu_cat,
+                        'number' => $td_show_child_cat  //
+                    ));
                     if (!empty($td_subcategories)) {
                         $item->classes[] = 'menu-item-has-children'; // add the extra class for the dropdown to work
-
-	                    $td_render_atts = td_api_block::get_key('td_block_mega_menu', 'render_atts');
-
-                        $sub_categories_count = 0;
                         foreach ($td_subcategories as $td_category) {
-                            if (isset($td_render_atts['show_child_cat']) and is_int($td_render_atts['show_child_cat']) and $sub_categories_count == $td_render_atts['show_child_cat']) { // only show 5 subcategories in the mobile menu - the same limit applies to the mega menu
-                                break;
-                            }
                             $new_item = $this->generate_wp_post();
                             $new_item->is_mega_menu = false; //this is sent to the menu walkers
                             $new_item->menu_item_parent = $item->ID;
                             $new_item->url = get_category_link($td_category->cat_ID);
                             $new_item->title = $td_category->name;
                             $items_buffy[] = $new_item;
-
-                            $sub_categories_count++;
-
                         }
                     }
 
