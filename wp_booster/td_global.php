@@ -319,6 +319,12 @@ class td_global {
     public static $demo_list = array ();
 
 
+    /**
+     * the list of fonts used by the theme by default
+     * @var array
+     */
+    public static $default_fonts_list = array();
+
 
     /**
      * @var string here we keep the typography settings from the THEME FONTS panel.

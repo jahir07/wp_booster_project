@@ -470,29 +470,33 @@ class td_util {
      * @param bool $add_all_category = if true ads - All categories - at the begining of the list (used for dropdowns)
      * @return mixed
      */
+    static $td_category2id_array_walker_buffer = array();
     static function get_category2id_array($add_all_category = true) {
-
-
 
         if (is_admin() === false) {
             return;
         }
 
-        $categories = get_categories(array(
-            'hide_empty' => 0
-        ));
+        if (empty(self::$td_category2id_array_walker_buffer)) {
+            $categories = get_categories(array(
+                'hide_empty' => 0,
+                'number' => 1000
+            ));
 
-        $td_category2id_array_walker = new td_category2id_array_walker;
-        $td_category2id_array_walker->walk($categories, 4);
+            $td_category2id_array_walker = new td_category2id_array_walker;
+            $td_category2id_array_walker->walk($categories, 4);
+            self::$td_category2id_array_walker_buffer = $td_category2id_array_walker->td_array_buffer;
+        }
+
 
         if ($add_all_category === true) {
             $categories_buffer['- All categories -'] = '';
             return array_merge(
                 $categories_buffer,
-                $td_category2id_array_walker->td_array_buffer
+                self::$td_category2id_array_walker_buffer
             );
         } else {
-            return $td_category2id_array_walker->td_array_buffer;
+            return self::$td_category2id_array_walker_buffer;
         }
     }
 
