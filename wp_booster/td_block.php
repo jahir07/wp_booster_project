@@ -388,6 +388,15 @@ class td_block {
         }
 
 
+	    /**
+	     * - used to add td_block_loading css class on the blocks having pagination
+	     * - the class has a force css transform for lazy devices
+	     */
+	    if (array_key_exists('ajax_pagination', $this->atts)) {
+		    $block_classes[]= 'td_loading';
+	    }
+
+
         /**
          * add the border top class - this one comes from the atts
          */
