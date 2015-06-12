@@ -129,7 +129,7 @@ class td_background_render {
 
                             // the site background td-backstretch jquery object is dynamically added in DOM, and after any translation effects are applied over td-backstretch
                             var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
-                            var image_jquery_obj = jQuery('<img class=\'td-backstretch\' src=\'<?php echo $this->background_parameters['theme_bg_image']; ?>\'>');
+                            var image_jquery_obj = jQuery('<img class=\'td-backstretch not-parallax\' src=\'<?php echo $this->background_parameters['theme_bg_image']; ?>\'>');
 
                             wrapper_image_jquery_obj.append(image_jquery_obj);
 
