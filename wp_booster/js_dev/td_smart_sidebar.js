@@ -136,7 +136,7 @@ var td_smart_sidebar = {
             var td_affix_menu_computed_height = 0;
             if (td_smart_sidebar.tds_snap_menu != '') { // if the menu is not snapping in any way - do not calculate this
                 // we cannot get the live offset because it's running in a requestAnimationFrame ~ probably async
-                td_affix_menu_computed_height = td_affix.main_menu_height + td_affix.menu_offset;
+                td_affix_menu_computed_height = td_affix.main_menu_height;// + td_affix.menu_offset;
             }
 
 
@@ -160,13 +160,13 @@ var td_smart_sidebar = {
             /**
              * scrollTop - is the distance that is scrolled from the top of the document PLUS the height of the menu
              */
-            scrollTop = scrollTop + td_affix_menu_computed_height;
 
 
 
             var view_port_height = jQuery(window).height(); // ~ we can get this only once + on resize
             var view_port_bottom = scrollTop + view_port_height;
 
+            scrollTop = scrollTop + td_affix_menu_computed_height;
 
             // go in all the sidebar items
             for (var item_index = 0; item_index < td_smart_sidebar.items.length; item_index++) {
@@ -363,7 +363,7 @@ var td_smart_sidebar = {
 
                 if (view_port_current_item != null) {
                     column_content_width = view_port_current_item.sidebar_width;
-                    td_smart_sidebar.log("column sidebar width : " + column_content_width);
+                    //td_smart_sidebar.log("column sidebar width : " + column_content_width);
                 }
 
 
