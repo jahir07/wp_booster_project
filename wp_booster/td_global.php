@@ -323,7 +323,7 @@ class td_global {
      * the list of fonts used by the theme by default
      * @var array
      */
-    public static $default_fonts_list = array();
+    public static $default_google_fonts_list = array();
 
 
     /**
