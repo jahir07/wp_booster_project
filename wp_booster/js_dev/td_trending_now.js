@@ -112,6 +112,12 @@ function td_trending_now_change_text(array_param, to_right) {
 
     //get the list of post and position for this trending now block
     var posts_array_list_for_this_trend = td_trending_now_object[wrapper_id_for_nav];
+
+    // if there's just a single post to be shown, there's no need for next/prev/autostart
+    if (posts_array_list_for_this_trend.length <= 1) {
+        return;
+    }
+
     var posts_array_list_position = td_trending_now_object[wrapper_id_for_nav + '_position'];
 
     var previous_post_array_list_position = posts_array_list_position;
