@@ -545,19 +545,25 @@ class td_page_generator {
         $buffy = '';
 
         $buffy .= '<div class="entry-crumbs">';
+
+
         foreach ($breadcrumbs_array as $key => $breadcrumb) {
-            if ($key != 0) { //add separator only after first
-                $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
-            }
+
 
             if (empty($breadcrumb['url'])) {
+                if ($key != 0) { //add separator only after first
+                    $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
+                }
                 //no link - breadcrumb
-                $buffy .=  '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
+                $buffy .=  '<span class="td-bred-no-url-last" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
                 $buffy .= '<meta itemprop="title" content = "' . $breadcrumb['display_name'] . '">';
                 $buffy .= '<meta itemprop="url" content = "' . get_permalink() . '">';
                 $buffy .= $breadcrumb['display_name'];
                 $buffy .= '</span>';
             } else {
+                if ($key != 0) { //add separator only after first
+                    $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
+                }
                 //normal links
                 $buffy .= '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a title="' . $breadcrumb['title_attribute'] . '" class="entry-crumb" itemprop="url" href="' . $breadcrumb['url'] . '"><span itemprop="title">' . $breadcrumb['display_name'] . '</span></a></span>';
             }
