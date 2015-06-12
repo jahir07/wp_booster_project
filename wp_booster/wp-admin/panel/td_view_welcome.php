@@ -45,7 +45,7 @@ require_once "td_view_header.php";
 
 
         <div class="col">
-            <img src="<?php echo get_template_directory_uri()?>/images/panel/admin-panel/logo-panel.png">
+            <img src="<?php echo get_template_directory_uri()?>/images/panel/admin-panel/logo-panel.jpg">
         </div>
     </div>
 
