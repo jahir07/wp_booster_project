@@ -496,7 +496,7 @@ class td_panel_data_source {
         */
 
         //declare variable
-        $js_buffer = $css_buffer = $css_files = $temp_css_google_files = $temp_css_google_character_set = '';
+        $js_buffer = $css_buffer = $css_files = $temp_css_google_files = '';
 
         //collect google fonts from all fields
         $temp_google_fonts = array();
@@ -610,36 +610,10 @@ class td_panel_data_source {
         }
 
 
-        //check the character set saved in the database
-        $array_google_char_set = array(
-                                        'g_latin',
-                                        'g_latin-ext',
-                                        'g_cyrillic',
-                                        'g_cyrillic-ext',
-                                        'g_greek',
-                                        'g_greek-ext',
-                                        'g_devanagari',
-                                        'g_vietnamese',
-                                        'g_khmer'
-        );
-        foreach($array_google_char_set as $val_charset) {
-            if(!empty(td_global::$td_options['td_fonts_user_inserted'][$val_charset])) {
-                if(!empty($temp_css_google_character_set)){
-                    $temp_css_google_character_set .= ',';
-                }
-                $temp_css_google_character_set .= td_global::$td_options['td_fonts_user_inserted'][$val_charset];
-            }
-        }
-
-
 
         //form the google css files buffer
         if(!empty($temp_css_google_files)) {
-            $css_files = "://fonts.googleapis.com/css?family=" . $temp_css_google_files;
-
-            if(!empty($temp_css_google_character_set)) {
-                $css_files .= '&subset=' . $temp_css_google_character_set;
-            }
+            $css_files = "://fonts.googleapis.com/css?family=" . $temp_css_google_files . td_fonts::get_google_fonts_subset_query();
         }
 
         //add the user font settings to the option string that going to the database

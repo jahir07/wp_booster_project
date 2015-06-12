@@ -176,14 +176,13 @@ function td_load_css_fonts() {
             }
         }
 
-        // enqueue the fonts
-        if(!in_array('g_438', $td_user_fonts_list)) {//'g_438', //Open Sans
-            wp_enqueue_style('google-font-opensans', td_global::$http_or_https . '://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic'); //used on menus/small text
+
+        foreach (td_global::$default_google_fonts_list as $default_font_id => $default_font_params) {
+            if(!in_array('g_' . $default_font_id, $td_user_fonts_list)) {
+                wp_enqueue_style($default_font_params['css_style_id'], $default_font_params['url'] . td_fonts::get_google_fonts_subset_query()); //used on menus/small text
+            }
         }
 
-        if(!in_array('g_522', $td_user_fonts_list)) {//'g_522', //Roboto condensed
-            wp_enqueue_style('google-roboto-cond', td_global::$http_or_https . '://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic'); //used on content
-        }
     }
 
     /*

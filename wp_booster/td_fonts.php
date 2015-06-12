@@ -772,6 +772,53 @@ class td_fonts {
         }
     }
 
+    static function get_google_fonts_names($fonts_ids_array) {
+        $temp_css_google_files = '';
+        if(!empty($fonts_ids_array)) {
+            foreach($fonts_ids_array as $g_font_id) {
+                $font_id = str_replace('g_', '', $g_font_id);
+                if(!empty($temp_css_google_files)) {
+                    $temp_css_google_files .= '|';
+                }
+                $temp_css_google_files .= str_replace(' ', '+', td_fonts::$font_names_google_list[$font_id]) . ':400,700';
+            }
+        }
+        return $temp_css_google_files;
+    }
+
+
+    static function get_google_fonts_subset_query() {
+        //check the character set saved in the database
+        $array_google_char_set = array(
+            'g_latin',
+            'g_latin-ext',
+            'g_cyrillic',
+            'g_cyrillic-ext',
+            'g_greek',
+            'g_greek-ext',
+            'g_devanagari',
+            'g_vietnamese',
+            'g_khmer'
+        );
+
+        $tmp_google_subset = '';
+        foreach($array_google_char_set as $val_charset) {
+            if(!empty(td_global::$td_options['td_fonts_user_inserted'][$val_charset])) {
+                if (empty($tmp_google_subset)) {
+                    $tmp_google_subset = td_global::$td_options['td_fonts_user_inserted'][$val_charset];
+                } else {
+                    $tmp_google_subset .= ',' . td_global::$td_options['td_fonts_user_inserted'][$val_charset];
+                }
+
+            }
+        }
+
+        if(!empty($tmp_google_subset)) {
+            return '&subset=' . $tmp_google_subset;
+        }
+
+        return '';
+    }
 }//end class
 
 
