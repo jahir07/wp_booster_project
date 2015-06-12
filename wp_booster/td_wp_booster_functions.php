@@ -88,12 +88,6 @@ function td_wp_footer_debug() {
 */
 
 
-/*
- * if debug - the constants are used to load the live color customizer (demo) and to remove the tf bar on ios devices
- */
-if (TD_DEBUG_LIVE_THEME_STYLE) {
-    require_once('td_theme_style.php' );
-}
 
 if (TD_DEBUG_IOS_REDIRECT) {
     require_once('td_ios_redirect.php' );

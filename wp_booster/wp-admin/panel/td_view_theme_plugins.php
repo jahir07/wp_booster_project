@@ -102,7 +102,7 @@ $wp_plugin_list = get_plugins();
 
             <!-- Import content -->
             <div class="theme-screenshot">
-                <span class="td-plugin-required <?php echo $required_label; ?>"><?php echo $required_label; ?></span>
+                <span class="td-plugin-required td-<?php echo $required_label; ?>"><?php echo $required_label; ?></span>
                 <img class="td-demo-thumb" src="<?php echo $theme_plugin['img'] ?>"/>
             </div>
 
@@ -174,6 +174,7 @@ $wp_plugin_list = get_plugins();
     </div>
 
     <div class="td-supported-plugin-list">
+        <div class="td-supported-plugin">WP Super Cache <span> - caching plugin</span></div>
         <div class="td-supported-plugin">Contact form 7 <span>- used to make contact forms</span></div>
         <div class="td-supported-plugin">bbPress <span>- forum plugin</span></div>
         <div class="td-supported-plugin">BuddyPress<span>- social network plugin</span></div>
