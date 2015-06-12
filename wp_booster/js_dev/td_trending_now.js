@@ -57,6 +57,12 @@ function td_trending_now() {
     jQuery(".td-trending-now-nav-left").click(function(event){
         event.preventDefault();
         var wrapper_id_for_nav = jQuery(this).data("wrapper-id");
+
+        // if there's just a single post to be shown, there's no need for next/prev/autostart
+        if (wrapper_id_for_nav != undefined && td_trending_now_object[wrapper_id_for_nav].length <= 1) {
+            return;
+        }
+
         var data_moving = jQuery(this).data("moving");
         var control_start = jQuery(this).data("control-start");
 
@@ -78,6 +84,12 @@ function td_trending_now() {
     jQuery(".td-trending-now-nav-right").click(function(event){
         event.preventDefault();
         var wrapper_id_for_nav = jQuery(this).data("wrapper-id");
+
+        // if there's just a single post to be shown, there's no need for next/prev/autostart
+        if (wrapper_id_for_nav != undefined && td_trending_now_object[wrapper_id_for_nav].length <= 1) {
+            return;
+        }
+
         var data_moving = jQuery(this).data("moving");
         var control_start = jQuery(this).data("control-start");
 
@@ -113,10 +125,13 @@ function td_trending_now_change_text(array_param, to_right) {
     //get the list of post and position for this trending now block
     var posts_array_list_for_this_trend = td_trending_now_object[wrapper_id_for_nav];
 
+
+    // the following method is not so good because using it, many timers are already created
+    //
     // if there's just a single post to be shown, there's no need for next/prev/autostart
-    if (posts_array_list_for_this_trend.length <= 1) {
-        return;
-    }
+    //if (posts_array_list_for_this_trend.length <= 1) {
+    //    return;
+    //}
 
     var posts_array_list_position = td_trending_now_object[wrapper_id_for_nav + '_position'];
 
@@ -172,6 +187,12 @@ function td_trending_now_auto_start() {
 
     for (var i = 0, len = list.length; i < len; i += 1) {
         (function(i) {
+
+            // if there's just a single post to be shown, there's no need for next/prev/autostart
+            if (td_trending_now_object[list[i]].length <= 1) {
+                return;
+            }
+            
             td_trending_now_object[list[i] + "_timer"] = setInterval(function() {
                 //console.log(i + "=>" + list[i] + "\n");
                 td_trending_now_change_text([list[i], 'left'], true);
