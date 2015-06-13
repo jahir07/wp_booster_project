@@ -15,6 +15,14 @@ class td_demo_installer {
 
 
     function ajax_stacks_controller() {
+        if (!current_user_can('switch_themes')) {
+            echo 'Permission denied!';
+        }
+
+        // try to extend the time limit
+        set_time_limit(240);
+
+
         $td_demo_action = td_util::get_http_post_val('td_demo_action');
         $td_demo_id = td_util::get_http_post_val('td_demo_id');
 
@@ -121,6 +129,28 @@ class td_demo_installer {
 
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_1.php');
+        }
+
+
+        else if ($td_demo_action == 'td_media_2') {
+            // load the media import script
+            require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_2.php');
+        }
+        else if ($td_demo_action == 'td_media_3') {
+            // load the media import script
+            require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_3.php');
+        }
+        else if ($td_demo_action == 'td_media_4') {
+            // load the media import script
+            require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_4.php');
+        }
+        else if ($td_demo_action == 'td_media_5') {
+            // load the media import script
+            require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_5.php');
+        }
+        else if ($td_demo_action == 'td_media_6') {
+            // load the media import script
+            require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_6.php');
         }
 
 

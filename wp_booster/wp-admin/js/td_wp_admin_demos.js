@@ -136,7 +136,7 @@ var td_wp_admin_demos = {
                 }, 500);
             },
             error: function(MLHttpRequest, textStatus, errorThrown){
-                td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
+                td_wp_admin_demos._show_network_error('uninstall', MLHttpRequest, textStatus, errorThrown);
             }
         });
 
@@ -188,7 +188,7 @@ var td_wp_admin_demos = {
                         td_wp_admin_demos._ui_install_end(demo_id);
                     },
                     error: function(MLHttpRequest, textStatus, errorThrown){
-                        td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
+                        td_wp_admin_demos._show_network_error('no_content_install_demo', MLHttpRequest, textStatus, errorThrown);
                     }
                 });
 
@@ -196,7 +196,7 @@ var td_wp_admin_demos = {
 
             },
             error: function(MLHttpRequest, textStatus, errorThrown){
-                td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
+                td_wp_admin_demos._show_network_error('no_content_remove_content_before_install', MLHttpRequest, textStatus, errorThrown);
             }
         });
 
@@ -206,14 +206,202 @@ var td_wp_admin_demos = {
     },
 
 
+    _install_full_td_import:function (demo_id) {
+
+        /* ---------------------------------------------------------------------------------------
+         td_import
+         */
+        td_wp_progress_bar.timer_change(98);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_import',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                //td_ajax_block_process_response(data, td_user_action);
+
+                td_wp_admin_demos._ui_install_end(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_install', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+
+
+    },
+
+
+
+
+    _install_full_td_media_6:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_6
+         */
+        td_wp_progress_bar.timer_change(82);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_6',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_import(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_6', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+
+    _install_full_td_media_5:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_5
+         */
+        td_wp_progress_bar.timer_change(70);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_5',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_media_6(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_5', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+
+
+    _install_full_td_media_4:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_4
+         */
+        td_wp_progress_bar.timer_change(58);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_4',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_media_5(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_4', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+
+    _install_full_td_media_3:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_3
+         */
+        td_wp_progress_bar.timer_change(46);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_3',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_media_4(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_3', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+
+
+
+    _install_full_td_media_2:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_2
+         */
+        td_wp_progress_bar.timer_change(34);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_2',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_media_3(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_2', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+
+    _install_full_td_media_1:function (demo_id) {
+        /* ---------------------------------------------------------------------------------------
+         td_media_1
+         */
+        td_wp_progress_bar.timer_change(22);
+        var request_data = {
+            action: 'td_ajax_demo_install',
+            td_demo_action:'td_media_1',
+            td_demo_id: demo_id
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: td_ajax_url,
+            cache:false,
+            data: request_data,
+            dataType: 'json',
+            success: function(data, textStatus, XMLHttpRequest){
+                td_wp_admin_demos._install_full_td_media_2(demo_id);
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                td_wp_admin_demos._show_network_error('full_demo_media_1', MLHttpRequest, textStatus, errorThrown);
+            }
+        });
+
+    },
+
 
     _install_full: function (demo_id) {
         td_wp_admin_demos._ui_install_start(demo_id);
-
-
-
-        td_wp_progress_bar.timer_change(33);
-
+        td_wp_progress_bar.timer_change(10);
         /* ---------------------------------------------------------------------------------------
            Remove content before install
          */
@@ -229,66 +417,10 @@ var td_wp_admin_demos = {
             data: request_data,
             dataType: 'json',
             success: function(data, textStatus, XMLHttpRequest) {
-
-
-
-                /* ---------------------------------------------------------------------------------------
-                   td_media_1
-                 */
-                td_wp_progress_bar.timer_change(66);
-                var request_data = {
-                    action: 'td_ajax_demo_install',
-                    td_demo_action:'td_media_1',
-                    td_demo_id: demo_id
-                };
-                jQuery.ajax({
-                    type: 'POST',
-                    url: td_ajax_url,
-                    cache:false,
-                    data: request_data,
-                    dataType: 'json',
-                    success: function(data, textStatus, XMLHttpRequest){
-
-
-
-                        /* ---------------------------------------------------------------------------------------
-                           td_import
-                         */
-                        td_wp_progress_bar.timer_change(98);
-                        var request_data = {
-                            action: 'td_ajax_demo_install',
-                            td_demo_action:'td_import',
-                            td_demo_id: demo_id
-                        };
-                        jQuery.ajax({
-                            type: 'POST',
-                            url: td_ajax_url,
-                            cache:false,
-                            data: request_data,
-                            dataType: 'json',
-                            success: function(data, textStatus, XMLHttpRequest){
-                                //td_ajax_block_process_response(data, td_user_action);
-
-                                td_wp_admin_demos._ui_install_end(demo_id);
-                            },
-                            error: function(MLHttpRequest, textStatus, errorThrown){
-                                td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
-                            }
-                        });
-
-
-
-                    },
-                    error: function(MLHttpRequest, textStatus, errorThrown){
-                        td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
-                    }
-                });
-
-
-
+                td_wp_admin_demos._install_full_td_media_1(demo_id);
             },
             error: function(MLHttpRequest, textStatus, errorThrown){
-                td_wp_admin_demos._show_network_error(MLHttpRequest, textStatus, errorThrown);
+                td_wp_admin_demos._show_network_error('full_demo_remove_content_before_install', MLHttpRequest, textStatus, errorThrown);
             }
         });
 
@@ -300,13 +432,17 @@ var td_wp_admin_demos = {
     },
 
 
-    _show_network_error:function (MLHttpRequest, textStatus, errorThrown) {
+
+
+
+    _show_network_error:function (td_ajax_request_name, MLHttpRequest, textStatus, errorThrown) {
 
         var responseText = MLHttpRequest.responseText.replace(/<br>/g, '\n');
 
         alert(
             'Ajax error. Cannot connect to server, it may be due to a misconfiguration on the server.\n' +
             'textStatus: ' + textStatus + '\n' +
+            'td_ajax_request_name: ' + td_ajax_request_name + '\n' +
             'errorThrown: ' + errorThrown + '\n' + '\n' +
             'responseText: ' + responseText
         );
