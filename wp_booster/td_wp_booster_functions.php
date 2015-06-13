@@ -630,6 +630,7 @@ function td_bottom_code() {
 					if (arr_length > 1) {
 
 						var dir_path = '<?php echo get_template_directory_uri() ?>';
+						var splited_css = '';
 
 						for (var i = 0; i < arr_length; i++) {
 							if (i > 0) {
@@ -641,7 +642,13 @@ function td_bottom_code() {
 								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '').replace(/^\s+|\s+$/gm,'');
 							});
 
-							jQuery('head').append("<style>" + formated_str + "</style>");
+							splited_css += "<style>" + formated_str + "</style>";
+						}
+
+						var td_theme_css = jQuery('link#td-theme-css');
+
+						if (td_theme_css.length) {
+							td_theme_css.after(splited_css);
 						}
 					}
 				});
