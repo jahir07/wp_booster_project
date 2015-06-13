@@ -196,12 +196,31 @@ function td_on_ready_ajax_blocks() {
 
 
 
+    // variable used to simulate on mobile doubleclick at 300ms @see the function td_ajax_sub_cat_mega_run()
+    var td_sub_cat_mega_run_link = false;
+    var td_sub_cat_mega_current_target = '';
 
+
+    function td_ajax_sub_cat_mega_run_on_touch(event) {
+        if ((td_sub_cat_mega_run_link == true) && (event.target == td_sub_cat_mega_current_target)) {
+            window.location = event.target;
+        } else {
+            td_sub_cat_mega_run_link = true;
+            td_sub_cat_mega_current_target = event.target;
+            event.preventDefault();
+
+            setTimeout(function() {
+                td_sub_cat_mega_run_link = false;
+            }, 300);
+
+            td_ajax_sub_cat_mega_run.call(jQuery(this), event);
+        }
+    }
 
     /**
      * hover or click on mega menu subcategories
      */
-    function td_ajax_sub_cat_mega_run() {
+    function td_ajax_sub_cat_mega_run(event) {
         //get the current block id
         var current_block_uid = jQuery(this).data('td_block_id');
 
@@ -221,10 +240,14 @@ function td_on_ready_ajax_blocks() {
         td_ajax_do_block_request(current_block_obj, 'mega_menu');
     }
 
-
     //on touch devices use click
     if (td_detect.is_touch_device) {
-        jQuery(".block-mega-child-cats a").click(td_ajax_sub_cat_mega_run);
+
+        jQuery(".block-mega-child-cats a").click(td_ajax_sub_cat_mega_run_on_touch, false);
+
+        jQuery(".block-mega-child-cats a").each(function(index, element) {
+            element.addEventListener('touchend', td_ajax_sub_cat_mega_run_on_touch, false);
+        });
     } else {
         jQuery(".block-mega-child-cats a").hover(td_ajax_sub_cat_mega_run, function (event) {} );
     }
