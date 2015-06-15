@@ -399,6 +399,25 @@ require_once "td_view_header.php";
                     <tbody>
                     <?php
                     foreach ($cache_entries as $social_network_id => $cache_params) {
+                        if (empty($cache_params['count'])) {
+                            $cache_params['count'] = '';
+                        }
+
+                        if (empty($cache_params['ok_count'])) {
+                            $cache_params['ok_count'] = '';
+                        }
+
+                        if (empty($cache_params['timestamp'])) {
+                            $cache_params['timestamp'] = '';
+                        }
+
+                        if (empty($cache_params['expires'])) {
+                            $cache_params['expires'] = '';
+                        }
+
+                        if (empty($cache_params['uid'])) {
+                            $cache_params['uid'] = '';
+                        }
                         ?>
                         <tr>
                             <td class="td-system-status-name"><?php echo $social_network_id ?></td>
