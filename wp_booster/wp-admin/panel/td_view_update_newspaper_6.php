@@ -245,9 +245,20 @@ class td_update_to_newspaper6 {
                         if (isset($old_newspaper_options) and is_array($old_newspaper_options)) {
                             // import the widgets
                             td_update_to_newspaper6::log('Importing widgets');
+
+                            // import the sidebar_widgets
                             $old_sidebars_widgets = get_option('sidebars_widgets');
                             $fixed_sidebars_widgets = td_update_to_newspaper6::update_sidebar_widgets($old_sidebars_widgets);
                             update_option('sidebars_widgets', $fixed_sidebars_widgets);
+
+
+                            // update each widget
+                            foreach (td_update_to_newspaper6::$shortcode_map as $old_shortcode => $new_shortcode) {
+                                $db_get_widget_option = get_option('widget_' . $old_shortcode . '_widget');
+                                if (!empty($db_get_widget_option)) {
+                                    update_option('widget_' . $new_shortcode . '_widget', $db_get_widget_option);
+                                }
+                            }
 
 
                             // import the settings
@@ -255,6 +266,11 @@ class td_update_to_newspaper6 {
                             td_update_to_newspaper6::update_theme_settings($old_newspaper_options);
 
 
+                            /*
+                             *  - content
+                             *  - post templates
+                             *  - modules
+                             */
                             td_update_to_newspaper6::log('Updating the content');
                             $args = array(
                                 'post_type' => array('page'),
@@ -263,8 +279,19 @@ class td_update_to_newspaper6 {
                             $query = new WP_Query( $args );
                             if (!empty($query->posts)) {
                                 foreach ($query->posts as $post) {
+                                    // change the shortcodes
                                     $post->post_content = td_update_to_newspaper6::update_content($post->post_content);
                                     wp_update_post($post);
+
+                                    // change the templates
+                                    $td_cur_post_template = get_post_meta($post->ID, '_wp_page_template', true);
+                                    if ($td_cur_post_template == 'page-homepage-bg-loop.php' or 'page-homepage-loop.php') {
+                                        update_post_meta($post->ID, '_wp_page_template', 'page-pagebuilder-latest.php');
+                                    } else {
+                                        update_post_meta($post->ID, '_wp_page_template', '');
+                                    }
+
+
                                 }
 
 
