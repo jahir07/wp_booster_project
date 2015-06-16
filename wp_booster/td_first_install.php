@@ -46,7 +46,7 @@ function td_theme_migration() {
 		// wp_parse_args format
 		$args = array(
 			'post_type' => array('page', 'post'),
-			'numberposts' => '100',
+			'numberposts' => '200',
 			'orderby' => 'post_date',
 			'order' => 'DESC',
 
