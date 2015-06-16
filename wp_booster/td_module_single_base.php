@@ -165,7 +165,11 @@ class td_module_single_base extends td_module {
         ));
     }
 
-    function get_title($excerpt_lenght = '') {
+    /**
+     * @param string $cut_at - not used, it's added to maintain strict standards
+     * @return string
+     */
+    function get_title($cut_at = '') {
         //just use h1 instead of h3
         $var_single = 0;
         if (is_single()) {
