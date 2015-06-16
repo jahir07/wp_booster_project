@@ -113,13 +113,11 @@ var td_animation_stack = {
                 window.td_animation_stack_effect = td_animation_stack._animation_default_effect;
             }
 
-            // - if not, the td-animation-stacks with class 1 and class 2 are applied
             td_animation_stack._animation_css_class1 = 'td-animation-stack-' + window.td_animation_stack_effect + '-1';
             td_animation_stack._animation_css_class2 = 'td-animation-stack-' + window.td_animation_stack_effect + '-2';
 
 
             // - the td_animation_stack._general_selectors is set by the global variable window.td_animation_stack_general_selectors
-            // - it's used only by the non 'full fade' (type0) effects
             if (window.td_animation_stack_general_selectors != undefined) {
                 td_animation_stack._general_selectors = window.td_animation_stack_general_selectors;
             }
