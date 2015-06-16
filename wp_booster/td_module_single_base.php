@@ -588,6 +588,12 @@ class td_module_single_base extends td_module {
             $via_url = '#';
             $source_url = '#';
 
+	        // used to check is post have tags to align the source and via container
+	        $td_no_tags = '';
+	        if (!has_tag()) {
+		        $td_no_tags = 'td-no-tags';
+	        }
+
             if (!empty($this->td_post_theme_settings['td_via_url'])) {
                 $via_url = $this->td_post_theme_settings['td_via_url'];
             }
@@ -596,7 +602,7 @@ class td_module_single_base extends td_module {
                 $source_url = $this->td_post_theme_settings['td_source_url'];
             }
 
-            $buffy .= '<div class="td-post-source-via">';
+            $buffy .= '<div class="td-post-source-via ' . $td_no_tags . '">';
             if (!empty($this->td_post_theme_settings['td_via'])) {
                 $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA', TD_THEME_NAME) . '</span><a rel="nofollow" href="' . esc_url($via_url) . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
             }
