@@ -111,21 +111,21 @@ var td_animation_stack = {
             // if the global variable window.td_animation_stack_effect has the empty string value, the 'full fade' (type0) effect is prepared to be applied
             if (window.td_animation_stack_effect == '') {
                 window.td_animation_stack_effect = td_animation_stack._animation_default_effect;
-            } else {
-                // - if not, the td-animation-stacks with class 1 and class 2 are applied
-                td_animation_stack._animation_css_class1 = 'td-animation-stack-' + window.td_animation_stack_effect + '-1';
-                td_animation_stack._animation_css_class2 = 'td-animation-stack-' + window.td_animation_stack_effect + '-2';
-
-
-                // - the td_animation_stack._general_selectors is set by the global variable window.td_animation_stack_general_selectors
-                // - it's used only by the non 'full fade' (type0) effects
-                if (window.td_animation_stack_general_selectors != undefined) {
-                    td_animation_stack._general_selectors = window.td_animation_stack_general_selectors;
-                }
-
-                // the td_animation_stack._animation_css_class1 css class is applied for all elements need to be animated later
-                jQuery(td_animation_stack._general_selectors).addClass(td_animation_stack._animation_css_class1);
             }
+
+            // - if not, the td-animation-stacks with class 1 and class 2 are applied
+            td_animation_stack._animation_css_class1 = 'td-animation-stack-' + window.td_animation_stack_effect + '-1';
+            td_animation_stack._animation_css_class2 = 'td-animation-stack-' + window.td_animation_stack_effect + '-2';
+
+
+            // - the td_animation_stack._general_selectors is set by the global variable window.td_animation_stack_general_selectors
+            // - it's used only by the non 'full fade' (type0) effects
+            if (window.td_animation_stack_general_selectors != undefined) {
+                td_animation_stack._general_selectors = window.td_animation_stack_general_selectors;
+            }
+
+            // the td_animation_stack._animation_css_class1 css class is applied for all elements need to be animated later
+            jQuery(td_animation_stack._general_selectors).addClass(td_animation_stack._animation_css_class1);
 
 
             // - timeout used by the ready_init function, to cut down td_animation_stack.init calling at loading page, when the call comes too late
