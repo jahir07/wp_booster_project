@@ -29,7 +29,7 @@ class td_unique_posts {
 
         if (is_page()) {
 	        //$td_unique_articles = get_post_meta($page_id, 'td_unique_articles', true);
-            $td_unique_articles = get_post_meta($page_id, 'td_post_theme_settings', true);
+	        $td_unique_articles = get_post_meta($page_id, 'td_homepage_loop', true);
             if (!empty($td_unique_articles['td_unique_articles'])) {
                 self::$keep_rendered_posts_ids = true; //for new module hook
                 self::$unique_articles_enabled = true; //for datasource

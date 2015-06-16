@@ -319,20 +319,20 @@ var td_animation_stack = {
 
 
 
-        if (window.td_animation_stack_effect === 'type0') {
-            // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
-            var founded_elements = jQuery(selector + ', .post').find(td_animation_stack._specific_selectors).filter(function() {
-                return jQuery(this).css('opacity') === '0';
-            });
-
-        } else {
+        //if (window.td_animation_stack_effect === 'type0') {
+        //    // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
+        //    var founded_elements = jQuery(selector + ', .post').find(td_animation_stack._specific_selectors).filter(function() {
+        //        return jQuery(this).css('opacity') === '0';
+        //    });
+        //
+        //} else {
             jQuery(td_animation_stack._general_selectors).not('.' + td_animation_stack._animation_css_class2).addClass(td_animation_stack._animation_css_class1);
 
             // for every founded element there's an instantiated td_animation_stack.item, then initialized and added to the local stack
             var founded_elements = jQuery(selector + ', .post').find(td_animation_stack._specific_selectors).filter(function() {
                 return jQuery(this).hasClass(td_animation_stack._animation_css_class1);
             });
-        }
+        //}
 
 
 
@@ -395,12 +395,12 @@ var td_animation_stack = {
 
 
 
-                            if (window.td_animation_stack_effect === 'type0') {
-                                local_stack[i].jquery_obj.css('opacity', 1);
-                            } else {
+                            //if (window.td_animation_stack_effect === 'type0') {
+                            //    local_stack[i].jquery_obj.css('opacity', 1);
+                            //} else {
                                 local_stack[i].jquery_obj.removeClass(td_animation_stack._animation_css_class1);
                                 local_stack[i].jquery_obj.addClass(td_animation_stack._animation_css_class2);
-                            }
+                            //}
 
 
 
@@ -544,12 +544,12 @@ var td_animation_stack = {
 
 
 
-            if (window.td_animation_stack_effect === 'type0') {
-                item_above_view_port.jquery_obj.css('opacity', 1);
-            } else {
+            //if (window.td_animation_stack_effect === 'type0') {
+            //    item_above_view_port.jquery_obj.css('opacity', 1);
+            //} else {
                 item_above_view_port.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
                 item_above_view_port.jquery_obj.addClass(td_animation_stack._animation_css_class2);
-            }
+            //}
 
 
 
@@ -568,12 +568,12 @@ var td_animation_stack = {
 
 
 
-            if (window.td_animation_stack_effect === 'type0') {
-                current_animation_item.jquery_obj.css('opacity', 1);
-            } else {
+            //if (window.td_animation_stack_effect === 'type0') {
+            //    current_animation_item.jquery_obj.css('opacity', 1);
+            //} else {
                 current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
                 current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
-            }
+//            }
 
 
 
@@ -607,12 +607,12 @@ var td_animation_stack = {
 
 
 
-                if (window.td_animation_stack_effect === 'type0') {
-                    current_animation_item.jquery_obj.css('opacity', 1);
-                } else {
+                //if (window.td_animation_stack_effect === 'type0') {
+                //    current_animation_item.jquery_obj.css('opacity', 1);
+                //} else {
                     current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
                     current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
-                }
+                //}
 
 
 
