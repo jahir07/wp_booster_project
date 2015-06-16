@@ -149,34 +149,23 @@ add_action('wp_head', 'td_include_user_compiled_css', 10);
  */
 add_action('wp_enqueue_scripts', 'td_load_css_fonts');
 function td_load_css_fonts() {
-    if ((defined('TD_DEPLOY_MODE') and (TD_DEPLOY_MODE == 'demo')) or defined('TD_SPEED_BOOSTER')) {
-        /*
-         * on demo and dev we load only the latin fonts
-         *
-         * modify this collection if you want to optimize the fonts loaded when you have the speed booster enabled
-         *
-         * collection url -> : http://www.google.com/fonts#ReviewPlace:refine/Collection:PT+Sans:400,700,400italic|Ubuntu:400,400italic|Open+Sans:400italic,400|Oswald:400,700|Roboto+Condensed:400italic,700italic,400,700
-         */
-        wp_enqueue_style('google-font-rest', td_global::$http_or_https . '://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,700italic,700,400|Open+Sans:400italic,600italic,700italic,400,700,600'); //used on menus/small text
-    } else {
-        $td_user_fonts_list = array();
-        $td_user_fonts_db = td_util::get_option('td_fonts');
 
-        if(!empty($td_user_fonts_db)) {
-            foreach($td_user_fonts_db as $td_font_setting_key => $td_font_setting_val) {
-                if(!empty($td_font_setting_val) and !empty($td_font_setting_val['font_family'])) {
-                    $td_user_fonts_list[] = $td_font_setting_val['font_family'];
-                }
+    $td_user_fonts_list = array();
+    $td_user_fonts_db = td_util::get_option('td_fonts');
+
+    if(!empty($td_user_fonts_db)) {
+        foreach($td_user_fonts_db as $td_font_setting_key => $td_font_setting_val) {
+            if(!empty($td_font_setting_val) and !empty($td_font_setting_val['font_family'])) {
+                $td_user_fonts_list[] = $td_font_setting_val['font_family'];
             }
         }
+    }
 
 
-        foreach (td_global::$default_google_fonts_list as $default_font_id => $default_font_params) {
-            if(!in_array('g_' . $default_font_id, $td_user_fonts_list)) {
-                wp_enqueue_style($default_font_params['css_style_id'], $default_font_params['url'] . td_fonts::get_google_fonts_subset_query()); //used on menus/small text
-            }
+    foreach (td_global::$default_google_fonts_list as $default_font_id => $default_font_params) {
+        if(!in_array('g_' . $default_font_id, $td_user_fonts_list)) {
+            wp_enqueue_style($default_font_params['css_style_id'], $default_font_params['url'] . td_fonts::get_google_fonts_subset_query()); //used on menus/small text
         }
-
     }
 
     /*

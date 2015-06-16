@@ -165,7 +165,11 @@ class td_module_single_base extends td_module {
         ));
     }
 
-    function get_title($excerpt_lenght = '') {
+    /**
+     * @param string $cut_at - not used, it's added to maintain strict standards
+     * @return string
+     */
+    function get_title($cut_at = '') {
         //just use h1 instead of h3
         $var_single = 0;
         if (is_single()) {
@@ -588,6 +592,12 @@ class td_module_single_base extends td_module {
             $via_url = '#';
             $source_url = '#';
 
+	        // used to check is post have tags to align the source and via container
+	        $td_no_tags = '';
+	        if (!has_tag()) {
+		        $td_no_tags = 'td-no-tags';
+	        }
+
             if (!empty($this->td_post_theme_settings['td_via_url'])) {
                 $via_url = $this->td_post_theme_settings['td_via_url'];
             }
@@ -596,7 +606,7 @@ class td_module_single_base extends td_module {
                 $source_url = $this->td_post_theme_settings['td_source_url'];
             }
 
-            $buffy .= '<div class="td-post-source-via">';
+            $buffy .= '<div class="td-post-source-via ' . $td_no_tags . '">';
             if (!empty($this->td_post_theme_settings['td_via'])) {
                 $buffy .= '<div class="td-post-small-box"><span>' . __td('VIA', TD_THEME_NAME) . '</span><a rel="nofollow" href="' . esc_url($via_url) . '">' . $this->td_post_theme_settings['td_via'] . '</a></div>';
             }
