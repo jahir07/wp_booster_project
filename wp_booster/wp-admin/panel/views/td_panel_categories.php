@@ -171,28 +171,8 @@
 
 <?php
 
-// get all the categories
-$categories = get_categories(array(
-    'hide_empty' => 0,
-    'number' => 1000
-));
 
-// 'walk' all the categories
-$td_category_walker_panel = new td_category_walker_panel;
-$td_category_walker_panel->walk($categories, 4);
 
-// add each category panel
-foreach ($td_category_walker_panel->td_category_buffer as $display_category_name => $category_id) {
-    ?>
-    <!-- LAYOUT SETTINGS -->
-    <?php
-    echo td_panel_generator::ajax_box($display_category_name, array(
-            'td_ajax_calling_file' => basename(__FILE__),
-            'td_ajax_box_id' => 'td_get_category_section_by_id',
-            'category_id' => $category_id
-        )
-    );
-}//end foreach
 
 
 
@@ -278,3 +258,28 @@ class td_category_walker_panel extends Walker {
     }
 
 }
+
+
+
+// get all the categories
+$categories = get_categories(array(
+	'hide_empty' => 0,
+	'number' => 1000
+));
+
+// 'walk' all the categories
+$td_category_walker_panel = new td_category_walker_panel;
+$td_category_walker_panel->walk($categories, 4);
+
+// add each category panel
+foreach ($td_category_walker_panel->td_category_buffer as $display_category_name => $category_id) {
+	?>
+	<!-- LAYOUT SETTINGS -->
+	<?php
+	echo td_panel_generator::ajax_box($display_category_name, array(
+			'td_ajax_calling_file' => basename(__FILE__),
+			'td_ajax_box_id' => 'td_get_category_section_by_id',
+			'category_id' => $category_id
+		)
+	);
+}//end foreach
