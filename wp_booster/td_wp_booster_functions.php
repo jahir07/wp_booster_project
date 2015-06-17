@@ -365,36 +365,36 @@ function hook_wp_head() {
 	}
 
 	// if speed booster is active, the body animation classes are added into the head style, otherwise they are applied too late (the same is td-backstretch)
-	if (defined('TD_SPEED_BOOSTER')) {
-		echo '<style type="text/css">
-			body.td-animation-stack-type0 .td-animation-stack .entry-thumb,
-			body.td-animation-stack-type0 .post img {
-			  opacity: 0;
-			}
-
-			body.td-animation-stack-type1 .td-animation-stack .entry-thumb,
-			body.td-animation-stack-type1 .post .entry-thumb,
-			body.td-animation-stack-type1 .post img[class*="wp-image-"],
-			body.td-animation-stack-type1 .post a.td-sml-link-to-image > img {
-			  opacity: 0;
-			  transform: scale(0.95);
-			}
-
-			body.td-animation-stack-type2 .td-animation-stack .entry-thumb,
-			body.td-animation-stack-type2 .post .entry-thumb,
-			body.td-animation-stack-type2 .post img[class*="wp-image-"],
-			body.td-animation-stack-type2 .post a.td-sml-link-to-image > img {
-			  opacity: 0;
-			  .transform(translate(0px,10px));
-			}
-
-			.td-backstretch {
-			    display: block;
-			    max-width: none;
-			    opacity: 0;
-			    transition: opacity 2s ease 0s;
-			}</style>';
-	}
+//	if (defined('TD_SPEED_BOOSTER')) {
+//		echo '<style type="text/css">
+//			body.td-animation-stack-type0 .td-animation-stack .entry-thumb,
+//			body.td-animation-stack-type0 .post img {
+//			  opacity: 0;
+//			}
+//
+//			body.td-animation-stack-type1 .td-animation-stack .entry-thumb,
+//			body.td-animation-stack-type1 .post .entry-thumb,
+//			body.td-animation-stack-type1 .post img[class*="wp-image-"],
+//			body.td-animation-stack-type1 .post a.td-sml-link-to-image > img {
+//			  opacity: 0;
+//			  transform: scale(0.95);
+//			}
+//
+//			body.td-animation-stack-type2 .td-animation-stack .entry-thumb,
+//			body.td-animation-stack-type2 .post .entry-thumb,
+//			body.td-animation-stack-type2 .post img[class*="wp-image-"],
+//			body.td-animation-stack-type2 .post a.td-sml-link-to-image > img {
+//			  opacity: 0;
+//			  .transform(translate(0px,10px));
+//			}
+//
+//			.td-backstretch {
+//			    display: block;
+//			    max-width: none;
+//			    opacity: 0;
+//			    transition: opacity 2s ease 0s;
+//			}</style>';
+//	}
 }
 
 
