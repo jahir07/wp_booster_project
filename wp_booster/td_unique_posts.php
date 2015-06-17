@@ -28,12 +28,22 @@ class td_unique_posts {
         $page_id = get_queried_object_id();
 
         if (is_page()) {
+
+	        // previous meta
 	        //$td_unique_articles = get_post_meta($page_id, 'td_unique_articles', true);
-	        $td_unique_articles = get_post_meta($page_id, 'td_homepage_loop', true);
-            if (!empty($td_unique_articles['td_unique_articles'])) {
-                self::$keep_rendered_posts_ids = true; //for new module hook
-                self::$unique_articles_enabled = true; //for datasource
-            }
+
+	        $meta_key = 'td_page';
+	        $td_page_template = get_post_meta($page_id, '_wp_page_template', true);
+	        if (!empty($td_page_template) && ($td_page_template == 'page-pagebuilder-latest.php')) {
+		        $meta_key = 'td_homepage_loop';
+
+	        }
+
+	        $td_unique_articles = get_post_meta($page_id, $meta_key, true);
+	        if (!empty($td_unique_articles['td_unique_articles'])) {
+		        self::$keep_rendered_posts_ids = true; //for new module hook
+		        self::$unique_articles_enabled = true; //for datasource
+	        }
         }
         if (td_util::get_option('tds_ajax_post_view_count') == 'enabled') {
             self::$keep_rendered_posts_ids = true;
