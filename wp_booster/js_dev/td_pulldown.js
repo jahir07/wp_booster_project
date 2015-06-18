@@ -515,7 +515,7 @@ var td_pulldown = {
 
             if (content_element.length) {
 
-                if (undefined != typeof(clear_margin) && clear_margin == true) {
+                if ('undefined' !== typeof(clear_margin) && clear_margin == true) {
                     content_element.css('margin-right', 0);
                 } else {
                     if (item._horizontal_elements.length == 0) {

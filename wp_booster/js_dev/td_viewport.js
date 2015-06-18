@@ -41,7 +41,7 @@ var td_viewport = {
      *
      */
     init: function init() {
-        if ((typeof window.td_viewport_interval_list !== undefined) && (window.td_viewport_interval_list.constructor === Array)) {
+        if ((typeof window.td_viewport_interval_list !== 'undefined') && (window.td_viewport_interval_list.constructor === Array)) {
 
             for (var i = 0; i < window.td_viewport_interval_list.length; i++) {
                 var item = new td_viewport.item();
