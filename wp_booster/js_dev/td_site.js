@@ -551,7 +551,8 @@ function td_smart_lists_magnific_popup() {
         gallery: {
             enabled: true,
             navigateByImgClick: true,
-            preload: [0,1]
+            preload: [0,1],
+            tCounter: td_util.get_backend_var('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
         },
         image: {
             tError: "<a href=\'%url%\'>The image #%curr%</a> could not be loaded.",
