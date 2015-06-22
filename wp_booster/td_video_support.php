@@ -135,16 +135,32 @@ class td_video_support{
                 //print_r($dailyMotionDecoded);
                 break;
             case 'vimeo':
-                $vimeoApi = @file_get_contents('http://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
-                if (!empty($vimeoApi)) {
-                    $vimeoApiData = @unserialize($vimeoApi);
-                    if (!empty($vimeoApiData[0]['thumbnail_large'])) {
-                        return $vimeoApiData[0]['thumbnail_large'];
-                    }
-                    //print_r($vimeoApiData);
-                }
+//                $vimeoApi = @file_get_contents('http://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
+//                if (!empty($vimeoApi)) {
+//                    $vimeoApiData = @unserialize($vimeoApi);
+//                    if (!empty($vimeoApiData[0]['thumbnail_large'])) {
+//                        return $vimeoApiData[0]['thumbnail_large'];
+//                    }
+//                    //print_r($vimeoApiData);
+//                }
 
-                break;
+
+				// - the thumb is obtained using the new api embed from vimeo
+				// - otherwise, it was necessary using the standard new api which implies OAuth
+
+		        $url = 'http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . $this->getVimeoId($videoUrl);
+
+		        $response = wp_remote_get($url, array(
+			        'timeout' => 10,
+			        'sslverify' => false,
+			        'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0'
+		        ));
+
+		        if (!is_wp_error($response)) {
+			        $td_result = @json_decode(wp_remote_retrieve_body($response));
+			        return ($td_result->thumbnail_url);
+		        }
+		        break;
         }
     }
 

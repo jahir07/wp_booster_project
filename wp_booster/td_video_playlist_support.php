@@ -228,7 +228,10 @@ class td_video_playlist_support {
                         break;
 
                     case 'vimeo_ids':
-                        $html_returned = unserialize(wp_remote_fopen('http://vimeo.com/api/v2/video/' . $id_video . '.php'));
+
+						// this is the old api vimeo maintained for thumbnail_small which should not be gotten without OAuth of the new api
+
+	                    $html_returned = unserialize(wp_remote_fopen('http://vimeo.com/api/v2/video/' . $id_video . '.php'));
 
                         $buffy[$id_video]['thumb'] = $html_returned[0]['thumbnail_small'];
                         $buffy[$id_video]['title'] = $html_returned[0]['title'];  //@todo htmlentities should be used when the title is displayed, not here
