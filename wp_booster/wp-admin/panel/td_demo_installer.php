@@ -20,7 +20,7 @@ class td_demo_installer {
         }
 
         // try to extend the time limit
-        set_time_limit(240);
+        @set_time_limit(240);
 
 
         $td_demo_action = td_util::get_http_post_val('td_demo_action');

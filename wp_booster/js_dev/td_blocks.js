@@ -256,7 +256,7 @@ function td_on_ready_ajax_blocks() {
     jQuery('.td-subcat-item a').click(function(event) {
         event.preventDefault();
 
-        jQuery('.td-subcat-item a').removeClass('td-cur-simple-item');
+        jQuery('.' + jQuery(this).data('td_block_id') + '_rand').find('.td-cur-simple-item').removeClass('td-cur-simple-item');
         jQuery(this).addClass('td-cur-simple-item');
 
         var current_block_obj = td_getBlockObjById(jQuery(this).data('td_block_id'));
