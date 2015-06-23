@@ -395,6 +395,14 @@ function hook_wp_head() {
 //			    transition: opacity 2s ease 0s;
 //			}</style>';
 //	}
+
+
+
+	$tds_general_modal_image = td_util::get_option('tds_general_modal_image');
+
+	if (!empty($tds_general_modal_image)) {
+		td_js_buffer::add_variable('tds_general_modal_image', $tds_general_modal_image);
+	}
 }
 
 
@@ -619,36 +627,6 @@ function td_bottom_code() {
             }
         }
     }
-
-
-
-
-
-	$tds_general_modal_image = td_util::get_option('tds_general_modal_image');
-
-	if (!empty($tds_general_modal_image)) {
-
-		ob_start();
-		?>
-		<script>
-
-			jQuery(window).ready(function() {
-
-				jQuery('.single .td-post-content a > img').filter(function(index, element) {
-					if (element.className.indexOf('wp-image') != -1) {
-						jQuery(element).parent('a').addClass('td-modal-image');
-					}
-				});
-			});
-
-		</script>
-		<?php
-		$local_script_buffer = ob_get_clean();
-		$the_js_script = "\n". td_util::remove_script_tag($local_script_buffer);
-		td_js_buffer::add_to_footer($the_js_script);
-	}
-
-
 
 
 

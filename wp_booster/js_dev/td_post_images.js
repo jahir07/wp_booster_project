@@ -10,6 +10,7 @@
  On load
  */
 jQuery().ready(function() {
+
     //handles the modal images
     td_modal_image();
 
@@ -18,6 +19,17 @@ jQuery().ready(function() {
     td_util.image_move_class_to_figure('td-post-image-right');
     td_util.image_move_class_to_figure('td-post-image-left');
 
+    /**
+     * - add a general td-modal-image class to the all post images
+     */
+    if ((typeof window.tds_general_modal_image !== 'undefined') && (window.tds_general_modal_image !== '')) {
+        jQuery('.single .td-post-content a > img').filter(function(index, element) {
+            console.log(element);
+            if (element.className.indexOf('wp-image') != -1) {
+                jQuery(element).parent().addClass('td-modal-image');
+            }
+        });
+    }
 });
 
 

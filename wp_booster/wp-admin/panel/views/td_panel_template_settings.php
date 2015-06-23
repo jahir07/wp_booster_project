@@ -197,37 +197,6 @@
 
 
 
-<!-- set general modal image -->
-<?php echo td_panel_generator::box_start('General modal image', false); ?>
-<!-- text -->
-<div class="td-box-row">
-	<div class="td-box-description td-box-full">
-		<p>The general modal image allows you applying the modal image viewer over all post images, so you won't have to go on each post to set them individually.</p>
-		<p>Consider that disabling this feature, the individual settings of an image post are applied.</p>
-	</div>
-	<div class="td-box-row-margin-bottom"></div>
-</div>
-<!-- Stretch background -->
-<div class="td-box-row">
-	<div class="td-box-description">
-		<span class="td-box-title">POST CONTENT MODAL IMAGE</span>
-		<p>Disable or enable general modal image</p>
-	</div>
-	<div class="td-box-control-full">
-		<?php
-		echo td_panel_generator::checkbox(array(
-			'ds' => 'td_option',
-			'option_id' => 'tds_general_modal_image',
-			'true_value' => 'yes',
-			'false_value' => ''
-		));
-		?>
-	</div>
-</div>
-<?php echo td_panel_generator::box_end();?>
-
-
-
 
 
 <hr>
