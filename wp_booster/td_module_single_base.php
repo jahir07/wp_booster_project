@@ -446,7 +446,7 @@ class td_module_single_base extends td_module {
 
 
         //add the inline ad
-        if (td_util::is_ad_spot_enabled('content_inline') and is_single() ) {
+        if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
 
             if (empty($tds_inline_ad_paragraph)) {
                 $tds_inline_ad_paragraph = 0;
@@ -454,12 +454,13 @@ class td_module_single_base extends td_module {
 
             $cnt = 0;
             $content_buffer = ''; // we replace the content with this buffer at the end
-            $content_parts = explode('<p>', $content);
 
-            foreach ($content_parts as $content_part) {
-                if (!empty($content_part)) {
+	        $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-                    if ($tds_inline_ad_paragraph == $cnt) {
+            foreach ($content_parts as $content_part_index => $content_part_value) {
+	            if (!empty($content_part_value)) {
+
+		            if ($tds_inline_ad_paragraph == ($content_part_index / 2)) {
                         //it's time to show the ad
                         switch ($tds_inline_ad_align) {
                             case 'left':
@@ -475,9 +476,8 @@ class td_module_single_base extends td_module {
                                 $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline'));
                                 break;
                         }
-
                     }
-                    $content_buffer .= '<p>' . $content_part;
+                    $content_buffer .= $content_part_value;
                     $cnt++;
                 }
             }
