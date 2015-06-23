@@ -193,6 +193,8 @@ $td_translation_map = array(
 
     'More' => __('More', TD_THEME_NAME),
     'Register' => __('Register', TD_THEME_NAME),
+
+    'of' => __('of', TD_THEME_NAME),
 );
 
 

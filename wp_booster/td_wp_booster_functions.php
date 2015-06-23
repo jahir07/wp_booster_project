@@ -1343,7 +1343,7 @@ function my_gallery_shortcode($output = '', $atts, $content = false, $tag = fals
                            <div class="td-gallery-title">' . $title_slide . '</div>
 
                             <div class="td-gallery-controls-wrapper">
-                                <div class="td-gallery-slide-count"><span class="td-gallery-slide-item-focus">1</span> ' . __td('of') . ' ' . $nr_of_slides . '</div>
+                                <div class="td-gallery-slide-count"><span class="td-gallery-slide-item-focus">1</span> ' . __td('of', TD_THEME_NAME) . ' ' . $nr_of_slides . '</div>
                                 <div class="td-gallery-slide-prev-next-but">
                                     <i class = "td-icon-left doubleSliderPrevButton"></i>
                                     <i class = "td-icon-right doubleSliderNextButton"></i>
@@ -1382,7 +1382,8 @@ function my_gallery_shortcode($output = '', $atts, $content = false, $tag = fals
                             gallery: {
                                 enabled: true,
                                 navigateByImgClick: true,
-                                preload: [0,1]
+                                preload: [0,1],
+                                tCounter: \'%curr% ' . __td('of', TD_THEME_NAME) . ' %total%\'
                             },
                             image: {
                                 tError: "<a href=\'%url%\'>The image #%curr%</a> could not be loaded.",
