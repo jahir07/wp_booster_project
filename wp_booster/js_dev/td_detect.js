@@ -38,12 +38,16 @@ var td_detect = new function () {
     this.is_android = false;
     this.is_osx = false;
     this.is_firefox = false;
+    this.is_win_os = false;
 
 
 
 
     // is touch device ?
-    this.is_touch_device = !!('ontouchstart' in window);
+    this.is_win_os = (-1 != navigator.appVersion.indexOf("Win"));
+    this.is_touch_device = !!('ontouchstart' in window) && !this.is_win_os;
+
+
     this.is_mobile_device = false;
 
     this.html_jquery_obj = jQuery('html');
