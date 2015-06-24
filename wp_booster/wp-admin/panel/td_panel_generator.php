@@ -408,9 +408,9 @@ class td_panel_generator {
 
 	    $buffy = '
             <div class="td_wrapper_upload_control">
-                <div id="' . $contro_unique_id . '_display" class="td_upload_container_for_image ' . $class_hidden . '"><img src="' . $image_path .  '" id="' . $display_img_id . '" width="66" height="66" class="td_upd_image_display_small_image"></div>
+                <div id="' . $contro_unique_id . '_display" class="td_upload_container_for_image ' . $class_hidden . '"><img src="' . esc_attr(stripslashes($image_path)) .  '" id="' . $display_img_id . '" width="66" height="66" class="td_upd_image_display_small_image"></div>
                 <div class="td_upload_image_controls">
-                    <input type="text" id="' . $contro_unique_id .'" name="' . self::generate_name($params_array) . '" value="' . $control_value . '" class="td_upload_field_link_image" />
+                    <input type="text" id="' . $contro_unique_id .'" name="' . self::generate_name($params_array) . '" value="' . esc_attr(stripslashes($control_value)) . '" class="td_upload_field_link_image" />
                     <div><a id="' . $contro_unique_id . '_button" class="td_upload_button">Upload</a><a id="' . $contro_unique_id . '_button_delete" class="td_delete_image_button ' . $class_hidden . '" data-control-id="' . $contro_unique_id . '">Remove</a><script language="JavaScript">td_upload_image("' . $contro_unique_id . '");</script></div>
                 </div>
             </div>';
