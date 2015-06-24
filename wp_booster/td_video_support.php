@@ -168,10 +168,36 @@ class td_video_support{
         $buffy = '';
         switch ($this->detectVideoSearvice($videoUrl)) {
             case 'youtube':
-                $buffy .= '
+	            $buffy .= '
                 <div class="wpb_video_wrapper">
-                    <iframe width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . $this->getYoutubeId($videoUrl) . '?feature=oembed&wmode=opaque&vq=hd720' . $this->getYoutubeTimeParam($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
+                    <iframe id="td_youtube_player" width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . $this->getYoutubeId($videoUrl) . '?enablejsapi=1&feature=oembed&wmode=opaque&vq=hd720' . $this->getYoutubeTimeParam($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
+                    <script type="text/javascript">
+
+						var tag = document.createElement("script");
+						tag.src = "https://www.youtube.com/iframe_api";
+
+						var firstScriptTag = document.getElementsByTagName("script")[0];
+						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+						var player;
+
+						function onYouTubeIframeAPIReady() {
+							player = new YT.Player("td_youtube_player", {
+								height: "720",
+								width: "960",
+								events: {
+									"onReady": onPlayerReady
+								}
+							});
+						}
+
+						function onPlayerReady(event) {
+							player.setPlaybackQuality("hd720");
+						}
+					</script>
+
                 </div>
+
                 ';
 
                 break;
