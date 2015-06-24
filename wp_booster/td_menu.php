@@ -151,11 +151,19 @@ class td_menu {
                 //read the page content
                 $content_post = get_post($td_mega_menu_page_id);
                 $content = $content_post->post_content;
-                $content = apply_filters('the_content', $content);
-                $content = str_replace(']]>', ']]&gt;', $content);
+	            $content = apply_filters('the_content', $content);
+	            $content = str_replace(']]>', ']]&gt;', $content);
+
 
                 $new_item->title = '<div class="td-container-border"><div class="td-mega-grid">';
-                $new_item->title .= $content;
+
+	            // the has_filter check is made for plugins, like bbpress, who think it's okay to remove all filters on 'the_content'
+	            if (!has_filter('the_content', 'do_shortcode')) {
+		            $new_item->title .= do_shortcode($content);
+	            } else {
+		            $new_item->title .= $content;
+	            }
+
                 $new_item->title .= '</div></div>';
                 $items_buffy[] = $new_item;
             }
