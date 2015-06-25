@@ -470,6 +470,20 @@ function td_wp_title( $title, $sep ) {
     return $title;
 }
 
+/**
+ * - filter 'wpseo_title' gets the wpseo yoast title, and on a td page exists pagination which is not intercepted by it,
+ * so on them we return our custom title
+ */
+add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
+function td_wpseo_title($seo_title) {
+	if (is_singular()) {
+		global $post;
+		return td_wp_title(get_the_title($post->ID), ' - ');
+	} else {
+		return $seo_title;
+	}
+}
+
 
 
 
