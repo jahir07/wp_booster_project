@@ -24,7 +24,6 @@ jQuery().ready(function() {
      */
     if ((typeof window.tds_general_modal_image !== 'undefined') && (window.tds_general_modal_image !== '')) {
         jQuery('.single .td-post-content a > img').filter(function(index, element) {
-            console.log(element);
             if (element.className.indexOf('wp-image') != -1) {
                 jQuery(element).parent().addClass('td-modal-image');
             }
