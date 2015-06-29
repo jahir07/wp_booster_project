@@ -67,6 +67,7 @@ function td_theme_migration() {
 			// page settings
 			$update_td_homepage_loop = false;
 			$td_homepage_loop = get_post_meta($recent_post['ID'], 'td_homepage_loop');
+			$td_page = get_post_meta($recent_post['ID'], 'td_page');
 			$td_homepage_loop_filter = get_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
 			$td_unique_articles = get_post_meta($recent_post['ID'], 'td_unique_articles');
 
@@ -80,13 +81,18 @@ function td_theme_migration() {
 			if (!empty($td_unique_articles) and is_array($td_unique_articles) and (count($td_unique_articles) > 0)) {
 				foreach ($td_unique_articles[0] as $filter_key => $filter_value) {
 					$td_homepage_loop[0][$filter_key] = $filter_value;
+					$td_page[0][$filter_key] = $filter_value;
 				}
 				$update_td_homepage_loop = true;
 			}
 
 			if ($update_td_homepage_loop === true) {
 				update_post_meta($recent_post['ID'], 'td_homepage_loop', $td_homepage_loop[0]);
+				update_post_meta($recent_post['ID'], 'td_page', $td_page[0]);
 			}
+
+
+
 
 
 			// post settings
