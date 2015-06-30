@@ -417,12 +417,13 @@ class td_page_generator {
                     echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
                 }
             }
-            if($larger_page_to_show > 0 && $larger_start_page_start > 0 && $larger_start_page_end <= $max_page) {
-                for($i = $larger_start_page_start; $i < $larger_start_page_end; $i+=$larger_page_multiple) {
-                    $page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-                    echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
-                }
-            }
+//            if($larger_page_to_show > 0 && $larger_start_page_start > 0 && $larger_start_page_end <= $max_page) {
+//                for($i = $larger_start_page_start; $i < $larger_start_page_end; $i+=$larger_page_multiple) {
+//                    $page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
+//                    echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+//                }
+//	            echo '<span class="extend">'.$pagenavi_options['dotleft_text'].'</span>';
+//            }
             
             for($i = $start_page; $i  <= $end_page; $i++) {
                 if($i == $paged) {
@@ -434,12 +435,13 @@ class td_page_generator {
                 }
             }
             
-            if($larger_page_to_show > 0 && $larger_end_page_start < $max_page) {
-                for($i = $larger_end_page_start; $i <= $larger_end_page_end; $i+=$larger_page_multiple) {
-                    $page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
-                    echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
-                }
-            }
+//            if($larger_page_to_show > 0 && $larger_end_page_start < $max_page) {
+//	            echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
+//                for($i = $larger_end_page_start; $i <= $larger_end_page_end; $i+=$larger_page_multiple) {
+//                    $page_text = str_replace("%PAGE_NUMBER%", number_format_i18n($i), $pagenavi_options['page_text']);
+//                    echo '<a href="'.esc_url(get_pagenum_link($i)).'" class="page" title="'.$page_text.'">'.$page_text.'</a>';
+//                }
+//            }
             if ($end_page < $max_page) {
                 if(!empty($pagenavi_options['dotright_text']) && ($end_page + 1 < $max_page)) {
                     echo '<span class="extend">'.$pagenavi_options['dotright_text'].'</span>';
