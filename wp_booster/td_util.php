@@ -549,10 +549,11 @@ class td_util {
     static function vc_array_remove_params($vc_map_array, $param_names) {
         foreach ($vc_map_array as $vc_map_index => $vc_map) {
             if (in_array($vc_map['param_name'], $param_names)) {
-                unset($vc_map_array[$vc_map_index]);
+	            unset($vc_map_array[$vc_map_index]);
             }
         }
-        return $vc_map_array;
+	    // the array_merge is used to remove unset int keys and reindex the array for int keys, preserving string keys
+        return array_merge($vc_map_array);
     }
 
 
