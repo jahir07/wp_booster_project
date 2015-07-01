@@ -476,12 +476,26 @@ function td_wp_title( $title, $sep ) {
  */
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
-	if (is_singular()) {
-		global $post;
-		return td_wp_title(get_the_title($post->ID), ' - ');
-	} else {
-		return $seo_title;
+
+	$template_name = 'page-pagebuilder-latest.php';
+
+	// if the hook is called in the loop, the current post id is considered
+	if (in_the_loop()) {
+		$post_id = get_the_ID();
+		$td_page_template = get_post_meta($post_id, '_wp_page_template', true);
+
+		if (!empty($td_page_template) && ($td_page_template == $template_name)) {
+			return td_wp_title(get_the_title($post_id), ' - ');
+		}
+
+	// outside the loop, it's reliable to check the page template
+	} else if (is_page_template($template_name)) {
+		$post_id = get_queried_object_id();
+		return td_wp_title(get_the_title($post_id), ' - ');
 	}
+
+	// if none of the above branches returns, the param $seo_title is returned as it is
+	return $seo_title;
 }
 
 
