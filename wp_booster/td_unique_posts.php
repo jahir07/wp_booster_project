@@ -57,6 +57,7 @@ class td_unique_posts {
             /**
              * @todo in viitor daca ne trebuie ceva mai bun trebuie refactorizat sa foloseasca api-ul de la module sau constructorul din td_module
              */
+            // exclude td_module_trending_now din unique articles
             if (get_class($module) != 'td_module_trending_now') {
                 self::$rendered_posts_ids[] = $post->ID;
             }
