@@ -552,7 +552,7 @@ class td_util {
 	            unset($vc_map_array[$vc_map_index]);
             }
         }
-	    // the array_merge is used to remove unset int keys and reindex the array for int keys, preserving string keys
+	    // the array_merge is used to remove unset int keys and reindex the array for int keys, preserving string keys - Visual Composer needs this
         return array_merge($vc_map_array);
     }
 
