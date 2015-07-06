@@ -471,8 +471,8 @@ function td_wp_title( $title, $sep ) {
 }
 
 /**
- * - filter 'wpseo_title' is used by WordPress SEO plugin and, by default, it returns a seo title that hasn't the page inside of it,
- * when it's used on td pages [those who have a custom page]. At that seo title is added the page info, and just for pages greater than 1
+ * - filter 'wpseo_title' is used by WordPress SEO plugin and, by default, it returns a seo title that hasn't the page number inside of it,
+ * when it's used on td pages [those who have a custom pagination]. At that seo title is added the page info, and just for pages greater than 1
  */
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
