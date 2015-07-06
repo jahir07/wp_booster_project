@@ -1821,11 +1821,7 @@ function td_init_booster() {
 	$smooth_scroll = td_util::get_option('tds_smooth_scroll');
 
 	if (!empty($smooth_scroll)) {
-
-		add_action('wp_enqueue_scripts',  'load_js_smooth_scroll', 1000);
-		function load_js_smooth_scroll() {
-			wp_enqueue_script('td_smooth_scroll', get_template_directory_uri() . '/includes/js_files/td_smooth_scroll.js', array('jquery'), TD_THEME_VERSION, true);
-		}
+		td_js_buffer::add_variable('tds_smooth_scrool', true);
 	}
 }
 
