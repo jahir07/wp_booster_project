@@ -471,9 +471,8 @@ function td_wp_title( $title, $sep ) {
 }
 
 /**
- * - filter 'wpseo_title' gets the wpseo yoast title, and on a td page exists pagination which is not intercepted by it,
- * - the filtered is called outside of the loop as it is in the plugin
- * so on them we return our custom title
+ * - filter 'wpseo_title' is used by WordPress SEO plugin and, by default, it returns a seo title that hasn't the page inside of it,
+ * when it's used on td pages [those who have a custom page]. At that seo title is added the page info, and just for pages greater than 1
  */
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
