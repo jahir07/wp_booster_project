@@ -492,8 +492,7 @@ function td_wpseo_title($seo_title) {
 
 		// the custom title is when the pagination is greater than 1
 		if ($local_paged > 1) {
-			$post_id = get_queried_object_id();
-			return td_wp_title(get_the_title($post_id), ' - ');
+			return $seo_title . ' - ' . __td('Page', TD_THEME_NAME) . ' ' . $local_paged;
 		}
 	}
 
