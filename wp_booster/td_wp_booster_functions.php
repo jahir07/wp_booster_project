@@ -1821,7 +1821,7 @@ function td_init_booster() {
 	$smooth_scroll = td_util::get_option('tds_smooth_scroll');
 
 	if (!empty($smooth_scroll)) {
-		td_js_buffer::add_variable('tds_smooth_scrool', true);
+		td_js_buffer::add_variable('tds_smooth_scroll', true);
 	}
 }
 
