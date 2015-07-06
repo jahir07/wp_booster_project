@@ -472,29 +472,32 @@ function td_wp_title( $title, $sep ) {
 
 /**
  * - filter 'wpseo_title' gets the wpseo yoast title, and on a td page exists pagination which is not intercepted by it,
+ * - the filtered is called outside of the loop as it is in the plugin
  * so on them we return our custom title
  */
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
 
-	$template_name = 'page-pagebuilder-latest.php';
+	// outside the loop, it's reliable to check the page template
+	if (!in_the_loop() && is_page_template('page-pagebuilder-latest.php')) {
 
-	// if the hook is called in the loop, the current post id is considered
-	if (in_the_loop()) {
-		$post_id = get_the_ID();
-		$td_page_template = get_post_meta($post_id, '_wp_page_template', true);
+		$td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
+		$td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
 
-		if (!empty($td_page_template) && ($td_page_template == $template_name)) {
-			return td_wp_title(get_the_title($post_id), ' - ');
+		if ($td_paged > $td_page) {
+			$local_paged = $td_paged;
+		} else {
+			$local_paged = $td_page;
 		}
 
-	// outside the loop, it's reliable to check the page template
-	} else if (is_page_template($template_name)) {
-		$post_id = get_queried_object_id();
-		return td_wp_title(get_the_title($post_id), ' - ');
+		// the custom title is when the pagination is greater than 1
+		if ($local_paged > 1) {
+			$post_id = get_queried_object_id();
+			return td_wp_title(get_the_title($post_id), ' - ');
+		}
 	}
 
-	// if none of the above branches returns, the param $seo_title is returned as it is
+	// otherwise, the param $seo_title is returned as it is
 	return $seo_title;
 }
 
