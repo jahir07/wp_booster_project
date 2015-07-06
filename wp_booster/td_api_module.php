@@ -47,7 +47,7 @@ class td_api_module extends td_api_base {
      * @return mixed array The value set for the 'td_api_module' in the main settings array of the theme
      */
     static function get_all() {
-        return parent::get_all_components(__CLASS__);
+        return parent::get_all_components_metadata(__CLASS__);
     }
 
 

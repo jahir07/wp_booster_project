@@ -14,7 +14,7 @@ class td_api_footer_template extends td_api_base {
 	}
 
     static function get_all() {
-        return parent::get_all_components(__CLASS__);
+        return parent::get_all_components_metadata(__CLASS__);
     }
 
     static function _helper_show_footer() {
