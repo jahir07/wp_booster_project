@@ -17,7 +17,7 @@
                 <?php
                     td_util::tooltip_html('
                         <h3>Post templates:</h3>
-                        <p>Testing this When the default post template is set, the theme wiWhen the default post template is set, the theme wi</p>
+                        <p>When the default post template is set, the theme will load the post template that is set in the theme panel</p>
                         <ul>
                             <li><strong>This setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i></li>
                             <li><strong>On default</strong> - the post will load the template that is set in the Theme panel: <i>Post settings > Default post template</i></li>
