@@ -327,28 +327,40 @@ class td_api_base {
     }
 
 
+	/**
+	 * - it replaces the theme path with the child path, if the file api registered exists in the child theme
+	 * - it tries to find the file in the child theme and if it's found, the 'located_in_child' is set
+	 * - the check is done only when the child theme is activated and the 'located_in_child' hasn't set yet
+	 * - the check is done only for the theme registered paths (those having TEMPLATEPATH), letting the plugins to register themselves paths
+	 *
+	 * @param string $id - the id of the component
+	 * @param string $component - the component value
+	 */
+	private static function locate_the_file($id = '', &$component = '') {
+		if (!is_child_theme()) {
+			return;
+		}
 
-
-	private static function locate_the_file($id = null, &$component = null) {
 		$the_component = null;
 
-		if ($id != null) {
+		if (!empty($id)) {
 			$the_component = &self::$components_list[$id];
 
-		} else if ($component != null) {
+		} else if (!empty($component)) {
 			$the_component = &$component;
 		}
 
-		if ($the_component != null) {
-			if (isset($the_component['file']) && ($the_component['file'] != '') && !isset($the_component['located_file'])) {
+		if (($the_component != null)
+		    and (stripos($the_component['file'], TEMPLATEPATH) == 0)
+		    and !empty($the_component['file'])
+            and !isset($the_component['located_in_child'])) {
 
-				$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
+			$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
 
-				if (file_exists($child_path)) {
-					$the_component['file'] = $child_path;
-				}
-				$the_component['located_file'] = true;
+			if (file_exists($child_path)) {
+				$the_component['file'] = $child_path;
 			}
+			$the_component['located_in_child'] = true;
 		}
 	}
 
