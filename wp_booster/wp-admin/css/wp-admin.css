@@ -805,7 +805,7 @@ a.td-tooltip {
   padding: 5px 0 5px 5px;
   height: 28px;
   line-height: 17px;
-  max-width: 110%;
+  max-width: 130%;
 }
 .td-panel-dropdown {
   /*position: relative;*/
