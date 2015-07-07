@@ -104,7 +104,7 @@ class td_background {
             }
 
 
-            if(!empty($td_site_post_template) && $td_site_post_template != 'single_template_default') { // we have a single_template set on a per post basis or on the global setting in the pane > post settings -> default post template (site wide)
+            if(!empty($td_site_post_template)) { // we have a single_template set on a per post basis or on the global setting in the pane > post settings -> default post template (site wide)
 
                 // overwrite the theme_bg_image with the featured image if needed
                 if (td_api_single_template::get_key($td_site_post_template, 'bg_use_featured_image_as_background') === true) {

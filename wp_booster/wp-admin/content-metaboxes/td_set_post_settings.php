@@ -31,8 +31,7 @@
                     'ds' => 'td_post_theme_settings',
                     'item_id' => '',
                     'option_id' => 'td_post_template',
-                    //'values' => td_api_single_template::_helper_td_global_list_to_panel_values(),
-                    'values' => td_api_single_template::_helper_td_global_list_to_metabox_values(),
+                    'values' => td_api_single_template::_helper_td_global_list_to_panel_values(),
                     'selected_value' => $mb->get_the_value('td_post_template')
                 ));
                 ?>

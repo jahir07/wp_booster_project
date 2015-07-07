@@ -1587,7 +1587,7 @@ function td_add_single_template_class($classes) {
 
 
         // add the class if we have a post template
-        if (!empty($active_single_template) && $active_single_template != 'single_template_default') {
+        if (!empty($active_single_template)) {
             td_global::$cur_single_template = $active_single_template;
             $classes []= sanitize_html_class($active_single_template);
         }
