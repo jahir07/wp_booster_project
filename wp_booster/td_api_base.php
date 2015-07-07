@@ -41,15 +41,22 @@ class td_api_base {
     /**
      * This method gets the value set for ($class_name) in the main settings array (self::$component_list)
      * This method does not set the self::USED_ON_PAGE flag, as self::get_by_id or self::get_key method does
+     *
+     * Important! As the flag self::USED_ON_PAGE is not marked, the 'file' parameter is removed to ensure that nobody can use (require) the component
+     *
      * @param $class_name string The array key in the self::$component_list
      * @return mixed The value of the self::$component_list[$class_name]
      */
-    static function get_all_components($class_name) {
+    static function get_all_components_metadata($class_name) {
         $final_array = array();
 
         foreach (self::$components_list as $component_key => $component_value) {
             if (isset($component_value[self::TYPE])
                 and $component_value[self::TYPE] == $class_name) {
+
+	            if (isset($component_value['file'])) {
+		            unset($component_value['file']);
+	            }
 
                 $final_array[$component_key] = $component_value;
             }
@@ -68,6 +75,7 @@ class td_api_base {
      * @return mixed
      * @throws ErrorException
      */
+    //@todo is the component used?
     private static function get_default_component($class_name) {
         foreach (self::$components_list as $component_id => $component_value) {
 
@@ -75,7 +83,7 @@ class td_api_base {
                 and $component_value[self::TYPE] == $class_name) {
 
                 self::mark_used_on_page($component_id);
-                return $component_value;
+	            return $component_value;
             }
 
         }
@@ -97,6 +105,10 @@ class td_api_base {
      */
     protected static function get_default_component_key($class_name, $key) {
         $component = self::get_default_component($class_name);
+
+	    if ($key == 'file') {
+		    self::locate_the_file(null, $component);
+	    }
         return $component[$key];
     }
 
@@ -130,6 +142,7 @@ class td_api_base {
      */
     static function get_by_id($id) {
         self::mark_used_on_page($id);
+	    self::locate_the_file($id);
         return self::$components_list[$id];
     }
 
@@ -149,7 +162,12 @@ class td_api_base {
      */
     static function get_key($id, $key) {
         self::mark_used_on_page($id);
-        return self::$components_list[$id][$key];
+
+	    if ($key == 'file') {
+		    self::locate_the_file($id);
+	    }
+
+	    return self::$components_list[$id][$key];
     }
 
 
@@ -308,6 +326,34 @@ class td_api_base {
         }
         self::$components_list[$id][self::USED_ON_PAGE] = true;
     }
+
+
+
+    // @todo https://codex.wordpress.org/Function_Reference/is_child_theme
+	private static function locate_the_file($id = null, &$component = null) {
+		$the_component = null;
+
+		if ($id != null) {
+			$the_component = &self::$components_list[$id];
+
+		} else if ($component != null) {
+			$the_component = &$component;
+		}
+
+		if ($the_component != null) {
+			if (isset($the_component['file']) && ($the_component['file'] != '') && !isset($the_component['located_file'])) {
+
+				$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
+
+				if (file_exists($child_path)) {
+					$the_component['file'] = $child_path;
+				}
+				$the_component['located_file'] = true;
+			}
+		}
+	}
+
+
 
 
     /**

@@ -78,38 +78,38 @@ $td_homepage_id = td_demo_content::add_page(array(
 die;
 */
 
-if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
-    // clean the user settings
-    //td_demo_media::remove();
-    td_demo_content::remove();
-    td_demo_category::remove();
-    td_demo_menus::remove();
-    td_demo_widgets::remove();
-
-
-    $td_demo_installer = new td_demo_installer();
-
-    // remove panel settings and recompile the css as empty
-    foreach (td_global::$td_options as $option_id => $option_value) {
-        td_global::$td_options[$option_id] = '';
-    }
-    //typography settings
-    td_global::$td_options['td_fonts'] = '';
-    //css font files (google) buffer
-    td_global::$td_options['td_fonts_css_files'] = '';
-    //compile user css if any
-    td_global::$td_options['tds_user_compile_css'] = td_css_generator();
-    update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
-
-    td_demo_state::update_state($_GET['puiu_test'], 'full');
-
-    // load panel settings
-    $td_demo_installer->import_panel_settings(td_global::$demo_list[$_GET['puiu_test']]['folder'] . 'td_panel_settings.txt');
-    // load the media import script
-    //require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_1.php');
-    require_once(td_global::$demo_list[$_GET['puiu_test']]['folder'] . 'td_import.php');
-
-}
+//if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
+//    // clean the user settings
+//    //td_demo_media::remove();
+//    td_demo_content::remove();
+//    td_demo_category::remove();
+//    td_demo_menus::remove();
+//    td_demo_widgets::remove();
+//
+//
+//    $td_demo_installer = new td_demo_installer();
+//
+//    // remove panel settings and recompile the css as empty
+//    foreach (td_global::$td_options as $option_id => $option_value) {
+//        td_global::$td_options[$option_id] = '';
+//    }
+//    //typography settings
+//    td_global::$td_options['td_fonts'] = '';
+//    //css font files (google) buffer
+//    td_global::$td_options['td_fonts_css_files'] = '';
+//    //compile user css if any
+//    td_global::$td_options['tds_user_compile_css'] = td_css_generator();
+//    update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+//
+//    td_demo_state::update_state($_GET['puiu_test'], 'full');
+//
+//    // load panel settings
+//    $td_demo_installer->import_panel_settings(td_global::$demo_list[$_GET['puiu_test']]['folder'] . 'td_panel_settings.txt');
+//    // load the media import script
+//    //require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_1.php');
+//    require_once(td_global::$demo_list[$_GET['puiu_test']]['folder'] . 'td_import.php');
+//
+//}
 
 ?>
 
@@ -118,7 +118,7 @@ if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
     <div class="about-text">
         <p>
             Newspaper brings you six  unique designs for your website. Our demos were carefully tested so you don’t have to create everything from scratch.  With the theme demos you know exactly which predefined templates is perfectly designed to start build upon. Each demo is fully customizable (fonts, colors and layouts) -
-            <a href="http://forum.tagdiv.com/introduction/" target="_blank">read more</a>.
+            <a href="<?php echo TD_THEME_DEMO_DOC_URL?>" target="_blank">read more</a>.
         </p>
     </div>
     <hr/>
@@ -128,6 +128,9 @@ if (isset($_GET['puiu_test']) and TD_DEPLOY_MODE == 'dev') {
 		<?php
 
         $installed_demo = td_demo_state::get_installed_demo();
+
+
+
 
         foreach (td_global::$demo_list as $demo_id => $stack_params) {
             $tmp_class = '';

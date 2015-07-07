@@ -156,16 +156,16 @@
     <!-- Disable comments on post pages -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">DISABLE COMMENTS ON POSTS</span>
-            <p>Enable or disable the comments for post, on the entire site. This option is disabled by default</p>
+            <span class="td-box-title">ENABLE COMMENTS ON POSTS</span>
+            <p>Enable or disable the posts' comments, for the entire site.</p>
         </div>
         <div class="td-box-control-full">
             <?php
             echo td_panel_generator::checkbox(array(
                 'ds' => 'td_option',
                 'option_id' => 'tds_disable_comments_sidewide',
-                'true_value' => 'disable',
-                'false_value' => ''
+                'true_value' => '',
+                'false_value' => 'disable'
             ));
             ?>
         </div>

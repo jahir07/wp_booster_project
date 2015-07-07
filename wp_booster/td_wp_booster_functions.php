@@ -471,9 +471,8 @@ function td_wp_title( $title, $sep ) {
 }
 
 /**
- * - filter 'wpseo_title' gets the wpseo yoast title, and on a td page exists pagination which is not intercepted by it,
- * - the filtered is called outside of the loop as it is in the plugin
- * so on them we return our custom title
+ * - filter 'wpseo_title' is used by WordPress SEO plugin and, by default, it returns a seo title that hasn't the page number inside of it,
+ * when it's used on td pages [those who have a custom pagination]. At that seo title is added the page info, and just for pages greater than 1
  */
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
@@ -492,8 +491,7 @@ function td_wpseo_title($seo_title) {
 
 		// the custom title is when the pagination is greater than 1
 		if ($local_paged > 1) {
-			$post_id = get_queried_object_id();
-			return td_wp_title(get_the_title($post_id), ' - ');
+			return $seo_title . ' - ' . __td('Page', TD_THEME_NAME) . ' ' . $local_paged;
 		}
 	}
 
@@ -1589,7 +1587,7 @@ function td_add_single_template_class($classes) {
 
 
         // add the class if we have a post template
-        if (!empty($active_single_template)) {
+        if (!empty($active_single_template) && $active_single_template != 'single_template_default') {
             td_global::$cur_single_template = $active_single_template;
             $classes []= sanitize_html_class($active_single_template);
         }
@@ -1823,11 +1821,7 @@ function td_init_booster() {
 	$smooth_scroll = td_util::get_option('tds_smooth_scroll');
 
 	if (!empty($smooth_scroll)) {
-
-		add_action('wp_enqueue_scripts',  'load_js_smooth_scroll', 1000);
-		function load_js_smooth_scroll() {
-			wp_enqueue_script('td_smooth_scroll', get_template_directory_uri() . '/includes/js_files/td_smooth_scroll.js', array('jquery'), TD_THEME_VERSION, true);
-		}
+		td_js_buffer::add_variable('tds_smooth_scroll', true);
 	}
 }
 
