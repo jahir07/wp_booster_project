@@ -75,6 +75,7 @@ class td_api_base {
      * @return mixed
      * @throws ErrorException
      */
+    //@todo is the component used?
     private static function get_default_component($class_name) {
         foreach (self::$components_list as $component_id => $component_value) {
 
@@ -328,7 +329,7 @@ class td_api_base {
 
 
 
-
+    // @todo https://codex.wordpress.org/Function_Reference/is_child_theme
 	private static function locate_the_file($id = null, &$component = null) {
 		$the_component = null;
 
