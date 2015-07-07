@@ -28,8 +28,9 @@ class td_api_base {
      */
     protected static function add_component($class_name, $id, $params_array) {
         if (!isset(self::$components_list[$id])) {
+
             $params_array[self::TYPE] = $class_name;
-            self::$components_list[$id] = $params_array;
+	        self::$components_list[$id] = $params_array;
 
         } else {
             td_util::error(__FILE__, "td_api_base: A component with the ID: $id it's already registered in td_api_base", self::$components_list[$id]);
@@ -67,32 +68,6 @@ class td_api_base {
 
 
     /**
-     * returns the default component for a particular class. As of now, the default component is the first one that was added
-     * we usually use this value when there is no setting in the database
-     * Note: it marks the component as used on page
-     *
-     * @param $class_name
-     * @return mixed
-     * @throws ErrorException
-     */
-    private static function get_default_component($class_name) {
-        foreach (self::$components_list as $component_id => $component_value) {
-
-            if (isset($component_value[self::TYPE])
-                and $component_value[self::TYPE] == $class_name) {
-
-                self::mark_used_on_page($component_id);
-	            return $component_value;
-            }
-
-        }
-        td_util::error(__FILE__, "td_api_base::get_default : no component of type $class_name . Wp booster tried to get
-        the default component (the first registered component) but there are no components registered.");
-    }
-
-
-
-    /**
      * returns the default component key value for a particular class. As of now, the default component is the first one that was added
      * we usually use this value when there is no setting in the database
      * Note: it marks the component as used on page
@@ -103,15 +78,32 @@ class td_api_base {
      * @throws ErrorException
      */
     protected static function get_default_component_key($class_name, $key) {
-        $component = self::get_default_component($class_name);
+	    foreach (self::$components_list as $component_id => $component_value) {
 
-	    if ($key == 'file') {
-		    self::locate_the_file(null, $component);
+		    if (isset($component_value[self::TYPE])
+		        and $component_value[self::TYPE] == $class_name) {
+
+			    self::mark_used_on_page($component_id);
+
+			    if ($key == 'file') {
+				    self::locate_the_file($component_id);
+			    }
+			    return $component_value[$key];
+		    }
 	    }
-        return $component[$key];
+	    td_util::error(__FILE__, "td_api_base::get_default_component_key : no component of type $class_name . Wp booster tried to get
+        the default component (the first registered component) but there are no components registered.");
     }
 
 
+
+	/**
+	 * - returns the id of the default component for a particular class.
+	 *
+	 * @param $class_name - the class name of the component @see self::$components_list
+	 *
+	 * @return int|string - the id of the component @see self::$components_list
+	 */
     protected static function get_default_component_id($class_name) {
         foreach (self::$components_list as $component_id => $component_value) {
 
@@ -121,7 +113,6 @@ class td_api_base {
                 self::mark_used_on_page($component_id);
                 return $component_id;
             }
-
         }
         td_util::error(__FILE__, "td_api_base::get_default_component_id  : no component of type $class_name . Wp booster tried to get
         the default component (the first registered component) but there are no components registered.");
@@ -336,7 +327,7 @@ class td_api_base {
 	 * @param string $id - the id of the component
 	 * @param string $component - the component value
 	 */
-	private static function locate_the_file($id = '', &$component = '') {
+	private static function locate_the_file($id = '') {
 		if (!is_child_theme()) {
 			return;
 		}
@@ -345,9 +336,6 @@ class td_api_base {
 
 		if (!empty($id)) {
 			$the_component = &self::$components_list[$id];
-
-		} else if (!empty($component)) {
-			$the_component = &$component;
 		}
 
 		if (($the_component != null)
