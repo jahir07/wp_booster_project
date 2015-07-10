@@ -20,13 +20,14 @@
  */
 
 class td_panel_generator {
-    static $td_user_created_menus; // here we store the user created menus
-
+    private static $td_user_created_menus;      // here we store the user created menus as an ready to use array for the panels dropboxes
 
     // fake constructor because we use a static class ffs
-    static function init_class() {
+    static function init() {
 
-        //read the user created menu from wordpress
+
+        // read the user created menu from WordPress. We crate the array once and cache it here in
+        // $td_user_created_menus for all usage in the panel
         $td_menus_array = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
         if (is_array($td_menus_array)) {
             foreach ($td_menus_array as $td_menu) {
@@ -36,15 +37,26 @@ class td_panel_generator {
                 );
             }
         }
-
-
         //adding empty val
         self::$td_user_created_menus[] = array(
             'val' => '',
             'text' => '-- No Menu --'
         );
 
+
+
     }
+
+
+    /**
+     * gets the menus that where made by the user in wp-admin
+     * @return array the menus made by the user in WordPress
+     */
+    static function get_user_created_menus() {
+        return self::$td_user_created_menus;
+    }
+
+
 
 
     /**
@@ -567,7 +579,7 @@ class td_panel_generator {
      *  - the ajax views are in /wp-admin/panel/ajax_views
      * @param $panel_text - the display name of the panel
      * @param array $ajax_params - the parameters array that we want to send to the backend. MUST CONTAIN td_ajax_view and td_ajax_call
-     * @return the box
+     * @return string HTML the box
      */
     static function ajax_box($panel_text, $ajax_params = array(), $custom_unique_id = '', $panel_class = '') {
         if (!empty($custom_unique_id)) {
@@ -606,7 +618,15 @@ class td_panel_generator {
      * @return string
      */
     private static function generate_name($params_array) {
-        if ($params_array['ds'] == 'td_category' or $params_array['ds'] == 'td_author' or $params_array['ds'] == 'td_ads' or $params_array['ds'] == 'td_fonts' or $params_array['ds'] == 'td_block_styles') {
+        if (
+            $params_array['ds'] == 'td_category'
+            or $params_array['ds'] == 'td_author'
+            or $params_array['ds'] == 'td_ads'
+            or $params_array['ds'] == 'td_fonts'
+            or $params_array['ds'] == 'td_block_styles'
+            or $params_array['ds'] == 'td_cpt'
+            or $params_array['ds'] == 'td_taxonomy'
+        ) {
             return $params_array['ds'] . '[' . $params_array['item_id'] . ']' . '[' . $params_array['option_id'] . ']';
         } elseif($params_array['ds'] == 'wp_widget') {
             return $params_array['ds'] . '[' . $params_array['sidebar'] . ']' . '[' . $params_array['widget_name'] . ']' . '[' . $params_array['attribute_key'] . ']';
@@ -691,7 +711,7 @@ class td_panel_generator {
 		    $excerpt_list = '<span class="td-excerpt-arrow"></span>';
 
 		    foreach ( $used_on_block_list_array as $block_list => $block_list_val ) {
-			    $excerpt_list .= ' <span>' . $block_list_val . '</span>';
+			    $excerpt_list .= ' <span class="td-box-title-label">' . $block_list_val . '</span>';
 		    }
 
 		    return $excerpt_list;
@@ -711,5 +731,5 @@ class td_panel_generator {
 
 
 
-td_panel_generator::init_class();
+td_panel_generator::init();
 

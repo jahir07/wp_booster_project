@@ -32,6 +32,16 @@ class td_util {
     }
 
 
+    /**
+     * gets a category option for a specific category id.
+     * - We have no update method because the panel has it's own update
+     *   implementation in @see td_panel_data_source::update_category
+     * - the panel uses this function to read settings for specific categories
+     * - it is used also in the entire theme
+     * @param $category_id
+     * @param $option_id
+     * @return string
+     */
     static function get_category_option($category_id, $option_id) {
         if (isset(td_global::$td_options['category_options'][$category_id][$option_id])) {
             return td_global::$td_options['category_options'][$category_id][$option_id];
@@ -40,10 +50,45 @@ class td_util {
         }
     }
 
-    static function update_category_option($category_id, $option_id, $new_value) {
-        td_global::$td_options['category_options'][$category_id][$option_id] = $new_value;
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+
+
+    /**
+     * gets a custom post type option for a specific post type name.
+     * - We have no update method because the panel has it's own update
+     *   implementation in @see td_panel_data_source::update_td_cpt
+     * - the panel uses this function to read settings for specific categories
+     * - it is used also in the entire theme
+     * @param $custom_post_type
+     * @param $option_id
+     * @return string
+     */
+    static function get_ctp_option($custom_post_type, $option_id) {
+        if (isset(td_global::$td_options['td_cpt'][$custom_post_type][$option_id])) {
+            return td_global::$td_options['td_cpt'][$custom_post_type][$option_id];
+        } else {
+            return '';
+        }
     }
+
+    /**
+     * gets a custom taxonomy option for a specific taxonomy.
+     * - We have no update method because the panel has it's own update
+     *   implementation in @see td_panel_data_source::update_td_taxonomy
+     * - the panel uses this function to read settings for specific categories
+     * - it is used also in the entire theme
+     * @param $taxonomy_name
+     * @param $option_id
+     * @return string
+     */
+    static function get_taxonomy_option($taxonomy_name, $option_id) {
+        if (isset(td_global::$td_options['td_taxonomy'][$taxonomy_name][$option_id])) {
+            return td_global::$td_options['td_taxonomy'][$taxonomy_name][$option_id];
+        } else {
+            return '';
+        }
+    }
+
+
 
 
 

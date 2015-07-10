@@ -234,7 +234,7 @@
             echo td_panel_generator::dropdown(array(
                 'ds' => 'wp_theme_menu_spot',
                 'option_id' => 'footer-menu',
-                'values' => td_panel_generator::$td_user_created_menus
+                'values' => td_panel_generator::get_user_created_menus()
             ));
             ?>
         </div>

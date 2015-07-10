@@ -1,11 +1,11 @@
 <!-- post settings -->
-<?php echo td_panel_generator::box_start('Post settings', false); ?>
+<?php echo td_panel_generator::box_start('Post and Custom Post Types', false); ?>
 
 	<!-- Show categories -->
 	<div class="td-box-row">
 		<div class="td-box-description">
 			<span class="td-box-title">SHOW CATEGORIES TAGS</span>
-			<p>Enable or disable the categories tags <br>(on single post page)</p>
+			<p>Enable or disable the categories tags <br>(on single posts and custom post types)</p>
 		</div>
 		<div class="td-box-control-full">
 			<?php
@@ -96,11 +96,11 @@
 
 
 
-    <!-- Show tags on post -->
+    <!-- Show tags -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">SHOW TAGS ON POST</span>
-            <p>Enable or disable the post tags <br>(bottom of single post pages)</p>
+            <span class="td-box-title">SHOW TAGS</span>
+            <p>Enable or disable the post tags <br>(bottom of single post pages and CPT)</p>
         </div>
         <div class="td-box-control-full">
             <?php
