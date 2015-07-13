@@ -716,7 +716,7 @@ class td_demo_media {
         // If error storing permanently, unlink.
         if ( is_wp_error( $id ) ) {
             @unlink( $file_array['tmp_name'] );
-            echo 'is_wp_error $id: ' . $file_array['tmp_name']->get_error_messages() . ' ' . $file;
+            echo 'is_wp_error $id: ' . $id->get_error_messages() . ' ' . $file;
             return $id;
         }
 
