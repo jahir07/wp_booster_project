@@ -91,6 +91,8 @@ class td_api_single_template extends td_api_base {
 
 
     /**
+     * @deprecated Important! Its functionality was replaced by the booster 'template_include' wordpress hook. It's susceptible to be removed in the next api versions.
+     *
      * shows a single template (echos it). NOTE: it also loads the WordPress globals in that template!
      *
      * @internal
