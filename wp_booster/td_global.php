@@ -49,8 +49,10 @@ class td_global {
     static $http_or_https = 'http'; //is set below with either http or https string  @see EOF
 
 
+	//@todo refactor all code to use TEMPLATEPATH instead
     static $get_template_directory = '';  // here we store the value from get_template_directory(); - it looks like the wp function does a lot of stuff each time is called
 
+	//@todo refactor all code to use STYLESHEETPATH instead
     static $get_template_directory_uri = ''; // here we store the value from get_template_directory_uri(); - it looks like the wp function does a lot of stuff each time is called
 
 
