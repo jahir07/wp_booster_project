@@ -1934,3 +1934,119 @@ if (is_admin()) {
 
     }
 }
+
+
+
+
+function get_custom_post_type_template($single_template) {
+
+	echo 'SINGLE TEMPLATE HOOK<br>';
+	echo $single_template . '<br>';
+
+	if (($single_template == get_template_directory() . '/single.php') ||
+	    ($single_template == get_stylesheet_directory() . '/single.php')) {
+
+		global $post;
+
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+
+		//added by Radu A. check if this post have a post template to be display with.
+		//if not use the default site post template from Theme Panel -> Post Settings -> Default site post template
+		$td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+
+		if(empty($td_post_theme_settings['td_post_template']) and !empty($td_default_site_post_template)) {
+			$td_post_theme_settings['td_post_template'] = $td_default_site_post_template;
+		}
+
+
+		td_global::$td_template_var['td_post_theme_settings'] = $td_post_theme_settings;
+
+		if (!empty($td_post_theme_settings['td_post_template'])) {
+
+			//the user has selected a different template & we make sure we only load our templates - the list of allowed templates is in includes/wp_booster/td_global.php
+			//td_api_single_template::_helper_show_single_template(td_global::$td_template_var['td_post_theme_settings']['td_post_template']);
+
+			try {
+				$template_id = td_global::$td_template_var['td_post_theme_settings']['td_post_template'];
+				$template_path1 = td_api_single_template::get_key($template_id, 'file');
+			} catch (ErrorException $ex) {
+				td_util::error(__FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+			}
+
+			// load the template
+			if (!empty($template_path1) and file_exists($template_path1)) {
+				$single_template = $template_path1;
+			} else {
+				td_util::error(__FILE__, "The path $template_path1 of the $template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+			}
+		}
+	}
+
+	echo "RETURN : $single_template <br>";
+	echo '<br>';
+
+	return $single_template;
+}
+//add_filter( 'single_template', 'get_custom_post_type_template');
+
+
+
+
+
+add_filter( 'template_include', 'portfolio_page_template');
+function portfolio_page_template( $template_path ) {
+
+	global $template;
+
+	echo 'TEMPLATE INCLUDE HOOK<br>';
+
+	echo $template_path . '<br>';
+	echo $template . '<br>';
+
+
+	if (($template_path == get_template_directory() . '/single.php') ||
+	    ($template_path == get_stylesheet_directory() . '/single.php')) {
+
+		global $post;
+
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+
+		//added by Radu A. check if this post have a post template to be display with.
+		//if not use the default site post template from Theme Panel -> Post Settings -> Default site post template
+		$td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+
+		if(empty($td_post_theme_settings['td_post_template']) and !empty($td_default_site_post_template)) {
+			$td_post_theme_settings['td_post_template'] = $td_default_site_post_template;
+		}
+
+
+		td_global::$td_template_var['td_post_theme_settings'] = $td_post_theme_settings;
+
+		if (!empty($td_post_theme_settings['td_post_template'])) {
+
+			//the user has selected a different template & we make sure we only load our templates - the list of allowed templates is in includes/wp_booster/td_global.php
+			//td_api_single_template::_helper_show_single_template(td_global::$td_template_var['td_post_theme_settings']['td_post_template']);
+
+			try {
+				$template_id = td_global::$td_template_var['td_post_theme_settings']['td_post_template'];
+				$template_path1 = td_api_single_template::get_key($template_id, 'file');
+			} catch (ErrorException $ex) {
+				td_util::error(__FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+			}
+
+			// load the template
+			if (!empty($template_path1) and file_exists($template_path1)) {
+				$single_template = $template_path1;
+			} else {
+				td_util::error(__FILE__, "The path $template_path1 of the $template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+			}
+		}
+	} else if (($template_path == get_template_directory() . '/woocommerce/single-product.php') ||
+         ($template_path == get_stylesheet_directory() . '/woocommerce/single-product.php')) {
+
+		//$template_path = TEMPLATEPATH . '/woo-single-product.php';
+		echo 'SINGLE PRODUCT detected<br>';
+	}
+
+	return $template_path;
+}
