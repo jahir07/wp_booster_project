@@ -53,12 +53,9 @@ class td_api_category_template extends td_api_base {
         return $template_id;
     }
 
-    /**
-     * get the category template, this function has to look at the global theme setting and at the category setting
-     */
-    static function _helper_show_category_template() {
-        $template_id = self::_helper_get_active_id();
 
+
+    static function render_category_template_by_id($template_id) {
         if (class_exists($template_id)) {
             /** @var $td_category_template td_category_template */
             $td_category_template = new $template_id();
@@ -67,6 +64,18 @@ class td_api_category_template extends td_api_base {
             td_util::error(__FILE__, "The category template $template_id doesn't exist. Did you disable a tagDiv plugin?");
         }
     }
+
+    /**
+     * get the category template, this function has to look at the global theme setting and at the category setting
+     */
+    static function _helper_show_category_template() {
+        $template_id = self::_helper_get_active_id();
+        self::render_category_template_by_id($template_id);
+    }
+
+
+
+
 
 
     static function _helper_to_panel_values($view_name = 'get_all') {

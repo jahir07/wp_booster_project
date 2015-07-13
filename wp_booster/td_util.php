@@ -223,7 +223,7 @@ class td_util {
             if (!dynamic_sidebar(TD_THEME_NAME . ' default')) {
                 ?>
                 <!-- .no sidebar -->
-            <?php
+                <?php
             }
         }
     }

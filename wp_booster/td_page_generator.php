@@ -262,6 +262,36 @@ class td_page_generator {
     }
 
 
+    /**
+     * get the breadcrumbs for the taxonomy page. It will also add 1 parent taxonomy if it's available
+     * @param $current_term_obj
+     * @return string
+     */
+    static function get_taxonomy_breadcrumbs($current_term_obj) {
+
+        // check to see if the taxonomy has a parent and add it
+        if (!empty($current_term_obj->parent)) {
+            $current_term_parent_obj = get_term($current_term_obj->parent, $current_term_obj->taxonomy);
+            $current_term_parent_url = get_term_link($current_term_parent_obj, $current_term_obj->taxonomy);
+            if (!is_wp_error($current_term_parent_url)) {
+                $breadcrumbs_array[] = array(
+                    'title_attribute' => '',
+                    'url' => $current_term_parent_url,
+                    'display_name' => $current_term_parent_obj->name
+                );
+            }
+        }
+
+        // add the current taxonomy
+        $breadcrumbs_array[] = array(
+            'title_attribute' => '',
+            'url' => '',
+            'display_name' => $current_term_obj->name
+        );
+        return self::get_breadcrumbs($breadcrumbs_array); //generate the breadcrumbs
+    }
+
+
 
     static function get_tag_breadcrumbs($current_tag_name) {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
