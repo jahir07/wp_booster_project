@@ -1936,11 +1936,14 @@ if (is_admin()) {
 }
 
 
-
-
-
-add_filter( 'template_include', 'portfolio_page_template');
-function portfolio_page_template( $template_path ) {
+/**
+ * - wordpress filter hook used to switch single theme post types and custom post types, and also woocommerce single products
+ * - we need to use 'template_include' and not 'single_template' (which runs just for single and before 'template_include'),
+ * because of not using more than one hook for this split operation and because the $template_path is the path already
+ * established by wordpress and woocommerce plugin
+ */
+add_filter( 'template_include', 'td_template_include_filter');
+function td_template_include_filter( $template_path ) {
 
 	if (is_single()
 	    and (($template_path == TEMPLATEPATH . '/single.php')
@@ -1984,8 +1987,7 @@ function portfolio_page_template( $template_path ) {
                and (($template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
                     or ($template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
 
-		//$template_path = TEMPLATEPATH . '/woo-single-product.php';
-		echo 'SINGLE PRODUCT detected<br>';
+		//echo 'SINGLE PRODUCT detected<br>';
 	}
 
 	return $template_path;
