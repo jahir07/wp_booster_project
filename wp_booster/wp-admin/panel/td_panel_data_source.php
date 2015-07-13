@@ -17,6 +17,15 @@ class td_panel_data_source {
      */
     static function read($read_array) {
         switch ($read_array['ds']) {
+
+            case 'td_taxonomy':
+                return td_util::get_taxonomy_option($read_array['item_id'], $read_array['option_id']);
+                break;
+
+            case 'td_cpt':
+                return td_util::get_ctp_option($read_array['item_id'], $read_array['option_id']);
+                break;
+
             case 'td_category':
                 return td_util::get_category_option($read_array['item_id'], $read_array['option_id']);
                 break;
@@ -150,6 +159,15 @@ class td_panel_data_source {
         foreach ($_POST as $post_data_source => $post_value) {
             switch ($post_data_source) {
 
+                case 'td_taxonomy':
+                    self::update_td_taxonomy($post_value);
+                    break;
+
+
+                case 'td_cpt':
+                    self::update_td_cpt($post_value);
+                    break;
+
                 case 'td_category':
                     self::update_category($post_value);
                     break;
@@ -221,6 +239,47 @@ class td_panel_data_source {
         The functions that update the options from the form on post
      */
 
+
+    /**
+     * update the custom post types data source cpt
+     * @param $td_cpt_array
+     */
+    private static function update_td_cpt($td_cpt_array) {
+        self::update_array_data_source($td_cpt_array, 'td_cpt');
+    }
+
+
+    /**
+     * update the taxonomy data source
+     * @param $td_taxonomy_array
+     */
+    private static function update_td_taxonomy($td_taxonomy_array) {
+        self::update_array_data_source($td_taxonomy_array, 'td_taxonomy');
+    }
+
+
+    /**
+     * updates a data source that it's stored as an array, as of 9 july 2015 only td_cpt and td_taxonomy use this
+     * @param $post_values array - straight form the panel
+     * @param $ds string - the data source that you want to update
+     */
+    private static function update_array_data_source($post_values, $ds) {
+        foreach ($post_values as $item_id => $options) {
+            foreach ($options as $option_id => $option_value) {
+                if ($option_value != '') {
+                    td_global::$td_options[$ds][$item_id][$option_id] = $option_value;
+                } else {
+                    //delete the option from the parent
+                    unset(td_global::$td_options[$ds][$item_id][$option_id]);
+
+                    //also delete the parent if there are no more options
+                    if (isset(td_global::$td_options[$ds][$item_id]) and count(td_global::$td_options[$ds][$item_id], COUNT_RECURSIVE) == 0) {
+                        unset(td_global::$td_options[$ds][$item_id]);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * updates the ads
@@ -442,7 +501,7 @@ class td_panel_data_source {
             //delete the option from the parent category
             unset(td_global::$td_options['category_options'][$category_id][$option_id]);
 
-            //also delete the parrent if there are no more options
+            //also delete the parent if there are no more options
             if (isset(td_global::$td_options['category_options'][$category_id]) and count(td_global::$td_options['category_options'][$category_id], COUNT_RECURSIVE) == 0) {
                 unset(td_global::$td_options['category_options'][$category_id]);
             }

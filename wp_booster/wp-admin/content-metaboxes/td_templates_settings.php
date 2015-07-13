@@ -61,7 +61,7 @@ $td_meta_video_meta = new WPAlchemy_MetaBox(array(
 $td_metabox_theme_settings = new WPAlchemy_MetaBox(array(
     'id' => 'td_post_theme_settings',
     'title' => 'Post settings',
-    'types' => array('post'),
+    'types' => array('post', 'td_book', 'product'),
     'priority' => 'high',
     'template' => get_template_directory() . '/includes/wp_booster/wp-admin/content-metaboxes/td_set_post_settings.php',
 ));

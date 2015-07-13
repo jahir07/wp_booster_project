@@ -210,6 +210,11 @@ class td_global {
             'text' => 'SOCIAL NETWORKS',
             'ico_class' => 'td-ico-social',
             'file_id' => 'td_panel_social_networks'
+        ),
+        'td-panel-cpt-taxonomy' => array(
+            'text' => 'CPT &amp; TAXONOMY',
+            'ico_class' => 'td-ico-social',
+            'file_id' => 'td_panel_cpt_taxonomy'
         )
 
     );

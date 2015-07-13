@@ -4,14 +4,26 @@
 class td_page_generator {
 
 
+
     /**
      * get the single breadcrumbs
      * @param $post_title
      * @return string
      */
     static function get_single_breadcrumbs($post_title) {
+        /**
+         * check to see if we are on a custom post type page. If that's the case we will load the breadcrumbs
+         * via @see td_page_generator::get_custom_post_type_breadcrumbs() - in this file
+         */
+        global $post;
+        if ($post->post_type != 'post') {
+            return self::get_custom_post_type_breadcrumbs();
+        }
+
+
+        // get the breadcrumb for single posts - ! if we are on a custom post type, we don't get here !
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         $category_1_name = '';
@@ -83,19 +95,99 @@ class td_page_generator {
 
     }
 
-    static function get_author_breadcrumbs($part_cur_auth_obj) {
-        if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+
+
+    /**
+     * here we generate the breadcrumbs for custom post types
+     *  - we favor terms that have a parent so: parent > child will always show up instead of single terms that don't have parents
+     * @return string
+     */
+    private static function get_custom_post_type_breadcrumbs() {
+        global $post;
+
+        if (td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show')) {
+            return '';
         }
 
 
+        $breadcrumbs_array = array();
+
+        // get the taxonomy that was set for breadcrumbs
+        $breadcrumbs_taxonomy = td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_taxonomy');
+
+        // get terms (alphabetically)
+        $terms = wp_get_post_terms($post->ID, $breadcrumbs_taxonomy);
+
+        if (!empty($terms)) {
+
+            // add the first term by default
+            // this default will be overwritten ! - if in foreach we find a term that has a parent
+            if (isset($terms[0])) {
+                $first_term_url = get_term_link($terms[0], $breadcrumbs_taxonomy);
+                if (!is_wp_error($first_term_url)) {
+                    $breadcrumbs_array[0] = array(
+                        'title_attribute' => '',
+                        'url' => $first_term_url,
+                        'display_name' => $terms[0]->name
+                    );
+                }
+            }
+
+            // start the search for terms that have parents
+            foreach ($terms as $term) {
+                // check if the term has a parent
+                if ($term->parent != 0) {
+                    $parent_term_in_category_spot = get_term($term->parent, $breadcrumbs_taxonomy);
+
+                    // add the parent
+                    $parent_url = get_term_link($parent_term_in_category_spot, $breadcrumbs_taxonomy);
+                    if (!is_wp_error($parent_url)) {
+                        $breadcrumbs_array[0] = array(
+                            'title_attribute' => '',
+                            'url' => $parent_url,
+                            'display_name' => $parent_term_in_category_spot->name
+                        );
+                    }
+
+                    // add the child
+                    $child_url = get_term_link($term, $breadcrumbs_taxonomy);
+                    if (!is_wp_error($child_url)) {
+                        $breadcrumbs_array [] = array(
+                            'title_attribute' => '',
+                            'url' => $child_url,
+                            'display_name' => $term->name
+                        );
+                    }
+                    break; //we found a parent > child
+                }
+            } // end foreach
+        }
+
+
+        //article title (only if the theme is set to show it for this specific CPT)
+        if (td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_article') != 'hide') {
+            //child category
+            $breadcrumbs_array [] = array (
+                'title_attribute' => $post->post_title,
+                'url' => '',
+                'display_name' => td_util::excerpt($post->post_title, 13)
+            );
+        }
+        return self::get_breadcrumbs($breadcrumbs_array);
+    }
+
+
+
+
+    static function get_author_breadcrumbs($part_cur_auth_obj) {
+        if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
+            return '';
+        }
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
             'display_name' => __td('Authors', TD_THEME_NAME)
         );
-
-
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
@@ -111,7 +203,7 @@ class td_page_generator {
     static function get_category_breadcrumbs($primary_category_obj) {
 
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         $category_1_name = '';
@@ -170,10 +262,40 @@ class td_page_generator {
     }
 
 
+    /**
+     * get the breadcrumbs for the taxonomy page. It will also add 1 parent taxonomy if it's available
+     * @param $current_term_obj
+     * @return string
+     */
+    static function get_taxonomy_breadcrumbs($current_term_obj) {
+
+        // check to see if the taxonomy has a parent and add it
+        if (!empty($current_term_obj->parent)) {
+            $current_term_parent_obj = get_term($current_term_obj->parent, $current_term_obj->taxonomy);
+            $current_term_parent_url = get_term_link($current_term_parent_obj, $current_term_obj->taxonomy);
+            if (!is_wp_error($current_term_parent_url)) {
+                $breadcrumbs_array[] = array(
+                    'title_attribute' => '',
+                    'url' => $current_term_parent_url,
+                    'display_name' => $current_term_parent_obj->name
+                );
+            }
+        }
+
+        // add the current taxonomy
+        $breadcrumbs_array[] = array(
+            'title_attribute' => '',
+            'url' => '',
+            'display_name' => $current_term_obj->name
+        );
+        return self::get_breadcrumbs($breadcrumbs_array); //generate the breadcrumbs
+    }
+
+
 
     static function get_tag_breadcrumbs($current_tag_name) {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
 
@@ -196,7 +318,7 @@ class td_page_generator {
 
     static function get_archive_breadcrumbs() {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         $cur_archive_year = get_the_date('Y');
@@ -232,7 +354,7 @@ class td_page_generator {
 
     static function get_home_breadcrumbs() {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         if (td_util::get_home_url()) {
@@ -266,7 +388,7 @@ class td_page_generator {
 
     static function get_page_breadcrumbs($page_title) {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
 
@@ -299,7 +421,7 @@ class td_page_generator {
 
     static function get_attachment_breadcrumbs($parent_id = '', $attachment_title = '') {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         //show the attachment parent
@@ -322,7 +444,7 @@ class td_page_generator {
 
     static function get_search_breadcrumbs() {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
-            return;
+            return '';
         }
 
         $breadcrumbs_array [] = array (
@@ -532,10 +654,11 @@ class td_page_generator {
     static function get_breadcrumbs($breadcrumbs_array) {
 
         if (empty($breadcrumbs_array)) {
-            return;
+            return '';
         }
 
-        //add home breadcrumb if the theme is configured to show it
+        // add home breadcrumb if the theme is configured to show it
+        // this setting also affects custom post types
         if (td_util::get_option('tds_breadcrumbs_show_home') != 'hide') {
             array_unshift($breadcrumbs_array, array(
                 'title_attribute' => '',

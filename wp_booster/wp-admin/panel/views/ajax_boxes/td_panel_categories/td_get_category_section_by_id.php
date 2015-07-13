@@ -31,7 +31,7 @@ $category_id = td_util::get_http_post_val('category_id');
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">Category top posts style</span>
-            <p>Set footer layout</p>
+            <p>Choose how to display the top posts. By default it will inherit the Global Category setting from the top of this page.</p>
         </div>
         <div class="td-box-control-full">
             <?php

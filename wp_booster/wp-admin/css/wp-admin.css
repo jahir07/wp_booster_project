@@ -1746,7 +1746,7 @@ title one row controls
 #td-panel-categories .td_panel_box_category_global_settings .td_sidebars_pulldown_align {
   padding-left: 80px;
 }
-#td-panel-excerpts .td-box-header .td-box-title span {
+.td-box-title .td-box-title-label {
   background-color: #ededed;
   color: #666;
   font-size: 11px;
@@ -1759,11 +1759,6 @@ title one row controls
   display: inline-block;
   line-height: 1;
 }
-#td-panel-excerpts .td-box-header .td-box-title .td-excerpt-arrow {
-  padding: 0;
-  margin-right: 0;
-  background-color: transparent;
-}
 .td-excerpt-arrow {
   padding: 0;
   margin-right: 0;
@@ -1771,6 +1766,11 @@ title one row controls
   height: 14px;
   display: inline-block;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHAQMAAAD6aRWtAAAABlBMVEUAAABJSUn0lwL4AAAAAXRSTlMAQObYZgAAABVJREFUCNdjOMDwgKGAwYKhAEgfAAAedgRZ5TNOtgAAAABJRU5ErkJggg==) no-repeat 7px 6px;
+}
+#td-panel-excerpts .td-excerpt-arrow {
+  padding: 0;
+  margin-right: 0;
+  background-color: transparent;
 }
 .td_panel_box_category_tag_on_modulesblocks .td-box-title span {
   background-color: #ededed;
