@@ -28,6 +28,8 @@ class td_global {
     static $cur_single_template = ''; /** @var string set here: @see  */
 
 
+    static $is_woocommerce_installed = false; // at the end of this file we check if woo commerce is installed
+
     static $current_category_obj; /**  used on category pages, it's set on pre_get_posts hook @see td_modify_main_query_for_category_page */
 
     //this is used to check for if we are in loop
@@ -396,6 +398,11 @@ class td_global {
 
 if (is_ssl()) {
     td_global::$http_or_https = 'https';
+}
+
+
+if (is_plugin_active('woocommerce/woocommerce.php')) {
+    td_global::$is_woocommerce_installed = true;
 }
 
 
