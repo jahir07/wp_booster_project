@@ -18,8 +18,9 @@ $td_custom_post_types_obj = get_post_types(
     'objects' //output objects instead of names
 );
 
-foreach ($td_custom_post_types_obj as $custom_post_type_obj) {
 
+$are_custom_post_types_installed = false;
+foreach ($td_custom_post_types_obj as $custom_post_type_obj) {
     if (
             $custom_post_type_obj->name == 'vc_grid_item'  // do not show settings for visual composer
             or ( // do not show settings for woocommerce CPT because we set up woocommerce from a different panel
@@ -42,6 +43,18 @@ foreach ($td_custom_post_types_obj as $custom_post_type_obj) {
             'custom_post_type' => $custom_post_type_obj->name
         )
     );
+
+    $are_custom_post_types_installed = true;
+}
+
+if ($are_custom_post_types_installed === false) {
+    echo    '<div class="td-panel-no-settings-found" style="text-align: center">
+                <strong>No custom post types detected</strong> <br>
+                <span>
+                    Please note that WooCommerce post types are ignored
+                </span>
+            </div>
+            ';
 }
 ?>
 
@@ -59,12 +72,12 @@ $td_taxonomies_obj = get_taxonomies(
     'object'
 );
 
-
+$are_custom_taxonomies_installed = false;
 foreach ($td_taxonomies_obj as $td_taxonomy_obj) {
     if ( // ignore woocommerce taxonomies because we set up woocommerce from a different panel
         td_global::$is_woocommerce_installed === true
         and (
-            $td_taxonomy_obj->name == 'product_type'
+               $td_taxonomy_obj->name == 'product_type'
             or $td_taxonomy_obj->name == 'product_cat'
             or $td_taxonomy_obj->name == 'product_shipping_class'
             or $td_taxonomy_obj->name == 'product_tag'
@@ -74,7 +87,7 @@ foreach ($td_taxonomies_obj as $td_taxonomy_obj) {
     }
 
 
-    $taxonomy_used_on_cpt_html = 'Used on: ';
+    $taxonomy_used_on_cpt_html = '<span class="td-box-title-right-title">Used on CPT:</span>';
     if (!empty($td_taxonomy_obj->object_type)) {
         foreach ($td_taxonomy_obj->object_type as $taxonomy_used_on_cpt) {
             $taxonomy_used_on_cpt_html .= '<span class="td-box-title-label">' . $taxonomy_used_on_cpt . '</span>';
@@ -91,6 +104,18 @@ foreach ($td_taxonomies_obj as $td_taxonomy_obj) {
             'taxonomy_name' => $td_taxonomy_obj->name
         )
     );
+
+    $are_custom_taxonomies_installed = true;
+}
+
+if ($are_custom_taxonomies_installed === false) {
+    echo    '<div class="td-panel-no-settings-found" style="text-align: center">
+                <strong>No custom taxonomies detected</strong> <br>
+                <span>
+                    please note that WooCommerce taxonomies are ignored
+                </span>
+            </div>
+            ';
 }
 
 //print_r($td_taxonomies_obj);
