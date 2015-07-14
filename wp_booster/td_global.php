@@ -217,7 +217,7 @@ class td_global {
         ),
         'td-panel-cpt-taxonomy' => array(
             'text' => 'CPT &amp; TAXONOMY',
-            'ico_class' => 'td-ico-social',
+            'ico_class' => 'td-ico-cpt',
             'file_id' => 'td_panel_cpt_taxonomy'
         )
 
