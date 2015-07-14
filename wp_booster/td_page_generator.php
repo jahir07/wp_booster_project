@@ -658,6 +658,7 @@ class td_page_generator {
             return '';
         }
 
+
         // add home breadcrumb if the theme is configured to show it
         if (
             (   $post->post_type == 'post'

@@ -1649,6 +1649,7 @@ function td_category_big_grid_add_query_vars_filter($vars) {
 add_action('pre_get_posts', 'td_modify_main_query_for_category_page');
 function td_modify_main_query_for_category_page($query) {
 
+
     //checking for category page and main query
     if(!is_admin() and is_category() and $query->is_main_query()) {
 
@@ -1744,6 +1745,7 @@ function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id
 
 td_init_booster();
 function td_init_booster() {
+
     global $content_width;
 
     // content width - this is overwritten in post
