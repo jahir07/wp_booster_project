@@ -28,25 +28,6 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
 
 ?>
 
-<!-- breadcrumbs: enable disable -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">Enable breadcrumbs</span>
-        <p>Enable or disable breadcrumbs</p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_cpt',
-            'item_id' => $custom_post_type,
-            'option_id' => 'tds_breadcrumbs_show',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
-
 
 
 
@@ -68,66 +49,6 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
         ?>
     </div>
 </div>
-
-
-<!-- Show breadcrumbs home link -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW BREADCRUMBS HOME LINK</span>
-        <p>Show or hide the home link in breadcrumbs</p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_cpt',
-            'item_id' => $custom_post_type,
-            'option_id' => 'tds_breadcrumbs_show_home',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
-
-<!-- breadcrumbs: parent category -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW PARENT TAXONOMY</span>
-        <p>Show or hide the parent term link ex: Home > parent term > term </p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_cpt',
-            'item_id' => $custom_post_type,
-            'option_id' => 'tds_breadcrumbs_show_parent',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
-
-
-<!-- breadcrumbs: article title -->
-<div class="td-box-row">
-    <div class="td-box-description">
-        <span class="td-box-title">SHOW ARTICLE TITLE</span>
-        <p>Show or hide the article title on post pages</p>
-    </div>
-    <div class="td-box-control-full">
-        <?php
-        echo td_panel_generator::checkbox(array(
-            'ds' => 'td_cpt',
-            'item_id' => $custom_post_type,
-            'option_id' => 'tds_breadcrumbs_show_article',
-            'true_value' => '',
-            'false_value' => 'hide'
-        ));
-        ?>
-    </div>
-</div>
-
 
 <div class="td-box-section-separator"></div>
 

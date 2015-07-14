@@ -105,7 +105,8 @@ class td_page_generator {
     private static function get_custom_post_type_breadcrumbs() {
         global $post;
 
-        if (td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show')) {
+        // use the global breadcrumb setting to show or hide them
+        if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
             return '';
         }
 
@@ -133,39 +134,42 @@ class td_page_generator {
                 }
             }
 
-            // start the search for terms that have parents
-            foreach ($terms as $term) {
-                // check if the term has a parent
-                if ($term->parent != 0) {
-                    $parent_term_in_category_spot = get_term($term->parent, $breadcrumbs_taxonomy);
+            // start the search for terms that have parents BUT only if the global settings allow us
+            if (td_util::get_option('tds_breadcrumbs_show_parent') != 'hide') {
+                foreach ($terms as $term) {
+                    // check if the term has a parent
+                    if ($term->parent != 0) {
+                        $parent_term_in_category_spot = get_term($term->parent, $breadcrumbs_taxonomy);
 
-                    // add the parent
-                    $parent_url = get_term_link($parent_term_in_category_spot, $breadcrumbs_taxonomy);
-                    if (!is_wp_error($parent_url)) {
-                        $breadcrumbs_array[0] = array(
-                            'title_attribute' => '',
-                            'url' => $parent_url,
-                            'display_name' => $parent_term_in_category_spot->name
-                        );
-                    }
+                        // add the parent
+                        $parent_url = get_term_link($parent_term_in_category_spot, $breadcrumbs_taxonomy);
+                        if (!is_wp_error($parent_url)) {
+                            $breadcrumbs_array[0] = array(
+                                'title_attribute' => '',
+                                'url' => $parent_url,
+                                'display_name' => $parent_term_in_category_spot->name
+                            );
+                        }
 
-                    // add the child
-                    $child_url = get_term_link($term, $breadcrumbs_taxonomy);
-                    if (!is_wp_error($child_url)) {
-                        $breadcrumbs_array [] = array(
-                            'title_attribute' => '',
-                            'url' => $child_url,
-                            'display_name' => $term->name
-                        );
+                        // add the child
+                        $child_url = get_term_link($term, $breadcrumbs_taxonomy);
+                        if (!is_wp_error($child_url)) {
+                            $breadcrumbs_array [] = array(
+                                'title_attribute' => '',
+                                'url' => $child_url,
+                                'display_name' => $term->name
+                            );
+                        }
+                        break; //we found a parent > child
                     }
-                    break; //we found a parent > child
-                }
-            } // end foreach
+                } // end foreach
+            }
+
         }
 
 
-        //article title (only if the theme is set to show it for this specific CPT)
-        if (td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_article') != 'hide') {
+        //article title
+        if (td_util::get_option('tds_breadcrumbs_show_article') != 'hide') {
             //child category
             $breadcrumbs_array [] = array (
                 'title_attribute' => $post->post_title,
@@ -269,8 +273,8 @@ class td_page_generator {
      */
     static function get_taxonomy_breadcrumbs($current_term_obj) {
 
-        // check to see if the taxonomy has a parent and add it
-        if (!empty($current_term_obj->parent)) {
+        // check to see if the taxonomy has a parent and add it (only if enabled via the theme panel)
+        if (!empty($current_term_obj->parent) and td_util::get_option('tds_breadcrumbs_show_parent') != 'hide') {
             $current_term_parent_obj = get_term($current_term_obj->parent, $current_term_obj->taxonomy);
             $current_term_parent_url = get_term_link($current_term_parent_obj, $current_term_obj->taxonomy);
             if (!is_wp_error($current_term_parent_url)) {
@@ -658,24 +662,8 @@ class td_page_generator {
             return '';
         }
 
-        $show_or_hide_home_link = '';
-
-        if (is_single()) {
-            if ($post->post_type != 'post') {
-                // it's a Custom Post Type
-                $show_or_hide_home_link = td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_home');
-            } else {
-                // it's a post
-                $show_or_hide_home_link = td_util::get_option('tds_breadcrumbs_show_home');
-            }
-        } else {
-            // it's a page, attachment or a WordPress template, we use the global template
-            $show_or_hide_home_link = td_util::get_option('tds_breadcrumbs_show_home');
-        }
-
-
         // add home breadcrumb if the theme is configured to show it
-        if ($show_or_hide_home_link != 'hide') {
+        if (td_util::get_option('tds_breadcrumbs_show_home') != 'hide') {
             array_unshift($breadcrumbs_array, array(
                 'title_attribute' => '',
                 'url' => esc_url(home_url( '/' )),

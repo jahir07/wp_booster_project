@@ -176,6 +176,10 @@ class td_module_single_base extends td_module {
     }
 
 
+    /**
+     * get the category spot of the single post / single post type
+     * @return string - the html of the spot
+     */
     function get_category() {
         $terms_ui_array  = array();
 
@@ -309,7 +313,10 @@ class td_module_single_base extends td_module {
     }
 
 
-
+    /**
+     * the content of a single post or single post type
+     * @return mixed|string|void
+     */
     function get_content() {
 
         /*  ----------------------------------------------------------------------------
@@ -409,6 +416,10 @@ class td_module_single_base extends td_module {
     }
 
 
+    /**
+     * returns the item scope @todo - see where it's actually used
+     * @return string
+     */
     function get_item_scope() {
         //show the review meta only on single posts that are reviews, the rest have to be article (in article lists)
         if (td_review::has_review($this->td_review) and is_single()) {
@@ -467,13 +478,13 @@ class td_module_single_base extends td_module {
     }
 
 
-
-    /*  ----------------------------------------------------------------------------
-        Single page
+    /**
+     * returns the review at the bottom of single posts and single posts types
+     * @return string
      */
     function get_review() {
         if (!$this->is_single) {
-            return;
+            return '';
         }
 
         if (td_review::has_review($this->td_review)) {
@@ -488,6 +499,11 @@ class td_module_single_base extends td_module {
 
     }
 
+
+    /**
+     * gets the source and via spot on single posts and single custom post types
+     * @return string|void
+     */
     function get_source_and_via() {
         if (!$this->is_single) {
             return;
@@ -531,6 +547,10 @@ class td_module_single_base extends td_module {
     }
 
 
+    /**
+     * get the tags spot of the single post or single custom post type
+     * @return string
+     */
     function get_the_tags() {
         if (td_util::get_option('tds_show_tags') == 'hide') {
             return '';
@@ -594,6 +614,11 @@ class td_module_single_base extends td_module {
         return $buffy;
     }
 
+
+    /**
+     * get the next and previous links on single posts and single custom post types
+     * @return string
+     */
     function get_next_prev_posts() {
         if (!$this->is_single) {
             return '';
@@ -634,6 +659,12 @@ class td_module_single_base extends td_module {
         return $buffy;
     }
 
+
+    /**
+     * gets the author on single posts and single custom post types
+     * @param string $author_id
+     * @return string|void
+     */
     function get_author_box($author_id = '') {
 
         if (!$this->is_single) {
@@ -716,6 +747,13 @@ class td_module_single_base extends td_module {
     }
 
 
+    /**
+     * gets the related posts ONLY on single posts. Does not run on custom post types because we don't know what taxonomy to choose and the
+     * blocks do not support custom taxonomies as of 15 july 2015
+     * @param string $force_sidebar_position - allows us to overwrite the sidebar position. Useful on templates where the related
+     *                              articles appear outside of the loop - sidebar grid (like on the top)
+     * @return string
+     */
     function related_posts($force_sidebar_position = '') {
         global $post;
         if ($post->post_type != 'post') {

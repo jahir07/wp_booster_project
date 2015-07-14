@@ -40,8 +40,6 @@
             <p>From here you can customize the breadcrumbs that appear on your site. The breadcrumbs are a very useful navigation element that looks like this 'Home > My category > My article title'.
             Since the breadcrumbs are so important for humans and search engines crawlers, <?php echo TD_THEME_NAME?> comes with extensive configuration options for them.
             </p>
-            <span class="td-box-title">Notice:</span>
-            <p>If you have <strong>Custom Posts Types</strong> installed on your WordPress site, please edit the breadcrumbs for them in the 'CPT & TAXONOMY' panel. The settings form this panel do not affect custom posts types</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
@@ -56,7 +54,7 @@
                 Enable or disable the breadcrumbs
                 <?php td_util::tooltip_html('
                         <h3>Enable / disable breadcrumbs:</h3>
-                        <p>From here you can enable and disable the breadcrumbs. This setting affects all the site pages EXCEPT custom post types. For custom posts types customizations, please use the dedicated panel and you can customize this on a per post type basis</p>
+                        <p>From here you can enable and disable the breadcrumbs. This setting affects all the site pages.</p>
 
                 ', 'right')?>
             </p>
