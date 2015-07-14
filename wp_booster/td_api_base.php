@@ -28,8 +28,9 @@ class td_api_base {
      */
     protected static function add_component($class_name, $id, $params_array) {
         if (!isset(self::$components_list[$id])) {
+
             $params_array[self::TYPE] = $class_name;
-            self::$components_list[$id] = $params_array;
+	        self::$components_list[$id] = $params_array;
 
         } else {
             td_util::error(__FILE__, "td_api_base: A component with the ID: $id it's already registered in td_api_base", self::$components_list[$id]);
@@ -67,33 +68,6 @@ class td_api_base {
 
 
     /**
-     * returns the default component for a particular class. As of now, the default component is the first one that was added
-     * we usually use this value when there is no setting in the database
-     * Note: it marks the component as used on page
-     *
-     * @param $class_name
-     * @return mixed
-     * @throws ErrorException
-     */
-    //@todo is the component used?
-    private static function get_default_component($class_name) {
-        foreach (self::$components_list as $component_id => $component_value) {
-
-            if (isset($component_value[self::TYPE])
-                and $component_value[self::TYPE] == $class_name) {
-
-                self::mark_used_on_page($component_id);
-	            return $component_value;
-            }
-
-        }
-        td_util::error(__FILE__, "td_api_base::get_default : no component of type $class_name . Wp booster tried to get
-        the default component (the first registered component) but there are no components registered.");
-    }
-
-
-
-    /**
      * returns the default component key value for a particular class. As of now, the default component is the first one that was added
      * we usually use this value when there is no setting in the database
      * Note: it marks the component as used on page
@@ -104,15 +78,32 @@ class td_api_base {
      * @throws ErrorException
      */
     protected static function get_default_component_key($class_name, $key) {
-        $component = self::get_default_component($class_name);
+	    foreach (self::$components_list as $component_id => $component_value) {
 
-	    if ($key == 'file') {
-		    self::locate_the_file(null, $component);
+		    if (isset($component_value[self::TYPE])
+		        and $component_value[self::TYPE] == $class_name) {
+
+			    self::mark_used_on_page($component_id);
+
+			    if ($key == 'file') {
+				    self::locate_the_file($component_id);
+			    }
+			    return $component_value[$key];
+		    }
 	    }
-        return $component[$key];
+	    td_util::error(__FILE__, "td_api_base::get_default_component_key : no component of type $class_name . Wp booster tried to get
+        the default component (the first registered component) but there are no components registered.");
     }
 
 
+
+	/**
+	 * - returns the id of the default component for a particular class.
+	 *
+	 * @param $class_name - the class name of the component @see self::$components_list
+	 *
+	 * @return int|string - the id of the component @see self::$components_list
+	 */
     protected static function get_default_component_id($class_name) {
         foreach (self::$components_list as $component_id => $component_value) {
 
@@ -122,7 +113,6 @@ class td_api_base {
                 self::mark_used_on_page($component_id);
                 return $component_id;
             }
-
         }
         td_util::error(__FILE__, "td_api_base::get_default_component_id  : no component of type $class_name . Wp booster tried to get
         the default component (the first registered component) but there are no components registered.");
@@ -328,28 +318,37 @@ class td_api_base {
     }
 
 
-
-    // @todo https://codex.wordpress.org/Function_Reference/is_child_theme
-	private static function locate_the_file($id = null, &$component = null) {
-		$the_component = null;
-
-		if ($id != null) {
-			$the_component = &self::$components_list[$id];
-
-		} else if ($component != null) {
-			$the_component = &$component;
+	/**
+	 * - it replaces the theme path with the child path, if the file api registered exists in the child theme
+	 * - it tries to find the file in the child theme and if it's found, the 'located_in_child' is set
+	 * - the check is done only when the child theme is activated and the 'located_in_child' hasn't set yet
+	 * - the check is done only for the theme registered paths (those having TEMPLATEPATH), letting the plugins to register themselves paths
+	 *
+	 * @param string $id - the id of the component
+	 * @param string $component - the component value
+	 */
+	private static function locate_the_file($id = '') {
+		if (!is_child_theme()) {
+			return;
 		}
 
-		if ($the_component != null) {
-			if (isset($the_component['file']) && ($the_component['file'] != '') && !isset($the_component['located_file'])) {
+		$the_component = null;
 
-				$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
+		if (!empty($id)) {
+			$the_component = &self::$components_list[$id];
+		}
 
-				if (file_exists($child_path)) {
-					$the_component['file'] = $child_path;
-				}
-				$the_component['located_file'] = true;
+		if (($the_component != null)
+		    and (stripos($the_component['file'], TEMPLATEPATH) == 0)
+		    and !empty($the_component['file'])
+            and !isset($the_component['located_in_child'])) {
+
+			$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
+
+			if (file_exists($child_path)) {
+				$the_component['file'] = $child_path;
 			}
+			$the_component['located_in_child'] = true;
 		}
 	}
 

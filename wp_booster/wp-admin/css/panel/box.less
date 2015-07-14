@@ -493,30 +493,33 @@
   }
 }
 
-// excerpt panel
-#td-panel-excerpts {
-  .td-box-header .td-box-title {
-    span {
-      background-color: #ededed;
-      color: #666;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 8px;
-      margin-right: 5px;
-      position: relative;
-      top: 0;
-      vertical-align: top;
-      display: inline-block;
-      line-height: 1;
-    }
 
-    .td-excerpt-arrow {
-      padding: 0;
-      margin-right: 0;
-      background-color: transparent;
-    }
+
+.td-box-title {
+  .td-box-title-label {
+    background-color: #ededed;
+    color: #666;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    margin-right: 5px;
+    position: relative;
+    top: 0;
+    vertical-align: top;
+    display: inline-block;
+    line-height: 1;
   }
 }
+
+.td-box-title-right {
+  float: right;
+  margin-right: 25px;
+}
+
+.td-box-title-right-title {
+  margin-right: 15px;
+}
+
 
 .td-excerpt-arrow {
   padding: 0;
@@ -526,6 +529,18 @@
   display: inline-block;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHAQMAAAD6aRWtAAAABlBMVEUAAABJSUn0lwL4AAAAAXRSTlMAQObYZgAAABVJREFUCNdjOMDwgKGAwYKhAEgfAAAedgRZ5TNOtgAAAABJRU5ErkJggg==) no-repeat 7px 6px;
 }
+
+
+// excerpt panel
+#td-panel-excerpts {
+
+  .td-excerpt-arrow {
+    padding: 0;
+    margin-right: 0;
+    background-color: transparent;
+  }
+}
+
 
 // Category tag on Modules/Blocks
 .td_panel_box_category_tag_on_modulesblocks {

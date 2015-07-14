@@ -23,131 +23,6 @@ class td_module_single_base extends td_module {
 
 
 
-
-    function get_social_sharing_top() {
-        if (!$this->is_single) {
-            return;
-        }
-
-        if (td_util::get_option('tds_top_social_show') == 'hide' and td_util::get_option('tds_top_like_tweet_show') != 'show') {
-            return;
-        }
-
-        // used to style the sharing icon to be big on tablet
-        $td_no_like = '';
-        if (td_util::get_option('tds_top_like_tweet_show') == 'show') {
-            $td_no_like = 'td-with-like';
-        }
-
-        $buffy = '';
-
-        // @todo single-post-thumbnail appears to not be in used! please check
-        $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->post->ID ), 'single-post-thumbnail' );
-
-        $twitter_user = td_util::get_option('tds_tweeter_username');
-
-
-        $buffy .= '<div class="td-post-sharing td-post-sharing-top td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE', TD_THEME_NAME) . '</span>';
-
-        if (td_util::get_option('tds_top_social_show') != 'hide') {
-            $buffy .= '
-				<div class="td-default-sharing ' . $td_no_like . '">
-		            <a class="td-social-sharing-buttons td-social-facebook" href="http://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-facebook"></div><div class="td-social-but-text">Facebook</div></a>
-		            <a class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '&url=' . urlencode( esc_url( get_permalink() ) ) . '&via=' . urlencode( $twitter_user ? $twitter_user : get_bloginfo( 'name' ) ) . '"  ><div class="td-sp td-sp-twitter"></div><div class="td-social-but-text">Twitter</div></a>
-		            <a class="td-social-sharing-buttons td-social-google" href="http://plus.google.com/share?url=' . esc_url( get_permalink() ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-googleplus"></div></a>
-		            <a class="td-social-sharing-buttons td-social-pinterest" href="http://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-pinterest"></div></a>
-	            </div>';
-        }
-
-
-        if (td_util::get_option('tds_top_like_tweet_show') == 'show') {
-            //classic share buttons
-            $buffy .= '<div class="td-classic-sharing">';
-            $buffy .= '<ul>';
-
-            $buffy .= '<li class="td-classic-facebook">';
-            $buffy .= '<iframe frameBorder="0" src="' . td_global::$http_or_https . '://www.facebook.com/plugins/like.php?href=' . $this->href . '&amp;layout=button_count&amp;show_faces=false&amp;width=105&amp;action=like&amp;colorscheme=light&amp;height=21" style="border:none; overflow:hidden; width:105px; height:21px; background-color:transparent;"></iframe>';
-            $buffy .= '</li>';
-
-            $buffy .= '<li class="td-classic-twitter">';
-            $buffy .= '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' . esc_attr($this->href) . '" data-text="' . $this->title . '" data-via="' . td_util::get_option('tds_' . 'social_twitter') . '" data-lang="en">tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
-            $buffy .= '</li>';
-
-            $buffy .= '</ul>';
-            $buffy .= '</div>';
-        }
-
-        $buffy .= '</div>';
-
-        return $buffy;
-    }
-
-
-    function get_social_sharing_bottom() {
-        if (!$this->is_single) {
-            return;
-        }
-
-        if (td_util::get_option('tds_bottom_social_show') == 'hide' and td_util::get_option('tds_bottom_like_tweet_show') == 'hide') {
-            return;
-        }
-
-        // used to style the sharing icon to be big on tablet
-        $td_no_like = '';
-        if (td_util::get_option('tds_bottom_like_tweet_show') != 'hide') {
-            $td_no_like = 'td-with-like';
-        }
-
-        $buffy = '';
-        // @todo single-post-thumbnail appears to not be in used! please check
-        $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->post->ID ), 'single-post-thumbnail' );
-        $buffy .= '<div class="td-post-sharing td-post-sharing-bottom td-pb-padding-side"><span class="td-post-share-title">' . __td('SHARE', TD_THEME_NAME) . '</span>';
-
-
-        if (td_util::get_option('tds_bottom_social_show') != 'hide') {
-            $twitter_user = td_util::get_option( 'tds_tweeter_username' );
-
-            //default share buttons
-            $buffy .= '
-            <div class="td-default-sharing ' . $td_no_like . '">
-	            <a class="td-social-sharing-buttons td-social-facebook" href="http://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-facebook"></div><div class="td-social-but-text">Facebook</div></a>
-	            <a class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '&url=' . urlencode( esc_url( get_permalink() ) ) . '&via=' . urlencode( $twitter_user ? $twitter_user : get_bloginfo( 'name' ) ) . '"><div class="td-sp td-sp-twitter"></div><div class="td-social-but-text">Twitter</div></a>
-	            <a class="td-social-sharing-buttons td-social-google" href="http://plus.google.com/share?url=' . esc_url( get_permalink() ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-googleplus"></div></a>
-	            <a class="td-social-sharing-buttons td-social-pinterest" href="http://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><div class="td-sp td-sp-pinterest"></div></a>
-            </div>';
-        }
-
-
-        if (td_util::get_option('tds_bottom_like_tweet_show') != 'hide') {
-            //classic share buttons
-            $buffy .= '<div class="td-classic-sharing">';
-            $buffy .= '<ul>';
-
-            $buffy .= '<li class="td-classic-facebook">';
-            $buffy .= '<iframe frameBorder="0" src="' . td_global::$http_or_https . '://www.facebook.com/plugins/like.php?href=' . $this->href . '&amp;layout=button_count&amp;show_faces=false&amp;width=105&amp;action=like&amp;colorscheme=light&amp;height=21" style="border:none; overflow:hidden; width:105px; height:21px; background-color:transparent;"></iframe>';
-            $buffy .= '</li>';
-
-            $buffy .= '<li class="td-classic-twitter">';
-            $buffy .= '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' . esc_attr($this->href) . '" data-text="' . $this->title . '" data-via="' . td_util::get_option('tds_' . 'social_twitter') . '" data-lang="en">tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
-            $buffy .= '</li>';
-
-            $buffy .= '</ul>';
-            $buffy .= '</div>';
-        }
-
-
-
-
-
-        $buffy .= '</div>';
-
-        return $buffy;
-    }
-
-
-
-
-
     function get_post_pagination() {
         if (!$this->is_single) {
             return;
@@ -302,14 +177,31 @@ class td_module_single_base extends td_module {
 
 
     function get_category() {
+        $terms_ui_array  = array();
 
-        $buffy = '';
-        if (td_util::get_option('tds_p_categories_tags') != 'hide') {
-            $buffy .= '<ul class="td-category">';
+
+        if ($this->post->post_type != 'post') {
+
+            // CUSTOM POST TYPES - on custom post types, we retrieve the taxonomy setting from the panel and we show
+            // only the ones that are selected in wp-admin, just like a normal theme
+            $category_spot_taxonomy = td_util::get_ctp_option($this->post->post_type, 'tds_category_spot_taxonomy');
+            $terms_for_category_spot = wp_get_post_terms($this->post->ID, $category_spot_taxonomy);
+            foreach ($terms_for_category_spot as $term_for_category_spot) {
+                $term_for_category_spot_url = get_term_link($term_for_category_spot, $category_spot_taxonomy);
+                if (!is_wp_error($term_for_category_spot_url)) {
+                    $terms_ui_array[ $term_for_category_spot->name ]  = array(
+                        'color'        => '',
+                        'link'         => $term_for_category_spot_url,
+                        'hide_on_post' => ''
+                    );
+                }
+            }
+
+        } else {
+            // POST TYPE - here we work with categories
+            // NOTE: due to legacy, the theme also outputs the parent of the first category if available
             $categories = get_the_category( $this->post->ID );
-            $cat_array  = array();
-
-            if ( $categories ) {
+            if (!empty($categories)) {
                 foreach ( $categories as $category ) {
                     if ( $category->name != TD_FEATURED_CAT ) { //ignore the featured category name
                         //get the parent of this cat
@@ -319,7 +211,7 @@ class td_module_single_base extends td_module {
                         if ( ! empty( $td_parent_cat_obj->name ) ) {
                             $tax_meta__color_parent                = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_color' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_color');
                             $tax_meta__hide_on_post_parent         = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_hide_on_post' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_hide_on_post');
-                            $cat_array[ $td_parent_cat_obj->name ] = array(
+                            $terms_ui_array[ $td_parent_cat_obj->name ] = array(
                                 'color'        => $tax_meta__color_parent,
                                 'link'         => get_category_link( $td_parent_cat_obj->cat_ID ),
                                 'hide_on_post' => $tax_meta__hide_on_post_parent
@@ -329,7 +221,7 @@ class td_module_single_base extends td_module {
                         //show the category, only if we didn't already showed the parent
                         $tax_meta_color                = td_util::get_category_option( $category->cat_ID, 'tdc_color' );//swich by RADU A, get_tax_meta($category->cat_ID,'tdc_color');
                         $tax_meta__hide_on_post_parent = td_util::get_category_option( $category->cat_ID, 'tdc_hide_on_post' );//swich by RADU A, get_tax_meta($category->cat_ID,'tdc_hide_on_post');
-                        $cat_array[ $category->name ]  = array(
+                        $terms_ui_array[ $category->name ]  = array(
                             'color'        => $tax_meta_color,
                             'link'         => get_category_link( $category->cat_ID ),
                             'hide_on_post' => $tax_meta__hide_on_post_parent
@@ -337,27 +229,44 @@ class td_module_single_base extends td_module {
                     }
                 }
             }
+        }
 
-            foreach ( $cat_array as $td_cat_name => $td_cat_parms ) {
-                if ( $td_cat_parms['hide_on_post'] == 'hide' ) {
+
+        /**
+         * output stage
+         *  we go in with an array of:
+         *   array (
+         *       $terms_ui_array[category_name] = array (
+         *              'color' => '',
+         *              'link' => ''
+         *              'hide_on_post'
+         *       )
+         *   )
+         */
+        $buffy = '';
+        if (td_util::get_option('tds_p_categories_tags') != 'hide') {
+            $buffy .= '<ul class="td-category">';
+
+
+            foreach ( $terms_ui_array as $term_name => $term_params ) {
+                if ( $term_params['hide_on_post'] == 'hide' ) {
                     continue;
                 }
 
-                if ( ! empty( $td_cat_parms['color'] ) ) {
-                    $td_cat_color = ' style="background-color:' . $td_cat_parms['color'] . ';"';
+                if ( ! empty( $term_params['color'] ) ) {
+                    $td_cat_color = ' style="background-color:' . $term_params['color'] . ';"';
                 } else {
                     $td_cat_color = '';
                 }
 
 
-                $buffy .= '<li class="entry-category"><a ' . $td_cat_color . ' href="' . $td_cat_parms['link'] . '">' . $td_cat_name . '</a></li>';
+                $buffy .= '<li class="entry-category"><a ' . $td_cat_color . ' href="' . $term_params['link'] . '">' . $term_name . '</a></li>';
             }
             $buffy .= '</ul>';
         }
 
         return $buffy;
     }
-
 
 
 
@@ -623,23 +532,61 @@ class td_module_single_base extends td_module {
 
 
     function get_the_tags() {
-        if (!$this->is_single) {
-            return;
-        }
-
         if (td_util::get_option('tds_show_tags') == 'hide') {
-            return;
+            return '';
         }
-
 
         $buffy = '';
 
-        $td_post_tags = get_the_tags();
-        if ($td_post_tags) {
+        $terms_ui_array = array();
+        $tags_spot_text = __td('TAGS', TD_THEME_NAME); // the default text for tags - on CPT we can overwrite this via the panel
+
+        if ($this->post->post_type != 'post') {
+            // on custom post types we need to read what to show in the tag spot from the panel
+            $tag_spot_taxonomy = td_util::get_ctp_option($this->post->post_type, 'tds_tag_spot_taxonomy');
+            $terms_for_tag_spot = wp_get_post_terms($this->post->ID, $tag_spot_taxonomy);
+            foreach ($terms_for_tag_spot as $term_for_tag_spot) {
+                $term_for_tag_spot_url = get_term_link($term_for_tag_spot, $tag_spot_taxonomy);
+                if (!is_wp_error($term_for_tag_spot_url)) {
+                    $terms_ui_array[ $term_for_tag_spot->name ]  = array(
+                        'url'         => $term_for_tag_spot_url,
+                    );
+                }
+            }
+
+            // also update the default tag spot text if it's set in the theme's panel
+            $new_tag_spot_text = td_util::get_ctp_option($this->post->post_type, 'tds_tag_spot_text');
+            if (!empty($new_tag_spot_text)) {
+                $tags_spot_text = $new_tag_spot_text;
+            }
+        } else {
+            // on single posts we deal with tags
+            $td_post_tags = get_the_tags();
+            if (!empty($td_post_tags)) {
+                foreach ($td_post_tags as $tag) {
+                    $terms_ui_array[$tag->name] = array (
+                        'url' => get_tag_link($tag->term_id)
+                    );
+                }
+            }
+        }
+
+
+
+        /**
+         * output stage
+         *  we go in with an array of
+         *   array (
+         *       $terms_ui_array[tag_name] = array (
+         *              'url' => '',
+         *       )
+         *   )
+         */
+        if (!empty($terms_ui_array)) {
             $buffy .= '<ul class="td-tags td-post-small-box clearfix">';
-            $buffy .= '<li><span>' . __td('TAGS', TD_THEME_NAME) . '</span></li>';
-            foreach ($td_post_tags as $tag) {
-                $buffy .=  '<li><a href="' . get_tag_link($tag->term_id) . '">' . $tag->name . '</a></li>';
+            $buffy .= '<li><span>' . $tags_spot_text . '</span></li>';
+            foreach ($terms_ui_array as $term_name => $term_params) {
+                $buffy .=  '<li><a href="' . $term_params['url'] . '">' . $term_name . '</a></li>';
             }
             $buffy .= '</ul>';
         }
@@ -649,11 +596,11 @@ class td_module_single_base extends td_module {
 
     function get_next_prev_posts() {
         if (!$this->is_single) {
-            return;
+            return '';
         }
 
         if (td_util::get_option('tds_show_next_prev') == 'hide') {
-            return;
+            return '';
         }
 
         $buffy = '';
@@ -770,15 +717,15 @@ class td_module_single_base extends td_module {
 
 
     function related_posts($force_sidebar_position = '') {
-
-        if (!$this->is_single) {
-            return;
+        global $post;
+        if ($post->post_type != 'post') {
+            return '';
         }
-
 
         if (td_util::get_option('tds_similar_articles') == 'hide') {
-            return;
+            return '';
         }
+
 
 
 

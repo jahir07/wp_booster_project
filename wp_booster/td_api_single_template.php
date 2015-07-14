@@ -67,8 +67,18 @@ class td_api_single_template extends td_api_base {
      */
     static function _helper_td_global_list_to_panel_values() {
         $buffy_array = array();
+
         foreach (self::get_all() as $template_value => $template_config) {
-	        $buffy_array[] = array(
+	        if ($template_value == 'single_template') {
+		        $buffy_array[] = array(
+			        'text' => '',
+			        'title' => '',
+			        'val' => '',
+			        'img' => $template_config['img']
+		        );
+		        continue;
+	        }
+            $buffy_array[] = array(
                 'text' => '',
                 'title' => '',
                 'val' => $template_value,
@@ -76,22 +86,23 @@ class td_api_single_template extends td_api_base {
             );
         }
 
-	    array_unshift (
-		    $buffy_array,
-		    array(
-			    'text' => '',
-			    'title' => '',
-			    'val' => '',
-			    'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
-		    )
-	    );
-
-	    return $buffy_array;
+//        // add the default template at the beginning
+//        array_unshift (
+//            $buffy_array,
+//            array(
+//                'text' => '',
+//                'title' => '',
+//                'val' => '',
+//                'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
+//            )
+//        );
+        return $buffy_array;
     }
 
 
-	static function _helper_td_global_list_to_metabox_values() {
+	static function _helper_td_global_list_to_metaboxes() {
 		$buffy_array = array();
+
 		foreach (self::get_all() as $template_value => $template_config) {
 			$buffy_array[] = array(
 				'text' => '',
@@ -101,31 +112,23 @@ class td_api_single_template extends td_api_base {
 			);
 		}
 
-		array_unshift (
-			$buffy_array,
-			array(
-				'text' => '',
-				'title' => '',
-				'val' => 'single_template_default',
-				'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
-			)
-		);
-
-		array_unshift (
-			$buffy_array,
-			array(
-				'text' => '',
-				'title' => '',
-				'val' => '',
-				'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_0.png'
-			)
-		);
-
+        // add the default template at the beginning
+        array_unshift (
+            $buffy_array,
+            array(
+                'text' => '',
+                'title' => '',
+                'val' => '',
+                'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
+            )
+        );
 		return $buffy_array;
 	}
 
 
     /**
+     * @deprecated Important! Its functionality was replaced by the booster 'template_include' wordpress hook. It's susceptible to be removed in the next api versions.
+     *
      * shows a single template (echos it). NOTE: it also loads the WordPress globals in that template!
      *
      * @internal

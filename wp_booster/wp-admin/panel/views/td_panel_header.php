@@ -114,7 +114,7 @@
             echo td_panel_generator::dropdown(array(
                 'ds' => 'wp_theme_menu_spot',
                 'option_id' => 'top-menu',
-                'values' => td_panel_generator::$td_user_created_menus
+                'values' => td_panel_generator::get_user_created_menus()
             ));
             ?>
         </div>
@@ -227,7 +227,7 @@
             echo td_panel_generator::dropdown(array(
                 'ds' => 'wp_theme_menu_spot',
                 'option_id' => 'header-menu',
-                'values' => td_panel_generator::$td_user_created_menus
+                'values' => td_panel_generator::get_user_created_menus()
             ));
             ?>
         </div>

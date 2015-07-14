@@ -28,6 +28,8 @@ class td_global {
     static $cur_single_template = ''; /** @var string set here: @see  */
 
 
+    static $is_woocommerce_installed = false; // at the end of this file we check if woo commerce is installed
+
     static $current_category_obj; /**  used on category pages, it's set on pre_get_posts hook @see td_modify_main_query_for_category_page */
 
     //this is used to check for if we are in loop
@@ -47,8 +49,10 @@ class td_global {
     static $http_or_https = 'http'; //is set below with either http or https string  @see EOF
 
 
+	//@todo refactor all code to use TEMPLATEPATH instead
     static $get_template_directory = '';  // here we store the value from get_template_directory(); - it looks like the wp function does a lot of stuff each time is called
 
+	//@todo refactor all code to use STYLESHEETPATH instead
     static $get_template_directory_uri = ''; // here we store the value from get_template_directory_uri(); - it looks like the wp function does a lot of stuff each time is called
 
 
@@ -210,6 +214,11 @@ class td_global {
             'text' => 'SOCIAL NETWORKS',
             'ico_class' => 'td-ico-social',
             'file_id' => 'td_panel_social_networks'
+        ),
+        'td-panel-cpt-taxonomy' => array(
+            'text' => 'CPT &amp; TAXONOMY',
+            'ico_class' => 'td-ico-social',
+            'file_id' => 'td_panel_cpt_taxonomy'
         )
 
     );
@@ -391,6 +400,13 @@ class td_global {
 
 if (is_ssl()) {
     td_global::$http_or_https = 'https';
+}
+
+if (is_admin()) {
+    require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+    if (is_plugin_active('woocommerce/woocommerce.php')) {
+        td_global::$is_woocommerce_installed = true;
+    }
 }
 
 

@@ -784,6 +784,13 @@ function add_slug_to_body_class( $classes ) {
  */
 add_filter('post_class', 'add_slug_to_post_class');
 function add_slug_to_post_class($classes) {
+    global $post;
+
+    // on custom post types, we add the .post class for better css compatibility
+    if (is_single() and $post->post_type != 'post') {
+        $classes[]= 'post';
+    }
+
     $i = 0;
     foreach ($classes as $key => $value) {
         $pos = strripos($value, 'span');
@@ -1587,7 +1594,7 @@ function td_add_single_template_class($classes) {
 
 
         // add the class if we have a post template
-        if (!empty($active_single_template) && $active_single_template != 'single_template_default') {
+        if (!empty($active_single_template)) {
             td_global::$cur_single_template = $active_single_template;
             $classes []= sanitize_html_class($active_single_template);
         }
@@ -1641,6 +1648,7 @@ function td_category_big_grid_add_query_vars_filter($vars) {
  */
 add_action('pre_get_posts', 'td_modify_main_query_for_category_page');
 function td_modify_main_query_for_category_page($query) {
+
 
     //checking for category page and main query
     if(!is_admin() and is_category() and $query->is_main_query()) {
@@ -1696,7 +1704,7 @@ function td_modify_main_query_for_category_page($query) {
                 break;
         }//end switch
 
-	    // offset + custom pagination - if we have offset, wordpress overwrites the pagination and works with offset + limit
+	    // offset + custom pagination - if we have offset, WordPress overwrites the pagination and works with offset + limit
 	    if(empty($query->is_feed)) {
 		    if ( ! empty( $offset ) and $paged > 1 ) {
 			    $query->set( 'offset', $offset + ( ( $paged - 1 ) * $limit ) );
@@ -1737,6 +1745,7 @@ function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id
 
 td_init_booster();
 function td_init_booster() {
+
     global $content_width;
 
     // content width - this is overwritten in post
@@ -1933,4 +1942,63 @@ if (is_admin()) {
 
 
     }
+}
+
+
+/**
+ * - wordpress filter hook used to switch single theme post types and custom post types, and also woocommerce single products
+ * - we need to use 'template_include' and not 'single_template' (which runs just for single and before 'template_include'),
+ * because of not using more than one hook for this split operation and because the $template_path is the path already
+ * established by wordpress and woocommerce plugin
+ */
+add_filter( 'template_include', 'td_template_include_filter');
+function td_template_include_filter( $template_path ) {
+
+	if (is_single()
+	    and (($template_path == TEMPLATEPATH . '/single.php')
+	         or ($template_path == STYLESHEETPATH . '/single.php'))) {
+
+		global $post;
+
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+
+		if (empty($td_post_theme_settings['td_post_template'])) {
+
+			$td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+
+			if (!empty($td_default_site_post_template)) {
+				$td_post_theme_settings['td_post_template'] = $td_default_site_post_template;
+			}
+		}
+
+		if (!empty($td_post_theme_settings['td_post_template'])) {
+
+			//the user has selected a different template & we make sure we only load our templates - the list of allowed templates is in includes/wp_booster/td_global.php
+			//td_api_single_template::_helper_show_single_template(td_global::$td_template_var['td_post_theme_settings']['td_post_template']);
+
+			try {
+				$template_id = $td_post_theme_settings['td_post_template'];
+				$single_template_path = td_api_single_template::get_key($template_id, 'file');
+			} catch (ErrorException $ex) {
+				td_util::error(__FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+			}
+
+			// load the template
+			if (!empty($single_template_path) and file_exists($single_template_path)) {
+				$template_path = $single_template_path;
+			} else {
+				td_util::error(__FILE__, "The path $single_template_path of the $template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+			}
+		}
+
+	} else if (td_global::$is_woocommerce_installed
+	           and is_single()
+               and (($template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
+                    or ($template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
+
+
+		//echo 'SINGLE PRODUCT detected<br>';
+	}
+
+	return $template_path;
 }
