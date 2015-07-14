@@ -658,18 +658,24 @@ class td_page_generator {
             return '';
         }
 
+        $show_or_hide_home_link = '';
+
+        if (is_single()) {
+            if ($post->post_type != 'post') {
+                // it's a Custom Post Type
+                $show_or_hide_home_link = td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_home');
+            } else {
+                // it's a post
+                $show_or_hide_home_link = td_util::get_option('tds_breadcrumbs_show_home');
+            }
+        } else {
+            // it's a page, attachment or a WordPress template, we use the global template
+            $show_or_hide_home_link = td_util::get_option('tds_breadcrumbs_show_home');
+        }
+
 
         // add home breadcrumb if the theme is configured to show it
-        if (
-            (   $post->post_type == 'post'
-                and td_util::get_option('tds_breadcrumbs_show_home') != 'hide' // on posts, we use the Template settings -> breadcrumbs option
-            ) or (
-                // on custom post types we use CPT & taxonomy -> specific CPT setting
-                $post->post_type != 'post'
-                and td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_home') != 'hide'
-            )
-        ) {
-
+        if ($show_or_hide_home_link != 'hide') {
             array_unshift($breadcrumbs_array, array(
                 'title_attribute' => '',
                 'url' => esc_url(home_url( '/' )),
