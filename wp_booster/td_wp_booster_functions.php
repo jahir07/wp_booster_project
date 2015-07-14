@@ -784,6 +784,8 @@ function add_slug_to_body_class( $classes ) {
  */
 add_filter('post_class', 'add_slug_to_post_class');
 function add_slug_to_post_class($classes) {
+    //print_r($classes);
+    //die;
     $i = 0;
     foreach ($classes as $key => $value) {
         $pos = strripos($value, 'span');
