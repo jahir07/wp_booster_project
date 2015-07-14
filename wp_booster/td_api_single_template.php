@@ -67,7 +67,17 @@ class td_api_single_template extends td_api_base {
      */
     static function _helper_td_global_list_to_panel_values() {
         $buffy_array = array();
+
         foreach (self::get_all() as $template_value => $template_config) {
+	        if ($template_value == 'single_template') {
+		        $buffy_array[] = array(
+			        'text' => '',
+			        'title' => '',
+			        'val' => '',
+			        'img' => $template_config['img']
+		        );
+		        continue;
+	        }
             $buffy_array[] = array(
                 'text' => '',
                 'title' => '',
@@ -75,6 +85,32 @@ class td_api_single_template extends td_api_base {
                 'img' => $template_config['img']
             );
         }
+
+//        // add the default template at the beginning
+//        array_unshift (
+//            $buffy_array,
+//            array(
+//                'text' => '',
+//                'title' => '',
+//                'val' => '',
+//                'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
+//            )
+//        );
+        return $buffy_array;
+    }
+
+
+	static function _helper_td_global_list_to_metaboxes() {
+		$buffy_array = array();
+
+		foreach (self::get_all() as $template_value => $template_config) {
+			$buffy_array[] = array(
+				'text' => '',
+				'title' => '',
+				'val' => $template_value,
+				'img' => $template_config['img']
+			);
+		}
 
         // add the default template at the beginning
         array_unshift (
@@ -86,8 +122,8 @@ class td_api_single_template extends td_api_base {
                 'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
             )
         );
-        return $buffy_array;
-    }
+		return $buffy_array;
+	}
 
 
     /**
