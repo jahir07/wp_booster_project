@@ -69,11 +69,31 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
     </div>
 </div>
 
+
+<!-- Show breadcrumbs home link -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">SHOW BREADCRUMBS HOME LINK</span>
+        <p>Show or hide the home link in breadcrumbs</p>
+    </div>
+    <div class="td-box-control-full">
+        <?php
+        echo td_panel_generator::checkbox(array(
+            'ds' => 'td_cpt',
+            'item_id' => $custom_post_type,
+            'option_id' => 'tds_breadcrumbs_show_home',
+            'true_value' => '',
+            'false_value' => 'hide'
+        ));
+        ?>
+    </div>
+</div>
+
 <!-- breadcrumbs: parent category -->
 <div class="td-box-row">
     <div class="td-box-description">
         <span class="td-box-title">SHOW PARENT TAXONOMY</span>
-        <p>Show or hide the parent category link ex: Home > parent category > category </p>
+        <p>Show or hide the parent term link ex: Home > parent term > term </p>
     </div>
     <div class="td-box-control-full">
         <?php
@@ -109,6 +129,8 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
 </div>
 
 
+<div class="td-box-section-separator"></div>
+
 <!-- category spot: select taxonomy -->
 <div class="td-box-row">
     <div class="td-box-description">
@@ -127,6 +149,8 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
     </div>
 </div>
 
+
+<div class="td-box-section-separator"></div>
 
 <!-- tag spot: select taxonomy -->
 <div class="td-box-row">

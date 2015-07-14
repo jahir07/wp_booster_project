@@ -652,14 +652,23 @@ class td_page_generator {
      * @return string
      */
     static function get_breadcrumbs($breadcrumbs_array) {
+        global $post;
 
         if (empty($breadcrumbs_array)) {
             return '';
         }
 
         // add home breadcrumb if the theme is configured to show it
-        // this setting also affects custom post types
-        if (td_util::get_option('tds_breadcrumbs_show_home') != 'hide') {
+        if (
+            (   $post->post_type == 'post'
+                and td_util::get_option('tds_breadcrumbs_show_home') != 'hide' // on posts, we use the Template settings -> breadcrumbs option
+            ) or (
+                // on custom post types we use CPT & taxonomy -> specific CPT setting
+                $post->post_type != 'post'
+                and td_util::get_ctp_option($post->post_type, 'tds_breadcrumbs_show_home') != 'hide'
+            )
+        ) {
+
             array_unshift($breadcrumbs_array, array(
                 'title_attribute' => '',
                 'url' => esc_url(home_url( '/' )),

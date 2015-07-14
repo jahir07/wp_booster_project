@@ -10,7 +10,7 @@
  * Created by ra on 7/9/2015.
  */
 
-// show all the custom post types, EXCEPT the built in ones
+// get all the custom post types, EXCEPT the built in ones
 $td_custom_post_types_obj = get_post_types(
     array(
         '_builtin' => false // ignore built in CPT
@@ -64,7 +64,7 @@ if ($are_custom_post_types_installed === false) {
 <hr>
 <div class="td-section-separator">Custom taxonomies</div>
 <?php
-// show all the taxonomies - except the built ones
+// get all the taxonomies - except the built ones
 $td_taxonomies_obj = get_taxonomies(
     array(
         '_builtin' => false

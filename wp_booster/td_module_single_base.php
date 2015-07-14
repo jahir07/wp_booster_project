@@ -717,7 +717,8 @@ class td_module_single_base extends td_module {
 
 
     function related_posts($force_sidebar_position = '') {
-        if (!is_single('post')) {
+        global $post;
+        if ($post->post_type != 'post') {
             return '';
         }
 

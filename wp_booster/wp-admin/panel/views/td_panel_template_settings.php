@@ -34,11 +34,32 @@
 <!-- breadcrumbs -->
 <?php echo td_panel_generator::box_start('Breadcrumbs', false); ?>
 
+    <!-- text -->
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <p>From here you can customize the breadcrumbs that appear on your site. The breadcrumbs are a very useful navigation element that looks like this 'Home > My category > My article title'.
+            Since the breadcrumbs are so important for humans and search engines crawlers, <?php echo TD_THEME_NAME?> comes with extensive configuration options for them.
+            </p>
+            <span class="td-box-title">Notice:</span>
+            <p>If you have <strong>Custom Posts Types</strong> installed on your WordPress site, please edit the breadcrumbs for them in the 'CPT & TAXONOMY' panel. The settings form this panel do not affect custom posts types</p>
+        </div>
+        <div class="td-box-row-margin-bottom"></div>
+    </div>
+
+    <div class="td-box-section-separator"></div>
+
     <!-- Show breadcrumbs on post -->
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW BREADCRUMBS</span>
-            <p>Enable or disable the breadcrumbs</p>
+            <p>
+                Enable or disable the breadcrumbs
+                <?php td_util::tooltip_html('
+                        <h3>Enable / disable breadcrumbs:</h3>
+                        <p>From here you can enable and disable the breadcrumbs. This setting affects all the site pages EXCEPT custom post types. For custom posts types customizations, please use the dedicated panel and you can customize this on a per post type basis</p>
+
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -60,7 +81,14 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW BREADCRUMBS HOME LINK</span>
-            <p>Show or hide the home link in breadcrumbs</p>
+            <p>
+                Show or hide the home link in breadcrumbs
+                <?php td_util::tooltip_html('
+                        <h3>Show or hide the home link in breadcrumbs:</h3>
+                        <p>We recommend that you leave this setting Enabled for better usability and SEO. The \'home\' link in the breadcrumbs provides an easy access to the homepage of the site.</p>
+
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -80,7 +108,13 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW PARENT CATEGORY</span>
-            <p>Show or hide the parent category link ex: Home > parent category > category </p>
+            <p>
+                Show or hide the parent category link ex: Home > parent category > category
+                <?php td_util::tooltip_html('
+                        <h3>Show parent category:</h3>
+                        <p>If the \'primary category\' of the post has a parent category, it will show up in the breadcrumb only if this setting is enabled</p>
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -99,7 +133,13 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW ARTICLE TITLE</span>
-            <p>Show or hide the article title on post pages</p>
+            <p>
+                Show or hide the article title on post pages
+                <?php td_util::tooltip_html('
+                        <h3>Show article title in breadcrumbs:</h3>
+                        <p>If you do not require this for specific reasons, it can be disabled. This setting only affects the breadcrumbs. Not the article title of the post!</p>
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -119,7 +159,7 @@
 
 
 <!-- Lazy loading animation -->
-<?php echo td_panel_generator::box_start('Loading animation image', false); ?>
+<?php echo td_panel_generator::box_start('Image loading - animations', false); ?>
     <!-- text -->
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
