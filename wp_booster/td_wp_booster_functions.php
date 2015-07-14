@@ -784,8 +784,13 @@ function add_slug_to_body_class( $classes ) {
  */
 add_filter('post_class', 'add_slug_to_post_class');
 function add_slug_to_post_class($classes) {
-    //print_r($classes);
-    //die;
+    global $post;
+
+    // on custom post types, we add the .post class for better css compatibility
+    if (is_single() and $post->post_type != 'post') {
+        $classes[]= 'post';
+    }
+
     $i = 0;
     foreach ($classes as $key => $value) {
         $pos = strripos($value, 'span');
@@ -1988,6 +1993,7 @@ function td_template_include_filter( $template_path ) {
 	           and is_single()
                and (($template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
                     or ($template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
+
 
 		//echo 'SINGLE PRODUCT detected<br>';
 	}
