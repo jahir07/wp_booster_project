@@ -56,7 +56,7 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
 <div class="td-box-row">
     <div class="td-box-description">
         <span class="td-box-title">Category spot taxonomy</span>
-        <p>What taxonomy should show up in the breadcrumbs</p>
+        <p>What taxonomy should show up in the category spot</p>
     </div>
     <div class="td-box-control-full">
         <?php
@@ -77,7 +77,7 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
 <div class="td-box-row">
     <div class="td-box-description">
         <span class="td-box-title">tag spot taxonomy</span>
-        <p>What taxonomy should show up in the breadcrumbs</p>
+        <p>What taxonomy should show up in the tag spot</p>
     </div>
     <div class="td-box-control-full">
         <?php

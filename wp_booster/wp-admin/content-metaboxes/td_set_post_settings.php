@@ -17,10 +17,9 @@
                 <?php
                     td_util::tooltip_html('
                         <h3>Post templates:</h3>
-                        <p>When the default post template is set, the theme will load the post template that is set in the theme panel</p>
+                        <p>When this is set to "From panel" the theme will load the template that is set in the panel.</p>
                         <ul>
-                            <li><strong>This setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i></li>
-                            <li><strong>On default</strong> - the post will load the template that is set in the Theme panel: <i>Post settings > Default post template</i></li>
+                            <li><strong>If set, this setting overrides</strong> the Theme panel setting from <i>Post settings > Default post template</i></li>
                         </ul>
                     ', 'right')
                 ?>
@@ -159,14 +158,14 @@
             <?php $mb->the_field('td_quote_on_blocks'); ?>
             <span class="td-page-o-custom-label">Quote on blocks:</span>
             <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-            <span class="td-page-o-info">Show a quote (only when this article shows up in blocks that support quote and only on blocks that are on one row)</span>
+            <span class="td-page-o-info">Show a quote (only when this article shows up in blocks that support quote and only on blocks that are on one column)</span>
         </div>
 
         <div class="td-meta-box-row">
             <?php $mb->the_field('td_source'); ?>
             <span class="td-page-o-custom-label">Source name:</span>
             <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-            <span class="td-page-o-info">Name of the original source</span>
+            <span class="td-page-o-info">This name will appear at the end of the article in the "source" spot on single posts</span>
         </div>
 
         <div class="td-meta-box-row">
@@ -180,7 +179,7 @@
             <?php $mb->the_field('td_via'); ?>
             <span class="td-page-o-custom-label">Via name:</span>
             <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-            <span class="td-page-o-info">Via (your soruce) name</span>
+            <span class="td-page-o-info">Via (your soruce) name, this will appear at the end of the article in the "via" spot</span>
 
         </div>
 
