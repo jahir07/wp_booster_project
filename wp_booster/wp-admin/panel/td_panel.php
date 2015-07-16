@@ -8,9 +8,7 @@ class td_panel {
         // add panel to the wp-admin menu on the left
         add_action('admin_menu', array($this, 'register_theme_panel'));
 
-        //AJAX VIEW PANEL LOADING
-        add_action( 'wp_ajax_nopriv_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
-        add_action( 'wp_ajax_td_ajax_view_panel_loading', array($this, 'ajax_view_controller'));
+
 
         if (isset($_GET['page']) and $_GET['page'] == 'td_theme_panel') {
             add_filter('admin_body_class', array($this, 'add_body_class'));
@@ -116,61 +114,7 @@ class td_panel {
     }
 
 
-    /**
-     * ajax controller. Loads an ajax_view test
-     */
-    function ajax_view_controller() {
 
-
-
-        //if user is logged in and can switch themes
-        if (current_user_can('switch_themes')) {
-
-            // read some of the variables
-            $td_ajax_calling_file = td_util::get_http_post_val('td_ajax_calling_file');
-            $td_ajax_box_id = td_util::get_http_post_val('td_ajax_box_id');
-
-
-            $td_ajax_calling_file_id = str_replace('.php', '', $td_ajax_calling_file); //get the calling file id so we can look it up in our td_global panel list array
-
-
-            $buffy = '';
-
-            // load the ajax view only if we find it in the panel list form td_global
-            foreach (td_global::$theme_panels_list as $panel_id => $panel_array) {
-                if (!empty($panel_array['file_id']) and $panel_array['file_id'] == $td_ajax_calling_file_id) {
-
-                    /**
-                     * search for the ajax file in
-                     * 1. includes/panel/views/ajax_boxes/$td_ajax_calling_file_id/$td_ajax_box_id.php
-                     * 2. in includes/wp_booster/wp-admin/panel/ajax_boxes/$td_ajax_calling_file_id/$td_ajax_box_id.php
-                     */
-                    ob_start();
-                    $td_template_found_in_theme_or_child = locate_template('includes/panel/views/ajax_boxes/' . $td_ajax_calling_file_id  . '/' . $td_ajax_box_id . '.php', true);
-                    if (empty($td_template_found_in_theme_or_child)) {
-                        require_once('views/ajax_boxes/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id . '.php');
-                    }
-                    $buffy = ob_get_clean();
-                    break;
-                }
-            }
-
-            if (empty($buffy)) {
-                $buffy = 'No ajax panel found OR Panel is empty! <br> ' . __FILE__;
-            }
-
-
-            // each panel has to have a td-clear at the end
-            $buffy .= '<div class="td-clear"></div>';
-
-            //return the view counts
-            die(json_encode($buffy));
-
-        } else {
-
-            die();
-        }//end if user can switch themes
-    }
 
 
 }

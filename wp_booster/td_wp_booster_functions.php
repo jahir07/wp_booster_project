@@ -1841,9 +1841,13 @@ function td_init_booster() {
     check to see if we are on the backend
  */
 if (is_admin()) {
+
+    require_once('wp-admin/panel/panel_core/td_panel_core.php');
+
+
     // the two files are required by wp_admin -> to make the page / posts metaboxes
-    require_once('wp-admin/panel/td_panel_generator.php');
-    require_once('wp-admin/panel/td_panel_data_source.php');
+    require_once('wp-admin/panel/panel_core/td_panel_generator.php');
+    require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
 
     // demo inmporter
     require_once('wp-admin/panel/td_demo_installer.php');
