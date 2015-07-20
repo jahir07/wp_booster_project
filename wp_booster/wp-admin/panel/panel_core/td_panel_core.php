@@ -19,8 +19,8 @@ class td_panel_core {
 
 
 
-    static function render_panel($global_panels_array, $global_panel_id) {
-        self::$current_theme_panel_id = $global_panel_id; /** the ajax boxes read this @see \td_panel_generator::ajax_box */
+    static function render_panel($all_theme_panels_list, $panel_spot_id) {
+        self::$current_theme_panel_id = $panel_spot_id; /** the ajax boxes read this @see \td_panel_generator::ajax_box */
 
         //print_r($global_panels_array);
 
@@ -59,7 +59,7 @@ class td_panel_core {
                                     $td_first_menu_item_class = 'td-panel-menu-active'; //to show the class only on the first loop
                                     $td_first_menu_welcome_menu = 'td-welcome-menu'; //we are using this class to fix some rendering issues with the first menu
 
-                                    foreach ($global_panels_array[$global_panel_id] as $panel_id => $panel_array) {
+                                    foreach ($all_theme_panels_list[$panel_spot_id] as $panel_id => $panel_array) {
 
                                         switch ($panel_array['type']) {
                                             case 'separator':
@@ -116,7 +116,7 @@ class td_panel_core {
                                 <?php
                                 // show the panel views
                                 $td_panel_active = 'td-panel-active'; //to show the class only on the first loop
-                                foreach ($global_panels_array[$global_panel_id] as $panel_id => $panel_array) {
+                                foreach ($all_theme_panels_list[$panel_spot_id] as $panel_id => $panel_array) {
                                     if (isset($panel_array['file'])) {
 
                                         ?>
@@ -152,10 +152,6 @@ class td_panel_core {
     }
 
 
-    static function render_box_part($tag, $taxonomy) {
-     return;
-
-    }
 
 
     /**
@@ -172,7 +168,7 @@ class td_panel_core {
             $td_ajax_calling_file = td_util::get_http_post_val('td_ajax_calling_file');
             $td_ajax_box_id = td_util::get_http_post_val('td_ajax_box_id');
 
-            $td_current_global_panel_id =  td_util::get_http_post_val('td_current_theme_panel_id');
+            $td_current_panel_spot_id =  td_util::get_http_post_val('td_current_theme_panel_id');
 
 
 
@@ -182,7 +178,7 @@ class td_panel_core {
             $buffy = '';
 
 
-            foreach (td_global::$all_theme_panels_list[$td_current_global_panel_id] as $panel_id => $panel_array) {
+            foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id] as $panel_id => $panel_array) {
                 if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {
 
 

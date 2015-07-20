@@ -120,10 +120,7 @@ class td_global {
     static $big_grid_styles_list = array();
 
 
-      /**
-     * the list of panels - NOTE that the system will not load from other paths outside of theme as of now (ex. cannot be used in plugins YET)
-     * 1. try to locate the template in 'includes/panel/views/' (also checks in the child theme)
-     * 2. include the default panel from wp_booster if none is found
+    /**
      * @var array
      */
     static $all_theme_panels_list = array();

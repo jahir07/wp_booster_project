@@ -134,6 +134,12 @@ class td_panel_data_source {
                     return $td_block_styles[$read_array['item_id']][$read_array['option_id']];
                 }
                 break;
+
+
+            default:
+                // try to get options for plugins
+                return tdx_api_panel::get_data_from_datasource($read_array['ds'], $read_array['option_id']);
+                break;
         }
     }
 
@@ -223,6 +229,9 @@ class td_panel_data_source {
                     self::update_td_block_styles($post_value);
                     break;
 
+                default:
+                    tdx_api_panel::set_data_to_datasource($post_data_source, $post_value);
+                    break;
             }
         }
 

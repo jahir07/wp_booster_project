@@ -80,7 +80,7 @@ td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/inc
 // aurora framework
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
 td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
-
+td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
 
 
 /*
@@ -1867,7 +1867,7 @@ if (is_admin()) {
     if (current_user_can('switch_themes')) {
         // add the theme panel only if we have permissions
         require_once('wp-admin/panel/td_panel.php');
-        //require_once('wp-admin/panel/td_panel_woo.php'); //add the woocommerce panel
+        require_once('wp-admin/panel/td_panel_woo.php'); //add the woocommerce panel
     }
 
 
