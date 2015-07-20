@@ -1075,6 +1075,11 @@ function td_custom_gallery_settings_hook () {
                     return wp.media.template('gallery-settings')(view)
                         + wp.media.template('td-custom-gallery-setting')(view);
                 }
+//	            ,initialize: function() {
+//		            if (typeof this.model.get('td_select_gallery_slide') == 'undefined') {
+//			            this.model.set({td_select_gallery_slide: 'slide'});
+//		            }
+//	            }
             });
 
             //console.log();
