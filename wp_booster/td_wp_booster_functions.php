@@ -77,6 +77,9 @@ td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
+// aurora framework
+td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
+td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
 
 
 
@@ -93,7 +96,7 @@ if (TD_DEBUG_IOS_REDIRECT) {
     require_once('td_ios_redirect.php' );
 }
 
-
+// at this point it's not safe to update the Theme API because it's already used
 do_action('td_wp_booster_loaded'); //used by our plugins
 
 
@@ -1847,21 +1850,29 @@ function td_init_booster() {
  */
 if (is_admin()) {
 
-    require_once('wp-admin/panel/panel_core/td_panel_core.php');
-
-
-    // the two files are required by wp_admin -> to make the page / posts metaboxes
-    require_once('wp-admin/panel/panel_core/td_panel_generator.php');
-    require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
 
     // demo inmporter
     require_once('wp-admin/panel/td_demo_installer.php');
     require_once('wp-admin/panel/td_demo_util.php');
 
+
+
+    /*  ----------------------------------------------------------------------------
+        The theme panel + plugins panels
+     */
+    require_once('wp-admin/panel/panel_core/td_panel_core.php');
+    require_once('wp-admin/panel/panel_core/td_panel_generator.php');
+    require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
+
     if (current_user_can('switch_themes')) {
-        // the panel
+        // add the theme panel only if we have permissions
         require_once('wp-admin/panel/td_panel.php');
+        //require_once('wp-admin/panel/td_panel_woo.php'); //add the woocommerce panel
     }
+
+
+
+
 
 
     /**

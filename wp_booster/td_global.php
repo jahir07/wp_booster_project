@@ -126,7 +126,7 @@ class td_global {
      * 2. include the default panel from wp_booster if none is found
      * @var array
      */
-    static $theme_panels_list = array();
+    static $all_theme_panels_list = array();
 
 
 

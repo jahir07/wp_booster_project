@@ -1,0 +1,227 @@
+<?php
+
+
+
+//AJAX VIEW PANEL LOADING
+add_action( 'wp_ajax_nopriv_td_panel_core_load_ajax_box', array('td_panel_core', 'load_ajax_box'));
+add_action( 'wp_ajax_td_panel_core_load_ajax_box', array('td_panel_core', 'load_ajax_box'));
+
+
+
+class td_panel_core {
+    private static $current_theme_panel_id = ''; /** the ajax boxes read this @see \td_panel_generator::ajax_box */
+
+
+
+    static function get_current_theme_panel_id () { /** the ajax boxes read this @see \td_panel_generator::ajax_box */
+        return self::$current_theme_panel_id;
+    }
+
+
+
+    static function render_panel($global_panels_array, $global_panel_id) {
+        self::$current_theme_panel_id = $global_panel_id; /** the ajax boxes read this @see \td_panel_generator::ajax_box */
+
+        //print_r($global_panels_array);
+
+        ?>
+        <form id="td_panel_big_form" action="?page=td_theme_panel" method="post">
+            <input type="hidden" name="action" value="td_ajax_update_panel">
+            <div class="td_displaying_saving"></div>
+            <div class="td_wrapper_saving_gifs">
+                <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
+                <img class="td_displaying_ok_gif" src="<?php echo get_template_directory_uri()?>/includes/wp_booster/wp-admin/images/panel/saved.gif">
+            </div>
+
+
+            <div class="wrap">
+
+                <div class="td-container-wrap">
+
+                    <div class="td-panel-main-header">
+                        <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
+                        <span class="td-panel-header-name"><?php echo TD_THEME_NAME . ' - Theme panel'; ?></span>
+                        <span class="td-panel-header-version">version: <?php echo TD_THEME_VERSION; ?></span>
+                    </div>
+
+
+                    <div id="td-container-left">
+                        <div id="td-container-right">
+
+
+                            <!-- Panel Navigation -->
+                            <div id="td-col-left">
+                                <ul class="td-panel-menu">
+
+                                    <?php
+                                    //show the panel tabs on the left
+                                    $td_is_first_panel = true;
+                                    $td_first_menu_item_class = 'td-panel-menu-active'; //to show the class only on the first loop
+                                    $td_first_menu_welcome_menu = 'td-welcome-menu'; //we are using this class to fix some rendering issues with the first menu
+
+                                    foreach ($global_panels_array[$global_panel_id] as $panel_id => $panel_array) {
+
+                                        switch ($panel_array['type']) {
+                                            case 'separator':
+                                                //it's a group
+                                                ?>
+                                                <li class="td-panel-menu-sep"><?php echo $panel_array['text'] ?></li>
+                                                <?php
+                                                break;
+
+
+                                            case 'link':
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo $panel_array['url'] ?>">
+                                                        <span class="td-sp-nav-icon td-ico-export"></span>
+                                                        <?php echo $panel_array['text'] ?>
+                                                        <span class="td-arrow"></span>
+                                                    </a>
+                                                </li>
+                                                <?php
+                                                break;
+
+
+                                            default:
+                                                ?>
+                                                <li class="<?php echo $td_first_menu_welcome_menu?>">
+                                                    <a data-panel="<?php echo $panel_id ?>" data-bg="<?php echo esc_attr(get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/bg/1.jpg')?>" class="<?php echo $td_first_menu_item_class; ?>" href="#">
+                                                        <span class="td-sp-nav-icon <?php echo $panel_array['ico_class'] ?>"></span>
+                                                        <?php echo $panel_array['text'] ?>
+                                                        <span class="td-arrow"></span>
+                                                    </a>
+                                                </li>
+
+                                                <?php
+                                                break;
+                                        }
+
+
+                                        $td_first_menu_item_class = ''; // do not show any more td-panel-menu-active
+                                        $td_first_menu_welcome_menu = '';
+                                    }
+                                    ?>
+
+
+
+
+                                </ul>
+                            </div>
+
+
+
+                            <!-- Panel Content -->
+                            <div id="td-col-right" class="td-panel-content">
+                                <?php
+                                // show the panel views
+                                $td_panel_active = 'td-panel-active'; //to show the class only on the first loop
+                                foreach ($global_panels_array[$global_panel_id] as $panel_id => $panel_array) {
+                                    if (isset($panel_array['file'])) {
+
+                                        ?>
+                                        <div id="<?php echo $panel_id ?>" class="<?php echo $td_panel_active ?> td-panel">
+                                            <?php
+                                            require_once($panel_array['file']); // the panel is loaded from our hardcoded global panel list - there should be no security issues
+                                            ?>
+                                        </div>
+                                        <?php
+                                        $td_panel_active = '';
+                                    }
+                                }
+                                ?>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="td-clear"></div>
+
+                    <div class="td-panel-main-footer">
+                        <input type="button" id="td_button_save_panel" class="td-panel-save-button" value="SAVE SETTINGS">
+                    </div>
+
+                </div>
+
+                <div class="td-clear"></div>
+        </form>
+
+        <?php
+    }
+
+
+    static function render_box_part($tag, $taxonomy) {
+     return;
+
+    }
+
+
+    /**
+     * Loads the ajax box content
+     */
+    static function load_ajax_box() {
+
+        //if user is logged in and can switch themes
+        if (current_user_can('switch_themes')) {
+
+
+
+            // read some of the variables
+            $td_ajax_calling_file = td_util::get_http_post_val('td_ajax_calling_file');
+            $td_ajax_box_id = td_util::get_http_post_val('td_ajax_box_id');
+
+            $td_current_global_panel_id =  td_util::get_http_post_val('td_current_theme_panel_id');
+
+
+
+            $td_ajax_calling_file_id = str_replace('.php', '', $td_ajax_calling_file); //get the calling file id so we can look it up in our td_global panel list array
+
+
+            $buffy = '';
+
+
+            foreach (td_global::$all_theme_panels_list[$td_current_global_panel_id] as $panel_id => $panel_array) {
+                if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {
+
+
+                    if ($panel_array['type'] == 'in_theme') {
+                        // if the panel is in theme, we have to look for it in the theme's /panel folder and only after that in the wp-booster panel
+                        ob_start();
+                        $td_template_found_in_theme_or_child = locate_template('includes/panel/views/ajax_boxes/' . $td_ajax_calling_file_id  . '/' . $td_ajax_box_id . '.php', true);
+                        if (empty($td_template_found_in_theme_or_child)) {
+                            require_once(TEMPLATEPATH . '/includes/wp_booster/wp-admin/panel/views/ajax_boxes/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id . '.php');
+                        }
+                        $buffy = ob_get_clean();
+                    } elseif ($panel_array['type'] == 'in_plugin') {
+                        // the panel is in a plugin. Here we look in the plugins folder
+
+                    }
+
+                    //print_r($panel_array);
+                    break;
+                }
+            }
+
+
+
+
+            if (empty($buffy)) {
+                $buffy = 'No ajax panel found OR Panel is empty! <br> ' . __FILE__;
+            }
+
+
+            // each panel has to have a td-clear at the end
+            $buffy .= '<div class="td-clear"></div>';
+
+            //return the view counts
+            die(json_encode($buffy));
+
+        } else {
+
+            die();
+        }//end if user can switch themes
+    }
+
+}
