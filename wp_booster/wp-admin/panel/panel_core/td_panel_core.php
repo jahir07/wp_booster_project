@@ -179,6 +179,8 @@ class td_panel_core {
 
 
             foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id] as $panel_id => $panel_array) {
+
+                // locate the entry for this specific panel spot -> panel by using the 'file' key
                 if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {
 
 
@@ -190,13 +192,21 @@ class td_panel_core {
                             require_once(TEMPLATEPATH . '/includes/wp_booster/wp-admin/panel/views/ajax_boxes/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id . '.php');
                         }
                         $buffy = ob_get_clean();
-                    } elseif ($panel_array['type'] == 'in_plugin') {
-                        // the panel is in a plugin. Here we look in the plugins folder
 
+
+                    } elseif ($panel_array['type'] == 'in_plugin') {
+                        // the panel is in a plugin. Here we look in the plugins folder and we patch the path for this specific plugin
+                        $folder_path = dirname($panel_array['file']);
+
+                        $ajax_box_plugin_path = $folder_path . '/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id;
+                        if (file_exists($ajax_box_plugin_path)) {
+                            ob_start();
+                            require_once $ajax_box_plugin_path;
+                            $buffy = ob_get_clean();
+                        }
                     }
 
-                    //print_r($panel_array);
-                    break;
+                    break; // we found our item and we tried to load it, now exit the loop
                 }
             }
 
