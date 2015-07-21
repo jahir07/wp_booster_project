@@ -40,8 +40,8 @@ class td_panel_core {
 
                     <div class="td-panel-main-header">
                         <img src="<?php echo get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/panel-wrap/panel-logo.png'?>" alt=""/>
-                        <span class="td-panel-header-name"><?php echo TD_THEME_NAME . ' - Theme panel'; ?></span>
-                        <span class="td-panel-header-version">version: <?php echo TD_THEME_VERSION; ?></span>
+                        <span class="td-panel-header-name"><?php echo $all_theme_panels_list[$panel_spot_id]['title']; ?></span>
+                        <span class="td-panel-header-version"><?php echo $all_theme_panels_list[$panel_spot_id]['subtitle']; ?></span>
                     </div>
 
 
@@ -59,7 +59,7 @@ class td_panel_core {
                                     $td_first_menu_item_class = 'td-panel-menu-active'; //to show the class only on the first loop
                                     $td_first_menu_welcome_menu = 'td-welcome-menu'; //we are using this class to fix some rendering issues with the first menu
 
-                                    foreach ($all_theme_panels_list[$panel_spot_id] as $panel_id => $panel_array) {
+                                    foreach ($all_theme_panels_list[$panel_spot_id]['panels'] as $panel_id => $panel_array) {
 
                                         switch ($panel_array['type']) {
                                             case 'separator':
@@ -116,7 +116,7 @@ class td_panel_core {
                                 <?php
                                 // show the panel views
                                 $td_panel_active = 'td-panel-active'; //to show the class only on the first loop
-                                foreach ($all_theme_panels_list[$panel_spot_id] as $panel_id => $panel_array) {
+                                foreach ($all_theme_panels_list[$panel_spot_id]['panels'] as $panel_id => $panel_array) {
                                     if (isset($panel_array['file'])) {
 
                                         ?>
@@ -178,7 +178,7 @@ class td_panel_core {
             $buffy = '';
 
 
-            foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id] as $panel_id => $panel_array) {
+            foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id]['panels'] as $panel_id => $panel_array) {
 
                 // locate the entry for this specific panel spot -> panel by using the 'file' key
                 if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {

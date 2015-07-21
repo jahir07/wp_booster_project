@@ -22,7 +22,7 @@ class tdx_api_panel {
 
 
     /**
-     * Allows the panel to save data to the datasources registered by plugins
+     * Allows the panel to save data to the datasources registered by plugins @see td_panel_data_source::update
      * @param $post_data_source - the data source
      * @param $post_value       - post value received by the panel for this specific datasource
      */
@@ -39,7 +39,7 @@ class tdx_api_panel {
     }
 
     /**
-     * allows the panel to read data for a specific datasource that was registered by a plugin and option id
+     * allows the panel to read data for a specific datasource that was registered by a plugin and option id. @see td_panel_data_source::read
      * @param $data_source - what data source to use, this will be checked by the list of registered data sources
      * @param $option_id   - the option id
      * @return string      - returns the option value
@@ -59,9 +59,26 @@ class tdx_api_panel {
      */
     static function add($panel_spot_id, $params_array) {
         if (isset(td_global::$all_theme_panels_list[$panel_spot_id])) {
-            td_global::$all_theme_panels_list[$panel_spot_id] = array_merge(td_global::$all_theme_panels_list[$panel_spot_id], $params_array);
+            if (!isset(td_global::$all_theme_panels_list[$panel_spot_id]['panels'])) { //make sure we have an array in panels, makes ::add array_merge work
+                td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = array();
+            }
+            td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = array_merge(td_global::$all_theme_panels_list[$panel_spot_id]['panels'], $params_array);
         } else {
-            td_global::$all_theme_panels_list[$panel_spot_id] = $params_array;
+            td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = $params_array;
         }
     }
+
+
+    /**
+     * updates a panel spot. WARNING: it will only update the keys from the $update_array
+     * @param $panel_spot_id
+     * @param $update_array
+     */
+    static function update_panel_spot($panel_spot_id, $update_array) {
+        foreach ($update_array as $option_id => $option_value) {
+            td_global::$all_theme_panels_list[$panel_spot_id][$option_id] = $option_value;
+        }
+    }
+
+
 }

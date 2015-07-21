@@ -23,13 +23,7 @@ class td_panel {
         return $classes;
     }
 
-    function change_panel_css_style() {
-        echo "
-        <style>
 
-        </style>
-    ";
-    }
 
     /**
      * register our theme panel via the hook
