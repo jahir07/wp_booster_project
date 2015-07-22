@@ -157,7 +157,7 @@
 
 
 <!-- Lazy loading animation -->
-<?php echo td_panel_generator::box_start('Image loading - animations', false); ?>
+<?php echo td_panel_generator::box_start('Image loading - animations (LazyLoad)', false); ?>
     <!-- text -->
     <div class="td-box-row">
         <div class="td-box-description td-box-full">

@@ -131,8 +131,15 @@ add_action('wp_enqueue_scripts', 'load_front_css', 1001);   // 1001 priority bec
 function load_front_css() {
     if (TD_DEBUG_USE_LESS) {
         wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php',  '', TD_THEME_VERSION, 'all' );
+        if (td_global::$is_woocommerce_installed === true) {
+            wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
+        }
     } else {
         wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
+        if (td_global::$is_woocommerce_installed === true) {
+            wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/style-woocommerce.css',  '', TD_THEME_VERSION, 'all' );
+        }
+
     }
 }
 
