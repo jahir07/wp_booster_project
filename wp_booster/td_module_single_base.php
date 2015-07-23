@@ -23,12 +23,11 @@ class td_module_single_base extends td_module {
 
 
 
+
     function get_post_pagination() {
         if (!$this->is_single) {
-            return;
+            return '';
         }
-
-
         return wp_link_pages(array(
             'before' => '<div class="page-nav page-nav-post td-pb-padding-side">',
             'after' => '</div>',
@@ -40,31 +39,26 @@ class td_module_single_base extends td_module {
         ));
     }
 
+
     /**
+     * Gets the article title on single pages and on modules that use this class as a base (module15 on Newsmag for example).
      * @param string $cut_at - not used, it's added to maintain strict standards
      * @return string
      */
     function get_title($cut_at = '') {
-        //just use h1 instead of h3
-        $var_single = 0;
-        if (is_single()) {
-            $var_single = 1;
-        }
-
         $buffy = '';
-        $buffy .= '<h1 itemprop="name" class="entry-title">';
-
-        if ($var_single == 0) {
-            $buffy .='<a itemprop="url" href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
+        if (!empty($this->title)) {
+            $buffy .= '<h1 class="entry-title">';
+                if ($this->is_single === true) {
+                    $buffy .= $this->title;
+                } else {
+                    $buffy .='<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
+                    $buffy .= $this->title;
+                    $buffy .='</a>';
+                }
+            $buffy .= '</h1>';
         }
 
-        $buffy .= $this->title;
-
-        if ($var_single == 0) {
-            $buffy .='</a>';
-        }
-
-        $buffy .= '</h1>';
         return $buffy;
     }
 
@@ -417,7 +411,7 @@ class td_module_single_base extends td_module {
 
 
     /**
-     * returns the item scope @todo - see where it's actually used
+     * returns the item scope for single pages. If we have an article or a review
      * @return string
      */
     function get_item_scope() {
@@ -431,33 +425,31 @@ class td_module_single_base extends td_module {
 
 
     /**
-     * returns the item scope meta. It returns an empty string if the module is used in a loop (not on a single page)
-     * 16 march 2015
+     * This method outputs the item scope for SINGLE templates. If you are looking for the modules @see td_module::get_item_scope_meta()
+     * @updated 23 july 2015
+     *  - if the module that uses this class is not on a single page, we use the @see td_module::get_item_scope_meta() this allows
+     * us to output normal module item scope insted of no item scope like it was before this update
      * @return string
      */
     function get_item_scope_meta() {
 
         if (!is_single()) {
-            return '';
+            return parent::get_item_scope_meta(); // get a normal item scope if we're in a loop - like on a blog style loop
         }
+
         $buffy = ''; //the vampire slayer
+        $buffy .= parent::get_item_scope_meta();
 
-        $author_id = $this->post->post_author;
-        $buffy .= '<meta itemprop="author" content = "' . get_the_author_meta('display_name', $author_id) . '">';
-
-        $buffy .= '<meta itemprop="interactionCount" content="UserComments:' . get_comments_number($this->post->ID) . '"/>';
-
+        // if we have a review, we must add additional stuff
         if (td_review::has_review($this->td_review)) {
-            $td_article_date_unix = get_the_time('U', $this->post->ID);
 
-            $buffy .= '<meta itemprop="itemReviewed " content = "' . $this->title . '">';
+            // the item that is reviewd
+            $buffy .= '<meta itemprop="itemReviewed " content = "' . $this->title_attribute . '">';
 
             if (!empty($this->td_review['review'])) {
                 $buffy .= '<meta itemprop="about" content = "' . esc_attr($this->td_review['review']) . '">';
             } else {
-                //we have no review :|
-
-                //get a damn excerpt for the metatag
+                //we have no review text :| get a excerpt for the about meta thing
                 if ($this->post->post_excerpt != '') {
                     $td_post_excerpt = $this->post->post_excerpt;
                 } else {
@@ -466,8 +458,7 @@ class td_module_single_base extends td_module {
                 $buffy .= '<meta itemprop="about" content = "' . esc_attr($td_post_excerpt) . '">';
             }
 
-
-            $buffy .= '<meta itemprop="datePublished" content="' . date(DATE_W3C, $td_article_date_unix) . '">';
+            // review rating
             $buffy .= '<span class="td-page-meta" itemprop="reviewRating" itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Rating">';
             $buffy .= '<meta itemprop="worstRating" content = "1">';
             $buffy .= '<meta itemprop="bestRating" content = "5">';

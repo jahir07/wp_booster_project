@@ -10,6 +10,8 @@ abstract class td_module {
     var $td_review; //review meta
 
 	var $post_has_thumb = false;
+    var $post_thumb_id = NULL;
+
 
     /**
      * @param $post WP_Post
@@ -33,6 +35,7 @@ abstract class td_module {
 
         if (has_post_thumbnail($this->post->ID)) {
             $this->post_has_thumb = true;
+            $this->post_thumb_id = get_post_thumbnail_id($this->post->ID);
         }
 
         //get the review metadata
@@ -48,13 +51,42 @@ abstract class td_module {
     }
 
 
-    //used only on single post, we have it empty for future improvements
+    /**
+     * this method generates the item scope metadata for ALL the modules that appear on our theme.
+     * NOTICE: - the item scope generated for single posts is located in @see td_module_single_base::get_item_scope_meta
+     *         - this method is not used on single posts pages
+     * @updated 23 July 2015 by Ra
+     * @return string
+     */
     function get_item_scope_meta() {
         $buffy = ''; //the vampire slayer
 
+        // author
         $author_id = $this->post->post_author;
+        $buffy .= '<meta itemprop="author" content = "' . esc_attr(get_the_author_meta('display_name', $author_id)) . '">';
 
-        $buffy .= '<meta itemprop="author" content = "' . get_the_author_meta('display_name', $author_id) . '">';
+        // datePublished
+        $td_article_date_unix = get_the_time('U', $this->post->ID);
+        $buffy .= '<meta itemprop="datePublished" content="' . date(DATE_W3C, $td_article_date_unix) . '">';
+
+        // headline @todo we may improve this one to use the subtitle or excerpt? - We could not find specs about what it should be.
+        $buffy .= '<meta itemprop="headline " content="' . esc_attr( $this->post->post_title) . '">';
+
+        if ($this->post_has_thumb == true) {
+            /**
+             * from google documentation:
+             * A URL, or list of URLs pointing to the representative image file(s). Images must be
+             * at least 160x90 pixels and at most 1920x1080 pixels.
+             * We recommend images in .jpg, .png, or. gif formats.
+             * https://developers.google.com/structured-data/rich-snippets/articles
+             */
+            $td_image = wp_get_attachment_image_src($this->post_thumb_id, 'full');
+            if (!empty($td_image[0])) {
+                $buffy .= '<meta itemprop="image" content="' . esc_attr($td_image[0]) . '">';
+            }
+        }
+
+        // optional interaction count - basically here we add the comments number
         $buffy .= '<meta itemprop="interactionCount" content="UserComments:' . get_comments_number($this->post->ID) . '"/>';
         return $buffy;
     }
@@ -165,7 +197,7 @@ abstract class td_module {
 
 
         if ($this->post_has_thumb or ($tds_hide_featured_image_placeholder != 'hide_placeholder')) {
-            if ($this->post_has_thumb) {
+            if ($this->post_has_thumb and !is_null($this->post_thumb_id)) {
                 //if we have a thumb
 
 
@@ -192,18 +224,10 @@ abstract class td_module {
                     $attachment_title = '';
 
                 } else {
-                    $attachment_id = get_post_thumbnail_id($this->post->ID);
-                    $td_temp_image_url = wp_get_attachment_image_src($attachment_id, $thumbType);
-
-
-                    $attachment_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true );
+                    $td_temp_image_url = wp_get_attachment_image_src($this->post_thumb_id, $thumbType);
+                    $attachment_alt = get_post_meta($this->post_thumb_id, '_wp_attachment_image_alt', true );
                     $attachment_alt = 'alt="' . esc_attr(strip_tags($attachment_alt)) . '"';
-
-
-
                     $attachment_title = ' title="' . esc_attr(strip_tags($this->title)) . '"';
-
-
 
                     if (empty($td_temp_image_url[0])) {
                         $td_temp_image_url[0] = '';
