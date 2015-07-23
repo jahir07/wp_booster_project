@@ -136,6 +136,18 @@ class td_panel_data_source {
                 break;
 
 
+            // fake datasource for demo import panel, we just use the panel to render controls but we save on our own @todo - find a solution to this
+            case 'td_import_theme_styles':
+                break;
+
+            // fake datasource for metaboxes, we just use the panel to render controls but we save on our own  @todo - find a solution to this
+            case 'td_page':
+                break;
+            case 'td_homepage_loop':
+                break;
+            case 'td_post_theme_settings':
+                break;
+
             default:
                 // try to get options for plugins
                 return tdx_options::get_option($read_array['ds'], $read_array['option_id']);
