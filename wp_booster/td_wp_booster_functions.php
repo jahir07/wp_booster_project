@@ -81,7 +81,7 @@ td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/inc
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
 td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
 td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
-
+td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_options.php');
 
 /*
 add_action('wp_footer', 'td_wp_footer_debug');

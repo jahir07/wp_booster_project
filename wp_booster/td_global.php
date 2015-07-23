@@ -304,11 +304,10 @@ if (is_ssl()) {
     td_global::$http_or_https = 'https';
 }
 
-if (is_admin()) {
-    require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-    if (is_plugin_active('woocommerce/woocommerce.php')) {
-        td_global::$is_woocommerce_installed = true;
-    }
+
+require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+if (is_plugin_active('woocommerce/woocommerce.php')) {
+    td_global::$is_woocommerce_installed = true;
 }
 
 

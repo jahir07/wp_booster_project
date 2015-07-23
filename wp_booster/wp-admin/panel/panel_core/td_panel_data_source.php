@@ -138,7 +138,8 @@ class td_panel_data_source {
 
             default:
                 // try to get options for plugins
-                return tdx_api_panel::get_data_from_datasource($read_array['ds'], $read_array['option_id']);
+                return tdx_options::get_option($read_array['ds'], $read_array['option_id']);
+                //return tdx_api_panel::get_data_from_datasource($read_array['ds'], $read_array['option_id']);
                 break;
         }
     }
@@ -230,7 +231,7 @@ class td_panel_data_source {
                     break;
 
                 default:
-                    tdx_api_panel::set_data_to_datasource($post_data_source, $post_value);
+                    tdx_options::set_data_to_datasource($post_data_source, $post_value);
                     break;
             }
         }
