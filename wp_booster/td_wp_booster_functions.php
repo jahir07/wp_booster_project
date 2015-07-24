@@ -1,39 +1,23 @@
 <?php
 /**
- * WordPress booster V 3.0 by tagDiv
+ * WordPress booster V 3.1 by tagDiv
  */
 
-do_action('td_wp_booster_before');
+do_action('td_wp_booster_before');  //@todo is probably not used by anyone
 
 
 if (TD_DEPLOY_MODE == 'dev') {
     require_once('external/kint/Kint.class.php');
 }
 
-
-// theme specific config values
+// theme utility files
 require_once('td_global.php');
 require_once('td_util.php');
 
-// load the api
+// load the wp_booster_api
+require_once('td_api.php');
 
-/* @td_get_inline */
-require_once('td_api_base.php');
-require_once('td_api_block.php');
-require_once('td_api_block_template.php');
-require_once('td_api_category_template.php');
-require_once('td_api_category_top_posts_style.php');
-require_once('td_api_footer_template.php');
-require_once('td_api_header_style.php');
-require_once('td_api_module.php');
-require_once('td_api_single_template.php');
-require_once('td_api_smart_list.php');
-require_once('td_api_thumb.php');
-require_once('td_api_top_bar_template.php');
-require_once('td_api_tinymce_formats.php');
-require_once('td_api_autoload.php');
-/* @td_end_get_inline */
-
+// hook here to use the theme api
 do_action('td_global_after');
 
 
@@ -58,14 +42,13 @@ require_once('td_css_buffer.php'); // css buffer class
 require_once('td_js_generator.php');  // ~ app config ~ css generator
 require_once('td_more_article_box.php');  //handles more articles box
 require_once('td_block_widget.php');  //used to make widgets from our blocks
-// background support - is not autoloaded
-require_once('td_background.php');
+require_once('td_background.php'); // background support - is not autoloaded due to issues
 require_once('td_background_render.php');
 
 
-// Every class after this (that has td_ in the name) is auto loaded
+
 require_once('td_autoload_classes.php');  //used to autoload classes [modules, blocks]
-// add auto loading classes
+// Every class after this (that has td_ in the name) is auto loaded only when it's required
 td_api_autoload::add('td_css_inline', td_global::$get_template_directory . '/includes/wp_booster/td_css_inline.php');
 td_api_autoload::add('td_login', td_global::$get_template_directory . '/includes/wp_booster/td_login.php');
 td_api_autoload::add('td_category_template', td_global::$get_template_directory . '/includes/wp_booster/td_category_template.php');
@@ -77,13 +60,14 @@ td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
 
-// aurora framework
+// aurora framework ??
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
 td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
 td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
 td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_options.php');
 
 /*
+// want to see the autoload status? uncomment this :)
 add_action('wp_footer', 'td_wp_footer_debug');
 function td_wp_footer_debug() {
     td_api_base::_debug_show_autoloaded_components();
@@ -1979,53 +1963,53 @@ if (is_admin()) {
  * established by wordpress and woocommerce plugin
  */
 add_filter( 'template_include', 'td_template_include_filter');
-function td_template_include_filter( $template_path ) {
+function td_template_include_filter( $wordpress_template_path ) {
 
-	if (is_single()
-	    and (($template_path == TEMPLATEPATH . '/single.php')
-	         or ($template_path == STYLESHEETPATH . '/single.php'))) {
+    // intercept the WordPress requested template, and if it's single we put our own.
+	if (is_single() and
+        (($wordpress_template_path == TEMPLATEPATH . '/single.php') or ($wordpress_template_path == STYLESHEETPATH . '/single.php'))) {
 
 		global $post;
 
-		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+        // if we are on a custom post type, leave the defaul loaded wordpress template
+        if ($post->post_type != 'post') {
+            return $wordpress_template_path;
+        }
 
-		if (empty($td_post_theme_settings['td_post_template'])) {
+        // read the global setting
+        $single_template_id = td_util::get_option('td_default_site_post_template');
 
-			$td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+        // check if we have a specific template
+        $td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+        if (!empty($td_post_theme_settings['td_post_template'])) {
+            $single_template_id = $td_post_theme_settings['td_post_template'];
+        }
 
-			if (!empty($td_default_site_post_template)) {
-				$td_post_theme_settings['td_post_template'] = $td_default_site_post_template;
-			}
-		}
+        if (!empty($single_template_id)) {
+            // try to find the template in the API
+            $single_template_path = '';
+            try {
+                $single_template_path = td_api_single_template::get_key($single_template_id, 'file');
+            } catch (ErrorException $ex) {
+                td_util::error(__FILE__, "The template $single_template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+            }
 
-		if (!empty($td_post_theme_settings['td_post_template'])) {
-
-			//the user has selected a different template & we make sure we only load our templates - the list of allowed templates is in includes/wp_booster/td_global.php
-			//td_api_single_template::_helper_show_single_template(td_global::$td_template_var['td_post_theme_settings']['td_post_template']);
-
-			try {
-				$template_id = $td_post_theme_settings['td_post_template'];
-				$single_template_path = td_api_single_template::get_key($template_id, 'file');
-			} catch (ErrorException $ex) {
-				td_util::error(__FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
-			}
-
-			// load the template
-			if (!empty($single_template_path) and file_exists($single_template_path)) {
-				$template_path = $single_template_path;
-			} else {
-				td_util::error(__FILE__, "The path $single_template_path of the $template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
-			}
-		}
+            // we have the file in the API, now we make sure that the file exists on disk
+            if (!empty($single_template_path) and file_exists($single_template_path)) {
+                $wordpress_template_path = $single_template_path;
+            } else {
+                td_util::error(__FILE__, "The path $single_template_path of the $single_template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+            }
+        }
 
 	} else if (td_global::$is_woocommerce_installed
 	           and is_single()
-               and (($template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
-                    or ($template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
+               and (($wordpress_template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
+                    or ($wordpress_template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
 
 
 		//echo 'SINGLE PRODUCT detected<br>';
 	}
 
-	return $template_path;
+	return $wordpress_template_path;
 }

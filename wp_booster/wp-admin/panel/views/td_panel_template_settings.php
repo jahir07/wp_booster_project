@@ -829,7 +829,7 @@
                 <?php
                 echo td_panel_generator::visual_select_o(array(
                     'ds' => 'td_option',
-                    'option_id' => 'tds_woo-single_sidebar_pos',
+                    'option_id' => 'tds_woo_single_sidebar_pos',
                     'values' => array(
                         array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
                         array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
@@ -843,7 +843,7 @@
                 <?php
                 echo td_panel_generator::sidebar_pulldown(array(
                     'ds' => 'td_option',
-                    'option_id' => 'tds_woo-single_sidebar'
+                    'option_id' => 'tds_woo_single_sidebar'
                 ));
                 ?>
                 <div class="td-panel-control-comment td-text-align-right">Create or select an existing sidebar</div>
