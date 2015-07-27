@@ -611,7 +611,6 @@ class td_util {
     static function vc_get_column_number() {
         global $td_row_count, $td_column_count, $post;
 
-
         //echo 'xxxxx col: ' . $td_column_count . ' row: ' . $td_row_count;
         $columns = 1;//number of column
 

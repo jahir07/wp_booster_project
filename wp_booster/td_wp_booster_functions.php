@@ -1015,10 +1015,13 @@ function td_vc_init() {
         vc_disable_frontend();
     }
 
+
+    // @todo - this may not be requiered anynmore
     if (class_exists('WPBakeryVisualComposer')) { //disable visual composer updater
         $td_composer = WPBakeryVisualComposer::getInstance();
         $td_composer->disableUpdater();
     }
+
 }
 
 
