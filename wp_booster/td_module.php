@@ -7,10 +7,16 @@ abstract class td_module {
     var $href;
 
 
-    var $td_review; //review meta
+    /**
+     * @var mixed the review metadata - we get it for each $post
+     */
+    protected $td_review;
 
-	var $post_has_thumb = false;
-    var $post_thumb_id = NULL;
+
+    /**
+     * @var int|null Contains the id of the current $post thumbnail. If no thumbnail is found, the value is NULL
+     */
+    protected $post_thumb_id = NULL;
 
 
     /**
@@ -19,7 +25,7 @@ abstract class td_module {
      */
     function __construct($post) {
         if (gettype($post) != 'object' or get_class($post) != 'WP_Post') {
-            throw new ErrorException('td_module: ' . get_Class($this) . '($post): $post is not WP_Post');
+            td_util::error(__FILE__, 'td_module: ' . get_Class($this) . '($post): $post is not WP_Post');
         }
 
 
@@ -34,8 +40,11 @@ abstract class td_module {
         $this->href = esc_url(get_permalink($post->ID));
 
         if (has_post_thumbnail($this->post->ID)) {
-            $this->post_has_thumb = true;
-            $this->post_thumb_id = get_post_thumbnail_id($this->post->ID);
+            $tmp_get_post_thumbnail_id = get_post_thumbnail_id($this->post->ID);
+            if (!empty($tmp_get_post_thumbnail_id)) {
+                // if we have a wrong id, leave the post_thumb_id NULL
+                $this->post_thumb_id = $tmp_get_post_thumbnail_id;
+            }
         }
 
         //get the review metadata
@@ -72,7 +81,7 @@ abstract class td_module {
         // headline @todo we may improve this one to use the subtitle or excerpt? - We could not find specs about what it should be.
         $buffy .= '<meta itemprop="headline " content="' . esc_attr( $this->post->post_title) . '">';
 
-        if ($this->post_has_thumb == true) {
+        if (!is_null($this->post_thumb_id)) {
             /**
              * from google documentation:
              * A URL, or list of URLs pointing to the representative image file(s). Images must be
@@ -105,8 +114,8 @@ abstract class td_module {
 	    }
 
 
-        //show no thumb only if image placeholders are disabled
-        if ($this->post_has_thumb === false and td_util::get_option('tds_hide_featured_image_placeholder') == 'hide_placeholder') {
+        //show no thumb only if no thumb is detected and image placeholders are disabled
+        if (is_null($this->post_thumb_id) and td_util::get_option('tds_hide_featured_image_placeholder') == 'hide_placeholder') {
             $buffy .= ' td_module_no_thumb';
         }
 
@@ -190,20 +199,14 @@ abstract class td_module {
         $buffy = ''; //the output buffer
         $tds_hide_featured_image_placeholder = td_util::get_option('tds_hide_featured_image_placeholder');
 
-        /*
-        *  - if we have a post thumb - show that
-        *  - if we don't have a post thumb, check the image placeholder option and if we're also not a single page show the image placeholder.
-        */
+        // do we have a post thumb or a placeholder?
+        if (!is_null($this->post_thumb_id) or ($tds_hide_featured_image_placeholder != 'hide_placeholder')) {
 
-
-        if ($this->post_has_thumb or ($tds_hide_featured_image_placeholder != 'hide_placeholder')) {
-            if ($this->post_has_thumb and !is_null($this->post_thumb_id)) {
+            if (!is_null($this->post_thumb_id)) {
                 //if we have a thumb
-
-
                 // check to see if the thumb size is enabled in the panel, we don't have to check for the default wordpress thumbs (the default ones are already cut and we don't have  a panel setting for them)
                 if (td_util::get_option('tds_thumb_' . $thumbType) != 'yes' and $thumbType != 'thumbnail') {
-                    //the thumb is disabled, show a thumb from the theme with the thumb disabled message
+                    //the thumb is disabled, show a placeholder thumb from the theme with the "thumb disabled" message
                     global $_wp_additional_image_sizes;
 
                     if (empty($_wp_additional_image_sizes[$thumbType]['width'])) {
@@ -224,6 +227,7 @@ abstract class td_module {
                     $attachment_title = '';
 
                 } else {
+                    // the thumb is enabled from the panel, it's time to show the real thumb
                     $td_temp_image_url = wp_get_attachment_image_src($this->post_thumb_id, $thumbType);
                     $attachment_alt = get_post_meta($this->post_thumb_id, '_wp_attachment_image_alt', true );
                     $attachment_alt = 'alt="' . esc_attr(strip_tags($attachment_alt)) . '"';

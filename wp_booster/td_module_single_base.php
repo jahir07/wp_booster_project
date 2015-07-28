@@ -119,7 +119,7 @@ class td_module_single_base extends td_module {
         } else {
             //if it's a normal post, show the default thumb
 
-            if ($this->post_has_thumb) {
+            if (!is_null($this->post_thumb_id)) {
                 //get the featured image id + full info about the 640px wide one
                 $featured_image_id = get_post_thumbnail_id($this->post->ID);
                 $featured_image_info = td_util::attachment_get_full_info($featured_image_id, $thumbType);
