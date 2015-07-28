@@ -460,7 +460,10 @@ class td_page_generator {
     }
 
 
-
+    /**
+     * WARNING: this function also runs in the page-pagebuilder-latest.php in a FAKE LOOP - this means that wordpress functions
+     * like is_category DO NOT WORK AS EXPECTED when you use for example a category filter for the loop, is_category returns true
+     */
     static function get_pagination() {
         global $wp_query;
 
@@ -478,8 +481,10 @@ class td_page_generator {
 
 
 
-        //hack for category pages - pagination
-        if(!is_admin() and is_category()) {
+        // hack for category pages - pagination
+        // we also have to check for page-pagebuilder-latest.php template because we are running there in a FAKE loop and if the category
+        // filter is active for that loop, WordPress believes that we are on a category
+        if(!is_admin() and td_global::$current_template != 'page-homepage-loop' and is_category()) {
             $numposts = $wp_query->found_posts - td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop(); // fix the pagination, we have x less posts because the rest are in the top posts loop
             $max_page = ceil($numposts / $posts_per_page);
         }

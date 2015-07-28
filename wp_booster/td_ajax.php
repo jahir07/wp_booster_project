@@ -209,8 +209,11 @@ function td_ajax_search() {
          * @note:
          * we use esc_url(home_url( '/' )) instead of the WordPress @see get_search_link function because that's what the internal
          * WordPress widget it's using and it was creating duplicate links like: yoursite.com/search/search_query and yoursite.com?s=search_query
+         *
+         * also note that esc_url - as of today strips spaces (WTF) https://core.trac.wordpress.org/ticket/23605 so we used urlencode - to encode the query param with + instead of %20 as rawurlencode does
          */
-        $buffy_msg .= '<div class="result-msg"><a href="' . esc_url(home_url('/?s=' . $td_string )) . '">' . __td('View all results', TD_THEME_NAME) . '</a></div>';
+
+        $buffy_msg .= '<div class="result-msg"><a href="' . home_url('/?s=' . urlencode($td_string )) . '">' . __td('View all results', TD_THEME_NAME) . '</a></div>';
         //add wrap
         $buffy = '<div class="td-aj-search-results">' . $buffy . '</div>' . $buffy_msg;
     }
