@@ -147,6 +147,9 @@ class td_panel_data_source {
                 break;
             case 'td_post_theme_settings':
                 break;
+            case 'td_update_theme_options':
+                break;
+
 
             default:
                 // try to get options for plugins

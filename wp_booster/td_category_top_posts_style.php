@@ -35,6 +35,13 @@ abstract class td_category_top_posts_style {
         }
 
 
+
+        // we have to have a default grid, there seems to be a problem with the grid styles
+        if (empty($td_grid_style)) {
+            $td_grid_style = 'td-grid-style-1';
+        }
+
+
         //parameters to filter to for big grid
         $atts_for_big_grid = array(
             'limit' => td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop(),
@@ -42,6 +49,8 @@ abstract class td_category_top_posts_style {
             'sort' => get_query_var('filter_by'),
             'td_grid_style' => $td_grid_style
         );
+
+
 
 
         //show the big grid
