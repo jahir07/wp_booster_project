@@ -143,6 +143,7 @@ class td_background {
 
 
         // WE HAVE TO HAVE A IMAGE OR COLOR - @todo wtf needs to be refactorized
+        // we use the background click thing and we also need to add a class if no bg is selected so we cannot autoload this
         new td_background_render($background_params);
     }
 
