@@ -30,7 +30,13 @@ class td_global {
 
     static $is_woocommerce_installed = false; // at the end of this file we check if woo commerce is installed
 
-    static $current_category_obj; /**  used on category pages, it's set on pre_get_posts hook @see td_modify_main_query_for_category_page */
+
+    /**
+     * @var stdClass holds the category object
+     *      - it's set on pre_get_posts hook @see td_modify_main_query_for_category_page
+     *      - WARNING: it can be null on category pages that request a category ID that dosn't exists
+     */
+    static $current_category_obj;
 
     //this is used to check for if we are in loop
     //also used for quotes in blocks - check isf the module is displayed on blocks or not

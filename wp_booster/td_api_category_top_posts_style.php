@@ -73,6 +73,7 @@ class td_api_category_top_posts_style extends td_api_base {
 
 
     static function _helper_get_posts_shown_in_the_loop() {
+
         $template_id = self::_helper_get_active_id(); //@todo we may need a 'better' error checking here
         return parent::get_key($template_id, 'posts_shown_in_the_loop');
     }

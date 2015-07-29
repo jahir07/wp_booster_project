@@ -1655,6 +1655,20 @@ function td_modify_main_query_for_category_page($query) {
     //checking for category page and main query
     if(!is_admin() and is_category() and $query->is_main_query()) {
 
+        // get the category object - with or without permalinks
+        if (empty($query->query_vars['cat'])) {
+            td_global::$current_category_obj = get_category_by_path(get_query_var('category_name'), false);  // when we have permalinks, we have to get the category object like this.
+        } else {
+            td_global::$current_category_obj = get_category($query->query_vars['cat']);
+        }
+
+
+        // we are on a category page with an ID that doesn't exists - wp will show a 404 and we do nothing
+        if (is_null(td_global::$current_category_obj)) {
+            return;
+        }
+
+
         //get the number of page where on
         $paged = get_query_var('paged');
 
@@ -1663,16 +1677,6 @@ function td_modify_main_query_for_category_page($query) {
 
         //get the limit of posts on the category page
         $limit = get_option('posts_per_page');
-
-        // get the category object - with or without permalinks
-        if (empty($query->query_vars['cat'])) {
-            td_global::$current_category_obj = get_category_by_path(get_query_var('category_name'), false);  // when we have permalinks, we have to get the category object like this.
-        } else {
-            td_global::$current_category_obj = get_category($query->query_vars['cat']);
-        }
-
-        //offset is hardcoded because of big grid
-        $offset = td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop();
 
 
         //echo $filter_by;
@@ -1705,6 +1709,11 @@ function td_modify_main_query_for_category_page($query) {
                 $query->set('orderby', 'rand');
                 break;
         }//end switch
+
+
+        // how many posts are we showing in the big grid for this category
+        $offset = td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop();
+
 
 	    // offset + custom pagination - if we have offset, WordPress overwrites the pagination and works with offset + limit
 	    if(empty($query->is_feed)) {

@@ -332,6 +332,9 @@ class td_module_single_base extends td_module {
 
             $td_smart_list_class = $td_smart_list['smart_list_template'];
             if (class_exists($td_smart_list_class)) {
+                /**
+                 * @var $td_smart_list_obj td_smart_list
+                 */
                 $td_smart_list_obj = new $td_smart_list_class();  // make the class from string * magic :)
                 return $td_smart_list_obj->render_from_post_content($content);
             } else {
