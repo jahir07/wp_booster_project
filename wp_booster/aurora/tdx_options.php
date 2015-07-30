@@ -63,9 +63,8 @@ class tdx_options {
 
     /**
      * saves the cache to the database
-     * @param $datasource
      */
-    static function flush_options($datasource) {
+    static function flush_options() {
         foreach (self::$options_cache as $datasource => $option_cache) {
             update_option($datasource, $option_cache);
         }
@@ -89,10 +88,12 @@ class tdx_options {
      * @param $options_array  - the options array to update
      */
     static function set_data_to_datasource($datasource, $options_array) {
-        foreach ($options_array as $option_id => $option_value) {
-            self::update_option_in_cache($datasource, $option_id, $option_value);
+        if (!empty($options_array)) {
+            foreach ($options_array as $option_id => $option_value) {
+                self::update_option_in_cache($datasource, $option_id, $option_value);
+            }
         }
-        self::flush_options($datasource);
+        self::flush_options();
     }
 
 
