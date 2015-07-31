@@ -336,7 +336,22 @@ class td_module_single_base extends td_module {
                  * @var $td_smart_list_obj td_smart_list
                  */
                 $td_smart_list_obj = new $td_smart_list_class();  // make the class from string * magic :)
-                return $td_smart_list_obj->render_from_post_content($content);
+
+                // prepare the settings for the smart list
+                $smart_list_settings = array(
+                    'post_content' => $content,
+                    'counting_order_asc' => false,
+                    'td_smart_list_h' => 'h3'
+                );
+
+                if (!empty($td_smart_list['td_smart_list_order'])) {
+                    $smart_list_settings['counting_order_asc'] = true;
+                }
+
+                if (!empty($td_smart_list['td_smart_list_h'])) {
+                    $smart_list_settings['td_smart_list_h'] = $td_smart_list['td_smart_list_h'];
+                }
+                return $td_smart_list_obj->render_from_post_content($smart_list_settings);
             } else {
                 // there was an error?
                 td_util::error(__FILE__, 'Missing smart list: ' . $td_smart_list_class . '. Did you disabled a tagDiv plugin?');

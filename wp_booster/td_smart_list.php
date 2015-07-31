@@ -1,66 +1,96 @@
 <?php
 abstract class td_smart_list {
 
+    private $counting_order_asc = false; //how to count the items in the list
+    private $counting_start = 1; //start from 1 or 0 ? - As of 31 July 2015 IT'S NOT USED :(
 
-    abstract function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
-
-
-
-    var $counting_order_asc = false; //how to count the items in the list
-    var $counting_start = 1; //start from 1 or 0 ?
+    protected $use_pagination = false;
 
 
+    abstract protected function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
 
-    function render_from_post_content($content) {
+    /**
+     * renders a smart list form content. This should be the ONLY public thing for now
+     * @param $smart_list_settings array of settings for the smart list
+     * @return string
+     */
+    function render_from_post_content($smart_list_settings) {
+
+        $this->counting_order_asc = $smart_list_settings['counting_order_asc'];
+
+
         // make a new tokenizer
-        $td_tokenizer = new td_tokenizer($content);
+        $td_tokenizer = new td_tokenizer();
+        $td_tokenizer->token_title_start = $smart_list_settings['td_smart_list_h'];
+        $td_tokenizer->token_title_end = $smart_list_settings['td_smart_list_h'];
 
 
-        //read the smart list settings
-        global $post;
-        $td_smart_list = get_post_meta($post->ID, 'td_post_theme_settings', true);
+        // get the list items
+        $list_items = $td_tokenizer->split_to_list_items($smart_list_settings['post_content']);
 
-
-
-
-        // check the smart list numbering preferences
-        // the default value is already set above - if the $td_smart_list['td_smart_list_order'] is empty
-        if (!empty($td_smart_list['td_smart_list_order'])) {
-            $this->counting_order_asc = true;
-            $this->counting_start = 1;
-        }
+        // we need to number all the items before pagination because item 2 can have number 4 if the counting method is desc
+        $list_items = $this->add_numbers_to_list_items($list_items);
 
 
 
 
-        // are we using custom h tags ?
-        if (!empty($td_smart_list['td_smart_list_h'])) {
-            $td_tokenizer->token_title_end = $td_smart_list['td_smart_list_h'];
-            $td_tokenizer->token_title_start = $td_smart_list['td_smart_list_h'];
-        } else {
-            // default
-            $td_tokenizer->token_title_end = 'h3';
-            $td_tokenizer->token_title_start = 'h3';
-        }
-
-
-
-        $list_items = $td_tokenizer->split_to_list_items($content);
-
-
+        // no items found, we return the content as is
         if (empty($list_items['list_items'])) {
-            return $content;
+            return $smart_list_settings['post_content'];
         }
-        //print_r($list_items);
+
+
+        if ($this->use_pagination === true) {
+            $td_paged = $this->get_current_page();
+            return $this->render($list_items, $td_paged);
+        } else {
+            return $this->render($list_items);
+        }
+
+    }
+
+
+    /**
+     * Calculate the total item number and the current item number
+     *  current item number can be asc, desc and start from 0 or 1 etc.
+     * @param $list_items
+     * @return array - $list_items with added 'current_item_number' and 'total_items_number' keys
+     */
+    private function add_numbers_to_list_items($list_items) {
+
+        $total_items_number = count($list_items['list_items']) - 1 + $this->counting_start; // fix for 0 base counting (0 of 3 - to -  3 of 3)
+
+        //render each item using the render_list_item method from the child class
+        foreach ($list_items['list_items'] as $list_item_key => &$list_item) {
+
+            //how to count (asc or desc)
+            if ($this->counting_order_asc === true) {
+                $current_item_index = $list_item_key + $this->counting_start;
+            } else {
+                $current_item_index = $total_items_number - ($list_item_key);
+            }
+
+            $list_item['current_item_number'] = $current_item_index;
+            $list_item['total_items_number'] = $total_items_number;
+        }
+
+        return $list_items;
+    }
+
+    /**
+     * This is the rendering function. It gets a list of items and it outputs HTML
+     * @param $list_items - the smart list list of items
+     * @return string - the smart list's HTML
+     */
+    private function render($list_items, $td_paged = false) {
 
         /*  ----------------------------------------------------------------------------
             build the item id to item name for the table of contents
-         */
+        */
         $item_id_2_item_array = array();
         foreach ($list_items['list_items'] as $list_item_key => $list_item) {
             $item_id_2_item_array[$list_item_key + 1] = $list_item;
         }
-
 
 
 
@@ -85,20 +115,19 @@ abstract class td_smart_list {
          */
         $buffy .= $this->render_before_list_wrap();  //from child class
 
-        //count the total number of items
-        $total_items_number = count($list_items['list_items']) - 1 + $this->counting_start; // fix for 0 base counting (0 of 3 - to -  3 of 3)
-
-        //render each item using the render_list_item method from the child class
-        foreach ($list_items['list_items'] as $list_item_key => $list_item) {
-
-            //how to count (asc or desc)
-            if ($this->counting_order_asc === true) {
-                $current_item_index = $list_item_key + $this->counting_start;
-            } else {
-                $current_item_index = $total_items_number - ($list_item_key);
+        if ($td_paged === false) {
+            //render each item using the render_list_item method from the child class
+            foreach ($list_items['list_items'] as $list_item_key => $list_item) {
+                $buffy .= $this->render_list_item($list_item, $list_item_key + 1, $list_item['current_item_number'], $list_item['total_items_number']);
             }
-
-            $buffy .= $this->render_list_item($list_item, $list_item_key + 1, $current_item_index, $total_items_number);
+        } else {
+            $array_id_from_paged = $td_paged-1;
+            $buffy .= $this->render_list_item(
+                $list_items['list_items'][$array_id_from_paged],
+                $array_id_from_paged,
+                $list_items['list_items'][$array_id_from_paged]['current_item_number'],
+                $list_items['list_items'][$array_id_from_paged]['total_items_number']
+            );
         }
 
 
@@ -109,6 +138,11 @@ abstract class td_smart_list {
             add the table of contents after
          */
         $buffy .= $this->render_table_of_contents_after($item_id_2_item_array);
+
+
+        // render the bottom pagination
+        $buffy .= $this->render_pagination_bottom($list_items);
+
 
 
         /*  ----------------------------------------------------------------------------
@@ -122,45 +156,141 @@ abstract class td_smart_list {
     }
 
 
-    function render_from_gallery() {
 
+
+    private function render_pagination_bottom($list_items) {
+        $paged = $this->get_current_page();
+        $buffy = '';
+
+        $total_pages = count($list_items['list_items']);
+
+        // no pagination if we have one page!
+        if ($total_pages == 1) {
+            return '';
+        }
+
+//        echo $paged;
+//        echo $total_pages;
+
+        if ($paged == 1) {
+            // first page
+            $buffy .= $this->pagination_back_disabled();
+            $buffy .= $this->pagination_next($this->_wp_link_page($paged + 1));
+        }
+        elseif ($paged == $total_pages) {
+            // last page
+            $buffy .= $this->pagination_back($this->_wp_link_page($paged - 1));
+            $buffy .= $this->pagination_next_disabled();
+        }
+        else {
+            // middle page
+            $buffy .= $this->pagination_back($this->_wp_link_page($paged - 1));
+            $buffy .= $this->pagination_next($this->_wp_link_page($paged + 1));
+
+        }
+
+
+        return $buffy;
+    }
+
+    protected function pagination_next($page_link) { return ''; }
+    protected function pagination_next_disabled() { return ''; }
+    protected function pagination_back($page_link) { return ''; }
+    protected function pagination_back_disabled() { return ''; }
+
+
+    private function get_current_page() {
+        $td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
+        $td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
+        //paged works on single pages, page - works on homepage
+        if ($td_paged > $td_page) {
+            $paged = $td_paged;
+        } else {
+            $paged = $td_page;
+        }
+        // if no pages, we are on the first page
+        if (empty($paged)) {
+            $paged = 1;
+        }
+        return $paged;
     }
 
 
     /**
-     * @param $atts - the shortcode atts
-     * @return string - this will return the rendered smart list
+     * This function returns the pagination link for the current post
+     * TAGDIV: - taken from wordpress wp-includes/post-template.php
+     *         - we removed the wrapping <a>
+     *
+     * Helper function for wp_link_pages().
+     *
+     * @since 3.1.0
+     * @access private
+     *
+     * @param int $i Page number.
+     * @return string Link.
      */
-    function render_from_short_code($atts) {
-        return '';
+    private function _wp_link_page( $i ) {
+        global $wp_rewrite;
+        $post = get_post();
+
+        if ( 1 == $i ) {
+            $url = get_permalink();
+        } else {
+            if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
+                $url = add_query_arg( 'page', $i, get_permalink() );
+            elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+                $url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $i, 'single_paged');
+            else
+                $url = trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
+        }
+
+        if ( is_preview() ) {
+            $url = add_query_arg( array(
+                'preview' => 'true'
+            ), $url );
+
+            if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
+                $url = add_query_arg( array(
+                    'preview_id'    => wp_unslash( $_GET['preview_id'] ),
+                    'preview_nonce' => wp_unslash( $_GET['preview_nonce'] )
+                ), $url );
+            }
+        }
+
+        return esc_url( $url );
     }
-
-
-
-
 
     /**
      * what to render at the start of the smart list (usually it's overwritten by child classes)
      */
-    function render_before_list_wrap() {
+    protected function render_before_list_wrap() {
         return '';
     }
 
     /**
      * what to render at the end of the list (usually it's overwritten by child classes)
      */
-    function render_after_list_wrap() {
+    protected function render_after_list_wrap() {
         return '';
     }
 
 
-
-    function render_table_of_contents_before($item_id_2_item_array) {
+    /**
+     * @deprecated - not used yet
+     * @param $item_id_2_item_array
+     * @return string
+     */
+    protected function render_table_of_contents_before($item_id_2_item_array) {
         return '';
     }
 
 
-    function render_table_of_contents_after($item_id_2_item_array) {
+    /**
+     * @deprecated - not used yet
+     * @param $item_id_2_item_array
+     * @return string
+     */
+    protected function render_table_of_contents_after($item_id_2_item_array) {
         return '';
     }
 
@@ -193,7 +323,7 @@ class td_tokenizer {
 
 
 
-    function __construct($content) {
+    function __construct() {
         $this->current_list_item = $this->get_empty_list_item();
 
 
