@@ -61,6 +61,27 @@ class tdx_options {
         self::$options_cache[$datasource][$option_id] = $option_value;
     }
 
+
+
+	static function update_options_in_cache($datasource, $options_array) {
+		// check if the data source is registered
+		if (!in_array($datasource, self::$registered_data_sources)) {
+			tdx_util::error(__FILE__, 'get_option on a unregistered data source');
+			return;
+		}
+
+		if (!isset(self::$options_cache[$datasource])) {
+			// the option cache is not set for this plugin id, fetch it form db
+			self::$options_cache[$datasource] = get_option($datasource);
+		}
+
+		foreach ($options_array as $option_id => $option_value) {
+			self::$options_cache[$datasource][$option_id] = $option_value;
+		}
+	}
+
+
+
     /**
      * saves the cache to the database
      */
