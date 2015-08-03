@@ -115,6 +115,7 @@ $td_translation_map = array(
     'Page %CURRENT_PAGE% of %TOTAL_PAGES%' => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%', TD_THEME_NAME),
     'Next' => __('Next', TD_THEME_NAME),
     'Prev' => __('Prev', TD_THEME_NAME),
+    'Back' => __('Back', TD_THEME_NAME),
 
 
     'No results for your search' => __('No results for your search', TD_THEME_NAME),
