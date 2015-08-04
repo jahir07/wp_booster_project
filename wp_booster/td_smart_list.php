@@ -7,7 +7,7 @@ abstract class td_smart_list {
     protected $use_pagination = false;      // if true: tells our render function to only output the current item
 
 
-    private $list_items;
+    private $list_items;                    // we keep the items on render here
 
 
     abstract protected function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
