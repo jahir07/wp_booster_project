@@ -1,10 +1,13 @@
 <?php
 abstract class td_smart_list {
 
-    private $counting_order_asc = false; //how to count the items in the list
-    private $counting_start = 1; //start from 1 or 0 ? - As of 31 July 2015 IT'S NOT USED :(
+    private $counting_order_asc = false;    //how to count the items in the list
+    private $counting_start = 1;            //start from 1 or 0 ? - As of 31 July 2015 IT'S NOT USED :(
 
-    protected $use_pagination = false;
+    protected $use_pagination = false;      // if true: tells our render function to only output the current item
+
+
+    private $list_items;
 
 
     abstract protected function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
@@ -36,7 +39,6 @@ abstract class td_smart_list {
 
         // we need to number all the items before pagination because item 2 can have number 4 if the counting method is desc
         $list_items = $this->add_numbers_to_list_items($list_items);
-
 
         if ($this->use_pagination === true) {
             $td_paged = $this->get_current_page();
@@ -82,15 +84,8 @@ abstract class td_smart_list {
      */
     private function render($list_items, $td_paged = false) {
 
-        /*  ----------------------------------------------------------------------------
-            build the item id to item name for the table of contents
-        */
-        $item_id_2_item_array = array();
-        foreach ($list_items['list_items'] as $list_item_key => $list_item) {
-            $item_id_2_item_array[$list_item_key + 1] = $list_item;
-        }
-
-
+        // we make the list items available to other functions (like pagination)
+        $this->list_items = $list_items;
 
         $buffy = '';
 
@@ -100,13 +95,6 @@ abstract class td_smart_list {
         if (!empty($list_items['before_list'])) {
             $buffy .= implode('', $list_items['before_list']);
         }
-
-
-        /*  ----------------------------------------------------------------------------
-            add the table of contents before
-         */
-        $buffy .= $this->render_table_of_contents_before($item_id_2_item_array);
-
 
         /*  ----------------------------------------------------------------------------
             add the list
@@ -128,19 +116,7 @@ abstract class td_smart_list {
             );
         }
 
-
         $buffy .= $this->render_after_list_wrap(); //from child class - render the list wrap end
-
-
-        /*  ----------------------------------------------------------------------------
-            add the table of contents after
-         */
-        $buffy .= $this->render_table_of_contents_after($item_id_2_item_array);
-
-
-        // render the bottom pagination
-        $buffy .= $this->render_pagination_bottom($list_items);
-
 
 
         /*  ----------------------------------------------------------------------------
@@ -154,49 +130,83 @@ abstract class td_smart_list {
     }
 
 
+    /**
+     * callback function, it's used by smart lists child to render the pagination
+     * @uses td_smart_list::list_items
+     * @return string
+     */
+    protected function callback_render_pagination() {
 
-
-    private function render_pagination_bottom($list_items) {
-        $paged = $this->get_current_page();
+        $current_page = $this->get_current_page();
         $buffy = '';
 
-        $total_pages = count($list_items['list_items']);
+        $total_pages = count($this->list_items['list_items']);
 
         // no pagination if we have one page!
         if ($total_pages == 1) {
             return '';
         }
 
-//        echo $paged;
-//        echo $total_pages;
+        //        echo $paged;
+        //        echo $total_pages;
 
-        if ($paged == 1) {
+        if ($current_page == 1) {
             // first page
-            $buffy .= $this->pagination_back_disabled();
-            $buffy .= $this->pagination_next($this->_wp_link_page($paged + 1));
+            $buffy .= '<div class="td-smart-list-pagination">';
+                $buffy .= '<span class="td-smart-list-button td-smart-disable"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</span>';
+                $buffy .= '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+            $buffy .= '</div>';
         }
-        elseif ($paged == $total_pages) {
+        elseif ($current_page == $total_pages) {
             // last page
-            $buffy .= $this->pagination_back($this->_wp_link_page($paged - 1));
-            $buffy .= $this->pagination_next_disabled();
+            $buffy .= '<div class="td-smart-list-pagination">';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+                $buffy .= '<span class="td-smart-list-button td-smart-disable">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></span>';
+            $buffy .= '</div>';
         }
         else {
             // middle page
-            $buffy .= $this->pagination_back($this->_wp_link_page($paged - 1));
-            $buffy .= $this->pagination_next($this->_wp_link_page($paged + 1));
-
+            $buffy .= '<div class="td-smart-list-pagination">';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+            $buffy .= '</div>';
         }
+
+        return $buffy;
+    }
+
+
+    protected function callback_render_drop_down_pagination() {
+        $current_page = $this->get_current_page();
+        $total_pages = count($this->list_items['list_items']);
+
+        // no pagination if we have one page!
+        if ($total_pages == 1) {
+            return '';
+        }
+
+
+
+        // render the dropdown
+        $buffy = '<select>';
+        foreach ($this->list_items['list_items'] as $index => $list_item) {
+            $list_item_page_nr = $index + 1;
+
+//            if ($current_page)
+//                selected
+            $buffy .= '<option value="' . esc_attr($this->_wp_link_page($list_item_page_nr)) . '">' . $list_item['current_item_number'] . ' - ' . $list_item['title'] . '</option>';
+        }
+        $buffy .= '<select>';
 
 
         return $buffy;
     }
 
-    protected function pagination_next($page_link) { return ''; }
-    protected function pagination_next_disabled() { return ''; }
-    protected function pagination_back($page_link) { return ''; }
-    protected function pagination_back_disabled() { return ''; }
 
-
+    /**
+     * Hax to intercept the current page of the post
+     * @return int|mixed
+     */
     private function get_current_page() {
         $td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
         $td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
@@ -218,6 +228,7 @@ abstract class td_smart_list {
      * This function returns the pagination link for the current post
      * TAGDIV: - taken from wordpress wp-includes/post-template.php
      *         - we removed the wrapping <a>
+     *         - original name: _wp_link_page
      *
      * Helper function for wp_link_pages().
      *
@@ -273,24 +284,7 @@ abstract class td_smart_list {
     }
 
 
-    /**
-     * @deprecated - not used yet
-     * @param $item_id_2_item_array
-     * @return string
-     */
-    protected function render_table_of_contents_before($item_id_2_item_array) {
-        return '';
-    }
 
-
-    /**
-     * @deprecated - not used yet
-     * @param $item_id_2_item_array
-     * @return string
-     */
-    protected function render_table_of_contents_after($item_id_2_item_array) {
-        return '';
-    }
 
 }
 
