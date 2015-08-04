@@ -41,8 +41,8 @@ abstract class td_smart_list {
         $list_items = $this->add_numbers_to_list_items($list_items);
 
         if ($this->use_pagination === true) {
-            $td_paged = $this->get_current_page();
-            return $this->render($list_items, $td_paged);
+            $current_page = $this->get_current_page($list_items);
+            return $this->render($list_items, $current_page);
         } else {
             return $this->render($list_items);
         }
@@ -82,7 +82,16 @@ abstract class td_smart_list {
      * @param $list_items - the smart list list of items
      * @return string - the smart list's HTML
      */
-    private function render($list_items, $td_paged = false) {
+    private function render($list_items, $current_page = false) {
+        /*
+        $total_pages = count($this->list_items['list_items']);
+        if ($current_page > $total_pages) {
+            status_header(404);
+            nocache_headers();
+            include( get_404_template() );
+            exit;
+        }
+        */
 
         // we make the list items available to other functions (like pagination)
         $this->list_items = $list_items;
@@ -101,13 +110,14 @@ abstract class td_smart_list {
          */
         $buffy .= $this->render_before_list_wrap();  //from child class
 
-        if ($td_paged === false) {
+        if ($current_page === false) {
             //render each item using the render_list_item method from the child class
             foreach ($list_items['list_items'] as $list_item_key => $list_item) {
                 $buffy .= $this->render_list_item($list_item, $list_item_key + 1, $list_item['current_item_number'], $list_item['total_items_number']);
             }
         } else {
-            $array_id_from_paged = $td_paged-1;
+
+            $array_id_from_paged = $current_page-1;
             $buffy .= $this->render_list_item(
                 $list_items['list_items'][$array_id_from_paged],
                 $array_id_from_paged,
@@ -136,10 +146,15 @@ abstract class td_smart_list {
      * @return string
      */
     protected function callback_render_pagination() {
+
+
         $buffy = '';
 
-        $current_page = $this->get_current_page();
+        $current_page = $this->get_current_page($this->list_items);
         $total_pages = count($this->list_items['list_items']);
+
+
+
 
         // no pagination if we have one page!
         if ($total_pages == 1) {
@@ -179,7 +194,7 @@ abstract class td_smart_list {
         $buffy = '';
 
 
-        $current_page = $this->get_current_page();
+        $current_page = $this->get_current_page($this->list_items);
         $total_pages = count($this->list_items['list_items']);
 
         // no pagination if we have one page!
@@ -234,20 +249,28 @@ abstract class td_smart_list {
      * Hax to intercept the current page of the post
      * @return int|mixed
      */
-    private function get_current_page() {
+    private function get_current_page($list_items) {
         $td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
         $td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
         //paged works on single pages, page - works on homepage
         if ($td_paged > $td_page) {
-            $paged = $td_paged;
+            $current_page = $td_paged;
         } else {
-            $paged = $td_page;
+            $current_page = $td_page;
         }
         // if no pages, we are on the first page
-        if (empty($paged)) {
-            $paged = 1;
+        if (empty($current_page)) {
+            return 1;
         }
-        return $paged;
+
+        // if the requested page is bigger than our number of items, return the last page
+        // this is how the default wordpress post pagination works!
+        $total_pages = count($list_items['list_items']);
+        if ($current_page > $total_pages) {
+            $current_page = $total_pages;
+        }
+
+        return $current_page;
     }
 
 

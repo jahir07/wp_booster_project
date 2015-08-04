@@ -2025,5 +2025,3 @@ function td_template_include_filter( $wordpress_template_path ) {
 
 	return $wordpress_template_path;
 }
-
-
