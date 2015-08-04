@@ -42,12 +42,22 @@ jQuery().ready(function jQuery_ready() {
     //used for smart lists
     td_smart_lists_magnific_popup();
 
-
+    //smart list drop down pagination
+    td_smart_list_dropdown();
 
 
 
 }); //end on load
 
+
+/**
+ * smart lists drop down pagination redirect
+ */
+function td_smart_list_dropdown() {
+    jQuery('.td-smart-list-dropdown').on('change', function() {
+        window.location = this.value;
+    });
+}
 
 
 /**

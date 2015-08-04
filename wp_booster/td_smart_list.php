@@ -7,7 +7,7 @@ abstract class td_smart_list {
     protected $use_pagination = false;      // if true: tells our render function to only output the current item
 
 
-    private $list_items;
+    private $list_items;                    // we keep the items on render here
 
 
     abstract protected function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
@@ -136,10 +136,9 @@ abstract class td_smart_list {
      * @return string
      */
     protected function callback_render_pagination() {
-
-        $current_page = $this->get_current_page();
         $buffy = '';
 
+        $current_page = $this->get_current_page();
         $total_pages = count($this->list_items['list_items']);
 
         // no pagination if we have one page!
@@ -177,6 +176,9 @@ abstract class td_smart_list {
 
 
     protected function callback_render_drop_down_pagination() {
+        $buffy = '';
+
+
         $current_page = $this->get_current_page();
         $total_pages = count($this->list_items['list_items']);
 
@@ -186,18 +188,43 @@ abstract class td_smart_list {
         }
 
 
+        $buffy .= '<div class="td-smart-list-dropdown-wrap">';
 
-        // render the dropdown
-        $buffy = '<select>';
-        foreach ($this->list_items['list_items'] as $index => $list_item) {
-            $list_item_page_nr = $index + 1;
 
-//            if ($current_page)
-//                selected
-            $buffy .= '<option value="' . esc_attr($this->_wp_link_page($list_item_page_nr)) . '">' . $list_item['current_item_number'] . ' - ' . $list_item['title'] . '</option>';
-        }
-        $buffy .= '<select>';
+            // render back page button
+            if ($current_page == 1) {
+                // is first page
+                $buffy .= '<span class="td-smart-list-button td-smart-disable"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</span>';
+            } else {
+                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+            }
 
+
+            // render the drop down
+            $buffy .= '<select class="td-smart-list-dropdown">';
+            foreach ($this->list_items['list_items'] as $index => $list_item) {
+                $list_item_page_nr = $index + 1;
+                $selected = '';
+
+                if ($current_page == $list_item_page_nr) {
+                    $selected = 'selected';
+                }
+
+                $buffy .= '<option ' . $selected . ' value="' . esc_attr($this->_wp_link_page($list_item_page_nr)) . '">' . $list_item['current_item_number'] . ' - ' . $list_item['title'] . '</option>';
+            }
+            $buffy .= '<select>';
+
+
+            // render next page button
+            if ($current_page == $total_pages) {
+                // is last page
+                $buffy .= '<span class="td-smart-list-button td-smart-disable">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></span>';
+            } else {
+                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+            }
+
+
+        $buffy .= '</div>';
 
         return $buffy;
     }
