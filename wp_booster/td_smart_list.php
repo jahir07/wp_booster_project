@@ -28,16 +28,14 @@ abstract class td_smart_list {
         // get the list items
         $list_items = $td_tokenizer->split_to_list_items($smart_list_settings['post_content']);
 
-        // we need to number all the items before pagination because item 2 can have number 4 if the counting method is desc
-        $list_items = $this->add_numbers_to_list_items($list_items);
-
-
-
 
         // no items found, we return the content as is
         if (empty($list_items['list_items'])) {
             return $smart_list_settings['post_content'];
         }
+
+        // we need to number all the items before pagination because item 2 can have number 4 if the counting method is desc
+        $list_items = $this->add_numbers_to_list_items($list_items);
 
 
         if ($this->use_pagination === true) {
