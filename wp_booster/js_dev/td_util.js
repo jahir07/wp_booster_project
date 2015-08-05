@@ -14,6 +14,19 @@ var td_util = {
 
 
     /**
+     * stop propagation of an event - we should check this if we can remove window.event.cancelBubble - possible
+     * a windows mobile issue
+     * @param event
+     */
+    stopBubble: function(event) {
+        if(event && event.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            window.event.cancelBubble=true;
+        }
+    },
+
+    /**
      * utility function, used by td_post_images.js
      * @param class_selector
      */

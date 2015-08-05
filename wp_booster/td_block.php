@@ -309,7 +309,7 @@ class td_block {
         $buffy = '';
 
         $buffy .= '<script>';
-        $buffy .= 'var ' . $block_item . ' = new td_block();' . "\n";
+        $buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
         $buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
         $buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
         $buffy .= $block_item . '.td_column_number = "' . $td_column_number . '";' . "\n";
@@ -337,7 +337,7 @@ class td_block {
 		    $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
 	    }
 
-        $buffy .= 'td_blocks.push(' . $block_item . ');' . "\n";
+        $buffy .= 'tdBlocksArray.push(' . $block_item . ');' . "\n";
         $buffy .= '</script>';
 
         return $buffy;

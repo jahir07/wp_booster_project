@@ -648,12 +648,3 @@ function td_get_document_height() {
     return y;
 }
 
-
-//stop propagation
-function stopBubble(e){
-    if(e && e.stopPropagation) {
-        e.stopPropagation();
-    } else {
-        window.event.cancelBubble=true;
-    }
-}

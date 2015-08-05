@@ -37,10 +37,10 @@ function td_js_generator() {
 
 
     td_js_buffer::add_to_header("
-var td_blocks = []; //here we store all the items for the current page
+var tdBlocksArray = []; //here we store all the items for the current page
 
 //td_block class - each ajax block uses a object of this class for requests
-function td_block() {
+function tdBlock() {
     this.id = '';
     this.block_type = 1; //block type id (1-234 etc)
     this.atts = '';

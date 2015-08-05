@@ -387,13 +387,9 @@ function replace_all(find, replace, str) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
-function stopBubble(e){
-    if(e && e.stopPropagation) {
-        e.stopPropagation();
-    } else {
-        window.event.cancelBubble=true;
-    }
-}
+
+
+
 
 
 //upload image
