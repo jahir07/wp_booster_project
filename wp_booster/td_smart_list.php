@@ -7,7 +7,7 @@ abstract class td_smart_list {
     protected $use_pagination = false;      // if true: tells our render function to only output the current item
 
 
-    private $list_items;                    // we keep the items on render here
+    private $list_items; // we keep the items on render here
 
 
     abstract protected function render_list_item($item_array, $current_item_id, $current_item_number, $total_items_number); //child classes must implement this :)
@@ -117,7 +117,7 @@ abstract class td_smart_list {
             }
         } else {
 
-            $array_id_from_paged = $current_page-1;
+            $array_id_from_paged = $current_page - 1;
             $buffy .= $this->render_list_item(
                 $list_items['list_items'][$array_id_from_paged],
                 $array_id_from_paged,

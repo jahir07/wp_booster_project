@@ -82,9 +82,9 @@ $category_id = td_util::get_http_post_val('category_id');
             </div>
         </div>
     <?php } ?>
-<div class="td-box-section-separator"></div>
 
 
+    <div class="td-box-section-separator"></div>
 
     <!-- DISPLAY VIEW -->
     <div class="td-box-row">
@@ -103,6 +103,41 @@ $category_id = td_util::get_http_post_val('category_id');
             ?>
         </div>
     </div>
+
+
+    <div class="td-box-section-separator"></div>
+
+
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Pagination style</span>
+            <p>Set a pagination style for this category</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_category',
+                'option_id' => 'tdc_category_pagination_style',
+                'item_id' => $category_id,
+                'values' => array(
+                    array (
+                        'val' => '',
+                        'text' => 'Normal pagination'
+                    ),
+                    array (
+                        'val' => 'infinite',
+                        'text' => 'Infinite loading'
+                    ),
+                    array (
+                        'val' => 'infinite_load_more',
+                        'text' => 'Infinite loading + Load more'
+                    )
+                )
+            ));
+            ?>
+        </div>
+    </div>
+    <div class="td-box-section-separator"></div>
 
     <!-- Custom Sidebar + position -->
     <div class="td-box-row">

@@ -72,35 +72,29 @@
         </div>
     </div>
 
-    <?php
-    // show the $big_grid_styles_list only if we have big grids
-    // Newsmag as of 10 march is not using $big_grid_styles_list
-    if (!empty(td_global::$big_grid_styles_list)) {
-        ?>
-        <div class="td-box-row">
-            <div class="td-box-description">
-                <span class="td-box-title">Category top posts GRID STYLE</span>
-                <p>Each category grid supports multiple styles</p>
-            </div>
-            <div class="td-box-control-full">
-                <?php
-
-                $td_grid_style_values = array();
-                foreach (td_global::$big_grid_styles_list as $big_grid_id => $params) {
-                    $td_grid_style_values []= array(
-                        'text' => $params['text'],
-                        'val' => $big_grid_id
-                    );
-                }
-                echo td_panel_generator::dropdown(array(
-                    'ds' => 'td_option',
-                    'option_id' => 'tds_category_td_grid_style',
-                    'values' => $td_grid_style_values
-                ));
-                ?>
-            </div>
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Category top posts GRID STYLE</span>
+            <p>Each category grid supports multiple styles</p>
         </div>
-    <?php } ?>
+        <div class="td-box-control-full">
+            <?php
+
+            $td_grid_style_values = array();
+            foreach (td_global::$big_grid_styles_list as $big_grid_id => $params) {
+                $td_grid_style_values []= array(
+                    'text' => $params['text'],
+                    'val' => $big_grid_id
+                );
+            }
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_category_td_grid_style',
+                'values' => $td_grid_style_values
+            ));
+            ?>
+        </div>
+    </div>
 
 <div class="td-box-section-separator"></div>
 
@@ -122,6 +116,40 @@
         </div>
     </div>
 
+
+<div class="td-box-section-separator"></div>
+
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">Pagination style</span>
+        <p>Set a pagination style for all categories</p>
+    </div>
+    <div class="td-box-control-full">
+        <?php
+        echo td_panel_generator::dropdown(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_category_pagination_style',
+            'values' => array(
+                array (
+                    'val' => '',
+                    'text' => 'Normal pagination'
+                ),
+                array (
+                    'val' => 'infinite',
+                    'text' => 'Infinite loading'
+                ),
+                array (
+                    'val' => 'infinite_load_more',
+                    'text' => 'Infinite loading + Load more'
+                )
+            )
+        ));
+        ?>
+    </div>
+</div>
+
+
+<div class="td-box-section-separator"></div>
 
 
     <!-- Custom Sidebar + position -->
