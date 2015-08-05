@@ -2,7 +2,9 @@
 
 
 
-
+// creating Ajax call for WordPress
+add_action( 'wp_ajax_nopriv_td_ajax_block', 'td_ajax_block' );
+add_action( 'wp_ajax_td_ajax_block', 'td_ajax_block' );
 function td_ajax_block(){
 
     //get the data from ajax() call
@@ -24,7 +26,6 @@ function td_ajax_block(){
      * 4. live_filter - is hardcoded in block's js object or changed by the code here. live_filter's are used to filter content based on current page's author/tags/categories etc
      */
 
-
     /**
      * this is retrieved by js from the data-td_filter_value="" attribute of the link that the user has clicked @see td_block::generate_pull_down
      */
@@ -35,28 +36,18 @@ function td_ajax_block(){
      */
     $td_filter_ui_uid = '';
 
-
-
     if (!empty($_POST['td_atts'])) {
         $td_atts = json_decode(stripslashes($_POST['td_atts']), true); //current block args
     }
-
-
-
     if (!empty($_POST['td_column_number'])) {
         $td_column_number =  $_POST['td_column_number']; //the block is on x columns
     }
-
-
     if (!empty($_POST['td_current_page'])) {
         $td_current_page = $_POST['td_current_page'];
     }
-
-
     if (!empty($_POST['td_block_id'])) {
         $td_block_id = $_POST['td_block_id'];
     }
-
     if (!empty($_POST['block_type'])) {
         $block_type = $_POST['block_type'];
     }
@@ -68,8 +59,6 @@ function td_ajax_block(){
     if (!empty($_POST['td_filter_value'])) {
         $td_filter_value = $_POST['td_filter_value']; //the new id filter
     }
-
-
     //the clicked filter ui UID from the list
     if (!empty($_POST['td_filter_ui_uid'])) {
         $td_filter_ui_uid = $_POST['td_filter_ui_uid']; //the new id filter
@@ -168,9 +157,6 @@ function td_ajax_block(){
     die(json_encode($buffyArray));
 }
 
-// creating Ajax call for WordPress
-add_action( 'wp_ajax_nopriv_td_ajax_block', 'td_ajax_block' );
-add_action( 'wp_ajax_td_ajax_block', 'td_ajax_block' );
 
 
 
@@ -178,6 +164,8 @@ add_action( 'wp_ajax_td_ajax_block', 'td_ajax_block' );
 
 
 
+add_action( 'wp_ajax_nopriv_td_ajax_search', 'td_ajax_search' );
+add_action( 'wp_ajax_td_ajax_search', 'td_ajax_search' );
 function td_ajax_search() {
     $buffy = '';
     $buffy_msg = '';
@@ -218,10 +206,6 @@ function td_ajax_search() {
         $buffy = '<div class="td-aj-search-results">' . $buffy . '</div>' . $buffy_msg;
     }
 
-
-
-
-
     //prepare array for ajax
     $buffyArray = array(
         'td_data' => $buffy,
@@ -230,15 +214,10 @@ function td_ajax_search() {
         'td_search_query'=> $td_string
     );
 
-
-
-
-
     // Return the String
     die(json_encode($buffyArray));
 }
-add_action( 'wp_ajax_nopriv_td_ajax_search', 'td_ajax_search' );
-add_action( 'wp_ajax_td_ajax_search', 'td_ajax_search' );
+
 
 
 
@@ -253,16 +232,12 @@ add_action( 'wp_ajax_td_ajax_search', 'td_ajax_search' );
 //the regular expression for email
 //$td_mod_pattern_email = '/^[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-zA-Z0-9]@[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-z0-9][\.][a-z0-9]{2,4}$/';
 
-//action for login
-add_action( 'wp_ajax_nopriv_td_mod_login', 'td_mod_login' );
-add_action( 'wp_ajax_td_mod_login', 'td_mod_login' );
-
 /**
  * handles the ajax request from modal window for: Log In
  */
+add_action( 'wp_ajax_nopriv_td_mod_login', 'td_mod_login' );
+add_action( 'wp_ajax_td_mod_login', 'td_mod_login' );
 function td_mod_login(){
-    global $post;
-
     //json login fail
     $json_login_fail = json_encode(array('login', 0, __td('User or password incorrect!', TD_THEME_NAME)));
 
@@ -294,36 +269,33 @@ function td_mod_login(){
 }
 
 
-//action for register
-add_action( 'wp_ajax_nopriv_td_mod_register', 'td_mod_register' );
-add_action( 'wp_ajax_td_mod_register', 'td_mod_register' );
 
 /**
  * handles the ajax request from modal window for: Register
  */
+add_action( 'wp_ajax_nopriv_td_mod_register', 'td_mod_register' );
+add_action( 'wp_ajax_td_mod_register', 'td_mod_register' );
 function td_mod_register(){
     //if registration is open from wp-admin/Settings,  then try to create a new user
-    if(get_option('users_can_register') == 1){
+    if (get_option('users_can_register') == 1){
 
-        global $post;
-
-        //json predifined return text
+        // json predefined return text
         $json_fail = json_encode(array('register', 0, __td('Email or username incorrect!', TD_THEME_NAME)));
         $json_user_pass_exists = json_encode(array('register', 0, __td('User or email already exists!', TD_THEME_NAME)));
 
-        //get the email address from ajax() call
+        // get the email address from ajax() call
         $register_email = '';
         if (!empty($_POST['email'])) {
             $register_email = $_POST['email'];
         }
 
-        //get user from ajax() call
+        // get user from ajax() call
         $register_user = '';
         if (!empty($_POST['user'])) {
             $register_user = $_POST['user'];
         }
 
-        //try to login
+        // try to login
         if (!empty($register_email) and !empty($register_user)) {
 
             //check user existence before adding it
@@ -340,16 +312,13 @@ function td_mod_register(){
                 if (intval($user_id) > 0) {
                     //send email to $register_email
                     wp_new_user_notification($user_id, $random_password);
-
                     die(json_encode(array('register', 1,__td('Please check you email (index or spam folder), the password was sent there.', TD_THEME_NAME))));
                 } else {
                     die($json_user_pass_exists);
                 }
-
             } else {
                 die($json_user_pass_exists);
             }
-
         } else {
             die($json_fail);
         }
@@ -357,17 +326,13 @@ function td_mod_register(){
 }
 
 
-//action for remember password
-add_action( 'wp_ajax_nopriv_td_mod_remember_pass', 'td_mod_remember_pass' );
-add_action( 'wp_ajax_td_mod_remember_pass', 'td_mod_remember_pass' );
-
 /**
  * handles the ajax request from modal window for: Register
  */
+add_action( 'wp_ajax_nopriv_td_mod_remember_pass', 'td_mod_remember_pass' );
+add_action( 'wp_ajax_td_mod_remember_pass', 'td_mod_remember_pass' );
 function td_mod_remember_pass(){
-    global $post;
-
-    //json predifined return text
+    //json predefined return text
     $json_fail = json_encode(array('remember_pass', 0, __td('Email address not found!', TD_THEME_NAME)));
 
     //get the email address from ajax() call
@@ -384,15 +349,18 @@ function td_mod_remember_pass(){
 }
 
 
-//action for new sidebar
-add_action( 'wp_ajax_nopriv_td_ajax_new_sidebar', 'td_ajax_new_sidebar' );
-add_action( 'wp_ajax_td_ajax_new_sidebar', 'td_ajax_new_sidebar' );
+
 
 /**
  * adds a new sidebar in the td_option (td_008) array from wp_option table
  */
+add_action( 'wp_ajax_nopriv_td_ajax_new_sidebar', 'td_ajax_new_sidebar' );
+add_action( 'wp_ajax_td_ajax_new_sidebar', 'td_ajax_new_sidebar' );
 function td_ajax_new_sidebar() {
-    global $post;
+    if (!is_admin()) {
+        exit();
+    }
+
     $list_current_sidebars = '';
 
     //nr of chars displayd as name option
@@ -462,15 +430,16 @@ function td_ajax_new_sidebar() {
 }
 
 
-//action to delete sidebar
-add_action( 'wp_ajax_nopriv_td_ajax_delete_sidebar', 'td_ajax_delete_sidebar' );
-add_action( 'wp_ajax_td_ajax_delete_sidebar', 'td_ajax_delete_sidebar' );
 
 /**
  * removes a sidebar from the td_option (td_008) array from wp_option table
  */
+add_action( 'wp_ajax_nopriv_td_ajax_delete_sidebar', 'td_ajax_delete_sidebar' );
+add_action( 'wp_ajax_td_ajax_delete_sidebar', 'td_ajax_delete_sidebar' );
 function td_ajax_delete_sidebar() {
-    global $post;
+    if (!is_admin()) {
+        exit();
+    }
 
     //nr of chars displayd as name option
     $sub_str_val = 35;
@@ -526,6 +495,8 @@ function td_ajax_delete_sidebar() {
 /**
  * Update the view counter for single post page
  */
+add_action( 'wp_ajax_nopriv_td_ajax_update_views', 'td_ajax_update_views' );
+add_action( 'wp_ajax_td_ajax_update_views', 'td_ajax_update_views' );
 function td_ajax_update_views() {
 
     //get the post ids // iy you don't send data encoded with json the remove json_decode(stripslashes(
@@ -549,13 +520,14 @@ function td_ajax_update_views() {
         die(json_encode(array($td_post_id[0]=>$new_post_count)));
     }
 }
-add_action( 'wp_ajax_nopriv_td_ajax_update_views', 'td_ajax_update_views' );
-add_action( 'wp_ajax_td_ajax_update_views', 'td_ajax_update_views' );
+
 
 
 /**
  * Get the views counter for all posts on a page where unique articles is set
  */
+add_action( 'wp_ajax_nopriv_td_ajax_get_views', 'td_ajax_get_views' );
+add_action( 'wp_ajax_td_ajax_get_views', 'td_ajax_get_views' );
 function td_ajax_get_views() {
 
     //get the post ids // iy you don't send data encoded with json the remove json_decode(stripslashes(
@@ -578,5 +550,4 @@ function td_ajax_get_views() {
         }
     }
 }
-add_action( 'wp_ajax_nopriv_td_ajax_get_views', 'td_ajax_get_views' );
-add_action( 'wp_ajax_td_ajax_get_views', 'td_ajax_get_views' );
+

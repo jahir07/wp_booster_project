@@ -75,7 +75,7 @@ var td_events = {
             if (td_events.scroll_event_medium_run) {
                 td_events.scroll_event_medium_run = false;
                 //compute events for the infinite scroll
-                td_infinite_loader.compute_events();
+                tdInfiniteLoader.computeEvents();
 
 
                 // call lazy td_custom_events scroll

@@ -129,12 +129,3 @@ class td_login {
     }
 
 }
-
-
-//$user_id = td_login::new_user('random', 'passwords', 'ra');
-
-//$user_id = td_login::recover_password('admin');
-//    print_r($user_id);
-
-//$user_ret = td_login::login_user('random_user', 'random_pass');
-//print_r($user_ret);

@@ -9,7 +9,7 @@
 
 
 var td_smart_sidebar = {
-    has_items: false, // this class will only work when this flag is true. If we don't have any items, all the calculations on scroll will be disabled by this flag
+    hasItems: false, // this class will only work when this flag is true. If we don't have any items, all the calculations on scroll will be disabled by this flag
     items: [], //the array that has all the items
     scroll_window_scrollTop_last: 0, //last scrollTop position, used to calculate the scroll direction
 
@@ -71,7 +71,7 @@ var td_smart_sidebar = {
 
     //add item to the array
     add_item: function add_item(item) {
-        td_smart_sidebar.has_items = true; //put the flag that we have items
+        td_smart_sidebar.hasItems = true; //put the flag that we have items
 
         /**
          * add clear fix to the content and sidebar.
@@ -97,7 +97,7 @@ var td_smart_sidebar = {
 
 
         // we don't have any smart sidebars, return
-        if (td_smart_sidebar.has_items === false) {
+        if (td_smart_sidebar.hasItems === false) {
             return;
         }
 

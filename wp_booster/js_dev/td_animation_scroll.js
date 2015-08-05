@@ -33,12 +33,12 @@ var td_animation_scroll = {
         this.animation_callback = null;
 
         // the jquery object of the td_animation_scroll.item
-        this.jquery_obj = '';
+        this.jqueryObj = '';
 
         // optional - a jquery object that wraps the current item. Used in callback
         this.wrapper_jquery_obj;
 
-        // a jquery span obj added dynamically added at the top of jquery_obj
+        // a jquery span obj added dynamically added at the top of jqueryObj
         this.top_marker_jquery_obj = '';
 
         // the full outer height of the item
@@ -295,7 +295,7 @@ var td_animation_scroll = {
         if (item.wrapper_jquery_obj != undefined) {
             item.full_height = item.wrapper_jquery_obj.height();
         } else {
-            item.full_height = item.jquery_obj.outerHeight(true);
+            item.full_height = item.jqueryObj.outerHeight(true);
         }
 
         if (item.full_height == 0) {
@@ -304,7 +304,7 @@ var td_animation_scroll = {
 
         var new_jquery_obj_reference = jQuery('<div class="td_marker_animation" style="height: 0; width: 0">');
 
-        new_jquery_obj_reference.insertBefore(item.jquery_obj);
+        new_jquery_obj_reference.insertBefore(item.jqueryObj);
 
         item.top_marker_jquery_obj = new_jquery_obj_reference;
 
@@ -370,7 +370,7 @@ var td_animation_scroll = {
             if (item.wrapper_jquery_obj != undefined) {
                 item.full_height = item.wrapper_jquery_obj.height();
             } else {
-                item.full_height = item.jquery_obj.outerHeight(true);
+                item.full_height = item.jqueryObj.outerHeight(true);
             }
 
             if (item.full_height == 0) {

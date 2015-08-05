@@ -247,7 +247,7 @@ var td_animation_stack = {
 
         // jquery object reference
         // it's set before the initialization of the item
-        this.jquery_obj = undefined;
+        this.jqueryObj = undefined;
 
 
         // the reading order from DOM
@@ -281,12 +281,12 @@ var td_animation_stack = {
     _initialize_item: function _initialize_item(item) {
         item._order = td_animation_stack._order++;
 
-        item.offset_top = item.jquery_obj.offset().top;
-        //item.offset_relative = Math.sqrt(Math.pow(item.jquery_obj.offset().top, 2) + Math.pow(item.jquery_obj.offset().left, 2));
+        item.offset_top = item.jqueryObj.offset().top;
+        //item.offset_relative = Math.sqrt(Math.pow(item.jqueryObj.offset().top, 2) + Math.pow(item.jqueryObj.offset().left, 2));
 
-        item.offset_bottom_to_top = item.offset_top + item.jquery_obj.height();
+        item.offset_bottom_to_top = item.offset_top + item.jqueryObj.height();
 
-        //item.jquery_obj.parent().prepend('<div class="debug_item" style="position: absolute; width: 100%; height: 20px; border: 1px solid red; background-color: white">' + item.offset_top + '</div>');
+        //item.jqueryObj.parent().prepend('<div class="debug_item" style="position: absolute; width: 100%; height: 20px; border: 1px solid red; background-color: white">' + item.offset_top + '</div>');
     },
 
 
@@ -338,7 +338,7 @@ var td_animation_stack = {
 
             var item_animation_stack = new td_animation_stack.item();
 
-            item_animation_stack.jquery_obj = jQuery(element);
+            item_animation_stack.jqueryObj = jQuery(element);
 
             td_animation_stack.log(index);
 
@@ -394,10 +394,10 @@ var td_animation_stack = {
 
 
                             //if (window.td_animation_stack_effect === 'type0') {
-                            //    local_stack[i].jquery_obj.css('opacity', 1);
+                            //    local_stack[i].jqueryObj.css('opacity', 1);
                             //} else {
-                                local_stack[i].jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                                local_stack[i].jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                                local_stack[i].jqueryObj.removeClass(td_animation_stack._animation_css_class1);
+                                local_stack[i].jqueryObj.addClass(td_animation_stack._animation_css_class2);
                             //}
 
 
@@ -543,10 +543,10 @@ var td_animation_stack = {
 
 
             //if (window.td_animation_stack_effect === 'type0') {
-            //    item_above_view_port.jquery_obj.css('opacity', 1);
+            //    item_above_view_port.jqueryObj.css('opacity', 1);
             //} else {
-                item_above_view_port.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                item_above_view_port.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                item_above_view_port.jqueryObj.removeClass(td_animation_stack._animation_css_class1);
+                item_above_view_port.jqueryObj.addClass(td_animation_stack._animation_css_class2);
             //}
 
 
@@ -567,10 +567,10 @@ var td_animation_stack = {
 
 
             //if (window.td_animation_stack_effect === 'type0') {
-            //    current_animation_item.jquery_obj.css('opacity', 1);
+            //    current_animation_item.jqueryObj.css('opacity', 1);
             //} else {
-                current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                current_animation_item.jqueryObj.removeClass(td_animation_stack._animation_css_class1);
+                current_animation_item.jqueryObj.addClass(td_animation_stack._animation_css_class2);
 //            }
 
 
@@ -606,10 +606,10 @@ var td_animation_stack = {
 
 
                 //if (window.td_animation_stack_effect === 'type0') {
-                //    current_animation_item.jquery_obj.css('opacity', 1);
+                //    current_animation_item.jqueryObj.css('opacity', 1);
                 //} else {
-                    current_animation_item.jquery_obj.removeClass(td_animation_stack._animation_css_class1);
-                    current_animation_item.jquery_obj.addClass(td_animation_stack._animation_css_class2);
+                    current_animation_item.jqueryObj.removeClass(td_animation_stack._animation_css_class1);
+                    current_animation_item.jqueryObj.addClass(td_animation_stack._animation_css_class2);
                 //}
 
 

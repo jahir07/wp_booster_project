@@ -547,23 +547,22 @@ function td_block_ajax_loading_end(td_reply_obj, current_block_obj, td_user_acti
 
         case 'infinite_load':
             setTimeout(function(){
-                //refresh waypoints for infinit scroll td_infinite_loader
-                td_infinite_loader.compute_top_distances();
+                //refresh waypoints for infinit scroll tdInfiniteLoader
+                tdInfiniteLoader.computeTopDistances();
                 if (td_reply_obj.td_data != '') {
-                    td_infinite_loader.enable_is_visible_callback(current_block_obj.id);
+                    tdInfiniteLoader.enable_is_visible_callback(current_block_obj.id);
                 }
             }, 500);
 
 
             setTimeout(function(){
-                td_infinite_loader.compute_top_distances();
-                // load next page only if we have new data comming from the last ajax request
+                tdInfiniteLoader.computeTopDistances();
+                // load next page only if we have new data coming from the last ajax request
             }, 1000);
 
             setTimeout(function(){
-                td_infinite_loader.compute_top_distances();
+                tdInfiniteLoader.computeTopDistances();
             }, 1500);
-            break;
             break;
 
     }
