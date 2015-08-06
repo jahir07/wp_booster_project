@@ -16,7 +16,7 @@ var td_smart_sidebar = {
 
 
 
-    tds_snap_menu: td_util.get_backend_var('tds_snap_menu'),   //read the snap menu setting from theme panel
+    tds_snap_menu: tdUtil.getBackendVar('tds_snap_menu'),   //read the snap menu setting from theme panel
 
 
     /**

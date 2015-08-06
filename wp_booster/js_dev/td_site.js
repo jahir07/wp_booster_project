@@ -4,10 +4,10 @@
     Thanks for using our theme! :)
 */
 
-/*jslint node: true */
-/*global window */
-/*global alert */
-/*global jQuery */
+
+/* global jQuery:false */
+/* global tdUtil:false */
+
 
 "use strict";
 
@@ -104,12 +104,12 @@ var td_more_articles_box = {
      */
     td_events_scroll: function td_events_scroll(scrollTop) {
 
-        if(td_is_scrolling_animation) { //do not fire the event on animations
+        if(tdIsScrollingAnimation) { //do not fire the event on animations
             return;
         }
 
         //check to see if it's enable form panel and also from cookie
-        if(td_util.get_backend_var('tds_more_articles_on_post_enable') == "show" && td_more_articles_box.cookie != 'hide-more-articles-box') {
+        if(tdUtil.getBackendVar('tds_more_articles_on_post_enable') == "show" && td_more_articles_box.cookie != 'hide-more-articles-box') {
 
             if (scrollTop > td_more_articles_box.distance_from_top ) {
                 if (td_more_articles_box.is_box_visible === false) {
@@ -219,7 +219,7 @@ function td_mobile_menu() {
                 // on desktop open it with full animations
                 jQuery('body').addClass('td-menu-mob-open-menu');
                 setTimeout(function(){
-                    td_util.scroll_to_position(0, 1200);
+                    tdUtil.scrollToPosition(0, 1200);
                 }, 200);
             }
         }
@@ -306,7 +306,7 @@ jQuery('body').click(function(e){
 });*/
 
 //click only on BACKGROUND, for devices that don't have touch (ex: phone, tablets)
-if(!tdDetect.isTouchDevice && td_util.get_backend_var('td_ad_background_click_link') != '') {
+if(!tdDetect.isTouchDevice && tdUtil.getBackendVar('td_ad_background_click_link') != '') {
 
     //var ev = ev || window.event;
     //var target = ev.target || ev.srcElement;
@@ -397,15 +397,15 @@ function td_set_cookies_life(td_time_cookie_array) {
     Scroll to top + animation stop
  */
 
-var td_is_scrolling_animation = false;
+var tdIsScrollingAnimation = false;
 var td_mouse_wheel_or_touch_moved = false; //we want to know if the user stopped the animation via touch or mouse move
 
 //stop the animation on mouse wheel
 jQuery(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e){
-    if (td_is_scrolling_animation === false) {
+    if (tdIsScrollingAnimation === false) {
         return;
     } else {
-        td_is_scrolling_animation = false;
+        tdIsScrollingAnimation = false;
         td_mouse_wheel_or_touch_moved = true;
 
         jQuery("html, body").stop();
@@ -415,10 +415,10 @@ jQuery(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(
 //stop the animation on touch
 if (document.addEventListener){
     document.addEventListener('touchmove', function(e) {
-        if (td_is_scrolling_animation === false) {
+        if (tdIsScrollingAnimation === false) {
             return;
         } else {
-            td_is_scrolling_animation = false;
+            tdIsScrollingAnimation = false;
             td_mouse_wheel_or_touch_moved = true;
             jQuery("html, body").stop();
         }
@@ -430,7 +430,7 @@ if (document.addEventListener){
  */
 var td_scroll_to_top_is_visible = false;
 function td_events_scroll_scroll_to_top(scrollTop) {
-    if(td_is_scrolling_animation) {  //do not fire the event on animations
+    if(tdIsScrollingAnimation) {  //do not fire the event on animations
         return;
     }
     if (scrollTop > 400) {
@@ -448,7 +448,7 @@ function td_events_scroll_scroll_to_top(scrollTop) {
 
 
 jQuery('.td-scroll-up').click(function(){
-    if(td_is_scrolling_animation) { //double check - because when we remove the class, the button is still visible for a while
+    if(tdIsScrollingAnimation) { //double check - because when we remove the class, the button is still visible for a while
         return;
     }
 
@@ -461,7 +461,7 @@ jQuery('.td-scroll-up').click(function(){
     jQuery('.td-more-articles-box').removeClass('td-front-end-display-block');
 
     //scroll to top
-    td_util.scroll_to_position(0, 1200);
+    tdUtil.scrollToPosition(0, 1200);
 
     return false;
 });
@@ -477,8 +477,8 @@ jQuery('.td-scroll-up').click(function(){
 // small down arrow on template 6 and full width index
 jQuery('.td-read-down a').click(function(event){
     event.preventDefault();
-    td_util.scroll_to_position(jQuery('.td-full-screen-header-image-wrap').height(), 1200);
-    //td_util.scroll_to_position(jQuery('.td-full-screen-header-image-wrap').height() + jQuery('.td-full-screen-header-image-wrap').offset().top, 1200);
+    tdUtil.scrollToPosition(jQuery('.td-full-screen-header-image-wrap').height(), 1200);
+    //tdUtil.scrollToPosition(jQuery('.td-full-screen-header-image-wrap').height() + jQuery('.td-full-screen-header-image-wrap').offset().top, 1200);
 });
 
 /**
@@ -534,12 +534,12 @@ function td_post_template_6_title() {
 
             //move the bg
             var parallax_move = -Math.round(scroll_from_top / 4);
-            td_util.td_move_y(td_parallax_bg_el,-parallax_move);
+            tdUtil.tdMoveY(td_parallax_bg_el,-parallax_move);
 
 
             //move the title + cat
             distance_from_bottom = -Math.round(scroll_from_top / 8);
-            td_util.td_move_y(td_parallax_el,-distance_from_bottom);
+            tdUtil.tdMoveY(td_parallax_el,-distance_from_bottom);
             //td_parallax_el.style.bottom = distance_from_bottom + "px";  //un accelerated version
 
 
@@ -564,7 +564,7 @@ function td_smart_lists_magnific_popup() {
             enabled: true,
             navigateByImgClick: true,
             preload: [0,1],
-            tCounter: td_util.get_backend_var('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
+            tCounter: tdUtil.getBackendVar('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
         },
         image: {
             tError: "<a href=\'%url%\'>The image #%curr%</a> could not be loaded.",
@@ -597,13 +597,13 @@ function td_smart_lists_magnific_popup() {
                 } else {
                     td_modal_image_last_el = item.el;
                     setTimeout(function(){
-                        td_util.scroll_into_view(item.el);
+                        tdUtil.scrollIntoView(item.el);
                     }, 100);
                 }
             },
             beforeClose: function() {
                 if (td_modal_image_last_el != '') {
-                    td_util.scroll_into_view(td_modal_image_last_el);
+                    tdUtil.scrollIntoView(td_modal_image_last_el);
                 }
             }
         }

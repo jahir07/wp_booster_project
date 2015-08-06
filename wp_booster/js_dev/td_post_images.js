@@ -15,9 +15,9 @@ jQuery().ready(function() {
     td_modal_image();
 
     //move classes from post images to figure - td-post-image-full etc
-    td_util.image_move_class_to_figure('td-post-image-full');
-    td_util.image_move_class_to_figure('td-post-image-right');
-    td_util.image_move_class_to_figure('td-post-image-left');
+    tdUtil.imageMoveClassToFigure('td-post-image-full');
+    tdUtil.imageMoveClassToFigure('td-post-image-right');
+    tdUtil.imageMoveClassToFigure('td-post-image-left');
 
     /**
      * - add a general td-modal-image class to the all post images
@@ -59,15 +59,15 @@ function td_modal_image() {
         delegate: ".td-modal-image",
         gallery:{
             enabled:true,
-            tPrev: td_util.get_backend_var('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
-            tNext: td_util.get_backend_var('td_magnific_popup_translation_tNext'), // Alt text on right arrow
-            tCounter: td_util.get_backend_var('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
+            tPrev: tdUtil.getBackendVar('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
+            tNext: tdUtil.getBackendVar('td_magnific_popup_translation_tNext'), // Alt text on right arrow
+            tCounter: tdUtil.getBackendVar('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
         },
         ajax: {
-            tError: td_util.get_backend_var('td_magnific_popup_translation_ajax_tError')
+            tError: tdUtil.getBackendVar('td_magnific_popup_translation_ajax_tError')
         },
         image: {
-            tError: td_util.get_backend_var('td_magnific_popup_translation_image_tError'),
+            tError: tdUtil.getBackendVar('td_magnific_popup_translation_image_tError'),
             titleSrc: function(item) {//console.log(item.el);
                 //alert(jQuery(item.el).data("caption"));
                 var td_current_caption = jQuery(item.el).data('caption');
@@ -91,18 +91,18 @@ function td_modal_image() {
             change: function(item) {
                 td_modal_image_last_el = item.el;
                 //setTimeout(function(){
-                td_util.scroll_into_view(item.el);
+                tdUtil.scrollIntoView(item.el);
                 //}, 100);
 
             },
             beforeClose: function() {
                 td_affix.allow_scroll = false;
 
-                td_util.scroll_into_view(td_modal_image_last_el);
+                tdUtil.scrollIntoView(td_modal_image_last_el);
 
                 var interval_td_affix_scroll = setInterval(function() {
 
-                    if (!td_is_scrolling_animation) {
+                    if (!tdIsScrollingAnimation) {
                         clearInterval(interval_td_affix_scroll);
                         setTimeout(function() {
                             td_affix.allow_scroll = true;
@@ -136,15 +136,15 @@ function td_modal_image() {
             delegate: "a",
             gallery:{
                 enabled:true,
-                tPrev: td_util.get_backend_var('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
-                tNext: td_util.get_backend_var('td_magnific_popup_translation_tNext'), // Alt text on right arrow
-                tCounter: td_util.get_backend_var('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
+                tPrev: tdUtil.getBackendVar('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
+                tNext: tdUtil.getBackendVar('td_magnific_popup_translation_tNext'), // Alt text on right arrow
+                tCounter: tdUtil.getBackendVar('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
             },
             ajax: {
-                tError: td_util.get_backend_var('td_magnific_popup_translation_ajax_tError')
+                tError: tdUtil.getBackendVar('td_magnific_popup_translation_ajax_tError')
             },
             image: {
-                tError: td_util.get_backend_var('td_magnific_popup_translation_image_tError'),
+                tError: tdUtil.getBackendVar('td_magnific_popup_translation_image_tError'),
                 titleSrc: function(item) {//console.log(item.el);
                     var td_current_caption = jQuery(item.el).parent().find('.tiled-gallery-caption').text();
                     if (typeof td_current_caption != "undefined") {
@@ -164,10 +164,10 @@ function td_modal_image() {
             callbacks: {
                 change: function(item) {
                     td_modal_image_last_el = item.el;
-                    td_util.scroll_into_view(item.el);
+                    tdUtil.scrollIntoView(item.el);
                 },
                 beforeClose: function() {
-                    td_util.scroll_into_view(td_modal_image_last_el);
+                    tdUtil.scrollIntoView(td_modal_image_last_el);
                 }
 
             }
@@ -180,15 +180,15 @@ function td_modal_image() {
             delegate: ".gallery-icon > a",
             gallery:{
                 enabled:true,
-                tPrev: td_util.get_backend_var('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
-                tNext: td_util.get_backend_var('td_magnific_popup_translation_tNext'), // Alt text on right arrow
-                tCounter: td_util.get_backend_var('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
+                tPrev: tdUtil.getBackendVar('td_magnific_popup_translation_tPrev'), // Alt text on left arrow
+                tNext: tdUtil.getBackendVar('td_magnific_popup_translation_tNext'), // Alt text on right arrow
+                tCounter: tdUtil.getBackendVar('td_magnific_popup_translation_tCounter') // Markup for "1 of 7" counter
             },
             ajax: {
-                tError: td_util.get_backend_var('td_magnific_popup_translation_ajax_tError')
+                tError: tdUtil.getBackendVar('td_magnific_popup_translation_ajax_tError')
             },
             image: {
-                tError: td_util.get_backend_var('td_magnific_popup_translation_image_tError'),
+                tError: tdUtil.getBackendVar('td_magnific_popup_translation_image_tError'),
                 titleSrc: function(item) {//console.log(item.el);
                     var td_current_caption = jQuery(item.el).data('caption');
                     if (typeof td_current_caption != "undefined") {
@@ -208,10 +208,10 @@ function td_modal_image() {
             callbacks: {
                 change: function(item) {
                     td_modal_image_last_el = item.el;
-                    td_util.scroll_into_view(item.el);
+                    tdUtil.scrollIntoView(item.el);
                 },
                 beforeClose: function() {
-                    td_util.scroll_into_view(td_modal_image_last_el);
+                    tdUtil.scrollIntoView(td_modal_image_last_el);
                 }
 
             }

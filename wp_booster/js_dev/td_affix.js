@@ -41,7 +41,7 @@ var td_affix = {
      {
           menu_selector: '.td-header-main-menu',
           menu_wrap_selector: '.td-header-menu-wrap',
-          tds_snap_menu: td_util.get_backend_var('tds_snap_menu')
+          tds_snap_menu: tdUtil.getBackendVar('tds_snap_menu')
       }
      */
     init : function init (atts) {
@@ -225,7 +225,7 @@ var td_affix = {
                         //console.log(offset);
 
                         //move the menu
-                        td_util.td_move_y(td_affix_menu_element[0], offset);
+                        tdUtil.tdMoveY(td_affix_menu_element[0], offset);
 
                         //td_affix_menu_element.css({top: (offset) + 'px'});  //legacy menu move code
 
@@ -387,7 +387,7 @@ var td_affix = {
             td_affix.is_menu_affix = false;
 
             //move the menu to 0 (ios seems to skip animation frames)
-            td_util.td_move_y(td_affix_menu_element[0], 0);
+            tdUtil.tdMoveY(td_affix_menu_element[0], 0);
 
             if(tdDetect.isIos === true || tdDetect.isSafari) {
                 td_affix_menu_element.show();

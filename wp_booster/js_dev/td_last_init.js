@@ -16,7 +16,7 @@ jQuery(window).ready(function() {
         if (event.target == event.currentTarget) {
             var current_url = jQuery(this).attr('href');
 
-            if ((window.location.href != current_url) && td_util.is_valid_url(current_url)) {
+            if ((window.location.href != current_url) && tdUtil.isValidUrl(current_url)) {
                 window.location.href = current_url;
             }
         }
