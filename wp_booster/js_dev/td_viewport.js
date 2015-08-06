@@ -144,7 +144,7 @@ var td_viewport = {
         var real_view_port_width = 0;
         var local_current_interval_index = 0;
 
-        if (td_detect.is_safari === true) {
+        if (td_detect.isSafari === true) {
             real_view_port_width = this._safari_view_port_width.get_real_width();
         } else {
             real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);

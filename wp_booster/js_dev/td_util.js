@@ -53,6 +53,9 @@ var td_util = {
 
 
 
+
+
+
     /**
      * scrolls to a dom element
      * @param dom_element
@@ -88,7 +91,7 @@ var td_util = {
      */
     scroll_into_view: function (dom_element) {
 
-        if (td_detect.is_mobile_device === true) {
+        if (td_detect.isMobileDevice === true) {
             return; //do not run on any mobile device
         }
 

@@ -563,7 +563,7 @@ var td_smart_sidebar = {
 
         //var real_view_port_width = 0;
         //
-        //if (td_detect.is_safari === true) {
+        //if (td_detect.isSafari === true) {
         //    real_view_port_width = td_safari_view_port_width.get_real_width();
         //} else {
         //    // not safari

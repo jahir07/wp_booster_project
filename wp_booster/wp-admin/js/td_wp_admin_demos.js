@@ -116,7 +116,7 @@ var td_wp_admin_demos = {
             data: request_data,
             dataType: 'json',
             success: function(data, textStatus, XMLHttpRequest){
-                //td_ajax_block_process_response(data, td_user_action);
+                //tdAjaxBlockProcessResponse(data, td_user_action);
 
                 td_wp_progress_bar.change(100);
 
@@ -170,7 +170,7 @@ var td_wp_admin_demos = {
                    install_no_content_demo
                  */
                 td_wp_progress_bar.timer_change(98);
-                //td_ajax_block_process_response(data, td_user_action);
+                //tdAjaxBlockProcessResponse(data, td_user_action);
                 var request_data = {
                     action: 'td_ajax_demo_install',
                     td_demo_action:'install_no_content_demo',
@@ -183,7 +183,7 @@ var td_wp_admin_demos = {
                     data: request_data,
                     dataType: 'json',
                     success: function(data, textStatus, XMLHttpRequest){
-                        //td_ajax_block_process_response(data, td_user_action);
+                        //tdAjaxBlockProcessResponse(data, td_user_action);
 
                         td_wp_admin_demos._ui_install_end(demo_id);
                     },
@@ -224,7 +224,7 @@ var td_wp_admin_demos = {
             data: request_data,
             dataType: 'json',
             success: function(data, textStatus, XMLHttpRequest){
-                //td_ajax_block_process_response(data, td_user_action);
+                //tdAjaxBlockProcessResponse(data, td_user_action);
 
                 td_wp_admin_demos._ui_install_end(demo_id);
             },

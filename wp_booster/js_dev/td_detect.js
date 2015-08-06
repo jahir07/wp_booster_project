@@ -12,142 +12,139 @@
  *
  *
  */
-
-"use strict";
-
-/*  ----------------------------------------------------------------------------
- td_detect - browser detection object (instance)
- v1.1
- */
-
-var td_detect = new function () {
-
-    //constructor
-    this.is_ie8 = false;
-    this.is_ie9 = false;
-    this.is_ie10 = false;
-    this.is_ie11 = false;
-    this.is_ie = false;
-    this.is_safari = false;
-    this.is_chrome = false;
-    this.is_ipad = false;
-    this.is_touch_device = false;
-    this.has_history = false;
-    this.is_phone_screen = false;
-    this.is_ios = false;
-    this.is_android = false;
-    this.is_osx = false;
-    this.is_firefox = false;
-    this.is_win_os = false;
+/* global jQuery:false */
 
 
+var td_detect = {};
+
+( function(){
+    "use strict";
+    td_detect = {
+        isIe8: false,
+        isIe9 : false,
+        isIe10 : false,
+        isIe11 : false,
+        isIe : false,
+        isSafari : false,
+        isChrome : false,
+        isIpad : false,
+        isTouchDevice : false,
+        hasHistory : false,
+        isPhoneScreen : false,
+        isIos : false,
+        isAndroid : false,
+        isOsx : false,
+        isFirefox : false,
+        isWinOs : false,
+        isMobileDevice:false,
+        htmlJqueryObj:null, //here we keep the jQuery object for the HTML element
+
+        /**
+         * function to check the phone screen
+         * @see td_events
+         * The jQuery windows width is not reliable cross browser!
+         */
+        run_is_phone_screen: function () {
+            if ((jQuery(window).width() < 768 || jQuery(window).height() < 768) && td_detect.isIpad === false) {
+                td_detect.isPhoneScreen = true;
+
+            } else {
+                td_detect.isPhoneScreen = false;
+            }
+        },
+
+
+        set: function (detector_name, value) {
+            td_detect[detector_name] = value;
+            alert('td_detect: ' + detector_name + ': ' + value);
+        }
+    };
+
+
+    td_detect.htmlJqueryObj = jQuery('html');
 
 
     // is touch device ?
-    this.is_win_os = (-1 != navigator.appVersion.indexOf("Win"));
-    this.is_touch_device = !!('ontouchstart' in window) && !this.is_win_os;
+    if (-1 !== navigator.appVersion.indexOf("Win")) {
+        td_detect.isWinOs = true;
+    }
 
-
-    this.is_mobile_device = false;
-
-    this.html_jquery_obj = jQuery('html');
-
-
-    // detect ie8
-    if (this.html_jquery_obj.is('.ie8')) {
-        this.is_ie8 = true;
-        this.is_ie = true;
+    // it looks like it has to have ontouchstart in window and NOT be windows OS. Why? we don't know.
+    if (!!('ontouchstart' in window) && !td_detect.isWinOs) {
+        td_detect.isTouchDevice = true;
     }
 
 
+    // detect ie8
+    if (td_detect.htmlJqueryObj.is('.ie8')) {
+        td_detect.isIe8 = true;
+        td_detect.isIe = true;
+    }
 
     // detect ie9
-    if (this.html_jquery_obj.is('.ie9')) {
-        this.is_ie9 = true;
-        this.is_ie = true;
+    if (td_detect.htmlJqueryObj.is('.ie9')) {
+        td_detect.isIe9 = true;
+        td_detect.isIe = true;
     }
 
     // detect ie10 - also adds the ie10 class //it also detects windows mobile IE as IE10
     if(navigator.userAgent.indexOf("MSIE 10.0") > -1){
-        this.is_ie10 = true;
-        this.is_ie = true;
-        //alert('10');
+        td_detect.isIe10 = true;
+        td_detect.isIe = true;
     }
 
     //ie 11 check - also adds the ie11 class - it may detect ie on windows mobile
     if(!!navigator.userAgent.match(/Trident.*rv\:11\./)){
-        this.is_ie11 = true;
-        //this.is_ie = true; //do not flag ie11 as is_ie
-        //alert('11');
+        td_detect.isIe11 = true;
+        //this.isIe = true; //do not flag ie11 as isIe
     }
 
 
     //do we have html5 history support?
     if (window.history && window.history.pushState) {
-        this.has_history = true;
+        td_detect.hasHistory = true;
     }
 
     //check for safary
-    if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-        this.is_safari = true;
+    if (navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1) {
+        td_detect.isSafari = true;
     }
 
     //chrome and chrome-ium check
-    this.is_chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
+    if (/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())) {
+        td_detect.isChrome = true;
+    }
 
-    this.is_ipad = navigator.userAgent.match(/iPad/i) != null;
-
+    if (navigator.userAgent.match(/iPad/i) !== null) {
+        td_detect.isIpad = true;
+    }
 
 
     if (/(iPad|iPhone|iPod)/g.test( navigator.userAgent )) {
-        this.is_ios = true;
-    } else {
-        this.is_ios = false;
+        td_detect.isIos = true;
     }
-
 
 
     //detect if we run on a mobile device - ipad included - used by the modal / scroll to @see scroll_into_view
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        this.is_mobile_device = true;
+        td_detect.isMobileDevice = true;
     }
 
-    /**
-     * function to check the phone screen
-     * @see td_events
-     * The jQuery windows width is not reliable cross browser!
-     */
-    this.run_is_phone_screen = function () {
-        if ((jQuery(window).width() < 768 || jQuery(window).height() < 768) && this.is_ipad === false) {
-            this.is_phone_screen = true;
-
-        } else {
-            this.is_phone_screen = false;
-        }
-
-        //console.log(this.is_phone_screen + ' ' + jQuery(window).width() + ' ' + jQuery(window).height());
-    };
-
-
-
-    this.run_is_phone_screen();
-
+    td_detect.run_is_phone_screen();
 
     //test for android
     var user_agent = navigator.userAgent.toLowerCase();
     if(user_agent.indexOf("android") > -1) {
-        this.is_android = true;
+        td_detect.isAndroid = true;
     }
 
 
-    if (navigator.userAgent.indexOf('Mac OS X') != -1) {
-        this.is_osx = true;
+    if (navigator.userAgent.indexOf('Mac OS X') !== -1) {
+        td_detect.isOsx = true;
     }
 
-    if (navigator.userAgent.indexOf('Firefox') != -1) {
-        this.is_firefox = true;
+    if (navigator.userAgent.indexOf('Firefox') !== -1) {
+        td_detect.isFirefox = true;
     }
 
-};
-
-
+})();

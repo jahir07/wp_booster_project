@@ -26,7 +26,7 @@ function td_resize_smartlist_slides(args) {
 
     var current_slider = jQuery(args.data.obj[0]).attr("id");
 
-    if(!td_detect.is_ie8) {
+    if(!td_detect.isIe8) {
         jQuery("#" + current_slider).css("overflow", "none");
         jQuery("#" + current_slider + " .td-item").css("overflow", "visible");
     }
@@ -49,7 +49,7 @@ function td_resize_smartlist_sliders_and_update() {
     jQuery(document).find('.td-smart-list-slider').each(function() {
         var current_slider = jQuery(this).attr("id");
 
-        if(!td_detect.is_ie8) {
+        if(!td_detect.isIe8) {
             jQuery("#" + current_slider).css("overflow", "none");
             jQuery("#" + current_slider + " .td-item").css("overflow", "visible");
         }
@@ -61,7 +61,7 @@ function td_resize_smartlist_sliders_and_update() {
             height: setHeight
         });
 
-        if(td_detect.is_android) {
+        if(td_detect.isAndroid) {
             setTimeout(function () {
                 jQuery("#" + current_slider).iosSlider("update");
             }, 2000);
@@ -79,7 +79,7 @@ function td_resize_normal_slide(args) {
     //get window width
     var window_wight = td_get_document_width();
 
-    if (!td_detect.is_ie8) {
+    if (!td_detect.isIe8) {
         jQuery("#" + current_slider).css("overflow", "none");
         jQuery("#" + current_slider + " .td-item").css("overflow", "visible");
     }
@@ -89,11 +89,11 @@ function td_resize_normal_slide(args) {
 
     //only for android, width of the screen to start changing the height of the slide
     var max_wight_resize = 780;
-    if(td_detect.is_android) {
+    if(td_detect.isAndroid) {
         max_wight_resize = 1000;
     }
 
-    if (window_wight < max_wight_resize && !td_detect.is_ipad) {//problem because we cannot get an accurate page width
+    if (window_wight < max_wight_resize && !td_detect.isIpad) {//problem because we cannot get an accurate page width
         if(slide_outer_width > 300) {
             setHeight = slide_outer_width * 0.5;
         } else {
@@ -122,7 +122,7 @@ function td_resize_normal_slide_and_update(args) {
     //get window width
     var window_wight = td_get_document_width();
 
-    if(!td_detect.is_ie8) {
+    if(!td_detect.isIe8) {
         jQuery("#" + current_slider).css("overflow", "none");
         jQuery("#" + current_slider + " .td-item").css("overflow", "visible");
     }
@@ -132,11 +132,11 @@ function td_resize_normal_slide_and_update(args) {
 
     //only for android, width of the screen to start changing the height of the slide
     var max_wight_resize = 780;
-    if(td_detect.is_android) {
+    if(td_detect.isAndroid) {
         max_wight_resize = 1000;
     }
 
-    if (window_wight < max_wight_resize && !td_detect.is_ipad) {//problem because we cannot get an accurate page width
+    if (window_wight < max_wight_resize && !td_detect.isIpad) {//problem because we cannot get an accurate page width
         if(slide_outer_width > 300) {
             setHeight = slide_outer_width * 0.5;
         } else {

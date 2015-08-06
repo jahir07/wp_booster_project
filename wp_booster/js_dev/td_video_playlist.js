@@ -211,7 +211,7 @@ var td_youtube_player = {
     },
 
     td_playlist_youtube_play_video: function td_playlist_youtube_play_video() {
-        if(td_detect.is_mobile_device) {
+        if(td_detect.isMobileDevice) {
             //alert('mobile');
         } else {
             td_youtube_player.td_yt_player.playVideo();
@@ -311,7 +311,7 @@ var td_vimeo_playlist_obj = {
         //if a video has ended then make auto play = 1; This is the case when the user set autoplay = 0 but start watching videos
         td_vimeo_playlist_obj.td_playlist_video_autoplay_vimeo = 1;
 
-        if(td_detect.is_mobile_device && td_detect.is_android) {
+        if(td_detect.isMobileDevice && td_detect.isAndroid) {
             //alert('is android');
         } else {
 

@@ -13,6 +13,11 @@
  * - td_block ajax request response use a sort method and add founded items into view port array or into items array
  */
 
+
+/* global jQuery:false */
+/* global td_detect:false */
+/* global td_events:false */
+
 "use strict";
 
 var td_animation_stack = {
@@ -87,7 +92,7 @@ var td_animation_stack = {
 
         // - special case for IE8 and IE9
         // - the animation is forced removed and the altered css body is cleaned
-        if (td_detect.is_ie8 || td_detect.is_ie9) {
+        if (td_detect.isIe8 || td_detect.isIe9) {
             td_animation_stack._ready_for_initialization = false;
 
             if (window.td_animation_stack_effect != undefined) {

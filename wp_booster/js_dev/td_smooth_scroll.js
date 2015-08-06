@@ -4,7 +4,7 @@
 
 if (typeof window['tds_smooth_scroll'] !== 'undefined') {
 
-    if (td_detect.is_chrome === true && td_detect.is_android === false) {
+    if (td_detect.isChrome === true && td_detect.isAndroid === false) {
         td_smooth_scroll();
     }
 }

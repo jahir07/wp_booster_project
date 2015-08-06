@@ -115,7 +115,7 @@ var td_ajax_search = {
     show_search_box: function open_search_box() {
         jQuery(".td-drop-down-search").addClass('td-drop-down-search-open');
         // do not try to autofocus on ios. It's still buggy as of 18 march 2015
-        if (td_detect.is_ios !== true) {
+        if (td_detect.isIos !== true) {
             setTimeout(function(){
                 document.getElementById("td-header-search").focus();
             }, 200);
@@ -266,8 +266,8 @@ var td_ajax_search = {
 
 
         //do we have a cache hit
-        if (td_local_cache.exist(search_query)) {
-            td_ajax_search.process_ajax_response(td_local_cache.get(search_query));
+        if (tdLocalCache.exist(search_query)) {
+            td_ajax_search.process_ajax_response(tdLocalCache.get(search_query));
             return; //cache HIT
         }
 
@@ -284,7 +284,7 @@ var td_ajax_search = {
                 td_string: search_query
             },
             success: function(data, textStatus, XMLHttpRequest){
-                td_local_cache.set(search_query, data);
+                tdLocalCache.set(search_query, data);
                 td_ajax_search.process_ajax_response(data);
             },
             error: function(MLHttpRequest, textStatus, errorThrown){

@@ -25,7 +25,7 @@ var td_history = {
      * @param data
      */
     replace_history_entry: function (data) {
-        if (td_detect.has_history === false) {
+        if (td_detect.hasHistory === false) {
             return; //no history support
         }
         history.replaceState(data, null);
@@ -40,7 +40,7 @@ var td_history = {
      */
     add_history_entry: function (data, query_parm_id, query_parm_value) {
 
-        if (td_detect.has_history === false) {
+        if (td_detect.hasHistory === false) {
             return; //no history support
         }
 
