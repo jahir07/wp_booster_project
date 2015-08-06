@@ -1519,7 +1519,7 @@ function my_gallery_shortcode($output = '', $atts, $content = false, $tag = fals
                         * Resize the iosSlider when the page is resided (fixes bug on Android devices)
                         */
                         function td_gallery_resize_update_vars_' . $gallery_slider_unique_id . '(args) {
-                            if(td_detect.isAndroid) {
+                            if(tdDetect.isAndroid) {
                                 setTimeout(function(){
                                     jQuery("#' . $gallery_slider_unique_id . ' .td-doubleSlider-1").iosSlider("update");
                                 }, 1500);

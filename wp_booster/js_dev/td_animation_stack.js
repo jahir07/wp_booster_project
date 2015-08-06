@@ -15,7 +15,7 @@
 
 
 /* global jQuery:false */
-/* global td_detect:false */
+/* global tdDetect:false */
 /* global td_events:false */
 
 "use strict";
@@ -92,7 +92,7 @@ var td_animation_stack = {
 
         // - special case for IE8 and IE9
         // - the animation is forced removed and the altered css body is cleaned
-        if (td_detect.isIe8 || td_detect.isIe9) {
+        if (tdDetect.isIe8 || tdDetect.isIe9) {
             td_animation_stack._ready_for_initialization = false;
 
             if (window.td_animation_stack_effect != undefined) {

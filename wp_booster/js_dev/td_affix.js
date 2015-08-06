@@ -61,7 +61,7 @@ var td_affix = {
 
 
         // a computation before jquery.ready is necessary for firefox, where td_events.scroll comes before
-        if (td_detect.isFirefox) {
+        if (tdDetect.isFirefox) {
             td_affix.compute_top();
             td_affix.compute_wrapper();
         }
@@ -96,7 +96,7 @@ var td_affix = {
      */
     _get_menu_affix_height: function _get_menu_affix_height() {
 
-        if (td_detect.isPhoneScreen === true) {
+        if (tdDetect.isPhoneScreen === true) {
             return td_affix.menu_affix_height_on_mobile;
         }
         return td_affix.menu_affix_height;
@@ -126,7 +126,7 @@ var td_affix = {
          - td_affix.tds_snap_menu != 'snap'
          */
         if (td_affix.tds_snap_menu != 'snap') { //do not run on snap
-            if ((td_affix.tds_snap_menu != 'smart_snap_mobile' || td_detect.isPhoneScreen === true)) {  // different from smart_snap_mobile or td_detect.isPhoneScreen === true
+            if ((td_affix.tds_snap_menu != 'smart_snap_mobile' || tdDetect.isPhoneScreen === true)) {  // different from smart_snap_mobile or tdDetect.isPhoneScreen === true
                 //console.log('rrr');
                 var scroll_direction = '';
                 var scrollDelta = 0;
@@ -173,7 +173,7 @@ var td_affix = {
 
 
             //if the menu is only with snap or we are on smart_snap_mobile + mobile, our job here in this function is done, return
-            if (td_affix.tds_snap_menu == 'snap' || (td_affix.tds_snap_menu =='smart_snap_mobile' && td_detect.isPhoneScreen === false)) {
+            if (td_affix.tds_snap_menu == 'snap' || (td_affix.tds_snap_menu =='smart_snap_mobile' && tdDetect.isPhoneScreen === false)) {
                 return;
             }
 
@@ -240,7 +240,7 @@ var td_affix = {
                         if (offset == -td_affix._get_menu_affix_height()) {
                             td_affix.menu_offset_max_hit = true;
                             //also hide the menu when it's 100% out of view on ios - the safari header is transparent and we can see the menu
-                            if(td_detect.isIos === true || td_detect.isSafari) { // safari also
+                            if(tdDetect.isIos === true || tdDetect.isSafari) { // safari also
                                 td_affix_menu_element.hide();
                             }
 
@@ -251,7 +251,7 @@ var td_affix = {
                         } else {
                             td_affix.menu_offset_max_hit = false;
 
-                            if(td_detect.isIos === true || td_detect.isSafari) { //ios safari fix
+                            if(tdDetect.isIos === true || tdDetect.isSafari) { //ios safari fix
                                 td_affix_menu_element.show();
                             }
                         }
@@ -347,7 +347,7 @@ var td_affix = {
             // Bug.Fix - affix menu flickering
             // - the td_affix_menu_element is hidden because he is outside of the viewport
             // - without it, there's a flicker effect of applying css style (classes) over it
-            if (td_detect.isPhoneScreen !== true) {
+            if (tdDetect.isPhoneScreen !== true) {
                 td_affix_menu_element.css('visibility', 'hidden');
             }
 
@@ -358,7 +358,7 @@ var td_affix = {
         } else {
 
             // the td_affix_menu element is kept visible
-            if (td_detect.isPhoneScreen !== true) {
+            if (tdDetect.isPhoneScreen !== true) {
                 td_affix_menu_element.css('visibility', '');
             }
         }
@@ -389,7 +389,7 @@ var td_affix = {
             //move the menu to 0 (ios seems to skip animation frames)
             td_util.td_move_y(td_affix_menu_element[0], 0);
 
-            if(td_detect.isIos === true || td_detect.isSafari) {
+            if(tdDetect.isIos === true || tdDetect.isSafari) {
                 td_affix_menu_element.show();
             }
 

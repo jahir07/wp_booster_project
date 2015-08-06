@@ -8,7 +8,7 @@
 
 // top menu
 
-if (td_detect.isTouchDevice) {
+if (tdDetect.isTouchDevice) {
     //touch
     jQuery('.td-header-sp-top-menu .top-header-menu').superfish({
         delay:300,
@@ -42,7 +42,7 @@ if (td_detect.isTouchDevice) {
 
 
 
-if (td_detect.isTouchDevice) {
+if (tdDetect.isTouchDevice) {
     //touch
     jQuery('#td-header-menu .sf-menu').superfish({
         delay:300,

@@ -91,7 +91,7 @@ var td_util = {
      */
     scroll_into_view: function (dom_element) {
 
-        if (td_detect.isMobileDevice === true) {
+        if (tdDetect.isMobileDevice === true) {
             return; //do not run on any mobile device
         }
 

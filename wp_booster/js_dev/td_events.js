@@ -116,7 +116,7 @@ var td_events = {
                 td_events.resize_event_slow_run = false;
                 td_affix.compute_wrapper();
                 td_affix.compute_top();
-                td_detect.run_is_phone_screen();
+                tdDetect.runIsPhoneScreen();
 
 
                 // call lazy td_custom_events resize

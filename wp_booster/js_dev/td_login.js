@@ -38,7 +38,7 @@ jQuery().ready(function() {
                 if(jQuery(window).width() < 700) {
                     this.st.focus = false;
                 } else {
-                    if (td_detect.isIe === false) {
+                    if (tdDetect.isIe === false) {
                         //do not focus on ie 10
                         this.st.focus = '#login_email';
                     }
@@ -60,7 +60,7 @@ jQuery().ready(function() {
         //moves focus on the tab
         modala_swich_tabs([['#login-link', 1], ['#register-link', 0]]);
 
-        if(jQuery(window).width() > 700 && td_detect.isIe === false) {
+        if(jQuery(window).width() > 700 && tdDetect.isIe === false) {
             jQuery('#login_email').focus();
         }
 
@@ -89,7 +89,7 @@ jQuery().ready(function() {
         //moves focus on the tab
         modala_swich_tabs([['#login-link', 0], ['#register-link', 1]]);
 
-        if(jQuery(window).width() > 700  && td_detect.isIe === false) {
+        if(jQuery(window).width() > 700  && tdDetect.isIe === false) {
             jQuery('#register_email').focus();
         }
 
@@ -118,7 +118,7 @@ jQuery().ready(function() {
         //moves focus on the tab
         modala_swich_tabs([['#login-link', 0], ['#register-link', 0]]);
 
-        if(jQuery(window).width() > 700 && td_detect.isIe === false) {
+        if(jQuery(window).width() > 700 && tdDetect.isIe === false) {
             jQuery('#forgot_email').focus();
         }
 

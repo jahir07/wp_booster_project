@@ -115,7 +115,7 @@ var td_ajax_search = {
     show_search_box: function open_search_box() {
         jQuery(".td-drop-down-search").addClass('td-drop-down-search-open');
         // do not try to autofocus on ios. It's still buggy as of 18 march 2015
-        if (td_detect.isIos !== true) {
+        if (tdDetect.isIos !== true) {
             setTimeout(function(){
                 document.getElementById("td-header-search").focus();
             }, 200);

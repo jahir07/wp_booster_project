@@ -209,7 +209,7 @@ function td_mobile_menu() {
         if(jQuery('body').hasClass('td-menu-mob-open-menu')) {
             jQuery('body').removeClass('td-menu-mob-open-menu');
         } else {
-            if (td_detect.isMobileDevice) {
+            if (tdDetect.isMobileDevice) {
                 // on mobile devices scroll to top instantly and wait a bit and open the menu
                 window.scrollTo(0, 0);
                 setTimeout(function(){
@@ -306,7 +306,7 @@ jQuery('body').click(function(e){
 });*/
 
 //click only on BACKGROUND, for devices that don't have touch (ex: phone, tablets)
-if(!td_detect.isTouchDevice && td_util.get_backend_var('td_ad_background_click_link') != '') {
+if(!tdDetect.isTouchDevice && td_util.get_backend_var('td_ad_background_click_link') != '') {
 
     //var ev = ev || window.event;
     //var target = ev.target || ev.srcElement;
@@ -522,7 +522,7 @@ function td_post_template_6_title() {
         if (scroll_from_top <= 950) { //stop the animation after scroll from top
 
             var blur_value = 1 - (scroll_from_top / 800); // @todo trebuie verificata formula??
-            if (td_detect.isIe8 === true) {
+            if (tdDetect.isIe8 === true) {
                 blur_value = 1;
             }
 
