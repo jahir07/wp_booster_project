@@ -77,7 +77,7 @@ function tdBlock() {
                 htmlTag.className += ' ie11';
             }
 
-            if ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) {
+            if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ) {
                 htmlTag.className += ' td-md-is-ios';
             }
 
