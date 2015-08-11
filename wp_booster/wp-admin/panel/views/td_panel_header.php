@@ -233,6 +233,28 @@
         </div>
     </div>
 
+    <!-- Mega menu preload -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Mega menu preloader</span>
+            <p>Preload content for all mega menus. This provides a better user experience and when whole page caching is used it may increase performance on cache hit.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::radio_button_control(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_mega_menu_ajax_preloading',
+                'values' => array (
+                    array('text' => '<strong>No preloading</strong> - default', 'val' => ''),
+                    array('text' => '<strong>Optimized preloading</strong>', 'val' => 'preload'),
+                    array('text' => '<strong>Preload all </strong>', 'val' => 'preload_all')
+                )
+            ));
+            ?>
+        </div>
+    </div>
+
+    <div class="td-box-section-separator"></div>
 
     <!-- STICKY MENU -->
     <div class="td-box-row">

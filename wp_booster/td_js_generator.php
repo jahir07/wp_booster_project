@@ -50,7 +50,6 @@ function tdBlock() {
     this.found_posts = 0; //from wp
     this.max_num_pages = 0; //from wp
     this.td_filter_value = ''; //current live filter value
-    this.td_filter_ui_uid = ''; //used to select a item from the drop down filter
     this.is_ajax_running = false;
     this.td_user_action = ''; // load more or infinite loader (used by the animation)
     this.header_color = '';
@@ -103,6 +102,33 @@ function tdBlock() {
             }
 
         })();
+
+
+
+
+        var tdLocalCache = {};
+
+        ( function () {
+            "use strict";
+
+            tdLocalCache = {
+                data: {},
+                remove: function (resource_id) {
+                    delete tdLocalCache.data[resource_id];
+                },
+                exist: function (resource_id) {
+                    return tdLocalCache.data.hasOwnProperty(resource_id) && tdLocalCache.data[resource_id] !== null;
+                },
+                get: function (resource_id) {
+                    return tdLocalCache.data[resource_id];
+                },
+                set: function (resource_id, cachedData) {
+                    tdLocalCache.remove(resource_id);
+                    tdLocalCache.data[resource_id] = cachedData;
+                }
+            };
+        })();
+
     </script>
     <?php
     td_js_buffer::add_to_header(td_util::remove_script_tag(ob_get_clean()));

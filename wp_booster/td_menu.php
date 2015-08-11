@@ -193,6 +193,7 @@ class td_menu {
 
 	            $td_render_atts = td_api_block::get_key('td_block_mega_menu', 'render_atts');
 
+
                 $new_item->title .= td_global_blocks::get_instance('td_block_mega_menu')->render(
                     array(
                         'limit' => '5',
@@ -200,7 +201,8 @@ class td_menu {
                         'ajax_pagination' => 'next_prev',
                         'category_id' => $td_mega_menu_cat,
                         'show_child_cat' => $td_render_atts['show_child_cat'],
-                        'td_ajax_filter_type' => 'td_category_ids_filter'
+                        'td_ajax_filter_type' => 'td_category_ids_filter',
+                        'td_ajax_preloading' => td_util::get_option('tds_mega_menu_ajax_preloading')
                     ));
                 $new_item->title .= '</div></div>';
                 $items_buffy[] = $new_item;

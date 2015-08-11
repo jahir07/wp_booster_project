@@ -12,6 +12,8 @@ class td_block {
     var $td_query; //the query used to rendering the current block
 
     private $td_block_template_instance; // the current block template instance that this block is using
+    protected $td_block_template_data;
+
 
     function __construct() {
         $this->block_id = get_class($this); // set the current block type id It is the class name of the parent block (ex: td_block_4)
@@ -53,67 +55,71 @@ class td_block {
         // $vc_class = preg_replace( '/\s*\.([^\{]+)\s*\{\s*([^\}]+)\s*\}\s*/', '$1', $css);
         // $this->add_class($vc_class);
 
-
-
-        // prepare the array for the td_pull_down_items, we send this array to the block_template
         $td_pull_down_items = array();
-        if (!empty($td_ajax_filter_type)) {
 
-            // make the default current pull down item (the first one is the default)
-            $td_pull_down_items[0] = array (
-                'name' => $td_filter_default_txt,
-                'id' => ''
-            );
+        // td_block_mega_menu has it's own pull down implementation!
+        if (get_class($this) != 'td_block_mega_menu') {
+            // prepare the array for the td_pull_down_items, we send this array to the block_template
 
-            switch($td_ajax_filter_type) {
-                case 'td_category_ids_filter': // by category
-                    $td_categories = get_categories(array(
-                        'include' => $td_ajax_filter_ids,
-	                    'exclude' => '1',
-                        'number' => 100 //limit the number of categories shown in the drop down
-                    ));
-                    foreach ($td_categories as $td_category) {
+            if (!empty($td_ajax_filter_type)) {
+
+                // make the default current pull down item (the first one is the default)
+                $td_pull_down_items[0] = array (
+                    'name' => $td_filter_default_txt,
+                    'id' => ''
+                );
+
+                switch($td_ajax_filter_type) {
+                    case 'td_category_ids_filter': // by category
+                        $td_categories = get_categories(array(
+                            'include' => $td_ajax_filter_ids,
+                            'exclude' => '1',
+                            'number' => 100 //limit the number of categories shown in the drop down
+                        ));
+                        foreach ($td_categories as $td_category) {
+                            $td_pull_down_items []= array (
+                                'name' => $td_category->name,
+                                'id' => $td_category->cat_ID,
+                            );
+                        }
+                        break;
+
+                    case 'td_author_ids_filter': // by author
+                        $td_authors = get_users(array('who' => 'authors', 'include' => $td_ajax_filter_ids));
+                        foreach ($td_authors as $td_author) {
+                            $td_pull_down_items []= array (
+                                'name' => $td_author->display_name,
+                                'id' => $td_author->ID,
+                            );
+                        }
+                        break;
+
+                    case 'td_tag_slug_filter': // by tag slug
+                        $td_tags = get_tags(array(
+                            'include' => $td_ajax_filter_ids
+                        ));
+                        foreach ($td_tags as $td_tag) {
+                            $td_pull_down_items []= array (
+                                'name' => $td_tag->name,
+                                'id' => $td_tag->term_id,
+                            );
+                        }
+                        break;
+
+                    case 'td_popularity_filter_fa': // by popularity
                         $td_pull_down_items []= array (
-                            'name' => $td_category->name,
-                            'id' => $td_category->cat_ID,
+                            'name' => __td('Featured', TD_THEME_NAME),
+                            'id' => 'featured',
                         );
-                    }
-                    break;
-
-                case 'td_author_ids_filter': // by author
-                    $td_authors = get_users(array('who' => 'authors', 'include' => $td_ajax_filter_ids));
-                    foreach ($td_authors as $td_author) {
                         $td_pull_down_items []= array (
-                            'name' => $td_author->display_name,
-                            'id' => $td_author->ID,
+                            'name' => __td('All time popular', TD_THEME_NAME),
+                            'id' => 'popular',
                         );
-                    }
-                    break;
-
-                case 'td_tag_slug_filter': // by tag slug
-                    $td_tags = get_tags(array(
-                        'include' => $td_ajax_filter_ids
-                    ));
-                    foreach ($td_tags as $td_tag) {
-                        $td_pull_down_items []= array (
-                            'name' => $td_tag->name,
-                            'id' => $td_tag->term_id,
-                        );
-                    }
-                    break;
-
-                case 'td_popularity_filter_fa': // by popularity
-                    $td_pull_down_items []= array (
-                        'name' => __td('Featured', TD_THEME_NAME),
-                        'id' => 'featured',
-                    );
-                    $td_pull_down_items []= array (
-                        'name' => __td('All time popular', TD_THEME_NAME),
-                        'id' => 'popular',
-                    );
-                    break;
+                        break;
+                }
             }
         }
+
 
 
         // add a persistent atts based block class (crc32 of atts + block_id)
@@ -141,12 +147,15 @@ class td_block {
          * @see td_autoload_classes::loading_classes
          */
         $td_block_template_id = 'td_block_template_1';
-        $this->td_block_template_instance = new $td_block_template_id(array(
+
+        $this->td_block_template_data = array(
             'atts' => $this->atts,
             'block_uid' => $this->block_uid,
             'unique_block_class' => $unique_block_class,
             'td_pull_down_items' => $td_pull_down_items,
-        ));
+        );
+        $this->td_block_template_instance = new $td_block_template_id($this->td_block_template_data);
+
 
 
 
@@ -339,6 +348,90 @@ class td_block {
 
         $buffy .= 'tdBlocksArray.push(' . $block_item . ');' . "\n";
         $buffy .= '</script>';
+
+
+
+        //print_r($this->td_block_template_data);
+
+
+
+
+
+        // ajax subcategories preloader
+        // @todo preloading all content should happen regardless of the setting
+        if (
+            !empty($this->td_block_template_data['td_pull_down_items'])
+            and !empty($this->atts['td_ajax_preloading'])
+        ) {
+
+            // pagination - we need to compute the pagination for each cache entry
+            $td_hide_next = false;
+            if (!empty($this->atts['offset']) && !empty($this->atts['limit']) && ($this->atts['limit'] != 0)) {
+                if (1 >= ceil(($this->td_query->found_posts - $this->atts['offset']) / $this->atts['limit'])) {
+                    $td_hide_next = true; //hide link on last page
+                }
+            } else if (1 >= $this->td_query->max_num_pages) {
+                $td_hide_next = true; //hide link on last page
+            }
+
+            //
+            $buffyArray = array (
+                'td_data' => $this->inner($this->td_query->posts),
+                'td_block_id' => $this->block_uid,
+                'td_hide_prev' => true,  // this is the first page
+                'td_hide_next' => $td_hide_next
+            );
+
+            ob_start();
+            // we need to clone the object to set is_ajax_running to true
+            // first we set an object for the all filter
+            ?>
+            <script>
+                var tmpObj = JSON.parse(JSON.stringify(<?php echo $block_item ?>));
+                tmpObj.is_ajax_running = true;
+                var currentBlockObjSignature = JSON.stringify(tmpObj);
+                tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo json_encode($buffyArray) ?>));
+                <?php
+                    foreach ($this->td_block_template_data['td_pull_down_items'] as $count => $item) {
+                        if (empty($item['id'])) {
+                            continue;
+                        }
+
+                        // preload only 6 or 20 items depending on the setting
+                        if ($this->atts['td_ajax_preloading'] == 'preload_all' and $count > 20) {
+                            break;
+                        }
+                        else if ($this->atts['td_ajax_preloading'] == 'preload' and $count > 6) {
+                            break;
+                        }
+
+                        $ajax_parameters = array (
+                            'td_atts' => $this->atts,            // original block atts
+                            'td_column_number' => $td_column_number,    // should not be 0 (1 - 2 - 3)
+                            'td_current_page' => 1,    // the current page of the block
+                            'td_block_id' => $this->block_uid,        // block uid
+                            'block_type' => get_class($this),         // the type of the block / block class
+                            'td_filter_value' => $item['id']     // the id for this specific filter type. The filter type is in the td_atts
+                        );
+                        ?>
+                            tmpObj = JSON.parse(JSON.stringify(<?php echo $block_item ?>));
+                            tmpObj.is_ajax_running = true;
+                            tmpObj.td_current_page = 1;
+                            tmpObj.td_filter_value = <?php echo $item['id'] ?>;
+                            var currentBlockObjSignature = JSON.stringify(tmpObj);
+                            tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo td_ajax_block($ajax_parameters) ?>));
+                        <?php
+                    }
+                ?>
+            </script>
+            <?php
+            //ob_clean();
+            $buffy.= ob_get_clean();
+        } // end preloader if
+
+
+
+
 
         return $buffy;
     }
