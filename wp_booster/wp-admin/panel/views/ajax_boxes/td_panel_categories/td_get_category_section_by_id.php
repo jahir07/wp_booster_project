@@ -122,6 +122,11 @@ $category_id = td_util::get_http_post_val('category_id');
                 'values' => array(
                     array (
                         'val' => '',
+                        'text' => 'Inherit from global settings',
+                    ),
+
+                    array (
+                        'val' => 'normal',
                         'text' => 'Normal pagination'
                     ),
                     array (

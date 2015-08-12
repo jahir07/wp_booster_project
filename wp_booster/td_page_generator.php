@@ -471,6 +471,35 @@ class td_page_generator {
             return;
         }
 
+
+        /**
+         * infinite loading pagination
+         */
+        if(!is_admin() and td_global::$current_template != 'page-homepage-loop' and is_category()) {
+            $pagination_style = '';
+
+
+            $global_category_pagination_style = td_util::get_option('tds_category_pagination_style');
+            if (!empty($global_category_pagination_style)) {
+                $pagination_style = $global_category_pagination_style;
+            }
+
+
+            $category_pagination_style = td_util::get_category_option(td_global::$current_category_obj->cat_ID, 'tdc_category_pagination_style');
+            if (!empty($category_pagination_style)) {
+                $pagination_style = $category_pagination_style;
+            }
+
+            if ($pagination_style != '') {
+                echo 'raaa';
+            }
+
+        }
+
+
+        /**
+         * use normal pagination
+         */
         $pagenavi_options = self::pagenavi_init();
 
         $request = $wp_query->request;

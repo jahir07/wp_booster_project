@@ -68,7 +68,7 @@ class td_template_layout extends td_block_layout {
      */
     function layout_open_element() {
         if ($this->is_output_disabled) {
-            return;
+            return '';
         }
 
         $buffy = '';
