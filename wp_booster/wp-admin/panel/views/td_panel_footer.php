@@ -239,6 +239,22 @@
         </div>
     </div>
 
+    <!-- Background opacity -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">BACKGROUND OPACITY</span>
+            <p>Set the background image transparency. (Example: 0.3)</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::input(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_footer_background_opacity'
+            ));
+            ?>
+        </div>
+    </div>
+
 <?php echo td_panel_generator::box_end();?>
 
 
