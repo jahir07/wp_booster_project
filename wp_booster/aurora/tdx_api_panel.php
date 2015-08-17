@@ -16,7 +16,7 @@ class tdx_api_panel {
             if (!isset(td_global::$all_theme_panels_list[$panel_spot_id]['panels'])) { //make sure we have an array in panels, makes ::add array_merge work
                 td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = array();
             }
-            td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = array_merge(td_global::$all_theme_panels_list[$panel_spot_id]['panels'], $params_array);
+            td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = array_merge($params_array, td_global::$all_theme_panels_list[$panel_spot_id]['panels']);
         } else {
             td_global::$all_theme_panels_list[$panel_spot_id]['panels'] = $params_array;
         }
