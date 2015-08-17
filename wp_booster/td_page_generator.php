@@ -678,7 +678,7 @@ class td_page_generator {
                 <div class="td-ajax-loop-infinite"></div>
 
                 <div class="td-load-more-wrap td-load-more-infinite-wrap">
-                    <a href="#" class="td-loop-ajax-load-more" data-td_block_id=""> <?php echo __td('Load more', TD_THEME_NAME) ?>
+                    <a href="#" class="td_ajax_load_more" data-td_block_id=""> <?php echo __td('Load more', TD_THEME_NAME) ?>
                         <i class="td-icon-font td-icon-menu-down"></i>
                     </a>
                 </div>

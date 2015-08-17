@@ -245,7 +245,7 @@ class td_block {
 	            //if ($this->td_query->found_posts > $limit) {
 	            if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td-load-more-wrap">';
-                    $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
+                    $buffy .= '<a href="#" class="td_ajax_load_more td_ajax_load_more_js" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
 		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
 		            $buffy .= '</a>';
 		            $buffy .= '</div>';
@@ -261,7 +261,7 @@ class td_block {
 
 
 		            $buffy .= '<div class="td-load-more-wrap td-load-more-infinite-wrap" id="infinite-lm-' . $this->block_uid . '">';
-                    $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
+                    $buffy .= '<a href="#" class="td_ajax_load_more td_ajax_load_more_js" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
 		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
 		            $buffy .= '</a>';
 		            $buffy .= '</div>';

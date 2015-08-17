@@ -116,9 +116,14 @@ function load_front_css() {
     if (TD_DEBUG_USE_LESS) {
 
 
-        wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
+        if (TD_THEME_NAME == 'Newspaper') {
+            //this works only on newspaper
+            wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
+        } else {
+            wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php',  '', TD_THEME_VERSION, 'all' );
+        }
 
-        //wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php',  '', TD_THEME_VERSION, 'all' );
+        //
         if (td_global::$is_woocommerce_installed === true) {
             wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
         }

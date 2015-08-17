@@ -80,7 +80,7 @@ var tdBlocks = {};
         /*  ----------------------------------------------------------------------------
             AJAX pagination load more
          */
-        jQuery(".td_ajax_load_more").click( function(event) {
+        jQuery(".td_ajax_load_more_js").click( function(event) {
             event.preventDefault();
             if ( jQuery(this).hasClass('ajax-page-disabled') ) {
                 return;
