@@ -37,7 +37,7 @@ var tdInfiniteLoader = {};
 
         // one item object (instantiable)
         item: function() {
-            this.uid=''; // - an unique id of the item, usually is the block id!
+            this.uid=''; // - an unique id of the item, usually is the block id! - it is used to enable the callback on a per item basis
             this.jqueryObj = ''; //find the item easily for animation ??
             this.bottomTop = 0;  //distance from the bottom of the dom element to top - computed in - @see tdInfiniteLoader.compute_top_distances();
             this.isVisibleCallbackEnabled = true; //the callback will fire only when this flag is true. We set it to true after the blocks ajax run @see tdBlocks.tdBlockAjaxLoadingEnd
@@ -164,15 +164,15 @@ var tdInfiniteLoader = {};
                     }, 400);
                 }
             }
-
-
-
-
         };
-
-
         tdInfiniteLoader.addItem(tdInfiniteLoaderItem);
     });
+
+
+
+
+
+
 
 
     //compute to

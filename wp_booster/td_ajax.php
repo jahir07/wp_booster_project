@@ -169,24 +169,23 @@ function td_ajax_block($ajax_parameters = '') {
 add_action( 'wp_ajax_nopriv_td_ajax_loop', 'td_ajax_loop' );
 add_action( 'wp_ajax_td_ajax_loop', 'td_ajax_loop' );
 function td_ajax_loop() {
-    $ajax_parameters = array (
-        'loop_sidebar_position' => '',            // original block atts
-        'loop_module_id' => 1,
-        'paged' => '',
-        'td_atts' => ''
-    );
 
+	$loopState = td_util::get_http_post_val('loopState');
+	//print_r($loopState);
+
+
+    $buffy = '';
 
     /**
      * @var WP_Query
      */
-    $td_query = &td_data_source::get_wp_query($ajax_parameters['td_atts'], $ajax_parameters['td_current_page']); //by ref  do the query
+    $td_query = &td_data_source::get_wp_query($loopState['atts'], $loopState['currentPage']); //by ref  do the query
 
 
     if (!empty($td_query->posts)) {
         td_global::$is_wordpress_loop = true; ///if we are in wordpress loop; used by quotes in blocks to check if the blocks are displayed in blocks or in loop
-        $td_template_layout = new td_template_layout($ajax_parameters['loop_sidebar_position']);
-        $td_module_class = td_util::get_module_class_from_loop_id($ajax_parameters['loop_module_id']);
+        $td_template_layout = new td_template_layout($loopState['sidebarPosition']);
+        $td_module_class = td_util::get_module_class_from_loop_id($loopState['moduleId']);
 
         //disable the grid for some of the modules
         $td_module_api = td_api_module::get_by_id($td_module_class);
@@ -195,24 +194,27 @@ function td_ajax_loop() {
         }
 
         foreach ($td_query->posts as $post) {
-            echo $td_template_layout->layout_open_element();
+            $buffy .= $td_template_layout->layout_open_element();
 
             if (class_exists($td_module_class)) {
                 $td_mod = new $td_module_class($post);
-                echo $td_mod->render();
+                $buffy .= $td_mod->render();
             } else {
                 td_util::error(__FILE__, 'Missing module: ' . $td_module_class);
             }
 
-            echo $td_template_layout->layout_close_element();
+            $buffy .= $td_template_layout->layout_close_element();
             $td_template_layout->layout_next();
         }
-        echo $td_template_layout->close_all_tags();
+        $buffy .= $td_template_layout->close_all_tags();
     } else {
         // no posts
 
     }
 
+    $loopState['server_reply_html_data'] = $buffy;
+
+    die(json_encode($loopState));
 }
 
 

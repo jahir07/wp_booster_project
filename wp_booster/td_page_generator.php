@@ -460,6 +460,8 @@ class td_page_generator {
     }
 
 
+
+
     /**
      * WARNING: this function also runs in the page-pagebuilder-latest.php in a FAKE LOOP - this means that wordpress functions
      * like is_category DO NOT WORK AS EXPECTED when you use for example a category filter for the loop, is_category returns true
@@ -467,33 +469,14 @@ class td_page_generator {
     static function get_pagination() {
         global $wp_query;
 
-        if (td_global::$current_template == '404') {
+        if ( td_global::$current_template == '404' ) {
             return;
         }
 
 
-        /**
-         * infinite loading pagination
-         */
-        if(!is_admin() and td_global::$current_template != 'page-homepage-loop' and is_category()) {
-            $pagination_style = '';
-
-
-            $global_category_pagination_style = td_util::get_option('tds_category_pagination_style');
-            if (!empty($global_category_pagination_style)) {
-                $pagination_style = $global_category_pagination_style;
-            }
-
-
-            $category_pagination_style = td_util::get_category_option(td_global::$current_category_obj->cat_ID, 'tdc_category_pagination_style');
-            if (!empty($category_pagination_style)) {
-                $pagination_style = $category_pagination_style;
-            }
-
-            if ($pagination_style != '') {
-                echo 'raaa';
-            }
-
+        // if we have infinite pagination, we will render it there
+        if ( self::render_infinite_pagination() === true ) {
+            return;
         }
 
 
@@ -622,6 +605,94 @@ class td_page_generator {
 
     }
 
+
+
+    static private function render_infinite_pagination() {
+        global
+            $wp_query,
+            $loop_module_id,            // it's set by the template (category.php)
+            $loop_sidebar_position;     // it's set by the template  -- || --
+
+
+
+        //print_r($wp_query);
+
+        /**
+         * infinite loading pagination ONLY FOR CATEGORIES FOR NOW
+         */
+        if(!is_admin() and td_global::$current_template != 'page-homepage-loop' and is_category() and !empty($wp_query)) {
+
+
+
+            $pagination_style = '';
+
+            // read the global settings
+            $global_category_pagination_style = td_util::get_option('tds_category_pagination_style');
+            if (!empty($global_category_pagination_style)) {
+                $pagination_style = $global_category_pagination_style;
+            }
+
+            // read the per category settings
+            $category_pagination_style = td_util::get_category_option(td_global::$current_category_obj->cat_ID, 'tdc_category_pagination_style');
+            if (!empty($category_pagination_style)) {
+                // overwrite the global pagination. For normal pagination we need to clean up the variable
+                if ($category_pagination_style == 'normal') {
+                    $pagination_style = '';
+                } else {
+                    $pagination_style = $category_pagination_style;
+                }
+            }
+
+
+
+            // check to see if we need infinite loading pagination
+            if ($pagination_style != '') {
+
+
+
+                if ($wp_query->query_vars['paged'] >= $wp_query->max_num_pages) {
+                    return true; // do not show any pagination because we do not have more pages
+                }
+
+                $ajax_pagination_infinite_stop = 0;
+                if ($pagination_style == 'infinite_load_more') {
+                    $ajax_pagination_infinite_stop = 2;
+                }
+                ?>
+                <script>
+                    jQuery(window).ready(function() {
+                        tdAjaxLoop.loopState.sidebarPosition = '<?php echo $loop_sidebar_position ?>';
+                        tdAjaxLoop.loopState.moduleId = '<?php echo $loop_module_id ?>';
+                        tdAjaxLoop.loopState.currentPage = 1;
+                        tdAjaxLoop.loopState.max_num_pages = <?php echo $wp_query->max_num_pages ?>;
+                        tdAjaxLoop.loopState.atts = {
+                            'category_id':<?php echo $wp_query->query_vars['cat'] ?>,
+                            'offset':<?php echo $wp_query->query_vars['offset'] ?>
+                        };
+                        tdAjaxLoop.loopState.ajax_pagination_infinite_stop = <?php echo $ajax_pagination_infinite_stop ?>;
+                        tdAjaxLoop.init();
+                    });
+                </script>
+
+
+                <div class="td-ajax-loop-infinite"></div>
+
+                <div class="td-load-more-wrap td-load-more-infinite-wrap">
+                    <a href="#" class="td-loop-ajax-load-more" data-td_block_id=""> <?php echo __td('Load more', TD_THEME_NAME) ?>
+                        <i class="td-icon-font td-icon-menu-down"></i>
+                    </a>
+                </div>
+
+                <?php
+                return true;
+            }
+
+        }
+
+
+        return false;
+
+    }
 
     static function td_round_number($num, $tonearest) {
         return floor($num/$tonearest)*$tonearest;

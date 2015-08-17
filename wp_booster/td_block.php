@@ -245,7 +245,7 @@ class td_block {
 	            //if ($this->td_query->found_posts > $limit) {
 	            if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td-load-more-wrap">';
-                $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
+                    $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
 		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
 		            $buffy .= '</a>';
 		            $buffy .= '</div>';
@@ -253,7 +253,7 @@ class td_block {
                 break;
 
             case 'infinite':
-				//if ($this->td_query->found_posts > $limit) {
+				// show the infinite pagination only if we have more posts
 		        if ($this->td_query->found_posts - $offset > $limit) {
 		            $buffy .= '<div class="td_ajax_infinite" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">';
 		            $buffy .= ' ';
@@ -261,7 +261,7 @@ class td_block {
 
 
 		            $buffy .= '<div class="td-load-more-wrap td-load-more-infinite-wrap" id="infinite-lm-' . $this->block_uid . '">';
-                $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
+                    $buffy .= '<a href="#" class="td_ajax_load_more" id="next-page-' . $this->block_uid . '" data-td_block_id="' . $this->block_uid . '">' . __td('Load more', TD_THEME_NAME);
 		            $buffy .= '<i class="td-icon-font td-icon-menu-down"></i>';
 		            $buffy .= '</a>';
 		            $buffy .= '</div>';
@@ -358,7 +358,7 @@ class td_block {
 
 
         // ajax subcategories preloader
-        // @todo preloading all content should happen regardless of the setting
+        // @todo preloading "all" filter content should happen regardless of the setting
         if (
             !empty($this->td_block_template_data['td_pull_down_items'])
             and !empty($this->atts['td_ajax_preloading'])
