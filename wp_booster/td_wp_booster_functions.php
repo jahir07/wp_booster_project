@@ -199,6 +199,7 @@ function load_front_js() {
         $td_deploy_mode = 'demo';
     }
 
+
     switch ($td_deploy_mode) {
         default: //deploy
             wp_enqueue_script('td-site', td_global::$get_template_directory_uri . '/js/tagdiv_theme.js', array('jquery'), TD_THEME_VERSION, true);

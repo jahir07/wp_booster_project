@@ -1,22 +1,41 @@
 <?php
 class td_widget_builder {
 
-    var $WP_Widget_this;
-    var $map_array;
 
-    var $map_param_default_array;
+	/**
+	* @var WP_Widget
+	 */
+    var $WP_Widget_this;
+
+
+    var $map_array;
+	var $map_param_default_array;
 
 
     function __construct(&$WP_Widget_object_ref) {
         $this->WP_Widget_this = $WP_Widget_object_ref;
-
     }
 
     //builds the array - from that arrays the widget's options panel is built
     function td_map ($map_array) {
         $this->map_array = $map_array;
         $widget_ops = array('classname' => 'td_pb_widget', 'description' => '[tagDiv] ' . $map_array['name']);
-        $this->WP_Widget_this->WP_Widget($map_array['base'] . '_widget', '[tagDiv] ' . $map_array['name'], $widget_ops);
+
+        /**
+        * overwrite the widget settings, we emulate the WordPress settings. Before 4.3 we called the old php4 constructor again :(
+		* @see \WP_Widget::__construct
+		*/
+        $id_base = $map_array['base'] . '_widget';
+        $name = '[tagDiv] ' . $map_array['name'];
+        $widget_options = $widget_ops;
+        $control_options = array();
+
+        $this->WP_Widget_this->id_base = strtolower($id_base);
+        $this->WP_Widget_this->name = $name;
+        $this->WP_Widget_this->option_name = 'widget_' . $this->WP_Widget_this->id_base;
+        $this->WP_Widget_this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->WP_Widget_this->option_name) );
+        $this->WP_Widget_this->control_options = wp_parse_args( $control_options, array('id_base' => $this->WP_Widget_this->id_base) );
+
         $this->map_param_default_array = $this->build_param_default_values();
     }
 
@@ -29,7 +48,6 @@ class td_widget_builder {
         return $buffy_array;
     }
     */
-
     function build_param_default_values() {
         $buffy_array = array();
         if (!empty($this->map_array['params'])) {
