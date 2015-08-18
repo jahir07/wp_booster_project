@@ -52,7 +52,7 @@ class td_widget_builder {
         $buffy_array = array();
         if (!empty($this->map_array['params'])) {
             foreach ($this->map_array['params'] as $param) {
-                if ($param['type'] == 'dropdown'){
+                if ($param['type'] == 'dropdown') {
                     $buffy_array[$param['param_name']] = '';
                 } else {
                     $buffy_array[$param['param_name']] = $param['value'];

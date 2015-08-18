@@ -656,7 +656,7 @@ class td_page_generator {
 
                 $ajax_pagination_infinite_stop = 0;
                 if ($pagination_style == 'infinite_load_more') {
-                    $ajax_pagination_infinite_stop = 2;
+                    $ajax_pagination_infinite_stop = 3;
                 }
                 ?>
                 <script>

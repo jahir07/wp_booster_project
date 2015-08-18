@@ -12,18 +12,10 @@
 /**
  *   tdAjaxLoop.init() is called from: @see includes/wp_booster/td_page_generator::render_infinite_pagination
  */
-
-
 var tdAjaxLoop = {};
-
-
-
 
 (function () {
     'use strict';
-
-
-
 
     tdAjaxLoop = {
         loopState: {
@@ -57,6 +49,7 @@ var tdAjaxLoop = {};
                 tdInfiniteLoaderItem.isVisibleCallback = function () {      // the is_visible callback is called when we have to pull new content up because the element is visible
 
                     if (
+                        0 !== tdAjaxLoop.loopState.ajax_pagination_infinite_stop &&
                         tdAjaxLoop.loopState.currentPage >= tdAjaxLoop.loopState.ajax_pagination_infinite_stop &&
                         tdAjaxLoop.loopState.currentPage + 1 < tdAjaxLoop.loopState.max_num_pages  // do we have a next page?
                     ) {
@@ -86,44 +79,39 @@ var tdAjaxLoop = {};
 
         infiniteNextPage: function (isLoadMoreButton) {
 
-            // check here to avoid making an unnecessary ajax request when using infinite loading without button
-            if ( tdAjaxLoop.loopState.currentPage >= tdAjaxLoop.loopState.max_num_pages ) {
-                console.log('END' + tdAjaxLoop.loopState.currentPage + ' max: ' + tdAjaxLoop.loopState.max_num_pages);
-                return;
-            }
 
             // prepare the request object
             tdAjaxLoop.loopState.currentPage++ ;
             tdAjaxLoop.loopState.server_reply_html_data = '';
+
+            // check here to avoid making an unnecessary ajax request when using infinite loading without button
+            if ( tdAjaxLoop.loopState.currentPage >= tdAjaxLoop.loopState.max_num_pages ) {
+                //console.log('END' + tdAjaxLoop.loopState.currentPage + ' max: ' + tdAjaxLoop.loopState.max_num_pages);
+                return;
+            }
 
             var requestData = {
                 action: 'td_ajax_loop',
                 loopState: tdAjaxLoop.loopState
             };
 
-            console.log(tdAjaxLoop.loopState);
-
+            //console.log('request:');
+            //console.log(tdAjaxLoop.loopState);
             jQuery.ajax({
                 type: 'POST',
                 url: td_ajax_url,
                 cache:true,
                 data: requestData,
                 success: function(data, textStatus, XMLHttpRequest) {
-                    tdAjaxLoop._processAjaxRequest(data);
-                 },
+                    tdAjaxLoop._processAjaxRequest(data, isLoadMoreButton);
+                },
                 error: function(MLHttpRequest, textStatus, errorThrown) {
                     //console.log(errorThrown);
                 }
             });
-
-
         },
 
-
-
-
-
-        _processAjaxRequest: function (data) {
+        _processAjaxRequest: function (data, isLoadMoreButton) {
 
             /**
              * @var {tdAjaxLoop.loopState}
@@ -132,16 +120,21 @@ var tdAjaxLoop = {};
 
             jQuery('.td-ajax-loop-infinite').before(dataObj.server_reply_html_data);
 
+            //console.log('reply:');
+            //console.log(dataObj);
 
-            console.log(dataObj);
-
-            if (dataObj)
-            //jQuery('.td-load-more-infinite-wrap').show();
+            if ( parseInt( dataObj.currentPage )  + 1 >= parseInt(dataObj.max_num_pages) ) {
+                jQuery('.td-load-more-infinite-wrap').hide();
+            }
 
             setTimeout( function () {
                 td_animation_stack.check_for_new_items('.td-main-content' + ' .td-animation-stack', td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
                 //td_smart_sidebar.compute();
             }, 200);
+
+            if ( true === isLoadMoreButton ) {
+                return;
+            }
 
             setTimeout( function() {
                 //refresh waypoints for infinit scroll tdInfiniteLoader
@@ -162,16 +155,7 @@ var tdAjaxLoop = {};
                 tdInfiniteLoader.computeTopDistances();
             }, 1500);
 
-
-
-            //console.log('ajax_reply');
-            //console.log(dataObj);
         }
     };
-
-
-
-
-
 
 })();

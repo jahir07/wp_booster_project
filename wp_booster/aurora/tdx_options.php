@@ -86,6 +86,9 @@ class tdx_options {
      * saves the cache to the database
      */
     static function flush_options() {
+        if (empty(self::$options_cache)) {
+            return;
+        }
         foreach (self::$options_cache as $datasource => $option_cache) {
             update_option($datasource, $option_cache);
         }
