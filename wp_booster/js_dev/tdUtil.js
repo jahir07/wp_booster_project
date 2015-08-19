@@ -4,7 +4,7 @@
  */
 /* global jQuery:false */
 /* global tdDetect:false */
-/* global tdIsScrollingAnimation:false */
+/* global td`ScrollingAnimation:false */
 /* jshint -W020 */
 
 var tdUtil = {};
@@ -54,6 +54,14 @@ var tdUtil = {};
         },
 
 
+        /**
+         * is a given variable undefined? - this is the underscore method of checking this
+         * @param obj
+         * @returns {boolean}
+         */
+        isUndefined : function ( obj ) {
+            return obj === void 0;
+        },
 
 
 

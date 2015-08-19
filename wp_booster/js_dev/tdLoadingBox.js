@@ -1,5 +1,5 @@
 /* global jQuery:false */
-
+/* global tdUtil:false */
 
 var tdLoadingBox = {};
 
@@ -9,6 +9,8 @@ var tdLoadingBox = {};
     tdLoadingBox = {
 
         //arrayColors: ['#ffffff', '#fafafa', '#ececec', '#dddddd', '#bfbfbf', '#9a9a9a', '#7e7e7e', '#636363'],//whiter -> darker
+
+        speed: 40,
 
         arrayColorsTemp: [
             'rgba(99, 99, 99, 0)',
@@ -33,8 +35,14 @@ var tdLoadingBox = {};
 
 
         //init loading box
-        init : function init (color) {
+        init : function init (color, speed) {
 
+            // set up the speed
+            if (false === tdUtil.isUndefined(speed)) {
+                tdLoadingBox.speed = speed;
+            }
+
+            //console.log('test');
             var tdColorRegExp = /^#[a-zA-Z0-9]{3,6}$/;
             if(color && tdColorRegExp.test(color)) {
 
@@ -103,7 +111,7 @@ var tdLoadingBox = {};
             if(tdLoadingBox.statusAnimation === 'display') {
 
 
-                setTimeout(tdLoadingBox.render, 40);
+                setTimeout(tdLoadingBox.render, tdLoadingBox.speed);
             } else {
                 tdLoadingBox.animationDisplay('');
             }

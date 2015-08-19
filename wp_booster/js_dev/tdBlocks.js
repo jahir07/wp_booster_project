@@ -86,6 +86,8 @@ var tdBlocks = {};
                 return;
             }
 
+            jQuery(this).css('visibility', 'hidden');
+
             var currentBlockObj = tdBlocks.tdGetBlockObjById(jQuery(this).data('td_block_id'));
 
             currentBlockObj.td_current_page++;
@@ -388,7 +390,7 @@ var tdBlocks = {};
 
             //cache miss - we make a full request! - cache hit - false
             tdBlocks.tdBlockAjaxLoadingStart(current_block_obj, false, td_user_action);
-
+//return;
             var requestData = {
                 action: 'td_ajax_block',
                 td_atts: current_block_obj.atts,
@@ -516,17 +518,28 @@ var tdBlocks = {};
 
             //show the loader only if we have a cache MISS
             if ( false === cache_hit ) {
-                if ( 'load_more' === td_user_action ) {
+                if ( 'load_more' === td_user_action) {
                     // on load more
-                    elCurTdBlockInner.parent().append('<div class="td-loader-gif td-loader-gif-bottom td-loader-animation-start"></div>');
+                    elCurTdBlockInner.parent().append('<div class="td-loader-gif td-loader-infinite td-loader-blocks-load-more  td-loader-animation-start"></div>');
                     tdLoadingBox.init(current_block_obj.header_color ? current_block_obj.header_color : tds_theme_color_site_wide);  //init the loading box
-                    setTimeout( function(){
+                    setTimeout(function () {
                         jQuery('.td-loader-gif')
                             .removeClass('td-loader-animation-start')
                             .addClass('td-loader-animation-mid');
-                    },50);
+                    }, 50);
 
-                } else if ( 'infinite_load' !== td_user_action ) {
+                }
+                else if ('infinite_load' === td_user_action) {
+                    // on infinite load
+                    elCurTdBlockInner.parent().append('<div class="td-loader-gif td-loader-infinite td-loader-animation-start"></div>');
+                    tdLoadingBox.init(current_block_obj.header_color ? current_block_obj.header_color : tds_theme_color_site_wide);  //init the loading box
+                    setTimeout(function () {
+                        jQuery('.td-loader-gif')
+                            .removeClass('td-loader-animation-start')
+                            .addClass('td-loader-animation-mid');
+                    }, 50);
+
+                } else {
                     /**
                      * the default animation if the user action is NOT load_more or infinite_load
                      * infinite load has NO animation !
@@ -602,6 +615,14 @@ var tdBlocks = {};
                     elCurTdBlockInner.addClass('animated_xlong fadeInDown');
                     break;
 
+
+                case 'load_more':
+                    //console.log('.' + current_block_obj.id + '_rand .td_ajax_load_more_js');
+                    setTimeout ( function() {
+                        jQuery('.' + current_block_obj.id + '_rand .td_ajax_load_more_js').css('visibility', 'visible');
+                    }, 500);
+
+                    break;
                 case 'infinite_load':
                     setTimeout( function() {
                         //refresh waypoints for infinit scroll tdInfiniteLoader

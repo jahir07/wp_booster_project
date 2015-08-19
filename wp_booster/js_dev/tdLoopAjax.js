@@ -68,9 +68,8 @@ var tdAjaxLoop = {};
             jQuery('.td-load-more-infinite-wrap').click(function(event) {
                 event.preventDefault();
 
-                if (tdAjaxLoop.loopState.currentPage >= tdAjaxLoop.loopState.max_num_pages) {
-                    jQuery(this).hide();
-                }
+
+                jQuery('.td-load-more-infinite-wrap').css('visibility', 'hidden');
 
                 tdAjaxLoop.infiniteNextPage(true);
             });
@@ -78,6 +77,16 @@ var tdAjaxLoop = {};
 
 
         infiniteNextPage: function (isLoadMoreButton) {
+
+
+            jQuery('.td-ss-main-content').append('<div class="td-loader-gif td-loader-infinite td-loader-animation-start"></div>');
+            tdLoadingBox.init(tds_theme_color_site_wide, 45);  //init the loading box
+            setTimeout(function () {
+                jQuery('.td-loader-gif')
+                    .removeClass('td-loader-animation-start')
+                    .addClass('td-loader-animation-mid');
+            }, 50);
+
 
 
             // prepare the request object
@@ -112,11 +121,24 @@ var tdAjaxLoop = {};
         },
 
         _processAjaxRequest: function (data, isLoadMoreButton) {
+            // stop the loader
+            jQuery('.td-loader-gif').remove();
+            tdLoadingBox.stop();
+
+            var dataObj = jQuery.parseJSON(data);
+
+
+
+            // empty reply - stop everything
+            if ( '' === dataObj.server_reply_html_data  ) {
+                jQuery('.td-load-more-infinite-wrap').css('visibility', 'hidden');
+                return;
+            }
+
 
             /**
              * @var {tdAjaxLoop.loopState}
              */
-            var dataObj = jQuery.parseJSON(data);
 
             jQuery('.td-ajax-loop-infinite').before(dataObj.server_reply_html_data);
 
@@ -124,7 +146,11 @@ var tdAjaxLoop = {};
             //console.log(dataObj);
 
             if ( parseInt( dataObj.currentPage )  + 1 >= parseInt(dataObj.max_num_pages) ) {
-                jQuery('.td-load-more-infinite-wrap').hide();
+                jQuery('.td-load-more-infinite-wrap').css('visibility', 'hidden');
+            } else {
+                if ( true === isLoadMoreButton ) {
+                    jQuery('.td-load-more-infinite-wrap').css('visibility', 'visible');
+                }
             }
 
             setTimeout( function () {
@@ -132,6 +158,8 @@ var tdAjaxLoop = {};
                 //td_smart_sidebar.compute();
             }, 200);
 
+
+            // on load more button, we don't have to compute the infinite loader event
             if ( true === isLoadMoreButton ) {
                 return;
             }
@@ -139,10 +167,7 @@ var tdAjaxLoop = {};
             setTimeout( function() {
                 //refresh waypoints for infinit scroll tdInfiniteLoader
                 tdInfiniteLoader.computeTopDistances();
-                if ( '' !== dataObj.server_reply_html_data  ) {
-                    tdInfiniteLoader.enable_is_visible_callback('tdAjaxLoop');
-                }
-
+                tdInfiniteLoader.enable_is_visible_callback('tdAjaxLoop');
                 //td_smart_sidebar.compute();
             }, 500);
 
