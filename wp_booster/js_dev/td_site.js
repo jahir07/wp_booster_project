@@ -402,9 +402,12 @@ var td_mouse_wheel_or_touch_moved = false; //we want to know if the user stopped
 
 //stop the animation on mouse wheel
 jQuery(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e){
+
+
     if (tdIsScrollingAnimation === false) {
         return;
     } else {
+
         tdIsScrollingAnimation = false;
         td_mouse_wheel_or_touch_moved = true;
 

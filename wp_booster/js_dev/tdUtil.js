@@ -4,7 +4,8 @@
  */
 /* global jQuery:false */
 /* global tdDetect:false */
-
+/* global tdIsScrollingAnimation:false */
+/* jshint -W020 */
 
 var tdUtil = {};
 
@@ -62,7 +63,7 @@ var tdUtil = {};
          * @param domElement
          */
         scrollToElement: function( domElement, duration ) {
-            var tdIsScrollingAnimation = true;
+            tdIsScrollingAnimation = true;
             jQuery("html, body").stop();
 
 
@@ -93,7 +94,7 @@ var tdUtil = {};
          * !!! compensates for long distances !!!
          */
         scrollIntoView: function ( domElement ) {
-            var tdIsScrollingAnimation = true;
+            tdIsScrollingAnimation = true;
 
             if ( tdDetect.isMobileDevice === true ) {
                 return; //do not run on any mobile device
@@ -127,7 +128,8 @@ var tdUtil = {};
          * @param pxFromTop - pixels from top
          */
         scrollToPosition: function( pxFromTop, duration ) {
-            var tdIsScrollingAnimation = true;
+
+            tdIsScrollingAnimation = true;
             jQuery("html, body").stop();
 
             //go to destination
