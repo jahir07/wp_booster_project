@@ -54,7 +54,11 @@ var tdAjaxLoop = {};
                         tdAjaxLoop.loopState.currentPage + 1 < tdAjaxLoop.loopState.max_num_pages  // do we have a next page?
                     ) {
                         // stop the callback and show the load more button
-                        jQuery('.td-load-more-infinite-wrap').show();
+                        jQuery('.td-load-more-infinite-wrap')
+                            .css('display', 'block')
+                            .css('visibility', 'visible')
+                        ;
+
                     } else {
                         // load up the next page
                         tdAjaxLoop.infiniteNextPage(false);
@@ -78,17 +82,6 @@ var tdAjaxLoop = {};
 
         infiniteNextPage: function (isLoadMoreButton) {
 
-
-            jQuery('.td-ss-main-content').append('<div class="td-loader-gif td-loader-infinite td-loader-animation-start"></div>');
-            tdLoadingBox.init(tds_theme_color_site_wide, 45);  //init the loading box
-            setTimeout(function () {
-                jQuery('.td-loader-gif')
-                    .removeClass('td-loader-animation-start')
-                    .addClass('td-loader-animation-mid');
-            }, 50);
-
-
-
             // prepare the request object
             tdAjaxLoop.loopState.currentPage++ ;
             tdAjaxLoop.loopState.server_reply_html_data = '';
@@ -98,6 +91,17 @@ var tdAjaxLoop = {};
                 //console.log('END' + tdAjaxLoop.loopState.currentPage + ' max: ' + tdAjaxLoop.loopState.max_num_pages);
                 return;
             }
+
+
+
+            jQuery('.td-ss-main-content').append('<div class="td-loader-gif td-loader-infinite td-loader-animation-start"></div>');
+            tdLoadingBox.init(tds_theme_color_site_wide, 45);  //init the loading box
+            setTimeout(function () {
+                jQuery('.td-loader-gif')
+                    .removeClass('td-loader-animation-start')
+                    .addClass('td-loader-animation-mid');
+            }, 50);
+
 
             var requestData = {
                 action: 'td_ajax_loop',

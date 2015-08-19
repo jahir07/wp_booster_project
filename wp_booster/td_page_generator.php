@@ -606,23 +606,27 @@ class td_page_generator {
     }
 
 
-
+    /**
+     * renders the infinite pagination and also the load more. It returns true if it changes the pagination so that the
+     * calling function knows to not render the 'normal' pagination
+     * @return bool - override the pagination or not
+     */
     static private function render_infinite_pagination() {
         global
             $wp_query,
             $loop_module_id,            // it's set by the template (category.php)
             $loop_sidebar_position;     // it's set by the template  -- || --
 
-
-
-        //print_r($wp_query);
-
         /**
-         * infinite loading pagination ONLY FOR CATEGORIES FOR NOW
+         * infinite loading pagination ONLY FOR CATEGORIES FOR NOW (19 aug 2015)
          */
         if(!is_admin() and td_global::$current_template != 'page-homepage-loop' and is_category() and !empty($wp_query)) {
 
-
+            // the filter_by parameter is used on categories to filter them. The theme uses normal pagination when the filter is used for now.
+            // if we want to use the filter + loop ajax, we have to send the atts for each filter. It can be done, but not now (19 aug 2015)
+            if (isset($_GET['filter_by'])) {
+                return false;
+            }
 
             $pagination_style = '';
 
@@ -643,12 +647,8 @@ class td_page_generator {
                 }
             }
 
-
-
             // check to see if we need infinite loading pagination
             if ($pagination_style != '') {
-
-
 
                 if ($wp_query->query_vars['paged'] >= $wp_query->max_num_pages) {
                     return true; // do not show any pagination because we do not have more pages
@@ -656,7 +656,7 @@ class td_page_generator {
 
                 $ajax_pagination_infinite_stop = 0;
                 if ($pagination_style == 'infinite_load_more') {
-                    $ajax_pagination_infinite_stop = 3;
+                    $ajax_pagination_infinite_stop = 3; // after how many pages do we show a load more button. set to 0 to use only load more
                 }
                 ?>
                 <script>
@@ -673,25 +673,18 @@ class td_page_generator {
                         tdAjaxLoop.init();
                     });
                 </script>
-
-
                 <div class="td-ajax-loop-infinite"></div>
-
                 <div class="td-load-more-wrap td-load-more-infinite-wrap">
                     <a href="#" class="td_ajax_load_more" data-td_block_id=""> <?php echo __td('Load more', TD_THEME_NAME) ?>
                         <i class="td-icon-font td-icon-menu-down"></i>
                     </a>
                 </div>
-
                 <?php
-                return true;
+                return true; // notice the calling function that we modified the pagination
             }
-
         }
 
-
-        return false;
-
+        return false; // by default return false if we don't want to change the pagination
     }
 
     static function td_round_number($num, $tonearest) {

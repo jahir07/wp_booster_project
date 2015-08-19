@@ -160,7 +160,10 @@ var tdInfiniteLoader = {};
                  */
                 if ( currentBlockObj.td_current_page < currentBlockObj.max_num_pages ) {
                     setTimeout( function(){
-                        jQuery('#infinite-lm-' + currentBlockObj.id).show();
+                        jQuery('#infinite-lm-' + currentBlockObj.id)
+                            .css('display', 'block')
+                            .css('visibility', 'visible')
+                        ;
                     }, 400);
                 }
             }
