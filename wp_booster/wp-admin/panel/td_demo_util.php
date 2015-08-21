@@ -360,10 +360,22 @@ class td_demo_content {
         }
 
         set_post_thumbnail($post_id, td_demo_media::get_by_td_id($params['featured_image_td_id']));
+
+        // set the post template
         if (!empty($params['template'])) {
             $td_post_theme_settings['td_post_template'] = $params['template'];
+        }
+
+        // set the smart list  ex: td_smart_list_3    td_smart_list_1    etc
+        if (!empty($params['smart_list'])) {
+            $td_post_theme_settings['smart_list_template'] = $params['smart_list'];
+        }
+
+        // update the post metadata only if we have something new
+        if (!empty($td_post_theme_settings)) {
             update_post_meta($post_id, 'td_post_theme_settings', $td_post_theme_settings, true);
         }
+
 
         if (!empty($params['featured_video_url'])) {
             $tmp_meta['td_video'] = $params['featured_video_url'];
