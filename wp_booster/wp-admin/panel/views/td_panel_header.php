@@ -237,7 +237,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">Mega menu preloader</span>
-            <p>Preload content for all mega menus. This provides a better user experience and when whole page caching is used it may increase performance on cache hit.</p>
+            <p>Preload content for all mega menus. This provides a better user experience but with a performance hit - <a href="http://forum.tagdiv.com/what-is-ajax-preloading/" target="_blank">read more</a></p>
         </div>
         <div class="td-box-control-full">
             <?php
