@@ -292,7 +292,7 @@ var td_affix = {
         td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top + jQuery(td_affix.menu_wrap_selector).height();
 
         //check to see if the menu is at the top of the screen
-        if (td_affix.top_offset == (jQuery(td_affix.menu_wrap_selector).height())) {
+        if (td_affix.top_offset == jQuery(td_affix.menu_wrap_selector).height()) {
             //switch to affix - because the menu is at the top of the page
             //td_affix._affix_on(jQuery(td_affix.menu_selector));
             td_affix.is_top_menu = true;
