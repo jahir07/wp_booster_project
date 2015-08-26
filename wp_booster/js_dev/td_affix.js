@@ -163,7 +163,7 @@ var td_affix = {
             // - this condition makes the transition from the small affix menu to the larger menu of the page
             || ((td_affix.is_menu_affix === true) && scrollTop > (td_affix.top_offset - td_affix._get_menu_affix_height()))
 
-            || td_affix.is_top_menu === true) {
+            ) {//|| td_affix.is_top_menu === true) {
 
             //get the menu element
             var td_affix_menu_element = jQuery(td_affix.menu_selector);
@@ -292,7 +292,7 @@ var td_affix = {
         td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top + jQuery(td_affix.menu_wrap_selector).height();
 
         //check to see if the menu is at the top of the screen
-        if (td_affix.top_offset == (jQuery(td_affix.menu_wrap_selector).height()) + 1) {
+        if (td_affix.top_offset == (jQuery(td_affix.menu_wrap_selector).height())) {
             //switch to affix - because the menu is at the top of the page
             //td_affix._affix_on(jQuery(td_affix.menu_selector));
             td_affix.is_top_menu = true;
