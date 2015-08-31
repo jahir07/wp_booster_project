@@ -135,8 +135,13 @@ var td_smart_sidebar = {
              */
             var td_affix_menu_computed_height = 0;
             if (td_smart_sidebar.tds_snap_menu != '') { // if the menu is not snapping in any way - do not calculate this
-                // we cannot get the live offset because it's running in a requestAnimationFrame ~ probably async
-                td_affix_menu_computed_height = td_affix.main_menu_height;// + td_affix.menu_offset;
+                td_affix_menu_computed_height = td_affix.main_menu_height + td_affix.menu_offset;
+
+                // The following height is added just for Newspaper theme.
+                // In the Newsmag theme, the sidebar elements have already a 'padding-top' of 20px
+                if (('undefined' !== typeof window.tdThemeName) && ('Newspaper' === window.tdThemeName)) {
+                    td_affix_menu_computed_height += 20;
+                }
             }
 
 
@@ -204,7 +209,7 @@ var td_smart_sidebar = {
                         cur_item_ref.sidebar_state = 'case_2_top_of_content';
                     }
 
-                    // [1] if the sidebar is visible and we have enought space in the sidebar, place it at the top affix top
+                    // [1] if the sidebar is visible and we have enough space in the sidebar, place it at the top affix top
                     // [2] if the sidebar is above the view port and nothing is visible, place the sidebar at the bottom of the column
 
                     else if (td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, scrollTop) === true) {
@@ -559,111 +564,6 @@ var td_smart_sidebar = {
 
     td_events_resize: function td_events_resize() {
         // enable and disable the smart sidebar
-
-
-        //var real_view_port_width = 0;
-        //
-        //if (tdDetect.isSafari === true) {
-        //    real_view_port_width = td_safari_view_port_width.get_real_width();
-        //} else {
-        //    // not safari
-        //    real_view_port_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        //}
-
-
-
-
-        /*
-        jQuery('<div>')
-            .css('position', "absolute")
-            .appendTo('body');
-
-
-        console.log(window.clientWidth);
-
-        console.log(real_view_port_width);
-        */
-
-        //if (real_view_port_width > 767 && real_view_port_width <= 1023) {
-        //    // we are on tablet
-        //    if (td_smart_sidebar.is_tablet_grid === false) { // we switched
-        //        td_smart_sidebar.reset_run_once_flags();
-        //
-        //        td_smart_sidebar.is_tablet_grid = true;
-        //        td_smart_sidebar.log('view port tablet');
-        //    }
-        //
-        //
-        //} else if (real_view_port_width > 1023) {
-        //    // we are on desktop
-        //    if (td_smart_sidebar.is_tablet_grid === true) {
-        //        td_smart_sidebar.reset_run_once_flags();
-        //
-        //        td_smart_sidebar.is_tablet_grid = false;
-        //
-        //        td_smart_sidebar.log('view port desktop');
-        //    }
-        //
-        //}
-        //
-        //
-        //// check to see if we are mobile grid / AKA disable the sidebar
-        //if (real_view_port_width <= 767) {
-        //    // disable the sidebar
-        //    td_smart_sidebar.is_enabled_state_run_once = false;
-        //    td_smart_sidebar.is_enabled = false;
-        //
-        //} else {
-        //    // enable the sidebar
-        //    td_smart_sidebar.is_disabled_state_run_once = false;
-        //    if (td_smart_sidebar.is_enabled_state_run_once === false) {
-        //        td_smart_sidebar.is_enabled_state_run_once = true;
-        //        td_smart_sidebar.log('smart_sidebar_enabled');
-        //        td_smart_sidebar.is_enabled = true;
-        //    }
-        //
-        //}
-
-
-
-
-        //if (real_view_port_width > 1023) {
-        //
-        //    // we are on desktop
-        //    if (td_smart_sidebar.is_tablet_grid === true) { // we switched
-        //
-        //        td_smart_sidebar.reset_run_once_flags();
-        //        td_smart_sidebar.is_tablet_grid = false;
-        //
-        //        td_smart_sidebar.log('view port desktop');
-        //    }
-        //
-        //    td_smart_sidebar.is_enabled = true;
-        //
-        //    td_smart_sidebar.is_disabled_state_run_once = false;
-        //
-        //}
-        //else if (real_view_port_width > 767 && real_view_port_width <= 1023) {
-        //
-        //    // we are on tablet
-        //    if (td_smart_sidebar.is_tablet_grid === false) { // we switched
-        //
-        //        td_smart_sidebar.reset_run_once_flags();
-        //        td_smart_sidebar.is_tablet_grid = true;
-        //
-        //        td_smart_sidebar.log('view port tablet');
-        //    }
-        //
-        //    td_smart_sidebar.is_enabled = true;
-        //    td_smart_sidebar.is_disabled_state_run_once = false;
-        //
-        //} else { // check to see if we are mobile grid / AKA disable the sidebar
-        //
-        //    // disable the sidebar
-        //    td_smart_sidebar.is_enabled = false;
-        //
-        //}
-
 
         td_smart_sidebar._view_port_current_interval_index = td_viewport.get_current_interval_index();
 
