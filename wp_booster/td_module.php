@@ -204,7 +204,8 @@ abstract class td_module {
 
             if (!is_null($this->post_thumb_id)) {
                 //if we have a thumb
-                // check to see if the thumb size is enabled in the panel, we don't have to check for the default wordpress thumbs (the default ones are already cut and we don't have  a panel setting for them)
+                // check to see if the thumb size is enabled in the panel, we don't have to check for the default wordpress
+                // thumbs (the default ones are already cut and we don't have  a panel setting for them)
                 if (td_util::get_option('tds_thumb_' . $thumbType) != 'yes' and $thumbType != 'thumbnail') {
                     //the thumb is disabled, show a placeholder thumb from the theme with the "thumb disabled" message
                     global $_wp_additional_image_sizes;
@@ -223,7 +224,7 @@ abstract class td_module {
 
 
                     $td_temp_image_url[0] = get_template_directory_uri() . '/images/thumb-disabled/' . $thumbType . '.png';
-                    $attachment_alt = '';
+                    $attachment_alt = 'alt=""';
                     $attachment_title = '';
 
                 } else {
@@ -265,7 +266,7 @@ abstract class td_module {
                 }
 
                 $td_temp_image_url[0] = get_template_directory_uri() . '/images/no-thumb/' . $thumbType . '.png';
-                $attachment_alt = '';
+                $attachment_alt = 'alt=""';
                 $attachment_title = '';
             } //end    if ($this->post_has_thumb) {
 

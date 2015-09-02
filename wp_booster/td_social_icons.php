@@ -39,7 +39,7 @@ class td_social_icons {
         'vimeo' => 'Vimeo',
         'vk' => 'VKontakte',
         'windows' => 'Windows',
-        'wordpress' => 'Woordpress',
+        'wordpress' => 'WordPress',
         'yahoo' => 'Yahoo',
         'youtube' => 'Youtube'
     );

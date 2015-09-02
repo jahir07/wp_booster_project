@@ -1244,17 +1244,15 @@ function td_change_backbone_js_hook() {
 /* ----------------------------------------------------------------------------
  * TagDiv gallery - front end hooks
  */
-add_filter('post_gallery', 'my_gallery_shortcode', 10, 4);
+add_filter('post_gallery', 'td_gallery_shortcode', 10, 4);
 /**
  * @param string $output - is empty !!!
  * @param $atts
  * @param bool $content
- * @param bool $tag
  * @return mixed
  */
-function my_gallery_shortcode($output = '', $atts, $content = false, $tag = false) {
+function td_gallery_shortcode($output = '', $atts, $content = false) {
 
-    //print_r($atts);
     $buffy = '';
 
     //check for gallery  = slide
