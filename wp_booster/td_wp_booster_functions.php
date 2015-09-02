@@ -132,7 +132,14 @@ function load_front_css() {
  */
 function td_include_user_compiled_css() {
     if (!is_admin()) {
-        td_css_buffer::add_to_header(td_util::get_option('tds_user_compile_css'));
+	    if (TD_DEPLOY_MODE == 'dev') {
+		    // get it live
+		    td_css_buffer::add_to_header(td_css_generator());
+	    } else {
+		    // get it from the cache - do not compile at runtime
+		    td_css_buffer::add_to_header(td_util::get_option('tds_user_compile_css'));
+	    }
+
     }
 }
 add_action('wp_head', 'td_include_user_compiled_css', 10);
@@ -556,7 +563,12 @@ function new_excerpt_more($text){
  */
 add_action( 'after_setup_theme', 'my_theme_add_editor_styles' );
 function my_theme_add_editor_styles() {
-    add_editor_style('td_less_editor-style.php');
+	if (TD_DEPLOY_MODE == 'dev') {
+		// we need the full url here due to a WP strange s*it with ?queries
+		add_editor_style(get_stylesheet_directory_uri() . '/td_less_style.css.php?part=editor-style');
+	} else {
+		add_editor_style(); // add the default style
+	}
 }
 
 
@@ -656,7 +668,7 @@ function td_bottom_code() {
 
 
 	if (TD_DEBUG_USE_LESS) {
-		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php';
+		$style_sheet_path = td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2';
 	} else {
 		$style_sheet_path = get_stylesheet_uri();
 	}
@@ -1541,11 +1553,11 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 /* ----------------------------------------------------------------------------
  * filter the gallery shortcode
  */
-add_filter('shortcode_atts_gallery', 'my_gallery_atts_modifier', 1); //run with 1 priority, allow anyone to overwrite our hook.
+add_filter('shortcode_atts_gallery', 'td_gallery_atts_modifier', 1); //run with 1 priority, allow anyone to overwrite our hook.
 /**
  * @todo trebuie fixuite toate tipurile de imagini din gallerie in functie de setarile template-ului
  */
-function my_gallery_atts_modifier($out) {
+function td_gallery_atts_modifier($out) {
 
     // td_global::$cur_single_template_sidebar_pos; //is set in single.php @todo set it also on the page template
     // link to files instead of no link or attachement. The file is used by magnific pupup
