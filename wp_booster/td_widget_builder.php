@@ -22,7 +22,7 @@ class td_widget_builder {
         $widget_ops = array('classname' => 'td_pb_widget', 'description' => '[tagDiv] ' . $map_array['name']);
 
         /**
-        * overwrite the widget settings, we emulate the WordPress settings. Before 4.3 we called the old php4 constructor again :(
+        * overwrite the widget settings, we emulate the WordPress settings. Before WP 4.3 we called the old php4 constructor again :(
 		* @see \WP_Widget::__construct
 		*/
         $id_base = $map_array['base'] . '_widget';
@@ -40,14 +40,7 @@ class td_widget_builder {
     }
 
 
-    /*
-    function build_param_name_value() {
-        foreach ($this->map_array['params'] as $param) {
-            $buffy_array[$param['param_name']] = $param['value'];
-        }
-        return $buffy_array;
-    }
-    */
+
     function build_param_default_values() {
         $buffy_array = array();
         if (!empty($this->map_array['params'])) {
@@ -94,11 +87,19 @@ class td_widget_builder {
                         break;
 
                     case 'textfield':
-                        //print_r($param);
+                        // we have to change custom_title to custom-title to have "-title" at the end. That's what
+                        // WordPress uses to put the title of the widget on post @see widgets.js
+                        // suggested at: http://forum.tagdiv.com/topic/please-add-block-title-to-backend-widget-title/#post-58087
+                        if ($param['param_name'] == 'custom_title') {
+                            $field_id = $this->WP_Widget_this->get_field_id('custom-title');
+                        } else {
+                            $field_id = $this->WP_Widget_this->get_field_id($param['param_name']);
+                        }
+
                         ?>
                         <p>
                             <label for="<?php echo $this->WP_Widget_this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
-                            <input class="widefat" id="<?php echo $this->WP_Widget_this->get_field_id($param['param_name']); ?>"
+                            <input class="widefat" id="<?php echo $field_id; ?>"
                                    name="<?php echo $this->WP_Widget_this->get_field_name($param['param_name']); ?>" type="text"
                                    value="<?php echo $instance[$param['param_name']]; ?>" />
 

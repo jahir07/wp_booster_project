@@ -34,8 +34,36 @@ class td_data_source {
 
         //init the array
         $wp_query_args = array(
-            'ignore_sticky_posts' => 1
+            'ignore_sticky_posts' => 1,
+            'post_status' => 'publish'
         );
+
+
+
+	    /*  ----------------------------------------------------------------------
+	        jetpack sorting - this will return here if that's the case because it dosn't work with other filters (it's site wide, no category + this or other combinations)
+	    */
+	    if ($sort == 'jetpack_popular_2') {
+		    if (function_exists('stats_get_csv')) {
+			    // the damn jetpack api cannot return only posts so it may return pages. That's why we query with a bigger + 5 limit
+			    // so that if the api returns also 5 pages mixed with the post we will still have the desired number of posts
+			    $jetpack_api_posts = stats_get_csv('postviews', array(
+				    'days' => 2,
+				    'limit' => $limit + 5
+			    ));
+			    if (!empty($jetpack_api_posts) and is_array($jetpack_api_posts)) {
+				    $wp_query_args['post__in'] = wp_list_pluck($jetpack_api_posts, 'post_id');
+				    $wp_query_args['posts_per_page'] = $limit;
+
+				    return $wp_query_args;
+			    }
+		    }
+		    return array(); // empty array makes WP_Query not run
+	    }
+
+
+
+
 
         //the query goes only via $category_ids - for both options ($category_ids and $category_id) also $category_ids overwrites $category_id
         if (!empty($category_id) and empty($category_ids)) {
@@ -176,8 +204,7 @@ class td_data_source {
             }
         }
 
-        //only show published posts
-        $wp_query_args['post_status'] = 'publish';
+
 
         //show only unique posts if that setting is enabled on the template
         /*if (td_unique_posts::$show_only_unique == true) {
@@ -187,14 +214,11 @@ class td_data_source {
             $wp_query_args['post__not_in'] = td_unique_posts::$rendered_posts_ids;
         }
 
-
-
         //custom pagination limit
         if (empty($limit)) {
             $limit = get_option('posts_per_page');
         }
         $wp_query_args['posts_per_page'] = $limit;
-
 
         //custom pagination
         if (!empty($paged)) {
@@ -202,7 +226,6 @@ class td_data_source {
         } else {
             $wp_query_args['paged'] = 1;
         }
-
 
         // offset + custom pagination - if we have offset, wordpress overwrites the pagination and works with offset + limit
         if (!empty($offset) and $paged > 1) {

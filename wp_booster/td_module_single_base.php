@@ -677,11 +677,15 @@ class td_module_single_base extends td_module {
     function get_author_box($author_id = '') {
 
         if (!$this->is_single) {
-            return;
+            return '';
         }
 
 
+	    if (empty($author_id)) {
+		    $author_id = $this->post->post_author;
+	    }
 
+		// add the author as hidden for google and return if the author box is set to disabled
         if (td_util::get_option('tds_show_author_box') == 'hide') {
             $buffy = '<div class="td-author-name vcard author" style="display: none"><span class="fn">';
             $buffy .= '<a href="' . get_author_posts_url($author_id) . '">' . get_the_author_meta('display_name', $author_id) . '</a>' ;
@@ -690,15 +694,8 @@ class td_module_single_base extends td_module {
         }
 
 
-
-        if (empty($author_id)) {
-            $author_id = $this->post->post_author;
-        }
-
-
         $buffy = '';
 
-        $authorDescription = get_the_author_meta('description');
         $hideAuthor = td_util::get_option('hide_author');
 
         if (empty($hideAuthor)) {
@@ -738,7 +735,7 @@ class td_module_single_base extends td_module {
                             $authorMeta = 'http://twitter.com/' . $authorMeta;
                         }
                     }
-                    $buffy .= td_social_icons::get_icon($authorMeta, $td_social_id, 4, 16);
+                    $buffy .= td_social_icons::get_icon($authorMeta, $td_social_id, 4);
                 }
             }
             $buffy .= '</div>';

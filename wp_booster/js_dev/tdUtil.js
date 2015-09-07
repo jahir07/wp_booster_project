@@ -102,6 +102,7 @@ var tdUtil = {};
          * !!! compensates for long distances !!!
          */
         scrollIntoView: function ( domElement ) {
+            
             tdIsScrollingAnimation = true;
 
             if ( tdDetect.isMobileDevice === true ) {
