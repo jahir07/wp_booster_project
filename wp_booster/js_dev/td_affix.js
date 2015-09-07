@@ -155,35 +155,6 @@ var td_affix = {
         }
 
 
-        //The following menu_offset is computed for sidebar positioning
-        //Without it, the sidebar isn't positioning right when the menu comes from affix off to on
-        var the_offset = 0;
-
-        if (scrollTop > 0) { // ios returns negative scrollTop values
-            if (scroll_direction == 'down') {
-
-                //compute the offset
-                the_offset = td_affix.menu_offset - scrollDelta;
-
-                // the offset is a value in the [-td_affix.menu_affix_height, 0] and
-                // not into the interval [-td_affix.main_menu_height, 0]
-                if (the_offset < -td_affix._get_menu_affix_height()) {
-                    the_offset = -td_affix._get_menu_affix_height();
-                }
-
-            } else if (scroll_direction == 'up') {
-                //compute the offset
-                the_offset = td_affix.menu_offset + scrollDelta;
-                if (the_offset > 0) {
-                    the_offset = 0;
-                }
-            }
-
-        }
-
-        td_affix.menu_offset = the_offset; //update the current offset of the menu
-
-
 
 
         //if the menu is in the affix state
@@ -306,12 +277,8 @@ var td_affix = {
 
 
         } else {
-
             td_affix._affix_off(jQuery(td_affix.menu_selector));
-
-
         }
-
     },
 
 

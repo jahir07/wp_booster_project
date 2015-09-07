@@ -135,7 +135,12 @@ var td_smart_sidebar = {
              */
             var td_affix_menu_computed_height = 0;
             if (td_smart_sidebar.tds_snap_menu != '') { // if the menu is not snapping in any way - do not calculate this
-                td_affix_menu_computed_height = td_affix.main_menu_height + td_affix.menu_offset;
+                td_affix_menu_computed_height = td_affix.main_menu_height;// + td_affix.menu_offset;
+
+                // Menu offset value is added when we are on 'smart_snap_always' case
+                if ('smart_snap_always' === td_affix.tds_snap_menu) {
+                    td_affix_menu_computed_height += td_affix.menu_offset;
+                }
             }
             // The following height is added just for Newspaper theme.
             // In the Newsmag theme, the sidebar elements have already a 'padding-top' of 20px
