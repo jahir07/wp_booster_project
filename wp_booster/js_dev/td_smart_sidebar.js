@@ -139,10 +139,10 @@ var td_smart_sidebar = {
 
                 // The following height is added just for Newspaper theme.
                 // In the Newsmag theme, the sidebar elements have already a 'padding-top' of 20px
-                if (('undefined' !== typeof window.tdThemeName) && ('Newspaper' === window.tdThemeName)) {
-                    td_affix_menu_computed_height += 20;
-                }
+            if (('undefined' !== typeof window.tdThemeName) && ('Newspaper' === window.tdThemeName)) {
+                td_affix_menu_computed_height += 20;
             }
+
 
 
 
