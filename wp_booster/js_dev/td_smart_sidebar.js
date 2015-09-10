@@ -135,7 +135,10 @@ var td_smart_sidebar = {
              */
             var td_affix_menu_computed_height = 0;
             if (td_smart_sidebar.tds_snap_menu != '') { // if the menu is not snapping in any way - do not calculate this
-                td_affix_menu_computed_height = td_affix.main_menu_height;// + td_affix.menu_offset;
+
+                // The main_menu_height was replaced with the _get_menu_affix_height(), because we need the size of the
+                // affix menu. In the 'Newspaper' the menu has different sizes when it is affix 'on' and 'off'.
+                td_affix_menu_computed_height = td_affix._get_menu_affix_height();
 
                 // Menu offset value is added when we are on 'smart_snap_always' case
                 if ('smart_snap_always' === td_affix.tds_snap_menu) {
@@ -210,7 +213,18 @@ var td_smart_sidebar = {
 
                 } else if (cur_item_ref.sidebar_height < view_port_height) {
 
-                    if (td_smart_sidebar._is_smaller_or_equal(scrollTop, cur_item_ref.content_top)) {
+                    // ref value used to compare the scroll top
+                    var ref_value = cur_item_ref.content_top;
+
+                    // For 'Newsmag' the ref value is incremented with td_affix_menu_computed_height
+                    // It solves a case when the affix menu leaves the 'case_2_top_of_content' phase to 'case_4_fixed_up' too early
+                    // It's because of how the grid, and smart sidebar, are built on Newspaper vs Newsmag
+                    if (!td_affix.is_menu_affix && ('undefined' !== typeof window.tdThemeName) && ('Newsmag' === window.tdThemeName) && ('smart_snap_always' === td_affix.tds_snap_menu)) {
+                        ref_value += td_affix_menu_computed_height;
+                    }
+
+                    //if (td_smart_sidebar._is_smaller_or_equal(scrollTop, cur_item_ref.content_top)) {
+                    if (td_smart_sidebar._is_smaller_or_equal(scrollTop, ref_value)) {
                         // not affix - we did not scroll to reach the sidebar
                         cur_item_ref.sidebar_state = 'case_2_top_of_content';
                     }
@@ -220,7 +234,7 @@ var td_smart_sidebar = {
 
                     else if (td_smart_sidebar._is_smaller(cur_item_ref.sidebar_bottom, scrollTop) === true) {
                         if (td_smart_sidebar._is_smaller(scrollTop, cur_item_ref.content_bottom - cur_item_ref.sidebar_height)) { //this is a special case where on the initial load, the bottom of the content is visible and we have a lot of space to show the widget at the top affixed.
-                            cur_item_ref.sidebar_state = 'case_4_fixed_up'; // [1]
+                            cur_item_ref.sidebar_state = 'case_4_fixed_up'; // [1]87
                         } else {
                             cur_item_ref.sidebar_state = 'case_3_bottom_of_content'; // [2]
                         }

@@ -16,6 +16,8 @@ var td_affix = {
     tds_snap_menu: '', //the panel setting
     tds_snap_menu_logo: '', //the panel setting
 
+    is_menu_affix_height_computed: false, // flag used to compute menu_affix_height only once, when the menu is affix
+    is_menu_affix_height_on_mobile_computed: false, // flag used to compute menu_affix_height_on_mobile only once, when the menu is affix
 
     menu_affix_height: 0, // the menu affix height [the height when it's really affix]
     menu_affix_height_on_mobile: 0, // the menu affix height on mobile [the height when it's really affix]
@@ -90,14 +92,44 @@ var td_affix = {
 
 
     /**
-     * - get the real affix height
+     * - get the real affix height.
+     * The real affix height is computed only once, when the menu is affix. Till then, the function
+     * return the values set at init.
+     *
+     * These values are important because they are used in the td_smart_sidebar.js for the
+     * td_affix_menu_computed_height variable, which then is used to determine the sidebar position.
+     *
+     * For 'Newspaper', the sidebar needs a custom padding top (see @td_smart_sidebar.js), otherwise
+     * the sidebar is sticked to the affix menu.
+     *
+     *
      * @returns {number} affix height
      * @private
      */
     _get_menu_affix_height: function _get_menu_affix_height() {
 
+        //if (tdDetect.isPhoneScreen === true) {
+        //    return td_affix.menu_affix_height_on_mobile;
+        //}
+        //return td_affix.menu_affix_height;
+
         if (tdDetect.isPhoneScreen === true) {
+            if (!td_affix.is_menu_affix_height_on_mobile_computed && td_affix.is_menu_affix) {
+
+                td_affix.is_menu_affix_height_on_mobile_computed = true;
+
+                // overwrite the td_affix.menu_affix_height_on_mobile variable with the real affix height
+                td_affix.menu_affix_height_on_mobile = jQuery(td_affix.menu_selector).height();
+            }
             return td_affix.menu_affix_height_on_mobile;
+        }
+
+        if (!td_affix.is_menu_affix_height_computed && td_affix.is_menu_affix) {
+
+            td_affix.is_menu_affix_height_computed = true;
+
+            // overwrite the td_affix.menu_affix_height variable with the real affix height
+            td_affix.menu_affix_height = jQuery(td_affix.menu_selector).height();
         }
         return td_affix.menu_affix_height;
     },
@@ -127,7 +159,7 @@ var td_affix = {
          */
         if (td_affix.tds_snap_menu != 'snap') { //do not run on snap
             if ((td_affix.tds_snap_menu != 'smart_snap_mobile' || tdDetect.isPhoneScreen === true)) {  // different from smart_snap_mobile or tdDetect.isPhoneScreen === true
-                //console.log('rrr');
+
                 var scroll_direction = '';
                 var scrollDelta = 0;
 
@@ -158,12 +190,14 @@ var td_affix = {
 
 
         //if the menu is in the affix state
-        if ((scrollTop > td_affix.top_offset)
+
+        // the next check is to keep the text from the menu at the same position, when the menu comes from affix off to affix off
+        if ((scrollTop > td_affix.top_offset + (td_affix.main_menu_height / 2 - td_affix._get_menu_affix_height() / 2))
 
             // - the affix is OFF when the next condition is not accomplished, which means that the affix is ON
             // and the scroll to the top is LOWER than the initial td_affix.top_offset reduced by the affix real height
             // - this condition makes the transition from the small affix menu to the larger menu of the page
-            || ((td_affix.is_menu_affix === true) && scrollTop > (td_affix.top_offset - td_affix._get_menu_affix_height()))
+            || ((td_affix.is_menu_affix === true) && ('smart_snap_always' === td_affix.tds_snap_menu) && scrollTop > (td_affix.top_offset - td_affix._get_menu_affix_height()))
 
             || td_affix.is_top_menu === true) {
 
@@ -290,10 +324,21 @@ var td_affix = {
     compute_top: function compute_top() {
 
         // to compute from the bottom of the menu, the top offset is incremented by the menu wrap height
-        td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top + jQuery(td_affix.menu_wrap_selector).height();
+        td_affix.top_offset = jQuery(td_affix.menu_wrap_selector).offset().top;// + jQuery(td_affix.menu_wrap_selector).height();
+
+
+        // The top_offset is incremented with the menu_affix_height only on 'smart_snap_always', because of the sidebar
+        // which use the menu_offset (and menu_offset depends on this top_offset)
+        //
+        // Consider that the smart sidebar, increment the td_affix_menu_computed_height with the menu_offset value
+        // when the menu is on 'smart_snap_always'
+        if ('smart_snap_always' === td_affix.tds_snap_menu) {
+            td_affix.top_offset += td_affix.menu_affix_height;
+        }
+
 
         //check to see if the menu is at the top of the screen
-        if (td_affix.top_offset == jQuery(td_affix.menu_wrap_selector).height()) {
+        if (td_affix.top_offset == 1) {
             //switch to affix - because the menu is at the top of the page
             //td_affix._affix_on(jQuery(td_affix.menu_selector));
             td_affix.is_top_menu = true;
@@ -339,17 +384,21 @@ var td_affix = {
     _affix_on: function _affix_on(td_affix_menu_element) {
         if (td_affix.is_menu_affix === false) {
 
-            td_affix.menu_offset = -td_affix.top_offset;
-
-            //make the menu fixed
-            td_affix_menu_element.addClass('td-affix');
 
             // Bug.Fix - affix menu flickering
             // - the td_affix_menu_element is hidden because he is outside of the viewport
             // - without it, there's a flicker effect of applying css style (classes) over it
-            if (tdDetect.isPhoneScreen !== true) {
+
+            if (('smart_snap_always' === td_affix.tds_snap_menu) && (tdDetect.isPhoneScreen !== true)) {
                 td_affix_menu_element.css('visibility', 'hidden');
             }
+
+
+
+            td_affix.menu_offset = -td_affix.top_offset;
+
+            //make the menu fixed
+            td_affix_menu_element.addClass('td-affix');
 
             //add body-td-affix class on body for header style 8 -> when scrolling down the window jumps 76px up when the menu is changing from header style 8 default to header style 8 affix
             jQuery('body').addClass('body-td-affix');
