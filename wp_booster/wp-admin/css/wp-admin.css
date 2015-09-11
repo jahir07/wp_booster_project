@@ -689,6 +689,12 @@ a.td-tooltip {
 .td-panel-breadcrumb {
   padding: 0 5px 0 9px;
 }
+#td-panel-theme-colors .td-box-description {
+  width: 335px;
+}
+#td-panel-theme-colors .td-box-control-full {
+  width: 470px;
+}
 /*  ----------------------------------------------------------------------------
     wp-admin - post panel
 */
