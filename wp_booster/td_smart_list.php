@@ -209,14 +209,14 @@ abstract class td_smart_list {
             // render back page button
             if ($current_page == 1) {
                 // is first page
-                $buffy .= '<span class="td-smart-list-button td-smart-disable"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</span>';
+                $buffy .= '<span class="td-smart-list-button td-smart-back td-smart-disable"><i class="td-icon-left"></i><span>' .__td('Back', TD_THEME_NAME). '</span></span>';
             } else {
-                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i><span>' .__td('Back', TD_THEME_NAME). '</span></a>';
             }
 
 
             // render the drop down
-            $buffy .= '<select class="td-smart-list-dropdown">';
+            $buffy .= '<div class="td-smart-list-container"><select class="td-smart-list-dropdown">';
             foreach ($this->list_items['list_items'] as $index => $list_item) {
                 $list_item_page_nr = $index + 1;
                 $selected = '';
@@ -227,15 +227,15 @@ abstract class td_smart_list {
 
                 $buffy .= '<option ' . $selected . ' value="' . esc_attr($this->_wp_link_page($list_item_page_nr)) . '">' . $list_item['current_item_number'] . ' - ' . $list_item['title'] . '</option>';
             }
-            $buffy .= '<select>';
+            $buffy .= '<select></div>';
 
 
             // render next page button
             if ($current_page == $total_pages) {
                 // is last page
-                $buffy .= '<span class="td-smart-list-button td-smart-disable">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></span>';
+                $buffy .= '<span class="td-smart-list-button td-smart-next td-smart-disable"><span>' .__td('Next', TD_THEME_NAME). '</span><i class="td-icon-right"></i></span>';
             } else {
-                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '"><span>' .__td('Next', TD_THEME_NAME). '</span><i class="td-icon-right"></i></a>';
             }
 
 
