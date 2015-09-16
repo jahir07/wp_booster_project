@@ -36,6 +36,8 @@ abstract class td_smart_list {
         );
 
 
+	    //print_r($list_items);
+
         // no items found, we return the content as is
         if (empty($list_items['list_items'])) {
             return $smart_list_settings['post_content'];
@@ -213,14 +215,14 @@ abstract class td_smart_list {
             // render back page button
             if ($current_page == 1) {
                 // is first page
-                $buffy .= '<span class="td-smart-list-button td-smart-back td-smart-disable"><i class="td-icon-left"></i><span>' .__td('Back', TD_THEME_NAME). '</span></span>';
+                $buffy .= '<span class="td-smart-list-button td-smart-disable"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</span>';
             } else {
-                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i><span>' .__td('Back', TD_THEME_NAME). '</span></a>';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
             }
 
 
             // render the drop down
-            $buffy .= '<div class="td-smart-list-container"><select class="td-smart-list-dropdown">';
+            $buffy .= '<select class="td-smart-list-dropdown">';
             foreach ($this->list_items['list_items'] as $index => $list_item) {
                 $list_item_page_nr = $index + 1;
                 $selected = '';
@@ -231,15 +233,15 @@ abstract class td_smart_list {
 
                 $buffy .= '<option ' . $selected . ' value="' . esc_attr($this->_wp_link_page($list_item_page_nr)) . '">' . $list_item['current_item_number'] . ' - ' . $list_item['title'] . '</option>';
             }
-            $buffy .= '<select></div>';
+            $buffy .= '<select>';
 
 
             // render next page button
             if ($current_page == $total_pages) {
                 // is last page
-                $buffy .= '<span class="td-smart-list-button td-smart-next td-smart-disable"><span>' .__td('Next', TD_THEME_NAME). '</span><i class="td-icon-right"></i></span>';
+                $buffy .= '<span class="td-smart-list-button td-smart-disable">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></span>';
             } else {
-                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '"><span>' .__td('Next', TD_THEME_NAME). '</span><i class="td-icon-right"></i></a>';
+                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
             }
 
 
@@ -393,16 +395,21 @@ class td_tokenizer {
         //([.*td_smart_list_end.*]) - [td_smartlist_end] without p
 
 
+	    // add the image regex ONLY if we want to also extract the image
+	    $img_regex = '';
+	    if ($extract_first_image === true) {
+		    $img_regex = "(<figure.*</figure>)|" .
+		                 "(<p>.*<a.*<img.*</a>.*</p>)|" .  //two step - checks for image + description
+		                 "(<a.*<img.*</a>)|" .
+		                 "(<p>.*<img.*/>.*</p>)|" .
+		                 "(<img.*/>)|";
+	    }
 
 
         $td_magic_regex = $this->fix_regex(
             "(<$this->token_title_start.*?>)|" .
             "(</$this->token_title_end>)|" .
-            "(<figure.*</figure>)|" .
-            "(<p>.*<a.*<img.*</a>.*</p>)|" .  //two step - checks for image + description
-            "(<a.*<img.*</a>)|" .
-            "(<p>.*<img.*/>.*</p>)|" .
-            "(<img.*/>)|" .
+            $img_regex .
             "(<p>.*[.*td_smart_list_end.*].*</p>)|" .
             "([.*td_smart_list_end.*])");
         //echo $td_magic_regex;
