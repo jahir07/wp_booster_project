@@ -341,7 +341,8 @@ class td_module_single_base extends td_module {
                 $smart_list_settings = array(
                     'post_content' => $content,
                     'counting_order_asc' => false,
-                    'td_smart_list_h' => 'h3'
+                    'td_smart_list_h' => 'h3',
+	                'extract_first_image' => td_api_smart_list::get_key($td_smart_list_class, 'extract_first_image')
                 );
 
                 if (!empty($td_smart_list['td_smart_list_order'])) {
@@ -647,7 +648,7 @@ class td_module_single_base extends td_module {
             if (!empty($prev_post)) {
                 $buffy .= '<div class="td-block-span6 td-post-prev-post">';
                 $buffy .= '<div class="td-post-next-prev-content"><span>' .__td('Previous article', TD_THEME_NAME) . '</span>';
-                $buffy .= '<a href="' . esc_url(get_permalink($prev_post->ID)) . '">' . $prev_post->post_title . '</a>';
+                $buffy .= '<a href="' . esc_url(get_permalink($prev_post->ID)) . '">' . get_the_title( $prev_post->ID ) . '</a>';
                 $buffy .= '</div>';
                 $buffy .= '</div>';
             } else {
@@ -658,7 +659,7 @@ class td_module_single_base extends td_module {
             if (!empty($next_post)) {
                 $buffy .= '<div class="td-block-span6 td-post-next-post">';
                 $buffy .= '<div class="td-post-next-prev-content"><span>' .__td('Next article', TD_THEME_NAME) . '</span>';
-                $buffy .= '<a href="' . esc_url(get_permalink($next_post->ID)) . '">' . $next_post->post_title . '</a>';
+                $buffy .= '<a href="' . esc_url(get_permalink($next_post->ID)) . '">' . get_the_title( $next_post->ID ) . '</a>';
                 $buffy .= '</div>';
                 $buffy .= '</div>';
             }
