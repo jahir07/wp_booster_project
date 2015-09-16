@@ -29,7 +29,11 @@ abstract class td_smart_list {
 
 
         // get the list items
-        $list_items = $td_tokenizer->split_to_list_items($smart_list_settings['post_content']);
+        $list_items = $td_tokenizer->split_to_list_items(array(
+	            'content' => $smart_list_settings['post_content'],
+		        'extract_first_image' => $smart_list_settings['extract_first_image']
+	        )
+        );
 
 
         // no items found, we return the content as is
@@ -375,9 +379,10 @@ class td_tokenizer {
 
 
 
-    function split_to_list_items ($content) {
+    function split_to_list_items ($params) {
 
-
+	    $content = $params['content'];
+	    $extract_first_image = $params['extract_first_image'];
 
         //(<figure.*<\/figure>) - html5 image + caption
         //(<p>.*<a.*<img.*<\/a>.*<\/p>) - p a img
@@ -429,7 +434,7 @@ class td_tokenizer {
             elseif ($this->is_title_text($token)) {
             }
 
-            elseif ($this->is_first_image($token)) {
+            elseif ($this->is_first_image($token) and $extract_first_image === true) {
             }
 
             elseif($this->is_smart_list_end($token)) {
