@@ -341,7 +341,8 @@ class td_module_single_base extends td_module {
                 $smart_list_settings = array(
                     'post_content' => $content,
                     'counting_order_asc' => false,
-                    'td_smart_list_h' => 'h3'
+                    'td_smart_list_h' => 'h3',
+	                'extract_first_image' => td_api_smart_list::get_key($td_smart_list_class, 'extract_first_image')
                 );
 
                 if (!empty($td_smart_list['td_smart_list_order'])) {

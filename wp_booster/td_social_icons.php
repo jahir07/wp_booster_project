@@ -56,6 +56,16 @@ class td_social_icons {
         } else {
             $td_a_target = '';
         }
+
+		// append mailto: the email only if we have an @ and we don't have the mailto: already in place
+	    if (
+		    $icon_id == 'mail-1'
+		    and strpos($url, '@') !== false
+		        and strpos(strtolower($url), 'mailto:') === false
+	    ) {
+		    $url = 'mailto:' . $url;
+	    }
+
         return '<span class="td-social-icon-wrap"><a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '"><i class="td-icon-font td-icon-' . $icon_id . '"></i></a></span>';
     }
 
