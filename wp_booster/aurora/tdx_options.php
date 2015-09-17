@@ -20,23 +20,62 @@ class tdx_options {
      * @param $option_id
      * @return string
      */
-    static function get_option($datasource, $option_id) {
-        // check if the data source is registered
-        if (!in_array($datasource, self::$registered_data_sources)) {
-            tdx_util::error(__FILE__, 'get_option on a unregistered data source');
-            return '';
-        }
+    static function get_option($datasource, $option_id ) {
 
-        if (!isset(self::$options_cache[$datasource])) {
-            // the option cache is not set for this plugin id, fetch it form db
-            self::$options_cache[$datasource] = get_option($datasource);
-        }
+	    switch ( $datasource ) {
 
-        if (!empty(self::$options_cache[$datasource][$option_id])) {
-            return self::$options_cache[$datasource][$option_id];
-        } else {
-            return '';
-        }
+		    case 'td_woo_question_translate' :
+
+			    $datasource_id = 'TD_Woo_Question';
+			    $datasource_key = $datasource;
+
+			    // check if the data source is registered
+			    if (!in_array($datasource_id, self::$registered_data_sources)) {
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    return '';
+			    }
+
+			    if (!isset(self::$options_cache[$datasource_id])) {
+				    // the option cache is not set for this plugin id, fetch it form db
+				    self::$options_cache[$datasource_id] = get_option($datasource_id);
+			    }
+
+				if ( empty( self::$options_cache[$datasource_id][$datasource_key] ) ) {
+					return '';
+
+			    } else {
+					if ( empty( $option_id ) ) {
+						return self::$options_cache[$datasource_id][$datasource_key];
+					} else {
+						if ( empty( self::$options_cache[$datasource_id][$datasource_key][$option_id] ) ) {
+							return '';
+						} else {
+							return self::$options_cache[$datasource_id][$datasource_key][$option_id];
+						}
+					}
+			    }
+
+			    break;
+
+		    default:
+
+			    // check if the data source is registered
+			    if (!in_array($datasource, self::$registered_data_sources)) {
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    return '';
+			    }
+
+			    if (!isset(self::$options_cache[$datasource])) {
+				    // the option cache is not set for this plugin id, fetch it form db
+				    self::$options_cache[$datasource] = get_option($datasource);
+			    }
+
+			    if (!empty(self::$options_cache[$datasource][$option_id])) {
+				    return self::$options_cache[$datasource][$option_id];
+			    } else {
+				    return '';
+			    }
+	    }
     }
 
     /**
@@ -48,7 +87,7 @@ class tdx_options {
     static function update_option_in_cache($datasource, $option_id, $option_value) {
         // check if the data source is registered
         if (!in_array($datasource, self::$registered_data_sources)) {
-            tdx_util::error(__FILE__, 'get_option on a unregistered data source');
+            tdx_util::error(__FILE__, 'get_option on an unregistered data source');
             return;
         }
 
@@ -66,7 +105,7 @@ class tdx_options {
 	static function update_options_in_cache($datasource, $options_array) {
 		// check if the data source is registered
 		if (!in_array($datasource, self::$registered_data_sources)) {
-			tdx_util::error(__FILE__, 'get_option on a unregistered data source');
+			tdx_util::error(__FILE__, 'get_option on an unregistered data source');
 			return;
 		}
 
@@ -112,15 +151,28 @@ class tdx_options {
      * @param $options_array  - the options array to update
      */
     static function set_data_to_datasource($datasource, $options_array) {
-        if (!empty($options_array)) {
-            foreach ($options_array as $option_id => $option_value) {
-                self::update_option_in_cache($datasource, $option_id, $option_value);
-            }
+
+	    if (!empty($options_array)) {
+
+		    switch ( $datasource ) {
+
+			    case 'td_woo_question_translate' :
+
+				    $datasource_id = 'TD_Woo_Question';
+				    $datasource_key = $datasource;
+
+
+				    self::update_option_in_cache( $datasource_id, $datasource_key, $options_array );
+
+				    break;
+
+			    default :
+
+				    foreach ($options_array as $option_id => $option_value) {
+					    self::update_option_in_cache($datasource, $option_id, $option_value);
+				    }
+		    }
         }
         self::flush_options();
     }
-
-
-
-
 }
