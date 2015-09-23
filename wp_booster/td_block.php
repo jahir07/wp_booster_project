@@ -364,6 +364,10 @@ class td_block {
             and !empty($this->atts['td_ajax_preloading'])
         ) {
 
+
+	        /*  -------------------------------------------------------------------------------------
+	            add 'ALL' item to the cache
+	        */
             // pagination - we need to compute the pagination for each cache entry
             $td_hide_next = false;
             if (!empty($this->atts['offset']) && !empty($this->atts['limit']) && ($this->atts['limit'] != 0)) {
@@ -374,14 +378,19 @@ class td_block {
                 $td_hide_next = true; //hide link on last page
             }
 
-            //
+            // this will be send to JS bellow
             $buffyArray = array (
-                'td_data' => $this->inner($this->td_query->posts),
+                'td_data' => $this->inner($this->td_query->posts, $td_column_number),
                 'td_block_id' => $this->block_uid,
                 'td_hide_prev' => true,  // this is the first page
                 'td_hide_next' => $td_hide_next
             );
 
+
+
+	        /*  -------------------------------------------------------------------------------------
+	            add the rest of the items to the local cache
+	        */
             ob_start();
             // we need to clone the object to set is_ajax_running to true
             // first we set an object for the all filter
