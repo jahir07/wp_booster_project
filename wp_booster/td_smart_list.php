@@ -441,7 +441,8 @@ class td_tokenizer {
             elseif ($this->is_title_text($token)) {
             }
 
-            elseif ($this->is_first_image($token) and $extract_first_image === true) {
+            // note that is_first_image also manipulates the 'description' - so it has to be last in this elseif
+            elseif ($extract_first_image === true and $this->is_first_image($token)) {
             }
 
             elseif($this->is_smart_list_end($token)) {
@@ -463,6 +464,7 @@ class td_tokenizer {
         if (!empty($this->current_list_item['title'])) {
             $this->buffy['list_items'][] = $this->current_list_item;
         }
+
 
         return $this->buffy;
     }
