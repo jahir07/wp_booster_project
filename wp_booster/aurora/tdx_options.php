@@ -152,24 +152,19 @@ class tdx_options {
      */
     static function set_data_to_datasource($datasource, $options_array) {
 
-	    if (!empty($options_array)) {
+	    if ( ! empty($options_array) and is_array( $options_array ) ) {
 
 		    switch ( $datasource ) {
 
 			    case 'td_woo_question_translate' :
 
-				    $datasource_id = 'TD_Woo_Question';
-				    $datasource_key = $datasource;
-
-
-				    self::update_option_in_cache( $datasource_id, $datasource_key, $options_array );
-
+				    self::update_option_in_cache( 'TD_Woo_Question', $datasource, $options_array );
 				    break;
 
 			    default :
 
-				    foreach ($options_array as $option_id => $option_value) {
-					    self::update_option_in_cache($datasource, $option_id, $option_value);
+				    foreach ( $options_array as $option_id => $option_value ) {
+					    self::update_option_in_cache( $datasource, $option_id, $option_value );
 				    }
 		    }
         }
