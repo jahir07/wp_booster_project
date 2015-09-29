@@ -49,6 +49,7 @@ require_once('td_background_render.php');
 
 require_once('td_autoload_classes.php');  //used to autoload classes [modules, blocks]
 // Every class after this (that has td_ in the name) is auto loaded only when it's required
+td_api_autoload::add('td_log', td_global::$get_template_directory . '/includes/wp_booster/td_log.php');
 td_api_autoload::add('td_css_inline', td_global::$get_template_directory . '/includes/wp_booster/td_css_inline.php');
 td_api_autoload::add('td_login', td_global::$get_template_directory . '/includes/wp_booster/td_login.php');
 td_api_autoload::add('td_category_template', td_global::$get_template_directory . '/includes/wp_booster/td_category_template.php');
@@ -59,6 +60,9 @@ td_api_autoload::add('td_template_layout', td_global::$get_template_directory . 
 td_api_autoload::add('td_css_compiler', td_global::$get_template_directory . '/includes/wp_booster/td_css_compiler.php');
 td_api_autoload::add('td_module_single_base', td_global::$get_template_directory . '/includes/wp_booster/td_module_single_base.php');
 td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/includes/wp_booster/td_smart_list.php');
+td_api_autoload::add('td_remote_cache', td_global::$get_template_directory . '/includes/wp_booster/td_remote_cache.php');
+td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/includes/wp_booster/td_remote_http.php');
+td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
 
 // aurora framework ??
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
@@ -2016,3 +2020,8 @@ function td_template_include_filter( $wordpress_template_path ) {
 
 	return $wordpress_template_path;
 }
+
+
+
+
+
