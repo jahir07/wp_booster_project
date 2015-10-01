@@ -20,6 +20,15 @@ class td_remote_cache {
 	private static $is_shutdown_hooked = false;
 
 
+	/**
+	 * @var bool when this is false, read_cache_meta will not read so it looks like the cache is always empty
+	 */
+	private static $is_cache_enabled = true;
+
+
+
+
+
 
 	/**
 	 * Checks if an item is expired. It does not extend the expiration notice
@@ -114,6 +123,13 @@ class td_remote_cache {
 	 * called by all the functions that use the cache, it reads the caching key from the db only once
 	 */
 	private static function read_cache_meta() {
+		// disable the cache using this method
+		if (self::$is_cache_enabled === false) {
+			self::$cache = array();
+			return;
+		}
+
+		// read the cache only once!
 		if (empty(self::$cache)) {
 			self::$cache = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
 		}
@@ -126,15 +142,26 @@ class td_remote_cache {
 	private static function schedule_save_cache() {
 		// make sure that we hook only once
 		if (self::$is_shutdown_hooked === false) {
-			add_action('shutdown', array(__CLASS__, 'on_shutdown_save_cache'));
+			add_action('shutdown', array(__CLASS__, '_on_shutdown_save_cache'));
 			self::$is_shutdown_hooked = true;
 		}
 	}
 
 	/**
+	 * @internal
+	 * disables the cache. Warning it also CLEARS the cache
+	 */
+	static function _disable_cache() {
+		delete_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
+		self::$is_cache_enabled = false;
+	}
+
+
+	/**
+	 * @internal
 	 * save the cache hook
 	 */
-	static function on_shutdown_save_cache() {
+	static function _on_shutdown_save_cache() {
 		update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', self::$cache);
 	}
 
