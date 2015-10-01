@@ -328,7 +328,7 @@ var tdAnimationSprite = {
  f - animation start automatically
  */
 
-var tdAnimationSpriteElements = jQuery('div[class^="td_animation_sprite"]');
+var tdAnimationSpriteElements = jQuery('span[class^="td_animation_sprite"]');
 
 for (var i = 0; i < tdAnimationSpriteElements.length; i++) {
     var tdAnimationSpriteItem = new tdAnimationSprite.item();
