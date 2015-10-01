@@ -89,7 +89,7 @@ class td_weather {
 			<div class="td-weather-animated-icon">
 				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
 			</div>
-			<div class="td-weather-now">
+			<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
 				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
 				<span class="td-circle">&deg;</span>
 				<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
@@ -119,7 +119,7 @@ class td_weather {
 			</div>
 			<div class="td-weather-section-3">
 				<i class="td-ico-weather-cloud"></i>
-				<span class="td-weather-parameter today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
+				<span class="td-weather-parameter td-w-today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
 			</div>
 		</div>
 
@@ -325,7 +325,7 @@ class td_weather {
 
 
 			if (isset($api_response['clouds']['all'])) {
-				$weather_data['today_clouds'] = $api_response['clouds']['all'];
+				$weather_data['today_clouds'] = round($api_response['clouds']['all']);
 			}
 
 		}
