@@ -27,7 +27,7 @@ require_once "td_view_header.php";
     // Theme name
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme name',
-        'tooltip' => '',
+        'tooltip' => 'Theme name',
         'value' =>  TD_THEME_NAME,
         'status' => 'info'
     ));
@@ -35,7 +35,7 @@ require_once "td_view_header.php";
     // Theme version
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme version',
-        'tooltip' => '',
+        'tooltip' => 'Theme current version',
         'value' =>  TD_THEME_VERSION,
         'status' => 'info'
     ));
@@ -43,7 +43,7 @@ require_once "td_view_header.php";
     // Theme database version
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme database version',
-        'tooltip' => '',
+        'tooltip' => 'Theme database version',
         'value' =>  td_util::get_option('td_version'),
         'status' => 'info'
     ));
@@ -53,7 +53,7 @@ require_once "td_view_header.php";
         if (defined('TD_SPEED_BOOSTER_INCOMPATIBLE')) {
             td_system_status::add('Theme config', array(
                 'check_name' => 'Speed Booster',
-                'tooltip' => '',
+                'tooltip' => 'SpeedBooster detected an incompatible plugin, to avoid any possible errors the plugin automatically disabled itself. For more info about this please contact us via the forum - http://forum.tagdiv.com/',
                 'value' =>  TD_SPEED_BOOSTER . ' - Disabled - incompatible plugin detected: <strong>' . TD_SPEED_BOOSTER_INCOMPATIBLE . '</strong>',
                 'status' => 'yellow'
             ));
@@ -61,14 +61,14 @@ require_once "td_view_header.php";
             if (version_compare(TD_SPEED_BOOSTER, 'v4.0', '<')) {
                 td_system_status::add('Theme config', array(
                     'check_name' => 'Speed Booster',
-                    'tooltip' => '',
+                    'tooltip' => 'You have an old version of SpeedBooster, to avoid any issue please update the plugin.',
                     'value' =>  TD_SPEED_BOOSTER . ' - Old version of speed booster detected. Please uninstall it!',
                     'status' => 'red'
                 ));
             } else {
                 td_system_status::add('Theme config', array(
                     'check_name' => 'Speed Booster',
-                    'tooltip' => '',
+                    'tooltip' => 'SpeedBooster is installed and active',
                     'value' =>  TD_SPEED_BOOSTER . ' - Active',
                     'status' => 'info'
                 ));
@@ -89,7 +89,7 @@ require_once "td_view_header.php";
     // server info
     td_system_status::add('php.ini configuration', array(
         'check_name' => 'Server software',
-        'tooltip' => '',
+        'tooltip' => 'Server software version',
         'value' =>  esc_html( $_SERVER['SERVER_SOFTWARE'] ),
         'status' => 'info'
     ));
@@ -97,7 +97,7 @@ require_once "td_view_header.php";
     // php version
     td_system_status::add('php.ini configuration', array(
         'check_name' => 'PHP Version',
-        'tooltip' => '',
+        'tooltip' => 'You should have PHP version 5.2.4 or greater (recommended: PHP 5.4 or greater)',
         'value' => phpversion(),
         'status' => 'info'
     ));
@@ -105,7 +105,7 @@ require_once "td_view_header.php";
     // post_max_size
     td_system_status::add('php.ini configuration', array(
         'check_name' => 'post_max_size',
-        'tooltip' => '',
+        'tooltip' => 'Sets max size of post data allowed. This setting also affects file upload. To upload large files you have to increase this value and in some cases you also have to increase the upload_max_filesize value.',
         'value' =>  ini_get('post_max_size') . '<span class="td-status-small-text"> - You cannot upload images, themes and plugins that have a size bigger than this value.</span>',
         'status' => 'info'
     ));
@@ -115,14 +115,14 @@ require_once "td_view_header.php";
     if ($max_execution_time == 0 or $max_execution_time >= 60) {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_execution_time',
-            'tooltip' => '',
+            'tooltip' => 'This parameter is properly set',
             'value' =>  $max_execution_time,
             'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_execution_time',
-            'tooltip' => '',
+            'tooltip' => 'This sets the maximum time in seconds a script is allowed to run before it is terminated by the parser. The theme demos download images from our servers and depending on the connection speed this process may require a longer time to execute. We recommend that you should increase it 60 or more.',
             'value' =>  $max_execution_time . '<span class="td-status-small-text"> - the execution time should be bigger than 60 if you plan to use the demos</span>',
             'status' => 'yellow'
         ));
@@ -134,14 +134,14 @@ require_once "td_view_header.php";
     if ($max_input_vars == 0 or $max_input_vars >= 2000) {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_input_vars',
-            'tooltip' => '',
+            'tooltip' => 'This parameter is properly set',
             'value' =>  $max_input_vars,
             'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_input_vars',
-            'tooltip' => '',
+            'tooltip' => 'This sets how many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately). By default this parameter is set to 1000 and this may cause issues when saving the menu, we recommend that you increase it to 2000 or more. ',
             'value' =>  $max_input_vars . '<span class="td-status-small-text"> - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress</span>',
             'status' => 'yellow'
         ));
@@ -150,18 +150,52 @@ require_once "td_view_header.php";
     // suhosin
     if (extension_loaded('suhosin') !== true) {
         td_system_status::add('php.ini configuration', array(
-            'check_name' => 'SUHOSIN Installed',
-            'tooltip' => '',
-            'value' => 'False',
+            'check_name' => 'SUHOSIN installed',
+            'tooltip' => 'Suhosin is not installed on your server.',
+            'value' => 'false',
             'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'SUHOSIN Installed',
-            'tooltip' => '',
-            'value' =>  'SUHOSIN is installed <span class="td-status-small-text"> - it may cause problems with saving the theme panel if it\'s not properly configured</span>',
+            'tooltip' => 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core. If it\'s installed on your host you have to increase the suhosin.post.max_vars and suhosin.request.max_vars parameters to 2000 or more.',
+            'value' =>  'SUHOSIN is installed - <span class="td-status-small-text">it may cause problems with saving the theme panel if it\'s not properly configured. You have to increase the suhosin.post.max_vars and suhosin.request.max_vars parameters to 2000 or more.</span>',
             'status' => 'yellow'
         ));
+
+        // suhosin.post.max_vars
+        if (ini_get( "suhosin.post.max_vars" ) >= 2000){
+            td_system_status::add('php.ini configuration', array(
+                'check_name' => 'suhosin.post.max_vars',
+                'tooltip' => 'This parameter is properly set',
+                'value' => ini_get("suhosin.post.max_vars"),
+                'status' => 'green'
+            ));
+        } else {
+            td_system_status::add('php.ini configuration', array(
+                'check_name' => 'suhosin.post.max_vars',
+                'tooltip' => 'You may encounter issues when saving the menu, to avoid this increase suhosin.post.max_vars parameter to 2000 or more.',
+                'value' => ini_get("suhosin.post.max_vars"),
+                'status' => 'yellow'
+            ));
+        }
+
+        // suhosin.request.max_vars
+        if (ini_get( "suhosin.request.max_vars" ) >= 2000){
+            td_system_status::add('php.ini configuration', array(
+                'check_name' => 'suhosin.request.max_vars',
+                'tooltip' => 'This parameter is properly set',
+                'value' => ini_get("suhosin.request.max_vars"),
+                'status' => 'green'
+            ));
+        } else {
+            td_system_status::add('php.ini configuration', array(
+                'check_name' => 'suhosin.request.max_vars',
+                'tooltip' => 'You may encounter issues when saving the menu, to avoid this increase suhosin.request.max_vars parameter to 2000 or more.',
+                'value' => ini_get("suhosin.request.max_vars"),
+                'status' => 'yellow'
+            ));
+        }
     }
 
 
@@ -176,7 +210,7 @@ require_once "td_view_header.php";
     // home url
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'WP Home URL',
-        'tooltip' => 'test tooltip',
+        'tooltip' => 'WordPress Address (URL) - the address where your WordPress core files reside',
         'value' => home_url(),
         'status' => 'info'
     ));
@@ -184,7 +218,7 @@ require_once "td_view_header.php";
     // site url
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'WP Site URL',
-        'tooltip' => 'test tooltip',
+        'tooltip' => 'Site Address (URL) - the address you want people to type in their browser to reach your WordPress blog',
         'value' => site_url(),
         'status' => 'info'
     ));
@@ -202,7 +236,7 @@ require_once "td_view_header.php";
     // version
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'WP version',
-        'tooltip' => '',
+        'tooltip' => 'Wordpress version',
         'value' => get_bloginfo('version'),
         'status' => 'info'
     ));
@@ -211,7 +245,7 @@ require_once "td_view_header.php";
     // is_multisite
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'WP multisite enabled',
-        'tooltip' => '',
+        'tooltip' => 'WP multisite',
         'value' => is_multisite() ? 'Yes' : 'No',
         'status' => 'info'
     ));
@@ -220,7 +254,7 @@ require_once "td_view_header.php";
     // language
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'WP Language',
-        'tooltip' => '',
+        'tooltip' => 'WP Language - can be changed from Settings -> General',
         'value' => get_locale(),
         'status' => 'info'
     ));
@@ -232,14 +266,14 @@ require_once "td_view_header.php";
     if ( $memory_limit < 67108864 ) {
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP Memory Limit',
-            'tooltip' => '',
+            'tooltip' => 'By default in wordpress the PHP memory limit is set to 32MB. With some plugins this limit may be reached and this affects your website functionality. To avoid this increase the memory limit to at least 64MB.',
             'value' => size_format( $memory_limit ) . '/request <span class="td-status-small-text">- We recommend setting memory to at least 64MB. The theme is well tested with a 40MB/request limit, but if you are using multiple plugins that may not be enough. See: <a href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">Increasing memory allocated to PHP</a></span>',
             'status' => 'yellow'
         ));
     } else {
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP Memory Limit',
-            'tooltip' => '',
+            'tooltip' => 'This parameter is properly set.',
             'value' => size_format( $memory_limit ) . '/request',
             'status' => 'green'
         ));
@@ -250,14 +284,14 @@ require_once "td_view_header.php";
     if (defined('WP_DEBUG') and WP_DEBUG === true) {
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP_DEBUG',
-            'tooltip' => '',
+            'tooltip' => 'The debug mode is intended for development and it may display unwanted messages. You should disable it on your side.',
             'value' => 'WP_DEBUG is enabled',
             'status' => 'yellow'
         ));
     } else {
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP_DEBUG',
-            'tooltip' => '',
+            'tooltip' => 'The debug mode is disabled.',
             'value' => 'False',
             'status' => 'green'
         ));
@@ -271,20 +305,20 @@ require_once "td_view_header.php";
     // caching
     $caching_plugin_list = array(
         'wp-super-cache/wp-cache.php' => array(
-            'name' => 'WP super cache',
+            'name' => 'WP super cache - for best performance please check the plugin configuration guide <a href="http://forum.tagdiv.com/cache-plugin-install-and-configure/">here</a>.',
             'status' => 'green',
         ),
         'w3-total-cache/w3-total-cache.php' => array(
-            'name' => 'W3 total cache (we recommend WP super cache)',
+            'name' => 'W3 total cache (we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a>)',
             'status' => 'yellow',
         ),
         'wp-fastest-cache/wpFastestCache.php' => array(
-            'name' => 'WP Fastest Cache (we recommend WP super cache)',
+            'name' => 'WP Fastest Cache (we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a>)',
             'status' => 'yellow',
         ),
     );
     $active_plugins = get_option('active_plugins');
-    $caching_plugin = 'No caching plugin detected';
+    $caching_plugin = 'No caching plugin detected - for best performance we recommend using <a href="https://wordpress.org/plugins/wp-super-cache/">WP Super Cache</a>';
     $caching_plugin_status = 'yellow';
     foreach ($active_plugins as $active_plugin) {
         if (isset($caching_plugin_list[$active_plugin])) {
@@ -295,18 +329,36 @@ require_once "td_view_header.php";
     }
     td_system_status::add('WordPress and plugins', array(
         'check_name' => 'Caching plugin',
-        'tooltip' => '',
+        'tooltip' => 'A cache plugin generates static pages and improves the site pagespeed. The cached pages are stored in the memory and when a user makes a request the pages are delivered from the cache. By this the php execution and the database requests are skipped.',
         'value' =>  $caching_plugin,
         'status' => $caching_plugin_status
     ));
 
     td_system_status::render_tables();
 
-
+    // Reset Social Counter cache - only if the reset button is used
+    if(!empty($_REQUEST['clear_social_counter_cache']) and $_REQUEST['clear_social_counter_cache'] == 1) {
+        //clear social counter cache
+        update_option('td_social_api_v3_last_val', '');
+    }
 
     // social counter cache
     $cache_content = get_option('td_social_api_v3_last_val', '');
     td_system_status::render_social_cache($cache_content);
+
+
+    // td log panel
+    $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
+    td_system_status::render_td_log($td_log_content);
+
+
+    // Social Counter cache reset button
+    if (get_option('td_social_api_v3_last_val') != ''){ ?>
+        <div>
+            <a class="button button-primary td-button-socialcounter-reset" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_social_counter_cache=1">Reset Social Counter Cache</a>
+        </div>
+    <?php }
+
 
 
 
@@ -352,16 +404,16 @@ require_once "td_view_header.php";
                                 <?php
                                     switch ($status_params['status']) {
                                         case 'green':
-                                            echo '<div class="td-system-status-led td-system-status-green td-tooltip" data-position="right" title="Green status: this check passed our system status test!"></div>';
+                                            echo '<div class="td-system-status-led td-system-status-green td-tooltip" data-position="right" title="' . $status_params['tooltip'] . '"></div>';
                                             break;
                                         case 'yellow':
-                                            echo '<div class="td-system-status-led td-system-status-yellow td-tooltip" data-position="right" title="Yellow status: this setting may affect the backend of the site. The front end should still run as expected. We recommend that you fix this."></div>';
+                                            echo '<div class="td-system-status-led td-system-status-yellow td-tooltip" data-position="right" title="' . $status_params['tooltip'] . '"></div>';
                                             break;
                                         case 'red' :
-                                            echo '<div class="td-system-status-led td-system-status-red td-tooltip" data-position="right" title="Red status: the site may not work as expected with this option."></div>';
+                                            echo '<div class="td-system-status-led td-system-status-red td-tooltip" data-position="right" title="' . $status_params['tooltip'] . '"></div>';
                                             break;
                                         case 'info':
-                                            echo '<div class="td-system-status-led td-system-status-info td-tooltip" data-position="right" title="Info status: this is just for information purposes and easier debug if a problem appears">i</div>';
+                                            echo '<div class="td-system-status-led td-system-status-info td-tooltip" data-position="right" title="' . $status_params['tooltip'] . '">i</div>';
                                             break;
 
                                     }
@@ -435,6 +487,77 @@ require_once "td_view_header.php";
                     </tbody>
                 </table>
                 <?php
+           }
+       }
+
+       /**
+        * It renders the data from td_log
+        *
+        * @param array $td_log_content - the key used to store the log is: TD_THEME_OPTIONS_NAME . '_log'  (ex: td_011_log)
+        */
+       static function render_td_log($td_log_content) {
+           if (!empty($td_log_content) and is_array($td_log_content)) {
+               ?>
+               <table class="widefat td-system-status-table" cellspacing="0">
+                   <thead>
+                   <tr>
+                       <th colspan="5">TD Log</th>
+                   </tr>
+                   <tr>
+                       <th>File</th>
+                       <th>Function:</th>
+                       <th>Msg:</th>
+                       <th>More_data:</th>
+                       <th>Timestamp:</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <?php
+                   foreach ($td_log_content as $td_log_params) {
+
+                       if (empty($td_log_params['file'])) {
+                           $td_log_params['file'] = '';
+                       }
+
+                       if (empty($td_log_params['function'])) {
+                           $td_log_params['function'] = '';
+                       }
+
+                       if (empty($td_log_params['msg'])) {
+                           $td_log_params['msg'] = '';
+                       }
+
+                       if (empty($td_log_params['more_data'])) {
+                           $td_log_params['more_data'] = '';
+                       }
+
+                       if (empty($td_log_params['timestamp'])) {
+                           $td_log_params['timestamp'] = '';
+                       }
+                       ?>
+                       <tr>
+                           <td><?php echo $td_log_params['file'] ?></td>
+                           <td><?php echo $td_log_params['function'] ?></td>
+                           <td><?php echo $td_log_params['msg'] ?></td>
+                           <td><?php
+                               if (is_array($td_log_params['more_data'])) {
+                                   echo '<pre>';
+                                   print_r($td_log_params['more_data']);
+                                   echo '</pre>';
+                               } else {
+                               echo $td_log_params['more_data'];
+                               } ?></td>
+
+                           <td><?php echo $td_log_params['timestamp'] . ' - ' . gmdate("H:i:s", time() - $td_log_params['timestamp'])?> ago</td>
+                       </tr>
+                   <?php
+                   }
+                   ?>
+
+
+                   </tbody>
+               </table>
+           <?php
            }
        }
 
