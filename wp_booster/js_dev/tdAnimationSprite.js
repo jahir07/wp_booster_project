@@ -25,7 +25,7 @@ var tdAnimationSprite = {
         this.automatStart = true;
 
         // object - css properties that will be changed (key - value; ex: 'color' : '#00FFCC')
-        this.properties = {};
+        this.properties = [];
 
         // boolean - flag used by the requestAnimationFrame callback to know which items have properties to apply
         this.readyToAnimate = false;
@@ -78,7 +78,10 @@ var tdAnimationSprite = {
 
             // css properties
             var imgSrc = this.jqueryObj.css('background-image');
-            this.properties.background = imgSrc + ' ' + horizontalPosition + 'px 0';
+            this.properties.push({
+                key : 'background-position',
+                value : horizontalPosition + 'px 0'
+            });
 
             this.readyToAnimate = true;
 
@@ -305,8 +308,8 @@ var tdAnimationSprite = {
         for ( var i = 0; i < tdAnimationSprite.items.length; i++ ) {
             currentItem = tdAnimationSprite.items[i];
             if ( true === currentItem.readyToAnimate ) {
-                for ( var prop in currentItem.properties ) {
-                    currentItem.jqueryObj.css( prop, currentItem.properties[prop] );
+                for ( var j = 0; j < currentItem.properties.length; j++ ) {
+                    currentItem.jqueryObj.css( currentItem.properties[j]['key'], currentItem.properties[j]['value'] );
                     currentItem.readyToAnimate = false;
                 }
             }
