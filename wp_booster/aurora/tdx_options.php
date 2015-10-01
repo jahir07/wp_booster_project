@@ -57,6 +57,40 @@ class tdx_options {
 
 			    break;
 
+		    case 'td_woo_relprod_translate' :
+
+			    $datasource_id = 'TD_Woo_Relprod';
+			    $datasource_key = $datasource;
+
+			    // check if the data source is registered
+			    if (!in_array($datasource_id, self::$registered_data_sources)) {
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    return '';
+			    }
+
+			    if (!isset(self::$options_cache[$datasource_id])) {
+				    // the option cache is not set for this plugin id, fetch it form db
+				    self::$options_cache[$datasource_id] = get_option($datasource_id);
+			    }
+
+			    if ( empty( self::$options_cache[$datasource_id][$datasource_key] ) ) {
+				    return '';
+
+			    } else {
+				    if ( empty( $option_id ) ) {
+					    return self::$options_cache[$datasource_id][$datasource_key];
+				    } else {
+					    if ( empty( self::$options_cache[$datasource_id][$datasource_key][$option_id] ) ) {
+						    return '';
+					    } else {
+						    return self::$options_cache[$datasource_id][$datasource_key][$option_id];
+					    }
+				    }
+			    }
+
+			    break;
+
+
 		    default:
 
 			    // check if the data source is registered
@@ -159,6 +193,11 @@ class tdx_options {
 			    case 'td_woo_question_translate' :
 
 				    self::update_option_in_cache( 'TD_Woo_Question', $datasource, $options_array );
+				    break;
+
+			    case 'td_woo_relprod_translate' :
+
+				    self::update_option_in_cache( 'TD_Woo_Relprod', $datasource, $options_array );
 				    break;
 
 			    default :
