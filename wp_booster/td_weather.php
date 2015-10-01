@@ -28,7 +28,7 @@ class td_weather {
 
 		// prepare the data and do an api call
 		$weather_data = array (
-			'block_uid' => $block_uid,
+			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'today_icon' => '',
 			'today_icon_text' => '',
@@ -56,7 +56,7 @@ class td_weather {
 
 
 		// disable the cache for debugging
-		td_remote_cache::_disable_cache();
+		//td_remote_cache::_disable_cache();
 
 
 
@@ -69,6 +69,8 @@ class td_weather {
 		}
 
 
+		// we have to patch the cached data - to make sure we have the REAL block_uid that is now on the page
+		$weather_data['block_uid'] = $block_uid;
 
 
 
@@ -85,7 +87,7 @@ class td_weather {
 
 		<div class="td-weather-temperature">
 			<div class="td-weather-animated-icon">
-				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?>"></span>
+				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
 			</div>
 			<div class="td-weather-now">
 				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
