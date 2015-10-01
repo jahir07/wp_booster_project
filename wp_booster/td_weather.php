@@ -80,7 +80,7 @@ class td_weather {
 		<div class="td-weather-header">
 			<div class="td-weather-city"><?php echo $atts['w_location'] ?></div>
 			<div class="td-weather-condition"><?php echo $weather_data['today_icon_text'] ?></div>
-			<i class="td-location-icon td-icon-weather-location"  data-block-uid="<?php echo $block_uid ?>"></i>
+			<i class="td-location-icon td-ico-weather-location"  data-block-uid="<?php echo $block_uid ?>"></i>
 		</div>
 
 		<div class="td-weather-temperature">
@@ -94,12 +94,12 @@ class td_weather {
 			</div>
 			<div class="td-weather-lo-hi">
 				<div class="td-weather-degrees-wrap">
-					<i class="td-up-icon td-icon-weather-arrows-up"></i>
+					<i class="td-up-icon td-ico-weather-arrows-up"></i>
 					<span class="td-small-degrees td-w-high-temp"><?php echo $weather_data['today_max'][$current_unit] ?></span>
 					<span class="td-circle">&deg;</span>
 				</div>
 				<div class="td-weather-degrees-wrap">
-					<i class="td-down-icon td-icon-weather-arrows-down"></i>
+					<i class="td-down-icon td-ico-weather-arrows-down"></i>
 					<span class="td-small-degrees td-w-low-temp"><?php echo $weather_data['today_min'][$current_unit] ?></span>
 					<span class="td-circle">&deg;</span>
 				</div>
@@ -108,15 +108,15 @@ class td_weather {
 
 		<div class="td-weather-information">
 			<div class="td-weather-section-1">
-				<i class="td-icon-weather-drop"></i>
+				<i class="td-ico-weather-drop"></i>
 				<span class="td-weather-parameter td-w-today-humidity"><?php echo $weather_data['today_humidity'] ?>%</span>
 			</div>
 			<div class="td-weather-section-2">
-				<i class="td-icon-weather-wind"></i>
+				<i class="td-ico-weather-wind"></i>
 				<span class="td-weather-parameter td-w-today-wind-speed"><?php echo $weather_data['today_wind_speed'][$current_unit] . $current_speed_label; ?></span>
 			</div>
 			<div class="td-weather-section-3">
-				<i class="td-icon-weather-cloud"></i>
+				<i class="td-ico-weather-cloud"></i>
 				<span class="td-weather-parameter today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
 			</div>
 		</div>
