@@ -17,6 +17,15 @@ class td_weather {
 		}
 
 
+		$current_unit = 0; // 0 - metric
+		$current_temp_label = 'C';
+		$current_speed_label = 'kmh';
+		if (!empty($atts['w_units'])) {
+			$current_unit = 1; // imperial
+			$current_temp_label = 'F';
+			$current_speed_label = 'mph';
+		}
+
 		// prepare the data and do an api call
 		$weather_data = array (
 			'block_uid' => $block_uid,
@@ -41,6 +50,7 @@ class td_weather {
 				0 // imperial
 			),
 			'today_clouds' => 0,
+			'current_unit' => $current_unit,
 			'forecast' => array()
 		);
 
@@ -65,8 +75,72 @@ class td_weather {
 
 		ob_start();
 		?>
+		<!-- td weather source: <?php echo $weather_data_status ?> -->
 
-		<a class="ra-weather-test" data-block-uid="<?php echo $block_uid ?>" href="#">W test</a>
+		<div class="td-weather-header">
+			<div class="td-weather-city"><?php echo $atts['w_location'] ?></div>
+			<div class="td-weather-condition"><?php echo $weather_data['today_icon_text'] ?></div>
+			<i class="td-location-icon td-icon-weather-location"  data-block-uid="<?php echo $block_uid ?>"></i>
+		</div>
+
+		<div class="td-weather-temperature">
+			<div class="td-weather-animated-icon">
+				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?>"></span>
+			</div>
+			<div class="td-weather-now">
+				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
+				<span class="td-circle">&deg;</span>
+				<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
+			</div>
+			<div class="td-weather-lo-hi">
+				<div class="td-weather-degrees-wrap">
+					<i class="td-up-icon td-icon-weather-arrows-up"></i>
+					<span class="td-small-degrees td-w-high-temp"><?php echo $weather_data['today_max'][$current_unit] ?></span>
+					<span class="td-circle">&deg;</span>
+				</div>
+				<div class="td-weather-degrees-wrap">
+					<i class="td-down-icon td-icon-weather-arrows-down"></i>
+					<span class="td-small-degrees td-w-low-temp"><?php echo $weather_data['today_min'][$current_unit] ?></span>
+					<span class="td-circle">&deg;</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="td-weather-information">
+			<div class="td-weather-section-1">
+				<i class="td-icon-weather-drop"></i>
+				<span class="td-weather-parameter td-w-today-humidity"><?php echo $weather_data['today_humidity'] ?>%</span>
+			</div>
+			<div class="td-weather-section-2">
+				<i class="td-icon-weather-wind"></i>
+				<span class="td-weather-parameter td-w-today-wind-speed"><?php echo $weather_data['today_wind_speed'][$current_unit] . $current_speed_label; ?></span>
+			</div>
+			<div class="td-weather-section-3">
+				<i class="td-icon-weather-cloud"></i>
+				<span class="td-weather-parameter today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
+			</div>
+		</div>
+
+
+
+		<div class="td-weather-week">
+			<?php
+			foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
+				?>
+				<div class="td-weather-days">
+					<div class="td-day-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_name'] ?></div>
+					<div class="td-day-degrees">
+						<span class="td-degrees-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_temp'][$current_unit] ?></span>
+						<span class="td-circle">&deg;</span>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+
+
+		</div>
+
 		<script>
 			jQuery().ready(function() {
 
@@ -74,8 +148,8 @@ class td_weather {
 			});
 		</script>
 		<?php
-		print_r($weather_data_status);
-		print_r($weather_data);
+//		print_r($weather_data_status);
+//		print_r($weather_data);
 		return ob_get_clean();
 
 	}
@@ -159,7 +233,7 @@ class td_weather {
 			return 'Error decoding the json from OpenWeatherMap';
 		}
 
-		print_r($api_response);
+		//print_r($api_response);
 
 		// current location
 		if (isset($api_response['name'])) {
@@ -168,22 +242,22 @@ class td_weather {
 
 		// min max current temperature
 		if (isset($api_response['main']['temp'])) {
-			$weather_data['today_temp'][0] = $api_response['main']['temp'];
+			$weather_data['today_temp'][0] = round($api_response['main']['temp'], 1);
 			$weather_data['today_temp'][1] = self::celsius_to_fahrenheit($api_response['main']['temp']);
 		}
 		if (isset($api_response['main']['temp_min'])) {
-			$weather_data['today_min'][0] = $api_response['main']['temp_min'];
+			$weather_data['today_min'][0] = round($api_response['main']['temp_min'], 1);
 			$weather_data['today_min'][1] = self::celsius_to_fahrenheit($api_response['main']['temp_min']);
 		}
 		if (isset($api_response['main']['temp_max'])) {
-			$weather_data['today_max'][0] = $api_response['main']['temp_max'];
+			$weather_data['today_max'][0] = round($api_response['main']['temp_max'], 1);
 			$weather_data['today_max'][1] = self::celsius_to_fahrenheit($api_response['main']['temp_max']);
 		}
 
 
 		// humidity
 		if (isset($api_response['main']['humidity'])) {
-			$weather_data['today_humidity'] = $api_response['main']['humidity'];
+			$weather_data['today_humidity'] = round($api_response['main']['humidity']);
 		}
 
 
@@ -195,7 +269,7 @@ class td_weather {
 //				$wind_speed_text = 'mph';
 //			}
 
-			$weather_data['today_wind_speed'][0] = $api_response['wind']['speed'];
+			$weather_data['today_wind_speed'][0] = round($api_response['wind']['speed'], 1);
 			$weather_data['today_wind_speed'][1] = self::kmph_to_mph($api_response['wind']['speed']);
 		}
 
@@ -282,7 +356,7 @@ class td_weather {
 						'timestamp' => $day_forecast['dt'],
 						//'timestamp_readable' => date('Ymd', $day_forecast['dt']),
 						'day_temp' => array (
-							$day_forecast['temp']['day'], // metric
+							round($day_forecast['temp']['day'], 1), // metric
 							self::celsius_to_fahrenheit($day_forecast['temp']['day'])  //imperial
 						),
 						'day_name' => date_i18n('D', $day_forecast['dt']),
@@ -301,11 +375,16 @@ class td_weather {
 
 
 	private static function celsius_to_fahrenheit ($celsius_degrees) {
-		return $celsius_degrees * 9 / 5 + 32;
+		$rounded_val = round($celsius_degrees * 9 / 5 + 32, 1);
+		if ($rounded_val > 99.9) {  // if the value is bigger than 100, round it
+			return round($celsius_degrees * 9 / 5 + 32);
+		}
+
+		return $rounded_val;
 	}
 
 	private static function kmph_to_mph ($kmph) {
-		return $kmph * 0.621371192;
+		return round($kmph * 0.621371192, 1);
 	}
 
 
