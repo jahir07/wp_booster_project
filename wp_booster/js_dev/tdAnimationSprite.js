@@ -31,7 +31,7 @@ var tdAnimationSprite = {
         this.readyToAnimate = false;
 
         // the index of the current frame
-        this.currentFrame = 1;
+        this.nextFrame = 1;
 
         // number - the current interval id set for the animation
         this.interval = undefined;
@@ -74,10 +74,9 @@ var tdAnimationSprite = {
         // he requestAnimationFrame with a callback function to animate all items ready for animation
         this.animate = function() {
 
-            var horizontalPosition = -1 * this.currentFrame * this.frameWidth;
+            var horizontalPosition = -1 * this.nextFrame * this.frameWidth;
 
             // css properties
-            var imgSrc = this.jqueryObj.css('background-image');
             this.properties.push({
                 key : 'background-position',
                 value : horizontalPosition + 'px 0'
@@ -85,44 +84,47 @@ var tdAnimationSprite = {
 
             this.readyToAnimate = true;
 
-            // the currentFrame is computed for next frame
+            // the nextFrame is computed for next frame
             if ( true === this.reverse) {
 
                 if ( 'right' === this._currentDirection ) {
 
-                    this.currentFrame++;
-
-                    if ( this.currentFrame == this.frames - 1 ) {
+                    if ( this.nextFrame == this.frames - 1 ) {
                         this._currentDirection = 'left';
-                    }
-
-                    // complete tour ( once to the right and once to the left ), so we stop
-                    if ( ( 1 === this.currentFrame ) && ( 0 !== this.loops ) && ( this._executedLoops == this.loops ) ) {
-                        clearInterval( this.interval );
+                        this.nextFrame--;
+                    } else {
+                        this.nextFrame++;
                     }
 
                 } else if ( 'left' === this._currentDirection ) {
-                    this.currentFrame--;
-                    if ( this.currentFrame == 0 ) {
+                    if ( 0 === this.nextFrame ) {
+
                         this._currentDirection = 'right';
+                        this.nextFrame++;
                         this._executedLoops++;
+
+                        if ( ( 0 !== this.loops ) && ( this._executedLoops == this.loops ) ) {
+                            clearInterval( this.interval );
+                        }
+                    } else {
+                        this.nextFrame--;
                     }
                 }
 
             } else {
-                if ( this.currentFrame == this.frames ) {
+
+                if ( this.nextFrame == this.frames - 1 ) {
 
                     this._executedLoops++;
 
                     // complete tour ( once to the right ), so we stop
                     if ( ( 0 !== this.loops ) && ( this._executedLoops == this.loops ) ) {
                         clearInterval( this.interval );
-                        return;
                     }
 
-                    this.currentFrame = 1;
+                    this.nextFrame = 0;
                 } else {
-                    this.currentFrame++;
+                    this.nextFrame++;
                 }
             }
 
