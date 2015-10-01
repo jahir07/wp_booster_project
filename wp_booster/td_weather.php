@@ -143,13 +143,12 @@ class td_weather {
 
 		<script>
 			jQuery().ready(function() {
-
 				tdWeather.items.push(<?php echo json_encode($weather_data) ?>);
 			});
 		</script>
 		<?php
-//		print_r($weather_data_status);
-//		print_r($weather_data);
+		//print_r($weather_data_status);
+		//print_r($weather_data);
 		return ob_get_clean();
 
 	}
@@ -231,6 +230,16 @@ class td_weather {
 		$api_response = @json_decode($json_api_response, true);
 		if ($api_response === null and json_last_error() !== JSON_ERROR_NONE) {
 			return 'Error decoding the json from OpenWeatherMap';
+		}
+
+		if ($api_response['cod'] != 200) {
+			if ($api_response['cod'] == 404) {
+				return 'City not found'; // fix the incorect error message form the api :|
+			}
+			if (isset($api_response['message'])) {
+				return $api_response['message'];
+			}
+			return 'OWM code != 200. No message provided';
 		}
 
 		//print_r($api_response);
@@ -356,8 +365,8 @@ class td_weather {
 						'timestamp' => $day_forecast['dt'],
 						//'timestamp_readable' => date('Ymd', $day_forecast['dt']),
 						'day_temp' => array (
-							round($day_forecast['temp']['day'], 1), // metric
-							self::celsius_to_fahrenheit($day_forecast['temp']['day'])  //imperial
+							round($day_forecast['temp']['day']), // metric
+							round(self::celsius_to_fahrenheit($day_forecast['temp']['day']))  //imperial
 						),
 						'day_name' => date_i18n('D', $day_forecast['dt']),
 						'owm_day_index' => $index // used in js to update only the displayed days
@@ -375,9 +384,11 @@ class td_weather {
 
 
 	private static function celsius_to_fahrenheit ($celsius_degrees) {
-		$rounded_val = round($celsius_degrees * 9 / 5 + 32, 1);
+		$f_degrees = $celsius_degrees * 9 / 5 + 32;
+
+		$rounded_val = round($f_degrees, 1);
 		if ($rounded_val > 99.9) {  // if the value is bigger than 100, round it
-			return round($celsius_degrees * 9 / 5 + 32);
+			return round($f_degrees);
 		}
 
 		return $rounded_val;
