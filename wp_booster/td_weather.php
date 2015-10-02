@@ -10,6 +10,12 @@ class td_weather {
 	private static $caching_time = 10800;  // 3 hours
 
 
+	/**
+	 * Used by all the shortcodes + widget to render the weather. The top bar has a separate function bellow
+	 * @param $atts
+	 * @param $block_uid
+	 * @return string
+	 */
 	static function render_generic($atts, $block_uid) {
 
 		if (empty($atts['w_location'])) {
@@ -17,9 +23,18 @@ class td_weather {
 		}
 
 
+		$current_unit = 0; // 0 - metric
+		$current_temp_label = 'C';
+		$current_speed_label = 'kmh';
+		if (!empty($atts['w_units'])) {
+			$current_unit = 1; // imperial
+			$current_temp_label = 'F';
+			$current_speed_label = 'mph';
+		}
+
 		// prepare the data and do an api call
 		$weather_data = array (
-			'block_uid' => $block_uid,
+			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'today_icon' => '',
 			'today_icon_text' => '',
@@ -41,12 +56,13 @@ class td_weather {
 				0 // imperial
 			),
 			'today_clouds' => 0,
+			'current_unit' => $current_unit,
 			'forecast' => array()
 		);
 
 
 		// disable the cache for debugging
-		td_remote_cache::_disable_cache();
+		//td_remote_cache::_disable_cache();
 
 
 
@@ -59,27 +75,95 @@ class td_weather {
 		}
 
 
+		// we have to patch the cached data - to make sure we have the REAL block_uid that is now on the page
+		$weather_data['block_uid'] = $block_uid;
 
 
 
 
 		ob_start();
 		?>
+		<!-- td weather source: <?php echo $weather_data_status ?> -->
 
-		<a class="ra-weather-test" data-block-uid="<?php echo $block_uid ?>" href="#">W test</a>
+		<div class="td-weather-header">
+			<div class="td-weather-city"><?php echo $atts['w_location'] ?></div>
+			<div class="td-weather-condition"><?php echo $weather_data['today_icon_text'] ?></div>
+			<i class="td-location-icon td-ico-weather-location"  data-block-uid="<?php echo $block_uid ?>"></i>
+		</div>
+
+		<div class="td-weather-temperature">
+			<div class="td-weather-animated-icon">
+				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
+			</div>
+			<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
+				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
+				<span class="td-circle">&deg;</span>
+				<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
+			</div>
+			<div class="td-weather-lo-hi">
+				<div class="td-weather-degrees-wrap">
+					<i class="td-up-icon td-ico-weather-arrows-up"></i>
+					<span class="td-small-degrees td-w-high-temp"><?php echo $weather_data['today_max'][$current_unit] ?></span>
+					<span class="td-circle">&deg;</span>
+				</div>
+				<div class="td-weather-degrees-wrap">
+					<i class="td-down-icon td-ico-weather-arrows-down"></i>
+					<span class="td-small-degrees td-w-low-temp"><?php echo $weather_data['today_min'][$current_unit] ?></span>
+					<span class="td-circle">&deg;</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="td-weather-information">
+			<div class="td-weather-section-1">
+				<i class="td-ico-weather-drop"></i>
+				<span class="td-weather-parameter td-w-today-humidity"><?php echo $weather_data['today_humidity'] ?>%</span>
+			</div>
+			<div class="td-weather-section-2">
+				<i class="td-ico-weather-wind"></i>
+				<span class="td-weather-parameter td-w-today-wind-speed"><?php echo $weather_data['today_wind_speed'][$current_unit] . $current_speed_label; ?></span>
+			</div>
+			<div class="td-weather-section-3">
+				<i class="td-ico-weather-cloud"></i>
+				<span class="td-weather-parameter td-w-today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
+			</div>
+		</div>
+
+
+
+		<div class="td-weather-week">
+			<?php
+			foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
+				?>
+				<div class="td-weather-days">
+					<div class="td-day-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_name'] ?></div>
+					<div class="td-day-degrees">
+						<span class="td-degrees-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_temp'][$current_unit] ?></span>
+						<span class="td-circle">&deg;</span>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+
 		<script>
 			jQuery().ready(function() {
-
 				tdWeather.items.push(<?php echo json_encode($weather_data) ?>);
 			});
 		</script>
 		<?php
-		print_r($weather_data_status);
-		print_r($weather_data);
+		//print_r($weather_data_status);
+		//print_r($weather_data);
 		return ob_get_clean();
 
 	}
 
+
+
+	static function render_top_menu () {
+
+	}
 
 	/**
 	 * @param $atts
@@ -159,7 +243,17 @@ class td_weather {
 			return 'Error decoding the json from OpenWeatherMap';
 		}
 
-		print_r($api_response);
+		if ($api_response['cod'] != 200) {
+			if ($api_response['cod'] == 404) {
+				return 'City not found'; // fix the incorect error message form the api :|
+			}
+			if (isset($api_response['message'])) {
+				return $api_response['message'];
+			}
+			return 'OWM code != 200. No message provided';
+		}
+
+		//print_r($api_response);
 
 		// current location
 		if (isset($api_response['name'])) {
@@ -168,22 +262,22 @@ class td_weather {
 
 		// min max current temperature
 		if (isset($api_response['main']['temp'])) {
-			$weather_data['today_temp'][0] = $api_response['main']['temp'];
+			$weather_data['today_temp'][0] = round($api_response['main']['temp'], 1);
 			$weather_data['today_temp'][1] = self::celsius_to_fahrenheit($api_response['main']['temp']);
 		}
 		if (isset($api_response['main']['temp_min'])) {
-			$weather_data['today_min'][0] = $api_response['main']['temp_min'];
+			$weather_data['today_min'][0] = round($api_response['main']['temp_min'], 1);
 			$weather_data['today_min'][1] = self::celsius_to_fahrenheit($api_response['main']['temp_min']);
 		}
 		if (isset($api_response['main']['temp_max'])) {
-			$weather_data['today_max'][0] = $api_response['main']['temp_max'];
+			$weather_data['today_max'][0] = round($api_response['main']['temp_max'], 1);
 			$weather_data['today_max'][1] = self::celsius_to_fahrenheit($api_response['main']['temp_max']);
 		}
 
 
 		// humidity
 		if (isset($api_response['main']['humidity'])) {
-			$weather_data['today_humidity'] = $api_response['main']['humidity'];
+			$weather_data['today_humidity'] = round($api_response['main']['humidity']);
 		}
 
 
@@ -195,7 +289,7 @@ class td_weather {
 //				$wind_speed_text = 'mph';
 //			}
 
-			$weather_data['today_wind_speed'][0] = $api_response['wind']['speed'];
+			$weather_data['today_wind_speed'][0] = round($api_response['wind']['speed'], 1);
 			$weather_data['today_wind_speed'][1] = self::kmph_to_mph($api_response['wind']['speed']);
 		}
 
@@ -240,7 +334,7 @@ class td_weather {
 
 
 			if (isset($api_response['clouds']['all'])) {
-				$weather_data['today_clouds'] = $api_response['clouds']['all'];
+				$weather_data['today_clouds'] = round($api_response['clouds']['all']);
 			}
 
 		}
@@ -271,27 +365,36 @@ class td_weather {
 		$today_date = date( 'Ymd', current_time( 'timestamp', 0 ) );
 
 
+
+
 		if (!empty($api_response['list']) and is_array($api_response['list'])) {
+			$cnt = 0;
+
 			foreach ($api_response['list'] as $index => $day_forecast) {
 				if (
 					!empty($day_forecast['dt'])
 					and !empty($day_forecast['temp']['day'])
 					and $today_date < date('Ymd', $day_forecast['dt'])
 				) {
+					if ($cnt > 4) {
+						break;
+					}
+
 					$weather_data['forecast'][] = array (
 						'timestamp' => $day_forecast['dt'],
 						//'timestamp_readable' => date('Ymd', $day_forecast['dt']),
 						'day_temp' => array (
-							$day_forecast['temp']['day'], // metric
-							self::celsius_to_fahrenheit($day_forecast['temp']['day'])  //imperial
+							round($day_forecast['temp']['day']), // metric
+							round(self::celsius_to_fahrenheit($day_forecast['temp']['day']))  //imperial
 						),
 						'day_name' => date_i18n('D', $day_forecast['dt']),
 						'owm_day_index' => $index // used in js to update only the displayed days
 					);
+
+
+					$cnt++;
 				}
-				if ($index > 4) {
-					break;
-				}
+
 			}
 		}
 		return true;
@@ -301,11 +404,18 @@ class td_weather {
 
 
 	private static function celsius_to_fahrenheit ($celsius_degrees) {
-		return $celsius_degrees * 9 / 5 + 32;
+		$f_degrees = $celsius_degrees * 9 / 5 + 32;
+
+		$rounded_val = round($f_degrees, 1);
+		if ($rounded_val > 99.9) {  // if the value is bigger than 100, round it
+			return round($f_degrees);
+		}
+
+		return $rounded_val;
 	}
 
 	private static function kmph_to_mph ($kmph) {
-		return $kmph * 0.621371192;
+		return round($kmph * 0.621371192, 1);
 	}
 
 
