@@ -56,7 +56,7 @@ class td_weather {
 
 
 		// disable the cache for debugging
-		//td_remote_cache::_disable_cache();
+		// td_remote_cache::_disable_cache();
 
 
 
@@ -86,61 +86,62 @@ class td_weather {
 		</div>
 
 		<div class="td-weather-temperature">
-			<div class="td-weather-animated-icon">
-				<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
-			</div>
-			<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
-				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
-				<span class="td-circle">&deg;</span>
-				<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
-			</div>
-			<div class="td-weather-lo-hi">
-				<div class="td-weather-degrees-wrap">
-					<i class="td-up-icon td-ico-weather-arrows-up"></i>
-					<span class="td-small-degrees td-w-high-temp"><?php echo $weather_data['today_max'][$current_unit] ?></span>
-					<span class="td-circle">&deg;</span>
+			<div class="td-weather-temp-wrap">
+				<div class="td-weather-animated-icon">
+					<span class="animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
 				</div>
-				<div class="td-weather-degrees-wrap">
-					<i class="td-down-icon td-ico-weather-arrows-down"></i>
-					<span class="td-small-degrees td-w-low-temp"><?php echo $weather_data['today_min'][$current_unit] ?></span>
+				<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
+					<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
 					<span class="td-circle">&deg;</span>
+					<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
 				</div>
-			</div>
-		</div>
-
-		<div class="td-weather-information">
-			<div class="td-weather-section-1">
-				<i class="td-ico-weather-drop"></i>
-				<span class="td-weather-parameter td-w-today-humidity"><?php echo $weather_data['today_humidity'] ?>%</span>
-			</div>
-			<div class="td-weather-section-2">
-				<i class="td-ico-weather-wind"></i>
-				<span class="td-weather-parameter td-w-today-wind-speed"><?php echo $weather_data['today_wind_speed'][$current_unit] . $current_speed_label; ?></span>
-			</div>
-			<div class="td-weather-section-3">
-				<i class="td-ico-weather-cloud"></i>
-				<span class="td-weather-parameter td-w-today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
-			</div>
-		</div>
-
-
-
-		<div class="td-weather-week">
-			<?php
-			foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
-				?>
-				<div class="td-weather-days">
-					<div class="td-day-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_name'] ?></div>
-					<div class="td-day-degrees">
-						<span class="td-degrees-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_temp'][$current_unit] ?></span>
+				<div class="td-weather-lo-hi">
+					<div class="td-weather-degrees-wrap">
+						<i class="td-up-icon td-ico-weather-arrows-up"></i>
+						<span class="td-small-degrees td-w-high-temp"><?php echo $weather_data['today_max'][$current_unit] ?></span>
+						<span class="td-circle">&deg;</span>
+					</div>
+					<div class="td-weather-degrees-wrap">
+						<i class="td-down-icon td-ico-weather-arrows-down"></i>
+						<span class="td-small-degrees td-w-low-temp"><?php echo $weather_data['today_min'][$current_unit] ?></span>
 						<span class="td-circle">&deg;</span>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="td-weather-info-wrap">
+			<div class="td-weather-information">
+				<div class="td-weather-section-1">
+					<i class="td-ico-weather-drop"></i>
+					<span class="td-weather-parameter td-w-today-humidity"><?php echo $weather_data['today_humidity'] ?>%</span>
+				</div>
+				<div class="td-weather-section-2">
+					<i class="td-ico-weather-wind"></i>
+					<span class="td-weather-parameter td-w-today-wind-speed"><?php echo $weather_data['today_wind_speed'][$current_unit] . $current_speed_label; ?></span>
+				</div>
+				<div class="td-weather-section-3">
+					<i class="td-ico-weather-cloud"></i>
+					<span class="td-weather-parameter td-w-today-clouds"><?php echo $weather_data['today_clouds'] ?>%</span>
+				</div>
+			</div>
+
+
+			<div class="td-weather-week">
 				<?php
-			}
-			?>
-
-
+				foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
+					?>
+					<div class="td-weather-days">
+						<div class="td-day-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_name'] ?></div>
+						<div class="td-day-degrees">
+							<span class="td-degrees-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_temp'][$current_unit] ?></span>
+							<span class="td-circle">&deg;</span>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+			</div>
 		</div>
 
 		<script>
