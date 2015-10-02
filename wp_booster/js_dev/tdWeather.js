@@ -10,6 +10,9 @@
 /* global tdDetect:false */
 /* global tdUtil:false */
 /* global alert:false */
+/* global tdLocalCache:false */
+
+
 
 
 var tdWeather = {};
@@ -50,6 +53,7 @@ var tdWeather = {};
         // latitude and longitude position, used in callback hell
         _currentLatitude: 0,
         _currentLongitude: 0,
+        _currentPositionCacheKey: '',
 
         // all the weather items
         items: [],  /** an item is json encoded from this in PHP: @see td_weather::$weather_data */
@@ -105,13 +109,20 @@ var tdWeather = {};
         _updateLocationCallback: function(position) {
             tdWeather._currentLatitude = position.coords.latitude;
             tdWeather._currentLongitude = position.coords.longitude;
+            tdWeather._currentPositionCacheKey = position.coords.latitude + '_' + position.coords.longitude; //  update the cache key for current position
 
-            var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
-            jQuery.ajax({
-                dataType: "jsonp",
-                url: weather,
-                success: tdWeather._owmGetTodayDataCallback
-            });
+            // check the cache first and avoid doing the same ajax request again
+            if (tdLocalCache.exist(tdWeather._currentPositionCacheKey + '_today')) {
+                tdWeather._owmGetTodayDataCallback(tdLocalCache.get(tdWeather._currentPositionCacheKey + '_today'));
+            } else {
+                var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
+                jQuery.ajax({
+                    dataType: "jsonp",
+                    url: weather,
+                    success: tdWeather._owmGetTodayDataCallback,
+                    cache: true
+                });
+            }
 
             //alert(position.coords.latitude + ' ' + position.coords.longitude);
 
@@ -124,6 +135,10 @@ var tdWeather = {};
          * @private
          */
         _owmGetTodayDataCallback: function (data) {
+            // save the data to localCache
+            tdLocalCache.set(tdWeather._currentPositionCacheKey + '_today', data);
+
+
             // prepare the tdWeather._currentItem object, notice that tdWeather._currentItem is a reference to an object stored in tdWeather.items
             tdWeather._currentItem.api_location = data.name;
             tdWeather._currentItem.today_clouds = tdUtil.round(data.clouds.all);
@@ -142,12 +157,19 @@ var tdWeather = {};
             //console.log(tdWeather._currentItem);
             //console.log(data);
 
-            var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
-            jQuery.ajax({
-                dataType: "jsonp",
-                url: weather,
-                success: tdWeather._owmGetFiveDaysData
-            });
+            // check the cache first and avoid doing the same ajax request again
+            if (tdLocalCache.exist(tdWeather._currentPositionCacheKey)) {
+                tdWeather._owmGetFiveDaysData(tdLocalCache.get(tdWeather._currentPositionCacheKey));
+            } else {
+                var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
+                jQuery.ajax({
+                    dataType: "jsonp",
+                    url: weather,
+                    success: tdWeather._owmGetFiveDaysData,
+                    cache:true
+                });
+            }
+
         },
 
 
@@ -157,6 +179,10 @@ var tdWeather = {};
          * @private
          */
         _owmGetFiveDaysData: function (data) {
+            // save the data to localCache
+            tdLocalCache.set(tdWeather._currentPositionCacheKey, data);
+
+            // process the data
             for (var item_index = 0; item_index < tdWeather._currentItem.forecast.length ; item_index++) {
                 var current_forecast = tdWeather._currentItem.forecast[item_index];
                 current_forecast.day_temp[0] = tdUtil.round(data.list[current_forecast.owm_day_index].temp.day);        //celsius
