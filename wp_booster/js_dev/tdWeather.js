@@ -52,7 +52,7 @@ var tdWeather = {};
         _currentLongitude: 0,
 
         // all the weather items
-        items: [],
+        items: [],  /** an item is json encoded from this in PHP: @see td_weather::$weather_data */
 
 
 

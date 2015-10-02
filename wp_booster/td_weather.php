@@ -10,6 +10,12 @@ class td_weather {
 	private static $caching_time = 10800;  // 3 hours
 
 
+	/**
+	 * Used by all the shortcodes + widget to render the weather. The top bar has a separate function bellow
+	 * @param $atts
+	 * @param $block_uid
+	 * @return string
+	 */
 	static function render_generic($atts, $block_uid) {
 
 		if (empty($atts['w_location'])) {
@@ -139,8 +145,6 @@ class td_weather {
 				<?php
 			}
 			?>
-
-
 		</div>
 
 		<script>
@@ -155,6 +159,11 @@ class td_weather {
 
 	}
 
+
+
+	static function render_top_menu () {
+
+	}
 
 	/**
 	 * @param $atts
