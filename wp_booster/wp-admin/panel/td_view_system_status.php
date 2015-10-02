@@ -340,6 +340,9 @@ require_once "td_view_header.php";
     if(!empty($_REQUEST['clear_social_counter_cache']) and $_REQUEST['clear_social_counter_cache'] == 1) {
         //clear social counter cache
         update_option('td_social_api_v3_last_val', '');
+        ?>
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+        <?php
     }
 
     // social counter cache
