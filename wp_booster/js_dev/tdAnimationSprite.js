@@ -10,6 +10,8 @@ var tdAnimationSprite = {
 
     items: [],
 
+    // flag used to not call requestAnimationFrame until the previous requestAnimationFrame callback runs
+    isInRequestAnimation: false,
 
 
     // The item that needs animation
@@ -47,7 +49,10 @@ var tdAnimationSprite = {
 
         // number - the executed loops
         this._executedLoops = 0;
-        
+
+
+        // string - css background position
+        this._prop_background_position = undefined;
 
 
 
@@ -70,21 +75,18 @@ var tdAnimationSprite = {
 
 
 
+
+
+
         // Function actually compute the params for animation, prepare the params for next animation and calls t
         // he requestAnimationFrame with a callback function to animate all items ready for animation
         this.animate = function() {
 
-            var horizontalPosition = -1 * this.nextFrame * this.frameWidth;
-
-            // css properties
-            this.properties.push({
-                key : 'background-position',
-                value : horizontalPosition + 'px 0'
-            });
-
+            this._prop_background_position = (-1 * this.nextFrame * this.frameWidth) + 'px 0';
             this.readyToAnimate = true;
 
-            // the nextFrame is computed for next frame
+
+            // The nextFrame value is computed for next frame
             if ( true === this.reverse) {
 
                 if ( 'right' === this._currentDirection ) {
@@ -128,8 +130,18 @@ var tdAnimationSprite = {
                 }
             }
 
-            this.jqueryObj.css('background-position', horizontalPosition + 'px 0');
-            //window.requestAnimationFrame( tdAnimationSprite.animateAllItems );
+
+
+
+            //this.jqueryObj.css('background-position', horizontalPosition + 'px 0');
+
+
+            // Any calls to requestAnimationFrame are stopped. Anyway, the settings of the current item are ready,
+            // so the callback will consider it.
+            if ( false === tdAnimationSprite.isInRequestAnimation ) {
+                tdAnimationSprite.isInRequestAnimation = true;
+                window.requestAnimationFrame( tdAnimationSprite.animateAllItems );
+            }
         };
     },
 
@@ -303,19 +315,18 @@ var tdAnimationSprite = {
 
 
     // The requestAnimationFrame callback function.
-    // The properties of an item, are applied over it as css properties, and then the readyToAnimate is set
+    // The 'background-position' is set and then the 'readyToAnimate' flag is set to false
     animateAllItems: function() {
         var currentItem;
 
         for ( var i = 0; i < tdAnimationSprite.items.length; i++ ) {
             currentItem = tdAnimationSprite.items[i];
             if ( true === currentItem.readyToAnimate ) {
-                for ( var j = 0; j < currentItem.properties.length; j++ ) {
-                    currentItem.jqueryObj.css( currentItem.properties[j]['key'], currentItem.properties[j]['value'] );
-                    currentItem.readyToAnimate = false;
-                }
+                currentItem.jqueryObj.css( 'background-position', currentItem._prop_background_position );
+                currentItem.readyToAnimate = false;
             }
         }
+        tdAnimationSprite.isInRequestAnimation = false;
     }
 }
 
