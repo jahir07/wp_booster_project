@@ -10,6 +10,12 @@ class td_weather {
 	private static $caching_time = 10800;  // 3 hours
 
 
+	/**
+	 * Used by all the shortcodes + widget to render the weather. The top bar has a separate function bellow
+	 * @param $atts
+	 * @param $block_uid
+	 * @return string
+	 */
 	static function render_generic($atts, $block_uid) {
 
 		if (empty($atts['w_location'])) {
@@ -156,6 +162,11 @@ class td_weather {
 
 	}
 
+
+
+	static function render_top_menu () {
+
+	}
 
 	/**
 	 * @param $atts
@@ -357,13 +368,21 @@ class td_weather {
 		$today_date = date( 'Ymd', current_time( 'timestamp', 0 ) );
 
 
+
+
 		if (!empty($api_response['list']) and is_array($api_response['list'])) {
+			$cnt = 0;
+
 			foreach ($api_response['list'] as $index => $day_forecast) {
 				if (
 					!empty($day_forecast['dt'])
 					and !empty($day_forecast['temp']['day'])
 					and $today_date < date('Ymd', $day_forecast['dt'])
 				) {
+					if ($cnt > 4) {
+						break;
+					}
+
 					$weather_data['forecast'][] = array (
 						'timestamp' => $day_forecast['dt'],
 						//'timestamp_readable' => date('Ymd', $day_forecast['dt']),
@@ -374,10 +393,11 @@ class td_weather {
 						'day_name' => date_i18n('D', $day_forecast['dt']),
 						'owm_day_index' => $index // used in js to update only the displayed days
 					);
+
+
+					$cnt++;
 				}
-				if ($index > 4) {
-					break;
-				}
+
 			}
 		}
 		return true;

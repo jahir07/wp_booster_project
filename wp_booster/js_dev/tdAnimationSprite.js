@@ -128,8 +128,8 @@ var tdAnimationSprite = {
                 }
             }
 
-            //this.jqueryObj.css('background', imgSrc + ' ' + horizontalPosition + 'px 0');
-            window.requestAnimationFrame( tdAnimationSprite.animateAllItems );
+            this.jqueryObj.css('background-position', horizontalPosition + 'px 0');
+            //window.requestAnimationFrame( tdAnimationSprite.animateAllItems );
         };
     },
 

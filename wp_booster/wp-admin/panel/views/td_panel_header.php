@@ -177,7 +177,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW DATE</span>
-            <p>Hide or show the date on the top menu</p>
+            <p>Hide or show the date in the top menu</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -208,6 +208,66 @@
             ?>
         </div>
     </div>
+
+
+<div class="td-box-section-separator"></div>
+	<!-- Weather: enable disable -->
+	<div class="td-box-row">
+		<div class="td-box-description">
+			<span class="td-box-title">SHOW WEATHER</span>
+			<p>Hide or show the weather info in the top menu</p>
+		</div>
+		<div class="td-box-control-full">
+			<?php
+			echo td_panel_generator::checkbox(array(
+				'ds' => 'td_option',
+				'option_id' => 'tds_weather_top_menu',
+				'true_value' => 'show',
+				'false_value' => ''
+			));
+			?>
+		</div>
+	</div>
+
+
+	<!-- Weather: location -->
+	<div class="td-box-row">
+		<div class="td-box-description">
+			<span class="td-box-title">Location</span>
+			<p><a href="http://openweathermap.org/find" target="_blank">Find your location</a> - You can use "city name" (ex: London) or "city name,country code" (ex: London,uk)</p>
+		</div>
+		<div class="td-box-control-full">
+			<?php
+			echo td_panel_generator::input(array(
+				'ds' => 'td_option',
+				'option_id' => 'tds_weather_location_top_menu'
+			));
+			?>
+		</div>
+	</div>
+
+
+	<!-- Weather: Units -->
+	<div class="td-box-row">
+		<div class="td-box-description">
+			<span class="td-box-title">Units</span>
+			<p>Choose what units to use when showing the temperature</p>
+		</div>
+		<div class="td-box-control-full">
+			<?php
+			echo td_panel_generator::radio_button_control(array(
+				'ds' => 'td_option',
+				'option_id' => 'tds_weather_units_top_menu',
+				'values' => array(
+					array('text' => 'Celsius', 'val' => ''),
+					array('text' => 'Fahrenheit', 'val' => 'imperial')
+				)
+			));
+			?>
+		</div>
+	</div>
+
+
 
 
 <?php echo td_panel_generator::box_end();?>
