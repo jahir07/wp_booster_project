@@ -94,7 +94,7 @@ class td_weather {
 		<div class="td-weather-temperature">
 			<div class="td-weather-temp-wrap">
 				<div class="td-weather-animated-icon">
-					<span class="animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
+					<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
 				</div>
 				<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
 					<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
