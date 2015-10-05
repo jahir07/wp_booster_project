@@ -91,6 +91,7 @@ var tdWeather = {};
 
                 // get the block id
                 tdWeather._currentItem = tdWeather._getItemByBlockID(jQuery(this).data('block-uid'));
+
                 if (tdWeather._currentItem.current_unit === 1) {
                     tdWeather._currentItem.current_unit = 0;
                 } else {
@@ -115,7 +116,7 @@ var tdWeather = {};
             if (tdLocalCache.exist(tdWeather._currentPositionCacheKey + '_today')) {
                 tdWeather._owmGetTodayDataCallback(tdLocalCache.get(tdWeather._currentPositionCacheKey + '_today'));
             } else {
-                var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
+                var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=' + tdWeather._currentItem.api_language;
                 jQuery.ajax({
                     dataType: "jsonp",
                     url: weather,
@@ -161,7 +162,7 @@ var tdWeather = {};
             if (tdLocalCache.exist(tdWeather._currentPositionCacheKey)) {
                 tdWeather._owmGetFiveDaysData(tdLocalCache.get(tdWeather._currentPositionCacheKey));
             } else {
-                var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=en';
+                var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=' + tdWeather._currentItem.api_language;
                 jQuery.ajax({
                     dataType: "jsonp",
                     url: weather,
