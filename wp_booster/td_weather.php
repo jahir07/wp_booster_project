@@ -14,9 +14,10 @@ class td_weather {
 	 * Used by all the shortcodes + widget to render the weather. The top bar has a separate function bellow
 	 * @param $atts
 	 * @param $block_uid
+	 * @param $template string -> block_template | top_bar_template
 	 * @return string
 	 */
-	static function render_generic($atts, $block_uid) {
+	static function render_generic($atts, $block_uid, $template = 'block_template') {
 
 		if (empty($atts['w_location'])) {
 			return self::error('<strong>location</strong> is empty. Configure this block/widget and enter a location and we will show the weather from that location :) ');
@@ -36,6 +37,7 @@ class td_weather {
 		$weather_data = array (
 			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
+			'api_language' => '', //this is set down bellow
 			'today_icon' => '',
 			'today_icon_text' => '',
 			'today_temp' => array (
@@ -63,32 +65,91 @@ class td_weather {
 
 		// disable the cache for debugging
 		// td_remote_cache::_disable_cache();
-
-
-
 		$weather_data_status = self::get_weather_data($atts, $weather_data);
-
 
 		// check if we have an error and return that
 		if ($weather_data_status != 'api_fail_cache' and $weather_data_status != 'api' and $weather_data_status != 'cache') {
 			return $weather_data_status;
 		}
 
-
 		// we have to patch the cached data - to make sure we have the REAL block_uid that is now on the page
 		$weather_data['block_uid'] = $block_uid;
 
 
+		// render the HTML
+		$buffy = '<!-- td weather source: ' . $weather_data_status  . ' -->';
 
 
+		if ($template == 'block_template') {
+			// renders the block template
+			$buffy .= self::render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label);
+		} else {
+			// render the top menu template
+			$buffy .= self::render_top_bar_template($atts, $weather_data, $current_temp_label);
+		}
+
+
+		// render the JS
 		ob_start();
 		?>
-		<!-- td weather source: <?php echo $weather_data_status ?> -->
+		<script>
+			jQuery().ready(function() {
+				tdWeather.items.push(<?php echo json_encode($weather_data) ?>);
+			});
+		</script>
+		<?php
+		$script_buffer = ob_get_clean();
+		$js_script = "\n". td_util::remove_script_tag($script_buffer);
+		td_js_buffer::add_to_footer($js_script);
+
+		return $buffy;
+	}
+
+
+	/**
+	 * renders the template that is used in the top bar of the site
+	 * @param $atts - the atts that the block gets
+	 * @param $weather_data - the precomputed weather data
+	 * @param $current_temp_label - C/F
+	 *
+	 * @return string - HTML the rendered template
+	 */
+	private static function render_top_bar_template($atts, $weather_data, $current_temp_label) {
+		$current_unit = $weather_data['current_unit'];
+		ob_start();
+		?>
+		<div class="td-weather-top-widget" id="<?php echo $weather_data['block_uid'] ?>">
+			<i class="td-ico-weather clear-sky-d"></i>
+			<div class="td-weather-now" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
+				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
+				<span class="td-weather-unit"><?php echo $current_temp_label ?></span>
+			</div>
+			<div class="td-weather-header">
+				<div class="td-weather-city"><?php echo $atts['w_location'] ?></div>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+
+	/**
+	 * renders the template that is used on all weather blocks and widgets
+	 * @param $atts - the atts that the block gets
+	 * @param $weather_data - the precomputed weather data
+	 * @param $current_temp_label - C/F
+	 * @param $current_speed_label - mph/kmh
+	 * @return string - HTML the rendered template
+	 */
+	private static function render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label) {
+		$current_unit = $weather_data['current_unit'];
+		ob_start();
+		?>
 
 		<div class="td-weather-header">
 			<div class="td-weather-city"><?php echo $atts['w_location'] ?></div>
 			<div class="td-weather-condition"><?php echo $weather_data['today_icon_text'] ?></div>
-			<i class="td-location-icon td-ico-weather-location"  data-block-uid="<?php echo $block_uid ?>"></i>
+			<i class="td-location-icon td-ico-weather-location"  data-block-uid="<?php echo $weather_data['block_uid'] ?>"></i>
 		</div>
 
 		<div class="td-weather-temperature">
@@ -96,7 +157,7 @@ class td_weather {
 				<div class="td-weather-animated-icon">
 					<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
 				</div>
-				<div class="td-weather-now" data-block-uid="<?php echo $block_uid ?>">
+				<div class="td-weather-now" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
 					<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
 					<span class="td-circle">&deg;</span>
 					<span class="td-weather-unit"><?php echo $current_temp_label; ?></span>
@@ -149,40 +210,20 @@ class td_weather {
 				?>
 			</div>
 		</div>
-
-		<script>
-			jQuery().ready(function() {
-				tdWeather.items.push(<?php echo json_encode($weather_data) ?>);
-			});
-		</script>
 		<?php
-		//print_r($weather_data_status);
-		//print_r($weather_data);
 		return ob_get_clean();
-
 	}
 
 
-
-	static function render_top_menu () {
-
-	}
 
 	/**
 	 * @param $atts
-	 *
+	 * @param $weather_data - the precomputed weather data
 	 * @return bool|string
 	 *  - bool:true - we have the $weather_data (from cache or from a real request)
 	 *  - string - error message
 	 */
 	private static function get_weather_data($atts, &$weather_data) {
-
-
-
-
-
-
-
 		if (empty($atts['w_language'])) {
 			$atts['w_language'] = 'en';
 			$sytem_locale = get_locale();
@@ -199,7 +240,8 @@ class td_weather {
 		}
 
 
-		$cache_key = strtolower($atts['w_location']);
+
+		$cache_key = strtolower($atts['w_location'] . '_' . $atts['w_language'] . '_' . $weather_data['current_unit']);
 		if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
 			// cache is expired - do a request
 			$today_api_data = self::owm_get_today_data($atts, $weather_data);
@@ -230,10 +272,18 @@ class td_weather {
 
 
 
+	/**
+	 * adds to the &$weather_data the information for today's forecast from OWM
+	 * @param $atts - the shortcode atts
+	 * @param $weather_data - BYREF weather data - this function will add to it
+	 *
+	 * @return bool|string
+	 *   - true: if everything is ok
+	 *   - string: the error message, if there was an error
+	 */
 	private static function owm_get_today_data($atts, &$weather_data) {
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric';
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
-
 
 		// fail
 		if ($json_api_response === false) {
@@ -258,6 +308,11 @@ class td_weather {
 
 		//print_r($api_response);
 
+
+
+		// set the language of the api
+		$weather_data['api_language'] = $atts['w_language'];
+
 		// current location
 		if (isset($api_response['name'])) {
 			$weather_data['api_location'] = $api_response['name'];
@@ -277,31 +332,25 @@ class td_weather {
 			$weather_data['today_max'][1] = self::celsius_to_fahrenheit($api_response['main']['temp_max']);
 		}
 
-
 		// humidity
 		if (isset($api_response['main']['humidity'])) {
 			$weather_data['today_humidity'] = round($api_response['main']['humidity']);
 		}
 
-
 		// wind speed and direction
 		if (isset($api_response['wind']['speed'])) {
-//			if ($atts['w_units'] == 'metric') {
-//				$wind_speed_text = 'km/h';
-//			} else {
-//				$wind_speed_text = 'mph';
-//			}
-
 			$weather_data['today_wind_speed'][0] = round($api_response['wind']['speed'], 1);
 			$weather_data['today_wind_speed'][1] = self::kmph_to_mph($api_response['wind']['speed']);
 		}
 
-
-
-
 		// forecast description
 		if (isset($api_response['weather'][0]['description'])) {
 			$weather_data['today_icon_text'] = $api_response['weather'][0]['description'];
+		}
+
+		// clouds
+		if (isset($api_response['clouds']['all'])) {
+			$weather_data['today_clouds'] = round($api_response['clouds']['all']);
 		}
 
 		// icon
@@ -334,19 +383,24 @@ class td_weather {
 			if (isset($icons[$api_response['weather'][0]['icon']])) {
 				$weather_data['today_icon'] = $icons[$api_response['weather'][0]['icon']];
 			}
+		}  // end icon
 
-
-			if (isset($api_response['clouds']['all'])) {
-				$weather_data['today_clouds'] = round($api_response['clouds']['all']);
-			}
-
-		}
-
-		return true;
+		return true;  // return true if ~everything is ok
 	}
 
 
+
+	/**
+	 * adds to the &$weather_data the information for the next 5 days
+	 * @param $atts - the shortcode atts
+	 * @param $weather_data - BYREF weather data - this function will add to it
+	 *
+	 * @return bool|string
+	 *   - true: if everything is ok
+	 *   - string: the error message, if there was an error
+	 */
 	private static function owm_get_five_days_data ($atts, &$weather_data) {
+		// request 7 days because the current day may be today in a different timezone
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&cnt=7';
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
 
@@ -362,12 +416,9 @@ class td_weather {
 			return 'Error decoding the json from OpenWeatherMap';
 		}
 
-		//print_r($api_response);
 
-
+		// today in format like: 20150210
 		$today_date = date( 'Ymd', current_time( 'timestamp', 0 ) );
-
-
 
 
 		if (!empty($api_response['list']) and is_array($api_response['list'])) {
@@ -377,12 +428,11 @@ class td_weather {
 				if (
 					!empty($day_forecast['dt'])
 					and !empty($day_forecast['temp']['day'])
-					and $today_date < date('Ymd', $day_forecast['dt'])
-				) {
-					if ($cnt > 4) {
+					and $today_date < date('Ymd', $day_forecast['dt'])  // compare today with the forecast date in the format 20150210, today must be smaller. We have to do this hack
+				) {                                                     // because the api return UTC time and we may have different timezones on the server. Avoid showing the same day twice
+					if ($cnt > 4) { // show only 5
 						break;
 					}
-
 					$weather_data['forecast'][] = array (
 						'timestamp' => $day_forecast['dt'],
 						//'timestamp_readable' => date('Ymd', $day_forecast['dt']),
@@ -391,39 +441,52 @@ class td_weather {
 							round(self::celsius_to_fahrenheit($day_forecast['temp']['day']))  //imperial
 						),
 						'day_name' => date_i18n('D', $day_forecast['dt']),
-						'owm_day_index' => $index // used in js to update only the displayed days
+						'owm_day_index' => $index // used in js to update only the displayed days when we do api calls from JS
 					);
-
-
 					$cnt++;
 				}
 
 			}
 		}
-		return true;
+		return true; // return true if ~everything is ok
 	}
 
 
 
-
+	/**
+	 * convert celsius to fahrenheit + rounding (no decimals if result > 100 or one decimal if result < 100)
+	 * @param $celsius_degrees
+	 * @return float
+	 */
 	private static function celsius_to_fahrenheit ($celsius_degrees) {
 		$f_degrees = $celsius_degrees * 9 / 5 + 32;
 
 		$rounded_val = round($f_degrees, 1);
-		if ($rounded_val > 99.9) {  // if the value is bigger than 100, round it
+		if ($rounded_val > 99.9) {  // if the value is bigger than 100, round it with no zecimals
 			return round($f_degrees);
 		}
 
 		return $rounded_val;
 	}
 
+
+
+	/**
+	 * rounding to .1
+	 * @param $kmph
+	 * @return float
+	 */
 	private static function kmph_to_mph ($kmph) {
 		return round($kmph * 0.621371192, 1);
 	}
 
 
 
-
+	/**
+	 * Show an error if the user is logged in. It does not check for admin
+	 * @param $msg
+	 * @return string
+	 */
 	private static function error($msg) {
 		if (is_user_logged_in()) {
 			return $msg;
