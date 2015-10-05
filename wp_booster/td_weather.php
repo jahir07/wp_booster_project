@@ -14,6 +14,7 @@ class td_weather {
 	 * Used by all the shortcodes + widget to render the weather. The top bar has a separate function bellow
 	 * @param $atts
 	 * @param $block_uid
+	 * @param $template string -> block_template | top_bar_template
 	 * @return string
 	 */
 	static function render_generic($atts, $block_uid, $template = 'block_template') {
@@ -217,7 +218,7 @@ class td_weather {
 
 	/**
 	 * @param $atts
-	 *
+	 * @param $weather_data - the precomputed weather data
 	 * @return bool|string
 	 *  - bool:true - we have the $weather_data (from cache or from a real request)
 	 *  - string - error message
