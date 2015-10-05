@@ -44,7 +44,8 @@
   #td_block_social_counter,
   #td_block_video_youtube,
   #td_block_video_vimeo,
-  #td_block_text_with_title {
+  #td_block_text_with_title,
+  #td_block_weather {
     padding-left: 75px;
   }
 }
@@ -91,7 +92,8 @@
 .icon-pagebuilder-td_block_authors,
 .icon-pagebuilder-td-youtube,
 .icon-pagebuilder-td-vimeo,
-.icon-pagebuilder-title {
+.icon-pagebuilder-title,
+.icon-pagebuilder-td-weather {
   position: relative;
   width:60px !important;
   height: 44px !important;
@@ -142,7 +144,8 @@
   .icon-pagebuilder-td_block_authors,
   .icon-pagebuilder-td-youtube,
   .icon-pagebuilder-td-vimeo,
-  .icon-pagebuilder-title {
+  .icon-pagebuilder-title,
+  .icon-pagebuilder-td-weather {
     top: -5px !important;
   }
 }
@@ -189,16 +192,31 @@
 .wpb_td_block_social_counter,
 .td_block_video_playlist_youtube,
 .td_block_video_playlist_vimeo,
-.icon-pagebuilder-title {
+.icon-pagebuilder-title,
+.wpb_td_block_weather,
+.wpb_td_block_ad_box {
   .wpb_element_wrapper  div {
     display: none;
+    font-size: 11px;
+    margin-right: 12px;
   }
 
   .wpb_element_wrapper  div[name="custom_title"] {
-    display: block;
-    font-size: 11px;
+    display: inline-block;
   }
 }
+
+/* display some extra information on some widgets - above will hide all info - show only widget title */
+// weather
+.wpb_td_block_weather .wpb_element_wrapper .w_location {
+  display: inline-block;
+}
+// ad box
+.wpb_td_block_ad_box .wpb_element_wrapper .spot_id,
+.wpb_td_block_ad_box .wpb_element_wrapper .spot_title {
+  display: inline-block;
+}
+
 
 /* some of the icons are not used on all the themes ? */
 .icon-pagebuilder-td_block_1
@@ -415,6 +433,10 @@
 
 .icon-pagebuilder-td-vimeo {
   background-image: url('../../../../images/pagebuilder/vimeo.png') !important;
+}
+
+.icon-pagebuilder-td-weather {
+  background-image: url('../../../../images/pagebuilder/weather.png') !important;
 }
 
 
