@@ -253,6 +253,12 @@ abstract class td_module {
                 //we have no thumb but the placeholder one is activated
                 global $_wp_additional_image_sizes;
 
+                // get thumb height and width via api
+                $td_thumb_parameters = td_api_thumb::get_by_id($thumbType);
+                $_wp_additional_image_sizes[$thumbType]['height'] = $td_thumb_parameters['height'];
+                $_wp_additional_image_sizes[$thumbType]['width'] = $td_thumb_parameters['width'];
+
+
                 if (empty($_wp_additional_image_sizes[$thumbType]['width'])) {
                     $td_temp_image_url[1] = '';
                 } else {
