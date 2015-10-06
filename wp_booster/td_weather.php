@@ -23,10 +23,10 @@ class td_weather {
 			return self::error('<strong>location</strong> is empty. Configure this block/widget and enter a location and we will show the weather from that location :) ');
 		}
 
-
 		$current_unit = 0; // 0 - metric
 		$current_temp_label = 'C';
 		$current_speed_label = 'kmh';
+
 		if (!empty($atts['w_units'])) {
 			$current_unit = 1; // imperial
 			$current_temp_label = 'F';
@@ -238,7 +238,6 @@ class td_weather {
 				$atts['w_language'] = substr($sytem_locale, 0, 2);
 			}
 		}
-
 
 
 		$cache_key = strtolower($atts['w_location'] . '_' . $atts['w_language'] . '_' . $weather_data['current_unit']);
