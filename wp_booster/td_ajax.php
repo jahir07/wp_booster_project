@@ -369,7 +369,7 @@ function td_mod_register(){
 
                 if (intval($user_id) > 0) {
                     //send email to $register_email
-                    wp_new_user_notification($user_id, $random_password);
+                    wp_new_user_notification($user_id, null, 'both');
                     die(json_encode(array('register', 1,__td('Please check you email (index or spam folder), the password was sent there.', TD_THEME_NAME))));
                 } else {
                     die($json_user_pass_exists);
