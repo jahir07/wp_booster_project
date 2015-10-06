@@ -117,7 +117,7 @@ die;
     <h1><?php echo TD_THEME_NAME ?> demos</h1>
     <div class="about-text">
         <p>
-            Newspaper brings you six  unique designs for your website. Our demos were carefully tested so you don’t have to create everything from scratch.  With the theme demos you know exactly which predefined templates is perfectly designed to start build upon. Each demo is fully customizable (fonts, colors and layouts) -
+            <?php echo TD_THEME_NAME ?> brings you six unique designs for your website. Our demos were carefully tested so you don’t have to create everything from scratch.  With the theme demos you know exactly which predefined templates is perfectly designed to start build upon. Each demo is fully customizable (fonts, colors and layouts) -
             <a href="<?php echo TD_THEME_DEMO_DOC_URL?>" target="_blank">read more</a>.
         </p>
     </div>

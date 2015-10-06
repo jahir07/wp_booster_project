@@ -305,20 +305,20 @@ require_once "td_view_header.php";
     // caching
     $caching_plugin_list = array(
         'wp-super-cache/wp-cache.php' => array(
-            'name' => 'WP super cache - for best performance please check the plugin configuration guide <a href="http://forum.tagdiv.com/cache-plugin-install-and-configure/">here</a>.',
+            'name' => 'WP super cache - <span class="td-status-small-text">for best performance please check the plugin configuration guide <a href="http://forum.tagdiv.com/cache-plugin-install-and-configure/">here</a>.</span>',
             'status' => 'green',
         ),
         'w3-total-cache/w3-total-cache.php' => array(
-            'name' => 'W3 total cache (we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a>)',
+            'name' => 'W3 total cache - <span class="td-status-small-text">we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
             'status' => 'yellow',
         ),
         'wp-fastest-cache/wpFastestCache.php' => array(
-            'name' => 'WP Fastest Cache (we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a>)',
+            'name' => 'WP Fastest Cache - <span class="td-status-small-text">we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
             'status' => 'yellow',
         ),
     );
     $active_plugins = get_option('active_plugins');
-    $caching_plugin = 'No caching plugin detected - for best performance we recommend using <a href="https://wordpress.org/plugins/wp-super-cache/">WP Super Cache</a>';
+    $caching_plugin = 'No caching plugin detected - <span class="td-status-small-text">for best performance we recommend using <a href="https://wordpress.org/plugins/wp-super-cache/">WP Super Cache</a></span>';
     $caching_plugin_status = 'yellow';
     foreach ($active_plugins as $active_plugin) {
         if (isset($caching_plugin_list[$active_plugin])) {
@@ -336,14 +336,26 @@ require_once "td_view_header.php";
 
     td_system_status::render_tables();
 
-    // Reset Social Counter cache - only if the reset button is used
+    // Clear the Social Counter cache - only if the reset button is used
     if(!empty($_REQUEST['clear_social_counter_cache']) and $_REQUEST['clear_social_counter_cache'] == 1) {
         //clear social counter cache
         update_option('td_social_api_v3_last_val', '');
         ?>
+        <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
         <?php
     }
+
+    // Clear the Remote cache - only if the reset button is used
+    if(!empty($_REQUEST['clear_remote_cache']) and $_REQUEST['clear_remote_cache'] == 1) {
+        //clear remote cache
+        update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', '');
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+    <?php
+    }
+
 
     // social counter cache
     $cache_content = get_option('td_social_api_v3_last_val', '');
@@ -360,12 +372,6 @@ require_once "td_view_header.php";
     $td_remote_cache_content = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
     td_system_status::render_td_remote_cache($td_remote_cache_content);
 
-    // Social Counter cache reset button
-    if (get_option('td_social_api_v3_last_val') != ''){ ?>
-        <div>
-            <a class="button button-primary td-button-socialcounter-reset" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_social_counter_cache=1">Reset Social Counter Cache</a>
-        </div>
-    <?php }
 
 
 
@@ -499,6 +505,11 @@ require_once "td_view_header.php";
                         <?php
                     }
                     ?>
+                    <tr> <!-- Social Counter cache reset button -->
+                        <td colspan="6">
+                            <a class="td-social-counter-reset" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_social_counter_cache=1">Clear the Social Counter cache</a>
+                        </td>
+                    </tr>
 
 
                     </tbody>
@@ -555,9 +566,15 @@ require_once "td_view_header.php";
                        }
                        ?>
                        <tr>
-                           <td><?php echo $td_log_params['file'] ?></td>
-                           <td><?php echo $td_log_params['function'] ?></td>
-                           <td><?php echo $td_log_params['msg'] ?></td>
+                           <td>
+                               <?php
+                               // explode the url and echo only the file name
+                               $td_log_url_parts = explode('\\',$td_log_params['file']);
+                               echo '<div title="' . $td_log_params['file'] . '">' . end($td_log_url_parts) . '</div>';
+                               ?>
+                           </td>
+                           <td><?php echo $td_log_params['function']; ?></td>
+                           <td><?php echo $td_log_params['msg']; ?></td>
                            <td>
                                <div class="td_log_more_data_container">
                                    <?php
@@ -645,6 +662,13 @@ require_once "td_view_header.php";
                        </tr>
                    <?php
                    } ?>
+
+                   <tr> <!-- Remote cache reset button -->
+                       <td colspan="5">
+                           <a class="td-remote-cache-reset" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_remote_cache=1">Clear the Remote cache</a>
+                       </td>
+                   </tr>
+
                    </tbody>
                </table>
            <?php
