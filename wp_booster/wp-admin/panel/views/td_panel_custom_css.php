@@ -1,20 +1,22 @@
 <!-- CUSTOM CSS -->
 <?php echo td_panel_generator::box_start('Custom CSS'); ?>
 
-    <!-- YOUR CUSTOM CSS -->
-    <div class="td-box-row td-custom-css">
-        <div class="td-box-description">
-            <span class="td-box-title">YOUR CUSTOM CSS</span>
-            <p>Paste here your custom CSS</p>
-        </div>
-        <div class="td-box-control-full">
+
+	<div class="td-box-row">
+		<div class="td-box-description td-box-full">
+			<span class="td-box-title">WRITE YOUR OWN CSS HERE</span>
+			<p>The css from this box will load on all the pages of the site. Press <strong>ctrl + space</strong> while editing to bring up a suggestion box.</p>
+		</div>
+	</div>
+
+
+    <div class="td-box-row-margin-bottom">
             <?php
-            echo td_panel_generator::textarea(array(
+            echo td_panel_generator::css_editor(array(
                 'ds' => 'td_option',
                 'option_id' => 'tds_custom_css',
             ));
             ?>
-        </div>
     </div>
 
 <?php echo td_panel_generator::box_end();?>
@@ -28,8 +30,7 @@
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
             <span class="td-box-title">RESPONSIVE CSS</span>
-            <p>Paste your custom css in the appropriate box, to run only on a specific device
-            </p>
+            <p>Paste your custom css in the appropriate box, to run only on a specific device</p>
         </div>
     </div>
 
@@ -53,9 +54,13 @@
                 </div>
                 <div class="td-box-control-full">
                     <?php
-                    echo td_panel_generator::textarea(array(
+                    echo td_panel_generator::css_editor(array(
                         'ds' => 'td_option',
-                        'option_id' => $option_id
+                        'option_id' => $option_id,
+	                    'css' => array(
+		                    'height' => '150px',
+		                    'margin-bottom' => '15px'
+	                    )
                     ));
                     ?>
                 </div>
