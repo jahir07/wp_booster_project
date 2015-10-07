@@ -253,12 +253,6 @@ abstract class td_module {
                 //we have no thumb but the placeholder one is activated
                 global $_wp_additional_image_sizes;
 
-                // get thumb height and width via api
-                $td_thumb_parameters = td_api_thumb::get_by_id($thumbType);
-                $_wp_additional_image_sizes[$thumbType]['height'] = $td_thumb_parameters['height'];
-                $_wp_additional_image_sizes[$thumbType]['width'] = $td_thumb_parameters['width'];
-
-
                 if (empty($_wp_additional_image_sizes[$thumbType]['width'])) {
                     $td_temp_image_url[1] = '';
                 } else {
@@ -270,6 +264,17 @@ abstract class td_module {
                 } else {
                     $td_temp_image_url[2] = $_wp_additional_image_sizes[$thumbType]['height'];
                 }
+
+                /**
+                 * get thumb height and width via api
+                 * first we check the global in case a custom thumb is used
+                 */
+                if (($td_temp_image_url[1] == '') and ($td_temp_image_url[2] == '')) {
+                    $td_thumb_parameters = td_api_thumb::get_by_id($thumbType);
+                    $td_temp_image_url[1] = $td_thumb_parameters['width'];
+                    $td_temp_image_url[2] = $td_thumb_parameters['height'];
+                }
+
 
                 $td_temp_image_url[0] = get_template_directory_uri() . '/images/no-thumb/' . $thumbType . '.png';
                 $attachment_alt = 'alt=""';
