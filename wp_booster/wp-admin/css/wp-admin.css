@@ -2815,22 +2815,22 @@ title one row controls
   color: #707070;
   font-style: italic;
 }
-/* TD log panel + TD remote cache panel*/
-.td_log_header_msg,
-.td_log_header_more_data,
-.td_remote_header_value {
+/* TD log panel + TD remote cache panel */
+.td-log-header-msg,
+.td-log-header-more-data,
+.td-remote-header-value {
   min-width: 200px;
 }
-.td_log_header_timestamp,
-.td_remote_header_expires,
-.td_remote_header_timestamp {
+.td-log-header-timestamp,
+.td-remote-header-expires,
+.td-remote-header-timestamp {
   width: 82px;
 }
-.td_log_more_data_container {
+.td-log-more-data-container,
+.td-remote-value-data-container {
   position: relative;
 }
-.td_log_array,
-.td_remote_cache_array {
+.td-array-viewer {
   width: 450px;
   height: 300px;
   overflow: auto;
@@ -2844,6 +2844,10 @@ title one row controls
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
+  display: none;
+}
+.td-array-viewer-visible {
+  display: block;
 }
 .td-button-system-status-details {
   display: inline-block;
@@ -2869,7 +2873,8 @@ title one row controls
   color: #fff;
   text-decoration: none;
 }
-.td-button-system-status-details:hover {
+.td-button-system-status-details:hover,
+.td-button-ss-pressed {
   background: #9FB8BF;
   border-color: #8C989B;
   -webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.6);

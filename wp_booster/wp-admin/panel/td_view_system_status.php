@@ -353,9 +353,9 @@ require_once "td_view_header.php";
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+
     <?php
     }
-
 
     // social counter cache
     $cache_content = get_option('td_social_api_v3_last_val', '');
@@ -373,27 +373,30 @@ require_once "td_view_header.php";
     td_system_status::render_td_remote_cache($td_remote_cache_content);
 
 
-
-
-
-
-
     ?>
-
     <!-- show/hide script - used to display the array data on log and remote cache panels-->
     <script>
-        function toggle_visibility(cl){
-            var els = document.getElementsByClassName(cl);
 
-            for(var i=0; i<els.length; ++i){
-                var s = els[i].style;
-                s.display = s.display==='none' ? 'block' : 'none';
-            };
-        }
+        (function () {
+
+            jQuery('.td-button-system-status-details').click(function(){
+                var arrayViewer = jQuery(this).parent().parent().find('.td-array-viewer');
+                // hide - if the td_array_viewer_visible is present remove it and return
+                if (arrayViewer.hasClass('td-array-viewer-visible')) {
+                    arrayViewer.removeClass('td-array-viewer-visible');
+                    jQuery(this).removeClass('td-button-ss-pressed');
+                    return;
+                }
+
+                jQuery('.td-array-viewer-visible').removeClass('td-array-viewer-visible');
+                jQuery('.td-button-ss-pressed').removeClass('td-button-ss-pressed');
+                jQuery(this).addClass('td-button-ss-pressed');
+                arrayViewer.addClass('td-array-viewer-visible');
+            });
+
+        })();
 
     </script>
-
-
 
 </div>
 
@@ -535,15 +538,13 @@ require_once "td_view_header.php";
                    <tr>
                        <th>File</th>
                        <th>Function:</th>
-                       <th class="td_log_header_msg">Msg:</th>
-                       <th class="td_log_header_more_data">More_data:</th>
-                       <th class="td_log_header_timestamp">Timestamp:</th>
+                       <th class="td-log-header_msg">Msg:</th>
+                       <th class="td-log-header_more_data">More_data:</th>
+                       <th class="td-log-header-timestamp">Timestamp:</th>
                    </tr>
                    </thead>
                    <tbody>
                    <?php
-
-                   $td_log_element_counter = 0;
                    foreach ($td_log_content as $td_log_params) {
 
                        if (empty($td_log_params['file'])) {
@@ -580,11 +581,10 @@ require_once "td_view_header.php";
                                <div class="td_log_more_data_container">
                                    <?php
                                if (is_array($td_log_params['more_data']) or is_object($td_log_params['more_data'])) {
-                                   $td_log_array_class = 'td_log_array_' . $td_log_element_counter;
                                    // details button
-                                   echo '<div><a class="td-button-system-status-details" onclick="toggle_visibility(\'' . $td_log_array_class . '\');">View Details</a></div>';
+                                   echo '<div><a class="td-button-system-status-details">View Details</a></div>';
                                    // array data container
-                                   echo '<div style="display: none;" class="td_log_array td_log_array_' . $td_log_element_counter . '"><pre>';
+                                   echo '<div class="td-array-viewer"><pre>';
                                    print_r($td_log_params['more_data']);
                                    echo '</pre></div>';
                                } else {
@@ -596,7 +596,6 @@ require_once "td_view_header.php";
                            <td><?php echo gmdate("H:i:s", time() - $td_log_params['timestamp'])?> ago</td>
                        </tr>
                    <?php
-                       $td_log_element_counter++;
                    }
                    ?>
 
@@ -618,9 +617,9 @@ require_once "td_view_header.php";
                    <tr>
                        <th>Group</th>
                        <th>Item ID:</th>
-                       <th class="td_remote_header_value">Value:</th>
-                       <th class="td_remote_header_expires">Expires:</th>
-                       <th class="td_remote_header_timestamp">Timestamp:</th>
+                       <th class="td-remote-header-value">Value:</th>
+                       <th class="td-remote-header-expires">Expires:</th>
+                       <th class="td-remote-header-timestamp">Timestamp:</th>
                    </tr>
                    </thead>
                    <tbody>
@@ -638,14 +637,14 @@ require_once "td_view_header.php";
                                <td><?php echo $td_remote_cache_group_id ?></td> <!-- ID -->
 
                                <td> <!-- Value -->
-                                   <div class="td_log_more_data_container">
+                                   <div class="td-remote-value-data-container">
                                        <?php
                                        if (is_array($td_remote_cache_group_parameters['value']) or is_object($td_remote_cache_group_parameters['value'])) {
-                                           $td_remote_cache_array_class = 'td_remote_cache_array_' . $td_remote_cache_element_counter;
+
                                            // details button
-                                           echo '<div><a class="td-button-system-status-details" onclick="toggle_visibility(\'' . $td_remote_cache_array_class . '\');">View Details</a></div>';
+                                           echo '<div><a class="td-button-system-status-details">View Details</a></div>';
                                            // array data container
-                                           echo '<div style="display: none;" class="td_remote_cache_array ' . $td_remote_cache_array_class . '"><pre>';
+                                           echo '<div class="td-array-viewer"><pre>';
                                            print_r($td_remote_cache_group_parameters['value']);
                                            echo '</pre></div>';
                                        } else {
