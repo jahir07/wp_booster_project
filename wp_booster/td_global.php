@@ -90,7 +90,11 @@ class td_global {
         'td_edit_page' => '/includes/wp_booster/wp-admin/js/td_edit_page.js',
         'td_wp_admin_demos' => '/includes/wp_booster/wp-admin/js/td_wp_admin_demos.js',
         'td_page_options' => '/includes/wp_booster/wp-admin/js/td_page_options.js',
-        'td_tooltip' => '/includes/wp_booster/wp-admin/js/tooltip.js'
+        'td_tooltip' => '/includes/wp_booster/wp-admin/js/tooltip.js',
+
+		// ace code editor
+	    'td_ace' => '/includes/wp_booster/wp-admin/external/ace/ace.js',
+        'td_ace_ext_language_tools' => '/includes/wp_booster/wp-admin/external/ace/ext-language_tools.js',
 
     );
 
