@@ -37,7 +37,7 @@ require_once('td_first_install.php');  //the code that runs on the first install
 require_once("td_fonts.php"); //fonts support
 require_once("td_ajax.php"); // ajax
 require_once('td_video_support.php');  // video thumbnail support
-require_once('td_video_playlist_support.php'); //video playlist support
+//require_once('td_video_playlist_support.php'); //video playlist support
 require_once('td_css_buffer.php'); // css buffer class
 require_once('td_js_generator.php');  // ~ app config ~ css generator
 require_once('td_more_article_box.php');  //handles more articles box
@@ -63,6 +63,7 @@ td_api_autoload::add('td_smart_list', td_global::$get_template_directory . '/inc
 td_api_autoload::add('td_remote_cache', td_global::$get_template_directory . '/includes/wp_booster/td_remote_cache.php');
 td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/includes/wp_booster/td_remote_http.php');
 td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
+td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 
 // aurora framework ??
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');

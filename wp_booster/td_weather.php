@@ -8,6 +8,7 @@
 class td_weather {
 
 	private static $caching_time = 10800;  // 3 hours
+	private static $owm_api_key = 'f5dc074e364b4d0bbaacbab0030031a3';
 
 
 	/**
@@ -38,6 +39,7 @@ class td_weather {
 			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'api_language' => '', //this is set down bellow
+			'api_key' => self::$owm_api_key,
 			'today_icon' => '',
 			'today_icon_text' => '',
 			'today_temp' => array (
@@ -281,7 +283,7 @@ class td_weather {
 	 *   - string: the error message, if there was an error
 	 */
 	private static function owm_get_today_data($atts, &$weather_data) {
-		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric';
+		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&appid=' . $weather_data['api_key'];
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
 
 		// fail
@@ -400,7 +402,7 @@ class td_weather {
 	 */
 	private static function owm_get_five_days_data ($atts, &$weather_data) {
 		// request 7 days because the current day may be today in a different timezone
-		$today_weather_url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&cnt=7';
+		$today_weather_url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&cnt=7&appid=' . $weather_data['api_key'];
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
 
 
