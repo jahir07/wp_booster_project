@@ -47,7 +47,7 @@ class td_remote_http {
 
 						$td_remote_http['test_status'] = $channel_that_passed;
 						td_util::update_option('td_remote_http', $td_remote_http); // save new status
-						self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> time passed -> Test passed with channel: ' . $channel_that_passed);
+						self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> time passed -> Test passed with channel: ' . $channel_that_passed, $url);
 						return $test_result;
 
 					} else {
@@ -55,20 +55,20 @@ class td_remote_http {
 						// all tests failed
 						$td_remote_http['test_status'] = 'all_fail';
 						td_util::update_option('td_remote_http', $td_remote_http); // save new status
-						self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> time passed -> all_fail again');
+						self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> time passed -> all_fail again', $url);
 						return false;
 
 					}
 
 
 				} else {
-					self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> waiting' . (time() - $td_remote_http['test_time']) . 's passed');
+					self::log_detail(__FILE__, __FUNCTION__, 'all_fail -> waiting' . (time() - $td_remote_http['test_time']) . 's passed', $url);
 					return false; // no working channels, and we have to wait more
 				}
 			} else {
 				// we have a channel that passed in test_status
 				// @todo here we can count the number of fails and run the test again
-				self::log_detail(__FILE__, __FUNCTION__, 'we have a channel that passed in test_status: ' . $td_remote_http['test_status']);
+				self::log_detail(__FILE__, __FUNCTION__, 'we have a channel that passed in test_status: ' . $td_remote_http['test_status'], $url);
 				return self::get_page_via_channel($url, $caller_id, $td_remote_http['test_status']);
 			}
 
@@ -81,13 +81,13 @@ class td_remote_http {
 			if ($test_result !== false) {
 				$td_remote_http['test_status'] = $channel_that_passed;
 				td_util::update_option('td_remote_http', $td_remote_http); //save
-				self::log_detail(__FILE__, __FUNCTION__, 'first run -> test passed with channel: ' . $channel_that_passed);
+				self::log_detail(__FILE__, __FUNCTION__, 'first run -> test passed with channel: ' . $channel_that_passed, $url);
 				return $test_result;
 			} else {
 				// all tests failed
 				$td_remote_http['test_status'] = 'all_fail';
 				td_util::update_option('td_remote_http', $td_remote_http); //save
-				self::log_detail(__FILE__, __FUNCTION__, 'first run -> all failed');
+				self::log_detail(__FILE__, __FUNCTION__, 'first run -> all failed', $url);
 				return false;
 			}
 
@@ -218,7 +218,7 @@ class td_remote_http {
 
 	private static function log_detail($file, $function, $msg, $more_data = '') {
 		if (self::$log_get_page_steps === true) {
-			td_log::log($file, $function, $msg, $more_data = '');
+			td_log::log($file, $function, $msg, $more_data);
 		}
 	}
 
