@@ -536,8 +536,8 @@ require_once "td_view_header.php";
                        <th colspan="5">TD Log</th>
                    </tr>
                    <tr>
-                       <th>File</th>
-                       <th>Function:</th>
+                       <th class="td-log-header_file">File</th>
+                       <th class="td-log-header_function">Function:</th>
                        <th class="td-log-header_msg">Msg:</th>
                        <th class="td-log-header_more_data">More_data:</th>
                        <th class="td-log-header-timestamp">Timestamp:</th>
