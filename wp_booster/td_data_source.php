@@ -15,6 +15,7 @@ class td_data_source {
         //print_r($atts);
         extract(shortcode_atts(
                 array(
+                    'post_ids' => '',
                     'category_ids' => '',
                     'category_id' => '',
                     'tag_slug' => '',
@@ -60,9 +61,6 @@ class td_data_source {
 		    }
 		    return array(); // empty array makes WP_Query not run
 	    }
-
-
-
 
 
         //the query goes only via $category_ids - for both options ($category_ids and $category_id) also $category_ids overwrites $category_id
@@ -213,6 +211,47 @@ class td_data_source {
         if (td_unique_posts::$unique_articles_enabled == true) {
             $wp_query_args['post__not_in'] = td_unique_posts::$rendered_posts_ids;
         }
+
+
+
+        // post in section
+        if (!empty($post_ids)) {
+
+            //split posts id string
+            $post_id_array = explode (',', $post_ids);
+
+            $post_in = array();
+            $post_not_in = array();
+
+            // split ids into post_in and post_not_in
+            foreach ($post_id_array as $post_id) {
+                $post_id = trim($post_id);
+
+                // check if the ID is actually a number
+                if (is_numeric($post_id)) {
+                    if (intval($post_id) < 0) {
+                        $post_not_in [] = str_replace('-', '', $post_id);
+                    } else {
+                        $post_in [] = $post_id;
+                    }
+                }
+            }
+
+            // don't pass an empty post__in because it will return had_posts()
+            if (!empty($post_in)) {
+                $wp_query_args['post__in'] = $post_in;
+            }
+
+            // check if the post__not_in is already set, if it is merge it with $post_not_in
+            if (!empty($post_not_in)) {
+                if (!empty($wp_query_args['post__not_in'])){
+                    $wp_query_args['post__not_in'] = array_merge($wp_query_args['post__not_in'], $post_not_in);
+                } else {
+                    $wp_query_args['post__not_in'] = $post_not_in;
+                }
+            }
+        }
+
 
         //custom pagination limit
         if (empty($limit)) {
