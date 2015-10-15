@@ -316,27 +316,29 @@ class td_review {
          * the get_post_meta returns the old values saved on the previous post update, you have to use $_REQUEST
          * execute only if the review is set
          */
-        if (self::has_review($_REQUEST['td_post_theme_settings'])){
+        if (isset($_REQUEST['td_post_theme_settings']['has_review'])){
+            if (self::has_review($_REQUEST['td_post_theme_settings'])){
 
-            $review_type = $_REQUEST['td_post_theme_settings']['has_review'];
+                $review_type = $_REQUEST['td_post_theme_settings']['has_review'];
 
-                switch ($review_type) {
-                    case 'rate_stars' :
-                        $review_array_key = 'p_review_stars';
-                        break;
-                    case 'rate_percent':
-                        $review_array_key = 'p_review_percents';
-                        break;
-                    case 'rate_point' :
-                        $review_array_key = 'p_review_points';
-                        break;
-                }
+                    switch ($review_type) {
+                        case 'rate_stars' :
+                            $review_array_key = 'p_review_stars';
+                            break;
+                        case 'rate_percent':
+                            $review_array_key = 'p_review_percents';
+                            break;
+                        case 'rate_point' :
+                            $review_array_key = 'p_review_points';
+                            break;
+                    }
 
-            //build review_data[] - it's structure is important for the calculate_total_key_value method
-            $review_data['has_review'] =  $review_type;
-            $review_data[$review_array_key] = $_REQUEST['td_post_theme_settings'][$review_array_key];
+                //build review_data[] - it's structure is important for the calculate_total_key_value method
+                $review_data['has_review'] =  $review_type;
+                $review_data[$review_array_key] = $_REQUEST['td_post_theme_settings'][$review_array_key];
 
-            update_post_meta($post_id, self::$td_review_key, self::calculate_total_key_value($review_data));
+                update_post_meta($post_id, self::$td_review_key, self::calculate_total_key_value($review_data));
+            }
         }
 
         /*
