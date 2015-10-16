@@ -3,6 +3,8 @@
  * WordPress booster V 3.1 by tagDiv
  */
 
+die;
+
 do_action('td_wp_booster_before');  //@todo is probably not used by anyone
 
 
