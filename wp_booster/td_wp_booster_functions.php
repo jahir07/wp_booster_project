@@ -624,6 +624,11 @@ function td_bottom_code() {
         echo $css_buffy;
     }
 
+    //get and paste user custom html
+    $td_custom_html = stripslashes(td_util::get_option('tds_custom_html'));
+    if(!empty($td_custom_html)) {
+        echo $td_custom_html;
+    }
 
     //get and paste user custom javascript
     $td_custom_javascript = stripslashes(td_util::get_option('tds_custom_javascript'));

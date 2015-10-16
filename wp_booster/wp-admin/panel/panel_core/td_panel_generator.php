@@ -644,6 +644,54 @@ class td_panel_generator {
 		return $buffy;
 	}
 
+    static function html_editor($params_array) {
+        $buffy = '';
+        if(!empty($params_array['value'])) {
+            $control_value = $params_array['value'];
+        } else {
+            //get control option from database
+            $control_value = stripcslashes(td_panel_data_source::read($params_array));
+        }
+
+        $td_css_inline = new td_css_inline();
+        if (!empty($params_array['css'])) {
+            $td_css_inline->add_css($params_array['css']);
+        }
+
+        $editor_uid = td_global::td_generate_unique_id();
+        $editor_text_uid = $editor_uid . '_text';
+
+        ob_start();
+        ?>
+        <div class="td-code-editor-wrap td-html-editor-wrap">
+            <textarea class="td-code-editor-textarea <?php echo $editor_text_uid ?>" name="<?php echo self::generate_name($params_array) ?>"><?php echo $control_value ?></textarea>
+            <div id="<?php echo $editor_uid ?>" class="td-code-editor" <?php echo $td_css_inline->get_inline_css() ?>></div>
+            <div class="td-clear-fix"></div>
+        </div>
+        <script>
+            (function (){
+                var editor_textarea = jQuery('.<?php echo $editor_text_uid ?>');
+                ace.require("ace/ext/language_tools");
+                var editor = ace.edit("<?php echo $editor_uid ?>");
+                editor.getSession().setValue(editor_textarea.val());
+                editor.getSession().on('change', function(){
+                    editor_textarea.val(editor.getSession().getValue());
+                });
+
+                editor.setTheme("ace/theme/textmate");
+                //editor.setShowPrintMargin(false);
+                editor.getSession().setMode("ace/mode/html");
+                editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    enableLiveAutocompletion: false
+                });
+            })();
+        </script>
+        <?php
+        $buffy .= ob_get_clean();
+        return $buffy;
+    }
 
 
     static function box_start($panel_name, $is_open = true) {
