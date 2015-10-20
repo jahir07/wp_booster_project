@@ -86,7 +86,7 @@ class Td_Mobile_Editor {
 		$this->post_types = $post_types;
 
 		// The nonce action of an instance is composed from TdMobileEditor::$nonce_action . TdMobileEditor::$counter_editor . '-' . $post->ID. So it's unique.
-		TdMobileEditor::$counter_editor++;
+		Td_Mobile_Editor::$counter_editor++;
 
 		add_action( 'edit_form_after_editor', array( $this, 'edit_form_after_editor' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
