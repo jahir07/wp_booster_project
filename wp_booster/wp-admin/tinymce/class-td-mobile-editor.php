@@ -10,7 +10,7 @@
  * Class TdMobileEditor
  * Helper class for multiple wordpress editors. It just must be instantiated.
  */
-class TdMobileEditor {
+class Td_Mobile_Editor {
 
 	/**
 	 * This ensures a unique nonce action for each instance (useful when there are multiple instances for the same post id)
@@ -99,7 +99,7 @@ class TdMobileEditor {
 	 *
 	 * @return string
 	 */
-	private static function getNonceField( $post_id ) {
+	private static function get_nonce_field( $post_id ) {
 		return $nonce_field_name = self::$nonce_action . TdMobileEditor::$counter_editor . '-' . $post_id;
 	}
 
@@ -116,7 +116,7 @@ class TdMobileEditor {
 		echo '<h2>' . esc_attr( $this->editor_title ) . '</h2>';
 
 		// nonce field
-		$nonce_field_name = self::getNonceField( $post->ID );
+		$nonce_field_name = self::get_nonce_field( $post->ID );
 		// nonce value
 		$nonce = wp_create_nonce( $nonce_field_name );
 
@@ -143,7 +143,7 @@ class TdMobileEditor {
 			return;
 		}
 
-		if ( ! empty ( $_POST ) and check_admin_referer( 'post.php', self::getNonceField( $post_id ) ) and isset( $_POST[$this->editor_id] ) ) {
+		if ( ! empty ( $_POST ) and check_admin_referer( 'post.php', self::get_nonce_field( $post_id ) ) and isset( $_POST[$this->editor_id] ) ) {
 			update_post_meta( $post_id, $this->meta_key, $_POST[$this->editor_id] );
 		}
 	}
