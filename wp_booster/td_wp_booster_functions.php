@@ -268,24 +268,39 @@ function load_wp_admin_css() {
 
 
 /* ----------------------------------------------------------------------------
- * js for wp-admin / backend   admin js
+ * js for wp-admin / backend   admin js - we use this strange thing to make sure that our scripts are depended on each other
+ * and appear one after another exactly like we add them in td_global.php
  */
 add_action('admin_enqueue_scripts', 'load_wp_admin_js');
 function load_wp_admin_js() {
 
-// dev version - load each file separately
+
+	$current_page_slug = '';
+	if (isset($_GET['page'])) {
+		$current_page_slug = $_GET['page'];
+	}
+
+
+	// dev version - load each file separately
     $last_js_file_id = '';
-    foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file) {
+    foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file_params) {
+
+		// skip a file if it has custom page_slugs
+	    if (!empty($js_file_params['show_only_on_page_slugs']) and !in_array($current_page_slug, $js_file_params['show_only_on_page_slugs'])) {
+		     continue;
+	    }
+
         if ($last_js_file_id == '') {
-            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
+            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params['url'], array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
         } else {
-            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
+            wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params['url'], array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
         }
         $last_js_file_id = $js_file_id;
     }
 
     wp_enqueue_script('thickbox');
     add_thickbox();
+
 }
 
 

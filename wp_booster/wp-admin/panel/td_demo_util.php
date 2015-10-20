@@ -423,21 +423,20 @@ class td_demo_content {
         }
 
 
+	    $td_homepage_loop = array();
+	    $td_page = array();
+
         // on homepage latest articles
         if (!empty($params['td_layout'])) {
-            $tmp_meta['td_layout'] = $params['td_layout'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+	        $td_homepage_loop['td_layout'] = $params['td_layout'];
         }
         if (!empty($params['list_custom_title_show'])) {
-            $tmp_meta['list_custom_title_show'] = $params['list_custom_title_show'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+	        $td_homepage_loop['list_custom_title_show'] = $params['list_custom_title_show'];
         }
-        if (!empty($params['sidebar_id'])) {
-            $tmp_meta_sidebar['td_sidebar'] = $params['sidebar_id'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_sidebar);
 
-            $tmp_meta_2_2['td_sidebar'] = $params['sidebar_id'];
-            update_post_meta($page_id, 'td_page', $tmp_meta_2_2);
+        if (!empty($params['sidebar_id'])) {
+	        $td_homepage_loop['td_sidebar'] = $params['sidebar_id'];
+	        $td_page['td_sidebar'] = $params['sidebar_id'];
         }
 
 
@@ -448,20 +447,27 @@ class td_demo_content {
             update_option( 'show_on_front', 'page' );
         }
 
-        // on the default template
-        if (!empty($params['sidebar_position'])) {
-            $tmp_meta_2['td_sidebar_position'] = $params['sidebar_position'];
-            update_post_meta($page_id, 'td_page', $tmp_meta_2);
 
-            $tmp_meta_2_33['td_sidebar_position'] = $params['sidebar_position'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta_2_33);
+        if (!empty($params['sidebar_position'])) {
+	        $td_page['td_sidebar_position'] = $params['sidebar_position'];
+	        $td_homepage_loop['td_sidebar_position'] = $params['sidebar_position'];
         }
 
 
         if (!empty($params['limit'])) {
-            $tmp_meta['limit'] = $params['limit'];
-            update_post_meta($page_id, 'td_homepage_loop', $tmp_meta);
+	        $td_homepage_loop['limit'] = $params['limit'];
         }
+
+
+	    // update td_homepage_loop metadata
+	    if (!empty($td_homepage_loop)) {
+		    update_post_meta($page_id, 'td_homepage_loop', $td_homepage_loop);
+	    }
+
+	    // update td_page
+	    if (!empty($td_page)) {
+		    update_post_meta($page_id, 'td_page', $td_page);
+	    }
 
         return $page_id;
     }
