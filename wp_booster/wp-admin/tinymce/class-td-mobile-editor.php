@@ -7,7 +7,7 @@
  */
 
 /**
- * Class TdMobileEditor
+ * Class Td_Mobile_Editor
  * Helper class for multiple wordpress editors. It just must be instantiated.
  */
 class Td_Mobile_Editor {
@@ -85,7 +85,7 @@ class Td_Mobile_Editor {
 		$this->editor_title = $editor_title;
 		$this->post_types = $post_types;
 
-		// The nonce action of an instance is composed from TdMobileEditor::$nonce_action . TdMobileEditor::$counter_editor . '-' . $post->ID. So it's unique.
+		// The nonce action of an instance is composed from Td_Mobile_Editor::$nonce_action . Td_Mobile_Editor::$counter_editor . '-' . $post->ID. So it's unique.
 		Td_Mobile_Editor::$counter_editor++;
 
 		add_action( 'edit_form_after_editor', array( $this, 'edit_form_after_editor' ) );
@@ -100,7 +100,7 @@ class Td_Mobile_Editor {
 	 * @return string
 	 */
 	private static function get_nonce_field( $post_id ) {
-		return $nonce_field_name = self::$nonce_action . TdMobileEditor::$counter_editor . '-' . $post_id;
+		return $nonce_field_name = self::$nonce_action . Td_Mobile_Editor::$counter_editor . '-' . $post_id;
 	}
 
 	/**
