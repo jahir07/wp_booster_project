@@ -162,7 +162,7 @@ function td_trending_now_change_text(array_param, to_right) {
     posts_array_list_for_this_trend[previous_post_array_list_position].css('z-index', 0);
 
     for (var trending_post in posts_array_list_for_this_trend) {
-        posts_array_list_for_this_trend[trending_post].removeClass('animated_xlong fadeInLeft fadeInRight fadeOutLeft fadeOutRight');
+        posts_array_list_for_this_trend[trending_post].removeClass('td_animated_xlong td_fadeInLeft td_fadeInRight td_fadeOutLeft td_fadeOutRight');
     }
 
     posts_array_list_for_this_trend[posts_array_list_position].css('opacity', 1);
@@ -170,12 +170,12 @@ function td_trending_now_change_text(array_param, to_right) {
 
     if (to_right === true) {
 
-        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('animated_xlong fadeOutLeft');
-        posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInRight');
+        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('td_animated_xlong td_fadeOutLeft');
+        posts_array_list_for_this_trend[posts_array_list_position].addClass('td_animated_xlong td_fadeInRight');
     } else {
 
-        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('animated_xlong fadeOutRight');
-        posts_array_list_for_this_trend[posts_array_list_position].addClass('animated_xlong fadeInLeft');
+        posts_array_list_for_this_trend[previous_post_array_list_position].addClass('td_animated_xlong td_fadeOutRight');
+        posts_array_list_for_this_trend[posts_array_list_position].addClass('td_animated_xlong td_fadeInLeft');
     }
 }
 

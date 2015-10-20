@@ -24,7 +24,7 @@ jQuery().ready(function() {
         jQuery('#td-theme-settings').addClass('td-theme-settings-small');
 
 
-        jQuery('.td-set-theme-style-link').removeClass('fadeInLeft');
+        jQuery('.td-set-theme-style-link').removeClass('td_fadeInLeft');
 
     });
 
@@ -32,7 +32,7 @@ jQuery().ready(function() {
     jQuery("#td-theme-settings").click(function(){
         if (jQuery(this).hasClass('td-theme-settings-small')) {
 
-            jQuery('.td-set-theme-style-link').addClass('animated_xlong fadeInLeft');
+            jQuery('.td-set-theme-style-link').addClass('td_animated_xlong td_fadeInLeft');
 
             //show full
             td_set_cookies_life(['td_show_panel', 'show', 86400000]);//86400000 is the number of milliseconds in a day
