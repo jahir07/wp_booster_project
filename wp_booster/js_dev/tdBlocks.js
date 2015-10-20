@@ -113,7 +113,7 @@ var tdBlocks = {};
                 //animate the list
                 var tdPullDownList = jQuery("#td_pulldown_" + currentBlockUid + "_list");
                 tdPullDownList.removeClass('fadeOut');
-                tdPullDownList.addClass('animated fadeIn'); //used for opacity animation
+                tdPullDownList.addClass('td_animated td_fadeIn'); //used for opacity animation
                 //tdPullDownList.css('visibility', 'visible');
             });
 
@@ -131,7 +131,7 @@ var tdBlocks = {};
                     //animate the list
                     var tdPullDownList = jQuery("#td_pulldown_" + current_block_uid + "_list");
                     tdPullDownList.removeClass('fadeOut');
-                    tdPullDownList.addClass('animated fadeIn'); //used for opacity animation
+                    tdPullDownList.addClass('td_animated td_fadeIn'); //used for opacity animation
                     tdPullDownList.css('visibility', 'visible');
 
                 },
@@ -295,7 +295,7 @@ var tdBlocks = {};
             //reset the page
             currentBlockObj.td_current_page = 1;
 
-            // we ues 'pull_down' just for the 'animated_xlong fadeInDown' effect
+            // we ues 'pull_down' just for the 'td_animated_xlong td_fadeInDown' effect
             tdBlocks.tdAjaxDoBlockRequest(currentBlockObj, 'pull_down');
         });
 
@@ -456,7 +456,7 @@ var tdBlocks = {};
                 }
 
                 jQuery(tdReplyObj.td_data).appendTo('#' + tdReplyObj.td_block_id);
-                //jQuery(tdReplyObj.td_data).addClass('animated_xxlong').appendTo('#' + tdReplyObj.td_block_id).addClass('fadeIn');
+                //jQuery(tdReplyObj.td_data).addClass('td_animated_xxlong').appendTo('#' + tdReplyObj.td_block_id).addClass('td_fadeIn');
                 //jQuery('#' + tdReplyObj.td_block_id).append(tdReplyObj.td_data); //append
             } else {
                 jQuery('#' + tdReplyObj.td_block_id).html(tdReplyObj.td_data); //in place
@@ -508,7 +508,7 @@ var tdBlocks = {};
             jQuery('.td-loader-gif').remove();
 
             //remove animation classes
-            elCurTdBlockInner.removeClass('fadeInRight fadeInLeft fadeInDown fadeInUp animated_xlong');
+            elCurTdBlockInner.removeClass('td_fadeInRight td_fadeInLeft td_fadeInDown td_fadeInUp td_animated_xlong');
 
             elCurTdBlockInner.addClass('td_block_inner_overflow');
             //auto height => fixed height
@@ -551,7 +551,7 @@ var tdBlocks = {};
                             .removeClass('td-loader-animation-start')
                             .addClass('td-loader-animation-mid');
                     },50);
-                    elCurTdBlockInner.addClass('animated_long fadeOut_to_1');
+                    elCurTdBlockInner.addClass('td_animated_long td_fadeOut_to_1');
 
                 }
             } // end cache_hit if
@@ -582,7 +582,7 @@ var tdBlocks = {};
             //get the current inner
             var elCurTdBlockInner = jQuery('#' + current_block_obj.id);
 
-            elCurTdBlockInner.removeClass('animated_long fadeOut_to_1');
+            elCurTdBlockInner.removeClass('td_animated_long td_fadeOut_to_1');
 
 
             // by default, the sort method used to animate the ajax response is left to the right
@@ -595,7 +595,7 @@ var tdBlocks = {};
 
             switch(td_user_action) {
                 case 'next':
-                    elCurTdBlockInner.addClass('animated_xlong fadeInRight');
+                    elCurTdBlockInner.addClass('td_animated_xlong td_fadeInRight');
 
                     // the default sort method is modified to work from right to the left
                     if ( undefined !== tdAnimationStackSortType ) {
@@ -604,15 +604,15 @@ var tdBlocks = {};
 
                     break;
                 case 'back':
-                    elCurTdBlockInner.addClass('animated_xlong fadeInLeft');
+                    elCurTdBlockInner.addClass('td_animated_xlong td_fadeInLeft');
                     break;
 
                 case 'pull_down':
-                    elCurTdBlockInner.addClass('animated_xlong fadeInDown');
+                    elCurTdBlockInner.addClass('td_animated_xlong td_fadeInDown');
                     break;
 
                 case 'mega_menu':
-                    elCurTdBlockInner.addClass('animated_xlong fadeInDown');
+                    elCurTdBlockInner.addClass('td_animated_xlong td_fadeInDown');
                     break;
 
 

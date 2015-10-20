@@ -1,5 +1,6 @@
+<div class="td-section-separator">Custom CSS</div>
 <!-- CUSTOM CSS -->
-<?php echo td_panel_generator::box_start('Custom CSS'); ?>
+<?php echo td_panel_generator::box_start('Custom CSS', false); ?>
 
 
 	<div class="td-box-row">
@@ -88,5 +89,47 @@
             ));
             ?>
         </div>
+    </div>
+<?php echo td_panel_generator::box_end();?>
+
+<hr>
+<div class="td-section-separator">Custom Javascript</div>
+
+<!-- CUSTOM Javascript -->
+<?php echo td_panel_generator::box_start('Custom Javascript', false); ?>
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <span class="td-box-title">YOUR CUSTOM JAVASCRIPT</span>
+            <p>Add custom javascript easly, using this editor. Please do not include the &lt;script&gt; &lt;/script&gt;.</p>
+        </div>
+    </div>
+    <div class="td-box-row-margin-bottom">
+        <?php
+        echo td_panel_generator::js_editor(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_custom_javascript',
+        ));
+        ?>
+    </div>
+<?php echo td_panel_generator::box_end();?>
+
+<hr>
+<div class="td-section-separator">Custom HTML</div>
+
+<!-- CUSTOM HTML -->
+<?php echo td_panel_generator::box_start('Custom HTML', false); ?>
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <span class="td-box-title">YOUR CUSTOM HTML</span>
+            <p>Add custom html easly, using this editor. The html will be placed at the end of the page.</p>
+        </div>
+    </div>
+    <div class="td-box-row-margin-bottom">
+        <?php
+        echo td_panel_generator::html_editor(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_custom_html',
+        ));
+        ?>
     </div>
 <?php echo td_panel_generator::box_end();

@@ -90,7 +90,7 @@ class td_review {
                     return round(self::calculate_total($td_review), 1);
                     break;
                 case 'rate_percent':
-                    return round(self::calculate_total($td_review) / 10 / 2, 1);
+                    return round(self::calculate_total($td_review) / 10 / 2, 3);
                     break;
                 case 'rate_point' :
                     return round(self::calculate_total($td_review) / 2, 1);
@@ -306,7 +306,7 @@ class td_review {
 
 
     static function hook_up() {
-        add_filter('save_post', array( __CLASS__, 'save_post_hook'));
+        add_filter('save_post', array( __CLASS__, 'save_post_hook'), 11);
     }
 
 
