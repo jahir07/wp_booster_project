@@ -252,13 +252,16 @@ class td_api_base {
         ob_start();
         ?>
 
-        <div style="pointer-events:none; z-index: 9999; width: 300px; position: absolute; left:0; top:50px; background-color: rgba(232, 232, 232, 0.35); font-size:12px; font-family: 'Lucida Sans Typewriter', 'Lucida Console', monaco, 'Bitstream Vera Sans Mono', monospace;; padding: 10px;">
+	    <script>
+		    console.log('_debug_show_autoloaded_components is called');
             <?php
             foreach ($buffy_array as $component_id => $component) {
-                echo str_pad($component_id, 20) . '<br>';
+	            ?>
+			    console.log(<?php echo json_encode(str_pad($component_id, 20)) ?>);
+	            <?php
             }
             ?>
-        </div>
+	    </script>
 
         <?php
         echo ob_get_clean();
@@ -277,6 +280,8 @@ class td_api_base {
     static function _debug_set_class_is_autoloaded($component_id) {
         self::$components_list[$component_id][td_api_base::CLASS_AUTOLOADED] = true;
     }
+
+
 
 
 

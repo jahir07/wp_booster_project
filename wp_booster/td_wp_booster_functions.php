@@ -122,10 +122,13 @@ add_action('wp_ajax_nopriv_td_ajax_get_views', array('td_ajax', 'on_ajax_get_vie
 add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_views'));
 
 
-// want to see the autoload status? uncomment this :)
-add_action('wp_footer', 'td_wp_footer_debug');
-function td_wp_footer_debug() {
-    td_api_base::_debug_show_autoloaded_components();
+
+// @todo MUST BE DELETED
+if (TD_DEPLOY_MODE == 'dev') {
+	add_action('wp_footer', 'td_wp_footer_debug');
+	function td_wp_footer_debug() {
+		td_api_base::_debug_show_autoloaded_components();
+	}
 }
 
 
