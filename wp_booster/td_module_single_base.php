@@ -811,7 +811,7 @@ class td_module_single_base extends td_module {
 
 
 		/**
-		 * 'td_ajax_filter_type' => 'td_custom_related' - this ajax filter type overwrites the live filter via ajax @see td_ajax_block
+		 * 'td_ajax_filter_type' => 'td_custom_related' - this ajax filter type overwrites the live filter via ajax @see td_ajax::on_ajax_block
 		 */
 		$td_block_args = array (
 			'limit' => $td_related_limit,

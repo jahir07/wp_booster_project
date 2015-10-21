@@ -45,9 +45,6 @@ class td_social_icons {
     );
 
 
-    static function get_service_name($serviceId) {
-        return self::$td_social_icons_array['$serviceId'];
-    }
 
 
     static function get_icon($url, $icon_id, $open_in_new_window = false) {

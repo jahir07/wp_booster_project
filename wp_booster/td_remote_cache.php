@@ -142,7 +142,7 @@ class td_remote_cache {
 	private static function schedule_save_cache() {
 		// make sure that we hook only once
 		if (self::$is_shutdown_hooked === false) {
-			add_action('shutdown', array(__CLASS__, '_on_shutdown_save_cache'));
+			add_action('shutdown', array(__CLASS__, 'on_shutdown_save_cache'));
 			self::$is_shutdown_hooked = true;
 		}
 	}
@@ -161,7 +161,7 @@ class td_remote_cache {
 	 * @internal
 	 * save the cache hook
 	 */
-	static function _on_shutdown_save_cache() {
+	static function on_shutdown_save_cache() {
 		update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', self::$cache);
 	}
 
