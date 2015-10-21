@@ -357,28 +357,47 @@ require_once "td_view_header.php";
     <?php
     }
 
-    // social counter cache
-    $cache_content = get_option('td_social_api_v3_last_val', '');
-    td_system_status::render_social_cache($cache_content);
-
-
-    // td log panel
-    $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
-    td_system_status::render_td_log($td_log_content);
-
-
-    // remote cache panel
-    // td_remote_cache::set('group1', '1', array(0 => 'parameter1', 1 => 'parameter2'), time() - 10);
-    $td_remote_cache_content = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
-    td_system_status::render_td_remote_cache($td_remote_cache_content);
-
-
+    // on dev it displays the debug area
+    $td_debug_area_visible = '';
+    if (TD_DEPLOY_MODE != 'dev'){
+        $td_debug_area_visible = ' td-debug-area-reveal';
+    }
     ?>
-    <!-- show/hide script - used to display the array data on log and remote cache panels-->
+    <div class="td-debug-area<?php echo $td_debug_area_visible; ?>">
+        <?php
+        // social counter cache
+        $cache_content = get_option('td_social_api_v3_last_val', '');
+        td_system_status::render_social_cache($cache_content);
+
+
+        // td log panel
+        $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
+        td_system_status::render_td_log($td_log_content);
+
+
+        // remote cache panel
+        // td_remote_cache::set('group1', '1', array(0 => 'parameter1', 1 => 'parameter2'), time() - 10);
+        $td_remote_cache_content = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
+        td_system_status::render_td_remote_cache($td_remote_cache_content);
+        ?>
+    </div>
+
+    <!-- debug area script -->
     <script>
 
         (function () {
 
+            // show/hide the theme debug area
+            jQuery('.td-system-status-name').dblclick(function(){
+                var debugArea = jQuery('.td-debug-area');
+                if (debugArea.hasClass('td-debug-area-reveal')){
+                    return;
+                } else {
+                    debugArea.addClass('td-debug-area-reveal');
+                }
+            });
+
+            // show/hide script - used to display the array data on log and remote cache panels
             jQuery('.td-button-system-status-details').click(function(){
                 var arrayViewer = jQuery(this).parent().parent().find('.td-array-viewer');
                 // hide - if the td_array_viewer_visible is present remove it and return
