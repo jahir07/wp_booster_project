@@ -163,7 +163,15 @@ die;
                         ?>
                         <p>Include content</p>
                     </div>
-                    <p class="td-installed-text">Demo installed!</p>
+                        <p class="td-installed-text">
+	                    <?php
+	                    if (!empty(td_global::$demo_list[$demo_id]['demo_installed_text'])) {
+		                    echo td_global::$demo_list[$demo_id]['demo_installed_text'];
+	                    } else {
+		                    echo 'Demo installed!';
+	                    }
+	                    ?>
+	                    </p>
 				</div>
 
 				<div class="theme-actions">
