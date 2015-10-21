@@ -428,7 +428,7 @@ class td_block {
                             tmpObj.td_current_page = 1;
                             tmpObj.td_filter_value = <?php echo $item['id'] ?>;
                             var currentBlockObjSignature = JSON.stringify(tmpObj);
-                            tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo td_ajax_block($ajax_parameters) ?>));
+                            tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo td_ajax::on_ajax_block($ajax_parameters) ?>));
                         <?php
                     }
                 ?>

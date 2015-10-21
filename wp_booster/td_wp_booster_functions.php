@@ -35,9 +35,7 @@ require_once('td_cake.php');
 require_once('td_widget_builder.php');  // widget builder
 require_once('td_first_install.php');  //the code that runs on the first install of the theme
 require_once("td_fonts.php"); //fonts support
-require_once("td_ajax.php"); // ajax
 require_once('td_video_support.php');  // video thumbnail support
-//require_once('td_video_playlist_support.php'); //video playlist support
 require_once('td_css_buffer.php'); // css buffer class
 require_once('td_js_generator.php');  // ~ app config ~ css generator
 require_once('td_more_article_box.php');  //handles more articles box
@@ -65,19 +63,70 @@ td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/in
 td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 
-// aurora framework ??
+
+
+// aurora framework
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
 td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
 td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
 td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_options.php');
 
-/*
+
+
+
+
+/* ----------------------------------------------------------------------------
+ * Ajax support
+ */
+
+td_api_autoload::add('td_ajax', td_global::$get_template_directory . '/includes/wp_booster/td_ajax.php');
+
+// ajax: block ajax hooks
+add_action('wp_ajax_nopriv_td_ajax_block', array('td_ajax', 'on_ajax_block'));
+add_action('wp_ajax_td_ajax_block',        array('td_ajax', 'on_ajax_block'));
+
+// ajax: Renders loop pagination, for now used only on categories
+add_action('wp_ajax_nopriv_td_ajax_loop', array('td_ajax', 'on_ajax_loop'));
+add_action('wp_ajax_td_ajax_loop',        array('td_ajax', 'on_ajax_loop'));
+
+// ajax: site wide search
+add_action('wp_ajax_nopriv_td_ajax_search', array('td_ajax', 'on_ajax_search'));
+add_action('wp_ajax_td_ajax_search',        array('td_ajax', 'on_ajax_search'));
+
+// ajax: login window login
+add_action('wp_ajax_nopriv_td_mod_login', array('td_ajax', 'on_ajax_login'));
+add_action('wp_ajax_td_mod_login',        array('td_ajax', 'on_ajax_login'));
+
+// ajax: login window register
+add_action('wp_ajax_nopriv_td_mod_register', array('td_ajax', 'on_ajax_register'));
+add_action('wp_ajax_td_mod_register',        array('td_ajax', 'on_ajax_register'));
+
+// ajax: login window remember pass?
+add_action('wp_ajax_nopriv_td_mod_remember_pass', array('td_ajax', 'on_ajax_remember_pass'));
+add_action('wp_ajax_td_mod_remember_pass',        array('td_ajax', 'on_ajax_remember_pass'));
+
+// ajax: admin panel - new sidebar
+add_action('wp_ajax_nopriv_td_ajax_new_sidebar', array('td_ajax', 'on_ajax_new_sidebar'));
+add_action('wp_ajax_td_ajax_new_sidebar',        array('td_ajax', 'on_ajax_new_sidebar'));
+
+// ajax: admin panel - delete sidebar
+add_action('wp_ajax_nopriv_td_ajax_delete_sidebar', array('td_ajax', 'on_ajax_delete_sidebar'));
+add_action('wp_ajax_td_ajax_delete_sidebar',        array('td_ajax', 'on_ajax_delete_sidebar'));
+
+// ajax: update views - via ajax only when enable in panel
+add_action('wp_ajax_nopriv_td_ajax_update_views', array('td_ajax', 'on_ajax_update_views'));
+add_action('wp_ajax_td_ajax_update_views',        array('td_ajax', 'on_ajax_update_views'));
+
+// ajax: get views - via ajax only when enabled in panel
+add_action('wp_ajax_nopriv_td_ajax_get_views', array('td_ajax', 'on_ajax_get_views'));
+add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_views'));
+
+
 // want to see the autoload status? uncomment this :)
 add_action('wp_footer', 'td_wp_footer_debug');
 function td_wp_footer_debug() {
     td_api_base::_debug_show_autoloaded_components();
 }
-*/
 
 
 
@@ -2046,8 +2095,5 @@ function td_template_include_filter( $wordpress_template_path ) {
 
 	return $wordpress_template_path;
 }
-
-
-
 
 
