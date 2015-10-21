@@ -90,9 +90,10 @@ var td_animation_stack = {
      */
     ready_init: function ready_init() {
 
-        // - special case for IE8 and IE9
+        // - special case for IE8 and IE9 (and if Visual Composer image carousel exists)
+        // Important! The Visual Compose images carousel has hidden elements (images) that does not allow for computing the real position of the other DOM elements in the viewport
         // - the animation is forced removed and the altered css body is cleaned
-        if (tdDetect.isIe8 || tdDetect.isIe9) {
+        if (tdDetect.isIe8 || tdDetect.isIe9 || ( 0 < jQuery('.vc_images_carousel').length ) ) {
             td_animation_stack._ready_for_initialization = false;
 
             if (window.td_animation_stack_effect != undefined) {
@@ -668,6 +669,8 @@ var td_animation_stack = {
      */
     _item_to_view_port: function _item_to_view_port(item) {
 
+        td_animation_stack.log( 'position item relative to the view port >> ' + td_events.window_pageYOffset + td_events.window_innerHeight + ' : ' + item.offset_top );
+
         if (td_events.window_pageYOffset + td_events.window_innerHeight < item.offset_top) {
             return td_animation_stack._ITEM_TO_VIEW_PORT.ITEM_UNDER_VIEW_PORT;
 
@@ -701,7 +704,9 @@ var td_animation_stack = {
                     td_animation_stack._items_in_view_port.push(td_animation_stack.items.shift());
                     break;
 
-                case td_animation_stack._ITEM_TO_VIEW_PORT.ITEM_UNDER_VIEW_PORT : return;
+                case td_animation_stack._ITEM_TO_VIEW_PORT.ITEM_UNDER_VIEW_PORT :
+                    td_animation_stack.log('after separation items >> above: ' + td_animation_stack._items_above_view_port.length + ' in: ' + td_animation_stack._items_in_view_port.length + ' under: ' + td_animation_stack.items.length);
+                    return;
             }
         }
     },
