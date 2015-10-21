@@ -359,7 +359,7 @@ require_once "td_view_header.php";
 
     // on dev it displays the debug area
     $td_debug_area_visible = '';
-    if (TD_DEPLOY_MODE != 'dev'){
+    if (TD_DEPLOY_MODE == 'dev'){
         $td_debug_area_visible = ' td-debug-area-reveal';
     }
     ?>
