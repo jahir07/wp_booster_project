@@ -7,10 +7,10 @@
  */
 
 /**
- * Class Td_Mobile_Editor
- * Helper class for multiple wordpress editors. It just must be instantiated.
+ * Class td_wp_editor
+ * Helper class for multiple wordpress editors (tinymce editor). It just must be instantiated.
  */
-class Td_Mobile_Editor {
+class td_wp_editor {
 
 	/**
 	 * This ensures a unique nonce action for each instance (useful when there are multiple instances for the same post id)
@@ -85,11 +85,11 @@ class Td_Mobile_Editor {
 		$this->editor_title = $editor_title;
 		$this->post_types = $post_types;
 
-		// The nonce action of an instance is composed from Td_Mobile_Editor::$nonce_action . Td_Mobile_Editor::$counter_editor . '-' . $post->ID. So it's unique.
-		Td_Mobile_Editor::$counter_editor++;
+		// The nonce action of an instance is composed from td_wp_editor::$nonce_action . td_wp_editor::$counter_editor . '-' . $post->ID. So it's unique.
+		td_wp_editor::$counter_editor++;
 
-		add_action( 'edit_form_after_editor', array( $this, 'edit_form_after_editor' ) );
-		add_action( 'save_post', array( $this, 'save_post' ) );
+		add_action( 'edit_form_after_editor', array( $this, 'on_edit_form_after_editor' ) );
+		add_action( 'save_post', array( $this, 'on_save_post' ) );
 	}
 
 	/**
@@ -100,13 +100,13 @@ class Td_Mobile_Editor {
 	 * @return string
 	 */
 	private static function get_nonce_field( $post_id ) {
-		return $nonce_field_name = self::$nonce_action . Td_Mobile_Editor::$counter_editor . '-' . $post_id;
+		return $nonce_field_name = self::$nonce_action . td_wp_editor::$counter_editor . '-' . $post_id;
 	}
 
 	/**
 	 * Function hook used for 'edit_form_after_editor' wp hook
 	 */
-	function edit_form_after_editor( $post ) {
+	function on_edit_form_after_editor( $post ) {
 
 		if ( ! in_array( $post->post_type, $this->post_types ) ) {
 			return;
@@ -137,7 +137,7 @@ class Td_Mobile_Editor {
 	/**
 	 * Function hook used for 'save_post' wp hook
 	 */
-	function save_post( $post_id ) {
+	function on_save_post( $post_id ) {
 		$post_type = get_post_type( $post_id );
 		if ( ! in_array( $post_type, $this->post_types ) ) {
 			return;
