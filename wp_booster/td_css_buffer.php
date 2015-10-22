@@ -7,12 +7,18 @@
 class td_css_buffer {
 
 
+	// here we hold the two buffers
     private static $css_header_buffer = '';
-    private static $css_header_buffer_has_rendered = false; // used to double check if we call the add function correctly
-
-
     private static $css_footer_buffer = '';
-    private static $css_footer_buffer_has_rendered = false; // used to double check if we call the add function correctly
+
+	// this flags is used to make sure we don't add css AFTER it already rendered -> is true ONLY when the buffer was echoed
+	private static $css_header_buffer_has_rendered = false;
+	private static $css_footer_buffer_has_rendered = false;
+
+
+	// we use them to make sure we hook ONLY ONCE
+	private static $css_header_buffer_hooked = false; // is true WHEN the hook was registered to wordpress, NOT when the buffer is rendered
+	private static $css_footer_buffer_hooked = false;
 
 
 
@@ -28,6 +34,8 @@ class td_css_buffer {
             throw new ErrorException("td_css_buffer::add - css was already rendered when you called td_css_buffer::add() (ex: add was called to late)");
         }
         self::$css_header_buffer .= "\n" . $css;
+
+	    self::schedule_css_header_buffer_render();
     }
 
 
@@ -43,49 +51,68 @@ class td_css_buffer {
             throw new ErrorException("td_css_buffer::add_to_footer - css was already rendered when you called td_css_buffer::add_to_footer() (ex: add was called to late)");
         }
         self::$css_footer_buffer .= "\n" . $css;
+
+	    self::schedule_css_footer_buffer_render();
     }
 
 
 
-    static function _render_header() {
-        self::$css_header_buffer_has_rendered = true;
-       
-        if (trim(self::$css_header_buffer) != '') {
-            self::$css_header_buffer = "\n<!-- Header style compiled by theme -->" . "\n\n<style>\n    " . self::$css_header_buffer . "\n</style>\n\n";
-            echo self::$css_header_buffer; // echo out the buffer
-        } else {
-            return '';
-        }
-    }
+	/**
+	 * schedules a buffer render for the header CSS. It makes sure to register the hook only once via the flag self::$css_header_buffer_hooked
+	 */
+	static function schedule_css_header_buffer_render() {
+		if (self::$css_header_buffer_hooked === true) {
+			return;
+		}
+
+		// render the header css section according to the speed booster plugin
+		if (defined('TD_SPEED_BOOSTER')) {
+			add_action('wp_footer',  array('td_css_buffer', 'on_wp_header_render_header_css'), 100);
+		} else {
+			add_action('wp_head', array('td_css_buffer', 'on_wp_header_render_header_css'), 15); //priority 10 is used by the css compiler, that means that on 10 we don't have the css ready
+		}
+
+		self::$css_header_buffer_hooked = true;
+	}
 
 
 
-    static function _render_footer() {
-        self::$css_footer_buffer_has_rendered = true;
-        if (trim(self::$css_footer_buffer) != '') {
-            self::$css_footer_buffer = "\n<!-- Footer style compiled by theme -->" . "\n\n<style>\n    " . self::$css_footer_buffer . "\n</style>\n\n";
-            echo self::$css_footer_buffer; // echo out the buffer
-        } else {
-            return '';
-        }
-    }
+	/**
+	 * schedules a buffer render for the footer CSS. It makes sure to register the hook only once via the flag self::$css_header_buffer_hooked
+	 */
+	static function schedule_css_footer_buffer_render() {
+		if (self::$css_footer_buffer_hooked === true) {
+			return;
+		}
+
+		// render the bottom section always at the end
+		add_action('wp_footer',  array('td_css_buffer', 'on_wp_footer_render_footer_css'), 100);
+
+		self::$css_footer_buffer_hooked = true;
+	}
 
 
+	/**
+	 * trims and renders the css for the header. If wp-booster is installed, it will render in footer @see td_css_buffer::schedule_css_header_buffer_render
+	 */
+	static function on_wp_header_render_header_css() {
+		self::$css_header_buffer_has_rendered = true;
 
-    static function _hook() {
-        // render the header css section according to the speed booster plugin
-        if (defined('TD_SPEED_BOOSTER')) {
-             add_action('wp_footer',  array('td_css_buffer', '_render_header'), 100);
-        } else {
-            add_action('wp_head', array('td_css_buffer', '_render_header'), 15); //priority 10 is used by the css compiler, that means that on 10 we don't have the css ready
-        }
+		if (trim(self::$css_header_buffer) != '') {
+			self::$css_header_buffer = "\n<!-- Header style compiled by theme -->" . "\n\n<style>\n    " . self::$css_header_buffer . "\n</style>\n\n";
+			echo self::$css_header_buffer; // echo out the buffer
+		}
+	}
 
-        // render the bottom section always at the end
-        add_action('wp_footer',  array('td_css_buffer', '_render_footer'), 100);
-    }
+
+	/**
+	 * trims and renderes the css for the footer. as of 21/10/2015 it's used only on categories? When we have to output custom css but we are after wp_header()
+	 */
+	static function on_wp_footer_render_footer_css() {
+		self::$css_footer_buffer_has_rendered = true;
+		if (trim(self::$css_footer_buffer) != '') {
+			self::$css_footer_buffer = "\n<!-- Footer style compiled by theme -->" . "\n\n<style>\n    " . self::$css_footer_buffer . "\n</style>\n\n";
+			echo self::$css_footer_buffer; // echo out the buffer
+		}
+	}
 }
-
-td_css_buffer::_hook();
-
-
-

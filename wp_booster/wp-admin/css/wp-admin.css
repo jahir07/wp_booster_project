@@ -2976,6 +2976,12 @@ title one row controls
   box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.6);
   color: #fff;
 }
+.td-debug-area {
+  display: none;
+}
+.td-debug-area-reveal {
+  display: block;
+}
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox
 */

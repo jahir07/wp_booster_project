@@ -12,6 +12,9 @@ class td_css_compiler {
 
     function __construct($raw_css) {
         $this->raw_css = $raw_css;
+
+//	    print_r(debug_backtrace());
+//	    die;
     }
 
 

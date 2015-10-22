@@ -267,7 +267,7 @@ class td_menu {
         $post->comment_status = '';
         $post->ping_status = '';
         $post->post_pingback = '';
-        $post->post_category = '';
+        //$post->post_category = '';
         $post->page_template = 'default';
         $post->post_parent = 0;
         $post->menu_order = 0;
