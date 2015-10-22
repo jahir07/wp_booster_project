@@ -43,8 +43,8 @@ class td_demo_installer {
             $td_demo_history = new td_demo_history();
             $td_demo_history->restore_all();
 
-            // update our state
-            td_demo_state::update_state($td_demo_id, '');
+            // update our state - no stack installed
+            td_demo_state::update_state('', '');
         }
 
 

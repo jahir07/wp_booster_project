@@ -123,12 +123,10 @@ add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_vie
 
 
 
-// @todo MUST BE DELETED
-if (TD_DEPLOY_MODE == 'dev') {
-	add_action('wp_footer', 'td_wp_footer_debug');
-	function td_wp_footer_debug() {
-		td_api_base::_debug_show_autoloaded_components();
-	}
+// @todo MUST
+add_action('wp_footer', 'td_wp_footer_debug');
+function td_wp_footer_debug() {
+	td_api_base::_debug_show_autoloaded_components();
 }
 
 
@@ -192,10 +190,12 @@ function td_include_user_compiled_css() {
 
 	    // add the global css compiler
 	    if (TD_DEPLOY_MODE == 'dev') {
-		    $compiled_css = td_css_generator();   // get it live
+		    $compiled_css = td_css_generator();   // get it live WARNING - it will always appear as autoloaded on DEV
 	    } else {
 		    $compiled_css = td_util::get_option('tds_user_compile_css');   // get it from the cache - do not compile at runtime
 	    }
+
+
 
 	    if (!empty($compiled_css)) {
 		    td_css_buffer::add_to_header($compiled_css);
@@ -205,7 +205,7 @@ function td_include_user_compiled_css() {
 
 	    // add the demo specific css compiler
 	    $demo_state = get_option(TD_THEME_NAME . '_demo_state');  // get the current loaded demo
-	    if (isset($demo_state['demo_id'])) {
+	    if (!empty($demo_state['demo_id'])) {
 		    $demo_id = $demo_state['demo_id'];
 
 		    if (td_global::$demo_list[$demo_id]['td_css_generator_demo'] === true) {
@@ -705,7 +705,7 @@ function td_bottom_code() {
     //get and paste user custom html
     $td_custom_html = stripslashes(td_util::get_option('tds_custom_html'));
     if(!empty($td_custom_html)) {
-        echo $td_custom_html;
+        echo '<div class="td-container">' . $td_custom_html . '</div>';
     }
 
     //get and paste user custom javascript
