@@ -647,7 +647,7 @@ function td_bottom_code() {
     //get and paste user custom html
     $td_custom_html = stripslashes(td_util::get_option('tds_custom_html'));
     if(!empty($td_custom_html)) {
-        echo $td_custom_html;
+        echo '<div class="td-container">' . $td_custom_html . '</div>';
     }
 
     //get and paste user custom javascript
