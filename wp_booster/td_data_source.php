@@ -112,7 +112,7 @@ class td_data_source {
                 $wp_query_args['order'] = 'DESC';
                 break;
             case 'review_high':
-                $wp_query_args['meta_key'] = td_review::$td_review_key;
+                $wp_query_args['meta_key'] = 'td_review_key';
                 $wp_query_args['orderby'] = 'meta_value_num';
                 $wp_query_args['order'] = 'DESC';
                 break;

@@ -12,6 +12,10 @@ abstract class td_module {
      */
     protected $td_review;
 
+	/**
+	 * @var bool is true if we have a review for this $post
+	 */
+	protected $is_review = false;
 
     /**
      * @var int|null Contains the id of the current $post thumbnail. If no thumbnail is found, the value is NULL
@@ -50,6 +54,15 @@ abstract class td_module {
         //get the review metadata
         //$this->td_review = get_post_meta($this->post->ID, 'td_review', true); @todo $this->td_review variable name must be replaced and the 'get_quotes_on_blocks', 'get_category' methods also
 	    $this->td_review = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
+
+	    if (!empty($this->td_review['has_review']) and (
+			    !empty($this->td_review['p_review_stars']) or
+			    !empty($this->td_review['p_review_percents']) or
+			    !empty($this->td_review['p_review_points'])
+		    )
+	    ) {
+		    $this->is_review = true;
+	    }
     }
 
 
@@ -133,7 +146,7 @@ abstract class td_module {
     function get_author() {
         $buffy = '';
 
-        if (td_review::has_review($this->td_review) === false) {
+        if ($this->is_review === false) {
             if (td_util::get_option('tds_p_show_author_name') != 'hide') {
                 $buffy .= '<div class="td-post-author-name">';
                 $buffy .= '<a itemprop="author" href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
@@ -156,7 +169,7 @@ abstract class td_module {
         }
 
         $buffy = '';
-        if (td_review::has_review($this->td_review) and $show_stars_on_review === true) {
+        if ($this->is_review and $show_stars_on_review === true) {
             //if review show stars
             $buffy .= '<div class="entry-review-stars">';
             $buffy .=  td_review::render_stars($this->td_review);
