@@ -26,7 +26,6 @@ require_once('td_menu.php');            // theme menu support
 require_once('td_social_icons.php');    // no autoload (almost always needed) - The social icons
 require_once('td_js_buffer.php');       // no autoload - the theme always outputs JS form this buffer
 require_once('td_unique_posts.php');    // no autoload - unique posts (uses hooks + do_action('td_wp_boost_new_module'); )
-//require_once('td_page_views.php');      // page views counter
 require_once('td_module.php');          // module builder
 require_once('td_block.php');           // block builder
 require_once('td_cake.php');
@@ -34,7 +33,6 @@ require_once('td_first_install.php');   // no autoload - the code that runs on t
 require_once("td_fonts.php");           // no autoload - fonts support
 require_once('td_video_support.php');   // video thumbnail support
 require_once('td_js_generator.php');    // no autoload - the theme always outputs JS
-//require_once('td_more_article_box.php');// handles more articles box
 require_once('td_block_widget.php');    // no autoload - used to make widgets from our blocks
 require_once('td_background.php');      // background support - is not autoloaded due to issues
 require_once('td_background_render.php');
