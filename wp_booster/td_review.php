@@ -1,7 +1,6 @@
 <?php
 
 class td_review {
-    static $td_review_key = 'td_review_key';
 
     //calculates the average stars rating
     static function render_stars($td_review) {
@@ -9,8 +8,26 @@ class td_review {
         return self::number_to_stars($total_stars);
     }
 
+
+	// converts the rating to 0-5 to be used with stars
+	static function calculate_total_stars($td_review) {
+		if (!empty($td_review['has_review'])) {
+			switch ($td_review['has_review']) {
+				case 'rate_stars' :
+					return round(self::calculate_total($td_review), 1);
+					break;
+				case 'rate_percent':
+					return round(self::calculate_total($td_review) / 10 / 2, 1);
+					break;
+				case 'rate_point' :
+					return round(self::calculate_total($td_review) / 2, 1);
+					break;
+			}
+		}
+	}
+
     //converts 0 - 5 to stars
-    static function number_to_stars($total_stars) {
+    private static function number_to_stars($total_stars) {
 
         $star_integer = intval($total_stars);
 
@@ -41,7 +58,7 @@ class td_review {
     }
 
     //draws the bars
-    static function number_to_bars($percent_rating) {
+    private static function number_to_bars($percent_rating) {
         $buffy = '';
         $buffy .= '<div class="td-rating-bar-wrap">';
             $buffy .= '<div style="width:' . $percent_rating . '%"></div>';
@@ -52,11 +69,12 @@ class td_review {
 
     //check to see if we have a rating
     //@legacy this is legacy code - introduced on Newspaper - nu puteam sa-l schimbam ca stricam compatibilitatea
-    static function has_review($td_review) {
+    private static function has_review($td_review) {
         if (!empty($td_review['has_review']) and (
-                !empty($td_review['p_review_stars']) or
-                !empty($td_review['p_review_percents']) or
-                !empty($td_review['p_review_points']))
+	                !empty($td_review['p_review_stars']) or
+	                !empty($td_review['p_review_percents']) or
+	                !empty($td_review['p_review_points'])
+	            )
             ) {
             return true;
         } else {
@@ -64,26 +82,10 @@ class td_review {
         }
     }
 
-    // converts the rating to 0-5 to be used with stars
-    static function calculate_total_stars($td_review) {
-        if (!empty($td_review['has_review'])) {
-            switch ($td_review['has_review']) {
-                case 'rate_stars' :
-                    return round(self::calculate_total($td_review), 1);
-                    break;
-                case 'rate_percent':
-                    return round(self::calculate_total($td_review) / 10 / 2, 1);
-                    break;
-                case 'rate_point' :
-                    return round(self::calculate_total($td_review) / 2, 1);
-                    break;
-            }
-        }
-    }
 
 
     // converts the rating to 0-5 to be used with stars
-    static function calculate_total_key_value($td_review) {
+    private static function calculate_total_key_value($td_review) {
         if (!empty($td_review['has_review'])) {
             switch ($td_review['has_review']) {
                 case 'rate_stars' :
@@ -100,7 +102,7 @@ class td_review {
     }
 
     //calculates the average of the rating
-    static function calculate_total($td_review, $show_percent = false) {
+    private static function calculate_total($td_review, $show_percent = false) {
         //print_r($td_review);
         if (!empty($td_review['has_review'])) {
 
@@ -178,7 +180,7 @@ class td_review {
         render table head
      */
 
-    static function render_table_head() {
+    private static function render_table_head() {
         $buffy = '';
         $buffy .= '<table class="td-review">';
         $buffy .= '<tr class="td-review-header">';
@@ -189,7 +191,7 @@ class td_review {
         return $buffy;
     }
 
-    static function render_table_rows($td_review) {
+    private static function render_table_rows($td_review) {
         $buffy = '';
 
 
@@ -262,7 +264,7 @@ class td_review {
     /*  ----------------------------------------------------------------------------
         render table footer
      */
-    static function render_table_footer($td_review) {
+    private static function render_table_footer($td_review) {
         if (!empty($td_review['has_review'])) {
 
             $buffy = '';
@@ -305,16 +307,11 @@ class td_review {
 
 
 
-    static function hook_up() {
-        add_filter('save_post', array( __CLASS__, 'save_post_hook'), 11);
-    }
-
-
-    static function save_post_hook($post_id) {
+    static function on_save_post_update_review($post_id) {
         //$td_review = get_post_meta($post_id, 'td_review', true);
 	    $td_review = get_post_meta($post_id, 'td_post_theme_settings', true);
         if (self::has_review($td_review)) {
-            update_post_meta($post_id, self::$td_review_key, self::calculate_total_key_value($td_review));
+            update_post_meta($post_id, 'td_review_key', self::calculate_total_key_value($td_review));
             /*
             $myFile = "d:/testFile.txt";
             $fh = fopen($myFile, 'w') or die("can't open file");
@@ -327,5 +324,3 @@ class td_review {
         }
     }
 }
-
-td_review::hook_up();

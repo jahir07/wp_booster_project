@@ -1,11 +1,8 @@
 <?php
 class td_more_article_box {
 
-    function __construct() {
-        add_action('wp_footer', array($this, 'td_render_more_article_box'));
-    }
 
-    function td_render_more_article_box() {
+    static function on_wp_footer_render_box() {
         global $post;
         /**
         * More articles on post page
@@ -179,5 +176,3 @@ class td_more_article_box {
     }//end function render
 }
 
-//instantiate the class to create the more article box
-new td_more_article_box();

@@ -439,7 +439,7 @@ class td_module_single_base extends td_module {
 	 */
 	function get_item_scope() {
 		//show the review meta only on single posts that are reviews, the rest have to be article (in article lists)
-		if (td_review::has_review($this->td_review) and is_single()) {
+		if ($this->is_review and is_single()) {
 			return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Review"';
 		} else {
 			return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Article"';
@@ -464,7 +464,7 @@ class td_module_single_base extends td_module {
 		$buffy .= parent::get_item_scope_meta();
 
 		// if we have a review, we must add additional stuff
-		if (td_review::has_review($this->td_review)) {
+		if ($this->is_review) {
 
 			// the item that is reviewd
 			$buffy .= '<meta itemprop="itemReviewed " content = "' . $this->title_attribute . '">';
@@ -501,7 +501,7 @@ class td_module_single_base extends td_module {
 			return '';
 		}
 
-		if (td_review::has_review($this->td_review)) {
+		if ($this->is_review) {
 			//print_r($this->td_review);
 			$buffy = '';
 			$buffy .= td_review::render_table($this->td_review);

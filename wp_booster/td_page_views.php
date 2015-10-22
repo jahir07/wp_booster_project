@@ -1,35 +1,28 @@
 <?php
 class td_page_views {
 
+
     static $post_view_counter_key = 'post_views_count';
 
     //the name of the field where 7 days counter are kept(in a serialized array) for the given post
-    static $post_view_counter_7_day_array = 'post_views_count_7_day_arr';
+    private static $post_view_counter_7_day_array = 'post_views_count_7_day_arr';
 
     //the name of the field for the total of 7 days
     static $post_view_counter_7_day_total = 'post_views_count_7_day_total';
 
-    static $post_view_7days_last_day = 'post_view_7days_last_day';
+    private static $post_view_7days_last_day = 'post_view_7days_last_day';
 
 
     //used only in single.php to update the views
     static function update_page_views($postID) {
-
         if (td_util::get_option('tds_p_show_views') == 'hide') {
             return;
         }
 
         global $page;
 
-
         //$page == 1 - fix for yoast
         if (is_single() and (empty($page) or $page == 1)) {  //do not update the counter only on single posts that are on the first page of the post
-            //debug
-
-
-
-
-
             //use general single page count only when `ajax_post_view_count` is disabled
             if(td_util::get_option('tds_ajax_post_view_count') != 'enabled') {
                 //used for general count
@@ -48,7 +41,6 @@ class td_page_views {
             }
 
             //used for 7 day count array
-
             $current_day = date("N") - 1;  //get the current day
             $count_7_day_array = get_post_meta($postID, self::$post_view_counter_7_day_array, true);  // get the array with day of week -> count
 
@@ -122,25 +114,16 @@ class td_page_views {
 
 
 
-    static function hook_manage_posts_columns($defaults) {
+    static function on_manage_posts_columns_views($defaults) {
         $defaults['td_post_views'] = 'Views';
         return $defaults;
     }
 
-    static function hook_manage_posts_custom_column($column_name, $id) {
+    static function on_manage_posts_custom_column($column_name, $id) {
         if($column_name === 'td_post_views'){
             echo self::get_page_views(get_the_ID());
         }
     }
-
-    static function hook_wp_admin() {
-        add_filter('manage_posts_columns', array(__CLASS__, 'hook_manage_posts_columns'));
-        add_action('manage_posts_custom_column', array(__CLASS__, 'hook_manage_posts_custom_column'), 5, 2);
-    }
 }
 
-
-if (td_util::get_option('tds_p_show_views') != 'hide') {
-    td_page_views::hook_wp_admin(); //do the hook shake
-}
 

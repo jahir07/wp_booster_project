@@ -14,17 +14,17 @@ class td_unique_posts {
          * we need to hook after header because in mega menu we can have all kinds of modules and we don't want the unique
          * articles class to interfere with them.
          */
-        add_filter('td_wp_booster_after_header', array(__CLASS__, 'hook_td_wp_booster_after_header'), 10);
+        add_filter('td_wp_booster_after_header', array(__CLASS__, 'on_td_wp_booster_after_header'), 10);
 
         /**
          * this hook is called each time a module is instantiated
          */
-        add_filter('td_wp_booster_module_constructor', array(__CLASS__, 'hook_td_wp_booster_module_constructor'), 5, 3);
+        add_filter('td_wp_booster_module_constructor', array(__CLASS__, 'on_td_wp_booster_module_constructor'), 5, 3);
     }
 
 
     //if we are on a page, read the page meta and see if td_unique_articles is set
-    static function hook_td_wp_booster_after_header() {
+    static function on_td_wp_booster_after_header() {
         $page_id = get_queried_object_id();
 
         if (is_page()) {
@@ -52,7 +52,7 @@ class td_unique_posts {
 
 
     //we hook td_module constructor if  `unique articles` is enabled
-    static function hook_td_wp_booster_module_constructor($module, $post) {
+    static function on_td_wp_booster_module_constructor($module, $post) {
         if (self::$keep_rendered_posts_ids == true) {
             /**
              * @todo in viitor daca ne trebuie ceva mai bun trebuie refactorizat sa foloseasca api-ul de la module sau constructorul din td_module
