@@ -143,7 +143,9 @@ class td_wp_editor {
 			return;
 		}
 
-		if ( ! empty ( $_POST ) and check_admin_referer( 'post.php', self::get_nonce_field( $post_id ) ) and isset( $_POST[$this->editor_id] ) ) {
+		$td_demo_action = td_util::get_http_post_val('td_demo_action');
+
+		if ( empty( $td_demo_action ) and ! empty ( $_POST ) and check_admin_referer( 'post.php', self::get_nonce_field( $post_id ) ) and isset( $_POST[$this->editor_id] ) ) {
 			update_post_meta( $post_id, $this->meta_key, $_POST[$this->editor_id] );
 		}
 	}
