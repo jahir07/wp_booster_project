@@ -11,7 +11,7 @@
 
 
 /* global td_smart_sidebar:false */
-/* global td_animation_stack:false */
+/* global tdAnimationStack:{} */
 /* global tdUtil:false */                   //done
 /* global tdLoadingBox:false */             //done
 /* global tdInfiniteLoader:false */         //done
@@ -589,8 +589,8 @@ var tdBlocks = {};
 
             var tdAnimationStackSortType;
 
-            if ( true === td_animation_stack.activated ) {
-                tdAnimationStackSortType = td_animation_stack.SORTED_METHOD.sort_left_to_right;
+            if ( true === tdAnimationStack.activated ) {
+                tdAnimationStackSortType = tdAnimationStack.SORTED_METHOD.sort_left_to_right;
             }
 
             switch(td_user_action) {
@@ -599,7 +599,7 @@ var tdBlocks = {};
 
                     // the default sort method is modified to work from right to the left
                     if ( undefined !== tdAnimationStackSortType ) {
-                        tdAnimationStackSortType = td_animation_stack.SORTED_METHOD.sort_right_to_left;
+                        tdAnimationStackSortType = tdAnimationStack.SORTED_METHOD.sort_right_to_left;
                     }
 
                     break;
@@ -666,7 +666,7 @@ var tdBlocks = {};
             // the .entry-thumb are searched for in the current block object, sorted and added into the view port array items
             if ( undefined !== tdAnimationStackSortType ) {
                 setTimeout( function () {
-                    td_animation_stack.check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', tdAnimationStackSortType, true);
+                    tdAnimationStack.check_for_new_items('#' + current_block_obj.id + ' .td-animation-stack', tdAnimationStackSortType, true);
                 }, 200);
             }
         },

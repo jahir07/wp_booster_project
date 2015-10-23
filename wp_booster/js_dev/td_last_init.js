@@ -2,7 +2,7 @@
 jQuery(window).load(function() {
     jQuery('body').addClass('td-js-loaded');
 
-    window.td_animation_stack.init();
+    window.tdAnimationStack.init();
 });
 
 jQuery(window).ready(function() {

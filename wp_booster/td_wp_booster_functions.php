@@ -21,26 +21,20 @@ require_once('td_api.php');
 do_action('td_global_after');
 
 
-require_once('td_global_blocks.php');
-require_once('td_menu.php');            //theme menu support
-require_once('td_social_icons.php');    // The social icons
-require_once('td_review.php');          // Review js buffer class      //@todo de vazut pt autoload
-require_once('td_js_buffer.php');       // page generator
-require_once('td_unique_posts.php');    //unique posts (uses hooks + do_action('td_wp_boost_new_module'); )
-require_once('td_data_source.php');      // data source
-require_once('td_page_views.php'); // page views counter
-require_once('td_module.php');           // module builder
-require_once('td_block.php');            // block builder
+require_once('td_global_blocks.php');   // no autoload -
+require_once('td_menu.php');            // theme menu support
+require_once('td_social_icons.php');    // no autoload (almost always needed) - The social icons
+require_once('td_js_buffer.php');       // no autoload - the theme always outputs JS form this buffer
+require_once('td_unique_posts.php');    // no autoload - unique posts (uses hooks + do_action('td_wp_boost_new_module'); )
+require_once('td_module.php');          // module builder
+require_once('td_block.php');           // block builder
 require_once('td_cake.php');
-require_once('td_widget_builder.php');  // widget builder
-require_once('td_first_install.php');  //the code that runs on the first install of the theme
-require_once("td_fonts.php"); //fonts support
-require_once('td_video_support.php');  // video thumbnail support
-//require_once('td_css_buffer.php'); // css buffer class
-require_once('td_js_generator.php');  // ~ app config ~ css generator
-require_once('td_more_article_box.php');  //handles more articles box
-require_once('td_block_widget.php');  //used to make widgets from our blocks
-require_once('td_background.php'); // background support - is not autoloaded due to issues
+require_once('td_first_install.php');   // no autoload - the code that runs on the first install of the theme
+require_once("td_fonts.php");           // no autoload - fonts support
+require_once('td_video_support.php');   // video thumbnail support
+require_once('td_js_generator.php');    // no autoload - the theme always outputs JS
+require_once('td_block_widget.php');    // no autoload - used to make widgets from our blocks
+require_once('td_background.php');      // background support - is not autoloaded due to issues
 require_once('td_background_render.php');
 
 
@@ -63,7 +57,7 @@ td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/in
 td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
-
+td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
 
 // aurora framework
 td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
@@ -73,6 +67,26 @@ td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/inclu
 
 
 
+
+/* ----------------------------------------------------------------------------
+ * more articles box
+ */
+td_api_autoload::add('td_more_article_box', td_global::$get_template_directory . '/includes/wp_booster/td_more_article_box.php');
+add_action('wp_footer', array('td_more_article_box', 'on_wp_footer_render_box'));
+
+/* ----------------------------------------------------------------------------
+ * PageView support
+ */
+td_api_autoload::add('td_page_views', td_global::$get_template_directory . '/includes/wp_booster/td_page_views.php');
+add_filter('manage_posts_columns', array('td_page_views', 'on_manage_posts_columns_views'));
+add_action('manage_posts_custom_column', array('td_page_views', 'on_manage_posts_custom_column'), 5, 2);
+
+
+/* ----------------------------------------------------------------------------
+ * Review support
+ */
+td_api_autoload::add('td_review', td_global::$get_template_directory . '/includes/wp_booster/td_review.php');
+add_filter('save_post', array('td_review', 'on_save_post_update_review'), 11);
 
 
 /* ----------------------------------------------------------------------------
@@ -326,6 +340,21 @@ function load_wp_admin_css() {
     //load the colorpicker
     wp_enqueue_style( 'wp-color-picker' );
 }
+
+
+
+
+/* ----------------------------------------------------------------------------
+ * farbtastic color picker CSS and JS for wp-admin / backend - loaded only in the widgets screen. Is used by our widget builder!
+ */
+function td_on_admin_print_scripts_farbtastic() {
+	wp_enqueue_script('farbtastic');
+}
+function td_on_admin_print_styles_farbtastic() {
+	wp_enqueue_style('farbtastic');
+}
+add_action('admin_print_scripts-widgets.php', 'td_on_admin_print_scripts_farbtastic');
+add_action('admin_print_styles-widgets.php', 'td_on_admin_print_styles_farbtastic');
 
 
 
@@ -1779,7 +1808,7 @@ function td_modify_main_query_for_category_page($query) {
                 break;
 
             case 'review_high':
-                $query->set('meta_key', td_review::$td_review_key);
+                $query->set('meta_key', 'td_review_key');
                 $query->set('orderby', 'meta_value_num');
                 $query->set('order', 'DESC');
                 break;

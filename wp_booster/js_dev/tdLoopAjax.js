@@ -4,7 +4,7 @@
 
 /* global jQuery:false */
 /* global tdInfiniteLoader:false */
-/* global td_animation_stack:false */
+/* global tdAnimationStack:{} */
 /* global td_smart_sidebar:false */
 
 /* global td_ajax_url:false */
@@ -158,7 +158,7 @@ var tdAjaxLoop = {};
             }
 
             setTimeout( function () {
-                td_animation_stack.check_for_new_items('.td-main-content' + ' .td-animation-stack', td_animation_stack.SORTED_METHOD.sort_left_to_right, true);
+                tdAnimationStack.check_for_new_items('.td-main-content' + ' .td-animation-stack', tdAnimationStack.SORTED_METHOD.sort_left_to_right, true);
                 //td_smart_sidebar.compute();
             }, 200);
 
