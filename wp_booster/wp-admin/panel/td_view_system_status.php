@@ -387,15 +387,29 @@ require_once "td_view_header.php";
 
         (function () {
 
-            // show/hide the theme debug area
-            jQuery('.td-system-status-name').dblclick(function(){
-                var debugArea = jQuery('.td-debug-area');
-                if (debugArea.hasClass('td-debug-area-reveal')){
-                    return;
-                } else {
-                    debugArea.addClass('td-debug-area-reveal');
-                }
-            });
+            // show-hide the theme debug area
+            var clickCounter = 0;
+            var lastClick = 0;
+            var debugArea = jQuery('.td-debug-area');
+            if (!debugArea.hasClass('td-debug-area-reveal')) {
+
+                jQuery('.td-system-status-name').click(function () {
+                    // calculate the time passed from the last click
+                    var t = (new Date()).getTime();
+                    if( (clickCounter != 0) & (t - lastClick > 2000) ) {
+                        clickCounter = -1;
+                    }
+                    lastClick = t;
+
+                    // reveal the debug area after 4 clicks
+                    if (clickCounter == 3) {
+                        debugArea.addClass('td-debug-area-reveal');
+                        clickCounter = 0;
+                    }
+                    clickCounter++;
+
+                });
+            }
 
             // show/hide script - used to display the array data on log and remote cache panels
             jQuery('.td-button-system-status-details').click(function(){
