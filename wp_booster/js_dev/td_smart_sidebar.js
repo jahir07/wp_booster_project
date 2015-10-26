@@ -31,7 +31,7 @@ var td_smart_sidebar = {
 
 
 
-    _view_port_current_interval_index: tdViewport.get_current_interval_index(),
+    _view_port_current_interval_index: tdViewport.getCurrentIntervalIndex(),
 
 
 
@@ -384,10 +384,10 @@ var td_smart_sidebar = {
 
                 var column_content_width = 0;
 
-                var view_port_current_item = tdViewport.get_current_interval_item();
+                var view_port_current_item = tdViewport.getCurrentIntervalItem();
 
                 if (view_port_current_item != null) {
-                    column_content_width = view_port_current_item.sidebar_width;
+                    column_content_width = view_port_current_item.sidebarWidth;
                     //td_smart_sidebar.log("column sidebar width : " + column_content_width);
                 }
 
@@ -585,7 +585,7 @@ var td_smart_sidebar = {
     td_events_resize: function td_events_resize() {
         // enable and disable the smart sidebar
 
-        td_smart_sidebar._view_port_current_interval_index = tdViewport.get_current_interval_index();
+        td_smart_sidebar._view_port_current_interval_index = tdViewport.getCurrentIntervalIndex();
 
         switch (td_smart_sidebar._view_port_current_interval_index) {
 

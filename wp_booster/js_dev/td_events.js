@@ -69,7 +69,7 @@ var td_events = {
         setInterval(function() {
 
             // it must run before any others
-            tdViewport.detect_changes();
+            tdViewport.detectChanges();
 
             //scroll event
             if (td_events.scroll_event_medium_run) {

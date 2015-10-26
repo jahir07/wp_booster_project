@@ -2,18 +2,19 @@
  * Created by tagdiv on 13.05.2015.
  */
 
-/* global tdViewport: {} */
+/* global tdDetect: {} */
+/* global jQuery: {} */
 
 var tdViewport = {};
 
-( function(){
+(function(){
 
     "use strict";
 
     tdViewport = {
 
         /**
-         * - initial (default) value of the _current_interval_index
+         * - initial (default) value of the _currentIntervalIndex
          * - it's used by third part libraries
          * - it used just as constant value
          */
@@ -26,7 +27,7 @@ var tdViewport = {};
          * - it should be modified/taken just by setter/getter methods
          * - after computing, it should not be a negative value
          */
-        _current_interval_index : this.INTERVAL_INITIAL_INDEX,
+        _currentIntervalIndex : this.INTERVAL_INITIAL_INDEX,
 
 
 
@@ -35,67 +36,67 @@ var tdViewport = {};
          * - it should be modified/taken just by setter/getter methods
          * - it must be a crescendo positive values
          */
-        _interval_list : [],
+        _intervalList : [],
 
 
 
         /**
          *
          */
-        init: function init() {
-            if ( ( 'undefined' !== typeof window.td_viewport_interval_list ) && ( Array === window.td_viewport_interval_list.constructor ) ) {
+        init: function() {
+            if (('undefined' !== typeof window.td_viewport_interval_list) && (Array === window.td_viewport_interval_list.constructor)) {
 
-                for ( var i = 0; i < window.td_viewport_interval_list.length; i++ ) {
+                for (var i = 0; i < window.td_viewport_interval_list.length; i++) {
                     var item = new tdViewport.item();
 
-                    var current_val = window.td_viewport_interval_list[ i ];
+                    var currentVal = window.td_viewport_interval_list[i];
 
                     // the check is done to be sure that the intervals are well formatted
-                    if ( ! current_val.hasOwnProperty( 'limit_bottom' ) || ! current_val.hasOwnProperty( 'sidebar_width' ) ) {
+                    if (!currentVal.hasOwnProperty('limitBottom') || !currentVal.hasOwnProperty('sidebarWidth')) {
                         break;
                     }
 
-                    item.limit_bottom = current_val[ 'limit_bottom' ];
-                    item.sidebar_width = current_val[ 'sidebar_width' ];
+                    item.limitBottom = currentVal.limitBottom;
+                    item.sidebarWidth = currentVal.sidebarWidth;
 
-                    tdViewport._items.push( item );
+                    tdViewport._items.push(item);
                 }
 
-                tdViewport.detect_changes();
+                tdViewport.detectChanges();
             }
         },
 
 
 
         /**
-         * - getter of the _current_interval_index
+         * - getter of the _currentIntervalIndex
          * - it should be used by outsiders libraries
          * @returns {*}
          */
-        get_current_interval_index : function get_current_interval_index() {
-            return tdViewport._current_interval_index;
+        getCurrentIntervalIndex : function() {
+            return tdViewport._currentIntervalIndex;
         },
 
 
 
         /**
-         * - setter of the _interval_list
+         * - setter of the _intervalList
           - it should be used by outsiders libraries
          * @param value
          */
-        set_interval_list : function set_interval_list( value ) {
-            tdViewport._interval_list = value;
+        setIntervalList : function(value) {
+            tdViewport._intervalList = value;
         },
 
 
 
         /**
-         * - getter of the _interval_list
+         * - getter of the _intervalList
          * - it should be used by outsiders libraries
          * @returns {*}
          */
-        get_interval_list : function get_interval_list() {
-            return tdViewport._interval_list;
+        getIntervalList : function() {
+            return tdViewport._intervalList;
         },
 
 
@@ -105,12 +106,12 @@ var tdViewport = {};
          * - it should be used by outsiders libraries
          * @returns {*}
          */
-        get_current_interval_item : function get_current_interval_item() {
+        getCurrentIntervalItem : function() {
 
-            if ( ( tdViewport.INTERVAL_INITIAL_INDEX === tdViewport._current_interval_index ) || ( 0 === tdViewport._current_interval_index ) ) {
+            if ((tdViewport.INTERVAL_INITIAL_INDEX === tdViewport._currentIntervalIndex) || (0 === tdViewport._currentIntervalIndex)) {
                 return null;
             }
-            return tdViewport._items[ tdViewport._current_interval_index - 1 ];
+            return tdViewport._items[tdViewport._currentIntervalIndex - 1];
         },
 
 
@@ -119,9 +120,9 @@ var tdViewport = {};
 
 
 
-        item : function item() {
-            this.limit_bottom = undefined;
-            this.sidebar_width = undefined;
+        item : function() {
+            this.limitBottom = undefined;
+            this.sidebarWidth = undefined;
         },
 
 
@@ -131,41 +132,41 @@ var tdViewport = {};
         /**
          * - detect view port changes
          * - it returns true if the change view port has changed, false otherwise
-         * - it also sets the _current_interval_index
+         * - it also sets the _currentIntervalIndex
          * @returns {boolean} True when viewport has changed
          */
-        detect_changes: function detect_changes() {
+        detectChanges: function() {
             var result = false;
 
-            var real_view_port_width = 0;
-            var local_current_interval_index = 0;
+            var realViewPortWidth = 0;
+            var localCurrentIntervalIndex = 0;
 
-            if ( true === tdDetect.isSafari ) {
-                real_view_port_width = this._safari_view_port_width.get_real_width();
+            if (true === tdDetect.isSafari) {
+                realViewPortWidth = this._safariWiewPortWidth.getRealWidth();
             } else {
-                real_view_port_width = Math.max( document.documentElement.clientWidth, window.innerWidth || 0 );
+                realViewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             }
 
-            for ( var i = 0; i < tdViewport._items.length; i++ ) {
+            for (var i = 0; i < tdViewport._items.length; i++) {
 
-                if ( real_view_port_width <= tdViewport._items[ i ].limit_bottom ) {
+                if (realViewPortWidth <= tdViewport._items[i].limitBottom) {
 
-                    if ( local_current_interval_index !== tdViewport._current_interval_index ) {
-                        tdViewport._current_interval_index = local_current_interval_index;
+                    if (localCurrentIntervalIndex !== tdViewport._currentIntervalIndex) {
+                        tdViewport._currentIntervalIndex = localCurrentIntervalIndex;
                         result = true;
 
-                        tdViewport.log( 'changing viewport ' + tdViewport._current_interval_index + ' ~ ' + real_view_port_width );
+                        tdViewport.log('changing viewport ' + tdViewport._currentIntervalIndex + ' ~ ' + realViewPortWidth);
                     }
                     break;
                 }
-                local_current_interval_index++;
+                localCurrentIntervalIndex++;
             }
 
-            if ( ( false === result ) && ( local_current_interval_index !== tdViewport._current_interval_index ) ) {
-                tdViewport._current_interval_index = local_current_interval_index;
+            if ((false === result) && (localCurrentIntervalIndex !== tdViewport._currentIntervalIndex)) {
+                tdViewport._currentIntervalIndex = localCurrentIntervalIndex;
                 result = true;
 
-                tdViewport.log( 'changing viewport ' + tdViewport._current_interval_index + ' ~ ' + real_view_port_width );
+                tdViewport.log('changing viewport ' + tdViewport._currentIntervalIndex + ' ~ ' + realViewPortWidth);
             }
             return result;
         },
@@ -173,16 +174,16 @@ var tdViewport = {};
 
         /**
          * get the real view port width on safari
-         * @type {{div_added: boolean, div_jquery_object: string, get_real_width: Function}}
+         * @type {{divAdded: boolean, divJqueryObject: string, getRealWidth: Function}}
          */
-        _safari_view_port_width : {
-            div_added : false,
-            div_jquery_object : '',
+        _safariWiewPortWidth : {
+            divAdded : false,
+            divJqueryObject : '',
 
-            get_real_width : function() {
-                if ( false === this.div_added ) {
+            getRealWidth : function() {
+                if (false === this.divAdded) {
                     // we don't have a div present
-                    this.div_jquery_object = jQuery( '<div>' )
+                    this.divJqueryObject = jQuery('<div>')
                         .css({
                             "height": "1px",
                             "position": "absolute",
@@ -192,16 +193,16 @@ var tdViewport = {};
                             "visibility": "hidden",
                             "z-index": "-1"
                         });
-                    this.div_jquery_object.appendTo( 'body' );
-                    this.div_added = true;
+                    this.divJqueryObject.appendTo('body');
+                    this.divAdded = true;
                 }
-                return this.div_jquery_object.width();
+                return this.divJqueryObject.width();
             }
         },
 
 
 
-        log: function log( msg ) {
+        log: function log(msg) {
             //console.log(msg);
         }
     };

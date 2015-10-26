@@ -106,7 +106,7 @@ var tdPullDown = {};
          */
         init: function() {
 
-            tdPullDown._view_port_interval_index = tdViewport.get_current_interval_index();
+            tdPullDown._view_port_interval_index = tdViewport.getCurrentIntervalIndex();
 
             tdPullDown.items = [];
         },
@@ -658,7 +658,7 @@ var tdPullDown = {};
                 return;
             }
 
-            if ( true === tdPullDown.reinitialize_items_at_change_view_port && tdPullDown._view_port_interval_index !== tdViewport.get_current_interval_index() ) {
+            if ( true === tdPullDown.reinitialize_items_at_change_view_port && tdPullDown._view_port_interval_index !== tdViewport.getCurrentIntervalIndex() ) {
                 tdPullDown._reinitialize_all_items();
             }
 
