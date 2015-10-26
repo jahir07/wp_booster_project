@@ -27,7 +27,7 @@ var tdViewport = {};
          * - it should be modified/taken just by setter/getter methods
          * - after computing, it should not be a negative value
          */
-        _currentIntervalIndex : this.INTERVAL_INITIAL_INDEX,
+        _currentIntervalIndex : tdViewport.INTERVAL_INITIAL_INDEX,
 
 
 
