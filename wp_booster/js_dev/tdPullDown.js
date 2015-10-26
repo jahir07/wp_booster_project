@@ -16,7 +16,7 @@ var tdPullDown = {};
 
         // - keeps internally the current interval index
         // - it's set at init()
-        _view_port_interval_index : td_viewport.INTERVAL_INITIAL_INDEX,
+        _view_port_interval_index : tdViewport.INTERVAL_INITIAL_INDEX,
 
 
 
@@ -106,7 +106,7 @@ var tdPullDown = {};
          */
         init: function() {
 
-            tdPullDown._view_port_interval_index = td_viewport.get_current_interval_index();
+            tdPullDown._view_port_interval_index = tdViewport.get_current_interval_index();
 
             tdPullDown.items = [];
         },
@@ -658,7 +658,7 @@ var tdPullDown = {};
                 return;
             }
 
-            if ( true === tdPullDown.reinitialize_items_at_change_view_port && tdPullDown._view_port_interval_index !== td_viewport.get_current_interval_index() ) {
+            if ( true === tdPullDown.reinitialize_items_at_change_view_port && tdPullDown._view_port_interval_index !== tdViewport.get_current_interval_index() ) {
                 tdPullDown._reinitialize_all_items();
             }
 

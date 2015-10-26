@@ -31,7 +31,7 @@ var td_smart_sidebar = {
 
 
 
-    _view_port_current_interval_index: td_viewport.get_current_interval_index(),
+    _view_port_current_interval_index: tdViewport.get_current_interval_index(),
 
 
 
@@ -585,7 +585,7 @@ var td_smart_sidebar = {
     td_events_resize: function td_events_resize() {
         // enable and disable the smart sidebar
 
-        td_smart_sidebar._view_port_current_interval_index = td_viewport.get_current_interval_index();
+        td_smart_sidebar._view_port_current_interval_index = tdViewport.get_current_interval_index();
 
         switch (td_smart_sidebar._view_port_current_interval_index) {
 
