@@ -13,6 +13,14 @@ var tdTrendingNowObject = {};
 
     "use strict";
 
+    //jQuery().ready(function() {
+    //    //trending now
+    //    td_trending_now();
+    //
+    //    //call to trending now function to start auto scroll
+    //    td_trending_now_auto_start();
+    //});
+
     tdTrendingNowObject = {
 
         trendingNowAutostartBlocks: [],

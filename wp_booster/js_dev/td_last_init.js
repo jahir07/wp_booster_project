@@ -22,5 +22,10 @@ jQuery(window).ready(function() {
         }
 
     });
-});
 
+    //trending now
+    tdTrendingNowObject.tdTrendingNow();
+
+    //call to trending now function to start auto scroll
+    tdTrendingNowObject.tdTrendingNowAutoStart();
+});
