@@ -2,11 +2,12 @@
  * Created by tagdiv on 16.02.2015.
  */
 
-/* global tdAnimationScroll */
+/* global jQuery: {} */
+/* global td_events: {} */
 
 var tdAnimationScroll = {};
 
-( function() {
+(function() {
 
     'use strict';
 
@@ -144,21 +145,21 @@ var tdAnimationScroll = {};
              * @param end_value numeric
              * @param easing string [optional]
              */
-            this.add_item_property = function add_item_property( name, start_percent, end_percent, start_value, end_value, easing ) {
+            this.add_item_property = function add_item_property(name, start_percent, end_percent, start_value, end_value, easing) {
 
-                if ( start_percent >= end_percent ) {
+                if (start_percent >= end_percent) {
                     return;
                 }
 
-                if ( undefined === this.properties[ name ] ) {
+                if (undefined === this.properties[name]) {
 
-                    this.properties[ name ] = {
+                    this.properties[name] = {
                         computed_value: '',
                         settings: []
                     };
 
-                    if ( 0 !== start_percent ) {
-                        this.properties[ name ].settings[ this.properties[ name ].settings.length ] = {
+                    if (0 !== start_percent) {
+                        this.properties[name].settings[this.properties[name].settings.length] = {
                             start_percent: 0,
                             end_percent: start_percent,
                             start_value: start_value,
@@ -167,7 +168,7 @@ var tdAnimationScroll = {};
                         };
                     }
 
-                    this.properties[ name ].settings[ this.properties[ name ].settings.length ] = {
+                    this.properties[name].settings[this.properties[name].settings.length] = {
                         start_percent: start_percent,
                         end_percent: end_percent,
                         start_value: start_value,
@@ -175,7 +176,7 @@ var tdAnimationScroll = {};
                         easing: easing
                     };
 
-                    this.properties[ name ].settings[ this.properties[ name ].settings.length ] = {
+                    this.properties[name].settings[this.properties[name].settings.length] = {
                         start_percent: end_percent,
                         end_percent: 100,
                         start_value: end_value,
@@ -185,10 +186,10 @@ var tdAnimationScroll = {};
 
                 } else {
 
-                    var last_setting = this.properties[ name ].settings[ this.properties[ name ].settings.length - 1 ];
+                    var last_setting = this.properties[name].settings[this.properties[name].settings.length - 1];
 
-                    if ( last_setting.start_percent !== start_percent ) {
-                        this.properties[ name ].settings[ this.properties[ name ].settings.length - 1 ] = {
+                    if (last_setting.start_percent !== start_percent) {
+                        this.properties[name].settings[this.properties[name].settings.length - 1] = {
                             start_percent: last_setting.start_percent,
                             end_percent: start_percent,
                             start_value: last_setting.end_value,
@@ -196,7 +197,7 @@ var tdAnimationScroll = {};
                             easing: ''
                         };
 
-                        this.properties[ name ].settings[ this.properties[ name ].settings.length ] = {
+                        this.properties[name].settings[this.properties[name].settings.length] = {
                             start_percent: start_percent,
                             end_percent: end_percent,
                             start_value: start_value,
@@ -204,7 +205,7 @@ var tdAnimationScroll = {};
                             easing: easing
                         };
                     } else {
-                        this.properties[ name ].settings[ this.properties[ name ].settings.length - 1 ] = {
+                        this.properties[name].settings[this.properties[name].settings.length - 1] = {
                             start_percent: start_percent,
                             end_percent: end_percent,
                             start_value: start_value,
@@ -213,8 +214,8 @@ var tdAnimationScroll = {};
                         };
                     }
 
-                    if ( 100 !== end_percent ) {
-                        this.properties[ name ].settings[ this.properties[ name ].settings.length ] = {
+                    if (100 !== end_percent) {
+                        this.properties[name].settings[this.properties[name].settings.length] = {
                             start_percent: end_percent,
                             end_percent: 100,
                             start_value: end_value,
@@ -232,12 +233,12 @@ var tdAnimationScroll = {};
              * @param name {String} The name of the property
              * @returns {boolean}
              */
-            this.remove_item_property = function remove_item_property( name ) {
-                if ( undefined === this.properties[ name ] ) {
+            this.remove_item_property = function remove_item_property(name) {
+                if (undefined === this.properties[name]) {
                     return false;
                 }
 
-                delete this.properties[ name ];
+                delete this.properties[name];
 
                 return true;
             };
@@ -265,17 +266,17 @@ var tdAnimationScroll = {};
          *
          * @param item The item to be added and initialized
          */
-        add_item: function add_item( item ) {
+        add_item: function add_item(item) {
 
-            if ( item.constructor !== tdAnimationScroll.item ) {
+            if (item.constructor !== tdAnimationScroll.item) {
                 return;
             }
 
             // the item is added in the item list
-            tdAnimationScroll.items.push( item );
+            tdAnimationScroll.items.push(item);
 
             // the item is initialized only once when it is added
-            tdAnimationScroll._initialize_item( item );
+            tdAnimationScroll._initialize_item(item);
 
             // for efficiently rendering all items are computed at once, so do not compute item individually
         },
@@ -290,27 +291,27 @@ var tdAnimationScroll = {};
          * @param item
          * @private
          */
-        _initialize_item: function _initialize_item( item ) {
+        _initialize_item: function _initialize_item(item) {
 
             // an item must be initialized only once
-            if ( true === item._is_initialized ) {
+            if (true === item._is_initialized) {
                 return;
             }
 
             // the item full height is computed
-            if ( undefined === item.wrapper_jquery_obj ) {
-                item.full_height = item.jqueryObj.outerHeight( true );
+            if (undefined === item.wrapper_jquery_obj) {
+                item.full_height = item.jqueryObj.outerHeight(true);
             } else {
                 item.full_height = item.wrapper_jquery_obj.height();
             }
 
-            if ( 0 === item.full_height ) {
+            if (0 === item.full_height) {
                 return;
             }
 
-            var new_jquery_obj_reference = jQuery( '<div class="td_marker_animation" style="height: 0; width: 0">' );
+            var new_jquery_obj_reference = jQuery('<div class="td_marker_animation" style="height: 0; width: 0">');
 
-            new_jquery_obj_reference.insertBefore( item.jqueryObj );
+            new_jquery_obj_reference.insertBefore(item.jqueryObj);
 
             item.top_marker_jquery_obj = new_jquery_obj_reference;
 
@@ -339,10 +340,10 @@ var tdAnimationScroll = {};
          *
          * @param recompute_height boolean True if it's necessary to recompute the item's height [when view port changes]
          */
-        reinitialize_all_items: function reinitialize_all_items( recompute_height ) {
+        reinitialize_all_items: function reinitialize_all_items(recompute_height) {
 
-            for ( var i = tdAnimationScroll.items.length - 1; i >= 0; i-- ) {
-                tdAnimationScroll.reinitialize_item( tdAnimationScroll.items[ i ], recompute_height );
+            for (var i = tdAnimationScroll.items.length - 1; i >= 0; i--) {
+                tdAnimationScroll.reinitialize_item(tdAnimationScroll.items[i], recompute_height);
             }
         },
 
@@ -358,10 +359,10 @@ var tdAnimationScroll = {};
          * @param recompute_height boolean True if it's necessary to recompute the item height [when view port changes]
          * @private
          */
-        reinitialize_item: function reinitialize_item( item, recompute_height ) {
+        reinitialize_item: function reinitialize_item(item, recompute_height) {
 
             // a not initialized item can't be reinitialized
-            if ( false === item._is_initialized ) {
+            if (false === item._is_initialized) {
                 return;
             }
 
@@ -372,14 +373,14 @@ var tdAnimationScroll = {};
 
             //console.log("reinitializare " + tdAnimationScroll.items.length + " : " + item.top_marker_jquery_obj.offset().top);
 
-            if ( true === recompute_height ) {
-                if ( undefined === item.wrapper_jquery_obj ) {
-                    item.full_height = item.jqueryObj.outerHeight( true );
+            if (true === recompute_height) {
+                if (undefined === item.wrapper_jquery_obj) {
+                    item.full_height = item.jqueryObj.outerHeight(true);
                 } else {
                     item.full_height = item.wrapper_jquery_obj.height();
                 }
 
-                if ( 0 === item.full_height ) {
+                if (0 === item.full_height) {
                     return;
                 }
             }
@@ -398,94 +399,94 @@ var tdAnimationScroll = {};
          * @param item The item whose properties are computed
          * @private
          */
-        _compute_item_properties: function _compute_item_properties( item ) {
+        _compute_item_properties: function _compute_item_properties(item) {
 
             var computed_properties = {},
                 current_item_property;
 
-            for ( var property in item.properties ) {
+            for (var property in item.properties) {
 
-                if ( false === item.properties.hasOwnProperty( property ) ) {
-                    return;
-                }
-                current_item_property = item.properties[ property ];
+                if (true === item.properties.hasOwnProperty(property)) {
 
-                var current_setting,
-                    new_computed_value,
-                    local_computed_value,
-                    easing_step,
-                    easing_computed_value,
-                    easing_division_interval = 1000;
+                    current_item_property = item.properties[property];
 
-                for ( var i = 0; i < current_item_property.settings.length; i++ ) {
+                    var current_setting,
+                        new_computed_value,
+                        local_computed_value,
+                        easing_step,
+                        easing_computed_value,
+                        easing_division_interval = 1000;
 
-                    current_setting = current_item_property.settings[ i ];
+                    for (var i = 0; i < current_item_property.settings.length; i++) {
 
-                    // the check is done using this form [...) of the interval or the last position 100%
-                    if ( ( current_setting.start_percent <= item.percent_value && item.percent_value < current_setting.end_percent )
-                        || ( item.percent_value === current_setting.end_percent && 100 === item.percent_value ) ) {
+                        current_setting = current_item_property.settings[i];
 
-                        if ( current_setting.start_value === current_setting.end_value ) {
+                        // the check is done using this form [...) of the interval or the last position 100%
+                        if ((current_setting.start_percent <= item.percent_value && item.percent_value < current_setting.end_percent) ||
+                            (item.percent_value === current_setting.end_percent && 100 === item.percent_value)) {
 
-                            new_computed_value = current_setting.start_value;
+                            if (current_setting.start_value === current_setting.end_value) {
 
-                        } else {
-
-                            // local computed value can have a positive value or a negative value, it depends of the difference end_value - start_value
-                            // for a linear easing function, the new computed value is the start_value + local_computed_value
-                            // if start_value < end_value, the variable local_computed_value is positive
-                            // if start_value > end_value, the variable local_computed_value is negative
-                            local_computed_value = ( item.percent_value - current_setting.start_percent ) / ( current_setting.end_percent - current_setting.start_percent ) * ( current_setting.end_value - current_setting.start_value );
-
-
-                            // if there's specified an easing function, it's applied over the computed_value
-                            if ( ( undefined === current_setting.easing ) || ( '' === current_setting.easing ) ) {
-
-                                // linear easing function
-
-                                new_computed_value = current_setting.start_value + local_computed_value;
+                                new_computed_value = current_setting.start_value;
 
                             } else {
 
-                                // specifying an easing function
+                                // local computed value can have a positive value or a negative value, it depends of the difference end_value - start_value
+                                // for a linear easing function, the new computed value is the start_value + local_computed_value
+                                // if start_value < end_value, the variable local_computed_value is positive
+                                // if start_value > end_value, the variable local_computed_value is negative
+                                local_computed_value = (item.percent_value - current_setting.start_percent) / (current_setting.end_percent - current_setting.start_percent) * (current_setting.end_value - current_setting.start_value);
 
-                                easing_step = Math.abs( current_setting.start_value - current_setting.end_value ) / easing_division_interval;
 
-                                if ( current_setting.start_value < current_setting.end_value ) {
+                                // if there's specified an easing function, it's applied over the computed_value
+                                if ((undefined === current_setting.easing) || ('' === current_setting.easing)) {
 
-                                    easing_computed_value = current_setting.start_value + jQuery.easing[ current_setting.easing ](
-                                        null,
-                                        local_computed_value,
-                                        0,
-                                        easing_step,
-                                        current_setting.end_value - current_setting.start_value ) * easing_division_interval;
+                                    // linear easing function
+
+                                    new_computed_value = current_setting.start_value + local_computed_value;
 
                                 } else {
 
-                                    easing_computed_value = current_setting.start_value - jQuery.easing[ current_setting.easing ](
-                                        null,
-                                        -local_computed_value,
-                                        0,
-                                        easing_step,
-                                        current_setting.start_value - current_setting.end_value ) * easing_division_interval;
+                                    // specifying an easing function
+
+                                    easing_step = Math.abs(current_setting.start_value - current_setting.end_value) / easing_division_interval;
+
+                                    if (current_setting.start_value < current_setting.end_value) {
+
+                                        easing_computed_value = current_setting.start_value + jQuery.easing[current_setting.easing](
+                                            null,
+                                            local_computed_value,
+                                            0,
+                                            easing_step,
+                                            current_setting.end_value - current_setting.start_value) * easing_division_interval;
+
+                                    } else {
+
+                                        easing_computed_value = current_setting.start_value - jQuery.easing[current_setting.easing](
+                                            null,
+                                            -local_computed_value,
+                                            0,
+                                            easing_step,
+                                            current_setting.start_value - current_setting.end_value) * easing_division_interval;
+                                    }
+
+                                    new_computed_value = easing_computed_value;
+
+                                    //console.log(current_setting.easing + ' : ' + easing_step + ' ~ ' + easing_computed_value + ' ~ ' + (current_setting.start_value + computed_value) + ' & ' + current_setting.start_value + ' $ ' + current_setting.end_value);
                                 }
-
-                                new_computed_value = easing_computed_value;
-
-                                //console.log(current_setting.easing + ' : ' + easing_step + ' ~ ' + easing_computed_value + ' ~ ' + (current_setting.start_value + computed_value) + ' & ' + current_setting.start_value + ' $ ' + current_setting.end_value);
                             }
-                        }
 
-                        // if the existing computed value is different, the new computed value is cached
-                        if (current_item_property.computed_value !== new_computed_value ) {
-                            current_item_property.computed_value = new_computed_value;
-                            computed_properties[ property ] = new_computed_value;
+                            // if the existing computed value is different, the new computed value is cached
+                            if (current_item_property.computed_value !== new_computed_value) {
+                                current_item_property.computed_value = new_computed_value;
+                                computed_properties[property] = new_computed_value;
 
-                            // the item is marked that it has at least one property that need to be redraw
-                            // the animation callback functions are called just for the marked items
-                            item.redraw = true;
+                                // the item is marked that it has at least one property that need to be redraw
+                                // the animation callback functions are called just for the marked items
+                                item.redraw = true;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -503,30 +504,30 @@ var tdAnimationScroll = {};
          *
          * @param item The tdAnimationScroll.item to be computed
          */
-        compute_item: function compute_item( item ) {
+        compute_item: function compute_item(item) {
             //console.clear();
 
             // the item must be initialized first
-            if ( false === item._is_initialized ) {
+            if (false === item._is_initialized) {
                 return;
             }
 
             var percent_display_value = 0;
 
-            if ( td_events.window_pageYOffset + td_events.window_innerHeight >= item.offset_top ) {
+            if (td_events.window_pageYOffset + td_events.window_innerHeight >= item.offset_top) {
 
-                if ( td_events.window_pageYOffset > item.offset_bottom_top ) {
+                if (td_events.window_pageYOffset > item.offset_bottom_top) {
                     percent_display_value = 100;
                 } else {
-                    percent_display_value = ( td_events.window_pageYOffset + td_events.window_innerHeight - item.offset_top ) * 100 / ( td_events.window_innerHeight + item.full_height );
+                    percent_display_value = (td_events.window_pageYOffset + td_events.window_innerHeight - item.offset_top) * 100 / (td_events.window_innerHeight + item.full_height);
                 }
             }
 
             //console.log(window.pageYOffset + ' : ' + item.offset_top + ' : ' + item.offset_bottom_top);
 
-            if ( item.percent_value !== percent_display_value ) {
+            if (item.percent_value !== percent_display_value) {
                 item.percent_value = percent_display_value;
-                tdAnimationScroll._compute_item_properties( item );
+                tdAnimationScroll._compute_item_properties(item);
             }
 
             item.top_is_out = td_events.window_pageYOffset > item.offset_top;
@@ -546,7 +547,7 @@ var tdAnimationScroll = {};
         compute_all_items: function compute_all_items() {
             //tdAnimationScroll.animate();
 
-            if ( false === tdAnimationScroll.animation_running ) {
+            if (false === tdAnimationScroll.animation_running) {
                 tdAnimationScroll.rAFIndex = window.requestAnimationFrame( tdAnimationScroll._animate_all_items );
             }
 
@@ -564,15 +565,15 @@ var tdAnimationScroll = {};
         _animate_all_items: function _animate_all_items() {
             //var start_time = Date.now();
 
-            for ( var i = 0; i < tdAnimationScroll.items.length; i++ ) {
-                if ( false === tdAnimationScroll.items[ i ].computation_stopped ) {
-                    tdAnimationScroll.compute_item( tdAnimationScroll.items[ i ] );
+            for (var i = 0; i < tdAnimationScroll.items.length; i++) {
+                if ( false === tdAnimationScroll.items[i].computation_stopped) {
+                    tdAnimationScroll.compute_item(tdAnimationScroll.items[i]);
                 }
             }
 
-            for ( var i = 0; i < tdAnimationScroll.items.length; i++ ) {
-                if ( true === tdAnimationScroll.items[ i ].redraw ) {
-                    tdAnimationScroll.items[ i ].animation_callback();
+            for (var j = 0; j < tdAnimationScroll.items.length; j++) {
+                if (true === tdAnimationScroll.items[j].redraw) {
+                    tdAnimationScroll.items[j].animation_callback();
                 }
             }
 
@@ -593,7 +594,7 @@ var tdAnimationScroll = {};
          */
         td_events_resize: function td_events_resize() {
 
-            if ( 0 === tdAnimationScroll.items.length ) {
+            if (0 === tdAnimationScroll.items.length) {
                 return;
             }
 
@@ -603,7 +604,7 @@ var tdAnimationScroll = {};
             //    tdAnimationScroll.reinitialize_all_items();
             //}
 
-            tdAnimationScroll.reinitialize_all_items( false );
+            tdAnimationScroll.reinitialize_all_items(false);
 
             tdAnimationScroll.compute_all_items();
         },
@@ -613,7 +614,7 @@ var tdAnimationScroll = {};
 
 
 
-        log: function log( msg ) {
+        log: function log(msg) {
             //console.log(msg);
         }
     };
