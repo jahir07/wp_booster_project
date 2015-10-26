@@ -384,7 +384,7 @@ var td_smart_sidebar = {
 
                 var column_content_width = 0;
 
-                var view_port_current_item = td_viewport.get_current_interval_item();
+                var view_port_current_item = tdViewport.get_current_interval_item();
 
                 if (view_port_current_item != null) {
                     column_content_width = view_port_current_item.sidebar_width;

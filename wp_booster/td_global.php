@@ -62,7 +62,7 @@ class td_global {
     static $get_template_directory_uri = ''; // here we store the value from get_template_directory_uri(); - it looks like the wp function does a lot of stuff each time is called
 
 
-	static $td_viewport_intervals = array(); // the td_viewport intervals are stored
+	static $td_viewport_intervals = array(); // the tdViewport intervals are stored
 
 
 
