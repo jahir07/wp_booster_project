@@ -236,7 +236,7 @@ abstract class td_module {
                     }
 
 
-                    $td_temp_image_url[0] = get_template_directory_uri() . '/images/thumb-disabled/' . $thumbType . '.png';
+                    $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/thumb-disabled/' . $thumbType . '.png';
                     $attachment_alt = 'alt=""';
                     $attachment_title = '';
 
@@ -289,7 +289,7 @@ abstract class td_module {
                 }
 
 
-                $td_temp_image_url[0] = get_template_directory_uri() . '/images/no-thumb/' . $thumbType . '.png';
+                $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/no-thumb/' . $thumbType . '.png';
                 $attachment_alt = 'alt=""';
                 $attachment_title = '';
             } //end    if ($this->post_has_thumb) {
