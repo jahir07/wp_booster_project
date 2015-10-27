@@ -13,14 +13,6 @@ var tdTrendingNowObject = {};
 
     "use strict";
 
-    //jQuery().ready(function() {
-    //    //trending now
-    //    td_trending_now();
-    //
-    //    //call to trending now function to start auto scroll
-    //    td_trending_now_auto_start();
-    //});
-
     tdTrendingNowObject = {
 
         trendingNowAutostartBlocks: [],
@@ -38,15 +30,15 @@ var tdTrendingNowObject = {};
                 }
 
                 var trendingListPosts = [];
-                var i_cont = 0;
+                var iCont = 0;
 
                 //take the text from each post from current trending-now-wrapper
                 jQuery('#' + wrapperId + ' .td-trending-now-post').each(function() {
                     //trending_list_posts[i_cont] = jQuery(this)[0].outerHTML;
-                    trendingListPosts[i_cont] = jQuery(this);
+                    trendingListPosts[iCont] = jQuery(this);
 
                     //increment the counter
-                    i_cont++;
+                    iCont++;
                 });
 
                 //add this array to `tdTrendingNowObject`
@@ -139,7 +131,7 @@ var tdTrendingNowObject = {};
 
             var postsArrayListPosition = tdTrendingNowObject[wrapperIdForNav + '_position'];
 
-            var previous_post_array_list_position = postsArrayListPosition;
+            var previousPostArrayListPosition = postsArrayListPosition;
 
             //count how many post are in the list
             var post_count = postsArrayListForThisTrend.length - 1;
@@ -162,8 +154,8 @@ var tdTrendingNowObject = {};
             //update the new position in the global `tdTrendingNowObject`
             tdTrendingNowObject[wrapperIdForNav + '_position'] = postsArrayListPosition;
 
-            postsArrayListForThisTrend[previous_post_array_list_position].css('opacity', 0);
-            postsArrayListForThisTrend[previous_post_array_list_position].css('z-index', 0);
+            postsArrayListForThisTrend[previousPostArrayListPosition].css('opacity', 0);
+            postsArrayListForThisTrend[previousPostArrayListPosition].css('z-index', 0);
 
             for (var trending_post in postsArrayListForThisTrend) {
                 if (true === postsArrayListForThisTrend.hasOwnProperty(trending_post)) {
@@ -176,11 +168,11 @@ var tdTrendingNowObject = {};
 
             if (true === to_right) {
 
-                postsArrayListForThisTrend[previous_post_array_list_position].addClass('td_animated_xlong td_fadeOutLeft');
+                postsArrayListForThisTrend[previousPostArrayListPosition].addClass('td_animated_xlong td_fadeOutLeft');
                 postsArrayListForThisTrend[postsArrayListPosition].addClass('td_animated_xlong td_fadeInRight');
             } else {
 
-                postsArrayListForThisTrend[previous_post_array_list_position].addClass('td_animated_xlong td_fadeOutRight');
+                postsArrayListForThisTrend[previousPostArrayListPosition].addClass('td_animated_xlong td_fadeOutRight');
                 postsArrayListForThisTrend[postsArrayListPosition].addClass('td_animated_xlong td_fadeInLeft');
             }
         },
@@ -192,19 +184,21 @@ var tdTrendingNowObject = {};
             var list = tdTrendingNowObject.trendingNowAutostartBlocks;
 
             for (var i = 0, len = list.length; i < len; i += 1) {
-                (function(i) {
 
-                    // if there's just a single post to be shown, there's no need for next/prev/autostart
-                    if (1 >= tdTrendingNowObject[list[i]].length) {
-                        return;
-                    }
+                // if there's just a single post to be shown, there's no need for next/prev/autostart
+                if (1 >= tdTrendingNowObject[list[i]].length) {
+                    return;
+                }
 
-                    tdTrendingNowObject[list[i] + '_timer'] = setInterval(function () {
-                        //console.log(i + "=>" + list[i] + "\n");
-                        tdTrendingNowObject.tdTrendingNowChangeText([list[i], 'left'], true);
-                    }, 3000);
-                })(i);
+                tdTrendingNowObject[list[i] + '_timer'] = tdTrendingNowObject.setTimerChangingText(list[i]);
             }
+        },
+
+        setTimerChangingText: function(autoStartItem) {
+            return setInterval(function () {
+                //console.log(i + "=>" + list[i] + "\n");
+                tdTrendingNowObject.tdTrendingNowChangeText([autoStartItem, 'left'], true);
+            }, 3000);
         }
     };
 
