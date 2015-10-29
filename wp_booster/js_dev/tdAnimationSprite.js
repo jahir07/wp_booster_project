@@ -2,7 +2,7 @@
  * Created by tagdiv on 29.09.2015.
  */
 
-/* global tdAnimationSprite */
+/* global jQuery:{} */
 
 var tdAnimationSprite = {};
 
@@ -89,7 +89,7 @@ var tdAnimationSprite = {};
 
                     if ( 'right' === this._currentDirection ) {
 
-                        if ( this.nextFrame == this.frames - 1 ) {
+                        if ( this.nextFrame === this.frames - 1 ) {
                             this._currentDirection = 'left';
                             this.nextFrame--;
                         } else {
@@ -103,7 +103,7 @@ var tdAnimationSprite = {};
                             this.nextFrame++;
                             this._executedLoops++;
 
-                            if ( ( 0 !== this.loops ) && ( this._executedLoops == this.loops ) ) {
+                            if ( ( 0 !== this.loops ) && ( this._executedLoops === this.loops ) ) {
                                 clearInterval( this.interval );
                             }
                         } else {
@@ -113,12 +113,12 @@ var tdAnimationSprite = {};
 
                 } else {
 
-                    if ( this.nextFrame == this.frames - 1 ) {
+                    if ( this.nextFrame === this.frames - 1 ) {
 
                         this._executedLoops++;
 
                         // complete tour ( once to the right ), so we stop
-                        if ( ( 0 !== this.loops ) && ( this._executedLoops == this.loops ) ) {
+                        if ( ( 0 !== this.loops ) && ( this._executedLoops === this.loops ) ) {
                             clearInterval( this.interval );
                         }
 
@@ -165,7 +165,7 @@ var tdAnimationSprite = {};
             // resultMatch is an array of matches, or null if there's no matching
             var resultMatch = item.jqueryObj.attr( 'class' ).match( regex );
 
-            if ( null != resultMatch ) {
+            if ( null !== resultMatch ) {
 
                 item.offsetTop = item.jqueryObj.offset().top;
                 item.offsetBottomToTop = item.offsetTop + item.jqueryObj.height();
@@ -217,7 +217,7 @@ var tdAnimationSprite = {};
             if ( item.frames > 1 ) {
 
                 // Check the item interval to not be set
-                if ( undefined != item.interval ) {
+                if ( undefined !== item.interval ) {
                     return;
                 }
 
@@ -323,7 +323,7 @@ var tdAnimationSprite = {};
             }
             tdAnimationSprite.isInRequestAnimation = false;
         }
-    }
+    };
 
     /*
      <div class="td_animation_sprite-a-b-c-d-e-f"></div>
