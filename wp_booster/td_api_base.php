@@ -369,7 +369,7 @@ class td_api_base {
      * @internal param string $class_name The array key in self::$component_list
      */
     private static function check_used_on_page($id, $requested_operation) {
-        if (array_key_exists(self::USED_ON_PAGE, self::$components_list[$id])) {
+        if ( array_key_exists( $id, self::$components_list ) and array_key_exists( self::USED_ON_PAGE, self::$components_list[$id] ) ) {
             td_util::error(__FILE__, "td_api_base::check_used_on_page: You requested a $requested_operation for ID: $id BUT it's already used on page. This usually means that you are using a wrong hook - you are trying to modify the component after it already rendered / was used.", self::$components_list[$id]);
         }
     }

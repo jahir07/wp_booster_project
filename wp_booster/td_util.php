@@ -819,7 +819,11 @@ class td_util {
      * @return string
      */
     static function get_module_class_from_loop_id ($module_id) {
-        return 'td_module_' . $module_id;
+	    $prefix = 'td_module_';
+	    if ( td_is_mobile_theme () ) {
+		    $prefix = 'tdm_module_';
+	    }
+        return $prefix  . $module_id;
     }
 
 
@@ -956,4 +960,26 @@ if (!function_exists('mb_substr')) {
     function mb_substr($string,$start,$length, $encoding = '') {
         return substr($string,$start,$length);
     }
+}
+
+
+if ( ! function_exists( 'td_is_td_mobile_plugin_active' ) ) {
+	function td_is_td_mobile_plugin_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		if ( is_plugin_active( 'td-mobile-plugin/td-mobile-plugin.php' ) ) {
+			return true;
+		}
+		return false;
+	}
+}
+
+if ( ! function_exists( 'td_is_mobile_theme' ) ) {
+	function td_is_mobile_theme() {
+		$current_theme_name = get_template();
+
+		if ( empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' ) ) {
+			return true;
+		}
+		return false;
+	}
 }

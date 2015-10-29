@@ -360,6 +360,6 @@ if (is_plugin_active('woocommerce/woocommerce.php')) {
 
 $current_theme_name = get_template();
 
-td_global::$get_template_directory = (empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' )) ? Td_Mobile_Theme::$mobile_dir_path : get_template_directory();
+td_global::$get_template_directory = (empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' )) ? Td_Mobile_Theme::$main_dir_path : get_template_directory();
 
 td_global::$get_template_directory_uri = (empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' )) ? Td_Mobile_Theme::$main_uri_path : get_template_directory_uri();
