@@ -3,13 +3,14 @@
  */
 
 
-/* global tdPullDown:{} */
+/* global tdViewport:{} */
+/* global jQuery:{} */
 
 var tdPullDown = {};
 
 ( function(){
 
-    "use strict";
+    'use strict';
 
     tdPullDown = {
 
@@ -428,25 +429,25 @@ var tdPullDown = {};
             //  - if there are vertical elements
             //  - if there's enough horizontal space for the first vertical element
 
-            if ( ( 0 !== item.minimum_elements )
-                && ( 0 === item._horizontal_elements.length )
-                && ( item._vertical_elements.length > 0 )
-                && ( space_for_horizontal_elements >= item._vertical_elements[ 0 ].calculated_width ) ) {
+            if ( ( 0 !== item.minimum_elements ) &&
+                ( 0 === item._horizontal_elements.length ) &&
+                ( item._vertical_elements.length > 0 ) &&
+                ( space_for_horizontal_elements >= item._vertical_elements[ 0 ].calculated_width ) ) {
 
                 // the necessary space needed for the minimum no. of horizontal elements
                 var local_necessary_space = 0;
 
-                for ( var i = 0; ( i < item.minimum_elements ) && ( i < item._vertical_elements.length ); i++ ) {
-                    local_necessary_space += item._vertical_elements[ i ].calculated_width;
+                for ( var j = 0; ( j < item.minimum_elements ) && ( j < item._vertical_elements.length ); j++ ) {
+                    local_necessary_space += item._vertical_elements[ j ].calculated_width;
                 }
 
                 // the necessary space really occupied by the minimum no. of horizontal elements
                 var local_space = 0;
                 var local_minimum_elements = item.minimum_elements;
 
-                while ( ( local_minimum_elements > 0 )
-                    && ( item._vertical_elements.length > 0 )
-                    && ( space_for_horizontal_elements >= local_necessary_space ) ) {
+                while ( ( local_minimum_elements > 0 ) &&
+                    ( item._vertical_elements.length > 0 ) &&
+                    ( space_for_horizontal_elements >= local_necessary_space ) ) {
 
                     local_current_element = tdPullDown._make_element_horizontal( item );
 
@@ -469,9 +470,9 @@ var tdPullDown = {};
 
             // It's the case when there isn't specified a no. of minimum horizontal elements or it is specified and the
             // horizontal list is not empty, and in the same time there's enough horizontal space for more elements
-            while ( ( ( item._horizontal_elements.length > 0 ) || ( 0 === item._horizontal_elements.length && 0 === item.minimum_elements ) )
-                && ( item._vertical_elements.length > 0 )
-                && ( space_for_horizontal_elements >= item._vertical_elements[ 0 ].calculated_width ) ) {
+            while ( ( ( item._horizontal_elements.length > 0 ) || ( 0 === item._horizontal_elements.length && 0 === item.minimum_elements ) ) &&
+                ( item._vertical_elements.length > 0 ) &&
+                ( space_for_horizontal_elements >= item._vertical_elements[ 0 ].calculated_width ) ) {
 
                 local_current_element = tdPullDown._make_element_horizontal( item );
 
@@ -489,8 +490,8 @@ var tdPullDown = {};
 
 
             // if the vertical list contains just one element, the horizontal space for it must be calculated without considering the vertical top header width (ex.'More')
-            if ( ( 1 === item._vertical_elements.length )
-                && ( space_for_horizontal_elements + item._vertical_jquery_obj_outer_width >= item._vertical_elements[ 0 ].calculated_width ) ) {
+            if ( ( 1 === item._vertical_elements.length ) &&
+                ( space_for_horizontal_elements + item._vertical_jquery_obj_outer_width >= item._vertical_elements[ 0 ].calculated_width ) ) {
                 tdPullDown._make_element_horizontal( item );
             }
 
