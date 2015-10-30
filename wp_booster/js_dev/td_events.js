@@ -1,133 +1,144 @@
-/* td_events.js - handles the events that require throttling
+/* tdEvents.js - handles the events that require throttling
  * v 2.0 - wp_010
  *
  * moved in theme from wp_booster
  */
 
-"use strict";
+/* global jQuery:{} */
+/* global tdAffix:{} */
+/* global td_smart_sidebar:{} */
+/* global tdViewport:{} */
+/* global tdInfiniteLoader:{} */
+/* global td_more_articles_box:{} */
+/* global tdDetect:{} */
 
-var td_events = {
+/* global td_custom_events:{} */
+/* global td_events_scroll_scroll_to_top:Function */
 
-    //the events - we have timers that look at the variables and fire the event if the flag is true
-    scroll_event_slow_run: false,
-    scroll_event_medium_run: false,
+var tdEvents = {};
 
-    resize_event_slow_run: false, //when true, fire up the resize event
-    resize_event_medium_run: false,
+(function(){
+    'use strict';
 
+    tdEvents = {
 
-    scroll_window_scrollTop: 0, //used to store the scrollTop
+        //the events - we have timers that look at the variables and fire the event if the flag is true
+        scroll_event_slow_run: false,
+        scroll_event_medium_run: false,
 
-    window_pageYOffset: window.pageYOffset, // @todo see if it can replace scroll_window_scrollTop [used by others]
-    window_innerHeight: window.innerHeight, // used to store the window height
-    window_innerWidth: window.innerWidth, // used to store the window width
-
-    init: function init() {
-
-        jQuery(window).scroll(function() {
-            td_events.scroll_event_slow_run = true;
-            td_events.scroll_event_medium_run = true;
-
-            //read the scroll top
-            td_events.scroll_window_scrollTop = jQuery(window).scrollTop();
-            td_events.window_pageYOffset = window.pageYOffset;
-
-            /*  ----------------------------------------------------------------------------
-             Run affix menu event
-             */
-
-            td_affix.td_events_scroll(td_events.scroll_window_scrollTop); //main menu
-
-            td_smart_sidebar.td_events_scroll(td_events.scroll_window_scrollTop); //smart sidebar scroll
+        resize_event_slow_run: false, //when true, fire up the resize event
+        resize_event_medium_run: false,
 
 
-            // call real td_custom_events scroll
-            td_custom_events._callback_scroll();
-        });
+        scroll_window_scrollTop: 0, //used to store the scrollTop
+
+        window_pageYOffset: window.pageYOffset, // @todo see if it can replace scroll_window_scrollTop [used by others]
+        window_innerHeight: window.innerHeight, // used to store the window height
+        window_innerWidth: window.innerWidth, // used to store the window width
+
+        init: function() {
+
+            jQuery( window ).scroll(function() {
+                tdEvents.scroll_event_slow_run = true;
+                tdEvents.scroll_event_medium_run = true;
+
+                //read the scroll top
+                tdEvents.scroll_window_scrollTop = jQuery( window ).scrollTop();
+                tdEvents.window_pageYOffset = window.pageYOffset;
+
+                /*  ----------------------------------------------------------------------------
+                 Run affix menu event
+                 */
+
+                tdAffix.td_events_scroll( tdEvents.scroll_window_scrollTop ); //main menu
+
+                td_smart_sidebar.tdEvents_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
 
 
-        jQuery(window).resize(function() {
-            td_events.resize_event_slow_run = true;
-            td_events.resize_event_medium_run = true;
-
-            td_events.window_innerHeight = window.innerHeight;
-            td_events.window_innerWidth = window.innerWidth;
-
-            //var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-
-            //w = jQuery(document).width();
-            //console.log(w);
+                // call real td_custom_events scroll
+                td_custom_events._callback_scroll();
+            });
 
 
-            // call real td_custom_events resize
-            td_custom_events._callback_resize();
-        });
+            jQuery( window ).resize(function() {
+                tdEvents.resize_event_slow_run = true;
+                tdEvents.resize_event_medium_run = true;
+
+                tdEvents.window_innerHeight = window.innerHeight;
+                tdEvents.window_innerWidth = window.innerWidth;
+
+                //var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+                //w = jQuery(document).width();
+                //console.log(w);
 
 
-
-        //medium resolution timer for rest?
-        setInterval(function() {
-
-            // it must run before any others
-            tdViewport.detectChanges();
-
-            //scroll event
-            if (td_events.scroll_event_medium_run) {
-                td_events.scroll_event_medium_run = false;
-                //compute events for the infinite scroll
-                tdInfiniteLoader.computeEvents();
-
-
-                // call lazy td_custom_events scroll
-                td_custom_events._lazy_callback_scroll_100();
-            }
-
-            if (td_events.resize_event_medium_run) {
-                td_events.resize_event_medium_run = false;
-                td_smart_sidebar.td_events_resize();
-
-
-                // call lazy td_custom_events resize
-                td_custom_events._lazy_callback_resize_100();
-            }
-        }, 100);
+                // call real td_custom_events resize
+                td_custom_events._callback_resize();
+            });
 
 
 
-        //low resolution timer for rest?
-        setInterval(function() {
-            //scroll event
-            if (td_events.scroll_event_slow_run) {
-                td_events.scroll_event_slow_run = false;
+            //medium resolution timer for rest?
+            setInterval(function() {
 
-                //back to top
-                td_events_scroll_scroll_to_top(td_events.scroll_window_scrollTop);
+                // it must run before any others
+                tdViewport.detectChanges();
 
-                //more articles box
-                td_more_articles_box.td_events_scroll(td_events.scroll_window_scrollTop);
-
-
-                // call lazy td_custom_events scroll
-                td_custom_events._lazy_callback_scroll_500();
-            }
-
-            //resize event
-            if (td_events.resize_event_slow_run) {
-                td_events.resize_event_slow_run = false;
-                td_affix.compute_wrapper();
-                td_affix.compute_top();
-                tdDetect.runIsPhoneScreen();
+                //scroll event
+                if ( tdEvents.scroll_event_medium_run ) {
+                    tdEvents.scroll_event_medium_run = false;
+                    //compute events for the infinite scroll
+                    tdInfiniteLoader.computeEvents();
 
 
-                // call lazy td_custom_events resize
-                td_custom_events._lazy_callback_resize_500();
-            }
-        }, 500);
+                    // call lazy td_custom_events scroll
+                    td_custom_events._lazy_callback_scroll_100();
+                }
 
-    }
+                if ( tdEvents.resize_event_medium_run ) {
+                    tdEvents.resize_event_medium_run = false;
+                    td_smart_sidebar.td_events_resize();
+
+
+                    // call lazy td_custom_events resize
+                    td_custom_events._lazy_callback_resize_100();
+                }
+            }, 100);
 
 
 
-};
+            //low resolution timer for rest?
+            setInterval(function() {
+                //scroll event
+                if ( tdEvents.scroll_event_slow_run ) {
+                    tdEvents.scroll_event_slow_run = false;
 
-td_events.init();
+                    //back to top
+                    td_events_scroll_scroll_to_top( tdEvents.scroll_window_scrollTop );
+
+                    //more articles box
+                    td_more_articles_box.td_events_scroll( tdEvents.scroll_window_scrollTop );
+
+
+                    // call lazy td_custom_events scroll
+                    td_custom_events._lazy_callback_scroll_500();
+                }
+
+                //resize event
+                if ( tdEvents.resize_event_slow_run ) {
+                    tdEvents.resize_event_slow_run = false;
+                    tdAffix.compute_wrapper();
+                    tdAffix.compute_top();
+                    tdDetect.runIsPhoneScreen();
+
+
+                    // call lazy td_custom_events resize
+                    td_custom_events._lazy_callback_resize_500();
+                }
+            }, 500);
+        }
+    };
+
+    tdEvents.init();
+})();

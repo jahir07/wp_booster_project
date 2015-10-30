@@ -96,7 +96,7 @@ function td_modal_image() {
 
             },
             beforeClose: function() {
-                td_affix.allow_scroll = false;
+                tdAffix.allow_scroll = false;
 
                 tdUtil.scrollIntoView(td_modal_image_last_el);
 
@@ -105,8 +105,8 @@ function td_modal_image() {
                     if (!tdIsScrollingAnimation) {
                         clearInterval(interval_td_affix_scroll);
                         setTimeout(function() {
-                            td_affix.allow_scroll = true;
-                            //td_affix.td_events_scroll(td_events.scroll_window_scrollTop);
+                            tdAffix.allow_scroll = true;
+                            //tdAffix.td_events_scroll(td_events.scroll_window_scrollTop);
                         }, 100);
                     }
                 }, 100);

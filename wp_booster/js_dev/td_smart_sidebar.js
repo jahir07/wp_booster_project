@@ -2,7 +2,7 @@
  * @depends on:
  * td_util
  * td_events
- * td_affix
+ * tdAffix
  */
 
 "use strict";
@@ -138,11 +138,11 @@ var td_smart_sidebar = {
 
                 // The main_menu_height was replaced with the _get_menu_affix_height(), because we need the size of the
                 // affix menu. In the 'Newspaper' the menu has different sizes when it is affix 'on' and 'off'.
-                td_affix_menu_computed_height = td_affix._get_menu_affix_height();
+                td_affix_menu_computed_height = tdAffix._get_menu_affix_height();
 
                 // Menu offset value is added when we are on 'smart_snap_always' case
-                if ('smart_snap_always' === td_affix.tds_snap_menu) {
-                    td_affix_menu_computed_height += td_affix.menu_offset;
+                if ('smart_snap_always' === tdAffix.tds_snap_menu) {
+                    td_affix_menu_computed_height += tdAffix.menu_offset;
                 }
             }
             // The following height is added just for Newspaper theme.
@@ -219,7 +219,7 @@ var td_smart_sidebar = {
                     // For 'Newsmag' the ref value is incremented with td_affix_menu_computed_height
                     // It solves a case when the affix menu leaves the 'case_2_top_of_content' phase to 'case_4_fixed_up' too early
                     // It's because of how the grid, and smart sidebar, are built on Newspaper vs Newsmag
-                    if (!td_affix.is_menu_affix && ('undefined' !== typeof window.tdThemeName) && ('Newsmag' === window.tdThemeName) && ('smart_snap_always' === td_affix.tds_snap_menu)) {
+                    if (!tdAffix.is_menu_affix && ('undefined' !== typeof window.tdThemeName) && ('Newsmag' === window.tdThemeName) && ('smart_snap_always' === tdAffix.tds_snap_menu)) {
                         ref_value += td_affix_menu_computed_height;
                     }
 
