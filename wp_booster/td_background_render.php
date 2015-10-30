@@ -120,24 +120,24 @@ class td_background_render {
 
             <script>
 
-	            // if the theme has td_backstr support, it means this already uses it
-                if (typeof window.td_backstr !== 'undefined') {
+	            // if the theme has tdBackstr support, it means this already uses it
+                if ( 'undefined' !== typeof window.tdBackstr ) {
 
                     (function(){
                         // the site background td-backstretch jquery object is dynamically added in DOM, and after any translation effects are applied over td-backstretch
-                        var wrapper_image_jquery_obj = jQuery('<div class=\'backstretch\'></div>');
-                        var image_jquery_obj = jQuery('<img class=\'td-backstretch not-parallax\' src=\'<?php echo $this->background_parameters['theme_bg_image']; ?>\'>');
+                        var wrapper_image_jquery_obj = jQuery( '<div class=\'backstretch\'></div>' );
+                        var image_jquery_obj = jQuery( '<img class=\'td-backstretch not-parallax\' src=\'<?php echo $this->background_parameters['theme_bg_image']; ?>\'>' );
 
-                        wrapper_image_jquery_obj.append(image_jquery_obj);
+                        wrapper_image_jquery_obj.append( image_jquery_obj );
 
-                        jQuery('body').prepend(wrapper_image_jquery_obj);
+                        jQuery( 'body' ).prepend( wrapper_image_jquery_obj );
 
-                        var td_backstr_item = new td_backstr.item();
+                        var td_backstr_item = new tdBackstr.item();
 
                         td_backstr_item.wrapper_image_jquery_obj = wrapper_image_jquery_obj;
                         td_backstr_item.image_jquery_obj = image_jquery_obj;
 
-                        td_backstr.add_item(td_backstr_item);
+	                    tdBackstr.add_item( td_backstr_item );
 
                     })();
                 }

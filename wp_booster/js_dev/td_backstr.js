@@ -2,13 +2,13 @@
  * Created by tagdiv on 23.02.2015.
  */
 
-var td_backstr = {};
+var tdBackstr = {};
 
 (function(){
 
     'use strict';
 
-    td_backstr = {
+    tdBackstr = {
 
 
         items: [],
@@ -36,7 +36,7 @@ var td_backstr = {};
          */
         add_item: function( item ) {
 
-            if ( item.constructor !== td_backstr.item ) {
+            if ( item.constructor !== tdBackstr.item ) {
                 return;
             }
 
@@ -48,12 +48,12 @@ var td_backstr = {};
             //)
 
             if ( item.image_jquery_obj.get( 0 ).complete ) {
-                td_backstr._load_item_image( item );
+                tdBackstr._load_item_image( item );
 
             } else {
 
                 item.image_jquery_obj.on( 'load', function() {
-                    td_backstr._load_item_image( item );
+                    tdBackstr._load_item_image( item );
                 });
 
 
@@ -66,7 +66,7 @@ var td_backstr = {};
                 //    loaded_image_jquery_ojb = true;
                 //
                 //
-                //    td_backstr._load_item_image(item);
+                //    tdBackstr._load_item_image(item);
                 //    console.log('backstr tarziu ' + item.image_jquery_obj.height() + ' > timp : ' + (Date.now() - currentTimeStart));
                 //});
                 //
@@ -83,8 +83,8 @@ var td_backstr = {};
 
         _load_item_image: function( item ) {
             item.image_aspect_rate = item.image_jquery_obj.width() / item.image_jquery_obj.height();
-            td_backstr.items.push( item );
-            td_backstr._compute_item( item );
+            tdBackstr.items.push( item );
+            tdBackstr._compute_item( item );
 
             item.image_jquery_obj.css( 'opacity', '1' );
         },
@@ -131,19 +131,19 @@ var td_backstr = {};
          * @private
          */
         _compute_all_items: function() {
-            for ( var i = 0; i < td_backstr.items.length; i++ ) {
-                td_backstr._compute_item( td_backstr.items[ i ] );
+            for ( var i = 0; i < tdBackstr.items.length; i++ ) {
+                tdBackstr._compute_item( tdBackstr.items[ i ] );
             }
         },
 
 
         td_events_resize: function() {
 
-            if ( 0 === td_backstr.items.length ) {
+            if ( 0 === tdBackstr.items.length ) {
                 return;
             }
 
-            td_backstr._compute_all_items();
+            tdBackstr._compute_all_items();
         },
 
 
