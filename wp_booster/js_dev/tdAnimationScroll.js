@@ -3,7 +3,7 @@
  */
 
 /* global jQuery: {} */
-/* global td_events: {} */
+/* global tdEvents: {} */
 
 var tdAnimationScroll = {};
 
@@ -321,7 +321,7 @@ var tdAnimationScroll = {};
 
             item.offset_bottom_top = item.offset_top + item.full_height;
 
-            item.top_is_out = td_events.window_pageYOffset > item.offset_top;
+            item.top_is_out = tdEvents.window_pageYOffset > item.offset_top;
 
             // the item is marked as initialized, being ready to be computed
             // for efficiently rendering all items are computed at once
@@ -514,12 +514,12 @@ var tdAnimationScroll = {};
 
             var percent_display_value = 0;
 
-            if (td_events.window_pageYOffset + td_events.window_innerHeight >= item.offset_top) {
+            if (tdEvents.window_pageYOffset + tdEvents.window_innerHeight >= item.offset_top) {
 
-                if (td_events.window_pageYOffset > item.offset_bottom_top) {
+                if (tdEvents.window_pageYOffset > item.offset_bottom_top) {
                     percent_display_value = 100;
                 } else {
-                    percent_display_value = (td_events.window_pageYOffset + td_events.window_innerHeight - item.offset_top) * 100 / (td_events.window_innerHeight + item.full_height);
+                    percent_display_value = (tdEvents.window_pageYOffset + tdEvents.window_innerHeight - item.offset_top) * 100 / (tdEvents.window_innerHeight + item.full_height);
                 }
             }
 
@@ -530,7 +530,7 @@ var tdAnimationScroll = {};
                 tdAnimationScroll._compute_item_properties(item);
             }
 
-            item.top_is_out = td_events.window_pageYOffset > item.offset_top;
+            item.top_is_out = tdEvents.window_pageYOffset > item.offset_top;
 
 
             //console.log(percent_display_value);

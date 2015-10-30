@@ -100,7 +100,7 @@ var td_more_articles_box = {
     },
 
     /**
-     * called by td_events.js on scroll
+     * called by tdEvents.js on scroll
      */
     td_events_scroll: function td_events_scroll(scrollTop) {
 
@@ -429,7 +429,7 @@ if (document.addEventListener){
 }
 
 /**
- * called by td_events.js on scroll - back to top
+ * called by tdEvents.js on scroll - back to top
  */
 var td_scroll_to_top_is_visible = false;
 function td_events_scroll_scroll_to_top(scrollTop) {

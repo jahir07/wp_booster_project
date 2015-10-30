@@ -6,6 +6,9 @@
 /* global tdInfiniteLoader:false */
 /* global tdAnimationStack:{} */
 /* global td_smart_sidebar:false */
+/* global tdLoadingBox:{} */
+/* global tds_theme_color_site_wide:string */
+
 
 /* global td_ajax_url:false */
 

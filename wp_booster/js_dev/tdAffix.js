@@ -70,7 +70,7 @@ var tdAffix = {};
             }
 
 
-            // a computation before jquery.ready is necessary for firefox, where td_events.scroll comes before
+            // a computation before jquery.ready is necessary for firefox, where tdEvents.scroll comes before
             if ( tdDetect.isFirefox ) {
                 tdAffix.compute_top();
                 tdAffix.compute_wrapper();
@@ -141,7 +141,7 @@ var tdAffix = {};
 
 
         /**
-         * called by td_events.js on scroll
+         * called by tdEvents.js on scroll
          */
         td_events_scroll: function( scrollTop ) {
 
@@ -316,7 +316,7 @@ var tdAffix = {};
         /**
          * calculates the affix point (the distance from the top when affix should be enabled)
          * @see tdAffix.init()
-         * @see td_events
+         * @see tdEvents
          */
         compute_top: function() {
 

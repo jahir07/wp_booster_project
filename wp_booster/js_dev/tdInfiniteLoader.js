@@ -1,7 +1,7 @@
 /**
  * Infinite loader v1.0 by Radu O. / tagDiv
  * USES:
- *  - td_events.js
+ *  - tdEvents.js
  *  - for blocks:
  *      - td_block::get_block_pagination - custom load more
  *      - in td_js_generator.php - main block object has ajax_pagination_infinite_stop - to stop the infinite scroll after x number of pages and show the load more button after that

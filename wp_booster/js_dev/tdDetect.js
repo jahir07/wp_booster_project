@@ -41,7 +41,7 @@ var tdDetect = {};
 
         /**
          * function to check the phone screen
-         * @see td_events
+         * @see tdEvents
          * The jQuery windows width is not reliable cross browser!
          */
         runIsPhoneScreen: function () {

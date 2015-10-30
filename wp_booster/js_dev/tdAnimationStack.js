@@ -16,8 +16,7 @@
 
 /* global jQuery:false */
 /* global tdDetect:false */
-/* global td_events:false */
-/* global tdAnimationStack:{} */
+/* global tdEvents:{} */
 
 var tdAnimationStack = {};
 
@@ -372,7 +371,7 @@ var tdAnimationStack = {};
                     // "If the image is finished loading, the complete property returns true"
                     // when tdAnimationStack.init is called on load, as normally, it calls tdAnimationStack.check_for_new_items and all these element has 'complete' property true
                     // when tdAnimationStack.check_for_new_items is called by block's ajax response, the next timer is used to wait for all elements being loaded
-                    if ( founded_elements[ i ].complete == false ) {
+                    if ( false === founded_elements[ i ].complete ) {
                         images_loaded = false;
                         break;
                     }
@@ -675,12 +674,12 @@ var tdAnimationStack = {};
          */
         _item_to_view_port: function( item ) {
 
-            tdAnimationStack.log( 'position item relative to the view port >> ' + td_events.window_pageYOffset + td_events.window_innerHeight + ' : ' + item.offset_top );
+            tdAnimationStack.log( 'position item relative to the view port >> ' + tdEvents.window_pageYOffset + tdEvents.window_innerHeight + ' : ' + item.offset_top );
 
-            if ( td_events.window_pageYOffset + td_events.window_innerHeight < item.offset_top ) {
+            if ( tdEvents.window_pageYOffset + tdEvents.window_innerHeight < item.offset_top ) {
                 return tdAnimationStack._ITEM_TO_VIEW_PORT.ITEM_UNDER_VIEW_PORT;
 
-            } else if ( ( td_events.window_pageYOffset + td_events.window_innerHeight >= item.offset_top ) && ( td_events.window_pageYOffset <= item.offset_bottom_to_top ) ) {
+            } else if ( ( tdEvents.window_pageYOffset + tdEvents.window_innerHeight >= item.offset_top ) && ( tdEvents.window_pageYOffset <= item.offset_bottom_to_top ) ) {
                 return tdAnimationStack._ITEM_TO_VIEW_PORT.ITEM_IN_VIEW_PORT;
 
             }
