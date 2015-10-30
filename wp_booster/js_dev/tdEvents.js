@@ -52,7 +52,7 @@ var tdEvents = {};
 
                 tdAffix.td_events_scroll( tdEvents.scroll_window_scrollTop ); //main menu
 
-                td_smart_sidebar.tdEvents_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
+                td_smart_sidebar.td_events_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
 
 
                 // call real td_custom_events scroll
