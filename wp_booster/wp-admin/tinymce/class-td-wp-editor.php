@@ -124,7 +124,7 @@ class td_wp_editor {
 		wp_nonce_field( 'post.php', $nonce_field_name );
 
 		// the content of the tinymce editor will be the meta value
-		$meta_value = do_shortcode( get_post_meta( $post->ID, $this->meta_key, true ) );
+		$meta_value = get_post_meta( $post->ID, $this->meta_key, true );
 		$content = $meta_value;
 
 		if ( empty( $meta_value ) ) {
