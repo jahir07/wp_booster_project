@@ -10,7 +10,7 @@
 
 
 
-/* global td_smart_sidebar:false */
+/* global tdSmartSidebar:{} */
 /* global tdAnimationStack:{} */
 /* global tdUtil:false */                   //done
 /* global tdLoadingBox:false */             //done
@@ -449,9 +449,9 @@ var tdBlocks = {};
             if ( 'load_more' === td_user_action || 'infinite_load' === td_user_action ) {
 
                 // fix needed to keep sidebars fixed down when they are bottom of the content and the content grows up
-                for ( var i = 0; i < td_smart_sidebar.items.length; i++ ) {
-                    if ( 'case_3_bottom_of_content' === td_smart_sidebar.items[i].sidebar_state ) {
-                        td_smart_sidebar.items[i].sidebar_state = 'case_1_fixed_down';
+                for ( var i = 0; i < tdSmartSidebar.items.length; i++ ) {
+                    if ( 'case_3_bottom_of_content' === tdSmartSidebar.items[ i ].sidebar_state ) {
+                        tdSmartSidebar.items[ i ].sidebar_state = 'case_1_fixed_down';
                     }
                 }
 
@@ -651,14 +651,14 @@ var tdBlocks = {};
                 jQuery('.td_block_inner_overflow').removeClass('td_block_inner_overflow');
                 elCurTdBlockInner.css('height', 'auto');
 
-                td_smart_sidebar.compute();
+                tdSmartSidebar.compute();
             },200);
 
 
 
 
             setTimeout( function () {
-                td_smart_sidebar.compute();
+                tdSmartSidebar.compute();
             }, 500);
 
 

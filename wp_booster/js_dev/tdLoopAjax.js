@@ -5,7 +5,7 @@
 /* global jQuery:false */
 /* global tdInfiniteLoader:false */
 /* global tdAnimationStack:{} */
-/* global td_smart_sidebar:false */
+/* global tdSmartSidebar:false */
 /* global tdLoadingBox:{} */
 /* global tds_theme_color_site_wide:string */
 
@@ -162,7 +162,7 @@ var tdAjaxLoop = {};
 
             setTimeout( function () {
                 tdAnimationStack.check_for_new_items('.td-main-content' + ' .td-animation-stack', tdAnimationStack.SORTED_METHOD.sort_left_to_right, true);
-                //td_smart_sidebar.compute();
+                //tdSmartSidebar.compute();
             }, 200);
 
 
@@ -175,7 +175,7 @@ var tdAjaxLoop = {};
                 //refresh waypoints for infinit scroll tdInfiniteLoader
                 tdInfiniteLoader.computeTopDistances();
                 tdInfiniteLoader.enable_is_visible_callback('tdAjaxLoop');
-                //td_smart_sidebar.compute();
+                //tdSmartSidebar.compute();
             }, 500);
 
 

@@ -100,10 +100,10 @@ var tdAffix = {};
          * The real affix height is computed only once, when the menu is affix. Till then, the function
          * return the values set at init.
          *
-         * These values are important because they are used in the td_smart_sidebar.js for the
+         * These values are important because they are used in the tdSmartSidebar.js for the
          * td_affix_menu_computed_height variable, which then is used to determine the sidebar position.
          *
-         * For 'Newspaper', the sidebar needs a custom padding top (see @td_smart_sidebar.js), otherwise
+         * For 'Newspaper', the sidebar needs a custom padding top (see @tdSmartSidebar.js), otherwise
          * the sidebar is sticked to the affix menu.
          *
          *

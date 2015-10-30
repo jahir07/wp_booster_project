@@ -6,7 +6,7 @@
 
 /* global jQuery:{} */
 /* global tdAffix:{} */
-/* global td_smart_sidebar:{} */
+/* global tdSmartSidebar:{} */
 /* global tdViewport:{} */
 /* global tdInfiniteLoader:{} */
 /* global td_more_articles_box:{} */
@@ -52,7 +52,7 @@ var tdEvents = {};
 
                 tdAffix.td_events_scroll( tdEvents.scroll_window_scrollTop ); //main menu
 
-                td_smart_sidebar.td_events_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
+                tdSmartSidebar.td_events_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
 
 
                 // call real td_custom_events scroll
@@ -98,7 +98,7 @@ var tdEvents = {};
 
                 if ( tdEvents.resize_event_medium_run ) {
                     tdEvents.resize_event_medium_run = false;
-                    td_smart_sidebar.td_events_resize();
+                    tdSmartSidebar.td_events_resize();
 
 
                     // call lazy td_custom_events resize
