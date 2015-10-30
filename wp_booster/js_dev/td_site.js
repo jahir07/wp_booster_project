@@ -7,6 +7,7 @@
 
 /* global jQuery:false */
 /* global tdUtil:false */
+/* global tdModalImageLastEl:{} */
 
 
 "use strict";
@@ -598,15 +599,15 @@ function td_smart_lists_magnific_popup() {
                     //jQuery(".td-iosSlider").iosSlider("goToSlide", this.currItem.index + 1 );
                     jQuery(".td-iosSlider").iosSlider("goToSlide", parseInt(nr_slide[1]) + 1);
                 } else {
-                    td_modal_image_last_el = item.el;
+                    tdModalImageLastEl = item.el;
                     setTimeout(function(){
                         tdUtil.scrollIntoView(item.el);
                     }, 100);
                 }
             },
             beforeClose: function() {
-                if (td_modal_image_last_el != '') {
-                    tdUtil.scrollIntoView(td_modal_image_last_el);
+                if (tdModalImageLastEl != '') {
+                    tdUtil.scrollIntoView(tdModalImageLastEl);
                 }
             }
         }
