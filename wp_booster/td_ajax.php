@@ -175,7 +175,7 @@ class td_ajax {
 		if (!empty($td_query->posts)) {
 			td_global::$is_wordpress_loop = true; ///if we are in wordpress loop; used by quotes in blocks to check if the blocks are displayed in blocks or in loop
 			$td_template_layout = new td_template_layout($loopState['sidebarPosition']);
-			$td_module_class = td_util::get_module_class_from_loop_id($loopState['moduleId']);
+			$td_module_class = td_api_module::_helper_get_module_class_from_loop_id($loopState['moduleId']);
 
 			//disable the grid for some of the modules
 			$td_module_api = td_api_module::get_by_id($td_module_class);

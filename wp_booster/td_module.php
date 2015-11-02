@@ -354,7 +354,7 @@ abstract class td_module {
             $current_module_class = get_class($this);
 
             //see if we have a default setting for this module, and if so only apply it if we don't get other things form theme panel.
-            if (td_api_module::_check_excerpt_title($current_module_class)) {
+            if (td_api_module::_helper_check_excerpt_title($current_module_class)) {
                 $db_title_excerpt = td_util::get_option($current_module_class . '_title_excerpt');
                 if ($db_title_excerpt != '') {
                     //cut from the database settings
@@ -400,7 +400,7 @@ abstract class td_module {
             $current_module_class = get_class($this);
 
             //see if we have a default setting for this module, and if so only apply it if we don't get other things form theme panel.
-            if (td_api_module::_check_excerpt_content($current_module_class)) {
+            if (td_api_module::_helper_check_excerpt_content($current_module_class)) {
                 $db_content_excerpt = td_util::get_option($current_module_class . '_content_excerpt');
                 if ($db_content_excerpt != '') {
                     //cut from the database settings

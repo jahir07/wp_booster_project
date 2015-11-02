@@ -12,31 +12,22 @@ class td_api_tinymce_formats extends td_api_base {
 
     static function add($tinymce_format_id, $params_array = '') {
         parent::add_component(__CLASS__, $tinymce_format_id, $params_array);
-        /*
-        if (empty($params_array['parent_id'])) {
-            // root level
-            self::$tiny_mce_format_list[$tinymce_format_id] = $params_array;
-        } else {
-
-            // first level
-            if (isset(self::$tiny_mce_format_list[$params_array['parent_id']])) {
-                self::$tiny_mce_format_list[$params_array['parent_id']]['items'][] = $params_array;
-            } else {
-                echo 'errrrrr';
-            }
-        }
-        */
     }
+
 
     static function update($tinymce_format_id, $params_array = '') {
         parent::update_component(__CLASS__, $tinymce_format_id, $params_array);
     }
+
 
     static function get_all() {
         return parent::get_all_components_metadata(__CLASS__);
     }
 
 
+	/**
+	 * sets @see td_global::$tiny_mce_style_formats with settings from the api
+	 */
     static function _helper_get_tinymce_format() {
 	    self::$tiny_mce_format_list = self::get_all();
 
@@ -46,6 +37,11 @@ class td_api_tinymce_formats extends td_api_base {
     }
 
 
+	/**
+	 * callback for array_walk @see td_api_tinymce_formats::_helper_get_tinymce_format
+	 * @param $value
+	 * @param $key
+	 */
 	static function _connect_to_parent($value, $key) {
 
 		if (!empty($value['parent_id'])
@@ -57,6 +53,11 @@ class td_api_tinymce_formats extends td_api_base {
 	}
 
 
+	/**
+	 * callback for array_filter @see td_api_tinymce_formats::_helper_get_tinymce_format
+	 * @param $value
+	 * @return bool
+	 */
 	static function _get_root_elements($value) {
 		return empty($value['parent_id']);
 	}

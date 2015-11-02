@@ -817,7 +817,12 @@ class td_panel_generator {
 
                 foreach (td_api_module::get_all() as $module_class => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
-                        $modules_array[] = array('text' => '', 'title' => '', 'val' => td_util::get_module_loop_id($module_class), 'img' => $module_array['img']);
+                        $modules_array[] = array(
+	                        'text' => '',
+	                        'title' => '',
+	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'img' => $module_array['img']
+                        );
                     }
                 }
                 break;
@@ -826,7 +831,11 @@ class td_panel_generator {
                 // all modules that have enabled_on_loops
                 foreach (td_api_module::get_all() as $module_class => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
-                        $modules_array[] = array('text' => '', 'title' => '', 'val' => td_util::get_module_loop_id($module_class), 'img' => $module_array['img']);
+                        $modules_array[] = array(
+	                        'text' => '', 'title' => '',
+	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'img' => $module_array['img']
+                        );
                     }
                 }
                 break;
@@ -835,7 +844,12 @@ class td_panel_generator {
                 // all modules that are enabled on the more articles box
                 foreach (td_api_module::get_all() as $module_class => $module_array) {
                     if ($module_array['enabled_on_more_articles_box'] === true) {
-                        $modules_array[] = array('text' => '', 'title' => '', 'val' => td_util::get_module_loop_id($module_class), 'img' => $module_array['img']);
+                        $modules_array[] = array(
+	                        'text' => '',
+	                        'title' => '',
+	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'img' => $module_array['img']
+                        );
                     }
                 }
                 break;

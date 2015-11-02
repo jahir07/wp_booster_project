@@ -801,40 +801,6 @@ class td_util {
     }
 
 
-    /**
-     * converts module classes to module id's for loop settings
-     * @deprecated - it should be deprecated and we should store the class of the module in the database instead of the ID.
-     * It's used only for backwards compatibility with Newsmag settings
-     * @param $module_class
-     * @return mixed id of the module td_module_2 returns 2
-     */
-    static function get_module_loop_id ($module_class){
-        return filter_var($module_class, FILTER_SANITIZE_NUMBER_INT);
-    }
-
-
-    /**
-     * @deprecated - it will be removed when we store in the database the class instead of the module id
-     * @param $module_id
-     * @return string
-     */
-    static function get_module_class_from_loop_id ($module_id) {
-	    $prefix = 'td_module_';
-	    if ( td_is_mobile_theme () ) {
-		    $prefix = 'tdm_module_';
-	    }
-        return $prefix  . $module_id;
-    }
-
-
-    /**
-     * @deprecated - it should be remove somehow
-     * @param $module_class
-     * @return string
-     */
-    static function get_module_name_from_class($module_class) {
-        return str_replace('td_', '', $module_class);
-    }
 
 
 
