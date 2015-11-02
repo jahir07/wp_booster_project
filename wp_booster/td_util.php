@@ -929,21 +929,21 @@ if (!function_exists('mb_substr')) {
 }
 
 
-if ( ! function_exists( 'td_is_td_mobile_plugin_active' ) ) {
+if (!function_exists('td_is_td_mobile_plugin_active')) {
 	function td_is_td_mobile_plugin_active() {
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		if ( is_plugin_active( 'td-mobile-plugin/td-mobile-plugin.php' ) ) {
+		include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+		if (is_plugin_active('td-mobile-plugin/td-mobile-plugin.php')) {
 			return true;
 		}
 		return false;
 	}
 }
 
-if ( ! function_exists( 'td_is_mobile_theme' ) ) {
+if (!function_exists('td_is_mobile_theme')) {
 	function td_is_mobile_theme() {
 		$current_theme_name = get_template();
 
-		if ( empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' ) ) {
+		if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
 			return true;
 		}
 		return false;

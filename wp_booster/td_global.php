@@ -354,12 +354,21 @@ if (is_plugin_active('woocommerce/woocommerce.php')) {
  *
  * They supplies the get_template_directory() and get_template_directory_uri() if the mobile theme is not activated (actually, the mobile plugin is not activated).
  *
- * If the mobile plugin is activated, they will return the same values, but for doing this it needs to consider the Td_Mobile_Theme class who saves these values. In this case,
+ * If the mobile plugin is activated, they will return the same values, but for doing this it needs to consider the td_mobile_theme class who saves these values. In this case,
  * the get_template_directory() and get_template_directory_uri() returns values corresponding to the mobile theme, and not to the main theme.
  */
 
 $current_theme_name = get_template();
 
-td_global::$get_template_directory = (empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' )) ? Td_Mobile_Theme::$main_dir_path : get_template_directory();
+if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
+	td_global::$get_template_directory = td_mobile_theme::$main_dir_path;
+} else {
+	td_global::$get_template_directory = get_template_directory();
+}
 
-td_global::$get_template_directory_uri = (empty( $current_theme_name ) and class_exists( 'Td_Mobile_Theme' )) ? Td_Mobile_Theme::$main_uri_path : get_template_directory_uri();
+if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
+	td_global::$get_template_directory_uri = td_mobile_theme::$main_uri_path;
+} else {
+	td_global::$get_template_directory_uri = get_template_directory_uri();
+}
+
