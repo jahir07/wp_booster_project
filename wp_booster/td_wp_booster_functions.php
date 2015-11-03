@@ -754,7 +754,7 @@ function td_bottom_code() {
             if($post->ID > 0) {
                 td_js_buffer::add_to_footer('
                 jQuery().ready(function jQuery_ready() {
-                    td_ajax_count.td_get_views_counts_ajax("post",' . json_encode('[' . $post->ID . ']') . ');
+                    tdAjaxCount.tdGetViewsCountsAjax("post",' . json_encode('[' . $post->ID . ']') . ');
                 });
             ');
             }

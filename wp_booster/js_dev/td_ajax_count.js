@@ -1,49 +1,58 @@
-'use strict';
 /**
  * updates the view counter thru ajax
  */
-var td_ajax_count = {
 
-    td_get_views_counts_ajax : function td_get_views_counts_ajax (page_type, array_ids) {
+/* global jQuery:{} */
+/* global td_ajax_url:string */
 
-        //what function to call based on page type
-        var page_type_action = 'td_ajax_get_views';//page_type = page
-        if(page_type == "post") {
-            page_type_action = 'td_ajax_update_views';
-        }
+var tdAjaxCount = {};
 
-        jQuery.ajax({
-            type: 'POST',
-            url: td_ajax_url,
-            cache:true,
+(function(){
 
-            data: {
-                action: page_type_action,
-                td_post_ids: array_ids
-            },
-            success: function(data, textStatus, XMLHttpRequest){
-                var td_ajax_post_counts = jQuery.parseJSON(data);//get the return dara
+    'use strict';
 
-                //check the return var to be object
-                if (td_ajax_post_counts instanceof Object) {
-                    //alert('value is Object!');
+    tdAjaxCount = {
 
-                    //itinerate thru the object
-                    jQuery.each(td_ajax_post_counts, function(id_post, value) {
-                        //alert(id_post + ": " + value);
+        //td_get_views_counts_ajax : function( page_type, array_ids ) {
+        tdGetViewsCountsAjax : function( postType, arrayIds ) {
 
-                        //this is the count placeholder in witch we write the post count
-                        var current_post_count = ".td-nr-views-" + id_post;
-
-                        jQuery(current_post_count).html(value);
-                        //console.log(current_post_count + ': ' + value);
-                    });
-                }
-            },
-            error: function(MLHttpRequest, textStatus, errorThrown){
-                //console.log(errorThrown);
+            //what function to call based on postType
+            var pageTypeAction = 'td_ajax_get_views';//postType = page
+            if ( 'post' === postType ) {
+                pageTypeAction = 'td_ajax_update_views';
             }
-        });
 
-    }
-};
+            jQuery.ajax({
+                type: 'POST',
+                url: td_ajax_url,
+                cache: true,
+                data: {
+                    action: pageTypeAction,
+                    td_post_ids: arrayIds
+                },
+                success: function( data, textStatus, XMLHttpRequest ) {
+                    var tdAjaxPostCounts = jQuery.parseJSON( data );//get the return dara
+
+                    //check the return var to be object
+                    if ( tdAjaxPostCounts instanceof Object ) {
+                        //alert('value is Object!');
+
+                        //iterate throw the object
+                        jQuery.each( tdAjaxPostCounts, function( idPost, value ) {
+                            //alert(id_post + ": " + value);
+
+                            //this is the count placeholder in witch we write the post count
+                            var currentPostCount = '.td-nr-views-' + idPost;
+
+                            jQuery( currentPostCount ).html( value );
+                            //console.log(current_post_count + ': ' + value);
+                        });
+                    }
+                },
+                error: function( MLHttpRequest, textStatus, errorThrown ) {
+                    //console.log(errorThrown);
+                }
+            });
+        }
+    };
+})();
