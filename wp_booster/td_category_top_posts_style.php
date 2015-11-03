@@ -27,15 +27,9 @@ abstract class td_category_top_posts_style {
     protected function render_posts_to_buffer() {
         // get the global category top posts grid style setting
 
-	    if ( td_is_mobile_theme() ) {
-		    $td_grid_style = td_util::get_option('tds_category_td_grid_style_mobile');
-		    $limit = tdm_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop();
-		    $block_name = tdm_api_category_top_posts_style::get_key(get_class($this), 'td_block_name');
-	    } else {
-		    $td_grid_style = td_util::get_option('tds_category_td_grid_style');
-		    $limit = td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop();
-		    $block_name = td_api_category_top_posts_style::get_key(get_class($this), 'td_block_name');
-	    }
+	    $td_grid_style = td_util::get_option('tds_category_td_grid_style');
+	    $limit = td_api_category_top_posts_style::_helper_get_posts_shown_in_the_loop();
+	    $block_name = td_api_category_top_posts_style::get_key(get_class($this), 'td_block_name');
 
         // overwrite the $td_grid_style if the setting for this category was changed
         $td_grid_style_per_category_setting = td_util::get_category_option(td_global::$current_category_obj->cat_ID, 'tdc_category_td_grid_style');
