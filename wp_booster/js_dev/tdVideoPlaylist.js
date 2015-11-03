@@ -9,14 +9,15 @@
 /* global tdDetect:{} */
 /* global $f:{} */
 
+/* global td_youtube_list_ids:{} */
+/* global td_vimeo_list_ids:{} */
+
+/* jshint -W069 */
 
 var tdYoutubePlayer = {};
 var tdVimeoPlaylistObj = {};
 var tdPlaylistGeneralFunctions = {};
 
-
-// ??? @todo What is td_youtube_list_ids ???
-// ??? @todo What is td_vimeo_list_ids ???
 
 // @todo this ready hook function must be moved from here
 // jQuery(window).load(function() {//
