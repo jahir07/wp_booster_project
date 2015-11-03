@@ -43,11 +43,21 @@ class td_api_module extends td_api_base {
 
     /**
      * This method gets the value for the ('td_api_module') key in the main settings array of the theme.
+     * It filters the settings using the 'group' key, to allow extracting only the modules info for the desired theme.
+     * The parameter $group could have the following values '' (the main theme), 'mob' (the mobile theme), 'woo' (the woo theme), etc.
+     *
+     * @param string $group The group of the module.
      *
      * @return mixed array The value set for the 'td_api_module' in the main settings array of the theme
      */
-    static function get_all() {
-        return parent::get_all_components_metadata(__CLASS__);
+    static function get_all($group = '') {
+        $components = parent::get_all_components_metadata(__CLASS__);
+	    foreach ($components as $component_key => $component_value) {
+		    if (array_key_exists('group', $component_value) && $component_value['group'] !== $group) {
+			    unset($components[$component_key]);
+		    }
+	    }
+	    return $components;
     }
 
 
