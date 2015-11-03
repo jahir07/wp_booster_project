@@ -64,6 +64,7 @@ class td_global {
 
 	static $td_viewport_intervals = array(); // the tdViewport intervals are stored
 
+	const TD_MOB_KEY_PAD = '_mob'; // str padding added to the mobile keys settings
 
 
     /**
