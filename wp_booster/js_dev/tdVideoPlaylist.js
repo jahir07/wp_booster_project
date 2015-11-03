@@ -65,7 +65,7 @@ jQuery().ready(function() {
     //check for youtube wrapper and add api code to create the player
     if ( jQuery( '.td_wrapper_playlist_player_youtube' ).length > 0) {
 
-        if ( '1' === jQuery( '.td_wrapper_playlist_player_youtube').data( 'autoplay' ) ) {
+        if ( '1' == jQuery( '.td_wrapper_playlist_player_youtube').data( 'autoplay' ) ) {
             tdYoutubePlayer.tdPlaylistVideoAutoplayYoutube = 1;
         }
 
@@ -81,7 +81,7 @@ jQuery().ready(function() {
 
 
     //check autoplay vimeo
-    if ( '1' === jQuery( '.td_wrapper_playlist_player_vimeo' ).data( 'autoplay' ) ) {
+    if ( '1' == jQuery( '.td_wrapper_playlist_player_vimeo' ).data( 'autoplay' ) ) {
         tdVimeoPlaylistObj.tdPlaylistVideoAutoplayVimeo = 1;
     }
 
@@ -250,7 +250,8 @@ jQuery().ready(function() {
 
         tdPlaylistPlayerVimeo: '',//a copy of the vimeo player : needed when playing or pausing the vimeo pleyer from the playlist control
 
-        tdPlaylistVideoAutoplayVimeo: '',//autoplay
+        //tdPlaylistVideoAutoplayVimeo: '',//autoplay
+        tdPlaylistVideoAutoplayVimeo: 0,//autoplay
 
         createPlayer: function ( videoId ) {
             if ( '' !== videoId ) {
