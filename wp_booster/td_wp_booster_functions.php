@@ -137,11 +137,11 @@ add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_vie
 
 
 
-// @todo MUST
-add_action('wp_footer', 'td_wp_footer_debug');
-function td_wp_footer_debug() {
-	td_api_base::_debug_show_autoloaded_components();
-}
+//// @todo MUST
+//add_action('wp_footer', 'td_wp_footer_debug');
+//function td_wp_footer_debug() {
+//	td_api_base::_debug_show_autoloaded_components();
+//}
 
 
 
