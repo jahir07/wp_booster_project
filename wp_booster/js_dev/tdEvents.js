@@ -11,8 +11,8 @@
 /* global tdInfiniteLoader:{} */
 /* global td_more_articles_box:{} */
 /* global tdDetect:{} */
+/* global tdCustomEvents:{} */
 
-/* global td_custom_events:{} */
 /* global td_events_scroll_scroll_to_top:Function */
 
 var tdEvents = {};
@@ -55,8 +55,8 @@ var tdEvents = {};
                 tdSmartSidebar.td_events_scroll( tdEvents.scroll_window_scrollTop ); //smart sidebar scroll
 
 
-                // call real td_custom_events scroll
-                td_custom_events._callback_scroll();
+                // call real tdCustomEvents scroll
+                tdCustomEvents._callback_scroll();
             });
 
 
@@ -73,8 +73,8 @@ var tdEvents = {};
                 //console.log(w);
 
 
-                // call real td_custom_events resize
-                td_custom_events._callback_resize();
+                // call real tdCustomEvents resize
+                tdCustomEvents._callback_resize();
             });
 
 
@@ -92,8 +92,8 @@ var tdEvents = {};
                     tdInfiniteLoader.computeEvents();
 
 
-                    // call lazy td_custom_events scroll
-                    td_custom_events._lazy_callback_scroll_100();
+                    // call lazy tdCustomEvents scroll
+                    tdCustomEvents._lazy_callback_scroll_100();
                 }
 
                 if ( tdEvents.resize_event_medium_run ) {
@@ -101,8 +101,8 @@ var tdEvents = {};
                     tdSmartSidebar.td_events_resize();
 
 
-                    // call lazy td_custom_events resize
-                    td_custom_events._lazy_callback_resize_100();
+                    // call lazy tdCustomEvents resize
+                    tdCustomEvents._lazy_callback_resize_100();
                 }
             }, 100);
 
@@ -121,8 +121,8 @@ var tdEvents = {};
                     td_more_articles_box.td_events_scroll( tdEvents.scroll_window_scrollTop );
 
 
-                    // call lazy td_custom_events scroll
-                    td_custom_events._lazy_callback_scroll_500();
+                    // call lazy tdCustomEvents scroll
+                    tdCustomEvents._lazy_callback_scroll_500();
                 }
 
                 //resize event
@@ -133,8 +133,8 @@ var tdEvents = {};
                     tdDetect.runIsPhoneScreen();
 
 
-                    // call lazy td_custom_events resize
-                    td_custom_events._lazy_callback_resize_500();
+                    // call lazy tdCustomEvents resize
+                    tdCustomEvents._lazy_callback_resize_500();
                 }
             }, 500);
         }
