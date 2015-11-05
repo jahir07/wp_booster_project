@@ -6,12 +6,18 @@
 
 
 /**
- * used ti gather information about remove videos
- * Class td_remote_video
+ * Class td_remote_video - used to gather information about remove videos
  */
 class td_remote_video {
 
 
+	/**
+	 * Pulls information about multiple video ids
+	 * @param $video_ids - the video ids that we want to get info. This function does not work with mixed video ids from multiple services
+	 * @param $list_type - youtube|vimeo
+	 *
+	 * @return array|bool
+	 */
 	static function api_get_videos_info($video_ids, $list_type) {
 		switch ($list_type) {
 			case 'youtube':

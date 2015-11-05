@@ -1,14 +1,15 @@
 <?php
 /**
- * Login class, used by the theme. Is loaded only when needed
- * Created by ra.
- * Date: 9/24/2015
+ * Log class, used by the theme. Is loaded only when needed.
+ * The key used to store the log is: TD_THEME_OPTIONS_NAME . '_log'  (ex: td_011_log)
  */
-
 class td_log {
 	private static $log_cache = array();
 	private static $is_shutdown_hooked = false;
-	// the key used to store the log is: TD_THEME_OPTIONS_NAME . '_log'  (ex: td_011_log)
+
+
+	//
+
 
 	static function log($file, $function, $msg, $more_data = '') {
 
@@ -37,6 +38,9 @@ class td_log {
 		}
 
 	}
+
+
+
 
 	// save the log if needed
 	static function on_shutdown_save_log() {

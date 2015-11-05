@@ -31,7 +31,6 @@ require_once('td_block.php');           // block builder
 require_once('td_cake.php');
 require_once('td_first_install.php');   // no autoload - the code that runs on the first install of the theme
 require_once("td_fonts.php");           // no autoload - fonts support
-//require_once('td_video_support.php');   // video thumbnail support
 require_once('td_js_generator.php');    // no autoload - the theme always outputs JS
 require_once('td_block_widget.php');    // no autoload - used to make widgets from our blocks
 require_once('td_background.php');      // background support - is not autoloaded due to issues
