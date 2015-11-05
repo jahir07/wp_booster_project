@@ -110,11 +110,10 @@ class td_module_single_base extends td_module {
 		if (get_post_format($this->post->ID) == 'video') {
 			//if it's a video post...
 			$td_post_video = get_post_meta($this->post->ID, 'td_post_video', true);
-			$td_video_support = new td_video_support();
 
 			//render the video if the post has a video in the featured video section of the post
 			if (!empty($td_post_video['td_video'])) {
-				return $td_video_support->renderVideo($td_post_video['td_video']);
+				return td_video_support::render_video($td_post_video['td_video']);
 			}
 		} else {
 			//if it's a normal post, show the default thumb

@@ -20,8 +20,16 @@ class td_remote_http {
 	private static $current_url_channel = 0;
 
 
-
-
+	/**
+	 * returns the html of a remote page or FALSE on error. This function also automatically logs HTTP request errors to td_log
+	 * @param $url - the remote url
+	 * @param string $caller_id - a string id to aid us with information about what component called this function. When we get the logs from our clients
+	 * the $caller_id will help us to know what component generated the failed http request and what method was used to request the data
+	 *
+	 * @return bool|string
+	 *          - string: the page html
+	 *          - bool FALSE: if the request failed
+	 */
 	static function get_page($url, $caller_id = '') {
 		$td_remote_http = td_util::get_option('td_remote_http');
 

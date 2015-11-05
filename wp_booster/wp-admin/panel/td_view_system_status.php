@@ -395,11 +395,11 @@ require_once "td_view_header.php";
 
                 jQuery('.td-system-status-name').click(function () {
                     // calculate the time passed from the last click
-                    var t = (new Date()).getTime();
-                    if( (clickCounter != 0) & (t - lastClick > 2000) ) {
+                    var curTime = (new Date()).getTime();
+                    if( (clickCounter != 0) && (curTime - lastClick > 2000) ) {
                         clickCounter = -1;
                     }
-                    lastClick = t;
+                    lastClick = curTime;
 
                     // reveal the debug area after 4 clicks
                     if (clickCounter == 3) {

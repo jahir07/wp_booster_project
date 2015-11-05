@@ -1,16 +1,215 @@
 <?php
-
-/*  ----------------------------------------------------------------------------
-    tagDiv video support
-    - downloads the video thumbnail and puts it asa a featured image to the post
+/**
+ * Class td_video_support - tagDiv video support V 2.0 @since 4 nov 2015
+ * downloads the video thumbnail and puts it asa a featured image to the post
  */
-
 class td_video_support{
 
-    /*
-     * youtube
-     */
-    function getYoutubeId($videoUrl) {
+	private static $on_save_post_post_id; // here we keep the post_id when the save_post hook runs. We need the post_id to pass it to the other hook @see on_add_attachment_set_featured_image
+
+	/**
+	 * Render a video on the fornt end from URL
+	 * @param $videoUrl - the video url that we want to render
+	 *
+	 * @return string - the player HTML
+	 */
+	static function render_video($videoUrl) {
+		$buffy = '';
+		switch (self::detect_video_service($videoUrl)) {
+			case 'youtube':
+				$buffy .= '
+                <div class="wpb_video_wrapper">
+                    <iframe id="td_youtube_player" width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . self::get_youtube_id($videoUrl) . '?enablejsapi=1&feature=oembed&wmode=opaque&vq=hd720' . self::get_youtube_time_param($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
+                    <script type="text/javascript">
+						var tag = document.createElement("script");
+						tag.src = "https://www.youtube.com/iframe_api";
+
+						var firstScriptTag = document.getElementsByTagName("script")[0];
+						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+						var player;
+
+						function onYouTubeIframeAPIReady() {
+							player = new YT.Player("td_youtube_player", {
+								height: "720",
+								width: "960",
+								events: {
+									"onReady": onPlayerReady
+								}
+							});
+						}
+
+						function onPlayerReady(event) {
+							player.setPlaybackQuality("hd720");
+						}
+					</script>
+
+                </div>
+
+                ';
+
+				break;
+			case 'dailymotion':
+				$buffy .= '
+                    <div class="wpb_video_wrapper">
+                        <iframe frameborder="0" width="600" height="560" src="' . td_global::$http_or_https . '://www.dailymotion.com/embed/video/' . self::get_dailymotion_id($videoUrl) . '"></iframe>
+                    </div>
+                ';
+				break;
+			case 'vimeo':
+				$buffy = '
+                <div class="wpb_video_wrapper">
+                    <iframe src="' . td_global::$http_or_https . '://player.vimeo.com/video/' . self::get_vimeo_id($videoUrl) . '" width="500" height="212" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                </div>
+                ';
+				break;
+		}
+		return $buffy;
+	}
+
+
+	/**
+	 * Downloads the video thumb on the save_post hook
+	 * @param $post_id
+	 */
+	static function on_save_post_get_video_thumb($post_id) {
+		//verify post is not a revision
+		if ( !wp_is_post_revision( $post_id ) ) {
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			$td_post_video = get_post_meta($post_id, 'td_post_video', true);
+
+			//check to see if the url is valid
+			if (empty($td_post_video['td_video']) or self::validate_video_url($td_post_video['td_video']) === false) {
+				return;
+			}
+
+			if (!empty($td_post_video['td_last_video']) and $td_post_video['td_last_video'] == $td_post_video['td_video']) {
+				//we did not update the url
+				return;
+			}
+
+			$videoThumbUrl = self::get_thumb_url($td_post_video['td_video']);
+
+			if (!empty($videoThumbUrl)) {
+				self::$on_save_post_post_id = $post_id;
+
+				// add the function above to catch the attachments creation
+				add_action('add_attachment', array(__CLASS__, 'on_add_attachment_set_featured_image'));
+
+				// load the attachment from the URL
+				media_sideload_image($videoThumbUrl, $post_id, $post_id);
+
+				// we have the Image now, and the function above will have fired too setting the thumbnail ID in the process, so lets remove the hook so we don't cause any more trouble
+				remove_action('add_attachment', array(__CLASS__, 'on_add_attachment_set_featured_image'));
+			}
+		}
+	}
+
+
+
+	/**
+	 * set the last uploaded image as a featured image. We 'upload' the video thumb via the media_sideload_image call from above
+	 */
+	static function on_add_attachment_set_featured_image($att_id){
+		update_post_meta(self::$on_save_post_post_id, '_thumbnail_id', $att_id);
+	}
+
+
+	/**
+	 * detects if we have a recognized video service and makes sure that it's a valid url
+	 * @param $videoUrl
+	 * @return bool
+	 */
+	private static function validate_video_url($videoUrl) {
+		if (self::detect_video_service($videoUrl) === false) {
+			return false;
+		}
+		if (!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $videoUrl)) {
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Returns the video thumb url from the video URL
+	 * @param $videoUrl
+	 * @return string
+	 */
+	private static function get_thumb_url($videoUrl) {
+
+		switch (self::detect_video_service($videoUrl)) {
+			case 'youtube':
+				$yt_1920_url = td_global::$http_or_https . '://img.youtube.com/vi/' . self::get_youtube_id($videoUrl) . '/maxresdefault.jpg';
+				$yt_640_url  = td_global::$http_or_https . '://img.youtube.com/vi/' . self::get_youtube_id($videoUrl) . '/sddefault.jpg';
+				$yt_480_url  = td_global::$http_or_https . '://img.youtube.com/vi/' . self::get_youtube_id($videoUrl) . '/hqdefault.jpg';
+
+				if (!self::is_404($yt_1920_url)) {
+					return $yt_1920_url;
+				}
+
+				elseif (!self::is_404($yt_640_url)) {
+					return $yt_640_url;
+				}
+
+				elseif (!self::is_404($yt_480_url)) {
+					return $yt_480_url;
+				}
+
+				else {
+					td_log::log(__FILE__, __FUNCTION__, 'No suitable thumb found for youtube.', $videoUrl);
+				}
+				break;
+
+
+
+			case 'dailymotion':
+				$dailymotion_api_json = td_remote_http::get_page('https://api.dailymotion.com/video/' . self::get_dailymotion_id($videoUrl) . '?fields=thumbnail_url', __CLASS__);
+				if ($dailymotion_api_json !== false) {
+					$dailymotion_api = @json_decode($dailymotion_api_json);
+					if ($dailymotion_api === null and json_last_error() !== JSON_ERROR_NONE) {
+						td_log::log(__FILE__, __FUNCTION__, 'json decaode failed for daily motion api', $videoUrl);
+						return '';
+					}
+
+					if (!empty($dailymotion_api) and !empty($dailymotion_api->thumbnail_url)) {
+						return $dailymotion_api->thumbnail_url;
+					}
+				}
+				break;
+
+
+
+			case 'vimeo':
+				//@todo e stricat nu mai merge de ceva timp cred
+				$url = 'http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . self::get_vimeo_id($videoUrl);
+
+				$response = wp_remote_get($url, array(
+					'timeout' => 10,
+					'sslverify' => false,
+					'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0'
+				));
+
+				if (!is_wp_error($response)) {
+					$td_result = @json_decode(wp_remote_retrieve_body($response));
+					return ($td_result->thumbnail_url);
+				}
+				break;
+		}
+
+
+		return '';
+	}
+
+
+
+	/*
+	 * youtube
+	 */
+    private static function get_youtube_id($videoUrl) {
         $query_string = array();
         parse_str(parse_url($videoUrl, PHP_URL_QUERY), $query_string);
 
@@ -30,10 +229,12 @@ class td_video_support{
         }
     }
 
+
+
     /*
      * youtube t param from url (ex: http://youtu.be/AgFeZr5ptV8?t=5s)
      */
-    function getYoutubeTimeParam($videoUrl) {
+    private static function get_youtube_time_param($videoUrl) {
         $query_string = array();
         parse_str(parse_url($videoUrl, PHP_URL_QUERY), $query_string);
         if (!empty($query_string["t"])) {
@@ -65,7 +266,7 @@ class td_video_support{
     /*
      * Vimeo id
      */
-    function getVimeoId($videoUrl) {
+    private static function get_vimeo_id($videoUrl) {
         sscanf(parse_url($videoUrl, PHP_URL_PATH), '/%d', $video_id);
         return $video_id;
     }
@@ -73,7 +274,7 @@ class td_video_support{
     /*
      * Dailymotion
      */
-    function getDailymotionID($videoUrl) {
+    private static function get_dailymotion_id($videoUrl) {
         $id = strtok(basename($videoUrl), '_');
         if (strpos($id,'#video=') !== false) {
             $videoParts = explode('#video=', $id);
@@ -89,7 +290,7 @@ class td_video_support{
     /*
      * Detect the video service from url
      */
-    function detectVideoSearvice($videoUrl) {
+    private static function detect_video_service($videoUrl) {
         $videoUrl = strtolower($videoUrl);
         if (strpos($videoUrl,'youtube.com') !== false or strpos($videoUrl,'youtu.be') !== false) {
             return 'youtube';
@@ -105,210 +306,15 @@ class td_video_support{
     }
 
 
-    function is404($url) {
-        $headers = get_headers($url);
-        if (strpos($headers[0],'404') !== false) {
-            return true;
-        } else {
-            return false;
-        }
+    private static function is_404($url) {
+        $headers = @get_headers($url);
+	    if (!empty($headers[0]) and strpos($headers[0],'404') !== false) {
+		    return true;
+	    }
+	    return false;
     }
 
 
-    //returns the thumb url
-    function getThumbUrl($videoUrl) {
-        switch ($this->detectVideoSearvice($videoUrl)) {
-            case 'youtube':
-                if (!$this->is404(td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg')) {
-                    return td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/maxresdefault.jpg';
-                } else {
-                    return td_global::$http_or_https . '://img.youtube.com/vi/' . $this->getYoutubeId($videoUrl) . '/hqdefault.jpg';
-                }
 
-                break;
-            case 'dailymotion':
-                $dailyMotionApi = @file_get_contents('https://api.dailymotion.com/video/' . $this->getDailymotionID($videoUrl) . '?fields=thumbnail_url');
-                $dailyMotionDecoded = @json_decode($dailyMotionApi);
-                if (!empty($dailyMotionDecoded) and !empty($dailyMotionDecoded->thumbnail_url)) {
-                    return $dailyMotionDecoded->thumbnail_url;
-                }
-                //print_r($dailyMotionDecoded);
-                break;
-            case 'vimeo':
-//                $vimeoApi = @file_get_contents('http://vimeo.com/api/v2/video/' . $this->getVimeoId($videoUrl) . '.php');
-//                if (!empty($vimeoApi)) {
-//                    $vimeoApiData = @unserialize($vimeoApi);
-//                    if (!empty($vimeoApiData[0]['thumbnail_large'])) {
-//                        return $vimeoApiData[0]['thumbnail_large'];
-//                    }
-//                    //print_r($vimeoApiData);
-//                }
-
-
-				// - the thumb is obtained using the new api embed from vimeo
-				// - otherwise, it was necessary using the standard new api which implies OAuth
-
-		        $url = 'http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . $this->getVimeoId($videoUrl);
-
-		        $response = wp_remote_get($url, array(
-			        'timeout' => 10,
-			        'sslverify' => false,
-			        'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0'
-		        ));
-
-		        if (!is_wp_error($response)) {
-			        $td_result = @json_decode(wp_remote_retrieve_body($response));
-			        return ($td_result->thumbnail_url);
-		        }
-		        break;
-        }
-    }
-
-    function renderVideo($videoUrl) {
-        $buffy = '';
-        switch ($this->detectVideoSearvice($videoUrl)) {
-            case 'youtube':
-	            $buffy .= '
-                <div class="wpb_video_wrapper">
-                    <iframe id="td_youtube_player" width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . $this->getYoutubeId($videoUrl) . '?enablejsapi=1&feature=oembed&wmode=opaque&vq=hd720' . $this->getYoutubeTimeParam($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
-                    <script type="text/javascript">
-
-						var tag = document.createElement("script");
-						tag.src = "https://www.youtube.com/iframe_api";
-
-						var firstScriptTag = document.getElementsByTagName("script")[0];
-						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-						var player;
-
-						function onYouTubeIframeAPIReady() {
-							player = new YT.Player("td_youtube_player", {
-								height: "720",
-								width: "960",
-								events: {
-									"onReady": onPlayerReady
-								}
-							});
-						}
-
-						function onPlayerReady(event) {
-							player.setPlaybackQuality("hd720");
-						}
-					</script>
-
-                </div>
-
-                ';
-
-                break;
-            case 'dailymotion':
-                $buffy .= '
-                    <div class="wpb_video_wrapper">
-                        <iframe frameborder="0" width="600" height="560" src="' . td_global::$http_or_https . '://www.dailymotion.com/embed/video/' . $this->getDailymotionID($videoUrl) . '"></iframe>
-                    </div>
-                ';
-                break;
-            case 'vimeo':
-                $buffy = '
-                <div class="wpb_video_wrapper">
-                    <iframe src="' . td_global::$http_or_https . '://player.vimeo.com/video/' . $this->getVimeoId($videoUrl) . '" width="500" height="212" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-                </div>
-                ';
-                break;
-        }
-        return $buffy;
-    }
-
-
-    function validateVideoUrl($videoUrl) {
-        if ($this->detectVideoSearvice($videoUrl) === false) {
-            return false;
-        }
-
-        if (!preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $videoUrl)) {
-            return false;
-        }
-
-        return true;
-    }
 }
 
-
-
-//action used to set featured images from uploaded photo
-//by td_video_support and load_demo
-function td_add_featured_image($att_id){
-    // the post this was sideloaded into is the attachments parent!
-    $p = get_post($att_id);
-    update_post_meta($p->post_parent,'_thumbnail_id',$att_id);
-}
-
-
-add_action( 'save_post', 'td_get_video_thumb', 12 );
-
-function td_get_video_thumb( $post_id ) {
-    //verify post is not a revision
-    if ( !wp_is_post_revision( $post_id ) ) {
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        $td_post_video = get_post_meta($post_id, 'td_post_video', true);
-
-
-        //load video support
-        $td_video_support = new td_video_support();
-
-        //check to see if the url is valid
-        if (empty($td_post_video['td_video']) or $td_video_support->validateVideoUrl($td_post_video['td_video']) === false) {
-            return;
-        }
-
-
-
-        if (!empty($td_post_video['td_last_video']) and $td_post_video['td_last_video'] == $td_post_video['td_video']) {
-            //we did not update the url
-            return;
-        }
-
-
-
-        //$myFile = "D:/td_video.txt";
-        //$fh = fopen($myFile, 'a') or die("can't open file");
-        $stringData = $post_id . ' - ' . print_r($td_post_video, true) . "\n";
-
-        //return;
-
-
-        $videoThumbUrl = $td_video_support->getThumbUrl($td_post_video['td_video']);
-
-        /*
-        $stringData .= $post_id . ' - ' . $videoThumbUrl . "\n";
-        fwrite($fh, $stringData);
-        fclose($fh);
-
-        */
-
-        if (!empty($videoThumbUrl)) {
-            // add the function above to catch the attachments creation
-            add_action('add_attachment','td_add_featured_image');
-
-            // load the attachment from the URL
-            media_sideload_image($videoThumbUrl, $post_id, $post_id);
-
-            // we have the Image now, and the function above will have fired too setting the thumbnail ID in the process, so lets remove the hook so we don't cause any more trouble
-            remove_action('add_attachment','td_add_featured_image');
-        }
-
-    }
-}
-
-
-
-
-//$td_video_support = new td_video_support();
-//echo $td_video_support->getThumbUrl('http://www.dailymotion.com/video/x17be7o_paraplegic-woman-walks-again_tech');
-//die;
-//echo $td_video_support->getThumbUrl('http://www.youtube.com/watch?v=irE7miqG_LU&list=FLOBuNbx8x0RyDnCgLpTznHA&index=2');
-//echo '<br>';
-//echo $td_video_support->getThumbUrl('http://vimeo.com/15274619');
