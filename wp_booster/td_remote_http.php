@@ -4,6 +4,9 @@
  * Date: 9/24/2015
  */
 
+/**
+ * Class td_remote_http - exports the get_page method. Is used to retrieve remote information
+ */
 class td_remote_http {
 
 	const http_request_timeout = 10;
@@ -11,13 +14,17 @@ class td_remote_http {
 
 	private static $log_get_page_steps = true;
 
+
+
+	/**
+	 * @var array the supported channels. We also have to declare them below @see td_remote_http::get_page_via_channel
+	 */
 	private static $get_url_channels = array (
 		'wordpress',
 		'file_get_contents',
 		'curl'
 	);
 
-	private static $current_url_channel = 0;
 
 
 	/**
@@ -105,6 +112,18 @@ class td_remote_http {
 	}
 
 
+
+	/**
+	 * Tries to download a page by trying each chanel one by one.
+	 * If a good channel is found, it will be returned by ref in the &$channel_that_passed parameter
+	 * @param $url - the url that we want to fatch
+	 * @param string $caller_id - we need to pass the caller_id so we can log who requested the channel
+	 * @param string &$channel_that_passed by reference!
+	 *
+	 * @return bool|string
+	 *          - bool FALSE: if no usable channel found
+	 *          - string: the content of the page if a channel passed. NOTE: &$channel_that_passed will contain the channel that passed
+	 */
 	private static function run_test($url, $caller_id = '', &$channel_that_passed) {
 		foreach (self::$get_url_channels as $channel) {
 			$response = self::get_page_via_channel($url, $caller_id, $channel);
@@ -119,6 +138,14 @@ class td_remote_http {
 
 
 
+	/**
+	 * Returns a page's HTML by using a specific channel
+	 * @param $url
+	 * @param string $caller_id
+	 * @param $channel
+	 *
+	 * @return bool|mixed|string
+	 */
 	private static function get_page_via_channel($url, $caller_id = '', $channel) {
 		switch ($channel) {
 			case 'wordpress':
@@ -139,6 +166,13 @@ class td_remote_http {
 
 
 
+	/**
+	 * WordPress download channel
+	 * @param $url
+	 * @param string $caller_id
+	 *
+	 * @return bool|string
+	 */
 	private static function get_url_wordpress($url, $caller_id = '') {
 		//return false;
 		$response = wp_remote_get($url, array(
@@ -162,6 +196,13 @@ class td_remote_http {
 
 
 
+	/**
+	 * file_get_contents download channel
+	 * @param $url
+	 * @param string $caller_id
+	 *
+	 * @return bool|string
+	 */
 	private static function get_url_file_get_contents($url, $caller_id = '') {
 
 		$opts = array(
@@ -191,6 +232,13 @@ class td_remote_http {
 
 
 
+	/**
+	 * curl download channel
+	 * @param $url
+	 * @param string $caller_id
+	 *
+	 * @return bool|mixed
+	 */
 	private static function get_url_curl($url, $caller_id = '') {
 		//return false;
 		$ch = curl_init();
@@ -222,6 +270,7 @@ class td_remote_http {
 
 		return $data;
 	}
+
 
 
 	private static function log_detail($file, $function, $msg, $more_data = '') {
