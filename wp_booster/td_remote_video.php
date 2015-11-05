@@ -98,7 +98,7 @@ class td_remote_video {
 
 		foreach ($video_ids as $video_id) {
 			$api_url = 'http://vimeo.com/api/v2/video/' . $video_id . '.php';   // this is the old api vimeo maintained for thumbnail_small which should not be gotten without OAuth of the new api
-			$php_serialized_api_response = td_remote_http::get_page($api_url);
+			$php_serialized_api_response = td_remote_http::get_page($api_url, __CLASS__);
 
 			// check for a response
 			if ($php_serialized_api_response === false) {
