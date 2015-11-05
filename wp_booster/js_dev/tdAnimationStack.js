@@ -718,7 +718,7 @@ var tdAnimationStack = {};
 
 
         /**
-         * - scroll event usually called by td_custom_events
+         * - scroll event usually called by tdCustomEvents
          */
         td_events_scroll: function() {
             tdAnimationStack.compute_items();
@@ -727,7 +727,7 @@ var tdAnimationStack = {};
 
 
         /**
-         * - resize event usually called by td_custom_events
+         * - resize event usually called by tdCustomEvents
          */
         td_events_resize: function() {
             // clear an existing interval
