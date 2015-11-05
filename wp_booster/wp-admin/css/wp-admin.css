@@ -1276,6 +1276,14 @@ title one row controls
   position: relative;
   margin-bottom: 30px;
 }
+.td-box-section-title {
+  font-size: 16px;
+  text-align: center;
+  position: relative;
+  font-weight: bold;
+  margin-bottom: 23px;
+  text-decoration: underline;
+}
 .td-panel-no-settings-found {
   background-color: white;
   margin: 25px;
@@ -1342,6 +1350,9 @@ title one row controls
   height: 450px;
   margin-right: 14px;
   border: 1px solid #e6e6e6;
+}
+#td-mobile-plugin .td-code-editor-wrap .td-code-editor {
+  height: 250px;
 }
 .td-panel-main-footer {
   background-color: rgba(34, 34, 34, 0.3);
