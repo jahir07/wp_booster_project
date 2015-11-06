@@ -8,9 +8,15 @@ class td_log {
 	private static $is_shutdown_hooked = false;
 
 
-	//
+	private static $log_info = true;
 
-
+	/**
+	 * Logs a message to the theme's log system. The message is always logged
+	 * @param $file string - Usually is __FILE__ - the file that generated the log.
+	 * @param $function string- Usually is __FUNCTION__ - the function that generated the log
+	 * @param $msg string - the log message
+	 * @param $more_data string|object|array  - more data, it can be string, object or array
+	 */
 	static function log($file, $function, $msg, $more_data = '') {
 
 		// read the cache from db if needed
@@ -40,6 +46,18 @@ class td_log {
 	}
 
 
+	/**
+	 * Logs a message ONLY if @see td_log::$log_info is TRUE. Used to log mossage that are not always requiered, only on debug.
+	 * @param $file
+	 * @param $function
+	 * @param $msg
+	 * @param string $more_data
+	 */
+	static function log_info($file, $function, $msg, $more_data = '') {
+		if (self::$log_info === true) {
+			self::log($file, $function, $msg, $more_data);
+		}
+	}
 
 
 	// save the log if needed

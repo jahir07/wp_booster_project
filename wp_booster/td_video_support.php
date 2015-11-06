@@ -112,6 +112,7 @@ class td_video_support{
 
 	/**
 	 * set the last uploaded image as a featured image. We 'upload' the video thumb via the media_sideload_image call from above
+	 * @internal
 	 */
 	static function on_add_attachment_set_featured_image($att_id){
 		update_post_meta(self::$on_save_post_post_id, '_thumbnail_id', $att_id);
