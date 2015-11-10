@@ -87,7 +87,7 @@
 
     /* responsive portrait phone */
     @media (min-width: 1600px) {
-      width: 30.6%;
+      width: 30.6% !important;
       margin: 0 0 4% 4% !important;
     }
 
@@ -213,9 +213,9 @@
       display: inline-block;
       font-size: 13px;
       margin: 0 0 0 5px;
-      line-height: 1;
-      position: relative;
-      top: 1px;
+      //line-height: 1;
+      //position: relative;
+      //top: 1px;
     }
 
     .td-checbox-buton {
@@ -234,6 +234,12 @@
     }
     .td-checbox-buton-active {
       left: 20px;
+    }
+    .td-installed-text {
+      /* responsive portrait phone */
+      @media (max-width: 782px) {
+        text-align: center;
+      }
     }
   }
 }

@@ -2529,7 +2529,7 @@ title one row controls
 }
 @media (min-width: 1600px) {
   .td-admin-wrap .theme {
-    width: 30.6%;
+    width: 30.6% !important;
     margin: 0 0 4% 4% !important;
   }
 }
@@ -2625,9 +2625,6 @@ title one row controls
   display: inline-block;
   font-size: 13px;
   margin: 0 0 0 5px;
-  line-height: 1;
-  position: relative;
-  top: 1px;
 }
 .td-admin-wrap .td-small-checkbox .td-checbox-buton {
   top: 3px;
@@ -2645,6 +2642,14 @@ title one row controls
 }
 .td-admin-wrap .td-small-checkbox .td-checbox-buton-active {
   left: 20px;
+}
+.td-admin-wrap .td-small-checkbox .td-installed-text {
+  /* responsive portrait phone */
+}
+@media (max-width: 782px) {
+  .td-admin-wrap .td-small-checkbox .td-installed-text {
+    text-align: center;
+  }
 }
 .media-sidebar .gallery-settings .setting select {
   float: right;
@@ -2742,10 +2747,6 @@ title one row controls
     demo states
 */
 .td-installed-text {
-  position: absolute !important;
-  left: 12px;
-  bottom: 15px;
-  top: auto !important;
   display: none !important;
 }
 .td-wp-admin-demo {
@@ -2777,7 +2778,7 @@ title one row controls
   display: block !important;
 }
 .td-demo-installed .td-demo-install-content {
-  visibility: hidden;
+  display: none;
 }
 .td-demo-installed .td-button-demo-preview,
 .td-demo-installed .td-button-install-demo {
