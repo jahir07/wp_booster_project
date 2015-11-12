@@ -48,6 +48,49 @@ require_once "td_view_header.php";
         'status' => 'info'
     ));
 
+    // Theme aurora version
+    td_system_status::add('Theme config', array(
+	    'check_name' => 'Theme aurora version',
+	    'tooltip' => 'Aurora is our plugins framework',
+	    'value' =>  TD_AURORA_VERSION,
+	    'status' => 'info'
+    ));
+
+
+    // Theme remote http channel used by the theme
+    $td_remote_http = td_util::get_option('td_remote_http');
+
+    if (empty($td_remote_http['test_status'])) {
+	    // not runned yet
+	    td_system_status::add('Theme config', array(
+		    'check_name' => 'HTTP channel test',
+		    'tooltip' => 'The test will run when the theme has to get information from other sites. Like the number of likes, tweets etc...',
+		    'value' =>  'Not runned yet',
+		    'status' => 'info'
+	    ));
+    } elseif ($td_remote_http['test_status'] == 'all_fail') {
+	    // all the http tests failed to run!
+	    td_system_status::add('Theme config', array(
+		    'check_name' => 'HTTP channel test',
+		    'tooltip' => 'The theme cannot connect to other data sources. We are unable to get the number of likes, video information, tweets etc. This is usually due to a
+		    misconfigured server or firewall',
+		    'value' =>  $td_remote_http['test_status'],
+		    'status' => 'red'
+	    ));
+    } else {
+	    // we have a http channel test that works
+	    td_system_status::add('Theme config', array(
+		    'check_name' => 'HTTP channel test',
+		    'tooltip' => 'The theme has multiple ways to get information (like count, tweet count etc) from other sites and this is the channel that was detected to work with your host.',
+		    'value' =>  $td_remote_http['test_status'],
+		    'status' => 'green'
+	    ));
+    }
+
+
+
+
+
     // speed booster
     if (defined('TD_SPEED_BOOSTER')) {
         if (defined('TD_SPEED_BOOSTER_INCOMPATIBLE')) {
@@ -731,4 +774,3 @@ require_once "td_view_header.php";
            return $ret;
        }
    }
-?>
