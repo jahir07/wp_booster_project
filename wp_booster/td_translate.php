@@ -124,8 +124,14 @@ $td_translation_map = array(
     //modal window
     'LOG IN'  => __('LOG IN', TD_THEME_NAME),
     'Sign in / Join'  => __('Sign in / Join', TD_THEME_NAME),
+    'Sign in' => __('Sign in', TD_THEME_NAME),
+    'Sign up' => __('Sign up', TD_THEME_NAME),
+    'Join' => __('Join', TD_THEME_NAME),
     'Log In'  => __('Log In', TD_THEME_NAME),
     'REGISTER'  => __('REGISTER', TD_THEME_NAME),
+    'Welcome!' => __('Welcome!', TD_THEME_NAME),
+    'Log into your account' => __('Log into your account', TD_THEME_NAME),
+    'Password recovery' => __('Password recovery', TD_THEME_NAME),
     'Send My Pass'  => __('Send My Pass', TD_THEME_NAME),
     'Forgot your password?'  => __('Forgot your password?', TD_THEME_NAME),
     'Please wait...'  => __('Please wait...', TD_THEME_NAME),
@@ -144,13 +150,6 @@ $td_translation_map = array(
     'your email' => __('your email', TD_THEME_NAME),
     'A password will be e-mailed to you.' => __('A password will be e-mailed to you.', TD_THEME_NAME),
     'Logout' => __('Logout', TD_THEME_NAME),
-
-    'Welcome!' => __('Welcome!', TD_THEME_NAME),
-    'Log into your account' => __('Log into your account', TD_THEME_NAME),
-    'Sign in' => __('Sign in', TD_THEME_NAME),
-    'Join' => __('Join', TD_THEME_NAME),
-    'Password recovery' => __('Password recovery', TD_THEME_NAME),
-
 
     //social counters
     'Like' => __('Like', TD_THEME_NAME),
