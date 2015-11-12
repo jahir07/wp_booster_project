@@ -2934,7 +2934,8 @@ title one row controls
   width: 82px;
 }
 .td-log-more-data-container,
-.td-remote-value-data-container {
+.td-remote-value-data-container,
+.td_log_more_data_container {
   position: relative;
 }
 .td-array-viewer {

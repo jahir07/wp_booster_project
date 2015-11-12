@@ -204,6 +204,8 @@ class td_panel_data_source {
 
                 case 'td_homepage':
                     break;
+	            case 'td_default': // here we store the default values. Each datasource that needs defaults, will parse the $_POST['td_default'] directly
+		            break;
 
                 case 'td_page_option':
                     break;

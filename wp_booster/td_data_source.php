@@ -240,6 +240,7 @@ class td_data_source {
             // don't pass an empty post__in because it will return had_posts()
             if (!empty($post_in)) {
                 $wp_query_args['post__in'] = $post_in;
+                $wp_query_args['orderby'] = 'post__in';
             }
 
             // check if the post__not_in is already set, if it is merge it with $post_not_in
