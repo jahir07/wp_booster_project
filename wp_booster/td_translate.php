@@ -145,6 +145,12 @@ $td_translation_map = array(
     'A password will be e-mailed to you.' => __('A password will be e-mailed to you.', TD_THEME_NAME),
     'Logout' => __('Logout', TD_THEME_NAME),
 
+    'Welcome!' => __('Welcome!', TD_THEME_NAME),
+    'Log into your account' => __('Log into your account', TD_THEME_NAME),
+    'Sign in' => __('Sign in', TD_THEME_NAME),
+    'Join' => __('Join', TD_THEME_NAME),
+    'Password recovery' => __('Password recovery', TD_THEME_NAME),
+
 
     //social counters
     'Like' => __('Like', TD_THEME_NAME),
