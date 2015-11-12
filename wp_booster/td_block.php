@@ -82,15 +82,17 @@ class td_block {
 
                         // order the categories - match the order set in the block settings
                         foreach ($td_ajax_filter_ids as $td_category_id) {
+	                        $td_category_id = trim($td_category_id);
+
                             foreach ($td_categories as $td_category) {
 
                                 // retrieve the category
                                 if ($td_category_id == $td_category->cat_ID) {
-                                    // temporary buffer
                                     $td_pull_down_items [] = array(
                                         'name' => $td_category->name,
                                         'id' => $td_category->cat_ID,
                                     );
+	                                break;
                                 }
                             }
                         }
