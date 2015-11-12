@@ -31,7 +31,7 @@ class tdx_options {
 
 			    // check if the data source is registered
 			    if (!in_array($datasource_id, self::$registered_data_sources)) {
-				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source', $datasource_id);
 				    return '';
 			    }
 
@@ -64,7 +64,7 @@ class tdx_options {
 
 			    // check if the data source is registered
 			    if (!in_array($datasource_id, self::$registered_data_sources)) {
-				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source', $datasource_id);
 				    return '';
 			    }
 
@@ -95,7 +95,7 @@ class tdx_options {
 
 			    // check if the data source is registered
 			    if (!in_array($datasource, self::$registered_data_sources)) {
-				    tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+				    tdx_util::error(__FILE__, 'get_option on an unregistered data source', $datasource);
 				    return '';
 			    }
 
@@ -121,7 +121,7 @@ class tdx_options {
     static function update_option_in_cache($datasource, $option_id, $option_value) {
         // check if the data source is registered
         if (!in_array($datasource, self::$registered_data_sources)) {
-            tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+            tdx_util::error(__FILE__, 'get_option on an unregistered data source datasource: ' . $datasource . ' option_id: ' . $option_id);
             return;
         }
 
@@ -139,7 +139,7 @@ class tdx_options {
 	static function update_options_in_cache($datasource, $options_array) {
 		// check if the data source is registered
 		if (!in_array($datasource, self::$registered_data_sources)) {
-			tdx_util::error(__FILE__, 'get_option on an unregistered data source');
+			tdx_util::error(__FILE__, 'get_option on an unregistered data source', $datasource);
 			return;
 		}
 
