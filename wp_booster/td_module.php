@@ -318,9 +318,9 @@ abstract class td_module {
 
                             // load the small or medium play icon
                             if ($use_small_post_format_icon_size === true) {
-                                $buffy .= '<span class="td-video-play-ico td-video-small"><img width="20" class="td-retina" src="' . get_template_directory_uri() . '/images/icons/video-small.png' . '" alt="video"/></span>';
+                                $buffy .= '<span class="td-video-play-ico td-video-small"><img width="20" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/video-small.png' . '" alt="video"/></span>';
                             } else {
-                                $buffy .= '<span class="td-video-play-ico"><img width="40" class="td-retina" src="' . get_template_directory_uri() . '/images/icons/ico-video-large.png' . '" alt="video"/></span>';
+                                $buffy .= '<span class="td-video-play-ico"><img width="40" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' . '" alt="video"/></span>';
                             }
                         } // end on video if
 
