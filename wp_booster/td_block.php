@@ -136,13 +136,26 @@ class td_block {
 
 
 
+
         // add a persistent atts based block class (crc32 of atts + block_id)
         if (is_array($this->atts)) {  // double check to prevent warnings if no atts
-            $this->add_class('td_block_id_' .
+
+	        // clean the atts so that we can 'implode' them :(
+	        // we have to clean them because some plugins add objects to the atts @link https://github.com/opradu/newspaper/issues/928
+	        $atts_clean_buffer = array();
+	        foreach ($this->atts as $att_key => $att_value) {
+		        if (!is_object($att_value) and !is_array($att_value)) {
+			        $atts_clean_buffer[$att_key] = $att_value;
+		        }
+	        }
+
+	        // build the unique class for this block. It starts with td_block_id_ and as long as this block's settings
+	        // remain the same, this class will remain also.
+	        $this->add_class('td_block_id_' .
                 sanitize_html_class(
                     str_replace('-', '',
                         crc32(
-                            implode($this->atts) . $this->block_id
+                            implode($atts_clean_buffer) . $this->block_id
                         )
                     )
                 )
