@@ -48,6 +48,7 @@ class td_data_source {
 		    if (function_exists('stats_get_csv')) {
 			    // the damn jetpack api cannot return only posts so it may return pages. That's why we query with a bigger + 5 limit
 			    // so that if the api returns also 5 pages mixed with the post we will still have the desired number of posts
+			    // NOTE: stats_get_csv has a cache built in!
 			    $jetpack_api_posts = stats_get_csv('postviews', array(
 				    'days' => 2,
 				    'limit' => $limit + 5
@@ -59,7 +60,7 @@ class td_data_source {
 				    return $wp_query_args;
 			    }
 		    }
-		    return array(); // empty array makes WP_Query not run
+		    return array(); // empty array makes WP_Query not run. Usually the return value of this function is feed directly to a new WP_Query
 	    }
 
 

@@ -135,22 +135,7 @@ class td_block {
         }
 
 
-
-        // add a persistent atts based block class (crc32 of atts + block_id)
-        if (is_array($this->atts)) {  // double check to prevent warnings if no atts
-            $this->add_class('td_block_id_' .
-                sanitize_html_class(
-                    str_replace('-', '',
-                        crc32(
-                            implode($this->atts) . $this->block_id
-                        )
-                    )
-                )
-            );
-        }
-
-
-        // add a unique class to the block
+        /** add the unique class to the block. The _rand class is used by the blocks js. @see tdBlocks.js  */
         $unique_block_class = $this->block_uid . '_rand';
         $this->add_class($unique_block_class);
 
