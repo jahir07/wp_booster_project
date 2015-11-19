@@ -329,7 +329,7 @@ class td_cake {
 
             <br/><br/><br/><br/><br/>
             <h3>Manual activation</h3>
-            <p>If the above activation method fails, <a href="#" class="td-manual-activation-btn">activate the theme manually</a></p>
+            <p>If the above activation method fails, <a href="#" class="td-manual-activation-btn">activate the theme manually</a>.<br>Also try to disable all the plugins.</p>
 
             <div class="td-manual-activation">
                 <ul>

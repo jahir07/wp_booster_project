@@ -8,7 +8,25 @@
 class td_weather {
 
 	private static $caching_time = 10800;  // 3 hours
-	private static $owm_api_key = 'f5dc074e364b4d0bbaacbab0030031a3';
+	//private static $owm_api_key = 'f5dc074e364b4d0bbaacbab0030031a3';
+
+	private static $owm_api_keys = array (
+		'e5342a41a77f36d7802f350362aa6725',
+		'5f0e41b16ad3752a1ccb886bceb5ed51',
+		'5893ae71fbc9d28b832691406f6ba39b',
+		'93d95bd6e3378a6cb7c7e3e6f6cb5483',
+		'44458592cde0010a8a963db522bf6be5',
+		'9c252c3f1a0036ea446f45651330701e',
+		'0c3f5c17cf5499acaabff3ff594eec5c',
+		'2b08ac14030ba455470237725275d7f8',
+		'c3075d0842fb57c51faada7fc3cbba6b',
+		'f5dc074e364b4d0bbaacbab0030031a3',
+		'17aa0dd026f22e09f52ad000002991c6',
+		'849339ce83cba73963c74b390cba23dd',
+		'6dc28d5e9e6ef985034b6e9d153e73c7',
+		'f166e0697a8541984a1c4dce5221f592',
+		'd24d6df2a159679a31cf70400e87a26c'
+	);
 
 
 	/**
@@ -39,7 +57,7 @@ class td_weather {
 			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'api_language' => '', //this is set down bellow
-			'api_key' => self::$owm_api_key,
+			'api_key' => self::get_a_owm_key(),
 			'today_icon' => '',
 			'today_icon_text' => '',
 			'today_temp' => array (
@@ -493,5 +511,11 @@ class td_weather {
 			return $msg;
 		}
 		return '';
+	}
+
+
+
+	private function get_a_owm_key() {
+		return self::$owm_api_keys[rand(0, count(self::$owm_api_keys) - 1)];
 	}
 }

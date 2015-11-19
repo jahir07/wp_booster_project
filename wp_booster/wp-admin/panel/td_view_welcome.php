@@ -22,7 +22,7 @@ require_once "td_view_header.php";
     <?php if (!is_plugin_active('js_composer/js_composer.php')) { ?>
         <div class="td-admin-box-text td-admin-required-plugins">
             <div class="td-admin-required-plugins-wrap">
-                <p><strong>Please install Visual Composer</strong></p>
+                <p><strong>Please install Visual Composer.</strong></p>
                 <p>Visual Composer is a required plugin for this theme to work best.</p>
                 <a class="button button-primary" href="admin.php?page=td_theme_plugins">Go to plugin installer</a>
             </div>
