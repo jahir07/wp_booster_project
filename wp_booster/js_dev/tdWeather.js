@@ -66,7 +66,7 @@ var tdWeather = {};
         init: function () {
 
             // weather location button click
-            jQuery('.td-ico-weather-location').click(function() {
+            jQuery('.td-icons-location').click(function() {
                 if (tdWeather._currentRequestInProgress === true) {
                     return;
                 }
