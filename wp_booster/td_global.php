@@ -11,6 +11,9 @@
 class td_global {
 
 
+	static $feature_locked = true; // lock features that are not ready
+
+
     static $td_options; //here we store all the options of the theme will be used in td_first_install.php
 
     static $current_template = ''; //used by page-homepage-loop, 404

@@ -209,7 +209,7 @@
         </div>
     </div>
 
-<?php if (TD_THEME_NAME != 'Newsmag') { ?>
+<?php if (td_global::$feature_locked === false) { ?>
 <div class="td-box-section-separator"></div>
 	<!-- Weather: enable disable -->
 	<div class="td-box-row">
