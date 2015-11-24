@@ -61,13 +61,13 @@ require_once "td_view_header.php";
     $td_remote_http = td_util::get_option('td_remote_http');
 
     if (empty($td_remote_http['test_status'])) {
-	    // not runned yet
-	    td_system_status::add('Theme config', array(
-		    'check_name' => 'HTTP channel test',
-		    'tooltip' => 'The test will run when the theme has to get information from other sites. Like the number of likes, tweets etc...',
-		    'value' =>  'Not runned yet',
-		    'status' => 'info'
-	    ));
+//	    // not runned yet
+//	    td_system_status::add('Theme config', array(
+//		    'check_name' => 'HTTP channel test',
+//		    'tooltip' => 'The test will run when the theme has to get information from other sites. Like the number of likes, tweets etc...',
+//		    'value' =>  'Not runned yet',
+//		    'status' => 'info'
+//	    ));
     } elseif ($td_remote_http['test_status'] == 'all_fail') {
 	    // all the http tests failed to run!
 	    td_system_status::add('Theme config', array(
