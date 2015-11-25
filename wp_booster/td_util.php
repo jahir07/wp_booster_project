@@ -399,6 +399,34 @@ class td_util {
 
 
 
+    /**
+     * calculate the contrast of a color and return:
+     * @param $bg - string - background color (ex. #23f100)
+     * @param $contrast_limit - integer - contrast limit (ex. 200)
+     * @param $color_one - string - returned color (ex. #000)
+     * @param $color_two - string - returned color (ex. #fff)
+     * @return string - color one or two
+     */
+    static function readable_colour($bg, $contrast_limit, $color_one, $color_two){
+        $r = hexdec(substr($bg,1,2));
+        $g = hexdec(substr($bg,3,2));
+        $b = hexdec(substr($bg,5,2));
+
+        $contrast = sqrt(
+            $r * $r * .241 +
+            $g * $g * .691 +
+            $b * $b * .068
+        );
+
+        if($contrast > $contrast_limit){
+            return $color_one;
+        }else{
+            return $color_two;
+        }
+    }
+
+
+
 
     /**
      * create $td_authors array in format id_author => display_name_author

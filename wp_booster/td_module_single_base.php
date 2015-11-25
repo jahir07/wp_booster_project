@@ -252,7 +252,7 @@ class td_module_single_base extends td_module {
 
                 if ( ! empty( $term_params['color'] ) ) {
                     // set title color based on background color contrast
-                    $td_cat_title_color = $this->readableColour($term_params['color']);
+                    $td_cat_title_color = td_util::readable_colour($term_params['color'], 200, '#000', '#fff');
                     $td_cat_color = ' style="background-color:' . $term_params['color'] . '; color:' . $td_cat_title_color . '; border-color:' . $term_params['color']  . ';"';
                 } else {
                     $td_cat_color = '';
@@ -266,33 +266,6 @@ class td_module_single_base extends td_module {
 
         return $buffy;
     }
-
-
-    /**
-     * calculate the contrast of a color and return:
-     * @param $bg - string (ex. #23f100)
-     * @return string - #000 - for light background - #fff - for dark background
-     */
-    function readableColour($bg){
-        $r = hexdec(substr($bg,1,2));
-        $g = hexdec(substr($bg,3,2));
-        $b = hexdec(substr($bg,5,2));
-
-        $contrast = sqrt(
-            $r * $r * .241 +
-            $g * $g * .691 +
-            $b * $b * .068
-        );
-
-        if($contrast > 200){
-            return '#000';
-        }else{
-            return '#fff';
-        }
-    }
-
-
-
 
 
     function get_comments() {
