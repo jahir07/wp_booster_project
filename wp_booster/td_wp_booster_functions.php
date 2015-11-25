@@ -648,17 +648,6 @@ add_filter( 'use_default_gallery_style', '__return_false' );
 
 
 /*  ----------------------------------------------------------------------------
-    more text
- */
-add_filter('excerpt_more', 'new_excerpt_more');
-function new_excerpt_more($text){
-    return ' ';
-}
-
-
-
-
-/*  ----------------------------------------------------------------------------
     editor style
  */
 add_action( 'after_setup_theme', 'my_theme_add_editor_styles' );
