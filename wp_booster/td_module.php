@@ -281,10 +281,13 @@ abstract class td_module {
                 /**
                  * get thumb height and width via api
                  * first we check the global in case a custom thumb is used
+                 *
+                 * The api thumb is checked only for additional sizes registered and if at least one of the settings (width or height) is empty.
+                 * This should be enough to avoid getting a non existing id using api thumb.
                  */
-                if (($td_temp_image_url[1] == '') and ($td_temp_image_url[2] == '')) {
+	            if (!empty($_wp_additional_image_sizes) && array_key_exists($thumbType, $_wp_additional_image_sizes) && ($td_temp_image_url[1] == '' || $td_temp_image_url[2] == '')) {
                     $td_thumb_parameters = td_api_thumb::get_by_id($thumbType);
-                    $td_temp_image_url[1] = $td_thumb_parameters['width'];
+	                $td_temp_image_url[1] = $td_thumb_parameters['width'];
                     $td_temp_image_url[2] = $td_thumb_parameters['height'];
                 }
 
