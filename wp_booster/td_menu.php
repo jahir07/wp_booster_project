@@ -23,7 +23,7 @@ class td_menu {
 
 
     function hook_wp_edit_nav_menu_walker () {
-        include_once('td_menu_back.php');
+        //include_once('td_menu_back.php');
         return 'td_nav_menu_edit_walker';
     }
 
