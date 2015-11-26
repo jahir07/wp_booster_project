@@ -204,8 +204,8 @@ class td_module_single_base extends td_module {
                         //get the parent of this cat
                         $td_parent_cat_obj = get_category( $category->category_parent );
 
-                        //if we have a parent, shot it first
-                        if ( ! empty( $td_parent_cat_obj->name ) ) {
+                        //if we have a parent and the default category display is disabled show it first
+                        if ( ! empty( $td_parent_cat_obj->name ) and td_util::get_option('tds_default_category_display') != 'true') {
                             $tax_meta__color_parent                = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_color' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_color');
                             $tax_meta__hide_on_post_parent         = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_hide_on_post' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_hide_on_post');
                             $terms_ui_array[ $td_parent_cat_obj->name ] = array(

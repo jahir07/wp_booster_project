@@ -184,11 +184,37 @@
             </div>
         </div>
     </div>
+
+<div class="td-box-section-separator"></div>
+
+    <!-- Show categories -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">CATEGORY TAGS DISPLAY ORDER</span>
+            <p>
+                Set the post category tags display order.
+                <?php td_util::tooltip_html('
+                        <h3>Post category tags display order</h3>
+                        <ul>
+                            <li>Disable - display the parent category tag first</li>
+                            <li>Enable - display the category tags alphabetically</li>
+                        </ul>
+                      ', 'right')?>
+            </p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_default_category_display',
+                'true_value' => 'true',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+
 <?php echo td_panel_generator::box_end();?>
-
-
-
-
 
 
 <hr>
