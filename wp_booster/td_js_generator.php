@@ -43,7 +43,7 @@ function td_js_generator() {
             $td_date_i18n_format = 'l, F j, Y';
         }
         td_js_buffer::add_variable('tds_date_i18n_format', $td_date_i18n_format);
-        td_js_buffer::add_variable('tds_date_i18n_timestamp', get_the_time('U'));
+        td_js_buffer::add_variable('tds_date_i18n_timestamp', time());
 
         // get months and days
         global $wp_locale;
