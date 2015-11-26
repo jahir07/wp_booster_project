@@ -321,6 +321,9 @@ class td_review {
             fwrite($fh, $stringData);
             fclose($fh);
              */
+        } else {
+            // delete the review data when you select no review
+            delete_post_meta($post_id, 'td_review_key');
         }
     }
 }

@@ -160,7 +160,7 @@ function td_resize_videos() {
             var td_video = jQuery(this);
             td_video.attr('width', '100%');
             var td_video_width = td_video.width();
-            td_video.css('height', td_video_width * 0.6, 'important');
+            td_video.css('height', td_video_width * 0.5625, 'important');
         }
     });
 

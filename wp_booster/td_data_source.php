@@ -102,6 +102,9 @@ class td_data_source {
 
                 $wp_query_args['cat'] = get_cat_ID(TD_FEATURED_CAT); //add the fetured cat
                 break;
+            case 'oldest_posts':
+                $wp_query_args['order'] = 'ASC';
+                break;
             case 'popular':
                 $wp_query_args['meta_key'] = td_page_views::$post_view_counter_key;
                 $wp_query_args['orderby'] = 'meta_value_num';

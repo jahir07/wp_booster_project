@@ -204,8 +204,8 @@ class td_module_single_base extends td_module {
                         //get the parent of this cat
                         $td_parent_cat_obj = get_category( $category->category_parent );
 
-                        //if we have a parent, shot it first
-                        if ( ! empty( $td_parent_cat_obj->name ) ) {
+                        //if we have a parent and the default category display is disabled show it first
+                        if ( ! empty( $td_parent_cat_obj->name ) and td_util::get_option('tds_default_category_display') != 'true') {
                             $tax_meta__color_parent                = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_color' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_color');
                             $tax_meta__hide_on_post_parent         = td_util::get_category_option( $td_parent_cat_obj->cat_ID, 'tdc_hide_on_post' );//swich by RADU A, get_tax_meta($td_parent_cat_obj->cat_ID,'tdc_hide_on_post');
                             $terms_ui_array[ $td_parent_cat_obj->name ] = array(
@@ -252,7 +252,7 @@ class td_module_single_base extends td_module {
 
                 if ( ! empty( $term_params['color'] ) ) {
                     // set title color based on background color contrast
-                    $td_cat_title_color = $this->readableColour($term_params['color']);
+                    $td_cat_title_color = td_util::readable_colour($term_params['color'], 200, '#000', '#fff');
                     $td_cat_color = ' style="background-color:' . $term_params['color'] . '; color:' . $td_cat_title_color . '; border-color:' . $term_params['color']  . ';"';
                 } else {
                     $td_cat_color = '';
@@ -266,33 +266,6 @@ class td_module_single_base extends td_module {
 
         return $buffy;
     }
-
-
-    /**
-     * calculate the contrast of a color and return:
-     * @param $bg - string (ex. #23f100)
-     * @return string - #000 - for light background - #fff - for dark background
-     */
-    function readableColour($bg){
-        $r = hexdec(substr($bg,1,2));
-        $g = hexdec(substr($bg,3,2));
-        $b = hexdec(substr($bg,5,2));
-
-        $contrast = sqrt(
-            $r * $r * .241 +
-            $g * $g * .691 +
-            $b * $b * .068
-        );
-
-        if($contrast > 200){
-            return '#000';
-        }else{
-            return '#fff';
-        }
-    }
-
-
-
 
 
     function get_comments() {
