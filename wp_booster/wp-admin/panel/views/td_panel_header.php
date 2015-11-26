@@ -209,6 +209,24 @@
         </div>
     </div>
 
+    <!-- Date: format -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">JAVASCRIPT DATE</span>
+            <p>Enable this if you use a cache plugin, it displays the local data.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_data_js',
+                'true_value' => 'true',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+
 <?php if (td_global::$feature_locked === false) { ?>
 <div class="td-box-section-separator"></div>
 	<!-- Weather: enable disable -->

@@ -48,7 +48,11 @@ jQuery().ready(function jQuery_ready() {
     //smart list drop down pagination
     td_smart_list_dropdown();
 
-
+    // the top menu date
+    if ((typeof tds_date_i18n_format !== 'undefined') && (typeof tds_date_i18n_timestamp !== 'undefined')) {
+        var tdDateI18n = date_i18n(tds_date_i18n_format, tds_date_i18n_timestamp);
+        jQuery('.td_data_time').text(tdDateI18n);
+    }
 
 }); //end on load
 
