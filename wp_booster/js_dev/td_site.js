@@ -48,7 +48,11 @@ jQuery().ready(function jQuery_ready() {
     //smart list drop down pagination
     td_smart_list_dropdown();
 
-
+    // the top menu date
+    if ((typeof tds_date_i18n_format !== 'undefined') && (typeof tds_date_i18n_timestamp !== 'undefined')) {
+        var tdDateI18n = date_i18n(tds_date_i18n_format, tds_date_i18n_timestamp);
+        jQuery('.td_data_time').text(tdDateI18n);
+    }
 
 }); //end on load
 
@@ -160,7 +164,7 @@ function td_resize_videos() {
             var td_video = jQuery(this);
             td_video.attr('width', '100%');
             var td_video_width = td_video.width();
-            td_video.css('height', td_video_width * 0.6, 'important');
+            td_video.css('height', td_video_width * 0.5625, 'important');
         }
     });
 

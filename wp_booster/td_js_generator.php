@@ -34,6 +34,33 @@ function td_js_generator() {
     td_js_buffer::add_variable('td_magnific_popup_translation_ajax_tError', __td('The content from %url% could not be loaded.', TD_THEME_NAME));
     td_js_buffer::add_variable('td_magnific_popup_translation_image_tError', __td('The image #%curr% could not be loaded.', TD_THEME_NAME));
 
+    // javascript date
+    if (td_util::get_option('tds_data_js') == 'true') {
+
+        // get format and timestamp
+        $td_date_i18n_format = td_util::get_option('tds_data_time_format');
+        if ($td_date_i18n_format == '') {
+            $td_date_i18n_format = 'l, F j, Y';
+        }
+        td_js_buffer::add_variable('tds_date_i18n_format', $td_date_i18n_format);
+        td_js_buffer::add_variable('tds_date_i18n_timestamp', time());
+
+        // get months and days
+        global $wp_locale;
+        $monthNames = array_map(array(&$wp_locale, 'get_month'), range(1, 12));
+        $monthNamesShort = array_map(array(&$wp_locale, 'get_month_abbrev'), $monthNames);
+        $dayNames = array_map(array(&$wp_locale, 'get_weekday'), range(0, 6));
+        $dayNamesShort = array_map(array(&$wp_locale, 'get_weekday_abbrev'), $dayNames);
+
+        td_js_buffer::add_variable('DATE_I18N', array(
+            "month_names" => $monthNames,
+            "month_names_short" => $monthNamesShort,
+            "day_names" => $dayNames,
+            "day_names_short" => $dayNamesShort
+        ));
+    }
+
+
 
     td_js_buffer::add_to_header("
 var tdBlocksArray = []; //here we store all the items for the current page

@@ -1928,6 +1928,12 @@ title one row controls
 .vc_ui-panel-content-container #td_block_big_grid_7,
 .vc_modal-content #td_block_big_grid_8,
 .vc_ui-panel-content-container #td_block_big_grid_8,
+.vc_modal-content #td_block_big_grid_9,
+.vc_ui-panel-content-container #td_block_big_grid_9,
+.vc_modal-content #td_block_big_grid_10,
+.vc_ui-panel-content-container #td_block_big_grid_10,
+.vc_modal-content #td_block_big_grid_11,
+.vc_ui-panel-content-container #td_block_big_grid_11,
 .vc_modal-content #td_block_big_grid_slide,
 .vc_ui-panel-content-container #td_block_big_grid_slide,
 .vc_modal-content #td_block_trending_now,
@@ -1987,6 +1993,9 @@ title one row controls
 .icon-pagebuilder-td_block_big_grid_6,
 .icon-pagebuilder-td_block_big_grid_7,
 .icon-pagebuilder-td_block_big_grid_8,
+.icon-pagebuilder-td_block_big_grid_9,
+.icon-pagebuilder-td_block_big_grid_10,
+.icon-pagebuilder-td_block_big_grid_11,
 .icon-pagebuilder-td_block_big_grid_slide,
 .icon-pagebuilder-td_block_trending_now,
 .icon-pagebuilder-td_block_homepage_full_1,
@@ -2036,6 +2045,9 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_6,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_7,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_8,
+.wpb_element_title .icon-pagebuilder-td_block_big_grid_9,
+.wpb_element_title .icon-pagebuilder-td_block_big_grid_10,
+.wpb_element_title .icon-pagebuilder-td_block_big_grid_11,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_slide,
 .wpb_element_title .icon-pagebuilder-td_block_trending_now,
 .wpb_element_title .icon-pagebuilder-td_block_homepage_full_1,
@@ -2080,6 +2092,9 @@ title one row controls
 .td_block_big_grid_6 .wpb_element_wrapper div,
 .td_block_big_grid_7 .wpb_element_wrapper div,
 .td_block_big_grid_8 .wpb_element_wrapper div,
+.td_block_big_grid_9 .wpb_element_wrapper div,
+.td_block_big_grid_10 .wpb_element_wrapper div,
+.td_block_big_grid_11 .wpb_element_wrapper div,
 .td_block_big_grid_slide .wpb_element_wrapper div,
 .td_block_trending_now .wpb_element_wrapper div,
 .td_block_homepage_full_1 .wpb_element_wrapper div,
@@ -2129,6 +2144,9 @@ title one row controls
 .td_block_big_grid_6 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_7 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_8 .wpb_element_wrapper div[name="custom_title"],
+.td_block_big_grid_9 .wpb_element_wrapper div[name="custom_title"],
+.td_block_big_grid_10 .wpb_element_wrapper div[name="custom_title"],
+.td_block_big_grid_11 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_slide .wpb_element_wrapper div[name="custom_title"],
 .td_block_trending_now .wpb_element_wrapper div[name="custom_title"],
 .td_block_homepage_full_1 .wpb_element_wrapper div[name="custom_title"],
@@ -2263,6 +2281,15 @@ title one row controls
 }
 .icon-pagebuilder-td_block_big_grid_8 {
   background-image: url('../../../../images/pagebuilder/big-grid-8.png') !important;
+}
+.icon-pagebuilder-td_block_big_grid_9 {
+  background-image: url('../../../../images/pagebuilder/big-grid-9.png') !important;
+}
+.icon-pagebuilder-td_block_big_grid_10 {
+  background-image: url('../../../../images/pagebuilder/big-grid-10.png') !important;
+}
+.icon-pagebuilder-td_block_big_grid_11 {
+  background-image: url('../../../../images/pagebuilder/big-grid-11.png') !important;
 }
 .icon-pagebuilder-td_block_big_grid_slide {
   background-image: url('../../../../images/pagebuilder/grid-slide.png') !important;
