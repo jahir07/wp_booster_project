@@ -49,9 +49,14 @@ jQuery().ready(function jQuery_ready() {
     td_smart_list_dropdown();
 
     // the top menu date
-    if ((typeof tds_date_i18n_format !== 'undefined') && (typeof tds_date_i18n_timestamp !== 'undefined')) {
-        var tdDateI18n = date_i18n(tds_date_i18n_format, tds_date_i18n_timestamp);
-        jQuery('.td_data_time').text(tdDateI18n);
+    if (typeof tdsDateFormat !== 'undefined') {
+
+        // php time() equivalent - js deals in milliseconds and php in seconds
+        var tdsDateTimestamp = Math.floor(new Date().getTime() / 1000);
+
+        // replace the date
+        var tdNewDateI18n = td_date_i18n(tdsDateFormat, tdsDateTimestamp);
+        jQuery('.td_data_time').text(tdNewDateI18n);
     }
 
 }); //end on load

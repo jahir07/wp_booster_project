@@ -1,4 +1,4 @@
-function date_i18n(format, timestamp) {
+function td_date_i18n(format, timestamp) {
     // http://kevin.vanzonneveld.net
     // +   original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
     // +      parts by: Peter-Paul Koch (http://www.quirksmode.org/js/beat.html)
@@ -81,13 +81,13 @@ function date_i18n(format, timestamp) {
             return _pad(f.j(), 2);
         },
         D: function () { // Shorthand day name; Mon...Sun
-            return DATE_I18N.day_names_short[f.w()];
+            return tdDateNamesI18n.day_names_short[f.w()];
         },
         j: function () { // Day of month; 1..31
             return jsdate.getDate();
         },
         l: function () { // Full day name; Monday...Sunday
-            return DATE_I18N.day_names[f.w()];
+            return tdDateNamesI18n.day_names[f.w()];
         },
         N: function () { // ISO-8601 day of week; 1[Mon]..7[Sun]
             return f.w() || 7;
@@ -118,13 +118,13 @@ function date_i18n(format, timestamp) {
 
         // Month
         F: function () { // Full month name; January...December
-            return DATE_I18N.month_names[f.n() - 1];
+            return tdDateNamesI18n.month_names[f.n() - 1];
         },
         m: function () { // Month w/leading 0; 01...12
             return _pad(f.n(), 2);
         },
         M: function () { // Shorthand month name; Jan...Dec
-            return DATE_I18N.month_names_short[f.n() - 1];
+            return tdDateNamesI18n.month_names_short[f.n() - 1];
         },
         n: function () { // Month; 1...12
             return jsdate.getMonth() + 1;
