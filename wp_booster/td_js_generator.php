@@ -46,10 +46,10 @@ function td_js_generator() {
 
         // get months and days
         global $wp_locale;
-        $monthNames = array_map(array(&$wp_locale, 'get_month'), range(1, 12));
-        $monthNamesShort = array_map(array(&$wp_locale, 'get_month_abbrev'), $monthNames);
-        $dayNames = array_map(array(&$wp_locale, 'get_weekday'), range(0, 6));
-        $dayNamesShort = array_map(array(&$wp_locale, 'get_weekday_abbrev'), $dayNames);
+        $monthNames = array_map(array($wp_locale, 'get_month'), range(1, 12));
+        $monthNamesShort = array_map(array($wp_locale, 'get_month_abbrev'), $monthNames);
+        $dayNames = array_map(array($wp_locale, 'get_weekday'), range(0, 6));
+        $dayNamesShort = array_map(array($wp_locale, 'get_weekday_abbrev'), $dayNames);
 
         td_js_buffer::add_variable('tdDateNamesI18n', array(
             "month_names" => $monthNames,
