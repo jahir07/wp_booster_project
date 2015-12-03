@@ -100,6 +100,22 @@
         </div>
     </div>
 
+    <!-- footer logo alt -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">LOGO ALT ATTRIBUTE</span>
+            <p><a target="_blank" href="http://www.w3schools.com/tags/att_img_alt.asp">Alt attribute</a> for the logo. This is the alternative text if the logo cannot be displayed. It's useful for SEO and generally is the name of the site.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::input(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_footer_logo_alt'
+            ));
+            ?>
+        </div>
+    </div>
+
     <!-- footer text -->
     <div class="td-box-row td-custom-css">
         <div class="td-box-description">
