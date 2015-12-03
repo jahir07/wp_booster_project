@@ -6,6 +6,13 @@
             <?php echo td_global::$td_wp_admin_text_list['text_smart_sidebar_widget_support'] ?>
         </div>
 
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <span class="td-box-title">Warning</span>
+            <p>If you plan to use Google Adsense in the sidebar don't enable this feature. Google's policy doesn't allow placing the ad in a "floating box", you can read more about it <a target="_blank" href="https://support.google.com/adsense/answer/1354742?hl=en">here</a>.</p>
+        </div>
+    </div>
+
 
 
         <div class="td-box-row">
