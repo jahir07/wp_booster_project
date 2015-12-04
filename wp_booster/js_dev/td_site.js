@@ -568,7 +568,7 @@ function td_post_template_6_title() {
 //used for smart lists
 function td_smart_lists_magnific_popup() {
     //magnific popup
-    jQuery(".td-slide-smart-list-figure").magnificPopup({
+    jQuery(".td-lightbox-enabled").magnificPopup({
         delegate: "a",
         type: "image",
         tLoading: "Loading image #%curr%...",
@@ -616,6 +616,7 @@ function td_smart_lists_magnific_popup() {
             },
             beforeClose: function() {
                 if (tdModalImageLastEl != '') {
+
                     tdUtil.scrollIntoView(tdModalImageLastEl);
                 }
             }
