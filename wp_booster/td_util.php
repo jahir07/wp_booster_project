@@ -113,10 +113,10 @@ class td_util {
      * @return bool
      */
     static function is_ad_spot_enabled($ad_spot_id) {
-        if (isset(td_global::$td_options['td_ads'][$ad_spot_id]['ad_code'])) {
-            return true;
-        } else {
+        if (empty(td_global::$td_options['td_ads'][$ad_spot_id]['ad_code'])) {
             return false;
+        } else {
+            return true;
         }
     }
 

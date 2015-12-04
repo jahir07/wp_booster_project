@@ -42,17 +42,16 @@ function td_js_generator() {
         if ($td_date_i18n_format == '') {
             $td_date_i18n_format = 'l, F j, Y';
         }
-        td_js_buffer::add_variable('tds_date_i18n_format', $td_date_i18n_format);
-        td_js_buffer::add_variable('tds_date_i18n_timestamp', time());
+        td_js_buffer::add_variable('tdsDateFormat', $td_date_i18n_format);
 
         // get months and days
         global $wp_locale;
-        $monthNames = array_map(array(&$wp_locale, 'get_month'), range(1, 12));
-        $monthNamesShort = array_map(array(&$wp_locale, 'get_month_abbrev'), $monthNames);
-        $dayNames = array_map(array(&$wp_locale, 'get_weekday'), range(0, 6));
-        $dayNamesShort = array_map(array(&$wp_locale, 'get_weekday_abbrev'), $dayNames);
+        $monthNames = array_map(array($wp_locale, 'get_month'), range(1, 12));
+        $monthNamesShort = array_map(array($wp_locale, 'get_month_abbrev'), $monthNames);
+        $dayNames = array_map(array($wp_locale, 'get_weekday'), range(0, 6));
+        $dayNamesShort = array_map(array($wp_locale, 'get_weekday_abbrev'), $dayNames);
 
-        td_js_buffer::add_variable('DATE_I18N', array(
+        td_js_buffer::add_variable('tdDateNamesI18n', array(
             "month_names" => $monthNames,
             "month_names_short" => $monthNamesShort,
             "day_names" => $dayNames,

@@ -100,6 +100,50 @@
         </div>
     </div>
 
+    <!-- footer logo alt -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">LOGO ALT ATTRIBUTE</span>
+            <p><a target="_blank" href="http://www.w3schools.com/tags/att_img_alt.asp">Alt attribute</a> for the logo. This is the alternative text if the logo cannot be displayed. It's useful for SEO and generally is the name of the site.
+                <?php td_util::tooltip_html('
+                        <h3>Footer Logo ALT:</h3>
+                        <p>If you don\'t set the footer alt attribute the theme will use the one set for the header logo.</p>
+
+                ', 'right')?>
+            </p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::input(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_footer_logo_alt'
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- footer logo title -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">LOGO TITLE ATTRIBUTE</span>
+            <p><a target="_blank" href="http://www.w3schools.com/tags/att_global_title.asp">Title attribute</a> for the logo. This attribute specifies extra information about the logo. Most browsers will show a tooltip with this text on logo hover.
+                <?php td_util::tooltip_html('
+                        <h3>Footer Logo TITLE:</h3>
+                        <p>If you don\'t set the footer title attribute the theme will use the one set for the header logo.</p>
+
+                ', 'right')?>
+            </p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::input(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_footer_logo_title'
+            ));
+            ?>
+        </div>
+    </div>
+
     <!-- footer text -->
     <div class="td-box-row td-custom-css">
         <div class="td-box-description">
