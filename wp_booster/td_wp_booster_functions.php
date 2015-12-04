@@ -7,7 +7,7 @@ do_action('td_wp_booster_before');  //@todo is probably not used by anyone
 
 
 if (TD_DEPLOY_MODE == 'dev') {
-	//require_once('external/kint/Kint.class.php');
+	require_once('external/kint/Kint.class.php');
 }
 
 // theme utility files
@@ -585,8 +585,19 @@ function td_wp_title( $title, $sep ) {
 add_filter('wpseo_title', 'td_wpseo_title', 10, 1);
 function td_wpseo_title($seo_title) {
 
+	$is_smart_list = false;
+
+	if (is_singular('post')) {
+		global $post;
+
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+		if (is_array($td_post_theme_settings) && array_key_exists('smart_list_template', $td_post_theme_settings)) {
+			$is_smart_list = true;
+		}
+	}
+
 	// outside the loop, it's reliable to check the page template
-	if (!in_the_loop() && is_page_template('page-pagebuilder-latest.php')) {
+	if (!in_the_loop() && (is_page_template('page-pagebuilder-latest.php') || $is_smart_list)) {
 
 		$td_page = (get_query_var('page')) ? get_query_var('page') : 1; //rewrite the global var
 		$td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1; //rewrite the global var
