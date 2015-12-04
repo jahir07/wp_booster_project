@@ -148,12 +148,12 @@ abstract class td_module {
 
         if ($this->is_review === false) {
             if (td_util::get_option('tds_p_show_author_name') != 'hide') {
-                $buffy .= '<div class="td-post-author-name">';
+                $buffy .= '<span class="td-post-author-name">';
                 $buffy .= '<a itemprop="author" href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
                 if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
                     $buffy .= ' <span>-</span> ';
                 }
-                $buffy .= '</div>';
+                $buffy .= '</span>';
             }
 
         }
@@ -178,10 +178,10 @@ abstract class td_module {
         } else {
             if (td_util::get_option('tds_p_show_date') != 'hide') {
                 $td_article_date_unix = get_the_time('U', $this->post->ID);
-                $buffy .= '<div class="td-post-date">';
+                $buffy .= '<span class="td-post-date">';
                     $buffy .= '<time  itemprop="dateCreated" class="entry-date updated td-module-date' . $visibility_class . '" datetime="' . date(DATE_W3C, $td_article_date_unix) . '" >' . get_the_time(get_option('date_format'), $this->post->ID) . '</time>';
                     $buffy .= '<meta itemprop="interactionCount" content="UserComments:' . get_comments_number($this->post->ID) . '"/>';
-                $buffy .= '</div>';
+                $buffy .= '</span>';
             }
         }
 

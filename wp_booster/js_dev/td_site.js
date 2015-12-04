@@ -27,7 +27,7 @@ jQuery().ready(function jQuery_ready() {
 
 
     // the mobile pull left menu (off canvas)
-    td_mobile_menu();
+    //td_mobile_menu();
 
     //handles the toogle efect on mobile menu
     td_mobile_menu_toogle();
@@ -215,68 +215,108 @@ function td_resize_videos() {
 
 //handles mobile menu
 function td_mobile_menu() {
-    jQuery('#td-top-mobile-toggle a, .td-mobile-close a').click(function(){
-        if(jQuery('body').hasClass('td-menu-mob-open-menu')) {
-            jQuery('body').removeClass('td-menu-mob-open-menu');
-        } else {
-            if (tdDetect.isMobileDevice) {
-                // on mobile devices scroll to top instantly and wait a bit and open the menu
-                window.scrollTo(0, 0);
-                setTimeout(function(){
-                    jQuery('body').addClass('td-menu-mob-open-menu');
-                }, 100);
-            } else {
-                // on desktop open it with full animations
-                jQuery('body').addClass('td-menu-mob-open-menu');
-                setTimeout(function(){
-                    tdUtil.scrollToPosition(0, 1200);
-                }, 200);
-            }
-        }
-    });
+    //jQuery('#td-top-mobile-toggle a, .td-mobile-close a').click(function(){
+    //    if(jQuery('body').hasClass('td-menu-mob-open-menu')) {
+    //        jQuery('body').removeClass('td-menu-mob-open-menu');
+    //    } else {
+    //        if (tdDetect.isMobileDevice) {
+    //            // on mobile devices scroll to top instantly and wait a bit and open the menu
+    //            window.scrollTo(0, 0);
+    //            setTimeout(function(){
+    //                jQuery('body').addClass('td-menu-mob-open-menu');
+    //            }, 100);
+    //        } else {
+    //            // on desktop open it with full animations
+    //            jQuery('body').addClass('td-menu-mob-open-menu');
+    //            setTimeout(function(){
+    //                tdUtil.scrollToPosition(0, 1200);
+    //            }, 200);
+    //        }
+    //    }
+    //});
 }
 
 
 //handles open/close mobile menu
 function td_mobile_menu_toogle() {
 
-    jQuery('#td-mobile-nav .menu-item-has-children ul').hide();
+    //jQuery('#td-mobile-nav .menu-item-has-children ul').hide();
+    //
+    ////move thru all the menu and find the item with sub-menues to atach a custom class to them
+    //jQuery(document).find('#td-mobile-nav .menu-item-has-children').each(function(i) {
+    //
+    //    var class_name = 'td_mobile_elem_with_submenu_' + i;
+    //    jQuery(this).addClass(class_name);
+    //
+    //    //add an element to click on
+    //    //jQuery(this).children("a").append('<div class="td-element-after" data-parent-class="' + class_name + '"></div>');
+    //    jQuery(this).children("a").append('<i class="td-icon-menu-down td-element-after" data-parent-class="' + class_name + '"></i>');
+    //
+    //
+    //    //click on link elements with #
+    //    jQuery(this).children("a").addClass("td-link-element-after").attr("data-parent-class", class_name);
+    //});
+    //
+    //jQuery(".td-element-after, .td-link-element-after").click(function(event) {
+    //
+    //    if(jQuery(this).hasClass("td-element-after") || jQuery(this).attr("href") == "#" ){
+    //        event.preventDefault();
+    //        event.stopPropagation();
+    //    }
+    //
+    //
+    //    //take the li parent class
+    //    var parent_class = jQuery(this).data('parent-class');
+    //
+    //    //target the sub-menu to open
+    //    var target_to_open = '#td-mobile-nav .' + parent_class + ' > a + ul';
+    //    if(jQuery(target_to_open).css('display') == 'none') {
+    //        jQuery(target_to_open).show();
+    //    } else {
+    //        jQuery(target_to_open).hide();
+    //    }
+    //
+    //
+    //});
 
-    //move thru all the menu and find the item with sub-menues to atach a custom class to them
-    jQuery(document).find('#td-mobile-nav .menu-item-has-children').each(function(i) {
-
-        var class_name = 'td_mobile_elem_with_submenu_' + i;
-        jQuery(this).addClass(class_name);
-
-        //add an element to click on
-        //jQuery(this).children("a").append('<div class="td-element-after" data-parent-class="' + class_name + '"></div>');
-        jQuery(this).children("a").append('<i class="td-icon-menu-down td-element-after" data-parent-class="' + class_name + '"></i>');
-
-
-        //click on link elements with #
-        jQuery(this).children("a").addClass("td-link-element-after").attr("data-parent-class", class_name);
+    jQuery( '#td-top-mobile-toggle a, .td-mobile-close a' ).click(function(){
+        if ( jQuery( 'body' ).hasClass( 'td-menu-mob-open-menu' ) ) {
+            jQuery( 'body' ).removeClass( 'td-menu-mob-open-menu' );
+        } else {
+            jQuery( 'body' ).addClass( 'td-menu-mob-open-menu' );
+        }
     });
 
-    jQuery(".td-element-after, .td-link-element-after").click(function(event) {
 
-        if(jQuery(this).hasClass("td-element-after") || jQuery(this).attr("href") == "#" ){
-            event.preventDefault();
-            event.stopPropagation();
-        }
+    //handles open/close mobile menu
 
+    //move thru all the menu and find the item with sub-menues to atach a custom class to them
+    jQuery( document ).find( '#td-mobile-nav .menu-item-has-children' ).each(function( i ) {
 
-        //take the li parent class
-        var parent_class = jQuery(this).data('parent-class');
+        var class_name = 'td_mobile_elem_with_submenu_' + i;
+        jQuery(this).addClass( class_name );
 
-        //target the sub-menu to open
-        var target_to_open = '#td-mobile-nav .' + parent_class + ' > a + ul';
-        if(jQuery(target_to_open).css('display') == 'none') {
-            jQuery(target_to_open).show();
-        } else {
-            jQuery(target_to_open).hide();
-        }
+        //click on link elements with #
+        jQuery(this).children('a').addClass( 'td-link-element-after' );
 
+        jQuery(this).click(function( event ) {
 
+            /**
+             * currentTarget - the li element
+             * target - the element clicked inside of the currentTarget
+             */
+
+            var jQueryTarget = jQuery( event.target );
+
+            // html i element
+            if ( jQueryTarget.length && ( jQueryTarget.hasClass( 'td-element-after') || jQueryTarget.hasClass( 'td-link-element-after') && ( undefined === jQueryTarget.attr( 'href' ) ) ) ) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                jQuery( this ).toggleClass( 'td-sub-menu-open' );
+            }
+        });
     });
 }
 
