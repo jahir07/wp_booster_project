@@ -407,6 +407,9 @@ a.td-tooltip {
 .td-ico-invoice {
   background: transparent url("../images/panel/panel-icons/ico-invoice.png") no-repeat;
 }
+.td-ico-mobile {
+  background: transparent url("../images/panel/panel-icons/ico-mobile.png") no-repeat;
+}
 .td-panel-menu {
   margin: 0;
   /* navigation links */

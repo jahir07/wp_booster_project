@@ -46,6 +46,22 @@ var td_ajax_search = {
             }
         });
 
+        // show and hide the drop down on the search icon for mobile
+        jQuery('#td-header-search-button-mob').click(function(event){
+            jQuery( 'body' ).addClass( 'td-search-opened' );
+            //event.preventDefault();
+            //if (td_ajax_search._is_search_open === true) {
+            //    td_ajax_search.hide_search_box();
+            //
+            //} else {
+            //    td_ajax_search.show_search_box();
+            //}
+        });
+        //close the search
+        jQuery( '.td-search-close a' ).click(function(){
+            jQuery( 'body' ).removeClass( 'td-search-opened' );
+        });
+
 
         // keydown on the text box
         jQuery('#td-header-search').keydown(function(event) {
