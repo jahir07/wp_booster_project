@@ -149,6 +149,8 @@ class td_panel_data_source {
                 break;
             case 'td_update_theme_options':
                 break;
+            case 'td_unregistered': // used for unregistered data sources - panel generator input fields
+                break;
 
 
             default:
