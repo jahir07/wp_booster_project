@@ -666,7 +666,21 @@ class td_page_generator {
                         tdAjaxLoop.loopState.sidebarPosition = '<?php echo $loop_sidebar_position ?>';
                         tdAjaxLoop.loopState.moduleId = '<?php echo $loop_module_id ?>';
                         tdAjaxLoop.loopState.currentPage = 1;
-                        tdAjaxLoop.loopState.max_num_pages = <?php echo $wp_query->max_num_pages ?>;
+
+	                    /*
+	                        The max_num_pages and the currentPage are used to show the loading box element on page (and also a new request), and according to wp docs
+	                        the max_num_pages = $found_posts / $posts_per_page, so we must consider the offset query var when $posts_per_page
+	                        is different from -1 (-1 means to show all posts)
+
+	                        !Important. For the moment, it's used only for categories.
+	                     */
+
+                        if ( -1 === <?php echo $wp_query->max_num_pages ?>) {
+		                    tdAjaxLoop.loopState.max_num_pages = <?php echo $wp_query->max_num_pages ?>;
+	                    } else {
+		                    tdAjaxLoop.loopState.max_num_pages = <?php echo ceil(($wp_query->found_posts - $wp_query->query_vars['offset']) / $wp_query->query_vars['posts_per_page']); ?>;
+	                    }
+
                         tdAjaxLoop.loopState.atts = {
                             'category_id':<?php echo $wp_query->query_vars['cat'] ?>,
                             'offset':<?php echo $wp_query->query_vars['offset'] ?>
