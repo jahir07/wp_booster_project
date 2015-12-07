@@ -93,6 +93,10 @@ class td_demo_history {
 class td_demo_state {
 
 
+	/**
+	 * @param $demo_id
+	 * @param $demo_install_type
+	 */
     static function update_state($demo_id, $demo_install_type) {
         $new_state = array(
             'demo_id' => $demo_id,

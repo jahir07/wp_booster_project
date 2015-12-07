@@ -90,7 +90,7 @@ var tdAjaxLoop = {};
             tdAjaxLoop.loopState.server_reply_html_data = '';
 
             // check here to avoid making an unnecessary ajax request when using infinite loading without button
-            if ( tdAjaxLoop.loopState.currentPage >= tdAjaxLoop.loopState.max_num_pages ) {
+            if ( tdAjaxLoop.loopState.currentPage > tdAjaxLoop.loopState.max_num_pages ) {
                 //console.log('END' + tdAjaxLoop.loopState.currentPage + ' max: ' + tdAjaxLoop.loopState.max_num_pages);
                 return;
             }
