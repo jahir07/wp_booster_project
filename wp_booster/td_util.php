@@ -889,6 +889,20 @@ class td_util {
     }
 
 
+	/**
+	 * Checks if a demo is loaded. If one is loaded the function returns the demo NAME/ID. If no demo is loaded we get FALSE
+	 * @see td_demo_state::update_state
+	 * @return bool|string - false if no demo is loaded OR string - the demo id
+	 */
+	static function get_loaded_demo_id() {
+		$demo_state = get_option(TD_THEME_NAME . '_demo_state');  // get the current loaded demo... from wp cache
+		if (!empty($demo_state['demo_id'])) {
+			return $demo_state['demo_id'];
+		}
+
+		return false;
+	}
+
 }//end class td_util
 
 
