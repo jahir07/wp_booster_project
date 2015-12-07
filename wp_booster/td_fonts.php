@@ -672,6 +672,7 @@ class td_fonts {
         650 => 'Yeseva One',
         651 => 'Yesteryear',
         652 => 'Zeyada',
+        653 => 'Work Sans',
     );
 
 
