@@ -33,9 +33,15 @@ class td_api_category_top_posts_style extends td_api_base {
 	}
 
 
-    static function get_all() {
-        return parent::get_all_components_metadata(__CLASS__);
-    }
+	static function get_all($group = '') {
+		$components = parent::get_all_components_metadata(__CLASS__);
+		foreach ($components as $component_key => $component_value) {
+			if (array_key_exists('group', $component_value) && $component_value['group'] !== $group) {
+				unset($components[$component_key]);
+			}
+		}
+		return $components;
+	}
 
 
 
