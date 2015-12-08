@@ -4,7 +4,7 @@
         var resetInputField = document.forms["td_panel_reset_settings"]["td_unregistered[tds_reset_theme_options]"];
 
         if (resetInputField.value != "reset") {
-            alert('Reset failed!\nMake sure you added "reset" on the input field.');
+            alert('Please make sure you wrote "reset" on the input field.');
 
             // clear field value
             resetInputField.value = '';
