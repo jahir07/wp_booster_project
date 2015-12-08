@@ -1,5 +1,16 @@
 <?php
 
+
+if (isset($_GET['td_change_demo_to'])) {
+	if (isset(td_global::$demo_list[$_GET['td_change_demo_to']])) {
+		td_demo_state::update_state($_GET['td_change_demo_to'], 'full');
+	} else {
+		echo "TD_DEMO DEBUG: NO DEMO REGISTERED WITH THAT ID!!!!!";
+	}
+
+}
+
+
 require_once "td_view_header.php";
 ?>
 <div class="about-wrap td-admin-wrap">
@@ -61,7 +72,7 @@ require_once "td_view_header.php";
     $td_remote_http = td_util::get_option('td_remote_http');
 
     if (empty($td_remote_http['test_status'])) {
-//	    // not runned yet
+//	    // not runned yet - DO NOTHING BECAUSE IT CREATES PANIC if not runned yet is shown
 //	    td_system_status::add('Theme config', array(
 //		    'check_name' => 'HTTP channel test',
 //		    'tooltip' => 'The test will run when the theme has to get information from other sites. Like the number of likes, tweets etc...',
@@ -86,6 +97,33 @@ require_once "td_view_header.php";
 		    'status' => 'green'
 	    ));
     }
+
+
+	$td_demo = td_demo_state::get_installed_demo();
+	if ($td_demo !== false) {
+
+		$td_demo_api_data = td_global::$demo_list[$td_demo['demo_id']];
+
+
+		// The demo id + install type
+		td_system_status::add('Theme config', array(
+			'check_name' => 'Installed demo',
+			'tooltip' => '
+			Here you can see the installed demo id and the install type. All of our demos can be installed and uninstalled using the - Install demos - panel
+
+			',
+			'value' =>
+				$td_demo_api_data['text']  .
+				'<span class="td-status-small-text">' .
+				' - demo ID: ' . $td_demo['demo_id'] . ' | install type: ' . $td_demo['demo_install_type'] . '<br>' .
+				'</span>'
+			,
+			'status' => 'info'
+		));
+	}
+
+
+
 
 
     // Theme mobile version
@@ -149,7 +187,6 @@ require_once "td_view_header.php";
 		    ));
 	    }
     }
-
     td_set_mobile_theme_settings();
 
 

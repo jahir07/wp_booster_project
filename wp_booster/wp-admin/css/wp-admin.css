@@ -2937,6 +2937,8 @@ title one row controls
   text-align: center;
   line-height: 13px;
   cursor: pointer;
+  position: relative;
+  top: 2px;
 }
 .td-system-status-green {
   background-color: #58AD58;
