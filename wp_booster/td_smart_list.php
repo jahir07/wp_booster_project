@@ -174,21 +174,21 @@ abstract class td_smart_list {
             // first page
             $buffy .= '<div class="td-smart-list-pagination">';
                 $buffy .= '<span class="td-smart-list-button td-smart-back td-smart-disable"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</span>';
-                $buffy .= '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+                $buffy .= '<a class="td-smart-list-button td-smart-next" rel="next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
             $buffy .= '</div>';
         }
         elseif ($current_page == $total_pages) {
             // last page
             $buffy .= '<div class="td-smart-list-pagination">';
-                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" rel="prev" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
                 $buffy .= '<span class="td-smart-list-button td-smart-next td-smart-disable">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></span>';
             $buffy .= '</div>';
         }
         else {
             // middle page
             $buffy .= '<div class="td-smart-list-pagination">';
-                $buffy .= '<a class="td-smart-list-button td-smart-back" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
-                $buffy .=  '<a class="td-smart-list-button td-smart-next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
+                $buffy .= '<a class="td-smart-list-button td-smart-back" rel="prev" href="' . $this->_wp_link_page($current_page - 1) . '"><i class="td-icon-left"></i>' .__td('Back', TD_THEME_NAME). '</a>';
+                $buffy .=  '<a class="td-smart-list-button td-smart-next" rel="next" href="' . $this->_wp_link_page($current_page + 1) . '">' .__td('Next', TD_THEME_NAME). '<i class="td-icon-right"></i></a>';
             $buffy .= '</div>';
         }
 
@@ -477,7 +477,9 @@ class td_tokenizer {
             'title' => '',
             'first_img_id' => '',
             'description' => '',
-            'read_more_link' => ''
+            'read_more_link' => '',
+            'first_img_link' => '',
+            'first_img_caption' => ''
         );
     }
 
@@ -633,6 +635,8 @@ class td_tokenizer {
 
             $this->current_list_item['first_img_id'] = $this->get_image_id_from_token($token);
             $this->current_list_item['first_img_link'] = $this->get_image_link_from_token($token);
+            $this->current_list_item['first_img_caption'] = $this->get_caption_from_token($token);
+
             return true;
         } else {
             return false;
@@ -722,6 +726,17 @@ class td_tokenizer {
     private function get_image_link_from_token($token) {
         $matches = array();
         preg_match('/href="([^\\"]+)"/', $token, $matches);
+        if (!empty($matches[1])) {
+            return $matches[1];
+        } else {
+            return '';
+        }
+    }
+
+
+    private function get_caption_from_token($token) {
+        $matches = array();
+        preg_match('/<figcaption[^<>]*>([^<]*)<\/figcaption>/', $token, $matches);
         if (!empty($matches[1])) {
             return $matches[1];
         } else {
