@@ -1,18 +1,41 @@
+<!-- used to validate the theme settings reset input value -->
+<script type="text/javascript">
+    function tdValidateReset() {
+        var resetInputField = document.forms["td_panel_reset_settings"]["td_unregistered[tds_reset_theme_options]"];
+
+        if (resetInputField.value != "reset") {
+            alert('Reset failed!\nMake sure you added "reset" on the input field.');
+
+            // clear field value
+            resetInputField.value = '';
+            return false;
+        }
+        return true;
+    }
+</script>
+
 <?php
+
 $show_update_msg = 0;
 
 if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_theme_settings') {
 
-    if(!empty($_POST['td_update_theme_options']['tds_update_theme_options'])) {
-        if(update_option(TD_THEME_OPTIONS_NAME, @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options'])))) {
+    if (!empty($_POST['td_update_theme_options']['tds_update_theme_options'])) {
+        if (update_option(TD_THEME_OPTIONS_NAME, @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options'])))) {
             $show_update_msg = 1;
         }
     }
+}
 
+if(!empty($_REQUEST['action_reset']) and $_REQUEST['action_reset'] == 'reset_theme_settings') {
+
+    if($_POST['td_unregistered']['tds_reset_theme_options'] == 'reset') {
+        if(delete_option(TD_THEME_OPTIONS_NAME)) {
+            $show_update_msg = 2;
+        }
+    }
 }
 ?>
-<form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_import=import_theme_settings" method="post" onsubmit="return confirm('Are you sure you want to import this settings?\nIt will overwrite the one that you have now!');">
-<input type="hidden" name="action" value="td_ajax_update_panel">
 <div class="td_displaying_saving"></div>
 <div class="td_wrapper_saving_gifs">
     <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
@@ -54,54 +77,89 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
 	        </div>
 	        <div id="td-col-right" class="td-panel-content" style="min-height: 900px">
 
-	            <!-- Export theme settings -->
-	            <div id="td-panel-welcome" class="td-panel-active td-panel">
+            <div id="td-panel-welcome" class="td-panel-active td-panel">
 
-	                <?php echo td_panel_generator::box_start('Importing / exporting theme settings'); ?>
+                <?php echo td_panel_generator::box_start('Importing / exporting theme settings'); ?>
 
-	                <div class="td-box-row">
-	                    <div class="td-box-description td-box-full">
-	                        <span class="td-box-title">EXPORT THEME SETTINGS</span>
-	                        <p>
-	                            This box contains all the panel options encoded as a string so you can easily copy them and move them to another server.
-	                        </p>
-	                    </div>
-	                    <div class="td-box-control-full">
-	                        <?php
-	                        echo td_panel_generator::textarea(array(
-	                            'ds' => 'td_read_theme_options',
-	                            'option_id' => 'tds_read_theme_options',
-	                            'value' => base64_encode(serialize(get_option(TD_THEME_OPTIONS_NAME)))
-	                        ));
-	                        ?>
-	                    </div>
-	                    <div class="td-box-row-margin-bottom"></div>
-	                </div>
+                <!-- Import/Export theme settings -->
+                <form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_import=import_theme_settings" method="post" onsubmit="return confirm('Are you sure you want to import this settings?\nIt will overwrite the one that you have now!');">
+                    <input type="hidden" name="action" value="td_ajax_update_panel">
 
+                        <div class="td-box-row">
+                            <div class="td-box-description td-box-full">
+                                <span class="td-box-title">EXPORT THEME SETTINGS</span>
+                                <p>
+                                    This box contains all the panel options encoded as a string so you can easily copy them and move them to another server.
+                                </p>
+                            </div>
+                            <div class="td-box-control-full">
+                                <?php
+                                // encode only if the value is set - else it displays some strange characters
+                                $td_read_theme_settings = get_option(TD_THEME_OPTIONS_NAME);
+                                if (!empty($td_read_theme_settings)) {
+                                    $td_read_theme_settings = base64_encode(serialize(get_option(TD_THEME_OPTIONS_NAME)));
+                                }
+                                echo td_panel_generator::textarea(array(
+                                    'ds' => 'td_unregistered',
+                                    'option_id' => 'tds_read_theme_options',
+                                    'value' => $td_read_theme_settings
+                                ));
+                                ?>
+                            </div>
+                            <div class="td-box-row-margin-bottom"></div>
+                        </div>
 
+                        <div class="td-box-row">
+                            <div class="td-box-description td-box-full">
+                                <span class="td-box-title">IMPORT THEME SETTINGS</span>
+                                <p>Paste your theme settings string here and the theme will load them into the database</p>
+                            </div>
+                            <div class="td-box-control-full">
+                                <?php
+                                echo td_panel_generator::textarea(array(
+                                    'ds' => 'td_update_theme_options',
+                                    'option_id' => 'tds_update_theme_options'
+                                ));
+                                ?>
+                            </div>
+                            <div class="td-box-row-margin-bottom"></div>
+                        </div>
 
-	                <div class="td-box-row">
-	                    <div class="td-box-description td-box-full">
-	                        <span class="td-box-title">IMPORT THEME SETTINGS</span>
-	                        <p>Paste your theme settings string here and the theme will load them into the database</p>
-	                    </div>
-	                    <div class="td-box-control-full">
-	                        <?php
-	                        echo td_panel_generator::textarea(array(
-	                            'ds' => 'td_update_theme_options',
-	                            'option_id' => 'tds_update_theme_options'
-	                        ));
-	                        ?>
-	                    </div>
-	                    <div class="td-box-row-margin-bottom"></div>
-	                </div>
+                    <div class="td-box-row">
+                        <input type="submit" class="td-big-button td-button-remove-border" name="action" value="Import theme settings">
+                    </div>
 
-	                <div class="td-box-row">
-	                    <input type="submit" class="td-big-button td-button-remove-border" value="Import theme settings">
-	                </div>
+                    <div class="td-box-section-separator"></div>
+                </form>
 
-	                <?php echo td_panel_generator::box_end();?>
-	            </div>
+                <!-- Reset theme settings -->
+                <form id="td_panel_reset_settings" name="td_panel_reset_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_reset=reset_theme_settings" method="post" onsubmit="return tdValidateReset();">
+                    <input type="hidden" name="action" value="td_ajax_update_panel">
+
+                        <div class="td-box-row">
+                            <div class="td-box-description td-box-full">
+                                <span class="td-box-title">RESET THEME SETTINGS</span>
+                                <p>To reset the theme settings enter "reset" in the following field and press the "Reset theme settings" button. </p>
+                            </div>
+                            <div class="td-box-control-full">
+                                <?php
+                                echo td_panel_generator::input(array(
+                                    'ds' => 'td_unregistered',
+                                    'option_id' => 'tds_reset_theme_options',
+                                    'placeholder' => 'reset',
+                                ));
+                                ?>
+                            </div>
+                            <div class="td-box-row-margin-bottom"></div>
+                        </div>
+
+                    <div class="td-box-row">
+                        <input type="submit" class="td-big-button td-button-remove-border" name="action" value="Reset theme settings">
+                    </div>
+                </form>
+
+                <?php echo td_panel_generator::box_end();?>
+            </div>
 
 
 	        </div>
@@ -113,7 +171,8 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
 </div>
 
 <div class="td-clear"></div>
-</form>
+
 </div>
 <?php if($show_update_msg == 1){?><script type="text/javascript">alert('Import is done!');</script><?php }?>
+<?php if($show_update_msg == 2){?><script type="text/javascript">alert('Theme settings reset completed!');</script><?php }?>
 <br><br><br><br><br><br><br>
