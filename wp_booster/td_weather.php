@@ -515,7 +515,7 @@ class td_weather {
 
 
 
-	private function get_a_owm_key() {
+	private static function get_a_owm_key() {
 		return self::$owm_api_keys[rand(0, count(self::$owm_api_keys) - 1)];
 	}
 }
