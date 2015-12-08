@@ -142,6 +142,12 @@ abstract class td_category_template {
 
 
     protected function get_pull_down() {
+
+        // if the filter is disabled in theme panel return ''
+        if (td_util::get_option('tds_category_pull_down') == 'disable'){
+            return '';
+        }
+
         //get the `filter_by` URL ($_GET) variable
         $filter_by = get_query_var('filter_by');
 

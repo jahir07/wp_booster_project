@@ -40,6 +40,47 @@
         </div>
     </div>
 
+    <!-- Category pull-down filter -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Category pull-down filter</span>
+            <p>
+                This setting controls the display of the category pull-down filter.
+                <?php td_util::tooltip_html('
+                        <h3>Category pull-down filter:</h3>
+                        <p>This option allows you to enable or disable this filter:</p>
+                        <ul>
+                            <li>By default it\'s enabled.</li>
+                            <li>This filter allows you to set a different post sort order and it can be found on the top section of the category page.</li>
+                            <li>If you select "Disable" this filter will be removed from all category pages.</li>
+                        </ul>
+                ', 'right')?>
+            </p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_category_pull_down',
+                'values' => array(
+                    array(
+                        'text' => 'Enable',
+                        'title' => '',
+                        'val' => '',
+                        'img' => get_template_directory_uri() . '/images/panel/category_pull_down/pull-down-enable.png'
+                    ),
+                    array(
+                        'text' => 'Disable',
+                        'title' => '',
+                        'val' => 'disable',
+                        'img' => get_template_directory_uri() . '/images/panel/category_pull_down/pull-down-disable.png'
+                    )
+                ))
+            );
+            ?>
+        </div>
+    </div>
+
 
 
 <div class="td-box-section-separator"></div>
