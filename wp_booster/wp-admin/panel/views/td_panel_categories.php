@@ -52,7 +52,7 @@
                         <ul>
                             <li>By default it\'s enabled.</li>
                             <li>This filter allows you to set a different post sort order and it can be found on the top section of the category page.</li>
-                            <li>If you select disable this filter will be removed from all category pages.</li>
+                            <li>If you select "Disable" this filter will be removed from all category pages.</li>
                         </ul>
                 ', 'right')?>
             </p>
