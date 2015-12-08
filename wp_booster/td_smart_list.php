@@ -477,7 +477,9 @@ class td_tokenizer {
             'title' => '',
             'first_img_id' => '',
             'description' => '',
-            'read_more_link' => ''
+            'read_more_link' => '',
+            'first_img_link' => '',
+            'first_img_caption' => ''
         );
     }
 
@@ -633,6 +635,8 @@ class td_tokenizer {
 
             $this->current_list_item['first_img_id'] = $this->get_image_id_from_token($token);
             $this->current_list_item['first_img_link'] = $this->get_image_link_from_token($token);
+            $this->current_list_item['first_img_caption'] = $this->get_caption_from_token($token);
+
             return true;
         } else {
             return false;
@@ -722,6 +726,17 @@ class td_tokenizer {
     private function get_image_link_from_token($token) {
         $matches = array();
         preg_match('/href="([^\\"]+)"/', $token, $matches);
+        if (!empty($matches[1])) {
+            return $matches[1];
+        } else {
+            return '';
+        }
+    }
+
+
+    private function get_caption_from_token($token) {
+        $matches = array();
+        preg_match('/<figcaption[^<>]*>([^<]*)<\/figcaption>/', $token, $matches);
         if (!empty($matches[1])) {
             return $matches[1];
         } else {
