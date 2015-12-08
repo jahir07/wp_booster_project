@@ -30,6 +30,27 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
 if(!empty($_REQUEST['action_reset']) and $_REQUEST['action_reset'] == 'reset_theme_settings') {
 
     if($_POST['td_unregistered']['tds_reset_theme_options'] == 'reset') {
+
+        // if a demo is installed remove it
+        $installed_demo = td_demo_state::get_installed_demo();
+        if ($installed_demo !== false){
+
+            // remove demo content
+            td_demo_media::remove();
+            td_demo_content::remove();
+            td_demo_category::remove();
+            td_demo_menus::remove();
+            td_demo_widgets::remove();
+
+            // restore all settings to the state before a demo was loaded
+            $td_demo_history = new td_demo_history();
+            $td_demo_history->restore_all();
+
+            // update status to default - no demo installed
+            td_demo_state::update_state('', '');
+        }
+
+        // delete the theme settings
         if(delete_option(TD_THEME_OPTIONS_NAME)) {
             $show_update_msg = 2;
         }
@@ -139,7 +160,18 @@ if(!empty($_REQUEST['action_reset']) and $_REQUEST['action_reset'] == 'reset_the
                         <div class="td-box-row">
                             <div class="td-box-description td-box-full">
                                 <span class="td-box-title">RESET THEME SETTINGS</span>
-                                <p>To reset the theme settings enter "reset" in the following field and press the "Reset theme settings" button. </p>
+                                <p>
+                                    To reset the theme settings enter "reset" in the following field and press the "Reset theme settings" button.
+                                    <?php td_util::tooltip_html('
+                                        <h3>Reset theme settings:</h3>
+                                        <p>This option allows you reset the theme settings:</p>
+                                        <ul>
+                                            <li>If a demo is installed it\'s content will also be removed.</li>
+                                            <li>The theme will return to default, as it was on it\'s first install.</li>
+                                            <li>Note that the length of this process may vary (10 - 40 seconds), please wait until the reset confirmation message appears.</li>
+                                        </ul>
+                                    ', 'right')?>
+                                </p>
                             </div>
                             <div class="td-box-control-full">
                                 <?php
