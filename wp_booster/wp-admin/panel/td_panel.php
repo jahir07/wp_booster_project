@@ -89,6 +89,9 @@ class td_panel {
             elseif ($_REQUEST['td_page'] == 'td_view_custom_fonts') {
                 include 'td_view_custom_fonts.php';
             }
+            elseif ($_REQUEST['td_page'] == 'td_view_update_newspaper_6') {
+	            include 'td_view_update_newspaper_6.php';
+            }
 
 
 
