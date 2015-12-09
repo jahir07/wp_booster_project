@@ -36,6 +36,12 @@ require_once "td_view_header.php";
             <h3>Fast start:</h3>
             <p>Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a></p>
             <p><a href="admin.php?page=td_theme_demos">Try our demos</a> on your testing site. Our demo system supports complete uninstalling + rollback to your original site.</p>
+
+
+	        <?php if (TD_THEME_NAME == 'Newspaper') { ?>
+		        <h3>Update from Newspaper 4:</h3>
+		        <p>To update from version 4 please run this <a href="admin.php?page=td_theme_panel&td_page=td_view_update_newspaper_6" onclick="return confirm('Are you sure? Please backup your site before running the update script! \n\nWARNING: THIS IMPORT SCRIPT WILL CHANGE YOUR SIDEBARS, WIDGETS, TEMPLATES ON PAGES, TEMPLATES ON POSTS AND SHORTCODES\n\nWARNING: AFTER THE IMPORT SCRIPT RUNS IT CANNOT BE ROLLED BACK AND YOU CANNOT GO BACK TO VERSION 4 ONLY FROM A DATABASE BACKUP')">update script</a>. Note: please backup your site before updating!</p>
+	        <?php } ?>
         </div>
 
 
