@@ -1,7 +1,9 @@
 <?php
 
 
-
+/**
+ * Class td_demo_history - saves and restores a history point for our demos.
+ */
 class td_demo_history {
     private $td_demo_history = array();
 
@@ -13,7 +15,12 @@ class td_demo_history {
     }
 
 
+	/**
+	 * saves one demo history ONLY. If we already have one saved, it will do nothing
+	 */
     function save_all() {
+
+	    // do not save another demo history if we already have one
         if (isset($this->td_demo_history['demo_settings_date'])) {
             return;
         }
@@ -36,18 +43,16 @@ class td_demo_history {
             }
         }
 
-        //print_r( get_option('sidebars_widgets'));
         $local_td_demo_history['theme_options'] = get_option(TD_THEME_OPTIONS_NAME);
-
-
         $local_td_demo_history['td_social_networks'] = get_option('td_social_networks');
-
         $local_td_demo_history['demo_settings_date'] = time();
         update_option(TD_THEME_NAME . '_demo_history', $local_td_demo_history);
-
     }
 
 
+	/**
+	 * Restores a demo history point. After the restore, the saved state is deleted from the database
+	 */
     function restore_all() {
         update_option('page_on_front', $this->td_demo_history['page_on_front']);
         update_option('show_on_front',  $this->td_demo_history['show_on_front']);
@@ -69,6 +74,11 @@ class td_demo_history {
     }
 
 
+	/**
+	 * returns the widget names used on each sidebar .... not 100% sure
+	 * @param $sidebar_widgets_option
+	 * @return array
+	 */
     private function get_used_widgets($sidebar_widgets_option) {
         $used_widgets = array();
         if ( is_array($sidebar_widgets_option) ) {
@@ -90,12 +100,21 @@ class td_demo_history {
 }
 
 
+
+
+
+
+/**
+ * Class td_demo_state - keeps the demo state. What demo is installed and how it's installed (full or no_content). We have a similar function in
+ * @see td_util::get_loaded_demo_id for the front end
+ */
 class td_demo_state {
 
 
 	/**
-	 * @param $demo_id
-	 * @param $demo_install_type
+	 * updates the current installed demo state
+	 * @param $demo_id string - the demo id that is installed
+	 * @param $demo_install_type string "empty"|full|no_content  (full - a full install, no_content - a settings only install)
 	 */
     static function update_state($demo_id, $demo_install_type) {
         $new_state = array(
@@ -109,6 +128,11 @@ class td_demo_state {
 
     /**
      * @return bool|array
+     *  false - if there is no demo installed
+     *  array - array(
+	                    'demo_id' => '',
+	                    'demo_install_type' => ''    "empty"|full|no_content
+                    );
      */
     static function get_installed_demo() {
         $demo_state = get_option(TD_THEME_NAME . '_demo_state');
@@ -119,6 +143,14 @@ class td_demo_state {
     }
 }
 
+
+
+
+
+
+/**
+ * Class td_demo_misc - misc stuff for demos. All the settings form here are removed via the td_demo_history when the theme settings are loaded back.
+ */
 class td_demo_misc {
 
     /**
@@ -126,6 +158,7 @@ class td_demo_misc {
      * @param $logo_params array
      */
     static function update_logo($logo_params) {
+
         if(empty($logo_params['normal'])) {
             td_util::update_option('tds_logo_upload', '');
         } else {
@@ -138,33 +171,45 @@ class td_demo_misc {
             td_util::update_option('tds_logo_upload_r', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
         }
 
-
         if (empty($logo_params['mobile'])) {
             td_util::update_option('tds_logo_menu_upload', '');
         } else {
             td_util::update_option('tds_logo_menu_upload', td_demo_media::get_image_url_by_td_id($logo_params['mobile']));
         }
-
-
-
     }
 
 
+	/**
+	 * Adds the social icons to the panel.
+	 * @param $social_icons
+	 */
     static function add_social_buttons($social_icons) {
         td_util::update_option('td_social_networks', $social_icons);
     }
 
+
+	/**
+	 * remove all the ads from the theme options. Must be called before adding custom ads
+	 */
     static function clear_all_ads() {
         td_util::update_option('td_ads', '');
     }
 
-    static function add_ad_image($ad_spot_name, $td_pic_id) {
+
+	/**
+	 * ads an ad image via a td_pic_id to an ad spot
+	 * @param $ad_spot_name - the adspot id that you want to use. You should get this from the panel or other demos
+	 * @param $td_image_id
+	 */
+    static function add_ad_image($ad_spot_name, $td_image_id) {
         $td_ad_spots = td_util::get_option('td_ads');
-        $new_ad_spot['ad_code']= '<div class="td-all-devices"><a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_pic_id) . '"/></a></div>';
+        $new_ad_spot['ad_code']= '<div class="td-all-devices"><a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_image_id) . '"/></a></div>';
         $new_ad_spot['current_ad_type']= 'other';
         $td_ad_spots[strtolower($ad_spot_name)] = $new_ad_spot;
         td_util::update_option('td_ads', $td_ad_spots);
     }
+
+
 
 
     static function update_background($td_image_id, $stretch = true) {
@@ -214,6 +259,9 @@ class td_demo_misc {
         }
     }
 }
+
+
+
 
 
 
@@ -302,6 +350,11 @@ class td_demo_category {
         }
     }
 }
+
+
+
+
+
 
 class td_demo_content {
 
@@ -493,6 +546,10 @@ class td_demo_content {
 }
 
 
+
+
+
+
 class td_demo_widgets {
 
     private static $last_widget_instance = 70;
@@ -573,6 +630,10 @@ class td_demo_widgets {
         td_util::update_option('sidebars', $tmp_sidebars);
     }
 }
+
+
+
+
 
 
 class td_demo_menus {
@@ -706,6 +767,10 @@ class td_demo_menus {
         }
     }
 }
+
+
+
+
 
 
 //$td_stacks_media->td_media_sideload_image('http://demo.tagdiv.com/newsmag/wp-content/uploads/2014/08/38.jpg', '');
