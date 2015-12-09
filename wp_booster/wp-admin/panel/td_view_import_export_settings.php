@@ -18,7 +18,7 @@
 
 $show_update_msg = 0;
 
-if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_theme_settings') {
+if(!empty($_REQUEST['action_import']) && $_REQUEST['action_import'] == 'import_theme_settings') {
 
     if (!empty($_POST['td_update_theme_options']['tds_update_theme_options'])) {
         if (update_option(TD_THEME_OPTIONS_NAME, @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options'])))) {
@@ -27,9 +27,9 @@ if(!empty($_REQUEST['action_import']) and $_REQUEST['action_import'] == 'import_
     }
 }
 
-if(!empty($_REQUEST['action_reset']) and $_REQUEST['action_reset'] == 'reset_theme_settings') {
+if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_theme_settings') {
 
-    if($_POST['td_unregistered']['tds_reset_theme_options'] == 'reset') {
+    if(isset($_POST['td_unregistered']['tds_reset_theme_options']) && $_POST['td_unregistered']['tds_reset_theme_options'] == 'reset') {
 
         // if a demo is installed remove it
         $installed_demo = td_demo_state::get_installed_demo();
