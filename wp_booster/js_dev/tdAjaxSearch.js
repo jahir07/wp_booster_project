@@ -21,10 +21,10 @@ jQuery().ready(function() {
     tdAjaxSearch = {
 
         // private vars
-        _current_selection_index:0,
-        _last_request_results_count:0,
-        _first_down_up:true,
-        _is_search_open:false,
+        _current_selection_index: 0,
+        _last_request_results_count: 0,
+        _first_down_up: true,
+        _is_search_open: false,
 
 
         /**
