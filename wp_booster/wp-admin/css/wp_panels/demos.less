@@ -147,10 +147,8 @@
 
 
 
-/* Cristi */
 
-
-
+// Demos page
 .td-demo-page-content {
   position: relative;
 
@@ -160,140 +158,157 @@
     @media (max-width: 1300px) {
       width: 390px;
     }
-
     @media (max-width: 695px) {
       display: block;
     }
-
     @media (max-width: 435px) {
       width: 100%;
       margin-left: -32px;
     }
+  }
 
-    .theme {
-      width: 390px !important;
-      height: 110px;
-      margin: 0 0 20px 20px !important;
+  .td-demo-install-content {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-      @media (max-width: 1300px) {
-        margin: 0 0 20px 0 !important;
-      }
+  .theme {
+    width: 390px !important;
+    height: 110px;
+    margin: 0 0 20px 20px !important;
 
-      &:nth-of-type(2n+1) {
-        margin-left: 0 !important;
-      }
+    @media (max-width: 1300px) {
+      margin: 0 0 20px 0 !important;
     }
 
-    .td-wp-admin-demo {
-      position: relative;
-      overflow: hidden;
+    &:nth-of-type(2n+1) {
+      margin-left: 0 !important;
 
-      &:hover,
-      &.td-demo-installed,
-      &.td-demo-uninstalling,
-      &.td-demo-installing {
-        .td-demo-meta {
-          bottom: 15px;
-        }
-
-        .theme-screenshot img {
-          top: -40px;
-        }
+      .theme-screenshot img {
+        display: block;
       }
+    }
+  }
 
-      .theme-screenshot {
-        height: 100%;
+  .td-wp-admin-demo {
+    position: relative;
+    overflow: hidden;
 
-        img {
-          transition: top 0.3s;
-          transition-timing-function: ease-in-out;
-        }
-      }
-
+    &:hover,
+    &.td-demo-installed,
+    &.td-demo-uninstalling,
+    &.td-demo-installing {
       .td-demo-meta {
-        position: absolute;
-        left: 15px;
-        bottom: -25px;
-        width: 300px;
-        height: auto;
-        transition: bottom 0.3s;
-        transition-timing-function: ease-in-out;
+        .transform(translateY(-68px));
+      }
 
-        .td-admin-title {
-          display: block;
-          margin-bottom: 11px;
-
-          .theme-name {
-            text-align: left;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 1;
-            color: #333;
-            background-color: transparent;
-            padding: 0;
-            box-shadow: none;
-          }
-        }
-
-        .td-small-checkbox {
-          padding: 0;
-          border: none;
-
-          @media (max-width: 782px) {
-            .td-installed-text {
-              text-align: left;
-            }
-          }
-
-          .td-checkbox {
-            border-radius: 15px;
-            width: 26px;
-            height: 14px;
-            background: transparent;
-            border: 1px solid #ccc;
-            box-shadow: none;
-          }
-
-          .td-checbox-buton {
-            border-radius: 25px;
-            width: 8px;
-            height: 8px;
-            top: 3px;
-            left: 5px;
-            background-color: #ccc;
-          }
-
-          .td-checbox-buton-active {
-            left: 14px;
-            background-color: #4db2ec;
-          }
-        }
-
-        .theme-actions {
-          width: auto;
-          height: auto;
-          padding: 0;
-          margin-right: 10px;
-          border: none;
-          position: static;
-          float: left;
-
-          .button-primary, .button-secondary {
-            line-height: 1;
-            height: 25px;
-            padding: 5px 12px;
-          }
-
-          .td-button-demo-preview {
-            display: none;
-          }
-
-          .td-button-install-demo {
-            background-color: #fff;
-          }
-        }
+      .theme-screenshot img {
+        .transform(translateY(-40px));
       }
     }
+
+    .theme-screenshot {
+      height: 100%;
+
+      img {
+        .transition(transform 0.3s ease);
+      }
+    }
+
+    .td-demo-meta {
+      position: absolute;
+      left: 15px;
+      width: 100%;
+      height: auto;
+      .transform(translateY(-25px));
+      .transition(transform 0.3s ease);
+    }
+  }
+
+  .td-admin-title {
+    display: block;
+    margin-bottom: 11px;
+
+    .theme-name {
+      text-align: left;
+      line-height: 1;
+      background-color: transparent;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+
+  .td-small-checkbox {
+    padding: 0;
+    border: none;
+
+    @media (max-width: 782px) {
+      .td-installed-text {
+        text-align: left;
+      }
+    }
+
+    .td-checkbox {
+      border-radius: 15px;
+      width: 26px;
+      height: 14px;
+      background: transparent;
+      border: 1px solid #ccc;
+      box-shadow: none;
+    }
+
+    .td-checbox-buton {
+      border-radius: 25px;
+      width: 8px;
+      height: 8px;
+      top: 3px;
+      left: 5px;
+      background-color: #ccc;
+    }
+
+    .td-checbox-buton-active {
+      left: 14px;
+      background-color: #4db2ec;
+    }
+  }
+
+  .theme-actions {
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin-right: 10px;
+    border: none !important;
+    position: static !important;
+    float: left;
+  }
+
+  .button-primary,
+  .button-secondary {
+    line-height: 1;
+    height: 25px;
+    padding: 4px 10px;
+    font-size: 13px !important;
+    box-shadow: none !important;
+  }
+
+  .td-button-demo-preview {
+    margin: 0 auto !important;
+    right: 30px;
+    bottom: 0;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .td-button-install-demo {
+    background-color: #fff;
   }
 
   .td-demos-summary {
@@ -302,7 +317,7 @@
     border: 1px solid #dedede;
     display: inline-block;
     width: 188px;
-    padding: 20px 20px 10px 20px;
+    padding: 20px 20px 10px;
     position: absolute;
     top: 30px;
     right: 0;
@@ -311,15 +326,12 @@
       right: auto;
       left: 410px;
     }
-
     @media (max-width: 695px) {
       position: static;
     }
-
     @media (max-width: 435px) {
       margin-left: -32px;
     }
-
     @media (max-width: 405px) {
       width: 100%;
       padding-right: 40px;
@@ -344,21 +356,19 @@
         position: relative;
         top: 7px;
       }
+    }
 
-      a {
-        font-weight: 500;
-        font-size: 13px;
-        line-height: 16px;
-        color: #333;
-        text-decoration: none;
-        margin-left: 10px;
+    a {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 16px;
+      color: #333;
+      text-decoration: none;
+      margin-left: 10px;
 
-        &:hover {
-          color: #4db2ec;
-        }
+      &:hover {
+        color: #4db2ec;
       }
     }
   }
-
-
 }
