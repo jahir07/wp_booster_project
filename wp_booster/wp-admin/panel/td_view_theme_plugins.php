@@ -59,7 +59,7 @@ $theme_plugins = TGM_Plugin_Activation::$instance->plugins;
 
 
 
-<div class="td-admin-wrap about-wrap theme-browser">
+<div class="td-admin-wrap about-wrap theme-browser td-admin-plugins">
     <h1>Install premium plugins</h1>
     <div class="about-text">
         <p>
