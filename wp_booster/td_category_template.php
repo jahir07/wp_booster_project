@@ -144,7 +144,7 @@ abstract class td_category_template {
     protected function get_pull_down() {
 
         // if the filter is disabled in theme panel return ''
-        if (td_util::get_option('tds_category_pull_down') == 'disable'){
+        if (td_util::get_option('tds_category_pull_down') == 'hide'){
             return '';
         }
 
