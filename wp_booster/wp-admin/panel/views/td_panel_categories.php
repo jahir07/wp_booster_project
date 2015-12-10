@@ -59,24 +59,12 @@
         </div>
         <div class="td-box-control-full">
             <?php
-            echo td_panel_generator::visual_select_o(array(
+            echo td_panel_generator::checkbox(array(
                 'ds' => 'td_option',
                 'option_id' => 'tds_category_pull_down',
-                'values' => array(
-                    array(
-                        'text' => 'Enable',
-                        'title' => '',
-                        'val' => '',
-                        'img' => get_template_directory_uri() . '/images/panel/category_pull_down/pull-down-enable.png'
-                    ),
-                    array(
-                        'text' => 'Disable',
-                        'title' => '',
-                        'val' => 'disable',
-                        'img' => get_template_directory_uri() . '/images/panel/category_pull_down/pull-down-disable.png'
-                    )
-                ))
-            );
+                'true_value' => '',
+                'false_value' => 'hide'
+            ));
             ?>
         </div>
     </div>
