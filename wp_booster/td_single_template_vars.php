@@ -40,6 +40,14 @@ if (!empty($primary_category_id)) {
 	}
 }
 
+// custom post type - override sidebar position
+if ($post->post_type != 'post') {
+    $tds_custom_post_sidebar_pos = td_util::get_ctp_option($post->post_type, 'tds_custom_post_sidebar_pos');
+    if (!empty($tds_custom_post_sidebar_pos)) {
+        //update the sidebar position from custom post type
+        $loop_sidebar_position = $tds_custom_post_sidebar_pos;
+    }
+}
 
 //read the custom single post settings - this setting overids all of them
 $td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);

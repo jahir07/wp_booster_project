@@ -109,3 +109,37 @@ foreach ($registered_taxonomies_obj as $registered_taxonomy_obj) {
     </div>
 </div>
 
+<!-- Custom Sidebar + position -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">CUSTOM SIDEBAR + POSITION</span>
+        <p>Sidebar position and custom sidebars</p>
+    </div>
+    <div class="td-box-control-full td-panel-sidebar-pos">
+        <div class="td-display-inline-block">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_cpt',
+                'item_id' => $custom_post_type,
+                'option_id' => 'tds_custom_post_sidebar_pos',
+                'values' => array(
+                    array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
+                    array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
+                    array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                )
+            ));
+            ?>
+            <div class="td-panel-control-comment td-text-align-right">Select sidebar position</div>
+        </div>
+        <div class="td-display-inline-block td_sidebars_pulldown_align">
+            <?php
+            echo td_panel_generator::sidebar_pulldown(array(
+                'ds' => 'td_cpt',
+                'item_id' => $custom_post_type,
+                'option_id' => 'tds_custom_post_sidebar'
+            ));
+            ?>
+            <div class="td-panel-control-comment td-text-align-right">Create or select an existing sidebar</div>
+        </div>
+    </div>
+</div>

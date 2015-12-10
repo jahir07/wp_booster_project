@@ -1913,6 +1913,14 @@ title one row controls
 .vc_ui-panel-content-container #td_block_20,
 .vc_modal-content #td_block_21,
 .vc_ui-panel-content-container #td_block_21,
+.vc_modal-content #td_block_22,
+.vc_ui-panel-content-container #td_block_22,
+.vc_modal-content #td_block_23,
+.vc_ui-panel-content-container #td_block_23,
+.vc_modal-content #td_block_24,
+.vc_ui-panel-content-container #td_block_24,
+.vc_modal-content #td_block_25,
+.vc_ui-panel-content-container #td_block_25,
 .vc_modal-content #td_block_big_grid,
 .vc_ui-panel-content-container #td_block_big_grid,
 .vc_modal-content #td_block_big_grid_1,
@@ -1988,6 +1996,10 @@ title one row controls
 .icon-pagebuilder-td_block_19,
 .icon-pagebuilder-td_block_20,
 .icon-pagebuilder-td_block_21,
+.icon-pagebuilder-td_block_22,
+.icon-pagebuilder-td_block_23,
+.icon-pagebuilder-td_block_24,
+.icon-pagebuilder-td_block_25,
 .icon-pagebuilder-slide,
 .icon-pagebuilder-td_block_big_grid,
 .icon-pagebuilder-td_block_big_grid_1,
@@ -2041,6 +2053,10 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td_block_19,
 .wpb_element_title .icon-pagebuilder-td_block_20,
 .wpb_element_title .icon-pagebuilder-td_block_21,
+.wpb_element_title .icon-pagebuilder-td_block_22,
+.wpb_element_title .icon-pagebuilder-td_block_23,
+.wpb_element_title .icon-pagebuilder-td_block_24,
+.wpb_element_title .icon-pagebuilder-td_block_25,
 .wpb_element_title .icon-pagebuilder-slide,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid,
 .wpb_element_title .icon-pagebuilder-td_block_big_grid_1,
@@ -2090,6 +2106,10 @@ title one row controls
 .td_block_19 .wpb_element_wrapper div,
 .td_block_20 .wpb_element_wrapper div,
 .td_block_21 .wpb_element_wrapper div,
+.td_block_22 .wpb_element_wrapper div,
+.td_block_23 .wpb_element_wrapper div,
+.td_block_24 .wpb_element_wrapper div,
+.td_block_25 .wpb_element_wrapper div,
 .td_block_big_grid .wpb_element_wrapper div,
 .td_block_big_grid_1 .wpb_element_wrapper div,
 .td_block_big_grid_2 .wpb_element_wrapper div,
@@ -2143,6 +2163,10 @@ title one row controls
 .td_block_19 .wpb_element_wrapper div[name="custom_title"],
 .td_block_20 .wpb_element_wrapper div[name="custom_title"],
 .td_block_21 .wpb_element_wrapper div[name="custom_title"],
+.td_block_22 .wpb_element_wrapper div[name="custom_title"],
+.td_block_23 .wpb_element_wrapper div[name="custom_title"],
+.td_block_24 .wpb_element_wrapper div[name="custom_title"],
+.td_block_25 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_1 .wpb_element_wrapper div[name="custom_title"],
 .td_block_big_grid_2 .wpb_element_wrapper div[name="custom_title"],
@@ -2244,6 +2268,18 @@ title one row controls
 }
 .icon-pagebuilder-td_block_21 {
   background-image: url('../../../../images/pagebuilder/block21.png') !important;
+}
+.icon-pagebuilder-td_block_22 {
+  background-image: url('../../../../images/pagebuilder/block22.png') !important;
+}
+.icon-pagebuilder-td_block_23 {
+  background-image: url('../../../../images/pagebuilder/block23.png') !important;
+}
+.icon-pagebuilder-td_block_24 {
+  background-image: url('../../../../images/pagebuilder/block24.png') !important;
+}
+.icon-pagebuilder-td_block_25 {
+  background-image: url('../../../../images/pagebuilder/block25.png') !important;
 }
 .icon-pagebuilder-td_block_trending_now {
   background-image: url('../../../../images/pagebuilder/news-ticker.png') !important;
