@@ -79,22 +79,50 @@ if (!empty($td_post_theme_settings['td_sidebar'])) {
         td_util::show_sidebar('attachment');
 
     } elseif (is_single()) {
-        // sidebar from category on post page
-        $primary_category_id = td_global::get_primary_category_id();
-        if (!empty($primary_category_id)) {
-            $tax_meta_sidebar = td_util::get_category_option($primary_category_id, 'tdc_sidebar_name');//swich by RADU A, get_tax_meta($primary_category_id, 'tdc_sidebar_name');
-            if (!empty($tax_meta_sidebar)) {
-                //show the category one
-                dynamic_sidebar($tax_meta_sidebar);
+
+        // used to store the custom post type name
+        $td_custom_post_type_name = '';
+
+        // check if any custom post type is defined
+        $td_defined_custom_post_types = get_post_types(array('_builtin' => false));
+        if (!empty($td_defined_custom_post_types)) {
+
+            // if it's a custom post type page retrieve the cpt name
+            if(is_singular($td_defined_custom_post_types) === true){
+                $td_custom_post_type_name = get_post_type();
+            }
+        }
+
+        // custom post type
+        if (!empty($td_custom_post_type_name)) {
+            $tds_custom_post_sidebar = td_util::get_ctp_option($td_custom_post_type_name, 'tds_custom_post_sidebar');
+            if (!empty($tds_custom_post_sidebar)) {
+                // custom sidebar
+                dynamic_sidebar($tds_custom_post_sidebar);
+            } else {
+                // show default
+                dynamic_sidebar(TD_THEME_NAME . ' default');
+            }
+
+        // single post
+        } else {
+
+            // sidebar from category on post page
+            $primary_category_id = td_global::get_primary_category_id();
+            if (!empty($primary_category_id)) {
+                $tax_meta_sidebar = td_util::get_category_option($primary_category_id, 'tdc_sidebar_name');//swich by RADU A, get_tax_meta($primary_category_id, 'tdc_sidebar_name');
+                if (!empty($tax_meta_sidebar)) {
+                    //show the category one
+                    dynamic_sidebar($tax_meta_sidebar);
+                } else {
+                    //load the blog one or default
+                    td_util::show_sidebar('home');
+                }
             } else {
                 //load the blog one or default
                 td_util::show_sidebar('home');
             }
-        } else {
-            //load the blog one or default
-            td_util::show_sidebar('home');
         }
-
 
     } elseif (is_home()) {
         // it's the blog index template (home.php but I think we go with index.php)
