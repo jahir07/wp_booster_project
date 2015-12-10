@@ -140,11 +140,11 @@ die;
             <?php
 
             $installed_demo = td_demo_state::get_installed_demo();
-
-
-
+            $td_demo_names = array();
 
             foreach (td_global::$demo_list as $demo_id => $stack_params) {
+                $td_demo_names[$stack_params['text']] = $demo_id;
+
                 $tmp_class = '';
                 if ($installed_demo !== false and $installed_demo['demo_id'] == $demo_id) {
                     $tmp_class = 'td-demo-installed';
@@ -202,25 +202,16 @@ die;
             <?php } ?>
         </div>
 
-        <div class="td-demos-summary">
-            <span>Demos Summary</span>
+        <div class="td-demos-summary td-wp-admin-demo">
+            <span>Quick Install</span>
             <ul>
-                <li><a href="#">Default</a></li>
-                <li><a href="#">Animals News</a></li>
-                <li><a href="#">Black Version</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Cafe</a></li>
-                <li><a href="#">Cars</a></li>
-                <li><a href="#">College</a></li>
-                <li><a href="#">Fashion</a></li>
-                <li><a href="#">Health & Fitness</a></li>
-                <li><a href="#">Local News</a></li>
-                <li><a href="#">News Magazine</a></li>
-                <li><a href="#">Politics</a></li>
-                <li><a href="#">Sport News</a></li>
-                <li><a href="#">Tech News</a></li>
-                <li><a href="#">Video News</a></li>
-                <li><a href="#">Wedding News</a></li>
+                <?php
+                ksort($td_demo_names);
+                //print_r($td_demo_names);
+
+                foreach ($td_demo_names as $demo_id => $td_names) {
+                    echo '<li><a class="td-button-install-demo" data-demo-id="'. $td_names . '" href="#">' . $demo_id . '</a></li>';
+                }?>
             </ul>
         </div>
     </div>
