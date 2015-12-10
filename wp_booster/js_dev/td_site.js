@@ -309,7 +309,9 @@ function td_mobile_menu_toogle() {
             var jQueryTarget = jQuery( event.target );
 
             // html i element
-            if ( jQueryTarget.length && ( jQueryTarget.hasClass( 'td-element-after') || jQueryTarget.hasClass( 'td-link-element-after') && ( undefined === jQueryTarget.attr( 'href' ) ) ) ) {
+            if ( jQueryTarget.length &&
+                ( ( jQueryTarget.hasClass( 'td-element-after') || jQueryTarget.hasClass( 'td-link-element-after') ) &&
+                ( '#' === jQueryTarget.attr( 'href' ) || undefined === jQueryTarget.attr( 'href' ) ) ) ) {
 
                 event.preventDefault();
                 event.stopPropagation();

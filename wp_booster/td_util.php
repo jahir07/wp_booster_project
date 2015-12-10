@@ -2,7 +2,11 @@
 class td_util {
 
 
-    static $authors_array_cache = ''; //cache the results from  create_array_authors
+    private static $authors_array_cache = ''; //cache the results from  create_array_authors
+
+
+	private static $theme_options_is_shutdown_hooked = false; /** flag used by @see td_util::update_option to hook only once on shutdown hook */
+
 
     /**
      * reading the theme settings
@@ -143,16 +147,19 @@ class td_util {
 
     //updates a theme option @todo sa updateze globala td_util::$td_options
     static function update_option($optionName, $newValue) {
-        //td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
-
         td_global::$td_options[$optionName] = $newValue;
 
-
-
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	    // hook the shutdown action only once - on shutdown we save the theme settings to the DB
+	    if (self::$theme_options_is_shutdown_hooked === false) {
+		    add_action('shutdown', array(__CLASS__, 'on_shutdown_save_theme_options'));
+		    self::$theme_options_is_shutdown_hooked = true;
+	    }
     }
 
-
+	// hook used to save the theme options to the database on update
+	static function on_shutdown_save_theme_options() {
+		update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	}
 
 
     /**
