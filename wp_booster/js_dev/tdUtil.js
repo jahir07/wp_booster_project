@@ -34,7 +34,7 @@ var tdUtil = {};
          */
         imageMoveClassToFigure: function ( classSelector ) {
             jQuery('figure .' + classSelector).each( function() {
-                jQuery(this).parent().parent().addClass(classSelector);
+                jQuery(this).parents('figure:first').addClass(classSelector);
                 jQuery(this).removeClass(classSelector);
             });
         },

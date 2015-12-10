@@ -40,20 +40,9 @@ if (!empty($primary_category_id)) {
 	}
 }
 
-// check if any custom post type is defined
-$td_custom_post_type_name = '';
-$td_defined_custom_post_types = get_post_types(array('_builtin' => false));
-if (!empty($td_defined_custom_post_types)) {
-
-    // if it's a custom post type page retrieve the cpt name
-    if(is_singular($td_defined_custom_post_types) === true){
-        $td_custom_post_type_name = get_post_type();
-    }
-}
-
-// override the sidebar position with the global settings for custom post type
-if (!empty($td_custom_post_type_name)) {
-    $tds_custom_post_sidebar_pos = td_util::get_ctp_option($td_custom_post_type_name, 'tds_custom_post_sidebar_pos');
+// custom post type - override sidebar position
+if ($post->post_type != 'post') {
+    $tds_custom_post_sidebar_pos = td_util::get_ctp_option($post->post_type, 'tds_custom_post_sidebar_pos');
     if (!empty($tds_custom_post_sidebar_pos)) {
         //update the sidebar position from custom post type
         $loop_sidebar_position = $tds_custom_post_sidebar_pos;
