@@ -1,3 +1,4 @@
+
 .td-admin-title {
   position: relative;
 }
@@ -6,6 +7,7 @@
 /*  ----------------------------------------------------------------------------
     progress bar
 */
+
 .td-progress-bar-wrap {
   width: 100%;
   height: 5px;
@@ -15,7 +17,6 @@
   background-color: #efefef;
   border-top: 1px solid #dedede;
   border-bottom: 1px solid #dedede;
-
 }
 
 .td-progress-bar-visible {
@@ -28,6 +29,7 @@
   position: relative;
   top:-1px;
   width: 0;
+  z-index: 1;
   .transition(width 400ms);
 
   background-size: 30px 30px;
@@ -48,11 +50,9 @@
   100% {background-position: 60px 0;}
 }
 
-
 /*  ----------------------------------------------------------------------------
     demo states
 */
-
 
 // installed text
 .td-installed-text {
@@ -64,7 +64,7 @@
 }
 
 
-// demo buttons
+// demo windows
 .td-wp-admin-demo {
   .transition(opacity 600ms);
   .td-button-install-demo {
@@ -78,7 +78,6 @@
     display: none;
   }
 }
-
 
 // installing
 .td-demo-installing {
@@ -95,14 +94,11 @@
   }
 }
 
-
 // installed
 .td-demo-installed {
   .td-installed-text {
     display: block !important;
   }
-
-
 
   .td-demo-install-content {
     //visibility: hidden;
@@ -118,7 +114,6 @@
     display: inline-block;
   }
 }
-
 
 // uninstalling?
 .td-demo-uninstalling {
@@ -137,7 +132,6 @@
   }
 }
 
-
 // disabled
 .td-demo-disabled {
   opacity: 0.3;
@@ -151,3 +145,220 @@
   }
 }
 
+
+
+/* Cristi */
+
+
+
+.td-demo-page-content {
+  position: relative;
+
+  .td-install-demos {
+    display: inline-block;
+
+    @media (max-width: 1300px) {
+      width: 390px;
+    }
+
+    @media (max-width: 695px) {
+      display: block;
+    }
+
+    @media (max-width: 435px) {
+      width: 100%;
+      margin-left: -32px;
+    }
+
+    .theme {
+      width: 390px !important;
+      height: 110px;
+      margin: 0 0 20px 20px !important;
+
+      @media (max-width: 1300px) {
+        margin: 0 0 20px 0 !important;
+      }
+
+      &:nth-of-type(2n+1) {
+        margin-left: 0 !important;
+      }
+    }
+
+    .td-wp-admin-demo {
+      position: relative;
+      overflow: hidden;
+
+      &:hover,
+      &.td-demo-installed,
+      &.td-demo-uninstalling,
+      &.td-demo-installing {
+        .td-demo-meta {
+          bottom: 15px;
+        }
+
+        .theme-screenshot img {
+          top: -40px;
+        }
+      }
+
+      .theme-screenshot {
+        height: 100%;
+
+        img {
+          transition: top 0.3s;
+          transition-timing-function: ease-in-out;
+        }
+      }
+
+      .td-demo-meta {
+        position: absolute;
+        left: 15px;
+        bottom: -25px;
+        width: 300px;
+        height: auto;
+        transition: bottom 0.3s;
+        transition-timing-function: ease-in-out;
+
+        .td-admin-title {
+          display: block;
+          margin-bottom: 11px;
+
+          .theme-name {
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1;
+            color: #333;
+            background-color: transparent;
+            padding: 0;
+            box-shadow: none;
+          }
+        }
+
+        .td-small-checkbox {
+          padding: 0;
+          border: none;
+
+          @media (max-width: 782px) {
+            .td-installed-text {
+              text-align: left;
+            }
+          }
+
+          .td-checkbox {
+            border-radius: 15px;
+            width: 26px;
+            height: 14px;
+            background: transparent;
+            border: 1px solid #ccc;
+            box-shadow: none;
+          }
+
+          .td-checbox-buton {
+            border-radius: 25px;
+            width: 8px;
+            height: 8px;
+            top: 3px;
+            left: 5px;
+            background-color: #ccc;
+          }
+
+          .td-checbox-buton-active {
+            left: 14px;
+            background-color: #4db2ec;
+          }
+        }
+
+        .theme-actions {
+          width: auto;
+          height: auto;
+          padding: 0;
+          margin-right: 10px;
+          border: none;
+          position: static;
+          float: left;
+
+          .button-primary, .button-secondary {
+            line-height: 1;
+            height: 25px;
+            padding: 5px 12px;
+          }
+
+          .td-button-demo-preview {
+            display: none;
+          }
+
+          .td-button-install-demo {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .td-demos-summary {
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #dedede;
+    display: inline-block;
+    width: 188px;
+    padding: 20px 20px 10px 20px;
+    position: absolute;
+    top: 30px;
+    right: 0;
+
+    @media (max-width: 1300px) {
+      right: auto;
+      left: 410px;
+    }
+
+    @media (max-width: 695px) {
+      position: static;
+    }
+
+    @media (max-width: 435px) {
+      margin-left: -32px;
+    }
+
+    @media (max-width: 405px) {
+      width: 100%;
+      padding-right: 40px;
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    li {
+      margin-left: 3px;
+
+      &:before {
+        content: ' ';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        float: left;
+        background-color: #4db2ec;
+        position: relative;
+        top: 7px;
+      }
+
+      a {
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 16px;
+        color: #333;
+        text-decoration: none;
+        margin-left: 10px;
+
+        &:hover {
+          color: #4db2ec;
+        }
+      }
+    }
+  }
+
+
+}
