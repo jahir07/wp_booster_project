@@ -682,8 +682,15 @@ class td_page_generator {
 	                    }
 
                         tdAjaxLoop.loopState.atts = {
-                            'category_id':<?php echo $wp_query->query_vars['cat'] ?>,
-                            'offset':<?php echo $wp_query->query_vars['offset'] ?>
+                            'category_id':<?php echo $wp_query->query_vars['cat'] ?>
+
+	                        <?php
+
+								if (!empty($wp_query->query_vars['offset'])) {
+									echo ',offset : ' . intval($wp_query->query_vars['offset']);
+								}
+
+                            ?>
                         };
                         tdAjaxLoop.loopState.ajax_pagination_infinite_stop = <?php echo $ajax_pagination_infinite_stop ?>;
                         tdAjaxLoop.init();
