@@ -14,10 +14,14 @@ class td_menu {
 
         if (is_admin()) {
             add_action('wp_update_nav_menu_item', array( $this, 'hook_wp_update_nav_menu_item'), 10, 3);
-            add_filter('wp_edit_nav_menu_walker', array($this, 'hook_wp_edit_nav_menu_walker'));
+
+            //display the mega menu feature only if it's enabled in Theme Panel
+            if (td_util::get_option('tds_mega_menu') == '') {
+                add_filter('wp_edit_nav_menu_walker', array($this, 'hook_wp_edit_nav_menu_walker'));
+            }
         }
 
-        add_filter('wp_nav_menu_objects', array($this, 'hook_wp_nav_menu_objects'),  10, 2);
+            add_filter('wp_nav_menu_objects', array($this, 'hook_wp_nav_menu_objects'),  10, 2);
     }
 
 
@@ -48,6 +52,7 @@ class td_menu {
      * @return array
      */
     function hook_wp_nav_menu_objects($items, $args = '') {
+
         $items_buffy = array();
 
         $td_is_firstMenu = true;
@@ -58,7 +63,6 @@ class td_menu {
         //print_r($items);
 
         foreach ($items as &$item) {
-            $item->is_mega_menu = false;
 
             /**
              * $item
@@ -84,9 +88,14 @@ class td_menu {
             //run shortcodes
             $item->title = do_shortcode($item->title);
 
-            //read mega menu and mega page menu settings
-            $td_mega_menu_cat = get_post_meta($item->ID, 'td_mega_menu_cat', true);
-            $td_mega_menu_page_id = get_post_meta($item->ID, 'td_mega_menu_page_id', true);
+            $td_mega_menu_cat = '';
+            $td_mega_menu_page_id = '';
+            //display the mega menu feature only if it's enabled in Theme Panel
+            if (td_util::get_option('tds_mega_menu') == '') {
+                //read mega menu and mega page menu settings
+                $td_mega_menu_cat = get_post_meta($item->ID, 'td_mega_menu_cat', true);
+                $td_mega_menu_page_id = get_post_meta($item->ID, 'td_mega_menu_page_id', true);
+            }
 
             if ($this->is_header_menu_mobile === true) {
                 // a item in the mobile menu
@@ -278,8 +287,6 @@ class td_menu {
 }
 
 new td_menu();
-
-
 
 
 
