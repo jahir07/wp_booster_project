@@ -3108,6 +3108,78 @@ title one row controls
 .td-demo-page-content .td-demos-summary a:hover {
   color: #4db2ec;
 }
+.td-demo-page-content .td-demos-summary .td-demo-installed {
+  font-weight: bold;
+  color: #4db2ec;
+}
+.td-demo-page-content .td-demos-summary .td-demo-installed:hover {
+  text-decoration: none;
+  cursor: default;
+}
+.td-demo-page-content .td-demos-summary .td-demo-installing {
+  -webkit-animation: td-flicker-animation 1.5s infinite;
+  -moz-animation: td-flicker-animation 1.5s infinite;
+  -o-animation: td-flicker-animation 1.5s infinite;
+  animation: td-flicker-animation 1.5s infinite;
+  -webkit-animation-timing-function: ease-in;
+  /* Chrome, Safari, Opera */
+  animation-timing-function: ease-in;
+  font-weight: bold;
+  color: #4db2ec;
+}
+.td-demo-page-content .td-demos-summary .td-demo-installing:hover {
+  text-decoration: none;
+  cursor: default;
+}
+.td-demo-page-content .td-demos-summary .td-demo-disabled:hover {
+  text-decoration: none;
+  color: #333;
+  cursor: default;
+}
+@keyframes td-flicker-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes td-flicker-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes td-flicker-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes td-flicker-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .td-wp-admin-plugin .td-button-install-plugin {
   display: none;
 }
