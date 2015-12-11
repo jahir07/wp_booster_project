@@ -152,7 +152,7 @@ var tdAjaxLoop = {};
             //console.log('reply:');
             //console.log(dataObj);
 
-            if ( parseInt( dataObj.currentPage )  + 1 >= parseInt(dataObj.max_num_pages) ) {
+            if ( parseInt( dataObj.currentPage ) >= parseInt(dataObj.max_num_pages) ) {
                 jQuery('.td-load-more-infinite-wrap').css('visibility', 'hidden');
             } else {
                 if ( true === isLoadMoreButton ) {

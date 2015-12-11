@@ -11,6 +11,38 @@ var td_wp_admin_demos = {
 
         jQuery().ready(function() {
 
+
+
+
+            // quick install
+            jQuery('.td-button-install-demo-quick').click(function(event){
+                event.preventDefault();
+
+                if (jQuery(this).hasClass('td-demo-installing') || jQuery(this).hasClass('td-demo-disabled') || jQuery(this).hasClass('td-demo-installed')) {
+                    return;
+                }
+
+
+
+                var td_confirm = '';
+
+                td_confirm = confirm('' +
+                    'Install demo without content:\n' +
+                    '-----------------------------------------\n' +
+                    'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) \n\n' +
+                    'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n');
+
+                if (td_confirm === true) {
+                    var demo_id = jQuery(this).data('demo-id');
+                    td_wp_admin_demos._block_navigation();
+                    td_wp_admin_demos._install_full(demo_id);
+                }
+
+
+                //alert('test');
+            });
+
+
             // install full
             jQuery('.td-wp-admin-demo .td-button-install-demo').click(function(event) {
                 event.preventDefault();
@@ -486,6 +518,7 @@ var td_wp_admin_demos = {
             jQuery('.td-demo-' + demo_id)
                 .removeClass('td-demo-installing')
                 .addClass('td-demo-installed');
+
 
             // remove the disable class from the other demos
             jQuery('.td-demo-disabled').removeClass('td-demo-disabled');

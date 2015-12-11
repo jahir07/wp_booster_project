@@ -338,6 +338,9 @@
     background-color: #fff;
   }
 
+
+
+  // Demos summary  / quick install
   .td-demos-summary {
     color: #333;
     background-color: #fff;
@@ -397,5 +400,80 @@
         color: #4db2ec;
       }
     }
+
+
+    // demo states in summary
+    .td-demo-installed {
+      font-weight: bold;
+      color:#4db2ec;
+      &:hover {
+        text-decoration: none;
+        //color: #333;
+        cursor:default;
+      }
+    }
+
+
+    .td-demo-installing {
+      -webkit-animation: td-flicker-animation 1.5s infinite;
+         -moz-animation: td-flicker-animation 1.5s infinite;
+           -o-animation: td-flicker-animation 1.5s infinite;
+              animation: td-flicker-animation 1.5s infinite;
+
+
+      -webkit-animation-timing-function: ease-in; /* Chrome, Safari, Opera */
+              animation-timing-function: ease-in;
+
+      font-weight: bold;
+      color:#4db2ec;
+
+      &:hover {
+        text-decoration: none;
+        //color: #333;
+        cursor:default;
+      }
+    }
+
+
+
+    .td-demo-disabled {
+      &:hover {
+        text-decoration: none;
+        color: #333;
+        cursor:default;
+      }
+    }
+
+
+
+
   }
+
+
+
+
+
+
+}
+
+
+@keyframes td-flicker-animation {
+  0%   { opacity:1; }
+  50%  { opacity:0.6; }
+  100% { opacity:1; }
+}
+@-o-keyframes td-flicker-animation{
+  0%   { opacity:1; }
+  50%  { opacity:0.6; }
+  100% { opacity:1; }
+}
+@-moz-keyframes td-flicker-animation{
+  0%   { opacity:1; }
+  50%  { opacity:0.6; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes td-flicker-animation{
+  0%   { opacity:1; }
+  50%  { opacity:0.6; }
+  100% { opacity:1; }
 }
