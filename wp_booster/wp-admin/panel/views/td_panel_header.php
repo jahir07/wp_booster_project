@@ -378,33 +378,6 @@
 		</div>
 	</div>
 
-    <!-- Mobile menu -->
-    <div class="td-box-row">
-        <div class="td-box-description">
-            <span class="td-box-title">MEGA MENU</span>
-            <p>
-                This option allows you to disable the theme MegaMenu feature.
-                <?php td_util::tooltip_html('
-                        <h3>Mega Menu:</h3>
-                        <p>This is useful if you want to use a menu plugin which which may conflict with this feature.</p>
-                        <ul>
-                            <li>Off: MegaMenu is disabled</li>
-                            <li>On: MegaMenu is enabled</li>
-                        </ul>
-                ', 'right')?>
-        </div>
-        <div class="td-box-control-full">
-            <?php
-            echo td_panel_generator::checkbox(array(
-                'ds' => 'td_option',
-                'option_id' => 'tds_mega_menu',
-                'true_value' => '',
-                'false_value' => 'disable'
-            ));
-            ?>
-        </div>
-    </div>
-
 <?php echo td_panel_generator::box_end();?>
 
 
