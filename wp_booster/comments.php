@@ -4,9 +4,11 @@
 if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_supports(get_post_type(), 'comments')) { ?>
 
 	<div class="comments" id="comments">
-        <?php if (post_password_required()) { ?>
+        <?php if (post_password_required()) {
+            return;
+        }
 
-        <?php } else {
+        if (have_comments()) {
 
 	        // on Newspaper the css class 'td-pb-padding-side' is not applied
 	        $td_css_cls_pb_padding_side = '';
@@ -19,9 +21,7 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        }
 
 	        $num_comments = get_comments_number(); // get_comments_number returns only a numeric value
-	        if ($num_comments == 0) {
-		        $td_comments_no_text = __td('NO COMMENTS', TD_THEME_NAME);
-	        } elseif ($num_comments > 1) {
+	        if ($num_comments > 1) {
 		        $td_comments_no_text = $num_comments . ' ' . __td('COMMENTS', TD_THEME_NAME);
 	        } else {
 		        $td_comments_no_text = __td('1 COMMENT', TD_THEME_NAME);
@@ -31,8 +31,6 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
             <div class="td-comments-title-wrap <?php echo $td_css_cls_pb_padding_side ?>">
                 <h4 class="<?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
             </div>
-
-            <?php if (have_comments()) { ?>
 
 		        <ol class="comment-list <?php echo $td_css_cls_pb_padding_side ?>">
                     <?php wp_list_comments(array('callback' => 'td_comment')); ?>
@@ -93,7 +91,7 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
             comment_form($defaults);
             //comment_form();
 
-        } ?>
+        ?>
     </div> <!-- /.content -->
 <?php
 }

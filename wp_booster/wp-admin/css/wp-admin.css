@@ -2629,7 +2629,7 @@ title one row controls
 */
 .td-wp-admin-header {
   max-width: none;
-  margin: 0 -48px 0 0px;
+  margin: 0 -48px 0 0;
   padding-left: 28px;
   padding-top: 28px;
   position: relative;
@@ -2790,7 +2790,7 @@ title one row controls
 }
 .td-progress-bar {
   background-color: #4db2ec;
-  height: 7px;
+  height: 5px;
   position: relative;
   top: -1px;
   width: 0;
@@ -2882,7 +2882,6 @@ title one row controls
 .td-demo-disabled .td-button-demo-disabled {
   display: inline-block;
 }
-/* Cristi */
 .td-demo-page-content {
   position: relative;
 }
@@ -2905,75 +2904,99 @@ title one row controls
     margin-left: -32px;
   }
 }
-.td-demo-page-content .td-install-demos .theme {
+.td-demo-page-content .td-demo-install-content {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.td-demo-page-content .theme {
   width: 390px !important;
   height: 110px;
   margin: 0 0 20px 20px !important;
 }
 @media (max-width: 1300px) {
-  .td-demo-page-content .td-install-demos .theme {
+  .td-demo-page-content .theme {
     margin: 0 0 20px 0 !important;
   }
 }
-.td-demo-page-content .td-install-demos .theme:nth-of-type(2n+1) {
+.td-demo-page-content .theme:nth-of-type(2n+1) {
   margin-left: 0 !important;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo {
+.td-demo-page-content .theme:nth-of-type(2n+1) .theme-screenshot img {
+  display: block;
+}
+.td-demo-page-content .td-wp-admin-demo {
   position: relative;
   overflow: hidden;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo:hover .td-demo-meta,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-installed .td-demo-meta,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-uninstalling .td-demo-meta,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-installing .td-demo-meta {
-  bottom: 15px;
+.td-demo-page-content .td-wp-admin-demo:hover .td-demo-meta,
+.td-demo-page-content .td-wp-admin-demo.td-demo-installed .td-demo-meta,
+.td-demo-page-content .td-wp-admin-demo.td-demo-uninstalling .td-demo-meta,
+.td-demo-page-content .td-wp-admin-demo.td-demo-installing .td-demo-meta {
+  transform: translateY(-68px);
+  -webkit-transform: translateY(-68px);
+  -moz-transform: translateY(-68px);
+  -ms-transform: translateY(-68px);
+  -o-transform: translateY(-68px);
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo:hover .theme-screenshot img,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-installed .theme-screenshot img,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-uninstalling .theme-screenshot img,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo.td-demo-installing .theme-screenshot img {
-  top: -40px;
+.td-demo-page-content .td-wp-admin-demo:hover .theme-screenshot img,
+.td-demo-page-content .td-wp-admin-demo.td-demo-installed .theme-screenshot img,
+.td-demo-page-content .td-wp-admin-demo.td-demo-uninstalling .theme-screenshot img,
+.td-demo-page-content .td-wp-admin-demo.td-demo-installing .theme-screenshot img {
+  transform: translateY(-40px);
+  -webkit-transform: translateY(-40px);
+  -moz-transform: translateY(-40px);
+  -ms-transform: translateY(-40px);
+  -o-transform: translateY(-40px);
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .theme-screenshot {
+.td-demo-page-content .td-wp-admin-demo .theme-screenshot {
   height: 100%;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .theme-screenshot img {
-  transition: top 0.3s;
-  transition-timing-function: ease-in-out;
+.td-demo-page-content .td-wp-admin-demo .theme-screenshot img {
+  -webkit-transition: transform 0.3s ease;
+  -moz-transition: transform 0.3s ease;
+  -o-transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta {
+.td-demo-page-content .td-wp-admin-demo .td-demo-meta {
   position: absolute;
   left: 15px;
-  bottom: -25px;
-  width: 300px;
+  width: 100%;
   height: auto;
-  transition: bottom 0.3s;
-  transition-timing-function: ease-in-out;
+  transform: translateY(-25px);
+  -webkit-transform: translateY(-25px);
+  -moz-transform: translateY(-25px);
+  -ms-transform: translateY(-25px);
+  -o-transform: translateY(-25px);
+  -webkit-transition: transform 0.3s ease;
+  -moz-transition: transform 0.3s ease;
+  -o-transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-admin-title {
+.td-demo-page-content .td-admin-title {
   display: block;
   margin-bottom: 11px;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-admin-title .theme-name {
+.td-demo-page-content .td-admin-title .theme-name {
   text-align: left;
-  font-weight: 600;
-  font-size: 15px;
   line-height: 1;
-  color: #333;
   background-color: transparent;
   padding: 0;
   box-shadow: none;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-small-checkbox {
+.td-demo-page-content .td-small-checkbox {
   padding: 0;
   border: none;
 }
 @media (max-width: 782px) {
-  .td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-small-checkbox .td-installed-text {
+  .td-demo-page-content .td-small-checkbox .td-installed-text {
     text-align: left;
   }
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-small-checkbox .td-checkbox {
+.td-demo-page-content .td-small-checkbox .td-checkbox {
   border-radius: 15px;
   width: 26px;
   height: 14px;
@@ -2981,7 +3004,7 @@ title one row controls
   border: 1px solid #ccc;
   box-shadow: none;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-small-checkbox .td-checbox-buton {
+.td-demo-page-content .td-small-checkbox .td-checbox-buton {
   border-radius: 25px;
   width: 8px;
   height: 8px;
@@ -2989,29 +3012,38 @@ title one row controls
   left: 5px;
   background-color: #ccc;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .td-small-checkbox .td-checbox-buton-active {
+.td-demo-page-content .td-small-checkbox .td-checbox-buton-active {
   left: 14px;
   background-color: #4db2ec;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .theme-actions {
-  width: auto;
-  height: auto;
-  padding: 0;
+.td-demo-page-content .theme-actions {
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
   margin-right: 10px;
-  border: none;
-  position: static;
+  border: none !important;
+  position: static !important;
   float: left;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .theme-actions .button-primary,
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .theme-actions .button-secondary {
+.td-demo-page-content .button-primary,
+.td-demo-page-content .button-secondary {
   line-height: 1;
   height: 25px;
-  padding: 5px 12px;
+  padding: 4px 10px;
+  font-size: 13px !important;
+  box-shadow: none !important;
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .theme-actions .td-button-demo-preview {
-  display: none;
+.td-demo-page-content .td-button-demo-preview {
+  margin: 0 auto !important;
+  right: 30px;
+  bottom: 0;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
 }
-.td-demo-page-content .td-install-demos .td-wp-admin-demo .td-demo-meta .theme-actions .td-button-install-demo {
+.td-demo-page-content .td-button-demo-preview:hover {
+  background-color: #ffffff;
+}
+.td-demo-page-content .td-button-install-demo {
   background-color: #fff;
 }
 .td-demo-page-content .td-demos-summary {
@@ -3020,7 +3052,7 @@ title one row controls
   border: 1px solid #dedede;
   display: inline-block;
   width: 188px;
-  padding: 20px 20px 10px 20px;
+  padding: 20px 20px 10px;
   position: absolute;
   top: 30px;
   right: 0;
@@ -3065,7 +3097,7 @@ title one row controls
   position: relative;
   top: 7px;
 }
-.td-demo-page-content .td-demos-summary li a {
+.td-demo-page-content .td-demos-summary a {
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
@@ -3073,7 +3105,7 @@ title one row controls
   text-decoration: none;
   margin-left: 10px;
 }
-.td-demo-page-content .td-demos-summary li a:hover {
+.td-demo-page-content .td-demos-summary a:hover {
   color: #4db2ec;
 }
 .td-wp-admin-plugin .td-button-install-plugin {

@@ -58,7 +58,6 @@ class td_menu {
         //print_r($items);
 
         foreach ($items as &$item) {
-            $item->is_mega_menu = false;
 
             /**
              * $item
