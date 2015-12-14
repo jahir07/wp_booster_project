@@ -202,15 +202,22 @@ die;
             <?php } ?>
         </div>
 
-        <div class="td-demos-summary td-wp-admin-demo">
+        <div class="td-demos-summary">
             <span>Quick Install</span>
             <ul>
                 <?php
                 ksort($td_demo_names);
                 //print_r($td_demo_names);
 
-                foreach ($td_demo_names as $demo_id => $td_names) {
-                    echo '<li><a class="td-button-install-demo" data-demo-id="'. $td_names . '" href="#">' . $demo_id . '</a></li>';
+                foreach ($td_demo_names as $td_name => $demo_id) {
+
+	                $tmp_class = '';
+	                if ($installed_demo !== false and $installed_demo['demo_id'] == $demo_id) {
+		                $tmp_class = 'td-demo-installed';
+	                }
+
+
+                    echo '<li><a class="td-wp-admin-demo td-demo-' . $demo_id . ' td-button-install-demo-quick ' . $tmp_class . '" data-demo-id="'. $demo_id . '" href="#">' . $td_name . '</a></li>';
                 }?>
             </ul>
         </div>
