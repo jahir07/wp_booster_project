@@ -361,7 +361,7 @@ class td_data_source {
     static function &get_wp_query_search($search_string) {
         $args = array(
             's' => $search_string,
-            'post_type' => array('post'),
+            //'post_type' => array('post', 'page'),
             'posts_per_page' => 4,
             'post_status' => 'publish'
         );
