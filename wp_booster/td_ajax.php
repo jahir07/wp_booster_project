@@ -387,14 +387,10 @@ class td_ajax {
 			$new_sidebar_name = trim($_POST['sidebar']);
 		}
 
-		//get theme settings (sidebars) from wp_options
-		//@ to check with Radu O and see if to use this function or  td_panel_data_source::read ???
-		$theme_options = get_option(TD_THEME_OPTIONS_NAME);
 
-		//get the sidebar array if exists
-		if(array_key_exists('sidebars', $theme_options) && !empty($theme_options['sidebars'])) {
-			$theme_sidebars = $theme_options['sidebars'];
-		}
+
+
+		$theme_sidebars = td_util::get_option('sidebars');
 
 		//default sidebar
 		$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" title="Default Sidebar">Default Sidebar</a></div>';
@@ -424,11 +420,10 @@ class td_ajax {
 			$sidebar_unique_id = uniqid() . '_' . rand(1, 999999);
 			$theme_sidebars[$sidebar_unique_id] = $new_sidebar_name;
 
-			//this is the new list with sidebars
-			$theme_options['sidebars'] = $theme_sidebars;
 
-			//update the td_options into wp_option table
-			update_option(TD_THEME_OPTIONS_NAME, $theme_options);
+
+			td_util::update_option('sidebars', $theme_sidebars);
+
 
 			//add the new sidebar to the existing list
 			$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" data-sidebar-key="' . $sidebar_unique_id . '" title="' . $new_sidebar_name . '">' . substr(str_replace(array('"', "'"), '`', $new_sidebar_name), 0, $sub_str_val) . '</a><a class="td-delete-sidebar-option" data-sidebar-key="' . $sidebar_unique_id . '"></a></div>';
@@ -456,14 +451,7 @@ class td_ajax {
 			$sidebar_key_in_array = trim($_POST['sidebar']);
 		}
 
-		//get theme settings (sidebars) from wp_options
-		//@ to check with Radu O and see if to use this function or  td_panel_data_source::read ???
-		$theme_options = get_option(TD_THEME_OPTIONS_NAME);
-
-		//get the sidebar array if exists
-		if(array_key_exists('sidebars', $theme_options) && !empty($theme_options['sidebars'])) {
-			$theme_sidebars = $theme_options['sidebars'];
-		}
+		$theme_sidebars = td_util::get_option('sidebars');
 
 		//option for default sidebar
 		$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" title="Default Sidebar">Default Sidebar</a></div>';
@@ -483,11 +471,8 @@ class td_ajax {
 				}
 			}
 
-			//this is the new list with sidebars
-			$theme_options['sidebars'] = $theme_sidebars;
 
-			//update the td_options into wp_option table
-			update_option(TD_THEME_OPTIONS_NAME, $theme_options);
+			td_util::update_option('sidebars', $theme_sidebars);
 
 			die(json_encode(array('td_bool_value' => '1', 'td_msg' => 'Succes', 'value_insert' => $list_current_sidebars, 'value_to_march_del' => $value_deleted_sidebar)));
 		}
