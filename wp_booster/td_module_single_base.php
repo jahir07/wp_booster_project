@@ -455,11 +455,23 @@ class td_module_single_base extends td_module {
      */
     function get_item_scope_meta() {
 
+        // determine publisher name - use author name if there's no blog name
+        $td_publisher_name = get_bloginfo('name');
+        if (empty($td_publisher_name)){
+            $td_publisher_name = esc_attr(get_the_author_meta('display_name', $this->post->post_author));
+        }
+
+        // determine publisher logo - use the author avatar if the theme logo is not set
+        $td_publisher_logo = td_util::get_option('tds_logo_upload');
+        if (empty($td_publisher_logo)){
+            $td_publisher_logo = get_avatar(get_the_author_meta('email', $this->post->post_author), '60');
+        }
+
         $buffy = ''; //the vampire slayer
 
         // author
         $buffy .= '<span style="display: none;" itemprop="author" itemscope itemtype="https://schema.org/Person">' ;
-        $buffy .= '<meta itemprop="name" content="' . esc_attr(get_the_author_meta('display_name', $author_id)) . '">' ;
+        $buffy .= '<meta itemprop="name" content="' . esc_attr(get_the_author_meta('display_name', $this->post->post_author)) . '">' ;
         $buffy .= '</span>' ;
 
         // datePublished
@@ -475,9 +487,9 @@ class td_module_single_base extends td_module {
         // publisher
         $buffy .= '<span style="display: none;" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">';
         $buffy .= '<span style="display: none;" itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
-        $buffy .= '<meta itemprop="url" content="' . td_util::get_option('tds_logo_upload') . '">';
+        $buffy .= '<meta itemprop="url" content="' . $td_publisher_logo . '">';
         $buffy .= '</span>';
-        $buffy .= '<meta itemprop="name" content="' . get_bloginfo('name') . '">';
+        $buffy .= '<meta itemprop="name" content="' . $td_publisher_name . '">';
         $buffy .= '</span>';
 
         // headline @todo we may improve this one to use the subtitle or excerpt? - We could not find specs about what it should be.
