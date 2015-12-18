@@ -8,6 +8,7 @@
 /* global jQuery:false */
 /* global tdUtil:false */
 /* global tdModalImageLastEl:{} */
+/* global tdEvents:{} */
 
 
 "use strict";
@@ -58,6 +59,8 @@ jQuery().ready(function jQuery_ready() {
         var tdNewDateI18n = td_date_i18n(tdsDateFormat, tdsDateTimestamp);
         jQuery('.td_data_time').text(tdNewDateI18n);
     }
+
+    setMenuMinHeight();
 
 }); //end on load
 
@@ -704,3 +707,19 @@ function td_get_document_height() {
     return y;
 }
 
+
+/*  ----------------------------------------------------------------------------
+ Set the mobile menu min-height property
+
+ This is usually used to force vertical scroll bar appearance from the beginning.
+ Without it, on some mobile devices (ex Android), at scroll bar appearance there are some
+ visual issues.
+
+ */
+function setMenuMinHeight() {
+    var tdMobileMenu = jQuery( '#td-mobile-nav' );
+
+    if ( tdMobileMenu.length ) {
+        tdMobileMenu.css( 'min-height' , (tdEvents.window_innerHeight+1) + 'px' );
+    }
+}

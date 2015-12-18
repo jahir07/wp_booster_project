@@ -394,48 +394,83 @@ abstract class td_module {
 
 
     function get_category() {
+
         $buffy = '';
+	    $selected_category_obj = '';
+	    $selected_category_obj_id = '';
+	    $selected_category_obj_name = '';
 
-        //read the post meta to get the custom primary category
-        $td_post_theme_settings = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
-        if (!empty($td_post_theme_settings['td_primary_cat'])) {
-            //we have a custom category selected
-            $selected_category_obj = get_category($td_post_theme_settings['td_primary_cat']);
-        } else {
+	    $current_post_type = get_post_type($this->post->ID);
+	    $builtin_post_types = get_post_types(array('_builtin' => true));
 
-            //get one auto
-            $categories = get_the_category($this->post->ID);
+	    if (array_key_exists($current_post_type, $builtin_post_types)) {
 
+		    // default post type
 
-            $selected_category_obj = '';
+		    //read the post meta to get the custom primary category
+		    $td_post_theme_settings = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
+		    if (!empty($td_post_theme_settings['td_primary_cat'])) {
+			    //we have a custom category selected
+			    $selected_category_obj = get_category($td_post_theme_settings['td_primary_cat']);
+		    } else {
 
+			    //get one auto
+			    $categories = get_the_category($this->post->ID);
 
-            if (is_category()) {
-                foreach ($categories as $category) {
-                    if ($category->term_id == get_query_var('cat')) {
-                        $selected_category_obj = $category;
-                        break;
-                    }
-                }
-            }
+			    if (is_category()) {
+				    foreach ($categories as $category) {
+					    if ($category->term_id == get_query_var('cat')) {
+						    $selected_category_obj = $category;
+						    break;
+					    }
+				    }
+			    }
 
+			    if (empty($selected_category_obj) and !empty($categories[0])) {
+				    if ($categories[0]->name === TD_FEATURED_CAT and !empty($categories[1])) {
+					    $selected_category_obj = $categories[1];
+				    } else {
+					    $selected_category_obj = $categories[0];
+				    }
+			    }
+		    }
 
-            if (empty($selected_category_obj) and !empty($categories[0])) {
-                if ($categories[0]->name === TD_FEATURED_CAT and !empty($categories[1])) {
-                    $selected_category_obj = $categories[1];
-                } else {
-                    $selected_category_obj = $categories[0];
-                }
-            }
+		    if (!empty($selected_category_obj)) {
+			    $selected_category_obj_id = $selected_category_obj->cat_ID;
+			    $selected_category_obj_name = $selected_category_obj->name;
+		    }
 
+	    } else {
 
+		    // custom post type
 
-        }
+		    $taxonomy_objects = get_object_taxonomies($this->post, 'objects');
+		    $custom_taxonomy_object = '';
 
+		    foreach ($taxonomy_objects as $taxonomy_object) {
+			    if ($taxonomy_object->_builtin !== 1) {
+				    $custom_taxonomy_object = $taxonomy_object;
+				    break;
+			    }
+		    }
 
-        if (!empty($selected_category_obj)) { //@todo catch error here
-            $buffy .= '<a href="' . get_category_link($selected_category_obj->cat_ID) . '" class="td-post-category">'  . $selected_category_obj->name . '</a>' ;
-        }
+		    if (!empty($custom_taxonomy_object)) {
+			    $custom_taxonomy_terms = get_the_terms($this->post->ID, $custom_taxonomy_object->name);
+
+			    if (is_array($custom_taxonomy_terms) && count($custom_taxonomy_object)) {
+				    $selected_category_obj = $custom_taxonomy_terms[0];
+			    }
+		    }
+
+		    if (!empty($selected_category_obj)) {
+			    $selected_category_obj_id = $selected_category_obj->term_id;
+			    $selected_category_obj_name = $selected_category_obj->name;
+		    }
+	    }
+
+	    if (!empty($selected_category_obj_id) && !empty($selected_category_obj_name)) { //@todo catch error here
+		    $buffy .= '<a href="' . get_category_link($selected_category_obj_id) . '" class="td-post-category">'  . $selected_category_obj_name . '</a>' ;
+	    }
 
         //return print_r($post, true);
         return $buffy;
