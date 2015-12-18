@@ -460,12 +460,8 @@ class td_module_single_base extends td_module {
         if (empty($td_publisher_name)){
             $td_publisher_name = esc_attr(get_the_author_meta('display_name', $this->post->post_author));
         }
-
-        // determine publisher logo - use the author avatar if the theme logo is not set
+        // determine publisher logo
         $td_publisher_logo = td_util::get_option('tds_logo_upload');
-        if (empty($td_publisher_logo)){
-            $td_publisher_logo = get_avatar(get_the_author_meta('email', $this->post->post_author), '60');
-        }
 
         $buffy = ''; //the vampire slayer
 
@@ -496,6 +492,7 @@ class td_module_single_base extends td_module {
         $buffy .= '<meta itemprop="headline " content="' . esc_attr( $this->post->post_title) . '">';
 
         // featured image
+        $td_image = array();
         if (!is_null($this->post_thumb_id)) {
             /**
              * from google documentation:
@@ -505,14 +502,21 @@ class td_module_single_base extends td_module {
              * https://developers.google.com/structured-data/rich-snippets/articles
              */
             $td_image = wp_get_attachment_image_src($this->post_thumb_id, 'full');
-            if (!empty($td_image[0])) {
-                $buffy .= '<span style="display: none;" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">';
-                //ImageObject meta
-                $buffy .= '<meta itemprop="url" content="' . $td_image[0] . '">';
-                $buffy .= '<meta itemprop="width" content="' . $td_image[1] . '">';
-                $buffy .= '<meta itemprop="height" content="' . $td_image[2] . '">';
-                $buffy .= '</span>';
-            }
+
+        } else {
+            // when the post has no image use the placeholder
+            $td_image[0] = get_template_directory_uri() . '/images/no-thumb/td_1068x580.png';
+            $td_image[1] = '1068';
+            $td_image[2] = '580';
+        }
+
+        // ImageObject meta
+        if (!empty($td_image[0])) {
+            $buffy .= '<span style="display: none;" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">';
+            $buffy .= '<meta itemprop="url" content="' . $td_image[0] . '">';
+            $buffy .= '<meta itemprop="width" content="' . $td_image[1] . '">';
+            $buffy .= '<meta itemprop="height" content="' . $td_image[2] . '">';
+            $buffy .= '</span>';
         }
 
         // if we have a review, we must add additional stuff
@@ -530,7 +534,7 @@ class td_module_single_base extends td_module {
                 if ($this->post->post_excerpt != '') {
                     $td_post_excerpt = $this->post->post_excerpt;
                 } else {
-                    $td_post_excerpt = td_util::excerpt($this->post->post_content, 25);
+                    $td_post_excerpt = td_util::excerpt($this->post->post_content, 45);
                 }
                 $buffy .= '<meta itemprop="reviewBody" content = "' . esc_attr($td_post_excerpt) . '">';
             }

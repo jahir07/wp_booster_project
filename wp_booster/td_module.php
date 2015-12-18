@@ -66,6 +66,22 @@ abstract class td_module {
     }
 
 
+    /**
+     * @deprecated - google changed the structured data requirements and we no longer use them on modules
+     */
+    function get_item_scope() {
+        return '';
+    }
+
+
+    /**
+     * @deprecated - google changed the structured data requirements and we no longer use them on modules
+     */
+    function get_item_scope_meta() {
+        return '';
+    }
+
+
     function get_module_classes($additional_classes_array = '') {
         //add the wrap and module id class
         $buffy = get_class($this);
