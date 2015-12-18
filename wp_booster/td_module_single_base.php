@@ -67,7 +67,7 @@ class td_module_single_base extends td_module {
         $buffy = '';
         if (td_util::get_option('tds_p_show_author_name') != 'hide') {
             $buffy .= '<div class="td-post-author-name">' . __td('By', TD_THEME_NAME) . ' ';
-            $buffy .= '<a itemprop="author" href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
+            $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
 
             if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
                 $buffy .= ' - ';
@@ -134,14 +134,14 @@ class td_module_single_base extends td_module {
                     if ($show_td_modal_image != 'no_modal') {
                         //wrap the image_html with a link + add td-modal-image class
                         $image_html = '<a href="' . $featured_image_full_size_src['src'] . '" data-caption="' . esc_attr($featured_image_info['caption'], ENT_QUOTES) . '">';
-                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" itemprop="image" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
+                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                         $image_html .= '</a>';
                     } else { //no_modal
-                        $image_html = '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" itemprop="image" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
+                        $image_html = '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                     }
                 } else {
                     //on blog index page
-                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" itemprop="image" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
+                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
                 }
 
 
@@ -434,7 +434,7 @@ class td_module_single_base extends td_module {
      */
     function get_item_scope() {
         //show the review meta only on single posts that are reviews, the rest have to be article (in article lists)
-        if ($this->is_review and is_single()) {
+        if ($this->is_review) {
             return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Review"';
         } else {
             return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Article"';
@@ -447,37 +447,100 @@ class td_module_single_base extends td_module {
      * @updated 23 july 2015
      *  - if the module that uses this class is not on a single page, we use the @see td_module::get_item_scope_meta() this allows
      * us to output normal module item scope insted of no item scope like it was before this update
+     * @updated 16 december 2015
+     * - removed structured data from modules, now it displays only on single and it returns the current post data
+     * - no more interference with the itemprop's coming from modules
+     * - all single structured data is now gathered here
      * @return string
      */
     function get_item_scope_meta() {
 
-        if (!is_single()) {
-            return parent::get_item_scope_meta(); // get a normal item scope if we're in a loop - like on a blog style loop
+        // determine publisher name - use author name if there's no blog name
+        $td_publisher_name = get_bloginfo('name');
+        if (empty($td_publisher_name)){
+            $td_publisher_name = esc_attr(get_the_author_meta('display_name', $this->post->post_author));
         }
+        // determine publisher logo
+        $td_publisher_logo = td_util::get_option('tds_logo_upload');
 
         $buffy = ''; //the vampire slayer
-        $buffy .= parent::get_item_scope_meta();
+
+        // author
+        $buffy .= '<span style="display: none;" itemprop="author" itemscope itemtype="https://schema.org/Person">' ;
+        $buffy .= '<meta itemprop="name" content="' . esc_attr(get_the_author_meta('display_name', $this->post->post_author)) . '">' ;
+        $buffy .= '</span>' ;
+
+        // datePublished
+        $td_article_date_unix = get_the_time('U', $this->post->ID);
+        $buffy .= '<meta itemprop="datePublished" content="' . date(DATE_W3C, $td_article_date_unix) . '">';
+
+        // dateModified
+        $buffy .= '<meta itemprop="dateModified" content="' . the_modified_date('c', '', '', false) . '">';
+
+        // mainEntityOfPage
+        $buffy .= '<meta itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="' . get_permalink($this->post->ID) .'"/>';
+
+        // publisher
+        $buffy .= '<span style="display: none;" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">';
+        $buffy .= '<span style="display: none;" itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
+        $buffy .= '<meta itemprop="url" content="' . $td_publisher_logo . '">';
+        $buffy .= '</span>';
+        $buffy .= '<meta itemprop="name" content="' . $td_publisher_name . '">';
+        $buffy .= '</span>';
+
+        // headline @todo we may improve this one to use the subtitle or excerpt? - We could not find specs about what it should be.
+        $buffy .= '<meta itemprop="headline " content="' . esc_attr( $this->post->post_title) . '">';
+
+        // featured image
+        $td_image = array();
+        if (!is_null($this->post_thumb_id)) {
+            /**
+             * from google documentation:
+             * A URL, or list of URLs pointing to the representative image file(s). Images must be
+             * at least 160x90 pixels and at most 1920x1080 pixels.
+             * We recommend images in .jpg, .png, or. gif formats.
+             * https://developers.google.com/structured-data/rich-snippets/articles
+             */
+            $td_image = wp_get_attachment_image_src($this->post_thumb_id, 'full');
+
+        } else {
+            // when the post has no image use the placeholder
+            $td_image[0] = get_template_directory_uri() . '/images/no-thumb/td_1068x580.png';
+            $td_image[1] = '1068';
+            $td_image[2] = '580';
+        }
+
+        // ImageObject meta
+        if (!empty($td_image[0])) {
+            $buffy .= '<span style="display: none;" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">';
+            $buffy .= '<meta itemprop="url" content="' . $td_image[0] . '">';
+            $buffy .= '<meta itemprop="width" content="' . $td_image[1] . '">';
+            $buffy .= '<meta itemprop="height" content="' . $td_image[2] . '">';
+            $buffy .= '</span>';
+        }
 
         // if we have a review, we must add additional stuff
         if ($this->is_review) {
 
             // the item that is reviewd
-            $buffy .= '<meta itemprop="itemReviewed " content = "' . $this->title_attribute . '">';
+            $buffy .= '<span style="display: none;" itemprop="itemReviewed" itemscope itemtype="https://schema.org/Thing">';
+            $buffy .= '<meta itemprop="name " content = "' . $this->title_attribute . '">';
+            $buffy .= '</span>';
 
             if (!empty($this->td_review['review'])) {
-                $buffy .= '<meta itemprop="about" content = "' . esc_attr($this->td_review['review']) . '">';
+                $buffy .= '<meta itemprop="reviewBody" content = "' . esc_attr($this->td_review['review']) . '">';
             } else {
                 //we have no review text :| get a excerpt for the about meta thing
                 if ($this->post->post_excerpt != '') {
                     $td_post_excerpt = $this->post->post_excerpt;
                 } else {
-                    $td_post_excerpt = td_util::excerpt($this->post->post_content, 25);
+                    $td_post_excerpt = td_util::excerpt($this->post->post_content, 45);
                 }
-                $buffy .= '<meta itemprop="about" content = "' . esc_attr($td_post_excerpt) . '">';
+                $buffy .= '<meta itemprop="reviewBody" content = "' . esc_attr($td_post_excerpt) . '">';
             }
 
             // review rating
-            $buffy .= '<span class="td-page-meta" itemprop="reviewRating" itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Rating">';
+            $buffy .= '<span style="display: none;" class="td-page-meta" itemprop="reviewRating" itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Rating">';
             $buffy .= '<meta itemprop="worstRating" content = "1">';
             $buffy .= '<meta itemprop="bestRating" content = "5">';
             $buffy .= '<meta itemprop="ratingValue" content = "' . td_review::calculate_total_stars($this->td_review) . '">';
@@ -694,6 +757,7 @@ class td_module_single_base extends td_module {
         }
 
 
+
         $buffy = '';
 
         $hideAuthor = td_util::get_option('hide_author');
@@ -701,14 +765,14 @@ class td_module_single_base extends td_module {
         if (empty($hideAuthor)) {
 
             $buffy .= '<div class="author-box-wrap">';
-            $buffy .= '<a itemprop="author" href="' . get_author_posts_url($author_id) . '">' ;
+            $buffy .= '<a href="' . get_author_posts_url($author_id) . '">' ;
             $buffy .= get_avatar(get_the_author_meta('email', $author_id), '96');
             $buffy .= '</a>';
 
 
             $buffy .= '<div class="desc">';
             $buffy .= '<div class="td-author-name vcard author"><span class="fn">';
-            $buffy .= '<a itemprop="author" href="' . get_author_posts_url($author_id) . '">' . get_the_author_meta('display_name', $author_id) . '</a>' ;
+            $buffy .= '<a href="' . get_author_posts_url($author_id) . '">' . get_the_author_meta('display_name', $author_id) . '</a>' ;
             $buffy .= '</span></div>';
 
             if (get_the_author_meta('user_url', $author_id) != '') {

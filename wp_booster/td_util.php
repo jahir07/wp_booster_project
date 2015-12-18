@@ -149,12 +149,14 @@ class td_util {
     static function update_option($optionName, $newValue) {
         td_global::$td_options[$optionName] = $newValue;
 
-	    // hook the shutdown action only once - on shutdown we save the theme settings to the DB
+	    //  hook the shutdown action only once - on shutdown we save the theme settings to the DB
 	    if (self::$theme_options_is_shutdown_hooked === false) {
 		    add_action('shutdown', array(__CLASS__, 'on_shutdown_save_theme_options'));
 		    self::$theme_options_is_shutdown_hooked = true;
 	    }
     }
+
+
 
 	// hook used to save the theme options to the database on update
 	static function on_shutdown_save_theme_options() {

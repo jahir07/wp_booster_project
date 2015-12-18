@@ -65,8 +65,13 @@ class td_demo_history {
             }
         }
 
-        update_option(TD_THEME_OPTIONS_NAME, $this->td_demo_history['theme_options']);
 
+
+		// put the old theme settings back
+	    td_global::$td_options = $this->td_demo_history['theme_options'];
+        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+
+	    // ?
         update_option('td_social_networks', $this->td_demo_history['td_social_networks']);
 
         // delete the demo history

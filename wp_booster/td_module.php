@@ -66,51 +66,19 @@ abstract class td_module {
     }
 
 
-
+    /**
+     * @deprecated - google changed the structured data requirements and we no longer use them on modules
+     */
     function get_item_scope() {
-        //used on modules - all the links are articles - google doesn't like multiple reviews on one page
-        return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Article"';
+        return '';
     }
 
 
     /**
-     * this method generates the item scope metadata for ALL the modules that appear on our theme.
-     * NOTICE: - the item scope generated for single posts is located in @see td_module_single_base::get_item_scope_meta
-     *         - this method is not used on single posts pages
-     * @updated 23 July 2015 by Ra
-     * @return string
+     * @deprecated - google changed the structured data requirements and we no longer use them on modules
      */
     function get_item_scope_meta() {
-        $buffy = ''; //the vampire slayer
-
-        // author
-        $author_id = $this->post->post_author;
-        $buffy .= '<meta itemprop="author" content = "' . esc_attr(get_the_author_meta('display_name', $author_id)) . '">';
-
-        // datePublished
-        $td_article_date_unix = get_the_time('U', $this->post->ID);
-        $buffy .= '<meta itemprop="datePublished" content="' . date(DATE_W3C, $td_article_date_unix) . '">';
-
-        // headline @todo we may improve this one to use the subtitle or excerpt? - We could not find specs about what it should be.
-        $buffy .= '<meta itemprop="headline " content="' . esc_attr( $this->post->post_title) . '">';
-
-        if (!is_null($this->post_thumb_id)) {
-            /**
-             * from google documentation:
-             * A URL, or list of URLs pointing to the representative image file(s). Images must be
-             * at least 160x90 pixels and at most 1920x1080 pixels.
-             * We recommend images in .jpg, .png, or. gif formats.
-             * https://developers.google.com/structured-data/rich-snippets/articles
-             */
-            $td_image = wp_get_attachment_image_src($this->post_thumb_id, 'full');
-            if (!empty($td_image[0])) {
-                $buffy .= '<meta itemprop="image" content="' . esc_attr($td_image[0]) . '">';
-            }
-        }
-
-        // optional interaction count - basically here we add the comments number
-        $buffy .= '<meta itemprop="interactionCount" content="UserComments:' . get_comments_number($this->post->ID) . '"/>';
-        return $buffy;
+        return '';
     }
 
 
@@ -149,7 +117,7 @@ abstract class td_module {
         if ($this->is_review === false) {
             if (td_util::get_option('tds_p_show_author_name') != 'hide') {
                 $buffy .= '<span class="td-post-author-name">';
-                $buffy .= '<a itemprop="author" href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
+                $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
                 if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
                     $buffy .= ' <span>-</span> ';
                 }
@@ -179,8 +147,7 @@ abstract class td_module {
             if (td_util::get_option('tds_p_show_date') != 'hide') {
                 $td_article_date_unix = get_the_time('U', $this->post->ID);
                 $buffy .= '<span class="td-post-date">';
-                    $buffy .= '<time  itemprop="dateCreated" class="entry-date updated td-module-date' . $visibility_class . '" datetime="' . date(DATE_W3C, $td_article_date_unix) . '" >' . get_the_time(get_option('date_format'), $this->post->ID) . '</time>';
-                    $buffy .= '<meta itemprop="interactionCount" content="UserComments:' . get_comments_number($this->post->ID) . '"/>';
+                    $buffy .= '<time class="entry-date updated td-module-date' . $visibility_class . '" datetime="' . date(DATE_W3C, $td_article_date_unix) . '" >' . get_the_time(get_option('date_format'), $this->post->ID) . '</time>';
                 $buffy .= '</span>';
             }
         }
@@ -305,7 +272,7 @@ abstract class td_module {
                 }
 
                 $buffy .='<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
-                    $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" itemprop="image" class="entry-thumb" src="' . $td_temp_image_url[0] . '" ' . $attachment_alt . $attachment_title . '/>';
+                    $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" class="entry-thumb" src="' . $td_temp_image_url[0] . '" ' . $attachment_alt . $attachment_title . '/>';
 
                         // on videos add the play icon
                         if (get_post_format($this->post->ID) == 'video') {
@@ -345,8 +312,8 @@ abstract class td_module {
 
     function get_title($cut_at = '') {
         $buffy = '';
-        $buffy .= '<h3 itemprop="name" class="entry-title td-module-title">';
-        $buffy .='<a itemprop="url" href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
+        $buffy .= '<h3 class="entry-title td-module-title">';
+        $buffy .='<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
 
         //see if we have to cut the title and if we have the title lenght in the panel for ex: td_module_6__title_excerpt
         if ($cut_at != '') {
