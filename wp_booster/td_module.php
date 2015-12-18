@@ -444,25 +444,38 @@ abstract class td_module {
 
 		    // custom post type
 
-		    $taxonomy_objects = get_object_taxonomies($this->post, 'objects');
-		    $custom_taxonomy_object = '';
+		    // Validate that the current queried term is a term
+		    global $wp_query;
+		    $current_queried_term = $wp_query->get_queried_object();
 
-		    foreach ($taxonomy_objects as $taxonomy_object) {
-			    if ($taxonomy_object->_builtin !== 1) {
-				    $custom_taxonomy_object = $taxonomy_object;
-				    break;
+		    if ( $current_queried_term instanceof WP_Term ) {
+			    $current_term = term_exists( $current_queried_term->name, $current_queried_term->taxonomy );
+
+			    if ($current_term !== 0 && $current_term !== null) {
+				    $selected_category_obj = $current_queried_term;
 			    }
 		    }
 
-		    if (!empty($custom_taxonomy_object)) {
-			    $custom_taxonomy_terms = get_the_terms($this->post->ID, $custom_taxonomy_object->name);
 
-			    if (is_array($custom_taxonomy_terms) && count($custom_taxonomy_object)) {
-				    $selected_category_obj = $custom_taxonomy_terms[0];
-			    }
-		    }
-
+		    // Get and validate the custom taxonomy according to the validated queried term
 		    if (!empty($selected_category_obj)) {
+
+			    $taxonomy_objects = get_object_taxonomies($this->post, 'objects');
+			    $custom_taxonomy_object = '';
+
+			    foreach ($taxonomy_objects as $taxonomy_object) {
+
+				    if ($taxonomy_object->_builtin !== 1 && $taxonomy_object->name === $selected_category_obj->taxonomy) {
+					    $custom_taxonomy_object = $taxonomy_object;
+					    break;
+				    }
+			    }
+
+			    // Invalid taxonomy
+			    if (empty($custom_taxonomy_object)) {
+				    return $buffy;
+			    }
+
 			    $selected_category_obj_id = $selected_category_obj->term_id;
 			    $selected_category_obj_name = $selected_category_obj->name;
 		    }
