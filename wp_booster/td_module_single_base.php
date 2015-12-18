@@ -434,7 +434,7 @@ class td_module_single_base extends td_module {
      */
     function get_item_scope() {
         //show the review meta only on single posts that are reviews, the rest have to be article (in article lists)
-        if ($this->is_review) {
+        if ($this->is_review && is_single()) {
             return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Review"';
         } else {
             return 'itemscope itemtype="' . td_global::$http_or_https . '://schema.org/Article"';
@@ -454,6 +454,11 @@ class td_module_single_base extends td_module {
      * @return string
      */
     function get_item_scope_meta() {
+
+        // don't display meta on pages
+        if (!is_single()) {
+            return '';
+        }
 
         // determine publisher name - use author name if there's no blog name
         $td_publisher_name = get_bloginfo('name');
@@ -505,7 +510,7 @@ class td_module_single_base extends td_module {
 
         } else {
             // when the post has no image use the placeholder
-            $td_image[0] = get_template_directory_uri() . '/images/no-thumb/td_1068x580.png';
+            $td_image[0] = get_template_directory_uri() . '/images/no-thumb/td_meta_replacement.png';
             $td_image[1] = '1068';
             $td_image[2] = '580';
         }
