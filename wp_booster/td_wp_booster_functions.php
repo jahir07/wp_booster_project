@@ -203,14 +203,19 @@ function load_front_css() {
 
 
 	if (TD_DEBUG_USE_LESS) {
-		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
+
+        $style_path = td_less_style_compiler('style.css_v2');
+		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/' . $style_path,  '', TD_THEME_VERSION, 'all' );
 
 		if (td_global::$is_woocommerce_installed === true) {
-			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
+
+            $woo_path = td_less_style_compiler('woocommerce');
+			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/' . $woo_path, '', TD_THEME_VERSION, 'all');
 		}
 
 		if ($demo_id !== false and td_global::$demo_list[$demo_id]['uses_custom_style_css'] === true) {
-			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=' . $demo_id, '', TD_THEME_VERSION, 'all');
+            $demo_path = td_less_style_compiler($demo_id);
+			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/' . $demo_path, '', TD_THEME_VERSION, 'all');
 		}
 	} else {
 		wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
