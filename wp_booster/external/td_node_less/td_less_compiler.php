@@ -15,7 +15,8 @@ class td_less_compiler {
 		$response = self::compile_less_file($source, $destination);
 		if ($response === true) {
 			// everything worked ok
-			header('Location: ' . $destination);
+			//header('Location: ' . $destination);
+            return $destination;
 		}
 	}
 
@@ -23,8 +24,8 @@ class td_less_compiler {
 
 
 	static function compile_less_file($source, $destination) {
-		if (file_exists($destination)) {
-			// if the file is in used, try 10 times with 1 seconds delay
+        if (file_exists($destination)) {
+            // if the file is in used, try 10 times with 1 seconds delay
 			for ( $i = 0 ; $i < 10; $i++) {
 				$unlink_status = @unlink($destination);   // this returns false if the file is in use
 				if ($unlink_status === true) {
@@ -41,8 +42,11 @@ class td_less_compiler {
 			1 => array("pipe", "w"), // STDOUT
 			2 => array("pipe", "w"), // STDERR
 		);
-		$cwd = getcwd();
-		$env = null;
+
+		//$cwd = getcwd();
+        $cwd = td_global::$get_template_directory;
+
+        $env = null;
 		$proc = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
 		if (is_resource($proc)) {
 			$stdout = stream_get_contents($pipes[1]);

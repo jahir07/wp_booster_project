@@ -357,7 +357,10 @@ function load_wp_admin_css() {
 	$td_protocol = is_ssl() ? 'https' : 'http';
 	wp_enqueue_style('google-font-ubuntu', $td_protocol . '://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic&amp;subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic'); //used on content
 	if (TD_DEPLOY_MODE == 'dev') {
-		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=wp-admin.css', false, TD_THEME_VERSION, 'all' );
+
+        $path = td_less_style_compiler('wp-admin.css');
+
+		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/' . $path, false, TD_THEME_VERSION, 'all' );
 	} else {
 		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/css/wp-admin.css', false, TD_THEME_VERSION, 'all' );
 	}
