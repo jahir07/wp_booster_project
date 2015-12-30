@@ -1400,6 +1400,7 @@ title one row controls
   left: 1142px;
   bottom: 25px;
   top: auto;
+  z-index: 1;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -1837,6 +1838,7 @@ title one row controls
   font-weight: 500;
   padding: 4px 8px;
   margin-right: 5px;
+  margin-bottom: 5px;
   position: relative;
   top: 0;
   vertical-align: top;
@@ -1850,23 +1852,24 @@ title one row controls
   background-color: transparent;
 }
 .td_panel_box_category_tag_on_modulesblocks .td-box-description {
-  width: 350px;
-  padding-bottom: 37px;
+  width: 400px;
+  padding-bottom: 10px;
+  padding-top: 18px;
+}
+.td_panel_box_category_tag_on_modulesblocks .td-checkbox {
+  margin: 0;
 }
 .td_panel_box_category_tag_on_modulesblocks .td-box-control-full {
-  width: 370px;
+  width: 320px;
+  padding-top: 20px;
 }
 .td_panel_box_category_tag_on_modulesblocks .td-box-row {
   border-bottom: 1px dashed #dddddd;
-  height: 53px;
   margin-right: 22px;
 }
 .td_panel_box_category_tag_on_modulesblocks .td-box-content .td-box-row:first-child {
   border: 0;
   margin-bottom: 30px;
-}
-.td_panel_box_category_tag_on_modulesblocks .td-box-content .td-box-row:nth-last-child(2) {
-  border: 0;
 }
 /*  ----------------------------------------------------------------------------
     pagebuilder
