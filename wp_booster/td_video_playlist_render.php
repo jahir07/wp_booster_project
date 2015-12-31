@@ -71,7 +71,8 @@ class td_video_playlist_render {
 					if (empty($td_playlist_videos[$list_name])) {
 						$td_playlist_videos[$list_name] = $uncached_videos;
 					} else {
-						$td_playlist_videos[$list_name] = array_merge($td_playlist_videos[$list_name], $uncached_videos);
+						// array_merge can't be used because it reindex integer indexes ( and youtube indexes are integers)
+						$td_playlist_videos[$list_name] = $td_playlist_videos[$list_name] + $uncached_videos;
 					}
 					update_post_meta($post->ID, 'td_playlist_video', $td_playlist_videos);
 				}
