@@ -280,6 +280,13 @@ abstract class td_smart_list {
     }
 
 
+
+	/*
+	 * @todo The next _wp_link_page function should be moved to td_util class, this being a custom helper function.
+	 * The access specifier was changed from 'private' to 'public'
+	 *
+	 */
+
     /**
      * This function returns the pagination link for the current post
      * TAGDIV: - taken from wordpress wp-includes/post-template.php
@@ -294,7 +301,7 @@ abstract class td_smart_list {
      * @param int $i Page number.
      * @return string Link.
      */
-    private function _wp_link_page( $i ) {
+    public function _wp_link_page( $i ) {
         global $wp_rewrite;
         $post = get_post();
 
@@ -340,7 +347,43 @@ abstract class td_smart_list {
     }
 
 
+	/**
+	 * Split the content into items and return the item list.
+	 * For the moment it's used to compute the canonical links by a wp_head callback function.
+	 *
+	 * Obs. It's too late to hook on wp_head from here, that's why this helper function is called
+	 * from a wp_head callback function early registered in booster functions.
+	 *
+	 * @param $smart_list_settings
+	 *
+	 * @return array
+	 */
+	function get_formatted_list_items($smart_list_settings) {
+		$this->counting_order_asc = $smart_list_settings['counting_order_asc'];
 
+		// make a new tokenizer
+		$td_tokenizer = new td_tokenizer();
+		$td_tokenizer->token_title_start = $smart_list_settings['td_smart_list_h'];
+		$td_tokenizer->token_title_end = $smart_list_settings['td_smart_list_h'];
+
+
+		// get the list items
+		$list_items = $td_tokenizer->split_to_list_items(array(
+				'content' => $smart_list_settings['post_content'],
+				'extract_first_image' => $smart_list_settings['extract_first_image']
+			)
+		);
+
+		// no items found, we return the content as is
+		if (empty($list_items['list_items'])) {
+			return $smart_list_settings['post_content'];
+		}
+
+		// we need to number all the items before pagination because item 2 can have number 4 if the counting method is desc
+		$list_items = $this->add_numbers_to_list_items($list_items);
+
+		return $list_items;
+	}
 
 }
 
