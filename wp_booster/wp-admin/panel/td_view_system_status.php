@@ -131,6 +131,7 @@ require_once "td_view_header.php";
 	    $show_mobile_theme_status = true;
 	    $jetpack_mobile_version_is_active = false;
 	    $w3_total_cache_is_active = false;
+	    $tagdiv_mobile_plugin_is_active = false;
 
 	    $td_mobile_theme_tooltip = '';
 	    $td_mobile_theme_value = '';
@@ -150,25 +151,29 @@ require_once "td_view_header.php";
 		    }
 	    }
 
-	    if ( is_plugin_active( 'w3-total-cache/w3-total-cache.php' ) ) {
+	    if (is_plugin_active( 'w3-total-cache/w3-total-cache.php')) {
 		    $w3_total_cache_is_active = true;
 	    }
 
-	    if (true === td_is_td_mobile_plugin_active()) {
+	    if (is_plugin_active('td-mobile-plugin/td-mobile-plugin.php')) {
+		    $tagdiv_mobile_plugin_is_active = true;
+	    }
+
+	    if ($tagdiv_mobile_plugin_is_active === true) {
 		    $td_mobile_theme_tooltip = 'The mobile version of the  ' . TD_THEME_NAME;
 		    $td_mobile_theme_value = TD_THEME_NAME . ' mobile version';
 		    $td_mobile_theme_status = 'green';
 
-		    if (true === $jetpack_mobile_version_is_active) {
+		    if ($jetpack_mobile_version_is_active === true) {
 			    $td_mobile_theme_tooltip = 'The mobile version of the  ' . TD_THEME_NAME . ' can\'t be seen because the Jetpack mobile theme is still active. Please deactivate it';
 			    $td_mobile_theme_value = 'Jetpack mobile version';
 			    $td_mobile_theme_status = 'red';
-		    } else if (true === $w3_total_cache_is_active) {
+		    } else if ($w3_total_cache_is_active === true) {
 			    $td_mobile_theme_tooltip = 'The mobile version of the  ' . TD_THEME_NAME . ' isn\'t compatible with the W3 Total Cache plugin. Use instead the WP Super Cache plugin';
 			    $td_mobile_theme_status = 'red';
 		    }
 	    } else {
-		    if (true === $jetpack_mobile_version_is_active) {
+		    if ($jetpack_mobile_version_is_active === true) {
 			    $td_mobile_theme_tooltip = 'Jetpack mobile theme is not fully compatible with ' . TD_THEME_NAME . '. For best results, activate the TAGDIV mobile plugin and use the ' . TD_THEME_NAME . ' mobile version';
 			    $td_mobile_theme_value = 'Jetpack mobile version';
 			    $td_mobile_theme_status = 'yellow';
@@ -178,7 +183,7 @@ require_once "td_view_header.php";
 		    }
 	    }
 
-	    if (true === $show_mobile_theme_status) {
+	    if ($show_mobile_theme_status === true) {
 		    td_system_status::add('Theme config', array(
 			    'check_name' => 'Theme Mobile',
 			    'tooltip' => $td_mobile_theme_tooltip,

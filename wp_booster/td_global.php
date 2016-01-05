@@ -68,8 +68,6 @@ class td_global {
 
 	static $td_viewport_intervals = array(); // the tdViewport intervals are stored
 
-	const TD_MOB_KEY_PAD = '_mob'; // str padding added to the mobile keys settings
-
 
     /**
      * the js files that the theme uses on the front end (file_id - filename) @see td_wp_booster_config
