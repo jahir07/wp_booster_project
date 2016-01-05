@@ -1,7 +1,7 @@
 <?php
 /**
  * Used only on dev! - it is removed from the package by our deploy ;)
- * V2.0
+ * V2.1
  */
 
 
@@ -14,9 +14,24 @@ class td_less_compiler {
 	static function compile_and_redirect($source, $destination) {
 		$response = self::compile_less_file($source, $destination);
 		if ($response === true) {
-			// everything worked ok
-			//header('Location: ' . $destination);
-            return $destination;
+			header('Content-type: text/css');
+			echo "@import url('$destination');";
+
+			echo PHP_EOL . PHP_EOL . '/*' . PHP_EOL . PHP_EOL;
+
+
+			echo 'compiled file full path (can be opened in browser):' . PHP_EOL ;
+
+			$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+			echo dirname ($actual_link) . '/' . $destination . PHP_EOL;
+
+
+
+			echo PHP_EOL . PHP_EOL . PHP_EOL . 'less source: ' . PHP_EOL . $source . PHP_EOL;
+
+
+
+			echo PHP_EOL . '*/';
 		}
 	}
 
@@ -24,8 +39,8 @@ class td_less_compiler {
 
 
 	static function compile_less_file($source, $destination) {
-        if (file_exists($destination)) {
-            // if the file is in used, try 10 times with 1 seconds delay
+		if (file_exists($destination)) {
+			// if the file is in used, try 10 times with 1 seconds delay
 			for ( $i = 0 ; $i < 10; $i++) {
 				$unlink_status = @unlink($destination);   // this returns false if the file is in use
 				if ($unlink_status === true) {
@@ -42,11 +57,8 @@ class td_less_compiler {
 			1 => array("pipe", "w"), // STDOUT
 			2 => array("pipe", "w"), // STDERR
 		);
-
-		//$cwd = getcwd();
-        $cwd = td_global::$get_template_directory;
-
-        $env = null;
+		$cwd = getcwd();
+		$env = null;
 		$proc = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
 		if (is_resource($proc)) {
 			$stdout = stream_get_contents($pipes[1]);
