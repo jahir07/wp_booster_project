@@ -137,7 +137,7 @@ class td_video_playlist_render {
             $js_object = '';
             $click_video_container = '';
 
-			$js_variable = '';
+			$js_variable = ';if (undefined === window.td_' . $list_type . '_list_ids) {window.td_' . $list_type . '_list_ids = {}};';
 
             foreach($videos_meta as $video_id => $video_data) {
 
@@ -147,7 +147,7 @@ class td_video_playlist_render {
 
                 //add comma (,) for next value
                 if(!empty($js_object)) {$js_object .= ',';}
-                $js_object .= "\n'td_".$video_id."':{";
+                //$js_object .= "\n'td_".$video_id."':{";
 
                 $video_data_propeties = '';
 
@@ -185,17 +185,16 @@ class td_video_playlist_render {
 				//$click_video_container .= '<a id="td_' . $video_id . '" class="td_click_video td_click_video_' . $list_type . '" data-video-id="' . $video_id . '"> ' . $playlist_structure_thumb . $playlist_structure_title . '</a>';
 				$click_video_container .= '<a class="td_' . $video_id . ' td_click_video td_click_video_' . $list_type . '" data-video-id="' . $video_id . '"> ' . $playlist_structure_thumb . $playlist_structure_title . '</a>';
 
-				$js_object .= $video_data_propeties . "}";
+				//$js_object .= $video_data_propeties . "}";
 
-
-				$js_variable .= "\n var td_" . $video_id . ' = { ' . $video_data_propeties . ' } ';
+				$js_variable .= 'window.td_' . $list_type . '_list_ids[\'td_' . $video_id . '\'] = {' . $video_data_propeties . '};';
 			}
 
 
 
-            if(!empty($js_object)) {
-                $js_object = 'var td_' . $list_type . '_list_ids = {' .$js_object. '}';
-            }
+//            if(!empty($js_object)) {
+//                $js_object = 'var td_' . $list_type . '_list_ids = {' .$js_object. '}';
+//            }
 
             //creating column number classes
             $column_number_class = 'td_video_playlist_column_2';
@@ -251,7 +250,7 @@ class td_video_playlist_render {
                        </div>
                     </div>
                     </div>
-                    <script>' . $js_object . ';' . $js_variable . '</script>';
+                    <script>' . $js_variable . '</script>';
 		}
 
 		return '';
