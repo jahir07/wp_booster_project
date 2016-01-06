@@ -204,19 +204,14 @@ function load_front_css() {
 
 
 	if (TD_DEBUG_USE_LESS) {
-
-        $style_path = td_less_style_compiler('style.css_v2');
-		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/' . $style_path,  '', TD_THEME_VERSION, 'all' );
+		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
 
 		if (td_global::$is_woocommerce_installed === true) {
-
-            $woo_path = td_less_style_compiler('woocommerce');
-			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/' . $woo_path, '', TD_THEME_VERSION, 'all');
+			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
 		}
 
 		if ($demo_id !== false and td_global::$demo_list[$demo_id]['uses_custom_style_css'] === true) {
-            $demo_path = td_less_style_compiler($demo_id);
-			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/' . $demo_path, '', TD_THEME_VERSION, 'all');
+			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=' . $demo_id, '', TD_THEME_VERSION, 'all');
 		}
 	} else {
 		wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
@@ -363,10 +358,7 @@ function load_wp_admin_css() {
 	$td_protocol = is_ssl() ? 'https' : 'http';
 	wp_enqueue_style('google-font-ubuntu', $td_protocol . '://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic&amp;subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic'); //used on content
 	if (TD_DEPLOY_MODE == 'dev') {
-
-        $path = td_less_style_compiler('wp-admin.css');
-
-		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/' . $path, false, TD_THEME_VERSION, 'all' );
+		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=wp-admin.css', false, TD_THEME_VERSION, 'all' );
 	} else {
 		wp_enqueue_style('td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/css/wp-admin.css', false, TD_THEME_VERSION, 'all' );
 	}
@@ -430,6 +422,131 @@ function load_wp_admin_js() {
 
 }
 
+
+/* ----------------------------------------------------------------------------
+ * Prepare the head canonical links on smart lists and pages with pagination.
+ * @see https://googlewebmastercentral.blogspot.de/2011/09/pagination-with-relnext-and-relprev.html
+ *
+ * FOR THE MOMENT, the canonical links will be applied (Uncomment the wp hook) only at the clients' requirement.
+ */
+//add_action('wp_head', 'td_on_wp_head_canonical',  1);
+function td_on_wp_head_canonical(){
+
+	global $post;
+	$td_smart_list = get_post_meta($post->ID, 'td_post_theme_settings', true);
+
+	/** ----------------------------------------------------------------------------
+	 * Smart list support. class_exists and new object WORK VIA AUTOLOAD
+	 * @see td_autoload_classes::loading_classes
+	 */
+	if (!empty($td_smart_list['smart_list_template'])) {
+
+		$td_smart_list_class = $td_smart_list['smart_list_template'];
+		if (class_exists($td_smart_list_class)) {
+
+			global $paged, $page;
+			$td_page = max($paged, $page);
+
+			$content = $post->post_content;
+			$content = apply_filters('the_content', $content);
+			$content = str_replace(']]>', ']]&gt;', $content);
+
+			// Remove the wp action links
+			remove_action('wp_head', 'rel_canonical');
+			remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
+
+			if (class_exists('WPSEO_Frontend')) {
+				// Remove the canonical action of the Yoast SEO plugin
+				remove_action( 'wpseo_head', array( WPSEO_Frontend::get_instance(), 'canonical' ), 20 );
+			}
+
+			// For the first page, there is no page setting, so we use 1
+			if ($td_page === 0) {
+				$td_page = 1;
+			}
+
+			/**
+			 * @var $td_smart_list_obj td_smart_list
+			 */
+			$td_smart_list_obj = new $td_smart_list_class();  // make the class from string * magic :)
+
+			// prepare the settings for the smart list
+			$smart_list_settings = array(
+				'post_content' => $content,
+				'counting_order_asc' => false,
+				'td_smart_list_h' => 'h3',
+				'extract_first_image' => td_api_smart_list::get_key($td_smart_list_class, 'extract_first_image')
+			);
+
+			if (!empty($td_smart_list['td_smart_list_order'])) {
+				$smart_list_settings['counting_order_asc'] = true;
+			}
+
+			if (!empty($td_smart_list['td_smart_list_h'])) {
+				$smart_list_settings['td_smart_list_h'] = $td_smart_list['td_smart_list_h'];
+			}
+
+			$list_items = $td_smart_list_obj->get_formatted_list_items($smart_list_settings);
+
+			if (array_key_exists('list_items', $list_items) && !empty($list_items['list_items'])) {
+				$count_items = count($list_items['list_items']);
+				foreach ($list_items['list_items'] as $list_item) {
+					if ($td_page == $list_item['current_item_number']) {
+						echo '<link rel="canonical" href="' . $td_smart_list_obj->_wp_link_page($td_page) . '"/>';
+						if ($td_page > 1) {
+							echo '<link rel="prev" href="' . $td_smart_list_obj->_wp_link_page($td_page - 1) . '"/>';
+						}
+						if ($td_page < $count_items) {
+							echo '<link rel="next" href="' . $td_smart_list_obj->_wp_link_page($td_page + 1) . '"/>';
+						}
+						break;
+					}
+				}
+			}
+		}
+
+	} else if (is_page() && 'page-pagebuilder-latest.php' === get_post_meta($post->ID, '_wp_page_template', true)) {
+
+		$td_page = get_query_var('page') ? get_query_var('page') : 1; //rewrite the global var
+		$td_paged = get_query_var('paged') ? get_query_var('paged') : 1; //rewrite the global var
+
+		$td_page = intval($td_page);
+		$td_paged = intval($td_paged);
+
+		//paged works on single pages, page - works on homepage
+		if ($td_paged > $td_page) {
+			$paged = $td_paged;
+		} else {
+			$paged = $td_page;
+		}
+
+		global $wp_query;
+
+		$td_homepage_loop = get_post_meta($post->ID, 'td_homepage_loop', true);
+		query_posts(td_data_source::metabox_to_args($td_homepage_loop, $paged));
+
+		$max_page = $wp_query->max_num_pages;
+
+		// Remove the wp action links
+		remove_action('wp_head', 'rel_canonical');
+		remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
+
+		if (class_exists('WPSEO_Frontend')) {
+			// Remove the canonical action of the Yoast SEO plugin
+			remove_action( 'wpseo_head', array( WPSEO_Frontend::get_instance(), 'canonical' ), 20 );
+		}
+
+		echo '<link rel="canonical" href="' . get_pagenum_link($paged) . '"/>';
+
+		if ($paged > 1) {
+			echo '<link rel="prev" href="' . get_pagenum_link($paged - 1) . '"/>';
+		}
+		if ($paged < $max_page) {
+			echo '<link rel="next" href="' . get_pagenum_link($paged + 1) . '"/>';
+		}
+		wp_reset_query();
+	}
+}
 
 
 
@@ -718,7 +835,7 @@ function td_bottom_code() {
 
     <!--
 
-        Theme: ' . TD_THEME_NAME .' by tagDiv 2015
+        Theme: ' . TD_THEME_NAME .' by tagDiv 2016
         Version: ' . TD_THEME_VERSION . ' (rara)
         Deploy mode: ' . TD_DEPLOY_MODE . '
         ' . $speed_booster . '

@@ -49,14 +49,7 @@ class td_api_category_template extends td_api_base {
 	    $tdc_option_key = 'tdc_category_template';
 	    $tds_option_key = 'tds_category_template';
 
-	    // For the mobile theme, we are looking for other keys
-	    // There will be a general switch here to check for mobile, woo, etc.
-	    if (td_is_mobile_theme() === true) {
-		    $tdc_option_key .= td_global::TD_MOB_KEY_PAD;
-		    $tds_option_key .= td_global::TD_MOB_KEY_PAD;
-	    }
-
-        $template_id = td_util::get_category_option(td_global::$current_category_obj->cat_ID, $tdc_option_key);  // read the category setting
+	    $template_id = td_util::get_category_option(td_global::$current_category_obj->cat_ID, $tdc_option_key);  // read the category setting
 
         if (empty($template_id)) { // if no category setting, read the global template setting
             $template_id = td_util::get_option($tds_option_key);

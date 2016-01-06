@@ -71,7 +71,8 @@ class td_video_playlist_render {
 					if (empty($td_playlist_videos[$list_name])) {
 						$td_playlist_videos[$list_name] = $uncached_videos;
 					} else {
-						$td_playlist_videos[$list_name] = array_merge($td_playlist_videos[$list_name], $uncached_videos);
+						// array_merge can't be used because it reindex integer indexes ( and youtube indexes are integers)
+						$td_playlist_videos[$list_name] = $td_playlist_videos[$list_name] + $uncached_videos;
 					}
 					update_post_meta($post->ID, 'td_playlist_video', $td_playlist_videos);
 				}
@@ -95,7 +96,7 @@ class td_video_playlist_render {
 	}
 
 
-    private static function inner ($atts, $list_type) {
+	private static function inner ($atts, $list_type) {
 
 
 
@@ -135,6 +136,8 @@ class td_video_playlist_render {
             $contor_first_video = 0;
             $js_object = '';
             $click_video_container = '';
+
+			$js_variable = '';
 
             foreach($videos_meta as $video_id => $video_data) {
 
@@ -179,10 +182,14 @@ class td_video_playlist_render {
                 $playlist_structure_title .= '</div>';
 
                 //creating click-able playlist video
-                $click_video_container .= '<a id="td_' . $video_id . '" class="td_click_video td_click_video_' . $list_type . '"> ' . $playlist_structure_thumb . $playlist_structure_title . '</a>';
+				//$click_video_container .= '<a id="td_' . $video_id . '" class="td_click_video td_click_video_' . $list_type . '" data-video-id="' . $video_id . '"> ' . $playlist_structure_thumb . $playlist_structure_title . '</a>';
+				$click_video_container .= '<a class="td_' . $video_id . ' td_click_video td_click_video_' . $list_type . '" data-video-id="' . $video_id . '"> ' . $playlist_structure_thumb . $playlist_structure_title . '</a>';
 
-                $js_object .= $video_data_propeties . "}";
-            }
+				$js_object .= $video_data_propeties . "}";
+
+
+				$js_variable .= "\n var td_" . $video_id . ' = { ' . $video_data_propeties . ' } ';
+			}
 
 
 
@@ -228,25 +235,25 @@ class td_video_playlist_render {
             }
 
 
-	        //creating title wrapper if any
-	        $td_video_title = '';
-	        if ( !empty($atts['playlist_title']) ) {
-		        $td_video_title = '<div class="td_video_playlist_title"><div class="td_video_title_text">' . $atts['playlist_title'] . '</div></div>';
-	        }
+			//creating title wrapper if any
+			$td_video_title = '';
+			if ( !empty($atts['playlist_title']) ) {
+				$td_video_title = '<div class="td_video_playlist_title"><div class="td_video_title_text">' . $atts['playlist_title'] . '</div></div>';
+			}
 
 
-            //$js_object is there so we can take the string and parsit as json to create an object in jQuery
-            return '<div class="' . $column_number_class . '">' . $td_video_title  . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player td_wrapper_playlist_player_' . $list_type . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
+			//$js_object is there so we can take the string and parsit as json to create an object in jQuery
+			return '<div class="' . $column_number_class . '">' . $td_video_title  . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player td_wrapper_playlist_player_' . $list_type . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
                             <div id="player_' . $list_type . '"></div>
                        </div><div class="td_container_video_playlist " >
-                                                <div class="td_video_controls_playlist_wrapper"><div class="td_video_stop_play_control"><a class="' . $td_class_autoplay_control . ' td-sp td_' . $list_type . '_control"></a></div><div id="td_current_video_play_title_' . $list_type . '" class="td_video_title_playing"></div><div id="td_current_video_play_time_' . $list_type . '" class="td_video_time_playing"></div></div>
+                                                <div class="td_video_controls_playlist_wrapper"><div class="td_video_stop_play_control"><a class="' . $td_class_autoplay_control . ' td-sp td_' . $list_type . '_control"></a></div><div class="td_current_video_play_title_' . $list_type . ' td_video_title_playing"></div><div class="td_current_video_play_time_' . $list_type . ' td_video_time_playing"></div></div>
                                                 <div id="td_' . $list_type . '_playlist_video" class="td_playlist_clickable ' . $td_class_number_video_ids . '">' . $click_video_container . '</div>
                        </div>
                     </div>
                     </div>
-                    <script>' . $js_object . '</script>';
-        }
+                    <script>' . $js_object . ';' . $js_variable . '</script>';
+		}
 
-        return '';
-    }
+		return '';
+	}
 }//end td_playlist_render
