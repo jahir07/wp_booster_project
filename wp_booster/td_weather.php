@@ -306,12 +306,14 @@ class td_weather {
 
 		// fail
 		if ($json_api_response === false) {
+            td_log::log(__FILE__, __FUNCTION__, 'Api call failed', $today_weather_url);
 			return 'Error getting remote data for today forecast. Please check your server configuration';
 		}
 
 		// try to decode the json
 		$api_response = @json_decode($json_api_response, true);
 		if ($api_response === null and json_last_error() !== JSON_ERROR_NONE) {
+            td_log::log(__FILE__, __FUNCTION__, 'Error decoding the json', $api_response);
 			return 'Error decoding the json from OpenWeatherMap';
 		}
 
@@ -426,12 +428,14 @@ class td_weather {
 
 		// fail
 		if ($json_api_response === false) {
+            td_log::log(__FILE__, __FUNCTION__, 'Api call failed', $today_weather_url);
 			return 'Error getting remote data for 5 days forecast. Please check your server configuration';
 		}
 
 		// try to decode the json
 		$api_response = @json_decode($json_api_response, true);
 		if ($api_response === null and json_last_error() !== JSON_ERROR_NONE) {
+            td_log::log(__FILE__, __FUNCTION__, 'Error decoding the json', $api_response);
 			return 'Error decoding the json from OpenWeatherMap';
 		}
 
