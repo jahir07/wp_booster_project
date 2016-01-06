@@ -72,20 +72,22 @@ var tdAffix = {};
 
             // a computation before jquery.ready is necessary for firefox, where tdEvents.scroll comes before
             if ( tdDetect.isFirefox ) {
-                tdAffix.compute_top();
                 tdAffix.compute_wrapper();
+                tdAffix.compute_top();
+
             }
 
             jQuery().ready(function() {
                 //compute on semi dom ready
-                tdAffix.compute_top();
                 tdAffix.compute_wrapper();
+                tdAffix.compute_top();
+
             });
 
             //recompute when all the page + logos are loaded
             jQuery( window ).load(function() {
-                tdAffix.compute_top();
                 tdAffix.compute_wrapper();
+                tdAffix.compute_top();
 
                 //recompute after 1 sec for retarded phones
                 setTimeout(function(){
