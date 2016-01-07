@@ -202,8 +202,8 @@ jQuery().ready(function() {
                     //container is here in case we need to add multiple players on page
                     youtubePlayer.tdPlaylistIdYoutubeVideoRunning = videoIdToPlay;
 
-                    var current_video_name = window['td_' + youtubePlayer.tdPlaylistIdYoutubeVideoRunning]['title'],
-                        current_video_time = window['td_' + youtubePlayer.tdPlaylistIdYoutubeVideoRunning]['time'];
+                    var current_video_name = window.td_youtube_list_ids['td_' + youtubePlayer.tdPlaylistIdYoutubeVideoRunning]['title'],
+                        current_video_time = window.td_youtube_list_ids['td_' + youtubePlayer.tdPlaylistIdYoutubeVideoRunning]['time'];
 
                     //remove focus from all videos from playlist
                     youtubePlayer.jqTDWrapperVideoPlaylist.find( '.td_click_video_youtube' ).removeClass( 'td_video_currently_playing' );
@@ -454,8 +454,8 @@ jQuery().ready(function() {
                         this.currentVideoPlaying = videoId;
 
                         var autoplay = '',
-                            current_video_name = window['td_' + videoId]['title'],
-                            current_video_time = window['td_' + videoId]['time'];
+                            current_video_name = window.td_vimeo_list_ids['td_' + videoId]['title'],
+                            current_video_time = window.td_vimeo_list_ids['td_' + videoId]['time'];
 
                         //remove focus from all videos from playlist
                         vimeoPlayer.jqTDWrapperVideoPlaylist.find( '.td_click_video_vimeo' ).removeClass( 'td_video_currently_playing' );
