@@ -35,19 +35,75 @@ class td_exchange {
         return $buffy;
     }
 
+    /**
+     * @param $base_currency_code (string) - ex. AUD or USD
+     * @param $base_currency_rate (integer)
+     * @param $default_api_rates (array)
+     * @return $new_rate (array) - new rate based on the base rate
+     */
+    private static function td_calculate_new_rates($base_currency_code, $base_currency_rate, $default_api_rates) {
+        foreach ($default_api_rates as $rate_code => $rate_value) {
+            // remove the custom selected base rate from the the list
+            if ($base_currency_code != $rate_code) {
+                $new_rates[$rate_code] = $rate_value / $base_currency_rate;
+            }
+        }
+        return $new_rates;
+    }
 
 
     private static function render_block_template($atts, $exchange_data) {
         // stop render when no data is received
         if ($exchange_data['api_rates'] == ''){
-            return self::error('Render failed - no data is received: ' . $atts['e_base']);
+            return self::error('Render failed - no data is received: ' . $atts['e_base_currency']);
         }
 
         ob_start();
+        if ($atts['e_base_currency'] == '') {
+            // default base currency is EUR
+            $atts['e_base_currency'] = 'eur';
+        } else {
+            // we have custom base currency - add EUR to the rates list
+            $exchange_data['api_rates']['EUR'] = 1;
+            // custom base currency code and rate
+            $base_currency_code = strtoupper($atts['e_base_currency']);
+            $base_currency_rate = $exchange_data['api_rates'][$base_currency_code];
+            // recalculate all rates
+            $exchange_data['api_rates'] = self::td_calculate_new_rates($base_currency_code, $base_currency_rate, $exchange_data['api_rates']);
+        }
+
+        // check if we have custom rates
+        if ($atts['e_custom_rates'] != ''){
+            // retrieve custom rates codes
+            $e_custom_rates = explode(',',strtoupper($atts['e_custom_rates']));
+            // store custom selected rates
+            $custom_rates_output = array();
+
+            foreach ($e_custom_rates as $e_custom_rate) {
+                // remove whitespace for each custom rate code
+                $e_custom_rate = trim($e_custom_rate);
+                // check if the custom exists in the api rates array
+                if (isset($exchange_data['api_rates'][$e_custom_rate])){
+                    $custom_rates_output[$e_custom_rate] = $exchange_data['api_rates'][$e_custom_rate];
+                }
+            }
+            // replace default rates with custom rates
+            if (!empty($custom_rates_output)) {
+                $exchange_data['api_rates'] = $custom_rates_output;
+            }
+        }
+
+        // get rate decimals
+        $e_rate_decimals = $atts['e_rate_decimals'];
+        // default decimals is 4
+        if ($atts['e_rate_decimals'] == '') {
+            $e_rate_decimals = 4;
+        }
+
         ?>
 
         <div class="td-exchange-header">
-            <div class="td-exchange-base">Base currency - <?php echo $exchange_data['api_base'] ?></div>
+            <div class="td-exchange-base">Base currency - <?php echo strtoupper($atts['e_base_currency']) ?></div>
             <i class="td-icon-<?php echo $exchange_data['api_base'] ?>"></i>
         </div>
 
@@ -55,39 +111,13 @@ class td_exchange {
          <div class="td-exchange-rates">
             <?php
 
-            // check if we have custom rates
-            if ($atts['e_rates'] != ''){
-
-                // custom rates
-                $custom_exchange_rates = array();
-
-                // retrieve the data for the custom rates
-                $e_rates = explode(',',strtoupper($atts['e_rates']));
-
-                foreach ($e_rates as $e_currency) {
-                    foreach ($exchange_data['api_rates'] as $exchange_currency => $exchange_rate) {
-                        // remove whitespace for custom rates
-                        $e_currency = trim($e_currency);
-
-                        if ($e_currency == $exchange_currency){
-                            $custom_exchange_rates[$exchange_currency] = $exchange_rate;
-                        }
-                    }
-                }
-
-                // replace default rates with custom rates
-                if (!empty($custom_exchange_rates)) {
-                    $exchange_data['api_rates'] = $custom_exchange_rates;
-                }
-            }
-
-            foreach ($exchange_data['api_rates'] as $exchange_currency => $exchange_rate) {
+            foreach ($exchange_data['api_rates'] as $rate_code => $rate_value) {
                 // use lowercase on classes
-                $exchange_currency_class = strtolower($exchange_currency);
+                $rate_code_class = strtolower($rate_code);
                 ?>
                 <div class="td-rate">
-                    <div class="td-rate-<?php echo $exchange_currency_class ?>"><?php echo $exchange_currency . ' - ' . $exchange_rate?></div>
-                    <i class="td-icon-<?php echo $exchange_currency_class ?>"></i>
+                    <div class="td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . ' - ' . number_format_i18n(round($rate_value, $e_rate_decimals), $e_rate_decimals)?></div>
+                    <i class="td-icon-<?php echo $rate_code_class ?>"></i>
                 </div>
             <?php
             }
@@ -107,13 +137,7 @@ class td_exchange {
      */
     private static function get_exchange_data($atts, &$exchange_data) {
 
-        // set the base currency
-        $base_currency = 'eur';
-        if (!empty($atts['e_base'])) {
-            $base_currency = $atts['e_base'];
-        }
-
-        $cache_key = strtolower('td_exchange_' . $base_currency);
+        $cache_key = 'td_exchange_eur';
 		if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
             // cache is expired - do a request
             $fixed_api_data = self::fixer_get_data($atts, $exchange_data);
@@ -150,13 +174,9 @@ class td_exchange {
      *   - string: the error message, if there was an error
      */
     private static function fixer_get_data($atts, &$exchange_data){
-        // default base currency is eur and it returns all rates
-        $custom_rates = '';
-        if (!empty($atts['e_base'])) {
-            $custom_rates = '?base=' . $atts['e_base'];
-        }
 
-        $api_url = 'https://api.fixer.io/latest' . $custom_rates;
+        // default base currency is eur and it returns all rates
+        $api_url = 'https://api.fixer.io/latest';
         $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
 
         // check for a response
