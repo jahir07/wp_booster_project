@@ -114,9 +114,11 @@ class td_exchange {
             foreach ($exchange_data['api_rates'] as $rate_code => $rate_value) {
                 // use lowercase on classes
                 $rate_code_class = strtolower($rate_code);
+                // round the rate value using decimals set on block settings
+                $rate_value = round($rate_value, $e_rate_decimals);
                 ?>
                 <div class="td-rate">
-                    <div class="td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . ' - ' . number_format_i18n(round($rate_value, $e_rate_decimals), $e_rate_decimals)?></div>
+                    <div class="td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . ' - ' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
                     <i class="td-icon-<?php echo $rate_code_class ?>"></i>
                 </div>
             <?php
