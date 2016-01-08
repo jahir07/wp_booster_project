@@ -2334,7 +2334,7 @@ add_filter('redirect_canonical', 'td_fix_wp_441_pagination', 10, 2);
 function td_fix_wp_441_pagination($redirect_url, $requested_url) {
 	global $wp_query;
 
-	if (is_page() && !is_feed() && isset($wp_query->queried_object) && get_page_template_slug($wp_query->queried_object->ID) == 'page-pagebuilder-latest.php') {
+	if (is_page() && !is_feed() && isset($wp_query->queried_object) && get_query_var('page') && get_page_template_slug($wp_query->queried_object->ID) == 'page-pagebuilder-latest.php') {
 		return false;
 	}
 
