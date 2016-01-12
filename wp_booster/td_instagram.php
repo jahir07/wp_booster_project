@@ -37,13 +37,15 @@ class td_instagram {
         // debugging
 //        echo '<pre>';
 //        print_r($instagram_data);
+//        //echo gettype($instagram_data['user']['followed_by']['count']);
 //        echo '</pre>';
+
 
         ob_start();
 
         // number of images per row - by default display 3 images
         $images_per_row = 3;
-        if ($atts['instagram_number_of_images'] != '') {
+        if ($atts['instagram_images_per_row'] != '') {
             $images_per_row = $atts['instagram_images_per_row'];
         }
 
@@ -58,8 +60,36 @@ class td_instagram {
 
         // image gap
         $image_gap = '';
-        if ($atts['instagram_margin'] != ''){
+        if ($atts['instagram_margin'] != '') {
             $image_gap = ' td-image-gap-' . $atts['instagram_margin'];
+        }
+
+        // instagram followers
+        $instagram_followers = 0;
+        if (isset($instagram_data['user']['followed_by']['count'])) {
+            $instagram_followers = $instagram_data['user']['followed_by']['count'];
+        }
+        // check followers count data type
+        $instagram_followers_type = gettype($instagram_followers);
+        if ($instagram_followers_type == 'string'){
+            // convert string to integer
+            $instagram_followers = intval(trim($instagram_followers));
+        } elseif ($instagram_followers_type == 'integer'){
+            // do nothing, integer is ok
+        } else {
+            // for other types return 0
+            td_log::log(__FILE__, __FUNCTION__, 'Instagram followers type u', $instagram_followers);
+            $instagram_followers = 0;
+        }
+        if ($instagram_followers >= 1000000) {
+            // round 1.100.000 to 1.1m
+            $instagram_followers = number_format_i18n($instagram_followers / 1000000, 1) . 'm';
+        } elseif ($instagram_followers >= 10000) {
+            // round 10.100 to 10.1k
+            $instagram_followers = number_format_i18n($instagram_followers / 1000, 1) . 'k';
+        } else {
+            // default
+            $instagram_followers = number_format_i18n($instagram_followers);
         }
 
         ?>
@@ -69,7 +99,8 @@ class td_instagram {
             ?>
             <div class="td-instagram-header">
                 <div class="td-instagram-user"><?php echo $atts['instagram_id'] ?></div>
-                <div class="td-instagram-followers"><?php echo $instagram_data['user']['followed_by']['count'] ?> Followers</div>
+                <div class="td-instagram-followers"><?php echo $instagram_followers ?> Followers</div>
+                <?php //check isset $instagram_data elements?>
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
             </div>
             <?php
@@ -80,7 +111,10 @@ class td_instagram {
         <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
         <?php
         $image_count = 0;
+        // add check isset
         foreach ($instagram_data['user']['media']['nodes'] as $image) {
+
+            // add check isset $image elements
             ?>
             <div class="td-instagram-element">
                 <!-- image -->
@@ -124,7 +158,7 @@ class td_instagram {
         if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
             // cache is expired - do a request
             $instagram_get_data = self::instagram_get_json($atts, $instragram_data);
-            // check the api call response
+            // check the call response
             if ($instagram_get_data !== true) {
                 // we have an error in the data retrieval process
                 $instragram_data = td_remote_cache::get(__CLASS__, $cache_key);
