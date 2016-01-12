@@ -143,6 +143,13 @@ class td_instagram
         }
     }
 
+    /**
+     * @param $atts
+     * @param $instagram_data
+     * @return bool|string
+     * - bool: true when data is retrieved
+     * - string - error message
+     */
     private static function instagram_get_data($atts, &$instagram_data){
 
         $instagram_html_data = self::parse_instagram_html($atts['instagram_id']);
@@ -163,10 +170,6 @@ class td_instagram
         if (!isset($instagram_json['entry_data']['ProfilePage'][0]['user'])) {
             return 'Instagram data is not set, plese check the ID';
         }
-        echo '<pre>';
-        print_r($instagram_json);
-        echo '</pre>';
-
 
         $instagram_data['user'] = $instagram_json['entry_data']['ProfilePage'][0]['user'];
 
