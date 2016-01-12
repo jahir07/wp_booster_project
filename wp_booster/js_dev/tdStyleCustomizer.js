@@ -186,7 +186,7 @@ jQuery().ready(function() {
                 newExtraLeftValue = parseInt( existingExtraLeftValue.replace( 'px', '' ) ),
 
                 // The step value used to decrease the padding-left css value and to increase the left css value
-                step = 5,
+                step = 10,
 
                 // The waiting time (ms) for the timeout
                 startTimeoutWait = 40,
