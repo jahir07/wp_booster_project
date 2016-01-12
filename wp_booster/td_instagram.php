@@ -155,7 +155,7 @@ class td_instagram
      */
     private static function parse_instagram_html($instagram_id) {
 
-        $data = td_remote_http::get_page('https://www.google.com/' . $instagram_id, __CLASS__);
+        $data = td_remote_http::get_page('https://www.instagram.com/' . $instagram_id, __CLASS__);
         if ($data === false) {
             td_log::log(__FILE__, __FUNCTION__, 'The get_page method FAILED');
             return false;
