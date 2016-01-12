@@ -35,26 +35,46 @@ class td_instagram
             return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
         }
 
-//        // debugging
+        // debugging
 //        echo '<pre>';
 //        print_r($instagram_data);
 //        echo '</pre>';
 
         ob_start();
 
-        // number of images - by default display 5 images
-        $images_number = 5;
+        // number of images per row - by default display 3 images
+        $images_per_row = 3;
         if ($atts['instagram_number_of_images'] != '') {
-            $images_number = $atts['instagram_number_of_images'];
+            $images_per_row = $atts['instagram_images_per_row'];
+        }
+
+        // number of rows
+        $number_of_rows = 1;
+        if ($atts['instagram_number_of_rows'] != '') {
+            $number_of_rows = $atts['instagram_number_of_rows'];
+        }
+
+        // number of total images displayed - images_row x number_of_rows
+        $images_total_number = $images_per_row * $number_of_rows;
+        echo $images_total_number;
+
+
+        ?>
+        <!-- header section -->
+        <?php
+        if ($atts['instagram_header'] == 'on') {
+            ?>
+            <div class="td-instagram-header">
+                <div class="td-instagram-user"><?php echo $atts['instagram_id'] ?></div>
+                <div class="td-instagram-followers"><?php echo $instagram_data['user']['followed_by']['count'] ?> Followers</div>
+                <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
+            </div>
+            <?php
         }
         ?>
-        <!-- user name and profile image -->
-        <div class="td-instagram-header">
-            <div class="td-instagram-user"><?php echo $instagram_data['user']['full_name'] ?></div>
-            <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>" /></div>
-        </div>
 
         <!-- user shared images -->
+        <div class="td_instagram_main td_images_on_row_<?php echo $images_per_row ?>">
         <?php
         $image_count = 0;
         foreach ($instagram_data['user']['media']['nodes'] as $image) {
@@ -74,14 +94,17 @@ class td_instagram
                 ?>
             </div>
 
+
             <!-- number of images to display -->
             <?php
             $image_count++;
-            if ($image_count == $images_number) {
+            if ($image_count == $images_total_number) {
                 break;
             }
         }
-
+        ?>
+        </div>
+        <?php
         return ob_get_clean();
     }
 
@@ -140,6 +163,10 @@ class td_instagram
         if (!isset($instagram_json['entry_data']['ProfilePage'][0]['user'])) {
             return 'Instagram data is not set, plese check the ID';
         }
+        echo '<pre>';
+        print_r($instagram_json);
+        echo '</pre>';
+
 
         $instagram_data['user'] = $instagram_json['entry_data']['ProfilePage'][0]['user'];
 
