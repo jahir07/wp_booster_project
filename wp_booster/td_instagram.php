@@ -50,8 +50,8 @@ class td_instagram
         ?>
         <!-- user name and profile image -->
         <div class="td-instagram-header">
-        <div class="td-instagram-user"><?php echo $instagram_data['user']['full_name'] ?></div>
-        <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>" /></div>
+            <div class="td-instagram-user"><?php echo $instagram_data['user']['full_name'] ?></div>
+            <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>" /></div>
         </div>
 
         <!-- user shared images -->
@@ -60,21 +60,18 @@ class td_instagram
         foreach ($instagram_data['user']['media']['nodes'] as $image) {
             ?>
             <div class="td-instagram-element">
-
-            <!-- image -->
-            <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
-            <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
-            </a>
-
-            <!-- video icon -->
-            <?php
-            if ($image['is_video'] == 1) {
+                <!-- image -->
+                <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
+                    <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
+                </a>
+                <!-- video icon -->
+                <?php
+                if ($image['is_video'] == 1) {
+                    ?>
+                    <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
+                    <?php
+                }
                 ?>
-                <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
-            <?php
-            }
-            ?>
-
             </div>
 
             <!-- number of images to display -->
@@ -158,7 +155,7 @@ class td_instagram
      */
     private static function parse_instagram_html($instagram_id) {
 
-        $data = td_remote_http::get_page('https://www.instagram.com/' . $instagram_id, __CLASS__);
+        $data = td_remote_http::get_page('https://www.google.com/' . $instagram_id, __CLASS__);
         if ($data === false) {
             td_log::log(__FILE__, __FUNCTION__, 'The get_page method FAILED');
             return false;
