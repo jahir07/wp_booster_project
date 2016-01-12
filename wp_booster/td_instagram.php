@@ -71,7 +71,8 @@ class td_instagram {
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
                 <div class="td-instagram-meta">
                     <div class="td-instagram-user"><a href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank">@<?php echo $atts['instagram_id'] ?></a></div>
-                    <div class="td-instagram-followers"><?php echo $instagram_data['user']['followed_by']['count'] ?> Followers</div>
+                    <div class="td-instagram-followers"><span><?php echo $instagram_data['user']['followed_by']['count'] . '</span> ' .  __td('Followers', TD_THEME_NAME); ?></div>
+                    <a class="td-instagram-button" href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank"><?php echo __td('Follow', TD_THEME_NAME); ?></a>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -81,34 +82,35 @@ class td_instagram {
 
         <!-- user shared images -->
         <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
-        <?php
-        $image_count = 0;
-        foreach ($instagram_data['user']['media']['nodes'] as $image) {
-            ?>
-            <div class="td-instagram-element">
-                <!-- image -->
-                <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
-                    <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
-                </a>
-                <!-- video icon -->
-                <?php
-                if ($image['is_video'] == 1) {
-                    ?>
-                    <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
-                    <?php
-                }
-                ?>
-            </div>
-
-
-            <!-- number of images to display -->
             <?php
-            $image_count++;
-            if ($image_count == $images_total_number) {
-                break;
+            $image_count = 0;
+            foreach ($instagram_data['user']['media']['nodes'] as $image) {
+                ?>
+                <div class="td-instagram-element">
+                    <!-- image -->
+                    <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
+                        <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
+                    </a>
+                    <!-- video icon -->
+                    <?php
+                    if ($image['is_video'] == 1) {
+                        ?>
+                        <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+
+                <!-- number of images to display -->
+                <?php
+                $image_count++;
+                if ($image_count == $images_total_number) {
+                    break;
+                }
             }
-        }
-        ?>
+            ?>
+            <div class="clearfix"></div>
         </div>
         <?php
         return ob_get_clean();
