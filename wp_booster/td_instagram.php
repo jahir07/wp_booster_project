@@ -74,7 +74,7 @@ class td_instagram
         ?>
 
         <!-- user shared images -->
-        <div class="td_instagram_main td_images_on_row_<?php echo $images_per_row ?>">
+        <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row ?>">
         <?php
         $image_count = 0;
         foreach ($instagram_data['user']['media']['nodes'] as $image) {
