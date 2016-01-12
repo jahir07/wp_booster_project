@@ -61,6 +61,7 @@ td_api_autoload::add('td_remote_cache', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/includes/wp_booster/td_remote_http.php');
 td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
 td_api_autoload::add('td_exchange', td_global::$get_template_directory . '/includes/wp_booster/td_exchange.php');
+td_api_autoload::add('td_instagram', td_global::$get_template_directory . '/includes/wp_booster/td_instagram.php');
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
