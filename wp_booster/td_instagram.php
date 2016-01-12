@@ -5,7 +5,7 @@ class td_instagram
 
     private static $caching_time = 10800;  // 3 hours
 
-    public static function render_generic($atts, $block_id) {
+    public static function render_generic($atts) {
         // prepare the data
         $instragram_data = array(
             'user' => '',
@@ -32,7 +32,7 @@ class td_instagram
 
         // stop render when no data is received
         if ($instagram_data['user'] == ''){
-            return self::error('Render failed - no data is received: ' . $atts['instagram_id']);
+            return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
         }
 
 //        // debugging
@@ -68,7 +68,7 @@ class td_instagram
 
             <!-- video icon -->
             <?php
-            if ($image->is_video == 1) {
+            if ($image['is_video'] == 1) {
                 ?>
                 <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
             <?php
@@ -139,10 +139,12 @@ class td_instagram
             return 'Error decoding the instagram json';
         }
 
-        // current instagram data
-        if (isset($instagram_json['entry_data']['ProfilePage'][0]['user'])) {
-            $instagram_data['user'] = $instagram_json['entry_data']['ProfilePage'][0]['user'];
+        // current instagram data is not set
+        if (!isset($instagram_json['entry_data']['ProfilePage'][0]['user'])) {
+            return 'Instagram data is not set, plese check the ID';
         }
+
+        $instagram_data['user'] = $instagram_json['entry_data']['ProfilePage'][0]['user'];
 
         return true;
     }
@@ -151,64 +153,28 @@ class td_instagram
     /**
      * @param $instagram_id
      * @return bool|string
+     * - bool: false - no match was found, data not retrieved
+     * - string - return the serialized data present in the page script
      */
     private static function parse_instagram_html($instagram_id) {
-        $data = self::get_html_data('https://www.instagram.com/' . $instagram_id);
 
+        $data = td_remote_http::get_page('https://www.instagram.com/' . $instagram_id, __CLASS__);
         if ($data === false) {
-            td_log::log(__FILE__, __FUNCTION__, 'The instagram_get_data method FAILED');
+            td_log::log(__FILE__, __FUNCTION__, 'The get_page method FAILED');
             return false;
+        }
+
+        // get the serialized data string present in the page script
+        $pattern = '/window\._sharedData = (.*);<\/script>/';
+        preg_match($pattern, $data, $matches);
+
+        if (!empty($matches[1])) {
+            return $matches[1];
         } else {
-            $pattern = '/window\._sharedData = (.*);<\/script>/';
-            preg_match($pattern, $data, $matches);
-
-            if (!empty($matches)) {
-                // other checks?
-                return $matches[1];
-            } else {
-                td_log::log(__FILE__, __FUNCTION__, 'No images are available or Cannot find any match on the page content');
-                return false;
-            }
-        }
-    }
-
-
-    /**
-     * @param $url
-     * @return bool|string
-     */
-    private static function get_html_data($url){
-
-        // get remote HTML file
-        $response = wp_remote_get($url, array(
-            'timeout' => 10,
-            'sslverify' => false,
-            'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0'
-        ));
-        // check for wordpress error
-        if (is_wp_error($response)) {
-            td_log::log(__FILE__, __FUNCTION__, 'got wp_error, get_error_message: ' . $response->get_error_message());
-            return false;
-        }
-        // do not kill at response code != 200, it may still work
-        if (wp_remote_retrieve_response_code($response) != 200) {
-            td_log::log(__FILE__, __FUNCTION__, 'Response code != 200: ' . wp_remote_retrieve_response_code($response));
-        }
-
-        // parse remote HTML file
-        $td_request_result = wp_remote_retrieve_body($response);
-        // check for wordpress error
-        if (is_wp_error($td_request_result)) {
-            td_log::log(__FILE__, __FUNCTION__, 'got wp_error, get_error_message: ' . $td_request_result->get_error_message());
-            return false;
-        }
-        // empty result
-        if ($td_request_result == '') {
-            td_log::log(__FILE__, __FUNCTION__, 'Empty response via wp_remote_retrieve_body, Quitting.');
+            td_log::log(__FILE__, __FUNCTION__, 'Cannot find any match on the page content');
             return false;
         }
 
-        return $td_request_result;
     }
 
 
