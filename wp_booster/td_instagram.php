@@ -1,7 +1,6 @@
 <?php
 
-class td_instagram
-{
+class td_instagram {
 
     private static $caching_time = 10800;  // 3 hours
 
@@ -56,8 +55,12 @@ class td_instagram
 
         // number of total images displayed - images_row x number_of_rows
         $images_total_number = $images_per_row * $number_of_rows;
-        echo $images_total_number;
 
+        // image gap
+        $image_gap = '';
+        if ($atts['instagram_margin'] != ''){
+            $image_gap = ' td-image-gap-' . $atts['instagram_margin'];
+        }
 
         ?>
         <!-- header section -->
@@ -74,7 +77,7 @@ class td_instagram
         ?>
 
         <!-- user shared images -->
-        <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row ?>">
+        <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
         <?php
         $image_count = 0;
         foreach ($instagram_data['user']['media']['nodes'] as $image) {
@@ -120,7 +123,7 @@ class td_instagram
         $cache_key = 'td_instragram_' . strtolower($atts['instagram_id']);
         if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
             // cache is expired - do a request
-            $instagram_get_data = self::instagram_get_data($atts, $instragram_data);
+            $instagram_get_data = self::instagram_get_json($atts, $instragram_data);
             // check the api call response
             if ($instagram_get_data !== true) {
                 // we have an error in the data retrieval process
@@ -150,7 +153,7 @@ class td_instagram
      * - bool: true when data is retrieved
      * - string - error message
      */
-    private static function instagram_get_data($atts, &$instagram_data){
+    private static function instagram_get_json($atts, &$instagram_data){
 
         $instagram_html_data = self::parse_instagram_html($atts['instagram_id']);
 
