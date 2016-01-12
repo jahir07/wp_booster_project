@@ -56,7 +56,6 @@ class td_instagram
 
         // number of total images displayed - images_row x number_of_rows
         $images_total_number = $images_per_row * $number_of_rows;
-        echo $images_total_number;
 
 
         ?>
@@ -65,9 +64,12 @@ class td_instagram
         if ($atts['instagram_header'] == 'on') {
             ?>
             <div class="td-instagram-header">
-                <div class="td-instagram-user"><?php echo $atts['instagram_id'] ?></div>
-                <div class="td-instagram-followers"><?php echo $instagram_data['user']['followed_by']['count'] ?> Followers</div>
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
+                <div class="td-instagram-meta">
+                    <div class="td-instagram-user"><a href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank">@<?php echo $atts['instagram_id'] ?></a></div>
+                    <div class="td-instagram-followers"><?php echo $instagram_data['user']['followed_by']['count'] ?> Followers</div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <?php
         }
