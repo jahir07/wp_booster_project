@@ -109,7 +109,7 @@ class td_exchange {
         }
 
         // set base currency title - ex. EUR - Euro Member Countries
-        $base_currency_title =  strtoupper($atts['e_base_currency']) - $td_currencies[$atts['e_base_currency']];
+        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' . $td_currencies[$atts['e_base_currency']];
 
         // check if we have custom rates
         if ($atts['e_custom_rates'] != ''){
@@ -142,7 +142,7 @@ class td_exchange {
         ?>
 
         <div class="td-exchange-header">
-            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><?php echo strtoupper($atts['e_base_currency']) ?> - Base Currency</div>
+            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><?php echo $base_currency_title ?></div>
         </div>
 
 
