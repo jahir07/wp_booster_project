@@ -144,19 +144,34 @@ jQuery().ready(function() {
             // Do not allow displaying the previewer demo above the top of the window screen. It also checks if the wpadminbar exists.
             if ( jqWPAdminBar.length ) {
                 refTopValue = jqWPAdminBar.outerHeight(true);
+            } else {
+                refTopValue = 0;
+            }
 
-                if ( refTopValue > topValue ) {
-                    topValue = refTopValue;
-                }
+            if ( refTopValue > topValue ) {
+                topValue = refTopValue;
+            }
+
+            // The 'width' css property is used for Chrome and IE browsers which do not display the previewer image with auto width and auto height
+            var cssSettings = {
+                    'top' : topValue,
+                    'left' : leftValue,
+                    'padding-left': paddingLeftValue,
+                    'width': ''
+                },
+                dataWidthPreview = jQueryDisplayEl.data( 'width-preview' );
+
+
+            // For the first column of demos, the previewer has padding
+            if ( paddingLeftValue > 0 ) {
+                cssSettings.width = dataWidthPreview + paddingLeftValue;
             }
 
 
+
+
             // Apply the computed css to the element
-            jQueryDisplayEl.css({
-                'top' : topValue,
-                'left' : leftValue,
-                'padding-left': paddingLeftValue
-            });
+            jQueryDisplayEl.css( cssSettings );
 
             // The 'left-value' data will be used to set 'left' css value when the computed padding is < 0
             jQueryDisplayEl.data( 'left-value', leftValue + paddingLeftValue );
@@ -179,6 +194,9 @@ jQuery().ready(function() {
                 // The css padding-left value
                 existingExtraLeftValue = jQueryDisplayEl.css( 'padding-left' ),
 
+                // The css width value
+                existingWidthValue = jQueryDisplayEl.css( 'width' ),
+
                 // The integer css left value
                 newLeftValue = parseInt( existingLeftValue.replace( 'px', '' ) ),
 
@@ -192,7 +210,9 @@ jQuery().ready(function() {
                 startTimeoutWait = 40,
 
                 // The wait time (ms) for the interval
-                startIntervalWait = 15;
+                startIntervalWait = 15,
+
+                newWidthValue = parseInt( existingWidthValue.replace( 'px', '' ) );
 
 
             if ( newExtraLeftValue > 0 ) {
@@ -225,16 +245,21 @@ jQuery().ready(function() {
 
                             newLeftValue += step;
                             newExtraLeftValue -= step;
+                            newWidthValue -= step;
 
-                            if ( newExtraLeftValue < 0 ) {
+                            var dataWidthPreview = jQueryDisplayEl.data( 'width-preview' );
+
+                            if ( newExtraLeftValue < 0 || newWidthValue < dataWidthPreview ) {
                                 newExtraLeftValue = 0;
                                 var dataLeftValue = jQueryDisplayEl.data( 'left-value' );
                                 newLeftValue = dataLeftValue;
+                                newWidthValue = dataWidthPreview;
                             }
 
                             jQueryDisplayEl.css({
                                 'left' : newLeftValue,
-                                'padding-left': newExtraLeftValue
+                                'padding-left': newExtraLeftValue,
+                                'width': newWidthValue
                             });
                         }, startIntervalWait
                     );
