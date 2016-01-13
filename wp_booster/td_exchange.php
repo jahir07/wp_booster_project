@@ -59,6 +59,42 @@ class td_exchange {
         }
 
         ob_start();
+
+        $td_currencies = array(
+            'eur' => 'Euro Member Countries',
+            'aud' => 'Australia Dollar',
+            'bgn' => 'Bulgaria Lev',
+            'brl' => 'Brazil Real',
+            'cad' => 'Canada Dollar',
+            'chf' => 'Switzerland Franc',
+            'cny' => 'China Yuan Renminbi',
+            'czk' => 'Czech Republic Koruna',
+            'dkk' => 'Denmark Krone',
+            'gbp' => 'United Kingdom Pound',
+            'hkd' => 'Hong Kong Dollar',
+            'hrk' => 'Croatia Kuna',
+            'huf' => 'Hungary Forint',
+            'idr' => 'Indonesia Rupiah',
+            'ils' => 'Israel Shekel',
+            'inr' => 'India Rupee',
+            'jpy' => 'Japan Yen',
+            'krw' => 'Korea (South) Won',
+            'mxn' => 'Mexico Peso',
+            'myr' => 'Malaysia Ringgit',
+            'nok' => 'Norway Krone',
+            'nzd' => 'New Zealand Dollar',
+            'php' => 'Philippines Peso',
+            'pln' => 'Poland Zloty',
+            'ron' => 'Romania New Leu',
+            'rub' => 'Russia Ruble',
+            'sek' => 'Sweden Krona',
+            'sgd' => 'Singapore Dollar',
+            'thb' => 'Thailand Baht',
+            'try' => 'Turkey Lira',
+            'usd' => 'United States Dollar',
+            'zar' => 'South Africa Rand'
+        );
+
         if ($atts['e_base_currency'] == '') {
             // default base currency is EUR
             $atts['e_base_currency'] = 'eur';
@@ -71,6 +107,9 @@ class td_exchange {
             // recalculate all rates
             $exchange_data['api_rates'] = self::td_calculate_new_rates($base_currency_code, $base_currency_rate, $exchange_data['api_rates']);
         }
+
+        // set base currency title - ex. EUR - Euro Member Countries
+        $base_currency_title =  strtoupper($atts['e_base_currency']) - $td_currencies[$atts['e_base_currency']];
 
         // check if we have custom rates
         if ($atts['e_custom_rates'] != ''){
