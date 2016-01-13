@@ -59,6 +59,42 @@ class td_exchange {
         }
 
         ob_start();
+
+        $td_currencies = array(
+            'eur' => 'Euro Member Countries',
+            'aud' => 'Australia Dollar',
+            'bgn' => 'Bulgaria Lev',
+            'brl' => 'Brazil Real',
+            'cad' => 'Canada Dollar',
+            'chf' => 'Switzerland Franc',
+            'cny' => 'China Yuan Renminbi',
+            'czk' => 'Czech Republic Koruna',
+            'dkk' => 'Denmark Krone',
+            'gbp' => 'United Kingdom Pound',
+            'hkd' => 'Hong Kong Dollar',
+            'hrk' => 'Croatia Kuna',
+            'huf' => 'Hungary Forint',
+            'idr' => 'Indonesia Rupiah',
+            'ils' => 'Israel Shekel',
+            'inr' => 'India Rupee',
+            'jpy' => 'Japan Yen',
+            'krw' => 'Korea (South) Won',
+            'mxn' => 'Mexico Peso',
+            'myr' => 'Malaysia Ringgit',
+            'nok' => 'Norway Krone',
+            'nzd' => 'New Zealand Dollar',
+            'php' => 'Philippines Peso',
+            'pln' => 'Poland Zloty',
+            'ron' => 'Romania New Leu',
+            'rub' => 'Russia Ruble',
+            'sek' => 'Sweden Krona',
+            'sgd' => 'Singapore Dollar',
+            'thb' => 'Thailand Baht',
+            'try' => 'Turkey Lira',
+            'usd' => 'United States Dollar',
+            'zar' => 'South Africa Rand'
+        );
+
         if ($atts['e_base_currency'] == '') {
             // default base currency is EUR
             $atts['e_base_currency'] = 'eur';
@@ -71,6 +107,9 @@ class td_exchange {
             // recalculate all rates
             $exchange_data['api_rates'] = self::td_calculate_new_rates($base_currency_code, $base_currency_rate, $exchange_data['api_rates']);
         }
+
+        // set base currency title - ex. EUR - Euro Member Countries
+        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' . $td_currencies[$atts['e_base_currency']];
 
         // check if we have custom rates
         if ($atts['e_custom_rates'] != ''){
@@ -103,8 +142,7 @@ class td_exchange {
         ?>
 
         <div class="td-exchange-header">
-            <div class="td-exchange-base">Base currency - <?php echo strtoupper($atts['e_base_currency']) ?></div>
-            <i class="td-icon-<?php echo $exchange_data['api_base'] ?>"></i>
+            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><?php echo $base_currency_title ?></div>
         </div>
 
 
@@ -118,8 +156,8 @@ class td_exchange {
                 $rate_value = round($rate_value, $e_rate_decimals);
                 ?>
                 <div class="td-rate">
-                    <div class="td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . ' - ' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
-                    <i class="td-icon-<?php echo $rate_code_class ?>"></i>
+                    <span class="td-flags td-flag-<?php echo $rate_code_class ?>"></span>
+                    <div class="td-rate-currency td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . '</div><div class="td-exchange-value">' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
                 </div>
             <?php
             }
