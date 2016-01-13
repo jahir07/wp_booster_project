@@ -40,7 +40,6 @@ class td_instagram {
 //        //echo gettype($instagram_data['user']['followed_by']['count']);
 //        echo '</pre>';
 
-
         ob_start();
 
         // number of images per row - by default display 3 images
@@ -95,13 +94,16 @@ class td_instagram {
         ?>
         <!-- header section -->
         <?php
-        if ($atts['instagram_header'] == 'on') {
+        if ($atts['instagram_header'] != 'off') {
             ?>
             <div class="td-instagram-header">
-                <div class="td-instagram-user"><?php echo $atts['instagram_id'] ?></div>
-                <div class="td-instagram-followers"><?php echo $instagram_followers ?> Followers</div>
-                <?php //check isset $instagram_data elements?>
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
+                <div class="td-instagram-meta">
+                    <div class="td-instagram-user"><a href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank">@<?php echo $atts['instagram_id'] ?></a></div>
+                    <div class="td-instagram-followers"><span><?php echo $instagram_data['user']['followed_by']['count'] . '</span> ' .  __td('Followers', TD_THEME_NAME); ?></div>
+                    <a class="td-instagram-button" href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank"><?php echo __td('Follow', TD_THEME_NAME); ?></a>
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <?php
         }
@@ -138,8 +140,8 @@ class td_instagram {
             if ($image_count == $images_total_number) {
                 break;
             }
-        }
-        ?>
+            ?>
+            <div class="clearfix"></div>
         </div>
         <?php
         return ob_get_clean();
