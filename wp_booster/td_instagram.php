@@ -40,6 +40,7 @@ class td_instagram {
 //        //echo gettype($instagram_data['user']['followed_by']['count']);
 //        echo '</pre>';
 
+
         ob_start();
 
         // number of images per row - by default display 3 images
@@ -111,34 +112,35 @@ class td_instagram {
 
         <!-- user shared images -->
         <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
-        <?php
-        $image_count = 0;
-        // add check isset
-        foreach ($instagram_data['user']['media']['nodes'] as $image) {
-
-            // add check isset $image elements
-            ?>
-            <div class="td-instagram-element">
-                <!-- image -->
-                <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
-                    <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
-                </a>
-                <!-- video icon -->
-                <?php
-                if ($image['is_video'] == 1) {
-                    ?>
-                    <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
-                    <?php
-                }
-                ?>
-            </div>
-
-
-            <!-- number of images to display -->
             <?php
-            $image_count++;
-            if ($image_count == $images_total_number) {
-                break;
+            $image_count = 0;
+            // add check isset
+            foreach ($instagram_data['user']['media']['nodes'] as $image) {
+    
+                // add check isset $image elements
+                ?>
+                <div class="td-instagram-element">
+                    <!-- image -->
+                    <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
+                        <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
+                    </a>
+                    <!-- video icon -->
+                    <?php
+                    if ($image['is_video'] == 1) {
+                        ?>
+                        <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
+                        <?php
+                    }
+                    ?>
+                </div>
+    
+    
+                <!-- number of images to display -->
+                <?php
+                $image_count++;
+                if ($image_count == $images_total_number) {
+                    break;
+                }
             }
             ?>
             <div class="clearfix"></div>
