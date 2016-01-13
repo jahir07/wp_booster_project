@@ -1974,6 +1974,8 @@ title one row controls
 .vc_ui-panel-content-container #td_block_video_vimeo,
 .vc_modal-content #td_block_text_with_title,
 .vc_ui-panel-content-container #td_block_text_with_title,
+.vc_modal-content #td_block_instagram,
+.vc_ui-panel-content-container #td_block_instagram,
 .vc_modal-content #td_block_weather,
 .vc_ui-panel-content-container #td_block_weather {
   padding-left: 75px;
@@ -2028,6 +2030,7 @@ title one row controls
 .icon-pagebuilder-td-youtube,
 .icon-pagebuilder-td-vimeo,
 .icon-pagebuilder-title,
+.icon-pagebuilder-td-instagram,
 .icon-pagebuilder-td-weather {
   position: relative;
   width: 60px !important;
@@ -2085,6 +2088,7 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td-youtube,
 .wpb_element_title .icon-pagebuilder-td-vimeo,
 .wpb_element_title .icon-pagebuilder-title,
+.wpb_element_title .icon-pagebuilder-td-instagram,
 .wpb_element_title .icon-pagebuilder-td-weather {
   top: -5px !important;
 }
@@ -2140,6 +2144,7 @@ title one row controls
 .td_block_video_playlist_vimeo .wpb_element_wrapper div,
 .icon-pagebuilder-title .wpb_element_wrapper div,
 .wpb_td_block_weather .wpb_element_wrapper div,
+.wpb_td_block_instagram .wpb_element_wrapper div,
 .wpb_td_block_ad_box .wpb_element_wrapper div {
   display: none;
   font-size: 11px;
@@ -2197,6 +2202,7 @@ title one row controls
 .td_block_video_playlist_vimeo .wpb_element_wrapper div[name="custom_title"],
 .icon-pagebuilder-title .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_weather .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_ad_box .wpb_element_wrapper div[name="custom_title"] {
   display: inline-block;
 }
@@ -2207,6 +2213,12 @@ title one row controls
 .wpb_td_block_ad_box .wpb_element_wrapper .spot_id,
 .wpb_td_block_ad_box .wpb_element_wrapper .spot_title {
   display: inline-block;
+}
+.wpb_td_block_instagram .wpb_element_wrapper .instagram_id {
+  display: inline-block;
+}
+.wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"] {
+  display: none;
 }
 /* some of the icons are not used on all the themes ? */
 .icon-pagebuilder-td_block_1 {
@@ -2362,6 +2374,9 @@ title one row controls
 }
 .icon-pagebuilder-td-weather {
   background-image: url('../../../../images/pagebuilder/weather.png') !important;
+}
+.icon-pagebuilder-td-instagram {
+  background-image: url('../../../../images/pagebuilder/instagram.png') !important;
 }
 .wpb-content-layouts .td_popular_categories_nav {
   padding: 0;
