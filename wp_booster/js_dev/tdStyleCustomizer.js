@@ -20,8 +20,8 @@ var td_current_panel_stat = '';
 
         var jQueryObj = jQuery( '.td-theme-settings-small' );
         if ( jQueryObj.length ) {
+            jQueryObj.addClass('td-theme-settings-no-transition');
             jQueryObj.removeClass( 'td-theme-settings-small' );
-            jQueryObj.find( '.td-set-theme-style-link' ).addClass( 'td_animated_xlong td_fadeInLeft' );
         }
     }
 
@@ -53,14 +53,12 @@ jQuery().ready(function() {
         if ( jQueryObj.length ) {
             if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
                 jQueryObj.removeClass( 'td-theme-settings-small' );
-                jQueryObj.find( '.td-set-theme-style-link' ).addClass( 'td_animated_xlong td_fadeInLeft' );
 
                 //show full
                 td_set_cookies_life( ['td_show_panel', 'show', 86400000] );//86400000 is the number of milliseconds in a day
             } else {
                 jQueryObj.addClass( 'td-theme-settings-small' );
                 jQueryObj.removeClass( 'td-theme-settings-no-transition' );
-                jQueryObj.find( '.td-set-theme-style-link' ).removeClass( 'td_fadeInLeft' );
 
                 //hide
                 td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
