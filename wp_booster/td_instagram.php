@@ -27,7 +27,7 @@ class td_instagram {
         return $buffy;
     }
 
-    private static function render_block_template($atts, $instagram_data){
+    private static function render_block_template($atts, $instagram_data) {
 
         // stop render when no data is received
         if ($instagram_data['user'] == '') {
@@ -133,31 +133,33 @@ class td_instagram {
                 $image_count = 0;
                 foreach ($instagram_data['user']['media']['nodes'] as $image) {
                     // display only if the code and thumbnail are set
-                    if (isset($image['code']) && isset($image['thumbnail_src'])) {
+                    if ( isset( $image['code'] ) && isset( $image['thumbnail_src'] ) ) {
                         ?>
                         <div class="td-instagram-element">
                             <!-- image -->
                             <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>">
                                 <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>"/>
-                                <div class="clearfix"></div>
                             </a>
                             <!-- video icon -->
                             <?php
-                            if ($image['is_video'] == 1) {
+                            if ( $image['is_video'] == 1 ) {
                                 ?>
-                                <span class="td-video-play-ico"><img width="40" class="td-retina" src="<?php echo td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' ?>" alt="video"/></span>
+                                <span class="td-video-play-ico">
+                                    <img width="40" class="td-retina" src="<?php echo td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' ?>" alt="video"/>
+                                </span>
                                 <?php
                             }
                             ?>
                         </div>
                         <?php
                     }
-                    ?>    
-                <!-- number of images to display -->
-                <?php
-                $image_count++;
-                if ($image_count == $images_total_number) {
-                    break;
+                    ?>
+                    <!-- number of images to display -->
+                    <?php
+                    $image_count ++;
+                    if ( $image_count == $images_total_number ) {
+                        break;
+                    }
                 }
                 ?>
                 <div class="clearfix"></div>
