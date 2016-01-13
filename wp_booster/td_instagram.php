@@ -121,14 +121,15 @@ class td_instagram {
                 ?>
                 <div class="td-instagram-element">
                     <!-- image -->
-                    <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
+                    <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" target="_blank">
                         <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
+                        <div class="clearfix"></div>
                     </a>
                     <!-- video icon -->
                     <?php
                     if ($image['is_video'] == 1) {
                         ?>
-                        <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
+                        <span class="td-video-play-ico"><img width="40" class="td-retina" src="<?php echo td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' ?>" alt="video"/></span>
                         <?php
                     }
                     ?>
