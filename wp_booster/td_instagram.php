@@ -30,14 +30,13 @@ class td_instagram {
     private static function render_block_template($atts, $instagram_data){
 
         // stop render when no data is received
-        if ($instagram_data['user'] == ''){
+        if ($instagram_data['user'] == '') {
             return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
         }
 
         // debugging
 //        echo '<pre>';
 //        print_r($instagram_data);
-//        //echo gettype($instagram_data['user']['followed_by']['count']);
 //        echo '</pre>';
 
 
@@ -81,7 +80,7 @@ class td_instagram {
         if ($instagram_followers_type == 'string') {
             // retrieve number from string
             $number_from_string = self::get_number_from_string($instagram_followers);
-            if ($number_from_string !== false){
+            if ($number_from_string !== false) {
                 $instagram_followers = $number_from_string;
             } else {
                 td_log::log(__FILE__, __FUNCTION__, 'Instagram followers is a string with no numbers included', $instagram_followers);
@@ -177,7 +176,7 @@ class td_instagram {
      */
     private static function get_number_from_string($str) {
         // no string received
-        if (gettype($str) != 'string'){
+        if (gettype($str) != 'string') {
             return false;
         }
         // retrieve the numbers
@@ -231,6 +230,7 @@ class td_instagram {
             return 'instagram_cache';
         }
     }
+
 
     /**
      * @param $atts
