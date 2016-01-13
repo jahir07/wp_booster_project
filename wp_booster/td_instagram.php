@@ -43,7 +43,7 @@ class td_instagram {
 
         // number of images per row - by default display 3 images
         $images_per_row = 3;
-        if ($atts['instagram_number_of_images'] != '') {
+        if ($atts['instagram_images_per_row'] != '') {
             $images_per_row = $atts['instagram_images_per_row'];
         }
 
@@ -65,7 +65,7 @@ class td_instagram {
         ?>
         <!-- header section -->
         <?php
-        if ($atts['instagram_header'] == 'on') {
+        if ($atts['instagram_header'] == '') {
             ?>
             <div class="td-instagram-header">
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
