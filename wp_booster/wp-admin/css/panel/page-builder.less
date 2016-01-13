@@ -53,6 +53,7 @@
   #td_block_video_youtube,
   #td_block_video_vimeo,
   #td_block_text_with_title,
+  #td_block_instagram,
   #td_block_weather {
     padding-left: 75px;
   }
@@ -109,6 +110,7 @@
 .icon-pagebuilder-td-youtube,
 .icon-pagebuilder-td-vimeo,
 .icon-pagebuilder-title,
+.icon-pagebuilder-td-instagram,
 .icon-pagebuilder-td-weather {
   position: relative;
   width:60px !important;
@@ -169,6 +171,7 @@
   .icon-pagebuilder-td-youtube,
   .icon-pagebuilder-td-vimeo,
   .icon-pagebuilder-title,
+  .icon-pagebuilder-td-instagram,
   .icon-pagebuilder-td-weather {
     top: -5px !important;
   }
@@ -226,6 +229,7 @@
 .td_block_video_playlist_vimeo,
 .icon-pagebuilder-title,
 .wpb_td_block_weather,
+.wpb_td_block_instagram,
 .wpb_td_block_ad_box {
   .wpb_element_wrapper  div {
     display: none;
@@ -247,6 +251,13 @@
 .wpb_td_block_ad_box .wpb_element_wrapper .spot_id,
 .wpb_td_block_ad_box .wpb_element_wrapper .spot_title {
   display: inline-block;
+}
+// instagram
+.wpb_td_block_instagram .wpb_element_wrapper .instagram_id {
+  display: inline-block;
+}
+.wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"] {
+  display: none;
 }
 
 
@@ -509,6 +520,10 @@
 
 .icon-pagebuilder-td-weather {
   background-image: url('../../../../images/pagebuilder/weather.png') !important;
+}
+
+.icon-pagebuilder-td-instagram {
+  background-image: url('../../../../images/pagebuilder/instagram.png') !important;
 }
 
 

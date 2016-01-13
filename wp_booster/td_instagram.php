@@ -27,17 +27,16 @@ class td_instagram {
         return $buffy;
     }
 
-    private static function render_block_template($atts, $instagram_data){
+    private static function render_block_template($atts, $instagram_data) {
 
         // stop render when no data is received
-        if ($instagram_data['user'] == ''){
+        if ($instagram_data['user'] == '') {
             return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
         }
 
         // debugging
 //        echo '<pre>';
 //        print_r($instagram_data);
-//        //echo gettype($instagram_data['user']['followed_by']['count']);
 //        echo '</pre>';
 
 
@@ -64,28 +63,43 @@ class td_instagram {
             $image_gap = ' td-image-gap-' . $atts['instagram_margin'];
         }
 
+        // profile picture
+        $instagram_profile_picture = '';
+        if (isset($instagram_data['user']['profile_pic_url'])) {
+            $instagram_profile_picture = $instagram_data['user']['profile_pic_url'];
+        }
+
         // instagram followers
         $instagram_followers = 0;
         if (isset($instagram_data['user']['followed_by']['count'])) {
             $instagram_followers = $instagram_data['user']['followed_by']['count'];
         }
-        // check followers count data type
+
+        // instagram followers - check followers count data type
         $instagram_followers_type = gettype($instagram_followers);
-        if ($instagram_followers_type == 'string'){
-            // convert string to integer
-            $instagram_followers = intval(trim($instagram_followers));
-        } elseif ($instagram_followers_type == 'integer'){
+        if ($instagram_followers_type == 'string') {
+            // retrieve number from string
+            $number_from_string = self::get_number_from_string($instagram_followers);
+            if ($number_from_string !== false) {
+                $instagram_followers = $number_from_string;
+            } else {
+                td_log::log(__FILE__, __FUNCTION__, 'Instagram followers is a string with no numbers included', $instagram_followers);
+                $instagram_followers = 0;
+            }
+        } elseif ($instagram_followers_type == 'integer') {
             // do nothing, integer is ok
         } else {
             // for other types return 0
-            td_log::log(__FILE__, __FUNCTION__, 'Instagram followers type u', $instagram_followers);
+            td_log::log(__FILE__, __FUNCTION__, 'Instagram followers has an unsupported type', $instagram_followers);
             $instagram_followers = 0;
         }
+
+        // instagram followers - format the followers number (the number is not rounded because it may return unrealistic values)
         if ($instagram_followers >= 1000000) {
-            // round 1.100.000 to 1.1m
+            // display 1.100.000 as 1.1m
             $instagram_followers = number_format_i18n($instagram_followers / 1000000, 1) . 'm';
         } elseif ($instagram_followers >= 10000) {
-            // round 10.100 to 10.1k
+            // display 10.100 as 10.1k
             $instagram_followers = number_format_i18n($instagram_followers / 1000, 1) . 'k';
         } else {
             // default
@@ -98,7 +112,7 @@ class td_instagram {
         if ($atts['instagram_header'] != 'off') {
             ?>
             <div class="td-instagram-header">
-                <div class="td-instagram-profile-image"><img src="<?php echo $instagram_data['user']['profile_pic_url'] ?>"/></div>
+                <div class="td-instagram-profile-image"><img src="<?php echo $instagram_profile_picture ?>"/></div>
                 <div class="td-instagram-meta">
                     <div class="td-instagram-user"><a href="https://www.instagram.com/<?php echo $atts['instagram_id'] ?>" target="_blank">@<?php echo $atts['instagram_id'] ?></a></div>
                     <div class="td-instagram-followers"><span><?php echo $instagram_followers . '</span> ' .  __td('Followers', TD_THEME_NAME); ?></div>
@@ -111,43 +125,78 @@ class td_instagram {
         ?>
 
         <!-- user shared images -->
-        <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
-            <?php
-            $image_count = 0;
-            // add check isset
-            foreach ($instagram_data['user']['media']['nodes'] as $image) {
-    
-                // add check isset $image elements
-                ?>
-                <div class="td-instagram-element">
-                    <!-- image -->
-                    <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" >
-                        <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>" />
-                    </a>
-                    <!-- video icon -->
-                    <?php
-                    if ($image['is_video'] == 1) {
+        <?php
+        if (isset($instagram_data['user']['media']['nodes'])) {
+            ?>
+            <div class="td-instagram-main td-images-on-row-<?php echo $images_per_row . $image_gap; ?>">
+                <?php
+                $image_count = 0;
+                foreach ($instagram_data['user']['media']['nodes'] as $image) {
+                    // display only if the code and thumbnail are set
+                    if ( isset( $image['code'] ) && isset( $image['thumbnail_src'] ) ) {
                         ?>
-                        <div class="td-instagram-video"><img src="http://www.iconsdb.com/icons/preview/gray/video-play-3-xxl.png" /></div>
+                        <div class="td-instagram-element">
+                            <!-- image -->
+                            <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>">
+                                <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>"/>
+                            </a>
+                            <!-- video icon -->
+                            <?php
+                            if ( $image['is_video'] == 1 ) {
+                                ?>
+                                <span class="td-video-play-ico">
+                                    <img width="40" class="td-retina" src="<?php echo td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' ?>" alt="video"/>
+                                </span>
+                                <?php
+                            }
+                            ?>
+                        </div>
                         <?php
                     }
                     ?>
-                </div>
-    
-    
-                <!-- number of images to display -->
-                <?php
-                $image_count++;
-                if ($image_count == $images_total_number) {
-                    break;
+                    <!-- number of images to display -->
+                    <?php
+                    $image_count ++;
+                    if ( $image_count == $images_total_number ) {
+                        break;
+                    }
                 }
-            }
-            ?>
-            <div class="clearfix"></div>
-        </div>
-        <?php
+                ?>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+        }
         return ob_get_clean();
     }
+
+
+    /**
+     * @param $str
+     * @return bool|int
+     * - bool: false - $str is not a string or we don't have a number
+     * - integer - return the number
+     */
+    private static function get_number_from_string($str) {
+        // no string received
+        if (gettype($str) != 'string') {
+            return false;
+        }
+        // retrieve the numbers
+        $string_length = strlen($str);
+        $id = '';
+        for( $i = 0; $i <= $string_length; $i++ ) {
+            $char = substr($str, $i, 1);
+            if(is_numeric($char)) {
+                $id .= $char;
+            }
+        }
+        // we have a number
+        if ($id != '') {
+            return intval($id);
+        }
+        return false;
+    }
+
 
     /**
      * @param $atts
@@ -228,7 +277,6 @@ class td_instagram {
 
         $data = td_remote_http::get_page('https://www.instagram.com/' . $instagram_id, __CLASS__);
         if ($data === false) {
-            td_log::log(__FILE__, __FUNCTION__, 'The get_page method FAILED');
             return false;
         }
 
@@ -239,7 +287,6 @@ class td_instagram {
         if (!empty($matches[1])) {
             return $matches[1];
         } else {
-            td_log::log(__FILE__, __FUNCTION__, 'Cannot find any match on the page content');
             return false;
         }
 
