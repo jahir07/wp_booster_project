@@ -64,25 +64,25 @@ class td_instagram {
             $image_gap = ' td-image-gap-' . $atts['instagram_margin'];
         }
 
-        // instagram followers
-        $instagram_followers = 0;
-        if (isset($instagram_data['user']['followed_by']['count'])) {
-            $instagram_followers = $instagram_data['user']['followed_by']['count'];
-        }
-
         // profile picture
         $instagram_profile_picture = '';
         if (isset($instagram_data['user']['profile_pic_url'])) {
             $instagram_profile_picture = $instagram_data['user']['profile_pic_url'];
         }
 
-        // check followers count data type
+        // instagram followers
+        $instagram_followers = 0;
+        if (isset($instagram_data['user']['followed_by']['count'])) {
+            $instagram_followers = $instagram_data['user']['followed_by']['count'];
+        }
+
+        // instagram followers - check followers count data type
         $instagram_followers_type = gettype($instagram_followers);
         if ($instagram_followers_type == 'string') {
             // retrieve number from string
-            $string_to_number = self::get_number_from_string($instagram_followers);
-            if ($string_to_number !== false){
-                $instagram_followers = $string_to_number;
+            $number_from_string = self::get_number_from_string($instagram_followers);
+            if ($number_from_string !== false){
+                $instagram_followers = $number_from_string;
             } else {
                 td_log::log(__FILE__, __FUNCTION__, 'Instagram followers is a string with no numbers included', $instagram_followers);
                 $instagram_followers = 0;
@@ -95,7 +95,7 @@ class td_instagram {
             $instagram_followers = 0;
         }
 
-        // format the followers number - the number is not rounded because it may return unrealistic values
+        // instagram followers - format the followers number (the number is not rounded because it may return unrealistic values)
         if ($instagram_followers >= 1000000) {
             // display 1.100.000 as 1.1m
             $instagram_followers = number_format_i18n($instagram_followers / 1000000, 1) . 'm';
