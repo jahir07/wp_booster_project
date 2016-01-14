@@ -63,7 +63,7 @@ var demoMenu = {
             //console.log( event );
 
             var theTarget = event.currentTarget,
-                tdSkinScroll = jQuery( '.td-skin-scroll:first' );
+                tdSkinScroll = jQuery( this ).find( '.td-skin-scroll:first' );
 
             if ( theTarget.clientHeight + theTarget.scrollTop < theTarget.scrollHeight ) {
                 tdSkinScroll.css({
@@ -74,6 +74,32 @@ var demoMenu = {
                     bottom: -40
                 });
             }
+        });
+
+        jQuery( '#td-theme-settings' ).find( '.td-skin-scroll:first').click(function( event ) {
+            //console.log( event );
+
+            var theTarget = event.currentTarget,
+                tdSkinWrap = jQuery(this).closest('.td-skin-wrap');
+
+            tdSkinWrap.animate(
+                { scrollTop: tdSkinWrap.scrollTop() + 200 },
+                {
+                    duration: 800,
+                    easing:'easeInOutQuart'
+                });
+        }).mouseenter(function(event) {
+            // Any existing timeout is cleard to stop any further css settings
+            if ( undefined !== demoMenu.startTimeout ) {
+                window.clearTimeout( demoMenu.startTimeout );
+            }
+
+            // Any existing interval is cleard to stop any further css settings
+            if ( undefined !== demoMenu.startInterval ) {
+                window.clearInterval( demoMenu.startInterval );
+            }
+
+            jQuery( '#td-theme-settings' ).find( '.td-screen-demo:first' ).hide();
         });
 
         // Show/hide the demo menu panel
