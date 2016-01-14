@@ -119,13 +119,13 @@ var demoMenu = {
                     topValue = 0,
 
                 // The left value set to the css left setting
-                    leftValue = 0,
+                    rightValue = 0,
 
                 // The padding value set to the css padding-left setting
-                    paddingLeftValue = 0,
+                    paddingRightValue = 0,
 
                 // The extra value added to the css padding-left setting and removed from the css left setting (if we need to start earlier or later - does nothing with 0 value)
-                    extraLeftValue = 0,
+                    extraRightValue = 0,
 
                 // The jquery wpadminbar element
                     jqWPAdminBar = jQuery( '#wpadminbar' );
@@ -147,8 +147,7 @@ var demoMenu = {
                 // The first (paired - 0) column
                 if ( 0 === jQuery( '.td-set-theme-style-link' ).index( this ) % 2 ) {
                     topValue = $thisContainer.position().top + $thisContainer.outerHeight() / 2 - jQueryDisplayEl.outerHeight(true) / 2;
-                    leftValue = $thisContainer.outerWidth(true) - extraLeftValue;
-                    paddingLeftValue = $thisContainer.outerWidth(true) + extraLeftValue;
+                    rightValue = $thisContainer.outerWidth(true) * 2;
 
                     // The second (impaired - 1) column
                 } else {
@@ -156,7 +155,9 @@ var demoMenu = {
 
                     if ( $thisPrevContainer.length ) {
                         topValue = $thisPrevContainer.position().top + $thisContainer.outerHeight() / 2 - jQueryDisplayEl.outerHeight(true) / 2;
-                        leftValue = $thisPrevContainer.outerWidth(true) * 2;
+                        rightValue = $thisPrevContainer.outerWidth(true) - extraRightValue;
+                        paddingRightValue = $thisPrevContainer.outerWidth(true) + extraRightValue;
+
                     }
                 }
 
@@ -180,16 +181,16 @@ var demoMenu = {
                 // The 'width' css property is used for Chrome and IE browsers which do not display the previewer image with auto width and auto height
                 var cssSettings = {
                         'top' : topValue,
-                        'left' : leftValue,
-                        'padding-left': paddingLeftValue,
+                        'right' : rightValue,
+                        'padding-right': paddingRightValue,
                         'width': ''
                     },
                     dataWidthPreview = jQueryDisplayEl.data( 'width-preview' );
 
 
                 // For the first column of demos, the previewer has padding
-                if ( paddingLeftValue > 0 ) {
-                    cssSettings.width = dataWidthPreview + paddingLeftValue;
+                if ( paddingRightValue > 0 ) {
+                    cssSettings.width = dataWidthPreview + paddingRightValue;
                 }
 
 
@@ -198,8 +199,8 @@ var demoMenu = {
                 // Apply the computed css to the element
                 jQueryDisplayEl.css( cssSettings );
 
-                // The 'left-value' data will be used to set 'left' css value when the computed padding is < 0
-                jQueryDisplayEl.data( 'left-value', leftValue + paddingLeftValue );
+                // The 'right-value' data will be used to set 'right' css value when the computed padding is < 0
+                jQueryDisplayEl.data( 'right-value', rightValue + paddingRightValue );
 
                 jQueryDisplayEl.show();
             },
@@ -213,20 +214,20 @@ var demoMenu = {
                 // The jquery object of the previewer demo element
                     jQueryDisplayEl = jQuery('.td-screen-demo:first'),
 
-                // The css left value
-                    existingLeftValue = jQueryDisplayEl.css('left'),
+                // The css right value
+                    existingRightValue = jQueryDisplayEl.css('right'),
 
-                // The css padding-left value
-                    existingExtraLeftValue = jQueryDisplayEl.css('padding-left'),
+                // The css padding-right value
+                    existingExtraRightValue = jQueryDisplayEl.css('padding-right'),
 
                 // The css width value
                     existingWidthValue = jQueryDisplayEl.css('width'),
 
-                // The integer css left value
-                    newLeftValue = parseInt(existingLeftValue.replace('px', '')),
+                // The integer css right value
+                    newRightValue = parseInt(existingRightValue.replace('px', '')),
 
-                // The integer css padding-left value
-                    newExtraLeftValue = parseInt(existingExtraLeftValue.replace('px', '')),
+                // The integer css padding-right value
+                    newExtraRightValue = parseInt(existingExtraRightValue.replace('px', '')),
 
                 // The step value used to decrease the padding-left css value and to increase the left css value
                     step = 10,
@@ -243,7 +244,7 @@ var demoMenu = {
                 var $this = jQuery(this);
 
 
-                if (newExtraLeftValue > 0) {
+                if (newExtraRightValue > 0) {
 
                     // Clear any timeout if there's one, because a new one will be created
                     if (undefined !== demoMenu.startTimeout) {
@@ -260,13 +261,13 @@ var demoMenu = {
 
                                 var dataWidthPreview = jQueryDisplayEl.data( 'width-preview' );
 
-                                newLeftValue += step;
-                                newExtraLeftValue -= step;
+                                newRightValue += step;
+                                newExtraRightValue -= step;
                                 newWidthValue -= step;
 
                                 var mousePositionFound = false;
 
-                                if ( newExtraLeftValue <= 0 || newWidthValue < dataWidthPreview || demoMenu.mousePosX < newLeftValue ) {
+                                if ( newExtraRightValue <= 0 || newWidthValue < dataWidthPreview || demoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
 
                                     // Clear any timeout, and we should have one, because we finished
                                     if (undefined !== demoMenu.startTimeout) {
@@ -278,18 +279,18 @@ var demoMenu = {
                                         window.clearInterval( demoMenu.startInterval );
                                     }
 
-                                    newExtraLeftValue = 0;
-                                    newLeftValue = jQueryDisplayEl.data('left-value');
+                                    newExtraRightValue = 0;
+                                    newRightValue = jQueryDisplayEl.data('right-value');
                                     newWidthValue = dataWidthPreview;
 
-                                    if ( demoMenu.mousePosX < newLeftValue ) {
+                                    if ( demoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
                                         mousePositionFound = true;
                                     }
                                 }
 
                                 jQueryDisplayEl.css({
-                                    'left': newLeftValue,
-                                    'padding-left': newExtraLeftValue,
+                                    'right': newRightValue,
+                                    'padding-right': newExtraRightValue,
                                     'width': newWidthValue
                                 });
 
@@ -339,32 +340,32 @@ var demoMenu = {
 
             if ( 0 === jQuery( '.td-set-theme-style-link' ).index( element ) % 2 ) {
 
-                if ( parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < parseInt($thisContainer.position().top) + parseInt($thisContainer.outerHeight()) ) {
+                if ( parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisContainer.outerHeight()) ) {
                     verticalPosition = true;
 
-                    if ( parseInt($thisContainer.position().left) < demoMenu.mousePosX && demoMenu.mousePosX < parseInt($thisContainer.position().left) + parseInt($thisContainer.outerWidth()) ) {
+                    if ( parseInt(jQuery( window ).width()) - 2 * parseInt($thisContainer.outerWidth()) < demoMenu.mousePosX && demoMenu.mousePosX < parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) ) {
                         horizontalPosition = true;
                     }
                 }
-                //demoMenu._log( 'caz A : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + mousePosY + ' > posX: ' + mousePosX +
-                //    ' > top: ' + (parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisContainer.position().top) + parseInt($thisContainer.outerHeight())) +
-                //    ' > left: ' + parseInt($thisContainer.position().left) + ' > right: ' + (parseInt($thisContainer.position().left) + parseInt($thisContainer.outerWidth())) );
+                //demoMenu._log( 'caz A : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + demoMenu.mousePosY + ' > posX: ' + demoMenu.mousePosX +
+                //    ' > top: ' + (parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisContainer.outerHeight())) +
+                //    ' > left: ' + (parseInt(jQuery( window ).width()) - 2 * parseInt($thisContainer.outerWidth())) + ' > right: ' + (parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth())) );
 
             } else {
                 var $thisPrevContainer = $thisContainer.prev( '.' + cssClassContainer );
 
                 if ( $thisPrevContainer.length ) {
-                    if ( parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < (parseInt($thisPrevContainer.position().top) + parseInt($thisPrevContainer.outerHeight())) ) {
+                    if ( parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < (parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisPrevContainer.outerHeight())) ) {
                         verticalPosition = true;
 
-                        if ( parseInt($thisContainer.position().left) < demoMenu.mousePosX && demoMenu.mousePosX < (parseInt($thisContainer.position().left) + parseInt($thisContainer.outerWidth())) ) {
+                        if ( parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) < demoMenu.mousePosX && demoMenu.mousePosX < parseInt(jQuery( window ).width()) ) {
                             horizontalPosition = true;
                         }
                     }
                 }
-                //demoMenu._log( 'caz B : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + mousePosY + ' > posX: ' + mousePosX +
-                //    ' > top: ' + ($thisPrevContainer.position().top + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisPrevContainer.position().top) + parseInt($thisPrevContainer.outerHeight())) +
-                //    ' > left: ' + $thisContainer.position().left + ' > right: ' + (parseInt($thisContainer.position().left) + parseInt($thisContainer.outerWidth())) );
+                //demoMenu._log( 'caz B : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + demoMenu.mousePosY + ' > posX: ' + demoMenu.mousePosX +
+                //    ' > top: ' + ($thisPrevContainer.position().top + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisPrevContainer.outerHeight())) +
+                //    ' > left: ' + (parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth())) + ' > right: ' + parseInt(jQuery( window ).width()) );
             }
 
             // The element where the mouse is positioned, was found
