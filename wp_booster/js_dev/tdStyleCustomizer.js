@@ -66,9 +66,13 @@ var demoMenu = {
                 tdSkinScroll = jQuery( '.td-skin-scroll:first' );
 
             if ( theTarget.clientHeight + theTarget.scrollTop < theTarget.scrollHeight ) {
-                tdSkinScroll.show();
+                tdSkinScroll.css({
+                    bottom: 0
+                });
             } else {
-                tdSkinScroll.hide();
+                tdSkinScroll.css({
+                    bottom: -40
+                });
             }
         });
 
