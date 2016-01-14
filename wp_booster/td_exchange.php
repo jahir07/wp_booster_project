@@ -142,7 +142,7 @@ class td_exchange {
         ?>
 
         <div class="td-exchange-header">
-            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><span class="td-base-title"><?php echo $base_currency_title ?></span></div>
+            <div class="td-exchange-base"><span class="td-flags td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><span class="td-base-title"><?php echo $base_currency_title ?></span></div>
         </div>
 
 
@@ -156,7 +156,7 @@ class td_exchange {
                 $rate_value = round($rate_value, $e_rate_decimals);
                 ?>
                 <div class="td-rate">
-                    <span class="td-flags td-flag-<?php echo $rate_code_class ?>"></span>
+                    <span class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
                     <div class="td-rate-currency td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . '</div><div class="td-exchange-value">' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
                 </div>
             <?php
