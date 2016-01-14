@@ -58,7 +58,21 @@ var demoMenu = {
             }
         });
 
-        //hide panel
+        // Show/hide the arrow skin scroll element
+        jQuery( '#td-theme-settings' ).find( '.td-skin-wrap:first').scroll(function( event ) {
+            //console.log( event );
+
+            var theTarget = event.currentTarget,
+                tdSkinScroll = jQuery( '.td-skin-scroll:first' );
+
+            if ( theTarget.clientHeight + theTarget.scrollTop < theTarget.scrollHeight ) {
+                tdSkinScroll.show();
+            } else {
+                tdSkinScroll.hide();
+            }
+        });
+
+        // Show/hide the demo menu panel
         jQuery( '#td-theme-set-hide' ).click(function(event ){
             event.preventDefault();
             event.stopPropagation();
@@ -81,6 +95,7 @@ var demoMenu = {
                 td_set_cookies_life( ['td_show_panel', 'show', 86400000] );//86400000 is the number of milliseconds in a day
             }
         });
+
 
         jQuery( '.td-set-theme-style-link' ).hover(
 
