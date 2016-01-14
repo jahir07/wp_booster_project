@@ -142,7 +142,7 @@ class td_exchange {
         ?>
 
         <div class="td-exchange-header">
-            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><?php echo $base_currency_title ?></div>
+            <div class="td-exchange-base"><span class="td-flag-header td-flag-<?php echo $atts['e_base_currency'] ?>"></span><span class="td-base-title"><?php echo $base_currency_title ?></span></div>
         </div>
 
 
