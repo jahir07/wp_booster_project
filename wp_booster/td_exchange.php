@@ -15,7 +15,7 @@ class td_exchange {
         // prepare the data and do an api call
         $exchange_data = array (
             'api_base' => '',
-            'api_rates' => ''
+            'api_rates' => array()
         );
 
         $exchange_data_status = self::get_exchange_data($atts, $exchange_data);
@@ -36,25 +36,13 @@ class td_exchange {
     }
 
     /**
-     * @param $base_currency_code (string) - ex. AUD or USD
-     * @param $base_currency_rate (integer)
-     * @param $default_api_rates (array)
-     * @return $new_rate (array) - new rate based on the base rate
+     * @param $atts
+     * @param $exchange_data
+     * @return string - block render
      */
-    private static function td_calculate_new_rates($base_currency_code, $base_currency_rate, $default_api_rates) {
-        foreach ($default_api_rates as $rate_code => $rate_value) {
-            // remove the custom selected base rate from the the list
-            if ($base_currency_code != $rate_code) {
-                $new_rates[$rate_code] = $rate_value / $base_currency_rate;
-            }
-        }
-        return $new_rates;
-    }
-
-
     private static function render_block_template($atts, $exchange_data) {
         // stop render when no data is received
-        if ($exchange_data['api_rates'] == ''){
+        if (empty($exchange_data['api_rates'])){
             return self::error('Render failed - no data is received: ' . $atts['e_base_currency']);
         }
 
@@ -109,7 +97,7 @@ class td_exchange {
         }
 
         // set base currency title - ex. EUR - Euro Member Countries
-        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' . $td_currencies[$atts['e_base_currency']];
+        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' .  __td($td_currencies[$atts['e_base_currency']], TD_THEME_NAME);
 
         // check if we have custom rates
         if ($atts['e_custom_rates'] != ''){
@@ -152,11 +140,15 @@ class td_exchange {
             foreach ($exchange_data['api_rates'] as $rate_code => $rate_value) {
                 // use lowercase on classes
                 $rate_code_class = strtolower($rate_code);
+                // change rate into currency - ex. 1usd = 1.3210eur
+                $rate_value = 1 / $rate_value;
                 // round the rate value using decimals set on block settings
                 $rate_value = round($rate_value, $e_rate_decimals);
+                // flag title
+                $rate_title = 'title="' . __td($td_currencies[$rate_code_class], TD_THEME_NAME) . '"';
                 ?>
                 <div class="td-rate">
-                    <span class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
+                    <span <?php echo $rate_title ?> class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
                     <div class="td-rate-currency td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . '</div><div class="td-exchange-value">' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
                 </div>
             <?php
@@ -167,6 +159,24 @@ class td_exchange {
         <?php
         return ob_get_clean();
     }
+
+
+    /**
+     * @param $base_currency_code (string) - ex. AUD or USD
+     * @param $base_currency_rate (integer)
+     * @param $default_api_rates (array)
+     * @return $new_rate (array) - new rate based on the base rate
+     */
+    private static function td_calculate_new_rates($base_currency_code, $base_currency_rate, $default_api_rates) {
+        foreach ($default_api_rates as $rate_code => $rate_value) {
+            // remove the custom selected base rate from the the list
+            if ($base_currency_code != $rate_code) {
+                $new_rates[$rate_code] = $rate_value / $base_currency_rate;
+            }
+        }
+        return $new_rates;
+    }
+
 
     /**
      * @param $atts
