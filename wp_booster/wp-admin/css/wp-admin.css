@@ -2415,6 +2415,13 @@ title one row controls
   left: 0;
   margin-right: 6px;
 }
+.td-clearfix {
+  clear: both;
+}
+.td-exchange-table {
+  padding-left: 0 !important;
+  list-style: none !important;
+}
 .td-exchange-table li {
   position: relative;
   width: 85px;
@@ -3148,11 +3155,11 @@ title one row controls
 .td-demo-page-content .td-wp-admin-demo.td-demo-installed .theme-screenshot img,
 .td-demo-page-content .td-wp-admin-demo.td-demo-uninstalling .theme-screenshot img,
 .td-demo-page-content .td-wp-admin-demo.td-demo-installing .theme-screenshot img {
-  transform: translateY(-40px);
-  -webkit-transform: translateY(-40px);
-  -moz-transform: translateY(-40px);
-  -ms-transform: translateY(-40px);
-  -o-transform: translateY(-40px);
+  transform: translateY(-37px);
+  -webkit-transform: translateY(-37px);
+  -moz-transform: translateY(-37px);
+  -ms-transform: translateY(-37px);
+  -o-transform: translateY(-37px);
 }
 .td-demo-page-content .td-wp-admin-demo .theme-screenshot {
   height: 100%;
