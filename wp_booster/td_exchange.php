@@ -97,7 +97,7 @@ class td_exchange {
         }
 
         // set base currency title - ex. EUR - Euro Member Countries
-        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' . $td_currencies[$atts['e_base_currency']];
+        $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' .  __td($td_currencies[$atts['e_base_currency']], TD_THEME_NAME);
 
         // check if we have custom rates
         if ($atts['e_custom_rates'] != ''){
@@ -145,7 +145,7 @@ class td_exchange {
                 // round the rate value using decimals set on block settings
                 $rate_value = round($rate_value, $e_rate_decimals);
                 // flag title
-                $rate_title = 'title="' . $td_currencies[$rate_code_class] . '"';
+                $rate_title = 'title="' . __td($td_currencies[$rate_code_class], TD_THEME_NAME) . '"';
                 ?>
                 <div class="td-rate">
                     <span <?php echo $rate_title ?> class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
