@@ -74,6 +74,10 @@ var demoMenu = {
                     bottom: -40
                 });
             }
+
+            if ( true === tdAnimationStack.activated ) {
+                tdAnimationStack.td_events_resize();
+            }
         });
 
         jQuery( '#td-theme-settings' ).find( '.td-skin-scroll:first').click(function( event ) {
