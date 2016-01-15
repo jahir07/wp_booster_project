@@ -110,15 +110,18 @@ var demoMenu = {
             var $this = jQuery(this),
                 jQueryObj = jQuery( '#td-theme-settings' );
 
+            jQueryObj.removeClass( 'td-theme-settings-no-transition' );
+
             if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
                 jQueryObj.removeClass( 'td-theme-settings-small' );
+                jQueryObj.addClass( 'td-theme-settings-closed' );
                 $this.html( 'DEMOS' );
 
                 //show full
                 td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
             } else {
                 jQueryObj.addClass( 'td-theme-settings-small' );
-                jQueryObj.removeClass( 'td-theme-settings-no-transition' );
+                jQueryObj.removeClass( 'td-theme-settings-closed' );
                 $this.html( 'CLOSE' );
 
                 //hide
