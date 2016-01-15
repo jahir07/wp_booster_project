@@ -147,8 +147,8 @@ class td_exchange {
                 // flag title
                 $rate_title = 'title="' . $td_currencies[$rate_code_class] . '"';
                 ?>
-                <div <?php echo $rate_title ?> class="td-rate">
-                    <span class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
+                <div class="td-rate">
+                    <span <?php echo $rate_title ?> class="td-flags td-flags-all td-flag-<?php echo $rate_code_class ?>"></span>
                     <div class="td-rate-currency td-rate-<?php echo $rate_code_class ?>"><?php echo $rate_code . '</div><div class="td-exchange-value">' . number_format_i18n($rate_value, $e_rate_decimals)?></div>
                 </div>
             <?php
