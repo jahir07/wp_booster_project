@@ -74,10 +74,6 @@ var demoMenu = {
                     bottom: -40
                 });
             }
-
-            if ( true === tdAnimationStack.activated ) {
-                tdAnimationStack.td_events_resize();
-            }
         });
 
         jQuery( '#td-theme-settings' ).find( '.td-skin-scroll:first').click(function( event ) {
@@ -428,7 +424,9 @@ var demoMenu = {
 
         });
 
-        if ( undefined !== theElement ) {
+        if ( undefined === theElement ) {
+            jQuery( '#td-theme-settings').find( '.td-screen-demo:first' ).hide();
+        } else {
             jQuery( theElement).mouseenter();
         }
     },
