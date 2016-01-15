@@ -1976,6 +1976,8 @@ title one row controls
 .vc_ui-panel-content-container #td_block_text_with_title,
 .vc_modal-content #td_block_instagram,
 .vc_ui-panel-content-container #td_block_instagram,
+.vc_modal-content #td_block_exchange,
+.vc_ui-panel-content-container #td_block_exchange,
 .vc_modal-content #td_block_weather,
 .vc_ui-panel-content-container #td_block_weather {
   padding-left: 75px;
@@ -2031,6 +2033,7 @@ title one row controls
 .icon-pagebuilder-td-vimeo,
 .icon-pagebuilder-title,
 .icon-pagebuilder-td-instagram,
+.icon-pagebuilder-td-exchange,
 .icon-pagebuilder-td-weather {
   position: relative;
   width: 60px !important;
@@ -2089,6 +2092,7 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td-vimeo,
 .wpb_element_title .icon-pagebuilder-title,
 .wpb_element_title .icon-pagebuilder-td-instagram,
+.wpb_element_title .icon-pagebuilder-td-exchange,
 .wpb_element_title .icon-pagebuilder-td-weather {
   top: -5px !important;
 }
@@ -2145,6 +2149,7 @@ title one row controls
 .icon-pagebuilder-title .wpb_element_wrapper div,
 .wpb_td_block_weather .wpb_element_wrapper div,
 .wpb_td_block_instagram .wpb_element_wrapper div,
+.wpb_td_block_exchange .wpb_element_wrapper div,
 .wpb_td_block_ad_box .wpb_element_wrapper div {
   display: none;
   font-size: 11px;
@@ -2203,6 +2208,7 @@ title one row controls
 .icon-pagebuilder-title .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_weather .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_exchange .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_ad_box .wpb_element_wrapper div[name="custom_title"] {
   display: inline-block;
 }
@@ -2374,6 +2380,9 @@ title one row controls
 }
 .icon-pagebuilder-td-weather {
   background-image: url('../../../../images/pagebuilder/weather.png') !important;
+}
+.icon-pagebuilder-td-exchange {
+  background-image: url('../../../../images/pagebuilder/exchange.png') !important;
 }
 .icon-pagebuilder-td-instagram {
   background-image: url('../../../../images/pagebuilder/instagram.png') !important;
