@@ -63,13 +63,43 @@ var demoMenu = {
             //console.log( event );
 
             var theTarget = event.currentTarget,
-                tdSkinScroll = jQuery( '.td-skin-scroll:first' );
+                tdSkinScroll = jQuery( this ).find( '.td-skin-scroll:first' );
 
             if ( theTarget.clientHeight + theTarget.scrollTop < theTarget.scrollHeight ) {
-                tdSkinScroll.show();
+                tdSkinScroll.css({
+                    bottom: 0
+                });
             } else {
-                tdSkinScroll.hide();
+                tdSkinScroll.css({
+                    bottom: -40
+                });
             }
+        });
+
+        jQuery( '#td-theme-settings' ).find( '.td-skin-scroll:first').click(function( event ) {
+            //console.log( event );
+
+            var theTarget = event.currentTarget,
+                tdSkinWrap = jQuery(this).closest('.td-skin-wrap');
+
+            tdSkinWrap.animate(
+                { scrollTop: tdSkinWrap.scrollTop() + 200 },
+                {
+                    duration: 800,
+                    easing:'easeInOutQuart'
+                });
+        }).mouseenter(function(event) {
+            // Any existing timeout is cleard to stop any further css settings
+            if ( undefined !== demoMenu.startTimeout ) {
+                window.clearTimeout( demoMenu.startTimeout );
+            }
+
+            // Any existing interval is cleard to stop any further css settings
+            if ( undefined !== demoMenu.startInterval ) {
+                window.clearInterval( demoMenu.startInterval );
+            }
+
+            jQuery( '#td-theme-settings' ).find( '.td-screen-demo:first' ).hide();
         });
 
         // Show/hide the demo menu panel
@@ -80,15 +110,18 @@ var demoMenu = {
             var $this = jQuery(this),
                 jQueryObj = jQuery( '#td-theme-settings' );
 
+            jQueryObj.removeClass( 'td-theme-settings-no-transition' );
+
             if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
                 jQueryObj.removeClass( 'td-theme-settings-small' );
+                jQueryObj.addClass( 'td-theme-settings-closed' );
                 $this.html( 'DEMOS' );
 
                 //show full
                 td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
             } else {
                 jQueryObj.addClass( 'td-theme-settings-small' );
-                jQueryObj.removeClass( 'td-theme-settings-no-transition' );
+                jQueryObj.removeClass( 'td-theme-settings-closed' );
                 $this.html( 'CLOSE' );
 
                 //hide
@@ -391,7 +424,9 @@ var demoMenu = {
 
         });
 
-        if ( undefined !== theElement ) {
+        if ( undefined === theElement ) {
+            jQuery( '#td-theme-settings').find( '.td-screen-demo:first' ).hide();
+        } else {
             jQuery( theElement).mouseenter();
         }
     },

@@ -201,6 +201,41 @@ $td_translation_map = array(
     'Register' => __('Register', TD_THEME_NAME),
 
     'of' => __('of', TD_THEME_NAME),
+
+    //exchange currencies
+    'Euro Member Countries' => __('Euro Member Countries', TD_THEME_NAME),
+    'Australia Dollar' => __('Australia Dollar', TD_THEME_NAME),
+    'Bulgaria Lev' => __('Bulgaria Lev', TD_THEME_NAME),
+    'Brazil Real' => __('Brazil Real', TD_THEME_NAME),
+    'Canada Dollar' => __('Canada Dollar', TD_THEME_NAME),
+    'Switzerland Franc' => __('Switzerland Franc', TD_THEME_NAME),
+    'China Yuan Renminbi' => __('China Yuan Renminbi', TD_THEME_NAME),
+    'Czech Republic Koruna' => __('Czech Republic Koruna', TD_THEME_NAME),
+    'Denmark Krone' => __('Denmark Krone', TD_THEME_NAME),
+    'United Kingdom Pound' => __('United Kingdom Pound', TD_THEME_NAME),
+    'Hong Kong Dollar' => __('Hong Kong Dollar', TD_THEME_NAME),
+    'Croatia Kuna' => __('Croatia Kuna', TD_THEME_NAME),
+    'Hungary Forint' => __('Hungary Forint', TD_THEME_NAME),
+    'Indonesia Rupiah' => __('Indonesia Rupiah', TD_THEME_NAME),
+    'Israel Shekel' => __('Israel Shekel', TD_THEME_NAME),
+    'India Rupee' => __('India Rupee', TD_THEME_NAME),
+    'Japan Yen' => __('Japan Yen', TD_THEME_NAME),
+    'Korea (South) Won' => __('Korea (South) Won', TD_THEME_NAME),
+    'Mexico Peso' => __('Mexico Peso', TD_THEME_NAME),
+    'Malaysia Ringgit' => __('Malaysia Ringgit', TD_THEME_NAME),
+    'Norway Krone' => __('Norway Krone', TD_THEME_NAME),
+    'New Zealand Dollar' => __('New Zealand Dollar', TD_THEME_NAME),
+    'Philippines Peso' => __('Philippines Peso', TD_THEME_NAME),
+    'Poland Zloty' => __('Poland Zloty', TD_THEME_NAME),
+    'Romania New Leu' => __('Romania New Leu', TD_THEME_NAME),
+    'Russia Ruble' => __('Russia Ruble', TD_THEME_NAME),
+    'Sweden Krona' => __('Sweden Krona', TD_THEME_NAME),
+    'Singapore Dollar' => __('Singapore Dollar', TD_THEME_NAME),
+    'Thailand Baht' => __('Thailand Baht', TD_THEME_NAME),
+    'Turkey Lira' => __('Turkey Lira', TD_THEME_NAME),
+    'United States Dollar' => __('United States Dollar', TD_THEME_NAME),
+    'South Africa Rand' => __('South Africa Rand', TD_THEME_NAME),
+
 );
 
 
