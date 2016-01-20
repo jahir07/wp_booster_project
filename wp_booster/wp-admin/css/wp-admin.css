@@ -2935,6 +2935,16 @@ title one row controls
     text-align: center;
   }
 }
+.td-admin-plugins .theme .theme-screenshot img {
+  width: auto;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  max-height: 100%;
+  max-width: none;
+}
 .media-sidebar .gallery-settings .setting select {
   float: right;
 }
