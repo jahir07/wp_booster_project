@@ -137,7 +137,7 @@ class td_instagram {
                         ?>
                         <div class="td-instagram-element">
                             <!-- image -->
-                            <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>">
+                            <a href="https://www.instagram.com/p/<?php echo $image['code'] ?>" target="_blank">
                                 <img class="td-instagram-image" src="<?php echo $image['thumbnail_src'] ?>"/>
                             </a>
                             <!-- video icon -->

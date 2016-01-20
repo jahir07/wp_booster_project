@@ -13,6 +13,8 @@ class td_global {
 
 	static $feature_locked = false; // lock features that are not ready
 
+	static $theme_demos_old = true; // show old live theme demos panel
+
 
     static $td_options; //here we store all the options of the theme will be used in td_first_install.php
 	static $td_options_changed_flag = false;
