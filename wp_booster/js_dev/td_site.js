@@ -426,7 +426,7 @@ function td_set_cookies_life(td_time_cookie_array) {
     expiry.setTime(expiry.getTime() + td_time_cookie_array[2]);
 
     // Date()'s toGMTSting() method will format the date correctly for a cookie
-    document.cookie = td_time_cookie_array[0] + "=" + td_time_cookie_array[1] + "; expires=" + expiry.toGMTString();
+    document.cookie = td_time_cookie_array[0] + "=" + td_time_cookie_array[1] + "; expires=" + expiry.toGMTString() + "; path=/";
 }
 
 
