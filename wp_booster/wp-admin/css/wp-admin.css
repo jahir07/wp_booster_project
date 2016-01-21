@@ -1185,6 +1185,7 @@ title one row controls
    buttons
 */
 .td-big-button {
+  cursor: pointer;
   color: #FFFFFF;
   font-size: 13px;
   text-decoration: none;
@@ -1201,10 +1202,9 @@ title one row controls
 }
 .td-button-remove-border {
   border: 0;
-  padding: 12px;
 }
 .td-medium-button {
-  padding: 7px 10px 7px 10px;
+  padding: 7px 10px;
 }
 /*  ----------------------------------------------------------------------------
    color picker
@@ -2934,6 +2934,16 @@ title one row controls
   .td-admin-wrap .td-small-checkbox .td-installed-text {
     text-align: center;
   }
+}
+.td-admin-plugins .theme .theme-screenshot img {
+  width: auto;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  max-height: 100%;
+  max-width: none;
 }
 .media-sidebar .gallery-settings .setting select {
   float: right;

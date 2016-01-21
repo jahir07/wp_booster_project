@@ -252,7 +252,7 @@ class td_module_single_base extends td_module {
 
                 if ( ! empty( $term_params['color'] ) ) {
                     // set title color based on background color contrast
-                    $td_cat_title_color = td_util::readable_colour($term_params['color'], 200, '#000', '#fff');
+                    $td_cat_title_color = td_util::readable_colour($term_params['color'], 200, 'rgba(0, 0, 0, 0.9)', '#fff');
                     $td_cat_color = ' style="background-color:' . $term_params['color'] . '; color:' . $td_cat_title_color . '; border-color:' . $term_params['color']  . ';"';
                 } else {
                     $td_cat_color = '';
