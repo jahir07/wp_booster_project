@@ -48,7 +48,12 @@ class td_menu {
      * @return array
      */
     function hook_wp_nav_menu_objects($items, $args = '') {
-        $items_buffy = array();
+
+	    // Internal array to keep the references of the items (ID item is the key -> item itself)
+	    // This helps to not look for an item into the $items list
+	    $_items_ref = array();
+
+	    $items_buffy = array();
 
         $td_is_firstMenu = true;
 
@@ -113,7 +118,19 @@ class td_menu {
                         'number' => $td_show_child_cat  //
                     ));
                     if (!empty($td_subcategories)) {
-                        $item->classes[] = 'menu-item-has-children'; // add the extra class for the dropdown to work
+	                    $item->classes[] = 'menu-item-has-children'; // add the extra class for the dropdown to work
+
+	                    /**
+	                     * - Because 'current_item_parent' (true/false) item property is not set by wp,
+	                     * we use an additional flag 'td_is_parent' to mark the parent elements of the tree menu
+	                     * - For the moment, the 'td_is_parent' flag is used just by the 'td_walker_mobile_menu'
+	                     * walker of the mobile theme version @see td_walker_mobile_menu
+	                     */
+
+	                    if (array_key_exists($item->ID, $_items_ref)) {
+		                    $_items_ref[$item->ID]->td_is_parent = true;
+	                    }
+
                         foreach ($td_subcategories as $td_category) {
                             $new_item = $this->generate_wp_post();
                             $new_item->is_mega_menu = false; //this is sent to the menu walkers
@@ -216,11 +233,16 @@ class td_menu {
                 $items_buffy[] = $item;
             }
 
+	        /**
+	         * - Because 'current_item_parent' (true/false) item property is not set by wp,
+	         * we use an additional flag 'td_is_parent' to mark the parent elements of the tree menu
+	         * - For the moment, the 'td_is_parent' flag is used just by the 'td_walker_mobile_menu'
+	         * walker of the mobile theme version @see td_walker_mobile_menu
+	         */
 
-
-
-
-
+	        if (isset($item->menu_item_parent) && 0 !== intval($item->menu_item_parent) && array_key_exists(intval($item->menu_item_parent), $_items_ref)) {
+		        $_items_ref[intval($item->menu_item_parent)]->td_is_parent = true;
+	        }
 
 
         } //end foreach
@@ -387,45 +409,6 @@ class td_tagdiv_walker_nav_menu extends Walker_Nav_Menu {
 
 class td_walker_mobile_menu extends Walker_Nav_Menu {
 
-	// The existing menu items are saved here.
-	private static $td_menus = array();
-
-	/**
-	 * Helper function used internally by the start_el to check if an item of a menu has children.
-	 * The requested menu id is cached into $td_menus.
-	 *
-	 * @param $menu_id - The menu id.
-	 * @param $item_id - The item id.
-	 *
-	 * @return bool
-	 */
-	private function td_has_children($menu_id, $item_id) {
-
-		// Check if the items of the requested menu are already saved.
-
-		// If they are not, then try to get them.
-		if (!array_key_exists($menu_id, self::$td_menus)) {
-			$menu_items = wp_get_nav_menu_items($menu_id);
-
-			// Do not set, if they are not available.
-			if (isset($menu_items)) {
-				self::$td_menus[$menu_id] = $menu_items;
-			}
-		}
-
-		// Check again and if the key for the requested menu is set, it means that their items are available.
-		if (array_key_exists($menu_id, self::$td_menus)) {
-			foreach (self::$td_menus[$menu_id] as $menu_item) {
-				if (intval($menu_item->menu_item_parent) === $item_id) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
@@ -502,14 +485,8 @@ class td_walker_mobile_menu extends Walker_Nav_Menu {
 		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID );
 
 
-		$menu_id = $args->menu;
-		if (is_object($args->menu)) {
-			$menu_id = $args->menu->term_id;
-		}
-
-
 		// TAGDIV: The $link_after of args is added for parent items
-		if ($this->td_has_children($menu_id, $item->ID) === true) {
+		if (isset($item->td_is_parent) && true === $item->td_is_parent) {
 			$item_output .= $args->link_after;
 		}
 

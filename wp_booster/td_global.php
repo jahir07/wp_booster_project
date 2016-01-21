@@ -365,13 +365,9 @@ $current_theme_name = get_template();
 
 if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
 	td_global::$get_template_directory = td_mobile_theme::$main_dir_path;
-} else {
-	td_global::$get_template_directory = get_template_directory();
-}
-
-if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
 	td_global::$get_template_directory_uri = td_mobile_theme::$main_uri_path;
 } else {
+	td_global::$get_template_directory = get_template_directory();
 	td_global::$get_template_directory_uri = get_template_directory_uri();
 }
 
