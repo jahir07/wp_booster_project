@@ -64,6 +64,8 @@ class td_menu {
 
         foreach ($items as &$item) {
 
+	        $_items_ref[$item->ID] = $item;
+
             /**
              * $item
              *  -> $item (is_mega_menu = true) - this item is a mega menu
