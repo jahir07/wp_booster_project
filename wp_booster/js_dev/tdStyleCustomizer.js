@@ -455,6 +455,7 @@ jQuery().ready(function() {
 
 
 /*  ----------------------------------------------------------------------------
+@todo REMOVE THIS WHEN THE SITE IS READY
  tagDiv live css compiler ( 2013 )
  - this script is used on our demo site to customize the theme live
  - not used on production sites
