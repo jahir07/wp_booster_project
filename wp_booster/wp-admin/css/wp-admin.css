@@ -1185,6 +1185,7 @@ title one row controls
    buttons
 */
 .td-big-button {
+  cursor: pointer;
   color: #FFFFFF;
   font-size: 13px;
   text-decoration: none;
@@ -1201,10 +1202,9 @@ title one row controls
 }
 .td-button-remove-border {
   border: 0;
-  padding: 12px;
 }
 .td-medium-button {
-  padding: 7px 10px 7px 10px;
+  padding: 7px 10px;
 }
 /*  ----------------------------------------------------------------------------
    color picker
