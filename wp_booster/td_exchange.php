@@ -155,6 +155,7 @@ class td_exchange {
             }
             ?>
         </div>
+        <div class="clearfix"></div>
 
         <?php
         return ob_get_clean();
