@@ -29,7 +29,7 @@
 })();
 
 
-var demoMenu = {
+var tdDemoMenu = {
 
     // document - horizontal mouse position
     mousePosX: 0,
@@ -43,6 +43,22 @@ var demoMenu = {
     // The interval that decreases the padding-left css value and increases the left css value of the screen demo (previewer of the demo)
     startInterval: undefined,
 
+
+
+    // Flag marks that it's possible to move the mouse to the original demo
+    _extendedDemo: false,
+
+    // The current demo element (for which the counters have been applied)
+    _currentElement: undefined,
+
+    // The timer waiting to start the interval for extended demo
+    _startExtendedTimeout: undefined,
+
+    // The interval that decreases the width css value of the extended element
+    _startExtendedInterval: undefined,
+
+
+
     init: function() {
 
         'use strict';
@@ -50,11 +66,11 @@ var demoMenu = {
         // Get document mouse position
         jQuery( document ).mousemove(function( event ) {
             if ( event.pageX || event.pageY ) {
-                demoMenu.mousePosX = event.pageX;
-                demoMenu.mousePosY = event.pageY;
+                tdDemoMenu.mousePosX = event.pageX;
+                tdDemoMenu.mousePosY = event.pageY;
             } else if ( event.clientX || event.clientY ) {
-                demoMenu.mousePosX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                demoMenu.mousePosY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                tdDemoMenu.mousePosX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                tdDemoMenu.mousePosY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
         });
 
@@ -90,13 +106,13 @@ var demoMenu = {
                 });
         }).mouseenter(function(event) {
             // Any existing timeout is cleard to stop any further css settings
-            if ( undefined !== demoMenu.startTimeout ) {
-                window.clearTimeout( demoMenu.startTimeout );
+            if ( undefined !== tdDemoMenu.startTimeout ) {
+                window.clearTimeout( tdDemoMenu.startTimeout );
             }
 
             // Any existing interval is cleard to stop any further css settings
-            if ( undefined !== demoMenu.startInterval ) {
-                window.clearInterval( demoMenu.startInterval );
+            if ( undefined !== tdDemoMenu.startInterval ) {
+                window.clearInterval( tdDemoMenu.startInterval );
             }
 
             jQuery( '#td-theme-settings' ).find( '.td-screen-demo:first' ).hide();
@@ -138,13 +154,13 @@ var demoMenu = {
                 //console.log( 'in MAIN ' + contor++);
 
                 // Any existing timeout is cleard to stop any further css settings
-                if ( undefined !== demoMenu.startTimeout ) {
-                    window.clearTimeout( demoMenu.startTimeout );
+                if ( undefined !== tdDemoMenu.startTimeout ) {
+                    window.clearTimeout( tdDemoMenu.startTimeout );
                 }
 
                 // Any existing interval is cleard to stop any further css settings
-                if ( undefined !== demoMenu.startInterval ) {
-                    window.clearInterval( demoMenu.startInterval );
+                if ( undefined !== tdDemoMenu.startInterval ) {
+                    window.clearInterval( tdDemoMenu.startInterval );
                 }
 
                 var
@@ -258,6 +274,8 @@ var demoMenu = {
 
                 //console.log('out MAIN ');
 
+                jQuery( '.td-screen-demo-extend:first').hide();
+
                 var
                 // The jquery object of the previewer demo element
                     jQueryDisplayEl = jQuery('.td-screen-demo:first'),
@@ -284,28 +302,39 @@ var demoMenu = {
                     startTimeoutWait = 50,
 
                 // The time (ms) for the interval
+                    //startIntervalWait = 15,
                     startIntervalWait = 15,
 
                     newWidthValue = parseInt(existingWidthValue.replace('px', ''));
 
 
                 var $this = jQuery(this);
+                tdDemoMenu._currentElement = $this;
 
 
                 if (newExtraRightValue > 0) {
 
                     // Clear any timeout if there's one, because a new one will be created
-                    if (undefined !== demoMenu.startTimeout) {
-                        window.clearTimeout( demoMenu.startTimeout );
+                    if (undefined !== tdDemoMenu.startTimeout) {
+                        window.clearTimeout( tdDemoMenu.startTimeout );
+                        tdDemoMenu.startTimeout = undefined;
                     }
 
                     // Clear any interval if there's one, because a new one will be created
-                    if (undefined !== demoMenu.startInterval) {
-                        window.clearInterval( demoMenu.startInterval );
+                    if (undefined !== tdDemoMenu.startInterval) {
+                        window.clearInterval( tdDemoMenu.startInterval );
+                        tdDemoMenu.startInterval = undefined;
                     }
 
-                    demoMenu.startTimeout = setTimeout(function () {
-                        demoMenu.startInterval = setInterval(function () {
+                    tdDemoMenu.startTimeout = setTimeout(function () {
+
+
+                        // Extended demo is eligible to be shown (true)
+                        // The flag is set to false when the mouse is found in wrong position (mouse position is reached)
+                        // The flag is set to true when the counters (the timer and the interval) finish, there the extended demo element being shown
+                        tdDemoMenu._extendedDemo = true;
+
+                        tdDemoMenu.startInterval = setInterval(function () {
 
                                 var dataWidthPreview = jQueryDisplayEl.data( 'width-preview' );
 
@@ -315,23 +344,25 @@ var demoMenu = {
 
                                 var mousePositionFound = false;
 
-                                if ( newExtraRightValue <= 0 || newWidthValue < dataWidthPreview || demoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
+                                if ( newExtraRightValue <= 0 || newWidthValue < dataWidthPreview || tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
 
                                     // Clear any timeout, and we should have one, because we finished
-                                    if (undefined !== demoMenu.startTimeout) {
-                                        window.clearTimeout( demoMenu.startTimeout );
+                                    if ( undefined !== tdDemoMenu.startTimeout ) {
+                                        window.clearTimeout( tdDemoMenu.startTimeout );
+                                        tdDemoMenu.startTimeout = undefined;
                                     }
 
                                     // Clear any interval, and we should have one, because we finished
-                                    if ( undefined !== demoMenu.startInterval ) {
-                                        window.clearInterval( demoMenu.startInterval );
+                                    if ( undefined !== tdDemoMenu.startInterval ) {
+                                        window.clearInterval( tdDemoMenu.startInterval );
+                                        tdDemoMenu.startInterval = undefined;
                                     }
 
                                     newExtraRightValue = 0;
                                     newRightValue = jQueryDisplayEl.data('right-value');
                                     newWidthValue = dataWidthPreview;
 
-                                    if ( demoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
+                                    if ( tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
                                         mousePositionFound = true;
                                     }
                                 }
@@ -344,7 +375,11 @@ var demoMenu = {
 
                                 // The timeout started and the interval are stopped (The mouse was reached or the css computation is done)
                                 if ( mousePositionFound ) {
-                                    demoMenu._checkMousePosition();
+                                    tdDemoMenu._extendedDemo = false;
+                                    tdDemoMenu._checkMousePosition();
+                                } else if ( undefined === tdDemoMenu.startTimeout && undefined === tdDemoMenu.startInterval ) {
+                                    tdDemoMenu._extendedDemo = true;
+                                    tdDemoMenu._showExtendedScreenDemo();
                                 }
 
                             }, startIntervalWait
@@ -354,8 +389,6 @@ var demoMenu = {
                 } else {
                     jQueryDisplayEl.hide();
                 }
-
-                //console.log(existingLeftValue);
             }
         );
 
@@ -364,9 +397,145 @@ var demoMenu = {
                 jQuery(this).show();
             },
             function( event ) {
+
+                // We are on mouseleave event, and because of this, if the main counters (the timer and the interval) are not finished, it means we
+                // don't have any extended demo element, so it's okay to set its flag to false and hide the extended demo element and the previewer demo element (this element)
+                if ( undefined !== tdDemoMenu.startTimeout || undefined !== tdDemoMenu.startInterval ) {
+                    tdDemoMenu._extendedDemo = false;
+                }
+
                 jQuery(this).hide();
+                jQuery( '.td-screen-demo-extend:first' ).hide();
+
             }
         );
+
+        jQuery( '.td-screen-demo-extend' ).hover(
+            function( event ) {
+
+                if ( tdDemoMenu._extendedDemo ) {
+
+                    // Set the flag to false to not execute this routine twice on mouseenter event
+                    tdDemoMenu._extendedDemo = false;
+
+                    var
+
+                    // The jquery current element
+                        $this = jQuery(this),
+
+                    // The jquery '.td-screen-demo' element
+                        $tdScreenDemo = jQuery( '.td-screen-demo:first'),
+
+                    // The css width value
+                        columnWidth = $this.data('width-column'),
+
+                    // The step value used to decrease the padding-left css value and to increase the left css value
+                        step = 10,
+
+                    // The waiting time (ms) for the timeout
+                        startTimeoutWait = 50,
+
+                    // The time (ms) for the interval
+                    //startIntervalWait = 15,
+                        startIntervalWait = 15,
+
+                        newWidthValue = columnWidth;
+
+                        $this.css({
+                            'width': columnWidth + 'px',
+                            'top': $tdScreenDemo.css( 'top')
+                        });
+
+                        $this.show();
+                        $tdScreenDemo.show();
+
+
+                    tdDemoMenu._startExtendedTimeout = setTimeout(function () {
+
+                        tdDemoMenu._startExtendedInterval = setInterval(function () {
+
+                                newWidthValue -= step;
+
+                                var mousePositionFound = false;
+
+                                if ( newWidthValue < 0 || tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue ) {
+
+                                    // Clear any timeout, and we should have one, because we finished
+                                    if ( undefined !== tdDemoMenu._startExtendedTimeout ) {
+                                        window.clearTimeout( tdDemoMenu._startExtendedTimeout );
+                                        tdDemoMenu._startExtendedTimeout = undefined;
+                                    }
+
+                                    // Clear any interval, and we should have one, because we finished
+                                    if ( undefined !== tdDemoMenu._startExtendedInterval ) {
+                                        window.clearInterval( tdDemoMenu._startExtendedInterval );
+                                        tdDemoMenu._startExtendedInterval = undefined;
+                                    }
+
+                                    if ( tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue ) {
+                                        mousePositionFound = true;
+                                    }
+
+                                    newWidthValue = columnWidth;
+
+                                    $this.hide();
+                                }
+
+                                $this.css({
+                                    'width': newWidthValue,
+                                    'top': $tdScreenDemo.css( 'top')
+                                });
+
+                                if ( mousePositionFound ) {
+                                    tdDemoMenu._checkMousePosition();
+                                }
+
+                            }, startIntervalWait
+                        );
+                    }, startTimeoutWait);
+
+                }
+            },
+            function( event ) {
+
+                /**
+                 * 1. clear any extended timer/interval
+                 * 2. hide the element
+                 * 3. adjust its width to the initial value
+                 * 4. hide the previewer element (this will be shown by the a mouseenter event if it's the case)
+                 */
+
+                // Clear any timeout, and we should have one, because we finished
+                if ( undefined !== tdDemoMenu._startExtendedTimeout ) {
+                    window.clearTimeout( tdDemoMenu._startExtendedTimeout );
+                    tdDemoMenu._startExtendedTimeout = undefined;
+                }
+
+                // Clear any interval, and we should have one, because we finished
+                if ( undefined !== tdDemoMenu._startExtendedInterval ) {
+                    window.clearInterval( tdDemoMenu._startExtendedInterval );
+                    tdDemoMenu._startExtendedInterval = undefined;
+                }
+
+                var $this = jQuery(this),
+                    widthColumn = $this.data( 'width-column' );
+
+                $this.css({
+                    'width': widthColumn + 'px'
+                }).hide();
+
+                jQuery( '.td-screen-demo:first').hide();
+            }
+        );
+    },
+
+    _showExtendedScreenDemo: function() {
+
+        'use strict';
+
+        jQuery( '.td-screen-demo-extend:first').css({
+            top: jQuery( '.td-screen-demo:first').css( 'top')
+        }).show();
     },
 
     _checkMousePosition: function() {
@@ -377,7 +546,7 @@ var demoMenu = {
 
         jQuery( '.td-set-theme-style-link' ).each(function(index, element) {
 
-            demoMenu._log(index);
+            tdDemoMenu._log(index);
 
             var $this = jQuery(element),
                 cssClassContainer = 'td-set-theme-style',
@@ -388,14 +557,14 @@ var demoMenu = {
 
             if ( 0 === jQuery( '.td-set-theme-style-link' ).index( element ) % 2 ) {
 
-                if ( parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisContainer.outerHeight()) ) {
+                if ( parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) < tdDemoMenu.mousePosY && tdDemoMenu.mousePosY < parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisContainer.outerHeight()) ) {
                     verticalPosition = true;
 
-                    if ( parseInt(jQuery( window ).width()) - 2 * parseInt($thisContainer.outerWidth()) < demoMenu.mousePosX && demoMenu.mousePosX < parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) ) {
+                    if ( parseInt(jQuery( window ).width()) - 2 * parseInt($thisContainer.outerWidth()) < tdDemoMenu.mousePosX && tdDemoMenu.mousePosX < parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) ) {
                         horizontalPosition = true;
                     }
                 }
-                //demoMenu._log( 'caz A : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + demoMenu.mousePosY + ' > posX: ' + demoMenu.mousePosX +
+                //tdDemoMenu._log( 'caz A : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + tdDemoMenu.mousePosY + ' > posX: ' + tdDemoMenu.mousePosX +
                 //    ' > top: ' + (parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisContainer.outerHeight())) +
                 //    ' > left: ' + (parseInt(jQuery( window ).width()) - 2 * parseInt($thisContainer.outerWidth())) + ' > right: ' + (parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth())) );
 
@@ -403,15 +572,15 @@ var demoMenu = {
                 var $thisPrevContainer = $thisContainer.prev( '.' + cssClassContainer );
 
                 if ( $thisPrevContainer.length ) {
-                    if ( parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) < demoMenu.mousePosY && demoMenu.mousePosY < (parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisPrevContainer.outerHeight())) ) {
+                    if ( parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) < tdDemoMenu.mousePosY && tdDemoMenu.mousePosY < (parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisPrevContainer.outerHeight())) ) {
                         verticalPosition = true;
 
-                        if ( parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) < demoMenu.mousePosX && demoMenu.mousePosX < parseInt(jQuery( window ).width()) ) {
+                        if ( parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth()) < tdDemoMenu.mousePosX && tdDemoMenu.mousePosX < parseInt(jQuery( window ).width()) ) {
                             horizontalPosition = true;
                         }
                     }
                 }
-                //demoMenu._log( 'caz B : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + demoMenu.mousePosY + ' > posX: ' + demoMenu.mousePosX +
+                //tdDemoMenu._log( 'caz B : ' + index + ' > vert: ' + verticalPosition + ' > hori: ' + horizontalPosition + ' > posY: ' + tdDemoMenu.mousePosY + ' > posX: ' + tdDemoMenu.mousePosX +
                 //    ' > top: ' + ($thisPrevContainer.position().top + parseInt(jQuery(window).scrollTop())) + ' > bottom: ' + (parseInt($thisPrevContainer.position().top) + parseInt(jQuery(window).scrollTop()) + parseInt($thisPrevContainer.outerHeight())) +
                 //    ' > left: ' + (parseInt(jQuery( window ).width()) - parseInt($thisContainer.outerWidth())) + ' > right: ' + parseInt(jQuery( window ).width()) );
             }
@@ -446,7 +615,7 @@ jQuery().ready(function() {
 
     'use strict';
 
-    demoMenu.init();
+    tdDemoMenu.init();
 });
 
 
