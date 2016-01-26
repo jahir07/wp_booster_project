@@ -24,7 +24,8 @@ jQuery().ready(function() {
     /**
      * Modal window js code
      */
-    jQuery( '.td-login-modal-js' ).magnificPopup({
+
+    var modalSettings = {
         type: 'inline',
         preloader: false,
         focus: '#name',
@@ -55,8 +56,51 @@ jQuery().ready(function() {
 
             beforeClose: function() {
             }
+        },
+
+        // The modal login is disabled for widths under less than 750px
+        disableOn: function() {
+            if( jQuery(window).width() < 750 ) {
+                return false;
+            }
+            return true;
+        }
+    };
+
+    // The following settings are only for the modal magnific popup, which is disable when width is less than 750px
+    jQuery( '.comment-reply-login' ).attr({
+        'href': '#login-form',
+        'data-effect': 'mpf-td-login-effect'
+    });
+
+    // Set the modal magnific popup settings
+    jQuery( '.comment-reply-login, .td-login-modal-js' ).magnificPopup( modalSettings );
+
+
+    // - Set the normal link that will apply only for windows widths less than 750px
+    // - Used for log in to leave a comment on post page to open the login section
+    jQuery( '.td-login-modal-js, .comment-reply-login' ).on( 'click', function( event ) {
+
+        if ( jQuery( window ).width() < 750 ) {
+
+            event.preventDefault();
+
+            // open the menu background
+            jQuery( 'body' ).addClass( 'td-menu-mob-open-menu' );
+
+            // hide the menu content
+            jQuery( '.td-mobile-container' ).hide();
+            jQuery( '#td-mobile-nav' ).addClass( 'td-hide-menu-content' );
+
+            setTimeout(function(){
+                jQuery( '.td-mobile-container' ).show();
+            }, 500);
+
+            //hides or shows the divs with inputs
+            tdLogin.showHideElements( [['#td-login-mob', 1], ['#td-register-mob', 0], ['#td-forgot-pass-mob', 0]] );
         }
     });
+
 
     //login
     jQuery( '#login-link' ).on( 'click', function() {
@@ -240,6 +284,25 @@ var tdLogin = {};
          *
          * ids_array : array of ids that have to be showed or hidden
          */
+        //showHideElements : function( ids_array ) {
+        //    if ( ids_array.constructor === Array ) {
+        //        var length = ids_array.length;
+        //
+        //        for ( var i = 0; i < length; i++ ) {
+        //            if ( ids_array[ i ].constructor === Array && 2 === ids_array[ i ].length ) {
+        //                var jqElement = jQuery( ids_array[ i ][0] );
+        //                if ( jqElement.length ) {
+        //                    if ( 1 === ids_array[ i ][1] ) {
+        //                        jqElement.removeClass( 'td-display-none' ).addClass( 'td-display-block' );
+        //                    } else {
+        //                        jqElement.removeClass( 'td-display-block' ).addClass( 'td-display-none' );
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //},
+
         showHideElements : function( ids_array ) {
             if ( ids_array.constructor === Array ) {
                 var length = ids_array.length;
@@ -249,9 +312,9 @@ var tdLogin = {};
                         var jqElement = jQuery( ids_array[ i ][0] );
                         if ( jqElement.length ) {
                             if ( 1 === ids_array[ i ][1] ) {
-                                jqElement.removeClass( 'td-display-none' ).addClass( 'td-display-block' );
+                                jqElement.removeClass( 'td-login-hide' ).addClass( 'td-login-show' );
                             } else {
-                                jqElement.removeClass( 'td-display-block' ).addClass( 'td-display-none' );
+                                jqElement.removeClass( 'td-login-show' ).addClass( 'td-login-hide' );
                             }
                         }
                     }
