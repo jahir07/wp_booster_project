@@ -57,7 +57,7 @@ class td_weather {
 			'block_uid' => '',
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'api_language' => '', //this is set down bellow
-			'api_key' => self::get_a_owm_key(),
+			//'api_key' => self::get_a_owm_key(),
 			'today_icon' => '',
 			'today_icon_text' => '',
 			'today_temp' => array (
@@ -263,23 +263,117 @@ class td_weather {
 		$cache_key = strtolower($atts['w_location'] . '_' . $atts['w_language'] . '_' . $weather_data['current_unit']);
 		if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
 			// cache is expired - do a request
-			$today_api_data = self::owm_get_today_data($atts, $weather_data);
-			$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
 
 			// check the api call response
-			if ($today_api_data !== true or $forecast_api_data !== true) {
-				// we have an error on one of the apis
+
+			$avoid_keys = array();
+
+			$weather_data['api_key'] = self::get_a_owm_key();
+			$today_api_data = self::owm_get_today_data($atts, $weather_data);
+
+			while ( $today_api_data !== true && $weather_data['api_key'] !== null) {
+				$avoid_keys[] = $weather_data['api_key'];
+				$weather_data['api_key'] = self::get_a_owm_key($avoid_keys);
+				$today_api_data = self::owm_get_today_data($atts, $weather_data);
+			}
+
+			if ($today_api_data !== true) {
 				$weather_data = td_remote_cache::get(__CLASS__, $cache_key);
 				if ($weather_data === false) { 	// miss and io error... shit / die
-					return self::error('Weather API error: ' . $today_api_data . ' ' . $forecast_api_data);
+					return self::error('Weather API error: ' . $today_api_data);
 				}
 
 				td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
 				return 'api_fail_cache';
 			}
 
+
+			$remaining_keys = array_diff(self::$owm_api_keys, $avoid_keys);
+
+			if (empty($remaining_keys)) {
+
+				// It means that just one key was available, so now, we give a try, using again the entire set of keys
+				$avoid_keys = array();
+
+				$weather_data['api_key'] = self::get_a_owm_key();
+				$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+
+				while ( $forecast_api_data !== true && $weather_data['api_key'] !== null) {
+					$avoid_keys[] = $weather_data['api_key'];
+					$weather_data['api_key'] = self::get_a_owm_key($avoid_keys);
+					$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+				}
+
+				// All available keys were checked and it couldn't get any weather data, so try to get it from cache
+				if ($forecast_api_data !== true) {
+					$weather_data = td_remote_cache::get(__CLASS__, $cache_key);
+					if ($weather_data === false) { 	// miss and io error... shit / die
+						return self::error('Weather API error: ' . $forecast_api_data);
+					}
+
+					td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
+					return 'api_fail_cache';
+				}
+			} else {
+
+				// First, try to get keys from the $remaining_keys array, and when we finish, get the already used $avoid_keys to reuse them
+				$weather_data['api_key'] = self::get_a_owm_key($avoid_keys);
+				$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+
+				while ( $forecast_api_data !== true && $weather_data['api_key'] !== null) {
+					$avoid_keys[] = $weather_data['api_key'];
+					$weather_data['api_key'] = self::get_a_owm_key($avoid_keys);
+					$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+				}
+
+				// It means that the $remaining_keys array was exhausted, so, as we said, get the already used $avoid_keys to reuse them
+				if ($weather_data['api_key'] === null) {
+
+					$weather_data['api_key'] = self::get_a_owm_key($remaining_keys);
+					$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+
+					while ( $forecast_api_data !== true && $weather_data['api_key'] !== null) {
+						$remaining_keys[] = $weather_data['api_key'];
+						$weather_data['api_key'] = self::get_a_owm_key($remaining_keys);
+						$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+					}
+				}
+
+				// All available keys were checked and it couldn't get any weather data, so try to get it from cache
+				if ($forecast_api_data !== true) {
+					$weather_data = td_remote_cache::get(__CLASS__, $cache_key);
+					if ($weather_data === false) { 	// miss and io error... shit / die
+						return self::error('Weather API error: ' . $forecast_api_data);
+					}
+
+					td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
+					return 'api_fail_cache';
+				}
+			}
+
 			td_remote_cache::set(__CLASS__, $cache_key, $weather_data, self::$caching_time); //we have a reply and we set it
 			return 'api';
+
+
+//			// cache is expired - do a request
+//			$today_api_data = self::owm_get_today_data($atts, $weather_data);
+//			$forecast_api_data = self::owm_get_five_days_data($atts, $weather_data);
+//
+//			// check the api call response
+//			if ($today_api_data !== true or $forecast_api_data !== true) {
+//				// we have an error on one of the apis
+//				$weather_data = td_remote_cache::get(__CLASS__, $cache_key);
+//				if ($weather_data === false) { 	// miss and io error... shit / die
+//					return self::error('Weather API error: ' . $today_api_data . ' ' . $forecast_api_data);
+//				}
+//
+//				td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
+//				return 'api_fail_cache';
+//			}
+//
+//			td_remote_cache::set(__CLASS__, $cache_key, $weather_data, self::$caching_time); //we have a reply and we set it
+//			return 'api';
+
 
 		} else {
 			// cache is valid
@@ -470,8 +564,9 @@ class td_weather {
 				}
 
 			}
+			return true;
 		}
-		return true; // return true if ~everything is ok
+		return false; // return true if ~everything is ok
 	}
 
 
@@ -519,7 +614,18 @@ class td_weather {
 
 
 
-	private static function get_a_owm_key() {
-		return self::$owm_api_keys[rand(0, count(self::$owm_api_keys) - 1)];
+	private static function get_a_owm_key( $avoid_keys = array() ) {
+
+		if (empty($avoid_keys)) {
+			return self::$owm_api_keys[rand(0, count(self::$owm_api_keys) - 1)];
+		}
+
+		$available_keys = array_values(array_diff(self::$owm_api_keys, $avoid_keys));
+
+		if (empty($available_keys)) {
+			return null;
+		}
+
+		return $available_keys[rand(0, count($available_keys) - 1)];
 	}
 }
