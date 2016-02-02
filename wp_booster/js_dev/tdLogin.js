@@ -67,21 +67,25 @@ jQuery().ready(function() {
         }
     };
 
-    // The following settings are only for the modal magnific popup, which is disable when width is less than 750px
-    jQuery( '.comment-reply-login' ).attr({
-        'href': '#login-form',
-        'data-effect': 'mpf-td-login-effect'
-    });
 
-    // Set the modal magnific popup settings
-    jQuery( '.comment-reply-login, .td-login-modal-js' ).magnificPopup( modalSettings );
 
+    if ( undefined !== window.tds_login_sing_in_widget ) {
+        // The following settings are only for the modal magnific popup, which is disable when width is less than 750px
+        jQuery( '.comment-reply-login' ).attr({
+            'href': '#login-form',
+            'data-effect': 'mpf-td-login-effect'
+        });
+
+        // Set the modal magnific popup settings
+        jQuery( '.comment-reply-login, .td-login-modal-js' ).magnificPopup( modalSettings );
+    }
 
     // - Set the normal link that will apply only for windows widths less than 750px
     // - Used for log in to leave a comment on post page to open the login section
     jQuery( '.td-login-modal-js, .comment-reply-login' ).on( 'click', function( event ) {
 
-        if ( jQuery( window ).width() < 750 ) {
+        if ( jQuery( window ).width() < 750 && undefined !== window.tds_login_sing_in_widget ) {
+
 
             event.preventDefault();
 

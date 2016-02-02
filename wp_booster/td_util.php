@@ -927,13 +927,13 @@ class td_util {
 		 */
 
 		if (defined('DOING_AJAX') && DOING_AJAX) {
-			if (class_exists('td_mobile_theme')) {
+			if (class_exists('td_mobile_theme', false)) {
 				return true;
 			}
 		} else {
 			$current_theme_name = get_template();
 
-			if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
+			if (empty($current_theme_name) and class_exists('td_mobile_theme', false)) {
 				return true;
 			}
 		}

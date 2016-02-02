@@ -609,6 +609,12 @@ function hook_wp_head() {
 	}
 
 
+	$tds_login_sing_in_widget = td_util::get_option('tds_login_sign_in_widget');
+	if (!empty($tds_login_sing_in_widget)) {
+		td_js_buffer::add_variable('tds_login_sing_in_widget', $tds_login_sing_in_widget);
+	}
+
+
 
 	// js variable td_viewport_interval_list added to the window object
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
