@@ -81,6 +81,8 @@ var tdWeather = {};
                     navigator.geolocation.getCurrentPosition(tdWeather._updateLocationCallback, tdWeather._displayLocationApiError, {enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 600000});
                 }
 
+                tdWeather._currentRequestInProgress = false;
+
             });
 
             jQuery('.td-weather-now').click(function(){
