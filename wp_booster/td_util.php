@@ -912,6 +912,34 @@ class td_util {
 		return false;
 	}
 
+	/**
+	 * Helper function used to check if the mobile theme is active.
+	 * Important! On ajax requests from mobile theme, please consider that the main theme is only known in wp-admin. That's why for this case
+	 * we check only for the 'td_mobile_theme' class existence.
+	 *
+	 * @return bool
+	 */
+	static function is_mobile_theme() {
+
+		/**
+		 * We can't use : global $wp_customize // The instance of WP_Customize_Manager
+		 * because it's not initialized @see add_action( 'plugins_loaded', '_wp_customize_include' );
+		 */
+
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			if (class_exists('td_mobile_theme')) {
+				return true;
+			}
+		} else {
+			$current_theme_name = get_template();
+
+			if (empty($current_theme_name) and class_exists('td_mobile_theme')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }//end class td_util
 
 
