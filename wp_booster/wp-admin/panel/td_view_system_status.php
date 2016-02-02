@@ -1,15 +1,6 @@
 <?php
 
 
-if (isset($_GET['td_change_demo_to'])) {
-	if (isset(td_global::$demo_list[$_GET['td_change_demo_to']])) {
-		td_demo_state::update_state($_GET['td_change_demo_to'], 'full');
-	} else {
-		echo "TD_DEMO DEBUG: NO DEMO REGISTERED WITH THAT ID!!!!!";
-	}
-
-}
-
 
 require_once "td_view_header.php";
 ?>
