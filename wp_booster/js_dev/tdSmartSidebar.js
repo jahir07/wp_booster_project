@@ -343,6 +343,17 @@ var tdSmartSidebar = {};
 
 
 
+
+                        /**
+                         * This is the case when the scroll direction is 'up', but the sidebar is above the viewport (it could be left behind by a fast operation like typing HOME key)
+                         */
+                        else if ('up' === scroll_direction && true === tdSmartSidebar._is_smaller_or_equal( view_port_bottom, cur_item_ref.sidebar_top ))
+                        {
+                            cur_item_ref.sidebar_state = 'case_2_top_of_content';
+                        }
+
+
+
                         // when to put absolute?
                         if (
                             ( 'case_1_fixed_down' === cur_item_ref.sidebar_state && 'up' === scroll_direction ) ||

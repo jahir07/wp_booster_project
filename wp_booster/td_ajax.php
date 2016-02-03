@@ -262,9 +262,16 @@ class td_ajax {
 
 
 	static function on_ajax_login() {
-		if (td_util::get_option('tds_login_sign_in_widget') != 'show') {
+		/**
+		 * The ajax login is allowed when:
+		 * 1. the mobile theme is active and its login option is also active
+		 * 2. the main theme is active (the mobile theme is not active) and its login option is also active
+		 */
+		if ((td_util::is_mobile_theme() === true && td_util::get_option('tds_login_mobile') != 'show') ||
+		    (td_util::is_mobile_theme() === false && td_util::get_option('tds_login_sign_in_widget') != 'show')) {
 			exit();
 		}
+
 		//json login fail
 		$json_login_fail = json_encode(array('login', 0, __td('User or password incorrect!', TD_THEME_NAME)));
 

@@ -18,7 +18,6 @@
 
         var jQueryObj = jQuery( '#td-theme-settings' );
         if ( jQueryObj.length ) {
-            jQueryObj.addClass( 'td-theme-settings-no-transition' );
             jQueryObj.removeClass( 'td-theme-settings-small' );
             jQuery( '#td-theme-set-hide' ).html( 'DEMOS' );
         }
@@ -125,8 +124,6 @@ var tdDemoMenu = {
 
             var $this = jQuery(this),
                 jQueryObj = jQuery( '#td-theme-settings' );
-
-            jQueryObj.removeClass( 'td-theme-settings-no-transition' );
 
             if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
                 jQueryObj.removeClass( 'td-theme-settings-small' );

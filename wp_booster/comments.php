@@ -84,10 +84,14 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 		    $defaults['cancel_reply_link'] = __td('Cancel reply', TD_THEME_NAME);
 
 		    // login with our login modal when you want to write a comment
-		    if (td_util::get_option('tds_login_sign_in_widget') == 'show') {
-		        $defaults['must_log_in'] = '<p class="must-log-in td-login-comment"><a class="td-login-modal-js" data-effect="mpf-td-login-effect" href="#login-form">' . __td('Log in to leave a comment', TD_THEME_NAME) . ' </a></p>
-		                                    <p class="must-log-in td-login-comment-mobile"><a class="" href="#">' . __td('Log in to leave a comment', TD_THEME_NAME) . ' </a></p>';
-		    }
+
+	        if (td_util::get_option('tds_login_sign_in_widget') == 'show') {
+		        $url = '#login-form';
+	        } else {
+		        $post_id = get_the_ID();
+		        $url = wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) );
+	        }
+            $defaults['must_log_in'] = '<p class="must-log-in td-login-comment"><a class="td-login-modal-js" data-effect="mpf-td-login-effect" href="' . $url .'">' . __td('Log in to leave a comment', TD_THEME_NAME) . ' </a></p>';
 
             comment_form($defaults);
             //comment_form();
