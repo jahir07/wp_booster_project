@@ -258,6 +258,16 @@ class td_panel_data_source {
         //compile user css if any
         td_global::$td_options['tds_user_compile_css'] = td_css_generator();
 
+        /*
+         * compile mobile theme user css only if the theme is installed
+         * in wp-admin the main theme is loaded and the mobile theme functions are not included
+         * td_css_generator_mob() - is loaded in functions.php
+         * @todo - look for a more elegant solution
+         */
+        if (td_util::is_mobile_theme() && function_exists('td_css_generator_mob')){
+            td_global::$td_options['tds_user_compile_css_mob'] = td_css_generator_mob();
+        }
+
         //save all the themes settings (td_options + td_category)
         update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options );
 
