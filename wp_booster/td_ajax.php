@@ -108,21 +108,6 @@ class td_ajax {
 		$buffy = td_global_blocks::get_instance($ajax_parameters['block_type'])->inner($td_query->posts, $ajax_parameters['td_column_number'], '', true);
 
 
-
-		// remove whitespaces form the ajax HTML
-		$search = array(
-			'/\>[^\S ]+/s',  // strip whitespaces after tags, except space
-			'/[^\S ]+\</s',  // strip whitespaces before tags, except space
-			'/(\s)+/s'       // shorten multiple whitespace sequences
-		);
-		$replace = array(
-			'>',
-			'<',
-			'\\1'
-		);
-		$buffy = preg_replace($search, $replace, $buffy);
-		// end remove whitespaces
-
 		//pagination
 		$td_hide_prev = false;
 		$td_hide_next = false;
