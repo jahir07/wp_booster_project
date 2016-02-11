@@ -50,6 +50,9 @@ jQuery().ready(function() {
     //resize the with of the tiny MCE when, on backend post add/edit page, sidebar position is set to left or right
     td_resize_tiny_mce_for_sidebar();
 
+    //update custom fonts on input field focusout
+    updateCustomFontsOnFocusout();
+
 });
 
 //function to add click events on all checkboxes
@@ -527,7 +530,12 @@ function td_panel_box() {
         }
         event.preventDefault();
 
-        show_content_panel(jQuery('#' + jQuery(this).data('box-id')));
+        //update custom fonts only when a font panel is opened - for the other panels don't call the updateCustomFont function
+        if (jQuery(this).is('[data-panel-ajax-params*="td_theme_fonts"]') !== false) {
+            show_content_panel(jQuery('#' + jQuery(this).data('box-id')), false, updateCustomFonts);
+        } else {
+            show_content_panel(jQuery('#' + jQuery(this).data('box-id')));
+        }
     });
 }
 
@@ -544,7 +552,6 @@ function td_panel_box() {
  * @param callback - [*] The callback function that will execute if it exists.
  */
 function show_content_panel(jquery_panel_obj, keep_position, callback) {
-
     // get the header of the panel
     var jquery_panel_header = jquery_panel_obj.children('.td-box-header').eq(0);
 
@@ -605,11 +612,11 @@ function show_content_panel(jquery_panel_obj, keep_position, callback) {
                 }
             });
         }
-    }
-
-    // the callback function is called
-    if (callback != undefined) {
-        callback.apply();
+    } else {
+        // the callback function is called
+        if (callback != undefined) {
+            callback.apply();
+        }
     }
 
     //do the open/close
@@ -659,6 +666,72 @@ function show_content_panel(jquery_panel_obj, keep_position, callback) {
         td_ap_admin_done_resizing(); //recalculate the page size - used by the save button
     }, 400);
 }
+
+
+/**
+ * read all custom font inputs and update the font options inside the drop-down lists
+ */
+function updateCustomFonts() {
+    var fontFamilies = {
+            //custom fonts
+            file_1: jQuery('[name="td_fonts_user_insert[font_family_1]"]').val(),
+            file_2: jQuery('[name="td_fonts_user_insert[font_family_2]"]').val(),
+            file_3: jQuery('[name="td_fonts_user_insert[font_family_3]"]').val(),
+            //typekit fonts
+            tk_1: jQuery('[name="td_fonts_user_insert[type_kit_font_family_1]"]').val(),
+            tk_2: jQuery('[name="td_fonts_user_insert[type_kit_font_family_2]"]').val(),
+            tk_3: jQuery('[name="td_fonts_user_insert[type_kit_font_family_3]"]').val() },
+        fontSelectors,
+        currentFontOption,
+        displayElementsCount, //used to track the order of the custom fonts inside the selector
+        currentSelector;
+
+    //get all font selectors
+    fontSelectors = jQuery('select[name*="font_family"]');
+
+    //parse all font selectors
+    jQuery.each(fontSelectors, function( selectorIndex, selectorValue ) {
+        currentSelector = jQuery(this);
+        displayElementsCount = 1;
+
+        //parse custom font families
+        jQuery.each(fontFamilies, function( fontIndex, fontValue ) {
+            //get the already set custom font option
+            currentFontOption = currentSelector.children('option[value="' + fontIndex + '"]');
+
+            if (currentFontOption.length !== 0) {
+                //the font option is set - increase the list element number
+                displayElementsCount++;
+
+                if (fontValue != '') {
+                    //replace the font option text with the current one
+                    currentFontOption.text(fontValue);
+                } else {
+                    //if the custom font input is empty set the font option "Default font" - we don't remove it completely because we want to keep the selected parameter for the case when the user wants to add a new font
+                    currentFontOption.text('Default font');
+                }
+            } else {
+                //the custom font is not set, add it only if the fontValue is set
+                if (fontValue != '') {
+                    //the font option is not set on the current
+                    currentSelector.children('option:nth-of-type(' + displayElementsCount + ')').after('<option value="' + fontIndex + '">' + fontValue + '</option>');
+                    //you added a new font option increase the list element number
+                    displayElementsCount++;
+                }
+            }
+        });
+
+    });
+
+}
+
+
+//update custom fonts on input field focusout
+function updateCustomFontsOnFocusout(){
+    jQuery('input[name*="td_fonts_user_insert"]').focusout(updateCustomFonts);
+}
+
+
 
 //code for submiting the form with ajax
 function td_ajax_form_submit() {

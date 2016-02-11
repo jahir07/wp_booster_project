@@ -241,6 +241,10 @@ class td_panel_data_source {
                     self::update_td_social_networks($post_value);
                     break;
 
+                case 'td_fonts_user_insert':
+                    self::update_td_fonts_user_insert($post_value);
+                    break;
+
                 case 'td_fonts':
                     self::update_td_fonts($post_value);
                     break;
@@ -693,7 +697,10 @@ class td_panel_data_source {
             foreach ($font_settings_array as $font_setting_id => $font_setting_name) {
 
                 //check each item from section, and delete the empty ones
-                $typo_section = array_filter($user_custom_fonts_array[$font_setting_id]);
+                $typo_section = array();
+                if (isset($user_custom_fonts_array[$font_setting_id]) and is_array($user_custom_fonts_array[$font_setting_id])) {
+                    $typo_section = array_filter($user_custom_fonts_array[$font_setting_id]);
+                }
 
                 //if the section is set but empty, don't added to the  $td_fonts_save
                 if (isset($user_custom_fonts_array[$font_setting_id]) and empty($typo_section)) {
@@ -722,6 +729,20 @@ class td_panel_data_source {
         td_global::$td_options['td_fonts_css_buffer'] = $css_buffer;
         td_global::$td_options['td_fonts_css_files'] = $css_files;
 
+    }
+
+
+    /**
+     * saves custom fonts settings
+     * @param $td_option_array
+     */
+    private static function update_td_fonts_user_insert($td_option_array) {
+        //get defaults array
+        $default_array = $_POST['td_fonts_user_insert'];
+
+        foreach ($default_array as $custom_font_option_id => $custom_font_option_value) {
+                td_global::$td_options['td_fonts_user_inserted'][$custom_font_option_id] = $custom_font_option_value;
+        }
     }
 
 

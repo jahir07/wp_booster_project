@@ -121,7 +121,7 @@ class tdx_options {
     static function update_option_in_cache($datasource, $option_id, $option_value) {
         // check if the data source is registered
         if (!in_array($datasource, self::$registered_data_sources)) {
-            tdx_util::error(__FILE__, 'get_option on an unregistered data source datasource: ' . $datasource . ' option_id: ' . $option_id);
+            tdx_util::error(__FILE__, 'get_option on an unregistered data source datasource: ' . $datasource . ' option_id: ' . $option_id . ' - Make sure your case is added in td_panel_data_source read and update methods');
             return;
         }
 
