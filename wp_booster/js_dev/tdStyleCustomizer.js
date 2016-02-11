@@ -308,6 +308,7 @@ var tdDemoMenu = {
                 var $this = jQuery(this);
                 tdDemoMenu._currentElement = $this;
 
+                var tdThemeSettingsWidth = parseInt(jQuery( '#td-theme-settings' ).css( 'width' ).replace('px', ''));
 
                 if (newExtraRightValue > 0) {
 
@@ -341,7 +342,10 @@ var tdDemoMenu = {
 
                                 var mousePositionFound = false;
 
-                                if ( newExtraRightValue <= 0 || newWidthValue < dataWidthPreview || tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
+                                if ( newExtraRightValue <= 0 ||
+                                    newWidthValue < dataWidthPreview ||
+                                    tdDemoMenu.mousePosX <= jQuery(window).width() - tdThemeSettingsWidth ||
+                                    tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue ) {
 
                                     // Clear any timeout, and we should have one, because we finished
                                     if ( undefined !== tdDemoMenu.startTimeout ) {
@@ -392,18 +396,30 @@ var tdDemoMenu = {
         jQuery( '.td-screen-demo' ).hover(
             function( event ) {
                 jQuery(this).show();
+
+                tdDemoMenu._resetTdScreeDemoExtendWidth();
             },
             function( event ) {
 
                 // We are on mouseleave event, and because of this, if the main counters (the timer and the interval) are not finished, it means we
                 // don't have any extended demo element, so it's okay to set its flag to false and hide the extended demo element and the previewer demo element (this element)
-                if ( undefined !== tdDemoMenu.startTimeout || undefined !== tdDemoMenu.startInterval ) {
-                    tdDemoMenu._extendedDemo = false;
+
+                // The main counters (the timer and the interval) are cleared immediately, because their final step can make extend demo visible
+
+                // Clear any timeout, and we should have one, because we finished
+                if ( undefined !== tdDemoMenu.startTimeout ) {
+                    window.clearTimeout( tdDemoMenu.startTimeout );
+                    tdDemoMenu.startTimeout = undefined;
+                }
+
+                // Clear any interval, and we should have one, because we finished
+                if ( undefined !== tdDemoMenu.startInterval ) {
+                    window.clearInterval( tdDemoMenu.startInterval );
+                    tdDemoMenu.startInterval = undefined;
                 }
 
                 jQuery(this).hide();
                 jQuery( '.td-screen-demo-extend:first' ).hide();
-
             }
         );
 
@@ -424,7 +440,8 @@ var tdDemoMenu = {
                         $tdScreenDemo = jQuery( '.td-screen-demo:first'),
 
                     // The css width value
-                        columnWidth = $this.data('width-column'),
+                        //columnWidth = $this.data('width-column'),
+                        columnWidth = parseInt(jQuery( '#td-theme-settings' ).css( 'width' ).replace('px', '')) / 2,
 
                     // The step value used to decrease the padding-left css value and to increase the left css value
                         step = 10,
@@ -455,7 +472,8 @@ var tdDemoMenu = {
 
                                 var mousePositionFound = false;
 
-                                if ( newWidthValue < 0 || tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue ) {
+                                if ( newWidthValue < 0 ||
+                                    tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue ) {
 
                                     // Clear any timeout, and we should have one, because we finished
                                     if ( undefined !== tdDemoMenu._startExtendedTimeout ) {
@@ -486,11 +504,8 @@ var tdDemoMenu = {
                                 if ( mousePositionFound ) {
                                     tdDemoMenu._checkMousePosition();
                                 }
-
-                            }, startIntervalWait
-                        );
-                    }, startTimeoutWait);
-
+                            }, startIntervalWait );
+                    }, startTimeoutWait );
                 }
             },
             function( event ) {
@@ -514,25 +529,41 @@ var tdDemoMenu = {
                     tdDemoMenu._startExtendedInterval = undefined;
                 }
 
-                var $this = jQuery(this),
-                    widthColumn = $this.data( 'width-column' );
+                tdDemoMenu._resetTdScreeDemoExtendWidth();
 
-                $this.css({
-                    'width': widthColumn + 'px'
-                }).hide();
+                jQuery(this).hide();
 
                 jQuery( '.td-screen-demo:first').hide();
             }
         );
     },
 
+    /**
+     * Used when the width of the demo menu has changed (the width of the extended screen also changes)
+     * @private
+     */
+    _resetTdScreeDemoExtendWidth: function() {
+
+        'use strict';
+
+        var widthColumn = parseInt(jQuery( '#td-theme-settings' ).css( 'width' ).replace('px', '')) / 2;
+
+        jQuery( '.td-screen-demo-extend:first' ).css({
+            'width': widthColumn + 'px'
+        });
+    },
+
     _showExtendedScreenDemo: function() {
 
         'use strict';
 
-        jQuery( '.td-screen-demo-extend:first').css({
-            top: jQuery( '.td-screen-demo:first').css( 'top')
-        }).show();
+        if ( tdDemoMenu._extendedDemo ) {
+
+            jQuery( '.td-screen-demo-extend:first').css({
+                top: jQuery( '.td-screen-demo:first').css( 'top')
+            }).show();
+
+        }
     },
 
     _checkMousePosition: function() {
