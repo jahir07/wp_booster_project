@@ -111,8 +111,20 @@ class td_data_source {
                 $wp_query_args['order'] = 'DESC';
                 break;
             case 'popular7':
-                $wp_query_args['meta_key'] = td_page_views::$post_view_counter_7_day_total;
-                $wp_query_args['orderby'] = 'meta_value_num';
+                $wp_query_args['meta_query'] = 	array(
+                    'relation' => 'AND',
+                    array(
+                        'key'     => td_page_views::$post_view_counter_7_day_total,
+                        'type'    => 'numeric'
+                    ),
+                    array(
+                        'key'     => td_page_views::$post_view_counter_7_day_last_date,
+                        'value'   => (date('U') - 604800), // current date minus 7 days
+                        'type'    => 'numeric',
+                        'compare' => '>'
+                    )
+                );
+                $wp_query_args['orderby'] = td_page_views::$post_view_counter_7_day_total;
                 $wp_query_args['order'] = 'DESC';
                 break;
             case 'review_high':
