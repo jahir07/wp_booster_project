@@ -10,7 +10,7 @@ class td_page_views {
     //the name of the field for the total of 7 days
     static $post_view_counter_7_day_total = 'post_views_count_7_day_total';
 
-    //the date from the last page view - used to filter the posts with views older than 7 days
+    //the name of the field for the 7 days last page view - used on td_data_source to filter the posts with views older than 7 days
     static $post_view_counter_7_day_last_date = 'post_views_count_7_day_last_date';
 
     private static $post_view_7days_last_day = 'post_view_7days_last_day';
@@ -58,7 +58,10 @@ class td_page_views {
 
                 if (isset($count_7_day_array[$current_day])) { // check to see if the current day is defined - if it's not defined it's not ok.
 
-                    if (get_post_meta($postID, self::$post_view_7days_last_day, true) == $current_day) {
+                    //check if the current day matches the 'date' key inside the count_7_day array
+                    $current_day_of_the_year = date('z', $current_date);
+                    $count_7_day_of_the_year = date('z', $count_7_day_array[$current_day]['date']);
+                    if (get_post_meta($postID, self::$post_view_7days_last_day, true) == $current_day && $count_7_day_of_the_year == $current_day_of_the_year) {
                         //the day was not changed since the last update - increment the count
                         $count_7_day_array[$current_day]['count']++;
                     } else {
@@ -78,8 +81,7 @@ class td_page_views {
                         //update last day with the current day
                         update_post_meta($postID, self::$post_view_7days_last_day, $current_day);
 
-                        //update last date with the current date
-                        //todo - check if it's better to update this on each view or once when the day si created
+                        //update last date with the current date - it only updates once when the day changes
                         update_post_meta($postID, self::$post_view_counter_7_day_last_date, $current_date);
                     }
 
@@ -138,8 +140,6 @@ class td_page_views {
 //            echo "<br>total all time: " . $count_7_day_total_all;
 //            echo '<br>last day: ' . $count_7_day_lastday;
 //            echo '<br>last date: ' . $count_7_day_lastdate;
-//
-//            // todo - should we use unix or YYYY-MM-DD format
 //            echo '<br>7 days ago (YYYY-MM-DD): ' . date('Y-m-d', strtotime('-17 day', $current_date));
 
 
