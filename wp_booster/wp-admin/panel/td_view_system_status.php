@@ -763,16 +763,27 @@ require_once "td_view_header.php";
                            <td>
                                <div class="td_log_more_data_container">
                                    <?php
-                               if (is_array($td_log_params['more_data']) or is_object($td_log_params['more_data'])) {
-                                   // details button
-                                   echo '<div><a class="td-button-system-status-details">View Details</a></div>';
-                                   // array data container
-                                   echo '<div class="td-array-viewer"><pre>';
-                                   print_r($td_log_params['more_data']);
-                                   echo '</pre></div>';
-                               } else {
-                               echo $td_log_params['more_data']; // if it's not an array-object it displays the string
-                               } ?>
+                                   //array or object display it in a container
+	                               if (is_array($td_log_params['more_data']) || is_object($td_log_params['more_data'])) {
+		                               // details button
+		                               echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+		                               // array data container
+		                               echo '<div class="td-array-viewer"><pre>';
+		                               print_r( $td_log_params['more_data'] );
+		                               echo '</pre></div>';
+
+		                           //string > 200 characters display it in a container
+	                               } elseif (is_string($td_log_params['more_data']) && strlen($td_log_params['more_data']) > 200) {
+		                               // details button
+		                               echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+		                               // array data container
+		                               echo '<div class="td-array-viewer">';
+		                               echo htmlentities($td_log_params['more_data']);
+		                               echo '</div>';
+
+	                               } else {
+	                               echo htmlentities($td_log_params['more_data']); //display small strings directly in the table
+	                               } ?>
                                </div>
                            </td>
 
@@ -808,7 +819,6 @@ require_once "td_view_header.php";
                    <tbody>
                    <?php
 
-                   $td_remote_cache_element_counter = 0; // used to generate a unique class on each element
                    foreach ($td_remote_cache_content as $td_remote_cache_group => $td_remote_cache_group_content) {
 
                        foreach ($td_remote_cache_group_content as $td_remote_cache_group_id => $td_remote_cache_group_parameters) {
@@ -822,18 +832,27 @@ require_once "td_view_header.php";
                                <td> <!-- Value -->
                                    <div class="td-remote-value-data-container">
                                        <?php
-                                       if (is_array($td_remote_cache_group_parameters['value']) or is_object($td_remote_cache_group_parameters['value'])) {
-
+                                       //array or object display it in a container
+                                       if (is_array($td_remote_cache_group_parameters['value']) || is_object($td_remote_cache_group_parameters['value'])) {
                                            // details button
                                            echo '<div><a class="td-button-system-status-details">View Details</a></div>';
                                            // array data container
                                            echo '<div class="td-array-viewer"><pre>';
                                            print_r($td_remote_cache_group_parameters['value']);
                                            echo '</pre></div>';
+
+	                                   //string > 200 characters display it in a container
+                                       } elseif ( is_string($td_remote_cache_group_parameters['value']) && strlen($td_remote_cache_group_parameters['value']) > 200) {
+	                                       // details button
+	                                       echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+	                                       // array data container
+	                                       echo '<div class="td-array-viewer">';
+	                                       echo  htmlentities($td_remote_cache_group_parameters['value']);
+	                                       echo '</div>';
+
                                        } else {
-                                           echo $td_remote_cache_group_parameters['value']; // if it's not an array-object it displays the string
+                                           echo htmlentities($td_remote_cache_group_parameters['value']); // if it's not an array-object it displays the string
                                        }
-                                       $td_remote_cache_element_counter++;
                                        ?>
                                    </div>
                                </td>
