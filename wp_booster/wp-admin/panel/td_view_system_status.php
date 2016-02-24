@@ -477,17 +477,27 @@ require_once "td_view_header.php";
     td_system_status::render_tables();
 
     // Clear the Social Counter cache - only if the reset button is used
-    if(!empty($_REQUEST['clear_social_counter_cache']) and $_REQUEST['clear_social_counter_cache'] == 1) {
+    if(!empty($_REQUEST['clear_social_counter_cache']) && $_REQUEST['clear_social_counter_cache'] == 1) {
         //clear social counter cache
-        update_option('td_social_api_v3_last_val', '');
+        //update_option('td_social_api_v3_last_val', '');
+        td_remote_cache::delete_group('td_social_api');
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
         <?php
     }
 
+    // Clear Remote cache individual items
+    if(!empty($_REQUEST['td_remote_cache_group']) && !empty($_REQUEST['td_remote_cache_item'])) {
+        td_remote_cache::delete_item($_REQUEST['td_remote_cache_group'], $_REQUEST['td_remote_cache_item']);
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+    <?php
+    }
+
     // Clear the Remote cache - only if the reset button is used
-    if(!empty($_REQUEST['clear_remote_cache']) and $_REQUEST['clear_remote_cache'] == 1) {
+    if(!empty($_REQUEST['clear_remote_cache']) && $_REQUEST['clear_remote_cache'] == 1) {
         //clear remote cache
         update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', '');
         ?>
@@ -506,9 +516,9 @@ require_once "td_view_header.php";
     <div class="td-debug-area<?php echo $td_debug_area_visible; ?>">
         <?php
         // social counter cache
-        $cache_content = get_option('td_social_api_v3_last_val', '');
+        //$cache_content = get_option('td_social_api_v3_last_val', '');
+        $cache_content = td_remote_cache::get('td_social_api', 'td_social_api_v3_last_val');
         td_system_status::render_social_cache($cache_content);
-
 
         // td log panel
         $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
@@ -805,9 +815,9 @@ require_once "td_view_header.php";
                        ?>
 
                        <tr>
-                           <td><?php echo $td_remote_cache_group ?></td> <!-- Group -->
+                           <td><?php echo $td_remote_cache_group; ?></td> <!-- Group -->
 
-                               <td><?php echo $td_remote_cache_group_id ?></td> <!-- ID -->
+                               <td><a class="td-remote-cache-item" href="<?php admin_url(); ?>admin.php?page=td_system_status&td_remote_cache_group=<?php echo $td_remote_cache_group; ?>&td_remote_cache_item=<?php echo $td_remote_cache_group_id; ?>"><?php echo $td_remote_cache_group_id; ?></a></td> <!-- ID -->
 
                                <td> <!-- Value -->
                                    <div class="td-remote-value-data-container">
@@ -828,8 +838,8 @@ require_once "td_view_header.php";
                                    </div>
                                </td>
 
-                               <td><?php echo $td_remote_cache_group_parameters['expires'] ?></td> <!-- Expires -->
-                               <td><?php echo gmdate("H:i:s", time() - $td_remote_cache_group_parameters['timestamp'])?>ago</td> <!-- Timestamp -->
+                               <td><?php echo $td_remote_cache_group_parameters['expires']; ?></td> <!-- Expires -->
+                               <td><?php echo gmdate("H:i:s", time() - $td_remote_cache_group_parameters['timestamp']); ?>ago</td> <!-- Timestamp -->
                            <?php } ?>
 
                        </tr>
