@@ -870,15 +870,22 @@ class td_fonts {
     static function get_google_fonts_subset_query() {
         //check the character set saved in the database
         $array_google_char_set = array(
-            'g_latin',
-            'g_latin-ext',
+            'g_arabic',
+            'g_bengali',
             'g_cyrillic',
             'g_cyrillic-ext',
+            'g_devanagari',
             'g_greek',
             'g_greek-ext',
-            'g_devanagari',
-            'g_vietnamese',
-            'g_khmer'
+            'g_gujarati',
+            'g_hebrew',
+            'g_khmer',
+            'g_latin',
+            'g_latin-ext',
+            'g_tamil',
+            'g_telugu',
+            'g_thai',
+            'g_vietnamese'
         );
 
         $tmp_google_subset = '';
