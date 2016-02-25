@@ -69,6 +69,7 @@ $td_translation_map = array(
     'NO COMMENTS' => __('NO COMMENTS', TD_THEME_NAME),
     '1 COMMENT' => __('1 COMMENT', TD_THEME_NAME),
     'COMMENTS' => __('COMMENTS', TD_THEME_NAME),
+    'Your comment is awaiting moderation' => __('Your comment is awaiting moderation', TD_THEME_NAME),
 
 
     //review

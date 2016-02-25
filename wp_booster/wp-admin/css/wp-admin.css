@@ -1262,6 +1262,9 @@ title one row controls
   position: relative;
   top: 3px;
 }
+.wp-picker-container .iris-picker {
+  margin-bottom: 64px;
+}
 .td-section-separator {
   width: 100%;
   text-align: center;
