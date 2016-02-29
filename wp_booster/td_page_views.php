@@ -10,6 +10,9 @@ class td_page_views {
     //the name of the field for the total of 7 days
     static $post_view_counter_7_day_total = 'post_views_count_7_day_total';
 
+    //the name of the field for the 7 days last page view - used on td_data_source to filter the posts with views older than 7 days
+    static $post_view_counter_7_day_last_date = 'post_views_count_7_day_last_date';
+
     private static $post_view_7days_last_day = 'post_view_7days_last_day';
 
 
@@ -40,63 +43,105 @@ class td_page_views {
                 return;
             }
 
+            //debug - reset array
+            //update_post_meta($postID, self::$post_view_counter_7_day_array, array());
+
             //used for 7 day count array
             $current_day = date("N") - 1;  //get the current day
+            $current_date = date("U"); //get the current Unix date
             $count_7_day_array = get_post_meta($postID, self::$post_view_counter_7_day_array, true);  // get the array with day of week -> count
 
 
-            if (is_array($count_7_day_array)) {
+            //check if the first entry is an array (used to detect and reset the older themes array)
+            if (is_array($count_7_day_array) && is_array($count_7_day_array[0])) {
 
 
                 if (isset($count_7_day_array[$current_day])) { // check to see if the current day is defined - if it's not defined it's not ok.
 
-                    if (get_post_meta($postID, self::$post_view_7days_last_day, true) == $current_day) {
-                        // the day was not changed since the last update
-                        $count_7_day_array[$current_day]++;
+                    //check if the current day matches the 'date' key inside the count_7_day array
+                    $current_day_of_the_year = date('z', $current_date);
+                    $count_7_day_of_the_year = date('z', $count_7_day_array[$current_day]['date']);
+                    if (get_post_meta($postID, self::$post_view_7days_last_day, true) == $current_day && $count_7_day_of_the_year == $current_day_of_the_year) {
+                        //the day was not changed since the last update - increment the count
+                        $count_7_day_array[$current_day]['count']++;
                     } else {
-                        // the day was changed since the last update - reset the current day
-                        $count_7_day_array[$current_day] = 1;
+                        //the day was changed since the last update - reset the current day
+                        $count_7_day_array[$current_day]['count'] = 1;
+                        //set the current date
+                        $count_7_day_array[$current_day]['date'] = $current_date;
+
+                        //reset old entries inside the 7 days array (older than 7 days)
+                        $one_week_ago = $current_date - 604800;
+                        foreach ($count_7_day_array as $day => $parameters) {
+                            if ($parameters['date'] < $one_week_ago) {
+                                $count_7_day_array[$day] = array('date' => 0, 'count' => 0);
+                            }
+                        }
 
                         //update last day with the current day
                         update_post_meta($postID, self::$post_view_7days_last_day, $current_day);
+
+                        //update last date with the current date - it only updates once when the day changes
+                        update_post_meta($postID, self::$post_view_counter_7_day_last_date, $current_date);
                     }
 
-                    // update the array
+                    //update the array
                     update_post_meta($postID, self::$post_view_counter_7_day_array, $count_7_day_array);
 
-                    // update the 7days sum
-                    update_post_meta($postID, self::$post_view_counter_7_day_total, array_sum($count_7_day_array));
+                    //sum the 7days total count
+                    $sum_7_day_count = 0;
+                    foreach ($count_7_day_array as $day => $parameters){
+                        $sum_7_day_count += $parameters['count'];
+                    }
+                    update_post_meta($postID, self::$post_view_counter_7_day_total, $sum_7_day_count);
                 }
 
             } else {
-                // the array is not initialized
-                $count_7_day_array = array(0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0);
-                $count_7_day_array[$current_day] = 1; // add one view on the current day
+                //the array is not initialized
+                $count_7_day_array = array(
+                    0 => array('date' => 0, 'count' => 0),
+                    1 => array('date' => 0, 'count' => 0),
+                    2 => array('date' => 0, 'count' => 0),
+                    3 => array('date' => 0, 'count' => 0),
+                    4 => array('date' => 0, 'count' => 0),
+                    5 => array('date' => 0, 'count' => 0),
+                    6 => array('date' => 0, 'count' => 0)
+                );
+                $count_7_day_array[$current_day]['count'] = 1; // add one view on the current day
+                $count_7_day_array[$current_day]['date'] = $current_date; //set the current date
 
-                // update the array
+                //update the array
                 update_post_meta($postID, self::$post_view_counter_7_day_array, $count_7_day_array);
 
-                // update last day with the current day
+                //update last day with the current day
                 update_post_meta($postID, self::$post_view_7days_last_day, $current_day);
 
-                // update the 7 days total - 1 view :)
+                //update last date with the current date
+                update_post_meta($postID, self::$post_view_counter_7_day_last_date, $current_date);
+
+                //update the 7 days total - 1 view :)
                 update_post_meta($postID, self::$post_view_counter_7_day_total, 1);
             }
 
 
-            /*
-            $count_7_day_array = get_post_meta($postID, self::$post_view_counter_7_day_array, true);
-            $count_7_day_total = get_post_meta($postID, self::$post_view_counter_7_day_total, true);
-            $count_7_day_total_all = get_post_meta($postID, self::$post_view_counter_key, true);
+            // debug
+            //update_post_meta($postID, self::$post_view_counter_7_day_last_date, ($current_date - 6048005));
 
-            $count_7_day_lastday = get_post_meta($postID, self::$post_view_7days_last_day, true);
+//            $count_7_day_array = get_post_meta($postID, self::$post_view_counter_7_day_array, true);
+//            $count_7_day_total = get_post_meta($postID, self::$post_view_counter_7_day_total, true);
+//            $count_7_day_total_all = get_post_meta($postID, self::$post_view_counter_key, true);
+//
+//            $count_7_day_lastday = get_post_meta($postID, self::$post_view_7days_last_day, true);
+//            $count_7_day_lastdate = get_post_meta($postID, self::$post_view_counter_7_day_last_date, true);
+//
+//            echo '<br>';
+//            print_r($count_7_day_array);
+//            echo "<br>total week: " . $count_7_day_total;
+//            echo "<br>total all time: " . $count_7_day_total_all;
+//            echo '<br>last day: ' . $count_7_day_lastday;
+//            echo '<br>last date: ' . $count_7_day_lastdate;
+//            echo '<br>7 days ago (YYYY-MM-DD): ' . date('Y-m-d', strtotime('-17 day', $current_date));
 
-            echo '<br>';
-            print_r($count_7_day_array);
-            echo "<br>total week: " . $count_7_day_total;
-            echo "<br>total all time: " . $count_7_day_total_all;
-            echo '<br>last day: ' . $count_7_day_lastday;
-            */
 
         }
     }

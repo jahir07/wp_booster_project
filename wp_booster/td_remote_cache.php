@@ -120,6 +120,18 @@ class td_remote_cache {
 
 
 	/**
+	 * deletes an item from the cache
+	 * @param $group
+	 * @param $item_id
+	 */
+	static function delete_item($group, $item_id) {
+		self::read_cache_meta();
+		unset(self::$cache[$group][$item_id]);
+		self::schedule_save_cache();
+	}
+
+
+	/**
 	 * called by all the functions that use the cache, it reads the caching key from the db only once
 	 */
 	private static function read_cache_meta() {

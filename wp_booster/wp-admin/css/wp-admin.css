@@ -1262,6 +1262,9 @@ title one row controls
   position: relative;
   top: 3px;
 }
+.wp-picker-container .iris-picker {
+  margin-bottom: 64px;
+}
 .td-section-separator {
   width: 100%;
   text-align: center;
@@ -2683,6 +2686,7 @@ title one row controls
   border: 1px solid #dfdfdf;
   border-top: none;
   background-color: #fff;
+  margin-bottom: 30px;
 }
 .cs-alpha-slider {
   position: absolute;

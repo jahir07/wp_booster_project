@@ -132,8 +132,8 @@ function td_comment( $comment, $args, $depth ) {
     //print_r($td_article_date_unix);
 
 
-	if ($comment->comment_approved == '1') { ?>
-        <li class="comment <?php echo $td_isPingTrackbackClass ?>" id="li-comment-<?php comment_ID() ?>">
+	?>
+        <li class="comment <?php echo $td_isPingTrackbackClass ?>" id="comment-<?php comment_ID() ?>">
 			<article>
 	            <footer>
                     <?php
@@ -143,13 +143,16 @@ function td_comment( $comment, $args, $depth ) {
                     ?>
                     <cite><?php comment_author_link() ?></cite>
 
-                    <a class="comment-link" href="#li-comment-<?php comment_ID() ?>">
+                    <a class="comment-link" href="#comment-<?php comment_ID() ?>">
                         <time pubdate="<?php echo $td_article_date_unix ?>"><?php comment_date() ?> at <?php comment_time() ?></time>
                     </a>
                 </footer>
 
-	            <div class="comment-content">
-                    <?php comment_text() ?>
+                <div class="comment-content">
+                    <?php if ($comment->comment_approved == '0') { ?>
+                        <em><?php echo __td('Your comment is awaiting moderation', TD_THEME_NAME); ?></em>
+                    <?php }
+                    comment_text(); ?>
                 </div>
 
 	            <div class="comment-meta" id="comment-<?php comment_ID() ?>">
@@ -163,6 +166,6 @@ function td_comment( $comment, $args, $depth ) {
                 </div>
             </article>
     <?php
-    }
+
 }
 ?>

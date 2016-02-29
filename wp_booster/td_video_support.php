@@ -19,7 +19,7 @@ class td_video_support{
 			case 'youtube':
 				$buffy .= '
                 <div class="wpb_video_wrapper">
-                    <iframe id="td_youtube_player" width="600" height="560" src="' . td_global::$http_or_https . '://www.youtube.com/embed/' . self::get_youtube_id($videoUrl) . '?enablejsapi=1&feature=oembed&wmode=opaque&vq=hd720' . self::get_youtube_time_param($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
+                    <iframe id="td_youtube_player" width="600" height="560" src="' . 'https://www.youtube.com/embed/' . self::get_youtube_id($videoUrl) . '?enablejsapi=1&feature=oembed&wmode=opaque&vq=hd720' . self::get_youtube_time_param($videoUrl) . '" frameborder="0" allowfullscreen=""></iframe>
                     <script type="text/javascript">
 						var tag = document.createElement("script");
 						tag.src = "https://www.youtube.com/iframe_api";

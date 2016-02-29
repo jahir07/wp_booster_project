@@ -477,17 +477,27 @@ require_once "td_view_header.php";
     td_system_status::render_tables();
 
     // Clear the Social Counter cache - only if the reset button is used
-    if(!empty($_REQUEST['clear_social_counter_cache']) and $_REQUEST['clear_social_counter_cache'] == 1) {
+    if(!empty($_REQUEST['clear_social_counter_cache']) && $_REQUEST['clear_social_counter_cache'] == 1) {
         //clear social counter cache
-        update_option('td_social_api_v3_last_val', '');
+        //update_option('td_social_api_v3_last_val', '');
+        td_remote_cache::delete_group('td_social_api');
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
         <?php
     }
 
+    // Clear Remote cache individual items
+    if(!empty($_REQUEST['td_remote_cache_group']) && !empty($_REQUEST['td_remote_cache_item'])) {
+        td_remote_cache::delete_item($_REQUEST['td_remote_cache_group'], $_REQUEST['td_remote_cache_item']);
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+    <?php
+    }
+
     // Clear the Remote cache - only if the reset button is used
-    if(!empty($_REQUEST['clear_remote_cache']) and $_REQUEST['clear_remote_cache'] == 1) {
+    if(!empty($_REQUEST['clear_remote_cache']) && $_REQUEST['clear_remote_cache'] == 1) {
         //clear remote cache
         update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', '');
         ?>
@@ -506,9 +516,9 @@ require_once "td_view_header.php";
     <div class="td-debug-area<?php echo $td_debug_area_visible; ?>">
         <?php
         // social counter cache
-        $cache_content = get_option('td_social_api_v3_last_val', '');
+        //$cache_content = get_option('td_social_api_v3_last_val', '');
+        $cache_content = td_remote_cache::get('td_social_api', 'td_social_api_v3_last_val');
         td_system_status::render_social_cache($cache_content);
-
 
         // td log panel
         $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
@@ -753,16 +763,27 @@ require_once "td_view_header.php";
                            <td>
                                <div class="td_log_more_data_container">
                                    <?php
-                               if (is_array($td_log_params['more_data']) or is_object($td_log_params['more_data'])) {
-                                   // details button
-                                   echo '<div><a class="td-button-system-status-details">View Details</a></div>';
-                                   // array data container
-                                   echo '<div class="td-array-viewer"><pre>';
-                                   print_r($td_log_params['more_data']);
-                                   echo '</pre></div>';
-                               } else {
-                               echo $td_log_params['more_data']; // if it's not an array-object it displays the string
-                               } ?>
+                                   //array or object display it in a container
+	                               if (is_array($td_log_params['more_data']) || is_object($td_log_params['more_data'])) {
+		                               // details button
+		                               echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+		                               // array data container
+		                               echo '<div class="td-array-viewer"><pre>';
+		                               print_r( $td_log_params['more_data'] );
+		                               echo '</pre></div>';
+
+		                           //string > 200 characters display it in a container
+	                               } elseif (is_string($td_log_params['more_data']) && strlen($td_log_params['more_data']) > 200) {
+		                               // details button
+		                               echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+		                               // array data container
+		                               echo '<div class="td-array-viewer">';
+		                               echo htmlentities($td_log_params['more_data']);
+		                               echo '</div>';
+
+	                               } else {
+	                               echo htmlentities($td_log_params['more_data']); //display small strings directly in the table
+	                               } ?>
                                </div>
                            </td>
 
@@ -798,38 +819,46 @@ require_once "td_view_header.php";
                    <tbody>
                    <?php
 
-                   $td_remote_cache_element_counter = 0; // used to generate a unique class on each element
                    foreach ($td_remote_cache_content as $td_remote_cache_group => $td_remote_cache_group_content) {
 
                        foreach ($td_remote_cache_group_content as $td_remote_cache_group_id => $td_remote_cache_group_parameters) {
                        ?>
 
                        <tr>
-                           <td><?php echo $td_remote_cache_group ?></td> <!-- Group -->
+                           <td><?php echo $td_remote_cache_group; ?></td> <!-- Group -->
 
-                               <td><?php echo $td_remote_cache_group_id ?></td> <!-- ID -->
+                               <td><a class="td-remote-cache-item" href="<?php admin_url(); ?>admin.php?page=td_system_status&td_remote_cache_group=<?php echo $td_remote_cache_group; ?>&td_remote_cache_item=<?php echo $td_remote_cache_group_id; ?>"><?php echo $td_remote_cache_group_id; ?></a></td> <!-- ID -->
 
                                <td> <!-- Value -->
                                    <div class="td-remote-value-data-container">
                                        <?php
-                                       if (is_array($td_remote_cache_group_parameters['value']) or is_object($td_remote_cache_group_parameters['value'])) {
-
+                                       //array or object display it in a container
+                                       if (is_array($td_remote_cache_group_parameters['value']) || is_object($td_remote_cache_group_parameters['value'])) {
                                            // details button
                                            echo '<div><a class="td-button-system-status-details">View Details</a></div>';
                                            // array data container
                                            echo '<div class="td-array-viewer"><pre>';
                                            print_r($td_remote_cache_group_parameters['value']);
                                            echo '</pre></div>';
+
+	                                   //string > 200 characters display it in a container
+                                       } elseif ( is_string($td_remote_cache_group_parameters['value']) && strlen($td_remote_cache_group_parameters['value']) > 200) {
+	                                       // details button
+	                                       echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+	                                       // array data container
+	                                       echo '<div class="td-array-viewer">';
+	                                       echo  htmlentities($td_remote_cache_group_parameters['value']);
+	                                       echo '</div>';
+
                                        } else {
-                                           echo $td_remote_cache_group_parameters['value']; // if it's not an array-object it displays the string
+                                           echo htmlentities($td_remote_cache_group_parameters['value']); // if it's not an array-object it displays the string
                                        }
-                                       $td_remote_cache_element_counter++;
                                        ?>
                                    </div>
                                </td>
 
-                               <td><?php echo $td_remote_cache_group_parameters['expires'] ?></td> <!-- Expires -->
-                               <td><?php echo gmdate("H:i:s", time() - $td_remote_cache_group_parameters['timestamp'])?>ago</td> <!-- Timestamp -->
+                               <td><?php echo $td_remote_cache_group_parameters['expires']; ?></td> <!-- Expires -->
+                               <td><?php echo gmdate("H:i:s", time() - $td_remote_cache_group_parameters['timestamp']); ?>ago</td> <!-- Timestamp -->
                            <?php } ?>
 
                        </tr>
