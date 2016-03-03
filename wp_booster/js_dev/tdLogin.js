@@ -141,7 +141,9 @@ jQuery().ready(function() {
 
 
     //forgot pass
-    jQuery( '#forgot-pass-link' ).on( 'click', function() {
+    jQuery( '#forgot-pass-link' ).on( 'click', function(event) {
+        //prevent scroll to page top
+        event.preventDefault();
         //hides or shows the divs with inputs
         tdLogin.showHideElements( [['#td-login-div', 0], ['#td-register-div', 0], ['#td-forgot-pass-div', 1]] );
 

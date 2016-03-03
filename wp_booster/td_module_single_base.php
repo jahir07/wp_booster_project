@@ -416,6 +416,13 @@ class td_module_single_base extends td_module {
         //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
         if (is_array($td_smart_list) && $td_smart_list['td_post_template'] == 'single_template_1') {
             $td_display_top_ad = false;
+
+        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
+        } elseif (empty($td_smart_list['td_post_template'])) {
+            $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+            if(!empty($td_default_site_post_template) and $td_default_site_post_template == 'single_template_1') {
+                $td_display_top_ad = false;
+            }
         }
 
         //add the top ad
