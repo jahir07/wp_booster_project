@@ -2782,9 +2782,9 @@ title one row controls
   position: relative;
   /* responsive portrait phone  */
 }
-@media (min-width: 1600px) {
+@media (min-width: 1298px) {
   .td-admin-wrap .theme-screenshot {
-    height: 213px;
+    height: 214px;
   }
 }
 .td-admin-wrap .theme .theme-actions {
