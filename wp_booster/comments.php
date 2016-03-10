@@ -133,7 +133,7 @@ function td_comment( $comment, $args, $depth ) {
 
 
 	?>
-        <li class="comment <?php echo $td_isPingTrackbackClass ?>" id="li-comment-<?php comment_ID() ?>">
+        <li class="comment <?php echo $td_isPingTrackbackClass ?>" id="comment-<?php comment_ID() ?>">
 			<article>
 	            <footer>
                     <?php
@@ -143,7 +143,7 @@ function td_comment( $comment, $args, $depth ) {
                     ?>
                     <cite><?php comment_author_link() ?></cite>
 
-                    <a class="comment-link" href="#li-comment-<?php comment_ID() ?>">
+                    <a class="comment-link" href="#comment-<?php comment_ID() ?>">
                         <time pubdate="<?php echo $td_article_date_unix ?>"><?php comment_date() ?> at <?php comment_time() ?></time>
                     </a>
                 </footer>

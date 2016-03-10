@@ -710,8 +710,14 @@ class td_tokenizer {
             foreach ($matches[0] as $match) {
                 if (strpos($match, '<img') !== false) { //check each link if we have an image in it
                     // we need the extra str_replace because the $match is user entered in tinymce
-                    $match = str_replace('(', '\(', $match);
-                    $match = str_replace(')', '\)', $match);
+                    // special chars added in the image alternative text must be escaped - [\^$.|?*+(){}
+                    $special_chars = array("(", ")", "^", "$", "|", "?", "*", "+", "{", "}");
+                    foreach ($special_chars as $char) {
+                        $escaped_char = '\\' . $char;
+                        $match = str_replace($char, $escaped_char, $match);
+                    }
+//                    $match = str_replace('(', '\(', $match);
+//                    $match = str_replace(')', '\)', $match);
                     $buffy = preg_replace('/' . $this->fix_regex($match) . '/', '', $token, 1); //remove the first image because that will be used as first_image
                     break;
                 }
@@ -725,8 +731,21 @@ class td_tokenizer {
             preg_match('/<img.*\/>/U', $token, $matches); //extract first image
             if (!empty($matches[0])) {
                 // we need the extra str_replace because the $matches[0] is user entered in tinymce
-                $input_regex = str_replace('(', '\(', $matches[0]);
-                $input_regex = str_replace(')', '\)', $input_regex);
+                // special chars added in the image alternative text must be escaped - [\^$.|?*+(){}
+                $special_chars = array("(", ")", "^", "$", "|", "?", "*", "+", "{", "}");
+                $char_count = 0;
+                foreach ($special_chars as $char) {
+                    $escaped_char = '\\' . $char;
+                    if ($char_count == 0) {
+                        // first time target the matches array
+                        $input_regex = str_replace($char, $escaped_char, $matches[0]);
+                        $char_count++;
+                    } else {
+                        $input_regex = str_replace($char, $escaped_char, $input_regex);
+                    }
+                }
+//                $input_regex = str_replace('(', '\(', $matches[0]);
+//                $input_regex = str_replace(')', '\)', $input_regex);
                 $buffy = preg_replace('/' . $this->fix_regex($input_regex) . '/', '', $token, 1); //remove the first image because that will be used as first_image
             }
         }

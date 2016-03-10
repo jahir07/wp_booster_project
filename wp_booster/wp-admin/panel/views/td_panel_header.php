@@ -154,7 +154,16 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">Show sign in / join</span>
-            <p>Show or hide the Sign In / Register links (default is hidden)</p>
+            <p>Enable/disable the theme login modal. (default is disabled).
+                <?php td_util::tooltip_html('
+                        <h3>Show sign in / join:</h3>
+                        <ul>
+                            <li>If it\'s enabled the Sign In / Register link shows up in the top menu</li>
+                            <li>If it\'s enabled but the top menu is disabled the modal will still appear for users who want to post a comment(if posting a comment is set to require login/registration)</li>
+                            <li>If it\'s disabled the login/registration will be done via the wordpress default interface</li>
+                        </ul>
+                ', 'right')?>
+            </p>
         </div>
         <div class="td-box-control-full">
             <?php

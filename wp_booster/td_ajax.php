@@ -252,7 +252,7 @@ class td_ajax {
 		 * 1. the mobile theme is active and its login option is also active
 		 * 2. the main theme is active (the mobile theme is not active) and its login option is also active
 		 */
-		if ((td_util::is_mobile_theme() === true && td_util::get_option('tds_login_mobile') != 'show') ||
+		if ((td_util::is_mobile_theme() === true && td_util::get_option('tds_login_mobile') != 'hide') ||
 		    (td_util::is_mobile_theme() === false && td_util::get_option('tds_login_sign_in_widget') != 'show')) {
 			exit();
 		}

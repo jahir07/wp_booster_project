@@ -101,7 +101,7 @@ jQuery().ready(function() {
             }, 500);
 
             //hides or shows the divs with inputs
-            tdLogin.showHideElements( [['#td-login-mob', 1], ['#td-register-mob', 0], ['#td-forgot-pass-mob', 0]] );
+            tdLogin.showHideElementsMobile( [['#td-login-mob', 1], ['#td-register-mob', 0], ['#td-forgot-pass-mob', 0]] );
         }
     });
 
@@ -141,7 +141,9 @@ jQuery().ready(function() {
 
 
     //forgot pass
-    jQuery( '#forgot-pass-link' ).on( 'click', function() {
+    jQuery( '#forgot-pass-link' ).on( 'click', function(event) {
+        //prevent scroll to page top
+        event.preventDefault();
         //hides or shows the divs with inputs
         tdLogin.showHideElements( [['#td-login-div', 0], ['#td-register-div', 0], ['#td-forgot-pass-div', 1]] );
 
@@ -288,26 +290,26 @@ var tdLogin = {};
          *
          * ids_array : array of ids that have to be showed or hidden
          */
-        //showHideElements : function( ids_array ) {
-        //    if ( ids_array.constructor === Array ) {
-        //        var length = ids_array.length;
-        //
-        //        for ( var i = 0; i < length; i++ ) {
-        //            if ( ids_array[ i ].constructor === Array && 2 === ids_array[ i ].length ) {
-        //                var jqElement = jQuery( ids_array[ i ][0] );
-        //                if ( jqElement.length ) {
-        //                    if ( 1 === ids_array[ i ][1] ) {
-        //                        jqElement.removeClass( 'td-display-none' ).addClass( 'td-display-block' );
-        //                    } else {
-        //                        jqElement.removeClass( 'td-display-block' ).addClass( 'td-display-none' );
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //},
-
         showHideElements : function( ids_array ) {
+            if ( ids_array.constructor === Array ) {
+                var length = ids_array.length;
+
+                for ( var i = 0; i < length; i++ ) {
+                    if ( ids_array[ i ].constructor === Array && 2 === ids_array[ i ].length ) {
+                        var jqElement = jQuery( ids_array[ i ][0] );
+                        if ( jqElement.length ) {
+                            if ( 1 === ids_array[ i ][1] ) {
+                                jqElement.removeClass( 'td-display-none' ).addClass( 'td-display-block' );
+                            } else {
+                                jqElement.removeClass( 'td-display-block' ).addClass( 'td-display-none' );
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        showHideElementsMobile : function( ids_array ) {
             if ( ids_array.constructor === Array ) {
                 var length = ids_array.length;
 

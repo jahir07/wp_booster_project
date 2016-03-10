@@ -412,14 +412,27 @@ class td_module_single_base extends td_module {
             $content = $content_buffer;
         }
 
+        $td_display_top_ad = true;
+        //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
+        if (is_array($td_smart_list) && $td_smart_list['td_post_template'] == 'single_template_1') {
+            $td_display_top_ad = false;
+
+        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
+        } elseif (empty($td_smart_list['td_post_template'])) {
+            $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+            if(!empty($td_default_site_post_template) and $td_default_site_post_template == 'single_template_1') {
+                $td_display_top_ad = false;
+            }
+        }
+
         //add the top ad
-        if (td_util::is_ad_spot_enabled('content_top') and is_single()) {
+        if (td_util::is_ad_spot_enabled('content_top') && is_single() && $td_display_top_ad === true) {
             $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top')) . $content;
         }
 
 
         //add bottom ad
-        if (td_util::is_ad_spot_enabled('content_bottom') and is_single()) {
+        if (td_util::is_ad_spot_enabled('content_bottom') && is_single()) {
             $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom'));
         }
 
