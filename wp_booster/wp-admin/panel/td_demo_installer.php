@@ -9,12 +9,12 @@ class td_demo_installer {
 
     function __construct() {
         //AJAX VIEW PANEL LOADING
-        add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
-        add_action( 'wp_ajax_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
+        add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_demos_controller'));
+        add_action( 'wp_ajax_td_ajax_demo_install', array($this, 'ajax_demos_controller'));
     }
 
 
-    function ajax_stacks_controller() {
+    function ajax_demos_controller() {
         if (!current_user_can('switch_themes')) {
             echo 'Permission denied!';
         }
