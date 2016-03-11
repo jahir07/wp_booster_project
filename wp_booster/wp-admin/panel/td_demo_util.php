@@ -3,6 +3,17 @@
 
 class td_demo_base {
 
+
+	protected static function multi_instring($haystack, $needle_array) {
+		foreach ($needle_array as $needle) {
+			if (strpos($haystack, $needle) !== false) {
+				return $needle;
+			}
+		}
+
+		return false;
+	}
+
 	protected static function check_params($class, $function, $received_array, $requiered_keys) {
 		foreach ($requiered_keys as $requiered_key => $requiered_msg) {
 			if (empty($received_array[$requiered_key])) {
@@ -410,6 +421,19 @@ class td_demo_content extends td_demo_base {
 
         $file_content = file_get_contents($file_path);
 
+	    $search_in_file = self::multi_instring($file_content, array(
+			'0div',
+		    'localhost',
+		    '192.168.0.'
+	    ));
+
+		if ($search_in_file !== false) {
+			self::kill(__CLASS__, __FUNCTION__, 'found in file content: ' . $search_in_file);
+		}
+
+
+
+
         preg_match_all("/xxx_(.*)_xxx/U", $file_content, $matches, PREG_PATTERN_ORDER);
         /*
         $matches =
@@ -540,6 +564,14 @@ class td_demo_content extends td_demo_base {
 
         //new post / page
         $page_id = wp_insert_post ($new_post);
+
+	    if (is_wp_error($page_id)) {
+		    self::kill(__CLASS__, __FUNCTION__, $page_id->get_error_message());
+	    }
+
+	    if ($page_id === 0) {
+		    self::kill(__CLASS__, __FUNCTION__, 'wp_insert_post returned 0. Not ok!');
+	    }
 
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($page_id, 'td_demo_content', true);
