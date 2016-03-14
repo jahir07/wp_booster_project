@@ -674,6 +674,17 @@ class td_demo_widgets extends td_demo_base {
     private static $last_sidebar_widget_position = 0;
 
 
+
+	private static $hard_coded_sidebars = array (
+		'td-default',
+		'td-footer-1',
+		'td-footer-2',
+		'td-footer-3'
+	);
+
+
+
+
     /**
      * adds a new sidebar
      * @param $sidebar_name string - must begin with td_demo_
@@ -690,18 +701,29 @@ class td_demo_widgets extends td_demo_base {
 
 	/**
 	 * adds a widget to a sidebar
-	 * @param $sidebar_id (default|or other id)
+	 * WARNING "td-" is automatically added to the sidebar name
+	 * @param $sidebar_id
+	 *          - default - to add to the default sidebar
+	 *          - footer-1 - to add to the footer 1
+	 *          - footer-2 - to add to the footer 2
+	 *          - footer-3 - to add to the footer 3
+	 *          - OR any custom sidebar created with @see td_demo_widgets::add_sidebar()
 	 * @param $widget_name - the id of the widget
 	 * @param $atts
 	 */
     static function add_widget_to_sidebar($sidebar_id, $widget_name, $atts) {
 
         $tmp_sidebars = td_util::get_option('sidebars');
+	    if (empty($tmp_sidebars)) {
+		    $tmp_sidebars = array();
+	    }
+
+
         if (
-            $sidebar_id != 'default' and
+            !in_array('td-' . $sidebar_id, self::$hard_coded_sidebars) and
             !in_array($sidebar_id, $tmp_sidebars)
         ) {
-	        self::kill(__CLASS__, __FUNCTION__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_id);
+	        self::kill(__CLASS__, __FUNCTION__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - td-' . $sidebar_id . ' (note that "td-" is automatically added to the sidebars name). Current registered sidebars: ', array_merge(self::$hard_coded_sidebars, $tmp_sidebars));
         }
 
         $widget_instances = get_option('widget_' . $widget_name);
@@ -732,8 +754,8 @@ class td_demo_widgets extends td_demo_base {
 	 */
     static function remove_widgets_from_sidebar($sidebar_id = 'default') {
 
-	    if ($sidebar_id != 'default') {
-		    self::kill(__CLASS__, __FUNCTION__, 'You can only remove widgets from the "default" sidebar_id');
+	    if (!in_array('td-' . $sidebar_id, self::$hard_coded_sidebars)) {
+		    self::kill(__CLASS__, __FUNCTION__, 'You can only remove widgets from the hardcoded sidebars. For custom made sidebars during the import, there is no need to remove the widgets', self::$hard_coded_sidebars);
 	    }
 
 
@@ -759,8 +781,9 @@ class td_demo_widgets extends td_demo_base {
                     unset($tmp_sidebars[$index]);
                 }
             }
+	        td_util::update_option('sidebars', $tmp_sidebars);
         }
-        td_util::update_option('sidebars', $tmp_sidebars);
+
     }
 }
 
