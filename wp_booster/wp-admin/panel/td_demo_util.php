@@ -14,6 +14,14 @@ class td_demo_base {
 		return false;
 	}
 
+
+	/**
+	 * If one of the $requiered_keys is missing from the $received_array we will kill the execution
+	 * @param $class - the calling __CLASS__
+	 * @param $function - the calling __FUNCTION__
+	 * @param $received_array - the array of parameter_key => 'value' received from the caller
+	 * @param $requiered_keys - the expected array of parameter_key => 'error_string'
+	 */
 	protected static function check_params($class, $function, $received_array, $requiered_keys) {
 		foreach ($requiered_keys as $requiered_key => $requiered_msg) {
 			if (empty($received_array[$requiered_key])) {
@@ -22,6 +30,14 @@ class td_demo_base {
 		}
 	}
 
+
+	/**
+	 * kill the execution and show an error message
+	 * @param $class
+	 * @param $function
+	 * @param $msg
+	 * @param string $additional_info
+	 */
 	protected static function kill($class, $function, $msg, $additional_info = '') {
 		echo PHP_EOL . 'ERROR - '. $class . '::' . $function . ' - ' . $msg;
 
