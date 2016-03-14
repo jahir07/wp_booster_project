@@ -3,6 +3,25 @@
 
 class td_demo_base {
 
+
+	protected static function multi_instring($haystack, $needle_array) {
+		foreach ($needle_array as $needle) {
+			if (strpos($haystack, $needle) !== false) {
+				return $needle;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * If one of the $requiered_keys is missing from the $received_array we will kill the execution
+	 * @param $class - the calling __CLASS__
+	 * @param $function - the calling __FUNCTION__
+	 * @param $received_array - the array of parameter_key => 'value' received from the caller
+	 * @param $requiered_keys - the expected array of parameter_key => 'error_string'
+	 */
 	protected static function check_params($class, $function, $received_array, $requiered_keys) {
 		foreach ($requiered_keys as $requiered_key => $requiered_msg) {
 			if (empty($received_array[$requiered_key])) {
@@ -11,6 +30,14 @@ class td_demo_base {
 		}
 	}
 
+
+	/**
+	 * kill the execution and show an error message
+	 * @param $class
+	 * @param $function
+	 * @param $msg
+	 * @param string $additional_info
+	 */
 	protected static function kill($class, $function, $msg, $additional_info = '') {
 		echo PHP_EOL . 'ERROR - '. $class . '::' . $function . ' - ' . $msg;
 
@@ -410,6 +437,19 @@ class td_demo_content extends td_demo_base {
 
         $file_content = file_get_contents($file_path);
 
+	    $search_in_file = self::multi_instring($file_content, array(
+			'0div',
+		    'localhost',
+		    '192.168.0.'
+	    ));
+
+		if ($search_in_file !== false) {
+			self::kill(__CLASS__, __FUNCTION__, 'found in file content: ' . $search_in_file);
+		}
+
+
+
+
         preg_match_all("/xxx_(.*)_xxx/U", $file_content, $matches, PREG_PATTERN_ORDER);
         /*
         $matches =
@@ -541,6 +581,14 @@ class td_demo_content extends td_demo_base {
         //new post / page
         $page_id = wp_insert_post ($new_post);
 
+	    if (is_wp_error($page_id)) {
+		    self::kill(__CLASS__, __FUNCTION__, $page_id->get_error_message());
+	    }
+
+	    if ($page_id === 0) {
+		    self::kill(__CLASS__, __FUNCTION__, 'wp_insert_post returned 0. Not ok!');
+	    }
+
         // add our demo custom meta field, using this field we will delete all the pages
         update_post_meta($page_id, 'td_demo_content', true);
 
@@ -626,6 +674,17 @@ class td_demo_widgets extends td_demo_base {
     private static $last_sidebar_widget_position = 0;
 
 
+
+	private static $hard_coded_sidebars = array (
+		'td-default',
+		'td-footer-1',
+		'td-footer-2',
+		'td-footer-3'
+	);
+
+
+
+
     /**
      * adds a new sidebar
      * @param $sidebar_name string - must begin with td_demo_
@@ -642,18 +701,29 @@ class td_demo_widgets extends td_demo_base {
 
 	/**
 	 * adds a widget to a sidebar
-	 * @param $sidebar_id (default|or other id)
+	 * WARNING "td-" is automatically added to the sidebar name
+	 * @param $sidebar_id
+	 *          - default - to add to the default sidebar
+	 *          - footer-1 - to add to the footer 1
+	 *          - footer-2 - to add to the footer 2
+	 *          - footer-3 - to add to the footer 3
+	 *          - OR any custom sidebar created with @see td_demo_widgets::add_sidebar()
 	 * @param $widget_name - the id of the widget
 	 * @param $atts
 	 */
     static function add_widget_to_sidebar($sidebar_id, $widget_name, $atts) {
 
         $tmp_sidebars = td_util::get_option('sidebars');
+	    if (empty($tmp_sidebars)) {
+		    $tmp_sidebars = array();
+	    }
+
+
         if (
-            $sidebar_id != 'default' and
+            !in_array('td-' . $sidebar_id, self::$hard_coded_sidebars) and
             !in_array($sidebar_id, $tmp_sidebars)
         ) {
-	        self::kill(__CLASS__, __FUNCTION__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - ' . $sidebar_id);
+	        self::kill(__CLASS__, __FUNCTION__, 'td_demo_widgets::add_widget_to_sidebar - No sidebar with the name provided! - td-' . $sidebar_id . ' (note that "td-" is automatically added to the sidebars name). Current registered sidebars: ', array_merge(self::$hard_coded_sidebars, $tmp_sidebars));
         }
 
         $widget_instances = get_option('widget_' . $widget_name);
@@ -684,8 +754,8 @@ class td_demo_widgets extends td_demo_base {
 	 */
     static function remove_widgets_from_sidebar($sidebar_id = 'default') {
 
-	    if ($sidebar_id != 'default') {
-		    self::kill(__CLASS__, __FUNCTION__, 'You can only remove widgets from the "default" sidebar_id');
+	    if (!in_array('td-' . $sidebar_id, self::$hard_coded_sidebars)) {
+		    self::kill(__CLASS__, __FUNCTION__, 'You can only remove widgets from the hardcoded sidebars. For custom made sidebars during the import, there is no need to remove the widgets', self::$hard_coded_sidebars);
 	    }
 
 
@@ -711,8 +781,9 @@ class td_demo_widgets extends td_demo_base {
                     unset($tmp_sidebars[$index]);
                 }
             }
+	        td_util::update_option('sidebars', $tmp_sidebars);
         }
-        td_util::update_option('sidebars', $tmp_sidebars);
+
     }
 }
 
