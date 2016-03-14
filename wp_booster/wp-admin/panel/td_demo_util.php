@@ -749,8 +749,8 @@ class td_demo_widgets extends td_demo_base {
 
 
 	/**
-	 * Removes all widgets from the default sidebar. The $sidebar_id is deprecated
-	 * @param $sidebar_id - @deprecated - is not requiered
+	 * Removes all widgets from the default sidebar.
+	 * @param $sidebar_id - one of the following: default, footer-1, footer-2, footer-3
 	 */
     static function remove_widgets_from_sidebar($sidebar_id = 'default') {
 
