@@ -165,9 +165,13 @@ function td_done_resizing(){
 function td_resize_videos() {
     //youtube in content
     jQuery(document).find('iframe[src*="youtube.com"]').each(function() {
-
-        if(jQuery(this).parent().hasClass("td_wrapper_playlist_player_youtube")) {
-            //do nothing for playlist player youtube
+        var videoMainContainer = jQuery(this).parent().parent().parent(),
+            videoInPlaylist = jQuery(this).parent().hasClass("td_wrapper_playlist_player_vimeo"),
+            video43AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-43"), //the video is set to 4:3 aspect ratio
+            video235AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-235"); //the video is set to 2.35:1 aspect ratio
+        if(videoInPlaylist || video43AspectRatio || video235AspectRatio) {
+            //do nothing for playlist player youtube or aspect ratios 4:3 and 2.35:1
+            //the video aspect ratio can be set on Visual Composer - Video Player widget settings
         } else {
             var td_video = jQuery(this);
             td_video.attr('width', '100%');
@@ -179,8 +183,13 @@ function td_resize_videos() {
 
     //vimeo in content
     jQuery(document).find('iframe[src*="vimeo.com"]').each(function() {
-        if(jQuery(this).parent().hasClass("td_wrapper_playlist_player_vimeo")) {
-            //do nothing for playlist player vimeo
+        var videoMainContainer = jQuery(this).parent().parent().parent(),
+            videoInPlaylist = jQuery(this).parent().hasClass("td_wrapper_playlist_player_vimeo"),
+            video43AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-43"), //the video is set to 4:3 aspect ratio
+            video235AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-235"); //the video is set to 2.35:1 aspect ratio
+        if(videoInPlaylist || video43AspectRatio || video235AspectRatio) {
+            //do nothing for playlist player vimeo or aspect ratios 4:3 and 2.35:1
+            //the video aspect ratio can be set on Visual Composer - Video Player widget settings
         } else {
             var td_video = jQuery(this);
             td_video.attr('width', '100%');
@@ -192,10 +201,19 @@ function td_resize_videos() {
 
     //daily motion in content
     jQuery(document).find('iframe[src*="dailymotion.com"]').each(function() {
-        var td_video = jQuery(this);
-        td_video.attr('width', '100%');
-        var td_video_width = td_video.width();
-        td_video.css('height', td_video_width * 0.6, 'important');
+        var videoMainContainer = jQuery(this).parent().parent().parent(),
+            video43AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-43"), //video aspect ratio 4:3
+            video235AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-235"); //video aspect ratio 2.35:1
+        if (video43AspectRatio || video235AspectRatio) {
+            //do nothing for video aspect ratios 4:3 and 2.35:1
+            //the video aspect ratio can be set on Visual Composer - Video Player widget settings
+        } else {
+            var td_video = jQuery(this);
+            td_video.attr('width', '100%');
+            var td_video_width = td_video.width();
+            td_video.css('height', td_video_width * 0.6, 'important');
+        }
+
     });
 
 
