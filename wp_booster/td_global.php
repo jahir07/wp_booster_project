@@ -103,10 +103,25 @@ class td_global {
 	        'url' => '/includes/wp_booster/wp-admin/js/td_edit_page.js',
 	        'show_only_on_page_slugs' => ''
         ),
+
+
+	    // install demos scripts
+        'tdDemoFullInstaller' => array (
+	        'url' => '/includes/wp_booster/wp-admin/js/tdDemoFullInstaller.js',
+	        'show_only_on_page_slugs' => array('td_theme_demos')
+        ),
+
         'td_wp_admin_demos' => array (
 	        'url' => '/includes/wp_booster/wp-admin/js/td_wp_admin_demos.js',
-	        'show_only_on_page_slugs' => ''
+	        'show_only_on_page_slugs' => array('td_theme_demos')
         ),
+        'tdDemoProgressBar' => array (
+	        'url' => '/includes/wp_booster/wp-admin/js/tdDemoProgressBar.js',
+	        'show_only_on_page_slugs' => array('td_theme_demos')
+        ),
+
+
+
         'td_page_options' => array (
 	        'url' => '/includes/wp_booster/wp-admin/js/td_page_options.js',
 	        'show_only_on_page_slugs' => ''
