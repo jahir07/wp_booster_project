@@ -76,8 +76,11 @@ class td_global {
      */
     static $js_files = array ();
 
+	// the plugins that are installable via the theme > plugins panel & tgma
     static $theme_plugins_list = array();
 
+	// the plugins that are just for information porpuses (the plugin cannot be installed with tgma, usually because the plugin is to big so we included it in the -tf/plugins folder)
+	static $theme_plugins_for_info_list = array();
 
 	static $td_animation_stack_effects = array();
 
