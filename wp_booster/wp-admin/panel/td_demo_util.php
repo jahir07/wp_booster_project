@@ -4,6 +4,13 @@
 class td_demo_base {
 
 
+	/**
+	 * Checks if one of the needles from $needle_array is found in the $haystack
+	 * @param $haystack
+	 * @param $needle_array
+	 *
+	 * @return bool
+	 */
 	protected static function multi_instring($haystack, $needle_array) {
 		foreach ($needle_array as $needle) {
 			if (strpos($haystack, $needle) !== false) {

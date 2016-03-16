@@ -3446,6 +3446,9 @@ title one row controls
 .td-plugin-not-installed .td-button-install-plugin {
   display: inline-block;
 }
+.td-plugin-no-install .theme-actions {
+  display: none;
+}
 /*  ----------------------------------------------------------------------------
     supported plugin list
 */
