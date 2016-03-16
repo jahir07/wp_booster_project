@@ -2946,8 +2946,13 @@ title one row controls
   right: 0;
   bottom: 0;
   top: 0;
-  max-height: 100%;
   max-width: none;
+  /* responsive portrait phone */
+}
+@media (max-width: 1300px) {
+  .td-admin-plugins .theme .theme-screenshot img {
+    max-height: 100%;
+  }
 }
 .media-sidebar .gallery-settings .setting select {
   float: right;
