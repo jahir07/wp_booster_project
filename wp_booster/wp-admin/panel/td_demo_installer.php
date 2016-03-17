@@ -133,10 +133,12 @@ class td_demo_installer {
 
 
         else if ($td_demo_action == 'td_media_2') {
+	        //echo 'sss';
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_2.php');
         }
         else if ($td_demo_action == 'td_media_3') {
+
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_3.php');
         }
