@@ -2268,6 +2268,8 @@ if (is_admin()) {
 				'nag_type' => 'updated' // Determines admin notice type - can only be 'updated' or 'error'
 			)
 		);
+
+
 		tgmpa(td_global::$theme_plugins_list, $config);
 
 

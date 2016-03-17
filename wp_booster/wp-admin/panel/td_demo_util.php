@@ -4,6 +4,13 @@
 class td_demo_base {
 
 
+	/**
+	 * Checks if one of the needles from $needle_array is found in the $haystack
+	 * @param $haystack
+	 * @param $needle_array
+	 *
+	 * @return bool
+	 */
 	protected static function multi_instring($haystack, $needle_array) {
 		foreach ($needle_array as $needle) {
 			if (strpos($haystack, $needle) !== false) {
@@ -749,8 +756,8 @@ class td_demo_widgets extends td_demo_base {
 
 
 	/**
-	 * Removes all widgets from the default sidebar. The $sidebar_id is deprecated
-	 * @param $sidebar_id - @deprecated - is not requiered
+	 * Removes all widgets from the default sidebar.
+	 * @param $sidebar_id - one of the following: default, footer-1, footer-2, footer-3
 	 */
     static function remove_widgets_from_sidebar($sidebar_id = 'default') {
 
