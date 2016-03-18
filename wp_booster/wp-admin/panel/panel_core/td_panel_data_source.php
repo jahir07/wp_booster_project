@@ -739,9 +739,33 @@ class td_panel_data_source {
     private static function update_td_fonts_user_insert($td_option_array) {
         //get defaults array
         $default_array = $_POST['td_fonts_user_insert'];
+        $css_buffer = '';
 
         foreach ($default_array as $custom_font_option_id => $custom_font_option_value) {
-                td_global::$td_options['td_fonts_user_inserted'][$custom_font_option_id] = $custom_font_option_value;
+            td_global::$td_options['td_fonts_user_inserted'][$custom_font_option_id] = $custom_font_option_value;
+
+            //update fonts js buffer
+            if ($custom_font_option_id == 'typekit_js') {
+                td_global::$td_options['td_fonts_js_buffer'] = $custom_font_option_value;
+            }
+
+            //update font css buffer
+            $custom_font_option_id_base = substr($custom_font_option_id, 0, -2);
+            if ($custom_font_option_id_base == 'font_family' && !empty($custom_font_option_value)) {
+                $explode_font_family = explode('_', $custom_font_option_id);
+
+                $font_file_link = td_global::$td_options['td_fonts_user_inserted']['font_file_' . $explode_font_family[2]];
+                $font_file_family = td_global::$td_options['td_fonts_user_inserted']['font_family_' . $explode_font_family[2]];
+
+                $css_buffer .= '
+                                    @font-face {
+                                      font-family: "' . $font_file_family . '";
+                                      src: local("' . $font_file_family . '"), url("' . $font_file_link . '") format("woff");
+}
+                                ';
+                td_global::$td_options['td_fonts_css_buffer'] = $css_buffer;
+            }
+
         }
     }
 
