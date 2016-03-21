@@ -44,13 +44,13 @@ class td_instagram {
 
         // number of images per row - by default display 3 images
         $images_per_row = 3;
-        if ($atts['instagram_images_per_row'] != '') {
+        if (!empty($atts['instagram_images_per_row'])) {
             $images_per_row = $atts['instagram_images_per_row'];
         }
 
         // number of rows
         $number_of_rows = 1;
-        if ($atts['instagram_number_of_rows'] != '') {
+        if (!empty($atts['instagram_number_of_rows'])) {
             $number_of_rows = $atts['instagram_number_of_rows'];
         }
 
@@ -59,7 +59,7 @@ class td_instagram {
 
         // image gap
         $image_gap = '';
-        if ($atts['instagram_margin'] != '') {
+        if (!empty($atts['instagram_margin'])) {
             $image_gap = ' td-image-gap-' . $atts['instagram_margin'];
         }
 
@@ -109,7 +109,7 @@ class td_instagram {
         ?>
         <!-- header section -->
         <?php
-        if ($atts['instagram_header'] != 'off') {
+        if (empty($atts['instagram_header'])) {
             ?>
             <div class="td-instagram-header">
                 <div class="td-instagram-profile-image"><img src="<?php echo $instagram_profile_picture ?>"/></div>

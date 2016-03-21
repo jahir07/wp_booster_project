@@ -280,6 +280,22 @@ class td_category_walker_panel extends Walker {
 
     var $td_category_buffer = array();
 
+    /**
+     * $td_last_depth - int.
+     * store the last depth, used to reset $td_category_hierarchy on multiple branches
+     * Ex:
+     *      - main category[depth 0]:
+     *                    - subcategory a [depth 1]
+     *                         - subcategory a1 [depth 2]
+     *                              - subcategory a12 [depth 3]
+     *                    - subcategory b [depth 1]
+     *                         - subcategory b1 [depth 2]
+     *                              - subcategory b12 [depth 3]
+     * they are processed in the same sequence
+     * when you pass from depth 3 to 1 you have to remove the previous items present on depth 2 and 3 inside the $td_category_hierarchy array
+     */
+    var $td_last_depth = 0;
+
     function start_lvl( &$output, $depth = 0, $args = array() ) {
 
     }
@@ -291,10 +307,20 @@ class td_category_walker_panel extends Walker {
 
     function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 
-        if (!isset($td_last_category_objects[$depth])) {
-            $this->td_category_hierarchy[$depth] = $category;
+        // reset the $td_category_hierarchy array
+        if ($this->td_last_depth > $depth && $depth > 0) {
+            $buffy = array();
+            //keep only the array elements which have a depth lower than the current depth
+            //the current element is added after this sequence, in the "build the category hierarchy" line
+            for ($i = 0; $i < $depth; $i++){
+                $buffy[] = $this->td_category_hierarchy[$i];
+            }
+            $this->td_category_hierarchy = $buffy;
         }
+        $this->td_last_depth = $depth;
 
+        //build the category hierarchy - [0] Category 1 - [1] Category 2 - [2] Category 3
+        $this->td_category_hierarchy[$depth] = $category;
 
         if ($depth == 0) {
             //reset the parrents

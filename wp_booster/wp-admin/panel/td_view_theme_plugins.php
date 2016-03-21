@@ -53,7 +53,7 @@ require_once "td_view_header.php";
 
 
 
-$theme_plugins = TGM_Plugin_Activation::$instance->plugins;
+
 
 ?>
 
@@ -73,22 +73,42 @@ $theme_plugins = TGM_Plugin_Activation::$instance->plugins;
 
 
 <?php
+
+
+
+
+
 $wp_plugin_list = get_plugins();
 
 
     //asort($theme_plugins);
-    foreach ($theme_plugins as $theme_plugin) {
+
+	$td_tgm_theme_plugins = TGM_Plugin_Activation::$instance->plugins;
+
+	$td_tgm_theme_plugins = array_merge($td_tgm_theme_plugins, td_global::$theme_plugins_for_info_list);
+
+
+    foreach ($td_tgm_theme_plugins as $td_tgm_theme_plugin) {
 
         $tmp_class = 'td-plugin-not-installed';
-        $required_label = $theme_plugin['required_label'];
+        $required_label = $td_tgm_theme_plugin['required_label'];
 
-        if (is_plugin_active( $theme_plugin['file_path'])) {
-            $tmp_class = 'td-plugin-active';
-            $required_label = 'active';
-        }
-        else if (isset($wp_plugin_list[$theme_plugin['file_path']])) {
-            $tmp_class = 'td-plugin-inactive';
-        }
+
+
+	    if (isset($td_tgm_theme_plugin['file_path'])) {
+		    // file_path key is missing from elements that come from td_global::$theme_plugins_for_info_list
+		    if (is_plugin_active( $td_tgm_theme_plugin['file_path'])) {
+			    $tmp_class = 'td-plugin-active';
+			    $required_label = 'active';
+		    }
+		    else if (isset($wp_plugin_list[$td_tgm_theme_plugin['file_path']])) {
+			    $tmp_class = 'td-plugin-inactive';
+		    }
+	    } else {
+			// no install - usually plugins from td_global::$theme_plugins_for_info_list
+		    $tmp_class = 'td-plugin-no-install';
+	    }
+
 
 
         //echo '<br>';
@@ -103,16 +123,16 @@ $wp_plugin_list = get_plugins();
             <!-- Import content -->
             <div class="theme-screenshot">
                 <span class="td-plugin-required td-<?php echo $required_label; ?>"><?php echo $required_label; ?></span>
-                <img class="td-demo-thumb" src="<?php echo $theme_plugin['img'] ?>"/>
+                <img class="td-demo-thumb" src="<?php echo $td_tgm_theme_plugin['img'] ?>"/>
             </div>
 
             <div class="td-admin-title">
                 <div class="td-progress-bar-wrap"><div class="td-progress-bar"></div></div>
-                <h3 class="theme-name"><?php echo $theme_plugin['name'] ?></h3>
+                <h3 class="theme-name"><?php echo $td_tgm_theme_plugin['name'] ?></h3>
             </div>
 
             <div class="td-admin-checkbox td-small-checkbox">
-                <p><?php echo $theme_plugin['text'] ?></p>
+                <p><?php echo $td_tgm_theme_plugin['text'] ?></p>
             </div>
 
             <div class="theme-actions">
@@ -121,9 +141,9 @@ $wp_plugin_list = get_plugins();
                     add_query_arg(
                         array(
                             'page'		  	=> urlencode(TGM_Plugin_Activation::$instance->menu),
-                            'plugin'		=> urlencode($theme_plugin['slug']),
-                            'plugin_name'   => urlencode($theme_plugin['name']),
-                            'plugin_source' => urlencode($theme_plugin['source']),
+                            'plugin'		=> urlencode($td_tgm_theme_plugin['slug']),
+                            'plugin_name'   => urlencode($td_tgm_theme_plugin['name']),
+                            'plugin_source' => urlencode($td_tgm_theme_plugin['source']),
                             'tgmpa-install' => 'install-plugin',
                             'return_url' => 'td_theme_plugins'
                         ),
@@ -137,7 +157,7 @@ $wp_plugin_list = get_plugins();
                     add_query_arg(
                         array(
                             'page'		  	            => urlencode('td_theme_plugins'),
-                            'td_deactivate_plugin_slug'	=> urlencode($theme_plugin['slug']),
+                            'td_deactivate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
                         ),
                         admin_url('admin.php')
                     ));
@@ -148,7 +168,7 @@ $wp_plugin_list = get_plugins();
                     add_query_arg(
                         array(
                             'page'		  	            => urlencode('td_theme_plugins'),
-                            'td_activate_plugin_slug'	=> urlencode($theme_plugin['slug']),
+                            'td_activate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
                         ),
                         admin_url('admin.php')
                     ));

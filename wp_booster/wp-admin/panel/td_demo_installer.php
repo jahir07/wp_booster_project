@@ -9,12 +9,12 @@ class td_demo_installer {
 
     function __construct() {
         //AJAX VIEW PANEL LOADING
-        add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
-        add_action( 'wp_ajax_td_ajax_demo_install', array($this, 'ajax_stacks_controller'));
+        add_action( 'wp_ajax_nopriv_td_ajax_demo_install', array($this, 'ajax_demos_controller'));
+        add_action( 'wp_ajax_td_ajax_demo_install', array($this, 'ajax_demos_controller'));
     }
 
 
-    function ajax_stacks_controller() {
+    function ajax_demos_controller() {
         if (!current_user_can('switch_themes')) {
             echo 'Permission denied!';
         }
@@ -133,10 +133,12 @@ class td_demo_installer {
 
 
         else if ($td_demo_action == 'td_media_2') {
+	        //echo 'sss';
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_2.php');
         }
         else if ($td_demo_action == 'td_media_3') {
+
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_3.php');
         }
