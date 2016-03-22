@@ -23,6 +23,7 @@ jQuery( window ).ready(function() {
 
     jQuery( '.td_smart_list_1 a, .td_smart_list_3 a').click(function( event ) {
         if ( event.target === event.currentTarget ) {
+            event.preventDefault();
             var currentTarget = jQuery( this ).attr( 'target' );
             var currentUrl = jQuery( this ).attr( 'href' );
             //if target is _blank open the link in a new window
