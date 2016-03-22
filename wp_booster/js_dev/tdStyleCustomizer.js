@@ -7,6 +7,7 @@
 /* global jQuery:{} */
 /* global td_read_site_cookie:Function */
 /* global td_set_cookies_life:Function */
+/* global tdDetect: {} */
 
 (function() {
 
@@ -58,6 +59,8 @@ var tdDemoMenu = {
 
 
 
+
+
     init: function() {
 
         'use strict';
@@ -71,6 +74,9 @@ var tdDemoMenu = {
                 tdDemoMenu.mousePosX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 tdDemoMenu.mousePosY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
+        }).mouseenter(function( event ) {
+            jQuery( '.td-screen-demo:first').css( 'visibility', 'hidden' );
+            jQuery( '.td-screen-demo-extend:first' ).hide();
         });
 
         // Show/hide the arrow skin scroll element
@@ -118,30 +124,7 @@ var tdDemoMenu = {
             jQuery( '#td-theme-settings' ).find( '.td-screen-demo:first' ).css( 'visibility', 'hidden' );
         });
 
-        // Show/hide the demo menu panel
-        jQuery( '#td-theme-set-hide' ).click(function(event ){
-            event.preventDefault();
-            event.stopPropagation();
 
-            var $this = jQuery(this),
-                jQueryObj = jQuery( '#td-theme-settings' );
-
-            if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
-                jQueryObj.removeClass( 'td-theme-settings-small' );
-                jQueryObj.addClass( 'td-theme-settings-closed' );
-                $this.html( 'DEMOS' );
-
-                //show full
-                td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
-            } else {
-                jQueryObj.addClass( 'td-theme-settings-small' );
-                jQueryObj.removeClass( 'td-theme-settings-closed' );
-                $this.html( 'CLOSE' );
-
-                //hide
-                td_set_cookies_life( ['td_show_panel', 'show', 86400000] );//86400000 is the number of milliseconds in a day
-            }
-        });
 
 
         jQuery( '.td-set-theme-style-link' ).hover(
@@ -221,6 +204,8 @@ var tdDemoMenu = {
                         paddingRightValue = $thisPrevContainer.outerWidth(true) + extraRightValue;
 
                     }
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
 
 
@@ -651,7 +636,11 @@ jQuery().ready(function() {
 
     'use strict';
 
-    tdDemoMenu.init();
+    // do not run on iOS
+    if (tdDetect.isIos === false && tdDetect.isAndroid === false) {
+        tdDemoMenu.init();
+    }
+
 });
 
 
@@ -675,6 +664,33 @@ if (td_current_panel_stat_old == 'show' || td_current_panel_stat_old == null) {
  On load
  */
 jQuery().ready(function() {
+
+    // Show/hide the demo menu panel
+    jQuery( '#td-theme-set-hide' ).click(function(event ){
+        event.preventDefault();
+        event.stopPropagation();
+
+        var $this = jQuery(this),
+            jQueryObj = jQuery( '#td-theme-settings' );
+
+        if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
+            jQueryObj.removeClass( 'td-theme-settings-small' );
+            jQueryObj.addClass( 'td-theme-settings-closed' );
+            $this.html( 'DEMOS' );
+
+            //show full
+            td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
+        } else {
+            jQueryObj.addClass( 'td-theme-settings-small' );
+            jQueryObj.removeClass( 'td-theme-settings-closed' );
+            $this.html( 'CLOSE' );
+
+            //hide
+            td_set_cookies_life( ['td_show_panel', 'show', 86400000] );//86400000 is the number of milliseconds in a day
+        }
+    });
+
+
 
     //hide panel
     jQuery("#td-theme-set-hide-old").click(function(event){

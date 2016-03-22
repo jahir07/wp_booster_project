@@ -591,17 +591,11 @@ class td_panel_data_source {
         //get defaults array
         $default_array = $_POST['td_default'];
 
-        /*
-        $js_buffer = used for fonts who use javascript to add @font-face (typekit.com)
-        $css_buffer = used for font link to files
-        $css_files = used to pull fonts from google
-        */
+        //used to pull fonts from google
+        $css_files = '';
 
-        //declare variable
-        $js_buffer = $css_buffer = $css_files = $temp_css_google_files = '';
-
-        //collect google fonts from all fields
-        $temp_google_fonts = array();
+        //temporary store google font families string
+        $temp_css_google_files = '';
 
         //collect all place_name arrays in this array
         $td_fonts_save = array();
@@ -614,58 +608,11 @@ class td_panel_data_source {
                 //if the $font_option_value is not empty then added to the place name font array
                 if(!empty($font_option_value)) {
                     $td_fonts_save[$font_place][$font_option_id] = $font_option_value;
-
-                    //check field values for buffer outputs
-                    if($font_option_id == 'font_family') {
-                        $explode_font_family = explode('_', $font_option_value);
-
-                        $id_font = $explode_font_family[1];
-
-                        switch ($explode_font_family[0]) {
-                            //fonts from files (links to files)
-                            case 'file':
-                                $font_file_link = td_global::$td_options['td_fonts_user_inserted']['font_file_' . $id_font];
-                                $font_file_family = td_global::$td_options['td_fonts_user_inserted']['font_family_' . $id_font];
-
-                                $css_buffer .= '
-                                                @font-face {
-                                                  font-family: "' . $font_file_family . '";
-                                                  src: local("' . $font_file_family . '"), url("' . $font_file_link . '") format("woff");
-}
-                                ';
-
-                                break;
-
-                            //fonts from type kit
-                            case 'tk':
-                                $js_buffer = td_global::$td_options['td_fonts_user_inserted']['typekit_js'];
-                                break;
-
-                            //fonts from font stacks
-                            case 'fs':
-                                /*$css_buffer .= '
-                                    @font-face {
-                                        font-family: ' . td_fonts::$font_stack_list['fs_' . $id_font] .';
-                                    }
-                                ';*/
-                                break;
-
-                            //fonts from google
-                            case 'g':
-                                if(!in_array($id_font, $temp_google_fonts)) {
-                                    $temp_google_fonts[] = $id_font;
-                                }
-                                break;
-                        }
-
-                    }
                 }
-
-                //check the color font option for non empty values
+                //@deprecated - check the color font option for non empty values
                 if(!empty($default_array['td_fonts'][$font_place]['color'])) {
                     $td_fonts_save[$font_place]['color'] = $default_array['td_fonts'][$font_place]['color'];
                 }
-
             }
 
             //if the array for the place name is empty then remove it from the td_fonts array
@@ -673,22 +620,6 @@ class td_panel_data_source {
                 unset($td_fonts_save[$font_place]);
             }
         }
-
-
-        /**
-         * form css_files buffer for google
-        **/
-        //add to google style link the fonts names
-        if(!empty($temp_google_fonts)) {
-            foreach($temp_google_fonts as $font_id_from_list) {
-                if(!empty($temp_css_google_files)) {
-                    $temp_css_google_files .= '|';
-                }
-                $temp_css_google_files .= str_replace(' ', '+', td_fonts::$font_names_google_list[$font_id_from_list]) . ':400,700';
-            }
-        }
-
-
 
         //check sections from db and add them to the saving array if ar not set to empty by the user
         $font_sections_from_db = td_util::get_option('td_fonts');//get the fonts from db
@@ -715,7 +646,28 @@ class td_panel_data_source {
         }
 
 
-
+        /**
+         * form css_files buffer for google
+         **/
+        //get google unique font ids from settings
+        $saved_unique_google_font_ids = array();
+        if (!empty($td_fonts_save)) {
+            foreach ($td_fonts_save as $section_font_settings) {
+                $explode_font_family = explode('_',$section_font_settings['font_family']);
+                if ($explode_font_family[0] == 'g' && !in_array($explode_font_family[1], $saved_unique_google_font_ids)) {
+                    $saved_unique_google_font_ids[] = $explode_font_family[1];
+                }
+            }
+        }
+        //build the google font families string - ex. Abeezee:400,700+Abel:400,700...
+        if(!empty($saved_unique_google_font_ids)) {
+            foreach($saved_unique_google_font_ids as $font_id_from_list) {
+                if(!empty($temp_css_google_files)) {
+                    $temp_css_google_files .= '|';
+                }
+                $temp_css_google_files .= str_replace(' ', '+', td_fonts::$font_names_google_list[$font_id_from_list]) . ':400,700';
+            }
+        }
         //form the google css files buffer
         if(!empty($temp_css_google_files)) {
             $css_files = "://fonts.googleapis.com/css?family=" . $temp_css_google_files . td_fonts::get_google_fonts_subset_query();
@@ -725,8 +677,6 @@ class td_panel_data_source {
         td_global::$td_options['td_fonts'] = $td_fonts_save;
 
         //add the font buffers to the option string that going to the database
-        td_global::$td_options['td_fonts_js_buffer'] = $js_buffer;
-        td_global::$td_options['td_fonts_css_buffer'] = $css_buffer;
         td_global::$td_options['td_fonts_css_files'] = $css_files;
 
     }
@@ -739,10 +689,67 @@ class td_panel_data_source {
     private static function update_td_fonts_user_insert($td_option_array) {
         //get defaults array
         $default_array = $_POST['td_fonts_user_insert'];
+        /*
+        $js_buffer = used for fonts who use javascript to add @font-face (typekit.com)
+        $css_buffer = used for font link to files
+        $css_files = used to pull fonts from google
+        */
+        $js_buffer = $css_buffer = $css_files = '';
+        $google_subset_buffer = ''; //store google subset
 
         foreach ($default_array as $custom_font_option_id => $custom_font_option_value) {
-                td_global::$td_options['td_fonts_user_inserted'][$custom_font_option_id] = $custom_font_option_value;
+            //save font settings in database
+            td_global::$td_options['td_fonts_user_inserted'][$custom_font_option_id] = $custom_font_option_value;
+
+            //set fonts js buffer
+            if ($custom_font_option_id == 'typekit_js') {
+                $js_buffer = $custom_font_option_value;
+            }
+
+            //explode font options into identifier and id - ex. g_21 is a google font with id 21
+            $explode_font_option = explode('_', $custom_font_option_id);
+
+            //set font css buffer
+            if ($explode_font_option[1] == 'family' && !empty($custom_font_option_value)) {
+
+                $font_file_link = td_global::$td_options['td_fonts_user_inserted']['font_file_' . $explode_font_option[2]];
+                $font_file_family = td_global::$td_options['td_fonts_user_inserted']['font_family_' . $explode_font_option[2]];
+
+                $css_buffer .= '
+                                    @font-face {
+                                      font-family: "' . $font_file_family . '";
+                                      src: local("' . $font_file_family . '"), url("' . $font_file_link . '") format("woff");
+                                    }
+                                ';
+            }
+
+            //set google subset buffer
+            if ($explode_font_option[0] == 'g' && !empty($custom_font_option_value)) {
+                if (!empty($google_subset_buffer)) {
+                    $google_subset_buffer .= ',';
+                }
+                    $google_subset_buffer .= $custom_font_option_value;
+            }
         }
+
+        //subset buffer - add &subset=
+        if (!empty($google_subset_buffer)) {
+            $google_subset_buffer = '&subset=' . $google_subset_buffer;
+        }
+
+        //form the google css files buffer
+        $current_google_files_buffer = td_global::$td_options['td_fonts_css_files'];
+        if (!empty($current_google_files_buffer)) {
+            $explode_google_files_buffer = explode("&subset=", $current_google_files_buffer);
+            if (!empty($explode_google_files_buffer[0])) {
+                $css_files = $explode_google_files_buffer[0] . $google_subset_buffer;
+            }
+        }
+
+        //add the font buffers to the option string that going to the database
+        td_global::$td_options['td_fonts_css_buffer'] = $css_buffer;
+        td_global::$td_options['td_fonts_js_buffer'] = $js_buffer;
+        td_global::$td_options['td_fonts_css_files'] = $css_files;
     }
 
 
@@ -813,5 +820,3 @@ class td_panel_data_source {
 //AJAX FORM SAVING
 add_action( 'wp_ajax_nopriv_td_ajax_update_panel', array('td_panel_data_source', 'update') );
 add_action( 'wp_ajax_td_ajax_update_panel', array('td_panel_data_source', 'update') );//print_r($_POST);
-
-
