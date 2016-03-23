@@ -8,7 +8,7 @@
 <div class="td-box-row">
 	<div class="td-box-description td-box-full">
 		<p><?php echo TD_THEME_NAME ?> supports custom fonts files, typekit fonts and google fonts. Please refresh the main panel to see the fonts after you add them here!</p>
-		<p><a href="http://forum.tagdiv.com/custom-typography/" target="_blank">Read more</a> about the font system</p>
+		<p><a href="http://forum.tagdiv.com/using-custom-fonts/" target="_blank">Read more</a> about the font system</p>
 	</div>
 </div>
 
