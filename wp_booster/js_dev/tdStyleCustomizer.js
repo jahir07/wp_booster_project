@@ -56,6 +56,9 @@ var tdDemoMenu = {
                 tdDemoMenu.mousePosX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 tdDemoMenu.mousePosY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
+        }).mouseenter(function( event ) {
+            jQuery( '.td-screen-demo:first').css( 'visibility', 'hidden' );
+            jQuery( '.td-screen-demo-extend:first' ).hide();
         });
 
         // Show/hide the arrow skin scroll element
@@ -183,6 +186,8 @@ var tdDemoMenu = {
                         paddingRightValue = $thisPrevContainer.outerWidth(true) + extraRightValue;
 
                     }
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
 
 
