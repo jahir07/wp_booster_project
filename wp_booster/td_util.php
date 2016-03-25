@@ -961,7 +961,7 @@ class td_category2id_array_walker extends Walker {
 
 
     function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
-        $this->td_array_buffer[str_repeat(' - ', $depth) .  $category->name] = $category->term_id;
+        $this->td_array_buffer[str_repeat(' - ', $depth) .  $category->name . ' - [ id: ' . $category->term_id . ' ]' ] = $category->term_id;
     }
 
 
