@@ -188,8 +188,8 @@ var tdAffix = {};
 
             /*  ---------------------------------------------------------------------------- */
 
-            // show the logo on sticky menu if is always snap setting
-            if ( 'snap' === tdAffix.tds_snap_menu && '' !== tdAffix.tds_snap_menu_logo ) {
+            // show the logo on sticky menu
+            if ( '' !== tdAffix.tds_snap_menu && '' !== tdAffix.tds_snap_menu_logo ) {
                 jQuery( '.td-main-menu-logo' ).addClass( 'td-logo-sticky' );
             }
 
@@ -422,8 +422,9 @@ var tdAffix = {};
                 //make the menu normal
                 jQuery( tdAffix.menu_selector ).removeClass( 'td-affix' );
 
+                console.log(tdAffix.tds_snap_menu_logo);
                 //hide the logo from sticky menu when the menu is not affix
-                if( '' !== tdAffix.tds_snap_menu_logo ) {
+                if( '' === tdAffix.tds_snap_menu_logo ) {
                     jQuery( '.td-main-menu-logo' ).removeClass( 'td-logo-sticky' );
                 }
 
