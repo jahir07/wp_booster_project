@@ -246,7 +246,7 @@ require_once "td_view_header.php";
     td_system_status::add('php.ini configuration', array(
         'check_name' => 'post_max_size',
         'tooltip' => 'Sets max size of post data allowed. This setting also affects file upload. To upload large files you have to increase this value and in some cases you also have to increase the upload_max_filesize value.',
-        'value' =>  ini_get('post_max_size') . '<span class="td-status-small-text"> - You cannot upload images, themes and plugins that have a size bigger than this value. To see how you can change this please check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+        'value' =>  ini_get('post_max_size') . '<span class="td-status-small-text"> - You cannot upload images, themes and plugins that have a size bigger than this value. To see how you can change this please check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
         'status' => 'info'
     ));
 
@@ -263,7 +263,7 @@ require_once "td_view_header.php";
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_execution_time',
             'tooltip' => 'This sets the maximum time in seconds a script is allowed to run before it is terminated by the parser. The theme demos download images from our servers and depending on the connection speed this process may require a longer time to execute. We recommend that you should increase it 60 or more.',
-            'value' =>  $max_execution_time . '<span class="td-status-small-text"> - the execution time should be bigger than 60 if you plan to use the demos. To see how you can change this please check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+            'value' =>  $max_execution_time . '<span class="td-status-small-text"> - the execution time should be bigger than 60 if you plan to use the demos. To see how you can change this please check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
             'status' => 'yellow'
         ));
     }
@@ -282,7 +282,7 @@ require_once "td_view_header.php";
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'max_input_vars',
             'tooltip' => 'This sets how many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately). By default this parameter is set to 1000 and this may cause issues when saving the menu, we recommend that you increase it to 2000 or more. ',
-            'value' =>  $max_input_vars . '<span class="td-status-small-text"> - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress. To see how you can change this please check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+            'value' =>  $max_input_vars . '<span class="td-status-small-text"> - the max_input_vars should be bigger than 2000, otherwise it can cause incomplete saves in the menu panel in WordPress. To see how you can change this please check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
             'status' => 'yellow'
         ));
     }
@@ -299,7 +299,7 @@ require_once "td_view_header.php";
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'SUHOSIN Installed',
             'tooltip' => 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core. If it\'s installed on your host you have to increase the suhosin.post.max_vars and suhosin.request.max_vars parameters to 2000 or more.',
-            'value' =>  'SUHOSIN is installed - <span class="td-status-small-text">it may cause problems with saving the theme panel if it\'s not properly configured. You have to increase the suhosin.post.max_vars and suhosin.request.max_vars parameters to 2000 or more. To see how you can change this please check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+            'value' =>  'SUHOSIN is installed - <span class="td-status-small-text">it may cause problems with saving the theme panel if it\'s not properly configured. You have to increase the suhosin.post.max_vars and suhosin.request.max_vars parameters to 2000 or more. To see how you can change this please check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
             'status' => 'yellow'
         ));
 
@@ -407,7 +407,7 @@ require_once "td_view_header.php";
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP Memory Limit',
             'tooltip' => 'By default in wordpress the PHP memory limit is set to 40MB. With some plugins this limit may be reached and this affects your website functionality. To avoid this increase the memory limit to at least 64MB.',
-            'value' => size_format( $memory_limit ) . '/request <span class="td-status-small-text">- We recommend setting memory to at least 64MB. The theme is well tested with a 40MB/request limit, but if you are using multiple plugins that may not be enough. See: <a href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">Increasing memory allocated to PHP</a>. You can also check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+            'value' => size_format( $memory_limit ) . '/request <span class="td-status-small-text">- We recommend setting memory to at least 64MB. The theme is well tested with a 40MB/request limit, but if you are using multiple plugins that may not be enough. See: <a target="_blank" href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP">Increasing memory allocated to PHP</a>. You can also check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
             'status' => 'yellow'
         ));
     } else {
@@ -425,7 +425,7 @@ require_once "td_view_header.php";
         td_system_status::add('WordPress and plugins', array(
             'check_name' => 'WP_DEBUG',
             'tooltip' => 'The debug mode is intended for development and it may display unwanted messages. You should disable it on your side.',
-            'value' => 'WP_DEBUG is enabled. <span class="td-status-small-text">It may display unwanted messages. To see how you can change this please check our guide <a href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
+            'value' => 'WP_DEBUG is enabled. <span class="td-status-small-text">It may display unwanted messages. To see how you can change this please check our guide <a target="_blank" href="http://forum.tagdiv.com/system-status-parameters-guide/">here</a>.</span>',
             'status' => 'yellow'
         ));
     } else {
@@ -445,20 +445,20 @@ require_once "td_view_header.php";
     // caching
     $caching_plugin_list = array(
         'wp-super-cache/wp-cache.php' => array(
-            'name' => 'WP super cache - <span class="td-status-small-text">for best performance please check the plugin configuration guide <a href="http://forum.tagdiv.com/cache-plugin-install-and-configure/">here</a>.</span>',
+            'name' => 'WP super cache - <span class="td-status-small-text">for best performance please check the plugin configuration guide <a target="_blank" href="http://forum.tagdiv.com/cache-plugin-install-and-configure/">here</a>.</span>',
             'status' => 'green',
         ),
         'w3-total-cache/w3-total-cache.php' => array(
-            'name' => 'W3 total cache - <span class="td-status-small-text">we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
+            'name' => 'W3 total cache - <span class="td-status-small-text">we recommend <a target="_blank" href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
             'status' => 'yellow',
         ),
         'wp-fastest-cache/wpFastestCache.php' => array(
-            'name' => 'WP Fastest Cache - <span class="td-status-small-text">we recommend <a href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
+            'name' => 'WP Fastest Cache - <span class="td-status-small-text">we recommend <a target="_blank" href="https://ro.wordpress.org/plugins/wp-super-cache/">WP super cache</a></span>',
             'status' => 'yellow',
         ),
     );
     $active_plugins = get_option('active_plugins');
-    $caching_plugin = 'No caching plugin detected - <span class="td-status-small-text">for best performance we recommend using <a href="https://wordpress.org/plugins/wp-super-cache/">WP Super Cache</a></span>';
+    $caching_plugin = 'No caching plugin detected - <span class="td-status-small-text">for best performance we recommend using <a target="_blank" href="https://wordpress.org/plugins/wp-super-cache/">WP Super Cache</a></span>';
     $caching_plugin_status = 'yellow';
     foreach ($active_plugins as $active_plugin) {
         if (isset($caching_plugin_list[$active_plugin])) {

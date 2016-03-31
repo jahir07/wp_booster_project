@@ -522,6 +522,7 @@ class td_tokenizer {
             'description' => '',
             'read_more_link' => '',
             'first_img_link' => '',
+            'first_img_link_target' => '',
             'first_img_caption' => ''
         );
     }

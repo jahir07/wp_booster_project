@@ -23,11 +23,14 @@ jQuery( window ).ready(function() {
 
     jQuery( '.td_smart_list_1 a, .td_smart_list_3 a').click(function( event ) {
         if ( event.target === event.currentTarget ) {
-            event.preventDefault();
-            var currentTarget = jQuery( this ).attr( 'target' );
+            var targetAttributeContent = jQuery( this ).attr( 'target' );
+            var donwloadAttributeIsSet = jQuery( this )[0].hasAttribute( 'download' );
             var currentUrl = jQuery( this ).attr( 'href' );
             //if target is _blank open the link in a new window
-            if (currentTarget == '_blank') {
+            if (donwloadAttributeIsSet) {
+                //link contains download attribute - do nothing, let it download
+            } else if (targetAttributeContent == '_blank') {
+                event.preventDefault();
                 window.open(currentUrl);
             } else {
             //regular links
