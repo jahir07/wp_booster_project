@@ -313,7 +313,7 @@ class td_page_generator {
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
             'url' => '',
-            'display_name' =>  __td('Posts tagged with', TD_THEME_NAME) . ' "' . $current_tag_name . '"'
+            'display_name' =>  ucfirst($current_tag_name)
         );
 
         return self::get_breadcrumbs($breadcrumbs_array);

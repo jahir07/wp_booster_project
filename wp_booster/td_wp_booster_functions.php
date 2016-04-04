@@ -1283,13 +1283,7 @@ function td_vc_init() {
 	if (function_exists('vc_disable_frontend')) {
 		vc_disable_frontend();
 	}
-
-
-	// @todo - this may not be requiered anynmore
-	if (class_exists('WPBakeryVisualComposer')) { //disable visual composer updater
-		$td_composer = WPBakeryVisualComposer::getInstance();
-		$td_composer->disableUpdater();
-	}
+    
 
 }
 
@@ -2348,5 +2342,23 @@ function td_fix_wp_441_pagination($redirect_url, $requested_url) {
 	}
 
 	return $redirect_url;
+}
+
+
+/**
+ * adds Theme Panel button in wp theme customizer panel
+ * useful for clients who don't know where the theme settings are located
+ */
+add_action('customize_controls_print_footer_scripts', 'td_customize_js');
+function td_customize_js() {
+    echo "<script type=\"text/javascript\">
+            (function() {
+                jQuery('#customize-theme-controls > ul').prepend('<li id=\"accordion-section-theme-panel\" class=\"accordion-section control-section\"><h3 class=\"accordion-section-title\">Theme Panel</h3></li>');
+                jQuery('#accordion-section-theme-panel').on('click', function(){
+                     window.location.replace('" . admin_url() . "admin.php?page=td_theme_panel');
+                });
+            })()
+          </script>
+         ";
 }
 
