@@ -56,8 +56,8 @@ class td_block {
 			    'sort' => '',
 			    'category_id' => '',
 			    'category_ids' => '',
-			    'custom_title' => '',
-			    'custom_url' => '',
+			    'custom_title' => '',       // used in td_block_template_1.php
+			    'custom_url' => '',         // used in td_block_template_1.php
 			    'show_child_cat' => '',
 			    'sub_cat_ajax' => '',
 			    'ajax_pagination' => '',
@@ -402,8 +402,7 @@ class td_block {
             return '';
         }
 
-        extract($this->atts);
-
+        $td_column_number = $this->get_att('td_column_number');
 
 
 	    // @todo shit - this should not be here.
