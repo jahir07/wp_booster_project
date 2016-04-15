@@ -392,8 +392,6 @@ class td_block {
 
 
     function get_block_js() {
-
-
 	    $buffy = self::js_callback_new();
 
 

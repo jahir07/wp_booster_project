@@ -902,7 +902,7 @@ class td_util {
 
 
 	/**
-	 * replace script tag from the parameter $buffer
+	 * replace script tag from the parameter $buffer   keywords: js javascript ob_start ob_get
 	 * @param $buffer string
 	 *
 	 * @return mixed
