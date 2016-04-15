@@ -588,8 +588,32 @@ class td_util {
         return '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a title="' . $title_attribute . '" class="entry-crumb" itemprop="url" href="' . $url . '"><span itemprop="title">' . $display_name . '</span></a></span>';
     }
 
+
+	/**
+	 * safe way to call the tdc_state::is_live_editor_iframe() function
+	 * @return bool
+	 */
+	static function tdc_is_live_editor_iframe() {
+		if (class_exists('tdc_state') === true && method_exists('tdc_state', 'is_live_editor_iframe') === true) {
+			return tdc_state::is_live_editor_iframe();
+		}
+		return false;
+	}
+
+
+	static function tdc_is_live_editor_ajax() {
+		if (class_exists('tdc_state') === true && method_exists('tdc_state', 'is_live_editor_ajax') === true) {
+			return tdc_state::is_live_editor_ajax();
+		}
+		return false;
+	}
+
+
+
+
     /**
      * safe way to call visual composers function vc_is_inline (if we are in the live editor)
+     * @deprecated 12/04/2016 by ra
      * @return bool|null
      */
     static function vc_is_inline() {

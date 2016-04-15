@@ -289,6 +289,8 @@ class td_block {
 
     function get_block_js() {
 
+
+
         //get the js for this block - do not load it in inline mode in visual composer
         if (td_util::vc_is_inline()) {
             return '';
@@ -327,6 +329,22 @@ class td_block {
         $block_item = 'block_' . $this->block_uid;
 
         $buffy = '';
+//
+//	    if (td_util::tdc_is_live_editor_iframe() === true) {
+//		    $buffy .= 'tdc_is_live_editor_iframe = true <br>';
+//		    //die;
+//	    } else {
+//		    $buffy .= 'tdc_is_live_editor_iframe = false <br>';
+//	    }
+//
+//
+//	    if (td_util::tdc_is_live_editor_ajax() === true) {
+//		    $buffy .= 'tdc_is_live_editor_ajax = true <br>';
+//		    //die;
+//	    } else {
+//		    $buffy .= 'tdc_is_live_editor_ajax = false <br>';
+//	    }
+
 
         $buffy .= '<script>';
         $buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
