@@ -112,6 +112,9 @@ $td_translation_map = array(
     //footer widget
     'Contact us' => __('Contact us', TD_THEME_NAME),
 
+    //footer instagram
+    'Follow us on Instagram' => __('Follow us on Instagram', TD_THEME_NAME),
+
     //pagination
     'Page %CURRENT_PAGE% of %TOTAL_PAGES%' => __('Page %CURRENT_PAGE% of %TOTAL_PAGES%', TD_THEME_NAME),
     'Next' => __('Next', TD_THEME_NAME),
