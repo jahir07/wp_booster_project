@@ -83,7 +83,7 @@ class td_exchange {
             'zar' => 'South African Rand'
         );
 
-        if ($atts['e_base_currency'] == '') {
+        if (empty($atts['e_base_currency'])) {
             // default base currency is EUR
             $atts['e_base_currency'] = 'eur';
         } else {
@@ -100,7 +100,7 @@ class td_exchange {
         $base_currency_title =  strtoupper($atts['e_base_currency']) . ' - ' .  __td($td_currencies[$atts['e_base_currency']], TD_THEME_NAME);
 
         // check if we have custom rates
-        if ($atts['e_custom_rates'] != ''){
+        if (!empty($atts['e_custom_rates'])){
             // retrieve custom rates codes
             $e_custom_rates = explode(',',strtoupper($atts['e_custom_rates']));
             // store custom selected rates
@@ -123,7 +123,7 @@ class td_exchange {
         // get rate decimals
         $e_rate_decimals = $atts['e_rate_decimals'];
         // default decimals is 4
-        if ($atts['e_rate_decimals'] == '') {
+        if (empty($atts['e_rate_decimals'])) {
             $e_rate_decimals = 4;
         }
 

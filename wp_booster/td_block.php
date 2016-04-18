@@ -5,10 +5,12 @@
  * v 4.0 - wp_010
  */
 class td_block {
-    var $block_id; // the block type
+    private $block_id; // the block type
     var $block_uid; // the block unique id, it changes on every render
 
-    var $atts; //the atts used for rendering the current block
+    private $atts = array(); //the atts used for rendering the current block
+
+
     var $td_query; //the query used to rendering the current block
 
     private $td_block_template_instance; // the current block template instance that this block is using
@@ -21,6 +23,21 @@ class td_block {
 
 
 
+	private function get_att($att_name) {
+		if (empty($this->atts)) {
+			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The atts are not set yer(AKA: the render method was not called yet and you tried to read an att)');
+			die;
+		}
+
+		if (!isset($this->atts[$att_name])) {
+			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
+			die;
+		}
+
+		return $this->atts[$att_name];
+	}
+
+
     /**
      * the base render function. This is called by all the child classes of this class
      * this function also ECHOES the block specific css to the buffer (for hover and stuff)
@@ -30,32 +47,64 @@ class td_block {
      */
     function render($atts, $content = null) {
 
-        $this->atts = $this->add_live_filter_atts($atts); //add live filter atts
-        $this->block_uid = td_global::td_generate_unique_id(); //update unique id on each render
 
-        // This makes sure that the limit is set to the default magic value of 5
-        // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
-	    if (!isset($this->atts['limit'])) {
-		    // this should be a general block limit setting defined in global/config file
-		    $this->atts['limit'] = 5;
-	    }
+	    // build the $this->atts
+	    $atts = $this->add_live_filter_atts($atts); // add live filter atts
+	    $this->atts = shortcode_atts ( // add defaults (if an att is not in this list, it will be removed!)
+		    array(
+			    'limit' => 5,  // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
+			    'sort' => '',
+			    'category_id' => '',
+			    'category_ids' => '',
+			    'custom_title' => '',       // used in td_block_template_1.php
+			    'custom_url' => '',         // used in td_block_template_1.php
+			    'show_child_cat' => '',
+			    'sub_cat_ajax' => '',
+			    'ajax_pagination' => '',
+			    'header_color' => '',       // used in td_block_template_1.php
+			    'header_text_color' => '',  // used in td_block_template_1.php
 
-        $this->td_query = &td_data_source::get_wp_query($this->atts); //by ref do the query
+			    'ajax_pagination_infinite_stop' => '',
+			    'td_column_number' => td_util::vc_get_column_number(), // if no column number passed, get from VC
+
+			    // ajax preloader
+			    'td_ajax_preloading' => '',
 
 
-        extract(shortcode_atts(
-            array(
-                'td_ajax_filter_type' => '',
+			    // drop down list
+			    'td_ajax_filter_type' => '',
                 'td_ajax_filter_ids' => '',
                 'td_filter_default_txt' => __td('All', TD_THEME_NAME),
-                //'css' => ''  //visual composer designer options
-            ),$this->atts));
 
-        // add the visual composer class for the designer option
-        // $vc_class = preg_replace( '/\s*\.([^\{]+)\s*\{\s*([^\}]+)\s*\}\s*/', '$1', $css);
-        // $this->add_class($vc_class);
+			    // classes?  @see get_block_classes
+			    'color_preset' => '',
+			    'border_top' => '',
+			    'class' => '',
+		    ),
+		    $atts
+	    );
+
+
+	    //update unique id on each render
+        $this->block_uid = td_global::td_generate_unique_id();
+
+	    //by ref do the query
+        $this->td_query = &td_data_source::get_wp_query($this->atts);
+
+
+
+
+
+
+
 
         $td_pull_down_items = array();
+
+
+	    $td_ajax_filter_type   = $this->get_att('td_ajax_filter_type');
+	    $td_filter_default_txt = $this->get_att('td_filter_default_txt');
+	    $td_ajax_filter_ids    = $this->get_att('td_ajax_filter_ids');
+
 
         // td_block_mega_menu has it's own pull down implementation!
         if (get_class($this) != 'td_block_mega_menu') {
@@ -214,18 +263,6 @@ class td_block {
 
 
     function get_block_pagination() {
-        extract(shortcode_atts(
-            array(
-                'limit' => 5,
-                'sort' => '',
-                'category_id' => '',
-                'category_ids' => '',
-                'custom_title' => '',
-                'custom_url' => '',
-                'show_child_cat' => '',
-                'sub_cat_ajax' => '',
-                'ajax_pagination' => ''
-            ),$this->atts));
 
 	    $offset = 0;
 
@@ -234,6 +271,11 @@ class td_block {
 	    }
 
 	    $buffy = '';
+
+
+	    $ajax_pagination = $this->get_att('ajax_pagination');
+	    $limit = $this->get_att('limit');
+
 
         switch ($ajax_pagination) {
 
@@ -285,32 +327,83 @@ class td_block {
     }
 
 
+	/**
+	 * js callback when a new block is created
+	 */
+	function js_callback_new() {
+
+		$atts = $this->atts;
+
+		$block_item = 'block_' . $this->block_uid;
+		$buffy = '';
+
+
+		$buffy .= '<script>';
+		$buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
+		$buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
+		$buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
+		$buffy .= $block_item . '.td_column_number = "' . $atts['td_column_number'] . '";' . "\n";
+		$buffy .= $block_item . '.block_type = "' . $this->block_id . '";' . "\n";
+
+		//wordpress wp query parms
+		$buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
+		$buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
+
+		$buffy .= $block_item . '.header_color = "' . $atts['header_color'] . '";' . "\n";
+		$buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $atts['ajax_pagination_infinite_stop'] . '";' . "\n";
+
+
+		// The max_num_pages is computed so it considers the offset and the limit atts settings
+		// There were necessary these changes because on the user interface there are js scripts that use the max_num_pages js variable to show/hide some ui components
+		if (!empty($this->atts['offset'])) {
+
+			if ($this->atts['limit'] != 0) {
+				$buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / $this->atts['limit'] ) . '";' . "\n";
+
+			} else if (get_option('posts_per_page') != 0) {
+				$buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / get_option('posts_per_page') ) . '";' . "\n";
+			}
+		} else {
+			$buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
+		}
+
+		$buffy .= 'tdBlocksArray.push(' . $block_item . ');' . "\n";
+		$buffy .= '</script>';
+
+
+
+		return $buffy;
+
+	}
+
+
+	function js_callback_delete() {
+
+	}
+
+
+
+
+
+	function js_ajax_autoloader() {
+
+	}
+
 
 
     function get_block_js() {
+	    $buffy = self::js_callback_new();
+
 
         //get the js for this block - do not load it in inline mode in visual composer
         if (td_util::vc_is_inline()) {
             return '';
         }
 
-        extract(shortcode_atts(
-            array(
-                'limit' => 5,
-                'sort' => '',
-                'category_id' => '',
-                'category_ids' => '',
-                'custom_title' => '',
-                'custom_url' => '',
-                'show_child_cat' => '',
-                'sub_cat_ajax' => '',
-                'ajax_pagination' => '',
-                'header_color' => '',
-                'ajax_pagination_infinite_stop' => '',
-                'td_column_number' => '' //pass a user defined column number to the block
-            ), $this->atts));
+        $td_column_number = $this->get_att('td_column_number');
 
 
+	    // @todo shit - this should not be here.
 	    if (!empty($this->atts['custom_title'])) {
             $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
         }
@@ -325,44 +418,6 @@ class td_block {
 
 
         $block_item = 'block_' . $this->block_uid;
-
-        $buffy = '';
-
-        $buffy .= '<script>';
-        $buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
-        $buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
-        $buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
-        $buffy .= $block_item . '.td_column_number = "' . $td_column_number . '";' . "\n";
-        $buffy .= $block_item . '.block_type = "' . $this->block_id . '";' . "\n";
-
-        //wordpress wp query parms
-        $buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
-        $buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
-
-	    $buffy .= $block_item . '.header_color = "' . $header_color . '";' . "\n";
-        $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $ajax_pagination_infinite_stop . '";' . "\n";
-
-
-		// The max_num_pages is computed so it considers the offset and the limit atts settings
-	    // There were necessary these changes because on the user interface there are js scripts that use the max_num_pages js variable to show/hide some ui components
-	    if (!empty($this->atts['offset'])) {
-
-		    if ($this->atts['limit'] != 0) {
-			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / $this->atts['limit'] ) . '";' . "\n";
-
-		    } else if (get_option('posts_per_page') != 0) {
-			    $buffy .= $block_item . '.max_num_pages = "' . ceil( ( $this->td_query->found_posts - $this->atts['offset'] ) / get_option('posts_per_page') ) . '";' . "\n";
-		    }
-	    } else {
-		    $buffy .= $block_item . '.max_num_pages = "' . $this->td_query->max_num_pages . '";' . "\n";
-	    }
-
-        $buffy .= 'tdBlocksArray.push(' . $block_item . ');' . "\n";
-        $buffy .= '</script>';
-
-
-
-        //print_r($this->td_block_template_data);
 
 
 
@@ -461,14 +516,14 @@ class td_block {
      * @return string
      */
     function get_block_classes($additional_classes_array = '') {
-        $color_preset = '';
 
-        extract(shortcode_atts(
-            array(
-                'color_preset' => '',
-                'border_top' => '',
-                'class' => '', //add additional classes via short code - used by the widget builder to add the td_block_widget class
-            ),$this->atts));
+
+	    $class = $this->get_att('class');
+	    $color_preset = $this->get_att('color_preset');
+		$ajax_pagination = $this->get_att('ajax_pagination');
+	    $border_top = $this->get_att('border_top');
+
+
 
 
         //add the block wrap and block id class
@@ -506,7 +561,7 @@ class td_block {
 	     * - used to add td_block_loading css class on the blocks having pagination
 	     * - the class has a force css transform for lazy devices
 	     */
-	    if (array_key_exists('ajax_pagination', $this->atts)) {
+	    if (!empty($ajax_pagination)) {
 		    $block_classes[]= 'td_with_ajax_pagination';
 	    }
 
@@ -549,7 +604,8 @@ class td_block {
         if (isset($this->td_block_template_instance)) {
             return $this->td_block_template_instance;
         } else {
-            throw new ErrorException("td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
+	        td_util::error(__FILE__, __FUNCTION__, "td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
+	        die;
         }
     }
 
