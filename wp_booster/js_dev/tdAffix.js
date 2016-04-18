@@ -422,7 +422,7 @@ var tdAffix = {};
                 //make the menu normal
                 jQuery( tdAffix.menu_selector ).removeClass( 'td-affix' );
 
-                console.log(tdAffix.tds_snap_menu_logo);
+                //console.log(tdAffix.tds_snap_menu_logo);
                 //hide the logo from sticky menu when the menu is not affix
                 if( '' === tdAffix.tds_snap_menu_logo ) {
                     jQuery( '.td-main-menu-logo' ).removeClass( 'td-logo-sticky' );

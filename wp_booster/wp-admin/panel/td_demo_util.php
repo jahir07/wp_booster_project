@@ -771,7 +771,7 @@ class td_demo_widgets extends td_demo_base {
 
         if (isset($sidebars_widgets['td-' . $sidebar_id])) {
             //empty the default sidebar
-            unset($sidebars_widgets['td-' . $sidebar_id]);
+            $sidebars_widgets['td-' . $sidebar_id] = array();
             update_option('sidebars_widgets', $sidebars_widgets);
         }
     }
