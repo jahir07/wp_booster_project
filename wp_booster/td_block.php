@@ -327,18 +327,35 @@ class td_block {
     }
 
 
-	/**
-	 * js callback when a new block is created
-	 */
-	function js_callback_new() {
 
+	// js that runs on ajax after the job retunrs to the browser
+	function js_callback_ajax() {
+		ob_start();
+		?>
+		<script>
+			console.log('new UID: <?php echo $this->block_uid ?>');
+			console.log('old UID: ' + tdOldBlockUid);
+		</script>
+		<?php
+		return td_util::remove_script_tag(ob_get_clean());
+	}
+
+
+
+
+
+
+	/**
+	 * on load
+	 */
+	private function js_new_block_object() {
 		$atts = $this->atts;
 
 		$block_item = 'block_' . $this->block_uid;
 		$buffy = '';
 
 
-		$buffy .= '<script>';
+
 		$buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
 		$buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
 		$buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
@@ -368,7 +385,7 @@ class td_block {
 		}
 
 		$buffy .= 'tdBlocksArray.push(' . $block_item . ');' . "\n";
-		$buffy .= '</script>';
+
 
 
 
@@ -377,33 +394,42 @@ class td_block {
 	}
 
 
-	function js_callback_delete() {
-
-	}
 
 
-
-
-
-	function js_ajax_autoloader() {
-
-	}
 
 
 
     function get_block_js() {
-	    $buffy = self::js_callback_new();
+	    do_action('td_block__get_block_js', array(&$this));
 
+
+
+	    // do not run in live editor OR ajax requests
+	    if (td_util::tdc_is_live_editor_iframe() || td_util::tdc_is_live_editor_ajax()) {
+		    return '';
+	    }
 
         //get the js for this block - do not load it in inline mode in visual composer
         if (td_util::vc_is_inline()) {
             return '';
         }
 
+
+
+
+
+	    $buffy = '<script>';
+	    $buffy .= self::js_new_block_object();
+	    $buffy .= '</script>';
+
+
+
+
+
         $td_column_number = $this->get_att('td_column_number');
 
 
-	    // @todo shit - this should not be here.
+	    // @todo shit - this should not be here. - not used in js!
 	    if (!empty($this->atts['custom_title'])) {
             $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
         }
