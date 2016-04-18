@@ -817,7 +817,7 @@ class td_module_single_base extends td_module {
                             $authorMeta = 'http://twitter.com/' . $authorMeta;
                         }
                     }
-                    $buffy .= td_social_icons::get_icon($authorMeta, $td_social_id, 4);
+                    $buffy .= td_social_icons::get_icon($authorMeta, $td_social_id, true);
                 }
             }
             $buffy .= '</div>';
