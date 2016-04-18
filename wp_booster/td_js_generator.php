@@ -61,34 +61,32 @@ function td_js_generator() {
 
 
 
-    td_js_buffer::add_to_header("
-var tdBlocksArray = []; //here we store all the items for the current page
 
-//td_block class - each ajax block uses a object of this class for requests
-function tdBlock() {
-    this.id = '';
-    this.block_type = 1; //block type id (1-234 etc)
-    this.atts = '';
-    this.td_column_number = '';
-    this.td_current_page = 1; //
-    this.post_count = 0; //from wp
-    this.found_posts = 0; //from wp
-    this.max_num_pages = 0; //from wp
-    this.td_filter_value = ''; //current live filter value
-    this.is_ajax_running = false;
-    this.td_user_action = ''; // load more or infinite loader (used by the animation)
-    this.header_color = '';
-    this.ajax_pagination_infinite_stop = ''; //show load more at page x
-}
-
-    ");
-
-
-    // The mini detector - ads classes to the HTML tag, it enables us to fix issues in each device.
-    // Has to run as fast as possible
+    // This js code has to run as fast as possible. No jQuery dependencies here
     ob_start();
     ?>
     <script>
+
+	    var tdBlocksArray = []; //here we store all the items for the current page
+
+	    //td_block class - each ajax block uses a object of this class for requests
+	    function tdBlock() {
+		    this.id = '';
+		    this.block_type = 1; //block type id (1-234 etc)
+		    this.atts = '';
+		    this.td_column_number = '';
+		    this.td_current_page = 1; //
+		    this.post_count = 0; //from wp
+		    this.found_posts = 0; //from wp
+		    this.max_num_pages = 0; //from wp
+		    this.td_filter_value = ''; //current live filter value
+		    this.is_ajax_running = false;
+		    this.td_user_action = ''; // load more or infinite loader (used by the animation)
+		    this.header_color = '';
+		    this.ajax_pagination_infinite_stop = ''; //show load more at page x
+	    }
+
+
         // td_js_generator - mini detector
         (function(){
             var htmlTag = document.getElementsByTagName("html")[0];
