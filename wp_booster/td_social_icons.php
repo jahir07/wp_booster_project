@@ -66,19 +66,19 @@ class td_social_icons {
         //if the $show_icon_id parameter is set to true also add the social network name
         if($show_icon_id === true){
             return '
-        <span class="td-social-icon-wrap">
-        <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
-        <i class="td-icon-font td-icon-' . $icon_id . '"></i>
-        <span class="td-social-name">' . $icon_id . '</span>
-        </a>
-        </span>';
+            <span class="td-social-icon-wrap">
+                <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
+                    <i class="td-icon-font td-icon-' . $icon_id . '"></i>
+                    <span class="td-social-name">' . $icon_id . '</span>
+                </a>
+            </span>';
         }
 
-            return '
+        return '
         <span class="td-social-icon-wrap">
-        <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
-        <i class="td-icon-font td-icon-' . $icon_id . '"></i>
-        </a>
+            <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
+                <i class="td-icon-font td-icon-' . $icon_id . '"></i>
+            </a>
         </span>';
     }
 

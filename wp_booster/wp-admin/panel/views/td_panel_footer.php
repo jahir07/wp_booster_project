@@ -58,7 +58,7 @@
     <div class="td-box-description td-box-full">
         <p>From this section you can set and configure the <strong>Footer Instagram Section</strong> - this area appears above the footer section on all pages</p>
         <ul>
-            <li> Note: When you enable this make sure you also enter an Instagram ID in the <strong>FINSTAGRAM ID</strong> filed! </li>
+            <li> Note: When you enable this make sure you also enter an Instagram ID in the <strong>INSTAGRAM ID</strong> field! </li>
         </ul>
     </div>
 
@@ -77,8 +77,8 @@
         echo td_panel_generator::checkbox(array(
             'ds' => 'td_option',
             'option_id' => 'tds_footer_instagram',
-            'true_value' => '',
-            'false_value' => 'no'
+            'true_value' => 'show',
+            'false_value' => ''
         ));
         ?>
     </div>
@@ -88,7 +88,7 @@
 <div class="td-box-row">
     <div class="td-box-description">
         <span class="td-box-title">Instagram ID</span>
-        <p>Enter the ID as it appears after the instagram url ( ex. http://www.instagram.com/myID )</p>
+        <p>Enter the ID as it appears after the instagram url ( ex. instagram.com/<strong>myID</strong> )</p>
     </div>
     <div class="td-box-control-full">
         <?php
@@ -104,7 +104,7 @@
 <div class="td-box-row">
     <div class="td-box-description">
         <span class="td-box-title">Number of images per row:</span>
-        <p>Set the number of images displayed on each row (default is 3).</p>
+        <p>Set the number of images displayed on each row (default is 3)</p>
     </div>
     <div class="td-box-control-full">
         <?php
