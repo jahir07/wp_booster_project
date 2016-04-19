@@ -47,7 +47,7 @@ class td_social_icons {
 
 
 
-    static function get_icon($url, $icon_id, $open_in_new_window = false) {
+    static function get_icon($url, $icon_id, $open_in_new_window = false, $show_icon_id = false) {
         if ($open_in_new_window !== false) {
             $td_a_target = ' target="_blank"';
         } else {
@@ -63,7 +63,23 @@ class td_social_icons {
 		    $url = 'mailto:' . $url;
 	    }
 
-        return '<span class="td-social-icon-wrap"><a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '"><i class="td-icon-font td-icon-' . $icon_id . '"></i></a></span>';
+        //if the $show_icon_id parameter is set to true also add the social network name
+        if($show_icon_id === true){
+            return '
+            <span class="td-social-icon-wrap">
+                <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
+                    <i class="td-icon-font td-icon-' . $icon_id . '"></i>
+                    <span class="td-social-name">' . $icon_id . '</span>
+                </a>
+            </span>';
+        }
+
+        return '
+        <span class="td-social-icon-wrap">
+            <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
+                <i class="td-icon-font td-icon-' . $icon_id . '"></i>
+            </a>
+        </span>';
     }
 
 }
