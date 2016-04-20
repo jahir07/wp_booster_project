@@ -35,6 +35,10 @@ var tdPullDown = {};
         // - to be initialized, every property with 'IT MUST BE SPECIFIED' is mandatory
         item: function item() {
 
+
+            // OPTIONAL - here we store the block Unique ID. This enables us to delete the item via this id @see tdPullDown.deleteItem
+            this.blockUid = '';
+
             // - the jquery object of the horizontal list.
             // IT MUST BE SPECIFIED.
             this.horizontal_jquery_obj = '';
@@ -122,6 +126,20 @@ var tdPullDown = {};
          */
         add_item: function( item ) {
 
+            // check to see if the item is ok
+            if (item.vertical_jquery_obj.length !== 1) {
+                throw 'item.vertical_jquery_obj is more or less than one!';
+            }
+            if (item.horizontal_jquery_obj.length !== 1) {
+                throw 'item.horizontal_jquery_obj is more or less than one!';
+            }
+            if (item.container_jquery_obj.length !== 1) {
+                throw 'item.container_jquery_obj is more or less than one!';
+            }
+            if (item.horizontal_element_css_class === '') {
+                throw 'item.horizontal_element_css_class is empty';
+            }
+
             // the item is added in the item list
             tdPullDown.items.push( item );
 
@@ -130,6 +148,20 @@ var tdPullDown = {};
 
             //  the item is ready to be computed
             tdPullDown._compute_item( item );
+        },
+
+
+        /**
+         * Deletes an item base on blockUid. Note that blockUid is optional (this library is also used outside of blocks)!
+         * Make sure that you add blockUid to items that you expect to be deleted
+         * @param blockUid
+         */
+        deleteItem: function(blockUid) {
+            for (var cnt = 0; cnt < tdPullDown.items.length; cnt++) {
+                if (tdPullDown.items[cnt].blockUid === blockUid) {
+                    tdPullDown.items.splice(cnt, 1); // remove the item from the "array"
+                }
+            }
         },
 
 
@@ -151,15 +183,16 @@ var tdPullDown = {};
             }
 
 
-            // the mandatory item properties are verified
-            if ( ( '' === item.horizontal_jquery_obj ) ||
-                ( '' === item.vertical_jquery_obj ) ||
-                ( '' === item.container_jquery_obj ) ||
-                ( '' === item.horizontal_element_css_class ) ) {
-
-                tdPullDown.log( 'Item can\' be initialized. It doesn\'t have all the mandatory properties' );
-                return;
-            }
+            //// the mandatory item properties are verified
+            // @20/4/2016 - i've moved all the checks to add_item -ra
+            //if ( ( '' === item.horizontal_jquery_obj ) ||
+            //    ( '' === item.vertical_jquery_obj ) ||
+            //    ( '' === item.container_jquery_obj ) ||
+            //    ( '' === item.horizontal_element_css_class ) ) {
+            //
+            //    tdPullDown.log( 'Item can\' be initialized. It doesn\'t have all the mandatory properties' );
+            //    return;
+            //}
 
 
             // the jquery object of the first ul container in the vertical list is initialized
