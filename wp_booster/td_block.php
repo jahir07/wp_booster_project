@@ -6,7 +6,7 @@
  */
 class td_block {
     private $block_id; // the block type
-    var $block_uid; // the block unique id, it changes on every render
+    var $block_uid; // the block unique id on the page, it changes on every render
 
     private $atts = array(); //the atts used for rendering the current block
 
@@ -330,11 +330,49 @@ class td_block {
 
 	// js that runs on ajax after the job retunrs to the browser
 	function js_callback_ajax() {
+
+
+		if (empty($this->td_block_template_data['td_pull_down_items'])) {
+			return '';
+		}
+
+
 		ob_start();
 		?>
 		<script>
+
+			//console.log(window.tdPullDown);
+
+			//tdPullDown = window.tdPullDown;
+
+
+
+			tdcIframeWindow.tdPullDown.deleteItem(tdcOldBlockUid);
+
+
+			// block subcategory ajax filters!
+			var jquery_object_container = tdcIframeWindow.jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
+			var horizontal_jquery_obj = jquery_object_container.find('.td-subcat-list:first');
+
+
+
+
+			var pulldown_item_obj = new tdcIframeWindow.tdPullDown.item();
+
+			pulldown_item_obj.blockUid = jquery_object_container.parent().data('td-block-uid'); // get the block UID
+			pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
+			pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
+			pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
+			pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
+			pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
+
+			console.log(pulldown_item_obj);
+			tdcIframeWindow.tdPullDown.add_item(pulldown_item_obj);
+
+
+
 			console.log('new UID: <?php echo $this->block_uid ?>');
-			console.log('old UID: ' + tdOldBlockUid);
+			console.log('old UID: ' + tdcOldBlockUid);
 		</script>
 		<?php
 		return td_util::remove_script_tag(ob_get_clean());
@@ -604,7 +642,8 @@ class td_block {
         $block_classes = array_unique($block_classes);
 
 
-        return implode(' ', $block_classes);
+	    // @warning :) we also append the data block uid here. Ugly hack but it should work for now
+        return implode(' ', $block_classes) . '" data-td-block-uid="' . $this->block_uid;
     }
 
 
