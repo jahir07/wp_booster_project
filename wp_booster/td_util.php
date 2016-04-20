@@ -594,7 +594,7 @@ class td_util {
 	 * @return bool
 	 */
 	static function tdc_is_live_editor_iframe() {
-		if (class_exists('tdc_state') === true && method_exists('tdc_state', 'is_live_editor_iframe') === true) {
+		if (class_exists('tdc_state', false) === true && method_exists('tdc_state', 'is_live_editor_iframe') === true) {
 			return tdc_state::is_live_editor_iframe();
 		}
 		return false;
@@ -602,7 +602,7 @@ class td_util {
 
 
 	static function tdc_is_live_editor_ajax() {
-		if (class_exists('tdc_state') === true && method_exists('tdc_state', 'is_live_editor_ajax') === true) {
+		if (class_exists('tdc_state', false) === true && method_exists('tdc_state', 'is_live_editor_ajax') === true) {
 			return tdc_state::is_live_editor_ajax();
 		}
 		return false;
