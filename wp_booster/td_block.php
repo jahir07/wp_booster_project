@@ -566,11 +566,19 @@ class td_block {
         return $buffy;
     }
 
+
+
+
+	protected function get_block_html_atts() {
+		return ' data-td-block-uid="' . $this->block_uid . '" ';
+	}
+
+
     /**
-     * @param $additional_classes_array - array of classes to add to the block
+     * @param $additional_classes_array array - of classes to add to the block
      * @return string
      */
-    function get_block_classes($additional_classes_array = '') {
+    function get_block_classes($additional_classes_array = array()) {
 
 
 	    $class = $this->get_att('class');
@@ -597,7 +605,7 @@ class td_block {
         }
 
         //marge the additional classes received from blocks code
-        if ($additional_classes_array != '') {
+        if (!empty($additional_classes_array)) {
             $block_classes = array_merge(
                 $block_classes,
                 $additional_classes_array
@@ -634,7 +642,7 @@ class td_block {
 
 
 	    // @warning :) we also append the data block uid here. Ugly hack but it should work for now
-        return implode(' ', $block_classes) . '" data-td-block-uid="' . $this->block_uid;
+        return implode(' ', $block_classes);
     }
 
 
