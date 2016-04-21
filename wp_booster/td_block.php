@@ -54,6 +54,10 @@ class td_block {
 		    array(
 			    'limit' => 5,  // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
 			    'sort' => '',
+			    'post_ids' => '', // post id's filter (separated by commas)
+			    'tag_slug' => '', // tag slug filter (separated by commas)
+			    'autors_id' => '', // filter by authors ID ?
+			    'installed_post_types' => '', // filter by custom post types
 			    'category_id' => '',
 			    'category_ids' => '',
 			    'custom_title' => '',       // used in td_block_template_1.php
@@ -71,7 +75,7 @@ class td_block {
 			    'td_ajax_preloading' => '',
 
 
-			    // drop down list
+			    // drop down list + other live filters?
 			    'td_ajax_filter_type' => '',
                 'td_ajax_filter_ids' => '',
                 'td_filter_default_txt' => __td('All', TD_THEME_NAME),
@@ -80,6 +84,7 @@ class td_block {
 			    'color_preset' => '',
 			    'border_top' => '',
 			    'class' => '',
+			    'offset' => '' // the offset
 		    ),
 		    $atts
 	    );
