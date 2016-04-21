@@ -340,39 +340,25 @@ class td_block {
 		ob_start();
 		?>
 		<script>
-
-			//console.log(window.tdPullDown);
-
-			//tdPullDown = window.tdPullDown;
-
-
-
-			tdcIframeWindow.tdPullDown.deleteItem(tdcOldBlockUid);
-
+			tdcEvalGlobal.iFrameWindowObj.tdPullDown.deleteItem(tdcEvalGlobal.oldBlockUid);
 
 			// block subcategory ajax filters!
-			var jquery_object_container = tdcIframeWindow.jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
+			var jquery_object_container = tdcEvalGlobal.iFrameWindowObj.jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
 			var horizontal_jquery_obj = jquery_object_container.find('.td-subcat-list:first');
 
-
-
-
-			var pulldown_item_obj = new tdcIframeWindow.tdPullDown.item();
-
+			var pulldown_item_obj = new tdcEvalGlobal.iFrameWindowObj.tdPullDown.item();
 			pulldown_item_obj.blockUid = jquery_object_container.parent().data('td-block-uid'); // get the block UID
 			pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
 			pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
 			pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
 			pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
 			pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
-
-			console.log(pulldown_item_obj);
-			tdcIframeWindow.tdPullDown.add_item(pulldown_item_obj);
+			tdcEvalGlobal.iFrameWindowObj.tdPullDown.add_item(pulldown_item_obj);
 
 
 
-			console.log('new UID: <?php echo $this->block_uid ?>');
-			console.log('old UID: ' + tdcOldBlockUid);
+//			console.log('new UID: <?php //echo $this->block_uid ?>//');
+//			console.log('old UID: ' + tdcEvalGlobal.oldBlockUid);
 		</script>
 		<?php
 		return td_util::remove_script_tag(ob_get_clean());
