@@ -387,7 +387,7 @@ class td_block {
 
 		$buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
 		$buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
-		$buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
+		$buffy .= $block_item . ".atts = '" . str_replace("'", "\u0027", json_encode($this->atts)) . "';" . "\n";
 		$buffy .= $block_item . '.td_column_number = "' . $atts['td_column_number'] . '";' . "\n";
 		$buffy .= $block_item . '.block_type = "' . $this->block_id . '";' . "\n";
 
