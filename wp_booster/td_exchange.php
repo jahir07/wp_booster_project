@@ -43,7 +43,11 @@ class td_exchange {
     private static function render_block_template($atts, $exchange_data) {
         // stop render when no data is received
         if (empty($exchange_data['api_rates'])){
-            return self::error('Render failed - no data is received: ' . $atts['e_base_currency']);
+            $return_currency = 'eur';
+            if (!empty($atts['e_base_currency'])) {
+                $return_currency = $atts['e_base_currency'];
+            }
+            return self::error('Render failed - no data is received: ' . $return_currency);
         }
 
         ob_start();
@@ -120,11 +124,11 @@ class td_exchange {
             }
         }
 
-        // get rate decimals
-        $e_rate_decimals = $atts['e_rate_decimals'];
         // default decimals is 4
-        if (empty($atts['e_rate_decimals'])) {
-            $e_rate_decimals = 4;
+        $e_rate_decimals = 4;
+        // get rate decimals
+        if (!empty($atts['e_rate_decimals'])) {
+            $e_rate_decimals = $atts['e_rate_decimals'];
         }
 
         ?>
