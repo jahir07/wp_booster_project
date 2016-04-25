@@ -20,6 +20,11 @@ var tdAnimationSprite = {};
         // The item that needs animation
         item: function item() {
 
+
+
+            // here we store the block Unique ID. This enables us to delete the item via this id @see tdPullDown.deleteItem
+            this.blockUid = '';
+
             // boolean - an item must be initialized only once
             this._isInitialized = false;
 
@@ -199,6 +204,8 @@ var tdAnimationSprite = {};
             }
         },
 
+
+
         addItem: function( item ) {
 
             if ( item.constructor === tdAnimationSprite.item ) {
@@ -209,6 +216,22 @@ var tdAnimationSprite = {};
                     tdAnimationSprite.computeItem( item );
                 }
             }
+        },
+
+
+        /**
+         * Deletes an item base on blockUid.
+         * Make sure that you add blockUid to items that you expect to be deleted
+         * @param blockUid
+         */
+        deleteItem: function(blockUid) {
+            for (var cnt = 0; cnt < tdAnimationSprite.items.length; cnt++) {
+                if (tdAnimationSprite.items[cnt].blockUid === blockUid) {
+                    tdAnimationSprite.items.splice(cnt, 1); // remove the item from the "array"
+                    return true;
+                }
+            }
+            return false;
         },
 
         computeItem: function( item ) {
@@ -328,6 +351,8 @@ var tdAnimationSprite = {};
     /*
      <div class="td_animation_sprite-a-b-c-d-e-f"></div>
 
+    @note - we should have used the data- html attribute here!
+
      a - number of frames
      b - width(px) of a frame
      c - velocity
@@ -340,7 +365,10 @@ var tdAnimationSprite = {};
 
     for ( var i = 0; i < tdAnimationSpriteElements.length; i++ ) {
         var tdAnimationSpriteItem = new tdAnimationSprite.item();
+
+
         tdAnimationSpriteItem.jqueryObj = jQuery( tdAnimationSpriteElements[i] );
+        tdAnimationSpriteItem.blockUid = tdAnimationSpriteItem.jqueryObj.data('td-block-uid');   // the block uid is used on the front end editor when we want to delete this item via it's blockuid
         tdAnimationSprite.addItem( tdAnimationSpriteItem );
     }
 })();

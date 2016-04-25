@@ -160,8 +160,11 @@ var tdPullDown = {};
             for (var cnt = 0; cnt < tdPullDown.items.length; cnt++) {
                 if (tdPullDown.items[cnt].blockUid === blockUid) {
                     tdPullDown.items.splice(cnt, 1); // remove the item from the "array"
+                    return true;
                 }
             }
+
+            return false;
         },
 
 
