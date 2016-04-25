@@ -5,16 +5,14 @@
  * v 4.0 - wp_010
  */
 class td_block {
-    private $block_id; // the block type
-    var $block_uid; // the block unique id, it changes on every render
+	var $block_uid; // the block unique id on the page, it changes on every render
+	var $td_query; //the query used to rendering the current block
+	protected $td_block_template_data;
 
-    private $atts = array(); //the atts used for rendering the current block
+	private $block_id; // the block type
+	private $atts = array(); //the atts used for rendering the current block
+	private $td_block_template_instance; // the current block template instance that this block is using
 
-
-    var $td_query; //the query used to rendering the current block
-
-    private $td_block_template_instance; // the current block template instance that this block is using
-    protected $td_block_template_data;
 
 
     function __construct() {
@@ -25,12 +23,12 @@ class td_block {
 
 	private function get_att($att_name) {
 		if (empty($this->atts)) {
-			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The atts are not set yer(AKA: the render method was not called yet and you tried to read an att)');
+			td_util::error(__FILE__, 'Internal error: The atts are not set yer(AKA: the render method was not called yet and you tried to read an att)');
 			die;
 		}
 
 		if (!isset($this->atts[$att_name])) {
-			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
+			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
 			die;
 		}
 
@@ -54,6 +52,10 @@ class td_block {
 		    array(
 			    'limit' => 5,  // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
 			    'sort' => '',
+			    'post_ids' => '', // post id's filter (separated by commas)
+			    'tag_slug' => '', // tag slug filter (separated by commas)
+			    'autors_id' => '', // filter by authors ID ?
+			    'installed_post_types' => '', // filter by custom post types
 			    'category_id' => '',
 			    'category_ids' => '',
 			    'custom_title' => '',       // used in td_block_template_1.php
@@ -71,7 +73,7 @@ class td_block {
 			    'td_ajax_preloading' => '',
 
 
-			    // drop down list
+			    // drop down list + other live filters?
 			    'td_ajax_filter_type' => '',
                 'td_ajax_filter_ids' => '',
                 'td_filter_default_txt' => __td('All', TD_THEME_NAME),
@@ -80,9 +82,18 @@ class td_block {
 			    'color_preset' => '',
 			    'border_top' => '',
 			    'class' => '',
+			    'offset' => '' // the offset
 		    ),
 		    $atts
 	    );
+
+		// @todo vezi daca e necesara chestia asta! si daca merge cum trebuie
+	    if (!empty($this->atts['custom_title'])) {
+		    $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
+	    }
+	    if (!empty($this->atts['custom_url'])) {
+		    $this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
+	    }
 
 
 	    //update unique id on each render
@@ -327,14 +338,41 @@ class td_block {
     }
 
 
-
-	// js that runs on ajax after the job retunrs to the browser
+	/**
+	 * This js runs on the client after a drag and drop operation in td-composer
+	 * @return mixed|string
+	 */
 	function js_callback_ajax() {
+
+
+		// if we don't have pull down ajax filters, do not run
+		if (empty($this->td_block_template_data['td_pull_down_items'])) {
+			return '';
+		}
+
+
 		ob_start();
 		?>
 		<script>
-			console.log('new UID: <?php echo $this->block_uid ?>');
-			console.log('old UID: ' + tdOldBlockUid);
+			tdcEvalGlobal.iFrameWindowObj.tdPullDown.deleteItem(tdcEvalGlobal.oldBlockUid);
+
+			// block subcategory ajax filters!
+			var jquery_object_container = tdcEvalGlobal.iFrameWindowObj.jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
+			var horizontal_jquery_obj = jquery_object_container.find('.td-subcat-list:first');
+
+			var pulldown_item_obj = new tdcEvalGlobal.iFrameWindowObj.tdPullDown.item();
+			pulldown_item_obj.blockUid = jquery_object_container.parent().data('td-block-uid'); // get the block UID
+			pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
+			pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
+			pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
+			pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
+			pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
+			tdcEvalGlobal.iFrameWindowObj.tdPullDown.add_item(pulldown_item_obj);
+
+
+
+//			console.log('new UID: <?php //echo $this->block_uid ?>//');
+//			console.log('old UID: ' + tdcEvalGlobal.oldBlockUid);
 		</script>
 		<?php
 		return td_util::remove_script_tag(ob_get_clean());
@@ -358,7 +396,7 @@ class td_block {
 
 		$buffy .= 'var ' . $block_item . ' = new tdBlock();' . "\n";
 		$buffy .= $block_item . '.id = "' . $this->block_uid . '";' . "\n";
-		$buffy .= $block_item . ".atts = '" . json_encode($this->atts) . "';" . "\n";
+		$buffy .= $block_item . ".atts = '" . str_replace("'", "\u0027", json_encode($this->atts)) . "';" . "\n";
 		$buffy .= $block_item . '.td_column_number = "' . $atts['td_column_number'] . '";' . "\n";
 		$buffy .= $block_item . '.block_type = "' . $this->block_id . '";' . "\n";
 
@@ -395,10 +433,6 @@ class td_block {
 
 
 
-
-
-
-
     function get_block_js() {
 	    do_action('td_block__get_block_js', array(&$this));
 
@@ -429,14 +463,6 @@ class td_block {
         $td_column_number = $this->get_att('td_column_number');
 
 
-	    // @todo shit - this should not be here. - not used in js!
-	    if (!empty($this->atts['custom_title'])) {
-            $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
-        }
-
-        if (!empty($this->atts['custom_url'])) {
-            $this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
-        }
 
         if (empty($td_column_number)) {
             $td_column_number = td_util::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
@@ -537,11 +563,19 @@ class td_block {
         return $buffy;
     }
 
+
+
+	// get atts
+	protected function get_block_html_atts() {
+		return ' data-td-block-uid="' . $this->block_uid . '" ';
+	}
+
+
     /**
-     * @param $additional_classes_array - array of classes to add to the block
+     * @param $additional_classes_array array - of classes to add to the block
      * @return string
      */
-    function get_block_classes($additional_classes_array = '') {
+    function get_block_classes($additional_classes_array = array()) {
 
 
 	    $class = $this->get_att('class');
@@ -568,7 +602,7 @@ class td_block {
         }
 
         //marge the additional classes received from blocks code
-        if ($additional_classes_array != '') {
+        if (!empty($additional_classes_array)) {
             $block_classes = array_merge(
                 $block_classes,
                 $additional_classes_array
@@ -604,6 +638,7 @@ class td_block {
         $block_classes = array_unique($block_classes);
 
 
+	    // @warning :) we also append the data block uid here. Ugly hack but it should work for now
         return implode(' ', $block_classes);
     }
 
@@ -630,7 +665,7 @@ class td_block {
         if (isset($this->td_block_template_instance)) {
             return $this->td_block_template_instance;
         } else {
-	        td_util::error(__FILE__, __FUNCTION__, "td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
+	        td_util::error(__FILE__, "td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
 	        die;
         }
     }

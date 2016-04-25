@@ -1265,6 +1265,9 @@ title one row controls
 .wp-picker-container .iris-picker {
   margin-bottom: 64px;
 }
+.td-panel-content .wp-picker-container .iris-picker {
+  margin-bottom: 0;
+}
 .td-section-separator {
   width: 100%;
   text-align: center;
