@@ -5,16 +5,14 @@
  * v 4.0 - wp_010
  */
 class td_block {
-    private $block_id; // the block type
-    var $block_uid; // the block unique id on the page, it changes on every render
+	var $block_uid; // the block unique id on the page, it changes on every render
+	var $td_query; //the query used to rendering the current block
+	protected $td_block_template_data;
 
-    private $atts = array(); //the atts used for rendering the current block
+	private $block_id; // the block type
+	private $atts = array(); //the atts used for rendering the current block
+	private $td_block_template_instance; // the current block template instance that this block is using
 
-
-    var $td_query; //the query used to rendering the current block
-
-    private $td_block_template_instance; // the current block template instance that this block is using
-    protected $td_block_template_data;
 
 
     function __construct() {
@@ -25,12 +23,12 @@ class td_block {
 
 	private function get_att($att_name) {
 		if (empty($this->atts)) {
-			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The atts are not set yer(AKA: the render method was not called yet and you tried to read an att)');
+			td_util::error(__FILE__, 'Internal error: The atts are not set yer(AKA: the render method was not called yet and you tried to read an att)');
 			die;
 		}
 
 		if (!isset($this->atts[$att_name])) {
-			td_util::error(__FILE__, __FUNCTION__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
+			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
 			die;
 		}
 
@@ -88,6 +86,14 @@ class td_block {
 		    ),
 		    $atts
 	    );
+
+		// @todo vezi daca e necesara chestia asta! si daca merge cum trebuie
+	    if (!empty($this->atts['custom_title'])) {
+		    $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
+	    }
+	    if (!empty($this->atts['custom_url'])) {
+		    $this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
+	    }
 
 
 	    //update unique id on each render
@@ -332,11 +338,14 @@ class td_block {
     }
 
 
-
-	// js that runs on ajax after the job retunrs to the browser
+	/**
+	 * This js runs on the client after a drag and drop operation in td-composer
+	 * @return mixed|string
+	 */
 	function js_callback_ajax() {
 
 
+		// if we don't have pull down ajax filters, do not run
 		if (empty($this->td_block_template_data['td_pull_down_items'])) {
 			return '';
 		}
@@ -424,10 +433,6 @@ class td_block {
 
 
 
-
-
-
-
     function get_block_js() {
 	    do_action('td_block__get_block_js', array(&$this));
 
@@ -458,14 +463,6 @@ class td_block {
         $td_column_number = $this->get_att('td_column_number');
 
 
-	    // @todo shit - this should not be here. - not used in js!
-	    if (!empty($this->atts['custom_title'])) {
-            $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
-        }
-
-        if (!empty($this->atts['custom_url'])) {
-            $this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
-        }
 
         if (empty($td_column_number)) {
             $td_column_number = td_util::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
@@ -568,7 +565,7 @@ class td_block {
 
 
 
-
+	// get atts
 	protected function get_block_html_atts() {
 		return ' data-td-block-uid="' . $this->block_uid . '" ';
 	}
@@ -668,7 +665,7 @@ class td_block {
         if (isset($this->td_block_template_instance)) {
             return $this->td_block_template_instance;
         } else {
-	        td_util::error(__FILE__, __FUNCTION__, "td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
+	        td_util::error(__FILE__, "td_block: " . get_class($this) . " did not call render, no td_block_template_instance in td_block");
 	        die;
         }
     }

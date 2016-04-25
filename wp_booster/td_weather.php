@@ -103,7 +103,7 @@ class td_weather {
 
 		if ($template == 'block_template') {
 			// renders the block template
-			$buffy .= self::render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label);
+			$buffy .= self::render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label, $block_uid);
 		} else {
 			// render the top menu template
 			$buffy .= self::render_top_bar_template($atts, $weather_data, $current_temp_label);
@@ -160,9 +160,10 @@ class td_weather {
 	 * @param $weather_data - the precomputed weather data
 	 * @param $current_temp_label - C/F
 	 * @param $current_speed_label - mph/kmh
+	 * @param $block_uid the unique id of the block
 	 * @return string - HTML the rendered template
 	 */
-	private static function render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label) {
+	private static function render_block_template($atts, $weather_data, $current_temp_label, $current_speed_label, $block_uid) {
 		$current_unit = $weather_data['current_unit'];
 		ob_start();
 		?>
@@ -176,7 +177,7 @@ class td_weather {
 		<div class="td-weather-temperature">
 			<div class="td-weather-temp-wrap">
 				<div class="td-weather-animated-icon">
-					<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon"></span>
+					<span class="td_animation_sprite-27-100-80-0-0-1 <?php echo $weather_data['today_icon'] ?> td-w-today-icon" data-td-block-uid="<?php echo $block_uid?>"></span>
 				</div>
 				<div class="td-weather-now" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
 					<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
