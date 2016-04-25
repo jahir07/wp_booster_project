@@ -140,7 +140,7 @@ class td_weather {
 		ob_start();
 		?>
 		<div class="td-weather-top-widget" id="<?php echo $weather_data['block_uid'] ?>">
-			<i class="td-icons clear-sky-d"></i>
+			<i class="td-icons <?php echo $weather_data['today_icon'] ?>"></i>
 			<div class="td-weather-now" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
 				<span class="td-big-degrees"><?php echo $weather_data['today_temp'][$current_unit] ?></span>
 				<span class="td-weather-unit"><?php echo $current_temp_label ?></span>
