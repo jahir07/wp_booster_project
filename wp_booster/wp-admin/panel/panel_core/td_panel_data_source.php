@@ -171,6 +171,12 @@ class td_panel_data_source {
     */
     static function update() {
 
+	    //if user is logged in and can switch themes
+	    if (!current_user_can('switch_themes')) {
+		    die;
+	    }
+
+
         //load all the theme's settings
         td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
 
@@ -818,5 +824,4 @@ class td_panel_data_source {
 
 
 //AJAX FORM SAVING
-add_action( 'wp_ajax_nopriv_td_ajax_update_panel', array('td_panel_data_source', 'update') );
 add_action( 'wp_ajax_td_ajax_update_panel', array('td_panel_data_source', 'update') );//print_r($_POST);
