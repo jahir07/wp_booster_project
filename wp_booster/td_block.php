@@ -607,7 +607,6 @@ class td_block {
 
 	/**
 	 * This is the callback when a new element is created via ajax. It is sent straight to eval on the wrapper window of td-composer that holds the iframe
-	 *   - tdcEvalGlobal.iFrameWindowObj - is the iframe's window object
 	 * @return mixed
 	 */
 	function js_callback_add_composer_block() {
@@ -615,12 +614,12 @@ class td_block {
 		?>
 		<script>
 			(function () {
-				var tdComposerBlockItem = new tdcEvalGlobal.iFrameWindowObj.tdcComposerBlocksApi.item();
+				var tdComposerBlockItem = new tdcComposerBlocksApi.item();
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
 					console.log(blockUid + '  ajax delete callback!');
 				};
-				tdcEvalGlobal.iFrameWindowObj.tdcComposerBlocksApi.addItem(tdComposerBlockItem);
+				tdcComposerBlocksApi.addItem(tdComposerBlockItem);
 			})();
 		</script>
 		<?php
