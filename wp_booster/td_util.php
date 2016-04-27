@@ -905,7 +905,7 @@ class td_util {
 	 * replace script tag from the parameter $buffer   keywords: js javascript ob_start ob_get
 	 * @param $buffer string
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	static function remove_script_tag($buffer) {
 		return str_replace(array("<script>", "</script>", "<script type='text/javascript'>"), '', $buffer);

@@ -354,57 +354,6 @@ class td_block {
 
 
 
-	/**
-	 * This js runs on the client after a drag and drop operation in td-composer
-	 * @return string JS code that is sent straight to an eval() on the client side
-	 */
-	function js_callback_ajax() {
-
-		$buffy = '';
-
-
-		$buffy .= $this->js_callback_add_composer_block();
-
-
-
-		// If this is not a loop block or if we don't have pull down ajax filters, do not run. This is just to fix the pulldown items on
-		// content blocks
-		if ($this->is_loop_block() === true && !empty($this->td_block_template_data['td_pull_down_items'])) {
-			ob_start();
-			?>
-			<script>
-				// delete the existing pulldown
-				tdcEvalGlobal.iFrameWindowObj.tdPullDown.deleteItem(tdcEvalGlobal.oldBlockUid);
-
-				// block subcategory ajax filters!
-				var jquery_object_container = tdcEvalGlobal.iFrameWindowObj.jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
-				var horizontal_jquery_obj = jquery_object_container.find('.td-subcat-list:first');
-
-				// make a new item
-				var pulldown_item_obj = new tdcEvalGlobal.iFrameWindowObj.tdPullDown.item();
-				pulldown_item_obj.blockUid = jquery_object_container.parent().data('td-block-uid'); // get the block UID
-				pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
-				pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
-				pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
-				pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
-				pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
-				tdcEvalGlobal.iFrameWindowObj.tdPullDown.add_item(pulldown_item_obj); // add the item
-
-			</script>
-			<?php
-
-			/*
-						console.log('new UID: <?php //echo $this->block_uid ?>//');
-						console.log('old UID: ' + tdcEvalGlobal.oldBlockUid);
-			*/
-			$buffy .= td_util::remove_script_tag(ob_get_clean());
-		}
-
-
-
-		return $buffy;
-
-	}
 
 
 
@@ -418,7 +367,7 @@ class td_block {
 	    do_action('td_block__get_block_js', array(&$this));
 
 	    if (td_util::tdc_is_live_editor_iframe()) {
-		    td_js_buffer::add_to_footer($this->js_add_composer_block());
+		    td_js_buffer::add_to_footer($this->js_tdc_get_composer_block());
 		    return '';
 	    }
 
@@ -582,34 +531,65 @@ class td_block {
     }
 
 
-
 	/**
-	 * On iframe load, add a new block to td-composer. This runs ONLY in tdc_is_live_editor_iframe ON LOAD and it can be overwritten by child classes
-	 * @return string js
+	 * tagDiv composer specific code:
+	 * This is a callback that is retrived and injected into the iFrame by td-composer on Ajax operations
+	 * This js runs on the client after a drag and drop operation in td-composer
+	 * @return string JS code that is sent straight to an eval() on the client side
 	 */
-	function js_add_composer_block() {
-		ob_start();
-		?>
-		<script>
-			(function () {
-				var tdComposerBlockItem = new tdcComposerBlocksApi.item();
-				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
-				tdComposerBlockItem.callbackDelete = function(blockUid) {
-					console.log(blockUid + '  delete callback!');
-				};
-				tdcComposerBlocksApi.addItem(tdComposerBlockItem);
-			})();
-		</script>
-		<?php
-		return td_util::remove_script_tag(ob_get_clean());
+	function js_tdc_callback_ajax() {
+
+		$buffy = '';
+
+
+		$buffy .= $this->js_tdc_get_composer_block();
+
+
+
+		// If this is not a loop block or if we don't have pull down ajax filters, do not run. This is just to fix the pulldown items on
+		// content blocks
+		if ($this->is_loop_block() === true && !empty($this->td_block_template_data['td_pull_down_items'])) {
+			ob_start();
+			?>
+			<script>
+
+
+				// block subcategory ajax filters!
+				var jquery_object_container = jQuery('.<?php echo $this->block_uid ?>_rand .td-subcat-filter');
+				var horizontal_jquery_obj = jquery_object_container.find('.td-subcat-list:first');
+
+				// make a new item
+				var pulldown_item_obj = new tdPullDown.item();
+				pulldown_item_obj.blockUid = jquery_object_container.parent().data('td-block-uid'); // get the block UID
+				pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
+				pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
+				pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
+				pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
+				pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
+				tdPullDown.add_item(pulldown_item_obj); // add the item
+
+			</script>
+			<?php
+			$buffy .= td_util::remove_script_tag(ob_get_clean());
+		}
+
+
+
+		return $buffy;
+
 	}
 
 
+
+
+
 	/**
-	 * This is the callback when a new element is created via ajax. It is sent straight to eval on the wrapper window of td-composer that holds the iframe
-	 * @return mixed
+	 * tagDiv composer specific code:
+	 *  - it's added to the end of the iFrame when the live editor is active (when @see td_util::tdc_is_live_editor_iframe()  === true)
+	 *  - it is injected int he iFrame and evaluated there in the global scoupe when a new block is added to the page via AJAX!
+	 * @return string the JS without <script> tags
 	 */
-	function js_callback_add_composer_block() {
+	function js_tdc_get_composer_block() {
 		ob_start();
 		?>
 		<script>
@@ -617,7 +597,17 @@ class td_block {
 				var tdComposerBlockItem = new tdcComposerBlocksApi.item();
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
-					console.log(blockUid + '  ajax delete callback!');
+
+					// delete the existing pulldown if it exists
+					tdPullDown.deleteItem(blockUid);
+
+					// delete the animation sprite if it exits
+					tdAnimationSprite.deleteItem(blockUid);
+
+					// delete the weather item if available NOTE USED YET
+					//tdWeather.deleteItem(blockUid);
+
+					tdcDebug.log('tdComposerBlockItem.callbackDelete(' + blockUid + ') - td_block base callback runned');
 				};
 				tdcComposerBlocksApi.addItem(tdComposerBlockItem);
 			})();

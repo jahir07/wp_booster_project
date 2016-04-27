@@ -110,18 +110,21 @@ class td_weather {
 		}
 
 
-		// render the JS
-		ob_start();
-		?>
-		<script>
-			jQuery().ready(function() {
-				tdWeather.items.push(<?php echo json_encode($weather_data) ?>);
-			});
-		</script>
-		<?php
-		$script_buffer = ob_get_clean();
-		$js_script = "\n". td_util::remove_script_tag($script_buffer);
-		td_js_buffer::add_to_footer($js_script);
+		// do not add any items to tdWeather if we're on the front end editor / ajax front end editor
+		if (!td_util::tdc_is_live_editor_iframe() && !td_util::tdc_is_live_editor_ajax()) {
+			// render the JS
+			ob_start();
+			?>
+			<script>
+				jQuery().ready(function () {
+					tdWeather.addItem(<?php echo json_encode( $weather_data ) ?>);
+				});
+			</script>
+			<?php
+			//		$script_buffer = ob_get_clean();
+			//		$js_script = "\n". td_util::remove_script_tag($script_buffer);
+			td_js_buffer::add_to_footer( "\n" . td_util::remove_script_tag( ob_get_clean() ) );
+		}
 
 		return $buffy;
 	}

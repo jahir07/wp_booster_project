@@ -136,11 +136,9 @@ add_action('wp_ajax_nopriv_td_mod_remember_pass', array('td_ajax', 'on_ajax_reme
 add_action('wp_ajax_td_mod_remember_pass',        array('td_ajax', 'on_ajax_remember_pass'));
 
 // ajax: admin panel - new sidebar
-add_action('wp_ajax_nopriv_td_ajax_new_sidebar', array('td_ajax', 'on_ajax_new_sidebar'));
 add_action('wp_ajax_td_ajax_new_sidebar',        array('td_ajax', 'on_ajax_new_sidebar'));
 
 // ajax: admin panel - delete sidebar
-add_action('wp_ajax_nopriv_td_ajax_delete_sidebar', array('td_ajax', 'on_ajax_delete_sidebar'));
 add_action('wp_ajax_td_ajax_delete_sidebar',        array('td_ajax', 'on_ajax_delete_sidebar'));
 
 // ajax: update views - via ajax only when enable in panel
