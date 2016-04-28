@@ -533,7 +533,7 @@ class td_block {
 
 	/**
 	 * tagDiv composer specific code:
-	 * This is a callback that is retrived and injected into the iFrame by td-composer on Ajax operations
+	 * This is a callback that is retrieve and injected into the iFrame by td-composer on Ajax operations
 	 * This js runs on the client after a drag and drop operation in td-composer
 	 * @return string JS code that is sent straight to an eval() on the client side
 	 */
