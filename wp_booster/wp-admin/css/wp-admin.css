@@ -3734,9 +3734,9 @@ title one row controls
   padding-left: 10px;
   width: 549px;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1260px) {
   .td-meta-box-inside input[type=text] {
-    width: 99% !important;
+    width: 100% !important;
   }
 }
 .td-meta-box-inside textarea {
@@ -3781,6 +3781,14 @@ title one row controls
 .td-page-option-panel .docopy-p_review_points {
   position: relative;
   left: 135px;
+}
+.td-page-option-panel .td-textarea-subtitle {
+  /* responsive portrait phone */
+}
+@media (max-width: 1260px) {
+  .td-page-option-panel .td-textarea-subtitle {
+    width: 100%;
+  }
 }
 .td-container-wrap {
   direction: ltr !important;
