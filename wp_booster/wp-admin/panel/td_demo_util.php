@@ -298,6 +298,14 @@ class td_demo_misc extends td_demo_base {
     }
 
 
+    static function update_background_mobile($td_image_id) {
+        if ($td_image_id == '') {
+            td_util::update_option('tds_mobile_background_image', '');
+        }
+        td_util::update_option('tds_mobile_background_image', td_demo_media::get_image_url_by_td_id($td_image_id));
+    }
+
+
     /**
      * updates the text form the footer
      * @param $new_text
