@@ -105,6 +105,33 @@ var tdWeather = {};
 
 
         /**
+         * adds a new weather item
+         * item.block_uid is REQUIERED, based on that id, we delete the item from the array *as of 27.4.2016 the id is not used
+         * @param item object - an item is json encoded from this in PHP: @see td_weather::$weather_data
+         */
+        addItem: function (item) {
+            tdWeather.items.push(item);
+        },
+
+        ///
+        // For now it's not needed because td_weater.php does not add js if it detects td-composer
+        // **
+        // * Deletes an item base on blockUid.
+        // * Make sure that you add block_uid to items that you expect to be deleted
+        // * @param blockUid
+        // */
+        //deleteItem: function(blockUid) {
+        //    for (var cnt = 0; cnt < tdWeather.items.length; cnt++) {
+        //        if (tdWeather.items[cnt].block_uid === blockUid) {
+        //            tdWeather.items.splice(cnt, 1); // remove the item from the "array"
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //},
+
+
+        /**
          * 1. LOCATION api - position callback
          * @param position
          * @private

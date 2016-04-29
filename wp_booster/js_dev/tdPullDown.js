@@ -163,7 +163,6 @@ var tdPullDown = {};
                     return true;
                 }
             }
-
             return false;
         },
 

@@ -6,7 +6,7 @@ if (isset($submenu['td_theme_welcome'])) {
     $td_welcome_menu_items = $submenu['td_theme_welcome'];
 }
 
-if (is_array($td_welcome_menu_items)) {
+if (!empty($td_welcome_menu_items) && is_array($td_welcome_menu_items)) {
     ?>
     <div class="wrap about-wrap td-wp-admin-header ">
         <h2 class="nav-tab-wrapper">

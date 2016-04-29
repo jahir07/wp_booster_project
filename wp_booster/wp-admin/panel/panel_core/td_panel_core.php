@@ -3,7 +3,6 @@
 
 
 //AJAX VIEW PANEL LOADING
-add_action( 'wp_ajax_nopriv_td_panel_core_load_ajax_box', array('td_panel_core', 'load_ajax_box'));
 add_action( 'wp_ajax_td_panel_core_load_ajax_box', array('td_panel_core', 'load_ajax_box'));
 
 
@@ -160,74 +159,72 @@ class td_panel_core {
     static function load_ajax_box() {
 
         //if user is logged in and can switch themes
-        if (current_user_can('switch_themes')) {
+        if (!current_user_can('switch_themes')) {
+            die;
+        }
+
+
+        // read some of the variables
+        $td_ajax_calling_file = td_util::get_http_post_val('td_ajax_calling_file');
+        $td_ajax_box_id = td_util::get_http_post_val('td_ajax_box_id');
+
+        $td_current_panel_spot_id =  td_util::get_http_post_val('td_current_theme_panel_id');
 
 
 
-            // read some of the variables
-            $td_ajax_calling_file = td_util::get_http_post_val('td_ajax_calling_file');
-            $td_ajax_box_id = td_util::get_http_post_val('td_ajax_box_id');
-
-            $td_current_panel_spot_id =  td_util::get_http_post_val('td_current_theme_panel_id');
+        $td_ajax_calling_file_id = str_replace('.php', '', $td_ajax_calling_file); //get the calling file id so we can look it up in our td_global panel list array
 
 
-
-            $td_ajax_calling_file_id = str_replace('.php', '', $td_ajax_calling_file); //get the calling file id so we can look it up in our td_global panel list array
-
-
-            $buffy = '';
+        $buffy = '';
 
 
-            foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id]['panels'] as $panel_id => $panel_array) {
+        foreach (td_global::$all_theme_panels_list[$td_current_panel_spot_id]['panels'] as $panel_id => $panel_array) {
 
-                // locate the entry for this specific panel spot -> panel by using the 'file' key
-                if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {
-
-
-                    if ($panel_array['type'] == 'in_theme') {
-                        // if the panel is in theme, we have to look for it in the theme's /panel folder and only after that in the wp-booster panel
-                        ob_start();
-                        $td_template_found_in_theme_or_child = locate_template('includes/panel/views/ajax_boxes/' . $td_ajax_calling_file_id  . '/' . $td_ajax_box_id . '.php', true);
-                        if (empty($td_template_found_in_theme_or_child)) {
-                            require_once(TEMPLATEPATH . '/includes/wp_booster/wp-admin/panel/views/ajax_boxes/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id . '.php');
-                        }
-                        $buffy = ob_get_clean();
+            // locate the entry for this specific panel spot -> panel by using the 'file' key
+            if (isset($panel_array['file']) and strpos($panel_array['file'], $td_ajax_calling_file) !== false) {
 
 
-                    } elseif ($panel_array['type'] == 'in_plugin') {
-                        // the panel is in a plugin. Here we look in the plugins folder and we patch the path for this specific plugin
-                        $folder_path = dirname($panel_array['file']);
-
-                        $ajax_box_plugin_path = $folder_path . '/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id;
-                        if (file_exists($ajax_box_plugin_path)) {
-                            ob_start();
-                            require_once $ajax_box_plugin_path;
-                            $buffy = ob_get_clean();
-                        }
+                if ($panel_array['type'] == 'in_theme') {
+                    // if the panel is in theme, we have to look for it in the theme's /panel folder and only after that in the wp-booster panel
+                    ob_start();
+                    $td_template_found_in_theme_or_child = locate_template('includes/panel/views/ajax_boxes/' . $td_ajax_calling_file_id  . '/' . $td_ajax_box_id . '.php', true);
+                    if (empty($td_template_found_in_theme_or_child)) {
+                        require_once(TEMPLATEPATH . '/includes/wp_booster/wp-admin/panel/views/ajax_boxes/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id . '.php');
                     }
+                    $buffy = ob_get_clean();
 
-                    break; // we found our item and we tried to load it, now exit the loop
+
+                } elseif ($panel_array['type'] == 'in_plugin') {
+                    // the panel is in a plugin. Here we look in the plugins folder and we patch the path for this specific plugin
+                    $folder_path = dirname($panel_array['file']);
+
+                    $ajax_box_plugin_path = $folder_path . '/' . $td_ajax_calling_file_id . '/' . $td_ajax_box_id;
+                    if (file_exists($ajax_box_plugin_path)) {
+                        ob_start();
+                        require_once $ajax_box_plugin_path;
+                        $buffy = ob_get_clean();
+                    }
                 }
+
+                break; // we found our item and we tried to load it, now exit the loop
             }
+        }
 
 
 
 
-            if (empty($buffy)) {
-                $buffy = 'No ajax panel found OR Panel is empty! <br> ' . __FILE__;
-            }
+        if (empty($buffy)) {
+            $buffy = 'No ajax panel found OR Panel is empty! <br> ' . __FILE__;
+        }
 
 
-            // each panel has to have a td-clear at the end
-            $buffy .= '<div class="td-clear"></div>';
+        // each panel has to have a td-clear at the end
+        $buffy .= '<div class="td-clear"></div>';
 
-            //return the view counts
-            die(json_encode($buffy));
+        //return the view counts
+        die(json_encode($buffy));
 
-        } else {
 
-            die();
-        }//end if user can switch themes
     }
 
 }

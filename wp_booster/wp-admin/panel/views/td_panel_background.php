@@ -182,9 +182,9 @@
             'ds' => 'td_option',
             'option_id' => 'tds_mobile_background_position',
             'values' => array(
-                array('text' => 'Bottom', 'val' => ''),
+                array('text' => 'Top', 'val' => ''),
                 array('text' => 'Center', 'val' => 'center center'),
-                array('text' => 'Top', 'val' => 'center top')
+                array('text' => 'Bottom', 'val' => 'center bottom')
             )
         ));
         ?>
