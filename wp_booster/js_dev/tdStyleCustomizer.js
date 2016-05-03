@@ -57,6 +57,25 @@ var tdDemoMenu = {
                 tdDemoMenu.mousePosY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
         }).mouseenter(function( event ) {
+            // close the preview on reentry. @todo it may not be needed anymore because we added jQuery( document).mouseleave
+            jQuery( '.td-screen-demo:first').css( 'visibility', 'hidden' );
+            jQuery( '.td-screen-demo-extend:first' ).hide();
+        });
+
+
+        // cloase the preview on mouse leave
+        jQuery( document).mouseleave(function(event){
+
+            // Any existing timeout is cleard to stop any further css settings
+            if ( undefined !== tdDemoMenu.startTimeout ) {
+                window.clearTimeout( tdDemoMenu.startTimeout );
+            }
+
+            // Any existing interval is cleard to stop any further css settings
+            if ( undefined !== tdDemoMenu.startInterval ) {
+                window.clearInterval( tdDemoMenu.startInterval );
+            }
+
             jQuery( '.td-screen-demo:first').css( 'visibility', 'hidden' );
             jQuery( '.td-screen-demo-extend:first' ).hide();
         });
@@ -658,18 +677,26 @@ jQuery().ready(function() {
             jQueryObj = jQuery( '#td-theme-settings' );
 
         if ( jQueryObj.hasClass( 'td-theme-settings-small' ) ) {
+            // close
             jQueryObj.removeClass( 'td-theme-settings-small' );
             jQueryObj.addClass( 'td-theme-settings-closed' );
             $this.html( 'DEMOS' );
 
-            //show full
+            setTimeout(function(){
+                jQueryObj.addClass( 'td-ts-closed-no-transition' ); // add the remove transition class after the animation has finished
+            }, 450);
+
             td_set_cookies_life( ['td_show_panel', 'hide', 86400000] );//86400000 is the number of milliseconds in a day
+
+
         } else {
+            // open
+            jQueryObj.removeClass( 'td-ts-closed-no-transition' ); // remove the remove transition class :)
+
+
             jQueryObj.addClass( 'td-theme-settings-small' );
             jQueryObj.removeClass( 'td-theme-settings-closed' );
             $this.html( 'CLOSE' );
-
-            //hide
             td_set_cookies_life( ['td_show_panel', 'show', 86400000] );//86400000 is the number of milliseconds in a day
         }
     });
