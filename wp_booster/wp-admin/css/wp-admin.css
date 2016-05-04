@@ -2874,10 +2874,12 @@ title one row controls
   vertical-align: middle !important;
 }
 .td-admin-box-text h2 {
+  margin: 1em 0 0.5em;
   color: #111;
   font-size: 1.8em;
   font-weight: bold;
   line-height: 1.1em;
+  text-align: left;
 }
 .td-admin-columns {
   margin-top: 30px;
