@@ -26,7 +26,7 @@
 		<ul>
 			<li>Add the link to the font file in .woff format, and the font-face name  in the Custom Font Files section and click save settings.</li>
 			<li>You can convert your font files from any format into .woff format using <a href="http://www.fontsquirrel.com/tools/webfont-generator">fontsquirrel</a> (free tool)</li>
-			<li>Once you hit the 'Save Settings' button, you will see the font-face name in the CUSTOM TYPOGRAPHY panel ⇢ FONT FAMILY pull down</li>
+			<li>Once a font file url and a font family name are added, the font family will appear in the dropdown and it can be selected</li>
 		</ul>
 	</div>
 </div>
