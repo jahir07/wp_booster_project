@@ -1349,6 +1349,13 @@ title one row controls
 .td_panel_box_thumb_on_modules .td-help-checkbox-inline li {
   margin: 0 16px 0;
 }
+/* Post settings - Post and Custom Post Types */
+#td-panel-post-settings .td_panel_box_post_and_custom_post_types .td-box-description {
+  width: 300px;
+}
+#td-panel-post-settings .td_panel_box_post_and_custom_post_types .td-box-control-full {
+  width: 470px;
+}
 /*  ----------------------------------------------------------------------------
     code editor  (css editor and js editor)
 */
@@ -2874,10 +2881,12 @@ title one row controls
   vertical-align: middle !important;
 }
 .td-admin-box-text h2 {
+  margin: 1em 0 0.5em;
   color: #111;
   font-size: 1.8em;
   font-weight: bold;
   line-height: 1.1em;
+  text-align: left;
 }
 .td-admin-columns {
   margin-top: 30px;

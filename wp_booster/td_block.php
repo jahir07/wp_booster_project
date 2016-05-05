@@ -74,13 +74,13 @@ class td_block {
 		    $atts
 	    );
 
-		// @todo vezi daca e necesara chestia asta! si daca merge cum trebuie
+		/*// @todo vezi daca e necesara chestia asta! si daca merge cum trebuie
 	    if (!empty($this->atts['custom_title'])) {
 		    $this->atts['custom_title'] = htmlspecialchars($this->atts['custom_title'], ENT_QUOTES );
 	    }
 	    if (!empty($this->atts['custom_url'])) {
-		    $this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
-	    }
+			$this->atts['custom_url'] = htmlspecialchars($this->atts['custom_url'], ENT_QUOTES );
+		}*/
 
 
 	    //update unique id on each render
