@@ -532,7 +532,7 @@ var tdDemoMenu;
                 }
 
             ).mousemove(function(event) {
-                tdDemoMenu._moveScreenDemo( event );
+                //tdDemoMenu._moveScreenDemo( event );
             });
         },
 
