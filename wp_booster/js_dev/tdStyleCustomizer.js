@@ -413,7 +413,7 @@ var tdDemoMenu;
                 }
 
             ).mousemove(function(event) {
-                tdDemoMenu._moveScreenDemo( event );
+                //tdDemoMenu._moveScreenDemo( event );
             });
 
             jQuery('.td-screen-demo-extend').hover(
