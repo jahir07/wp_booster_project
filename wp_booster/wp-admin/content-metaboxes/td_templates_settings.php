@@ -29,15 +29,17 @@ function td_register_post_metaboxes() {
     ));
 
 
-    // featured video
-    new WPAlchemy_MetaBox(array(
-        'id' => 'td_post_video',
-        'title' => 'Featured Video',
-        'types' => array('post'),
-        'priority' => 'low',
-        'context' => 'side',
-        'template' => $td_template_settings_path . 'td_set_video_meta.php',
-    ));
+    if (current_user_can('publish_posts')) {
+        // featured video
+        new WPAlchemy_MetaBox(array(
+            'id' => 'td_post_video',
+            'title' => 'Featured Video',
+            'types' => array('post'),
+            'priority' => 'low',
+            'context' => 'side',
+            'template' => $td_template_settings_path . 'td_set_video_meta.php',
+        ));
+    }
 
 
 
@@ -52,13 +54,15 @@ function td_register_post_metaboxes() {
     /**
      * 'post' post type / single
      */
-    new WPAlchemy_MetaBox(array(
-        'id' => 'td_post_theme_settings',
-        'title' => 'Post settings',
-        'types' => array('post'),
-        'priority' => 'high',
-        'template' => get_template_directory() . '/includes/wp_booster/wp-admin/content-metaboxes/td_set_post_settings.php',
-    ));
+    if (current_user_can('publish_posts')) {
+        new WPAlchemy_MetaBox(array(
+            'id' => 'td_post_theme_settings',
+            'title' => 'Post settings',
+            'types' => array('post'),
+            'priority' => 'high',
+            'template' => get_template_directory() . '/includes/wp_booster/wp-admin/content-metaboxes/td_set_post_settings.php',
+        ));
+    }
 
 
     /**
@@ -80,7 +84,7 @@ function td_register_post_metaboxes() {
     }
 
     // if we have any CPT left, associate them with the metaboxes
-    if (!empty($td_custom_post_types)) {
+    if (!empty($td_custom_post_types) && current_user_can('publish_posts')) {
         new WPAlchemy_MetaBox(array(
             'id' => 'td_post_theme_settings',
             'title' => 'Custom Post Type - layout settings',
