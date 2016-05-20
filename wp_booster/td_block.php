@@ -625,7 +625,7 @@ class td_block {
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
 
-					tdcDebug.log('tdComposerBlockItem.callbackDelete(' + blockUid + ') - td_block base callback runned');
+					tdcDebug.log('td_block.php js_tdc_get_composer_block  -  callbackDelete(' + blockUid + ') - td_block base callback runned');
 				};
 				tdcComposerBlocksApi.addItem(tdComposerBlockItem);
 			})();

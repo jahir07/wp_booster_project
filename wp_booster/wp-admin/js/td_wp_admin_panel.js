@@ -318,7 +318,8 @@ function td_ajax_panel_sidebar_pulldown(action, item, id_controller) {
         url: td_ajax_url,
         data: {
             action: action,
-            sidebar: item
+            sidebar: item,
+            td_magic_token: tdWpAdminSidebarOpsNonce
         },
         success: function(data, textStatus, XMLHttpRequest){
             var td_data_object = jQuery.parseJSON(data); //get the data object
@@ -570,6 +571,10 @@ function show_content_panel(jquery_panel_obj, keep_position, callback) {
         jQuery('#' + td_box_id).addClass('td-box-loading');
 
         var td_panel_ajax_param = jquery_panel_header.data('panel-ajax-params');
+        td_panel_ajax_param.td_magic_token = tdWpAdminPanelBoxNonce;
+
+
+
 
         if(td_panel_ajax_param != '') {
             jQuery.ajax({

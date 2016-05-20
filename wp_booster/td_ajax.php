@@ -369,8 +369,13 @@ class td_ajax {
 	}
 
 	static function on_ajax_new_sidebar() {
-		if (!current_user_can('switch_themes')) {
-			exit();
+
+		// die if request is fake
+		check_ajax_referer('td-sidebar-ops', 'td_magic_token');
+
+
+		if (!current_user_can('edit_theme_options')) {
+			die;
 		}
 
 		$list_current_sidebars = '';
@@ -436,8 +441,13 @@ class td_ajax {
 	}
 
 	static function on_ajax_delete_sidebar (){
-		if (!current_user_can('switch_themes')) {
-			exit();
+
+		// die if request is fake
+		check_ajax_referer('td-sidebar-ops', 'td_magic_token');
+
+
+		if (!current_user_can('edit_theme_options')) {
+			die;
 		}
 
 		//nr of chars displayd as name option

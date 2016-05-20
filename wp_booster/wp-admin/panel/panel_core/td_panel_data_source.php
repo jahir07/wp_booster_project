@@ -171,6 +171,10 @@ class td_panel_data_source {
     */
     static function update() {
 
+	    // die if request is fake
+	    check_ajax_referer('td-update-panel', 'td_magic_token');
+
+
 	    //if user is logged in and can switch themes
 	    if (!current_user_can('switch_themes')) {
 		    die;

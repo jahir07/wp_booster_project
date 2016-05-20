@@ -13,7 +13,6 @@
  */
 
 define ('TD_CAKE_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
-//define ('TD_CAKE_THEME_VERSION_URL', 'http://0div.com:69/td_cake/version.php');
 
 class td_cake {
 
@@ -161,6 +160,12 @@ class td_cake {
 
 
         if (!empty($_POST['td_active'])) {
+
+	        if (empty($_POST['td_magic_token']) || wp_verify_nonce($_POST['td_magic_token'], 'td-validate-license') === false) {
+		        echo 'Permission denied.';
+		        die;
+	        }
+
             //is for activation?
 
             if (!empty($_POST['td_envato_code'])) {
@@ -308,6 +313,9 @@ class td_cake {
 
 
             <form method="post" action="admin.php?page=td_cake_panel">
+
+	            <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
+
                 <table class="form-table">
                     <tr valign="top">
                         <th scope="row">Envato purchase code:</th>
@@ -339,6 +347,9 @@ class td_cake {
                 </ul>
 
                 <form method="post" action="admin.php?page=td_cake_panel">
+
+	                <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
+
                     <table class="form-table">
 
                         <tr valign="top">

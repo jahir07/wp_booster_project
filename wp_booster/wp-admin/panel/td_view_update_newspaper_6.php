@@ -1,6 +1,11 @@
 <?php
 
 
+if (empty($_REQUEST['td_magic_token']) || wp_verify_nonce($_REQUEST['td_magic_token'], 'td-newspaper4-import') === false) {
+	echo 'Permission denied';
+	die;
+}
+
 
 class td_update_to_newspaper6 {
     static $shortcode_map = array (

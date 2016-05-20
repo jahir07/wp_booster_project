@@ -25,6 +25,10 @@ class td_panel_core {
 
         ?>
         <form id="td_panel_big_form" action="?page=td_theme_panel" method="post">
+
+
+	        <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-update-panel") ?>"/>
+
             <input type="hidden" name="action" value="td_ajax_update_panel">
             <div class="td_displaying_saving"></div>
             <div class="td_wrapper_saving_gifs">
@@ -158,8 +162,12 @@ class td_panel_core {
      */
     static function load_ajax_box() {
 
+	    // die if request is fake
+	    check_ajax_referer('td-panel-box', 'td_magic_token');
+
+
         //if user is logged in and can switch themes
-        if (!current_user_can('switch_themes')) {
+        if (!current_user_can('edit_theme_options')) {
             die;
         }
 

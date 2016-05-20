@@ -14,6 +14,11 @@ class td_demo_installer {
 
 
     function ajax_demos_controller() {
+
+
+		// die if request is fake
+	    check_ajax_referer('td-demo-install', 'td_magic_token');
+
         if (!current_user_can('switch_themes')) {
             die;
         }
