@@ -34,6 +34,19 @@ function td_js_generator() {
     td_js_buffer::add_variable('td_magnific_popup_translation_ajax_tError', __td('The content from %url% could not be loaded.', TD_THEME_NAME));
     td_js_buffer::add_variable('td_magnific_popup_translation_image_tError', __td('The image #%curr% could not be loaded.', TD_THEME_NAME));
 
+
+	// make the nonce for our wp-admin ajax
+	if (is_admin()) {
+		if (current_user_can('switch_themes')) {
+			td_js_buffer::add_variable('tdWpAdminImportNonce', wp_create_nonce('td-demo-install'));         // install demos
+		}
+
+		if (current_user_can('edit_theme_options')) {
+			td_js_buffer::add_variable('tdWpAdminPanelBoxNonce', wp_create_nonce('td-panel-box'));          // load ajax box
+			td_js_buffer::add_variable('tdWpAdminSidebarOpsNonce', wp_create_nonce('td-sidebar-ops'));      // sidebar operations in theme panel
+		}
+	}
+
     // javascript date
     if (td_util::get_option('tds_data_js') == 'true') {
 

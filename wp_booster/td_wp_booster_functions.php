@@ -135,12 +135,6 @@ add_action('wp_ajax_td_mod_register',        array('td_ajax', 'on_ajax_register'
 add_action('wp_ajax_nopriv_td_mod_remember_pass', array('td_ajax', 'on_ajax_remember_pass'));
 add_action('wp_ajax_td_mod_remember_pass',        array('td_ajax', 'on_ajax_remember_pass'));
 
-// ajax: admin panel - new sidebar
-add_action('wp_ajax_td_ajax_new_sidebar',        array('td_ajax', 'on_ajax_new_sidebar'));
-
-// ajax: admin panel - delete sidebar
-add_action('wp_ajax_td_ajax_delete_sidebar',        array('td_ajax', 'on_ajax_delete_sidebar'));
-
 // ajax: update views - via ajax only when enable in panel
 add_action('wp_ajax_nopriv_td_ajax_update_views', array('td_ajax', 'on_ajax_update_views'));
 add_action('wp_ajax_td_ajax_update_views',        array('td_ajax', 'on_ajax_update_views'));
@@ -148,6 +142,11 @@ add_action('wp_ajax_td_ajax_update_views',        array('td_ajax', 'on_ajax_upda
 // ajax: get views - via ajax only when enabled in panel
 add_action('wp_ajax_nopriv_td_ajax_get_views', array('td_ajax', 'on_ajax_get_views'));
 add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_views'));
+
+
+// Secure Ajax
+add_action('wp_ajax_td_ajax_new_sidebar', array('td_ajax', 'on_ajax_new_sidebar'));        // ajax: admin panel - new sidebar #sec
+add_action('wp_ajax_td_ajax_delete_sidebar', array('td_ajax', 'on_ajax_delete_sidebar'));  // ajax: admin panel - delete sidebar #sec
 
 
 

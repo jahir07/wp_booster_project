@@ -44,6 +44,8 @@ var tdDemoFullInstaller = {};
 
             //console.log(currentStep);
 
+            currentStep.data.td_magic_token = tdWpAdminImportNonce;
+
             jQuery.ajax({
                 type: 'POST',
                 url: tdDemoFullInstaller._getAdminAjax(currentStep.data.td_demo_action),

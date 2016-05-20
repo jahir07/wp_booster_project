@@ -6,6 +6,12 @@
 if (current_user_can( 'activate_plugins' )) {
     // deactivate a plugin from tgm
     if (isset($_GET['td_deactivate_plugin_slug'])) {
+
+	    if (empty($_GET['td_magic_token']) || wp_verify_nonce($_GET['td_magic_token'], 'td-panel-plugins') === false ) {
+		    echo 'Permission denied';
+		    die;
+	    }
+
         $td_deactivate_plugin_slug = $_GET['td_deactivate_plugin_slug'];
         if (!empty($td_deactivate_plugin_slug)) {
             $plugins = TGM_Plugin_Activation::$instance->plugins;
@@ -25,6 +31,13 @@ if (current_user_can( 'activate_plugins' )) {
 
     // Activate a plugin
     if (isset($_GET['td_activate_plugin_slug'])) {
+
+	    if (empty($_GET['td_magic_token']) || wp_verify_nonce($_GET['td_magic_token'], 'td-panel-plugins') === false) {
+		    echo 'Permission denied';
+		    die;
+	    }
+
+
         $td_activate_plugin_slug = $_GET['td_activate_plugin_slug'];
         if (!empty($td_activate_plugin_slug)) {
             $plugins = TGM_Plugin_Activation::$instance->plugins;
@@ -158,6 +171,7 @@ $wp_plugin_list = get_plugins();
                         array(
                             'page'		  	            => urlencode('td_theme_plugins'),
                             'td_deactivate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
+	                        'td_magic_token' => wp_create_nonce('td-panel-plugins')
                         ),
                         admin_url('admin.php')
                     ));
@@ -169,6 +183,7 @@ $wp_plugin_list = get_plugins();
                         array(
                             'page'		  	            => urlencode('td_theme_plugins'),
                             'td_activate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
+                            'td_magic_token' => wp_create_nonce('td-panel-plugins')
                         ),
                         admin_url('admin.php')
                     ));
