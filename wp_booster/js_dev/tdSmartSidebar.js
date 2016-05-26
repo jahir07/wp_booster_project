@@ -254,7 +254,7 @@ var tdSmartSidebar = {};
 
                                     cur_item_ref.sidebar_state = 'case_3_bottom_of_content';
                                 }
-                                //console.log(cur_item_ref.content_bottom + ' >= ' +  cur_item_ref.sidebar_bottom); //@todo fix this case pe http://0div.com:69/wp_marius/wp_010/homepage-with-a-post-featured/
+                                //console.log(cur_item_ref.content_bottom + ' >= ' +  cur_item_ref.sidebar_bottom); //@todo fix this case pe ? @20may2016 era un url aici dar l-am sters din motive de securitate
                             }
                         }
 

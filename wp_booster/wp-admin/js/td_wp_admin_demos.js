@@ -150,7 +150,8 @@ var td_wp_admin_demos = {};
             var request_data = {
                 action: 'td_ajax_demo_install',
                 td_demo_action:'uninstall_demo',
-                td_demo_id: demo_id
+                td_demo_id: demo_id,
+                td_magic_token: tdWpAdminImportNonce
             };
             jQuery.ajax({
                 type: 'POST',
@@ -201,7 +202,8 @@ var td_wp_admin_demos = {};
             var request_data = {
                 action: 'td_ajax_demo_install',
                 td_demo_action:'remove_content_before_install',
-                td_demo_id: demo_id
+                td_demo_id: demo_id,
+                td_magic_token: tdWpAdminImportNonce
             };
             jQuery.ajax({
                 type: 'POST',
@@ -220,7 +222,8 @@ var td_wp_admin_demos = {};
                     var request_data = {
                         action: 'td_ajax_demo_install',
                         td_demo_action:'install_no_content_demo',
-                        td_demo_id: demo_id
+                        td_demo_id: demo_id,
+                        td_magic_token: tdWpAdminImportNonce
                     };
                     jQuery.ajax({
                         type: 'POST',

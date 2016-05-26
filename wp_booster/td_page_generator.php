@@ -660,6 +660,10 @@ class td_page_generator {
                 if ($pagination_style == 'infinite_load_more') {
                     $ajax_pagination_infinite_stop = 3; // after how many pages do we show a load more button. set to 0 to use only load more
                 }
+
+
+
+                ob_start();
                 ?>
                 <script>
                     jQuery(window).ready(function() {
@@ -696,6 +700,13 @@ class td_page_generator {
                         tdAjaxLoop.init();
                     });
                 </script>
+                <?php
+                $js = "\n". td_util::remove_script_tag(ob_get_clean());
+                td_js_buffer::add_to_footer($js);
+                ?>
+
+
+
                 <div class="td-ajax-loop-infinite"></div>
                 <div class="td-load-more-wrap td-load-more-infinite-wrap">
                     <a href="#" class="td_ajax_load_more" data-td_block_id=""> <?php echo __td('Load more', TD_THEME_NAME) ?>

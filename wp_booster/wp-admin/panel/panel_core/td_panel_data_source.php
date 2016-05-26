@@ -171,6 +171,10 @@ class td_panel_data_source {
     */
     static function update() {
 
+	    // die if request is fake
+	    check_ajax_referer('td-update-panel', 'td_magic_token');
+
+
 	    //if user is logged in and can switch themes
 	    if (!current_user_can('switch_themes')) {
 		    die;
@@ -547,8 +551,18 @@ class td_panel_data_source {
             td_global::$td_options['category_options'][$category_id][$option_id] = $new_value;
 
         } else {
-            //delete the option from the parent category
-            unset(td_global::$td_options['category_options'][$category_id][$option_id]);
+
+
+	        /**
+	         * delete the option from the parent category
+	         *  @23 may 2016 - we encountered an issue with unset on a string index - td_global::$td_options['category_options'][$category_id] was string
+	         *  @see td_demo_installer::import_panel_settings() - category_options is updated to ''
+	         *  - we must leave the isset check for backwards compatibility
+	         */
+	        if (isset(td_global::$td_options['category_options'][$category_id][$option_id])) {
+		        unset(td_global::$td_options['category_options'][$category_id][$option_id]);
+	        }
+
 
             //also delete the parent if there are no more options
             if (isset(td_global::$td_options['category_options'][$category_id]) and count(td_global::$td_options['category_options'][$category_id], COUNT_RECURSIVE) == 0) {

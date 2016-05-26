@@ -465,7 +465,7 @@
         </div>
         <div class="td-box-control-full">
             <?php
-            echo td_panel_generator::input(array(
+            echo td_panel_generator::textarea(array(
                 'ds' => 'td_option',
                 'option_id' => 'tds_footer_copyright'
             ));

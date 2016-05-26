@@ -2,8 +2,10 @@
 
 /**
  * Class td_block - base class for blocks
- * v 5.0 - td-composer edition :)
+ * v 5.1 - td-composer edition :)
  */
+
+
 class td_block {
 	var $block_uid; // the block unique id on the page, it changes on every render
 	var $td_query; //the query used to rendering the current block
@@ -19,10 +21,6 @@ class td_block {
 
 
 
-
-
-
-
     /**
      * the base render function. This is called by all the child classes of this class
      * this function also ECHOES the block specific css to the buffer (for hover and stuff)
@@ -32,9 +30,14 @@ class td_block {
      * @return string ''
      */
     function render($atts, $content = null) {
-
 	    // build the $this->atts
+
+	    // print_r($atts);
+
 	    $atts = $this->add_live_filter_atts($atts); // add live filter atts
+
+
+	    // WARNING! all the atts MUST BE DEFINED HERE !!! It's easier to maintain and we always have a list of them all
 	    $this->atts = shortcode_atts ( // add defaults (if an att is not in this list, it will be removed!)
 		    array(
 			    'limit' => 5,  // @todo trebuie refactoriata partea cu limita, in paginatie e hardcodat tot 5 si deja este setat in constructor aici
@@ -50,7 +53,7 @@ class td_block {
 			    'show_child_cat' => '',
 			    'sub_cat_ajax' => '',
 			    'ajax_pagination' => '',
-			    'header_color' => '',       // used in td_block_template_1.php
+			    'header_color' => '',       // used in td_block_template_1.php + here for js -> loading color
 			    'header_text_color' => '',  // used in td_block_template_1.php
 
 			    'ajax_pagination_infinite_stop' => '',
@@ -69,10 +72,22 @@ class td_block {
 			    'color_preset' => '',
 			    'border_top' => '',
 			    'class' => '',
-			    'offset' => '' // the offset
+			    'offset' => '', // the offset
+
+
+			    // live filters
+			    // $atts['live_filter'] is set by the 'user'. cur_post_same_tags | cur_post_same_author | cur_post_same_categories
+			    'live_filter' => '',
+
+			    // the two live filters are set by @see td_block::add_live_filter_atts
+			    'live_filter_cur_post_id' => '',      /** @see td_block::add_live_filter_atts */
+			    'live_filter_cur_post_author' => '',  /** @see td_block::add_live_filter_atts */
 		    ),
 		    $atts
 	    );
+
+
+
 
 		/*// @todo vezi daca e necesara chestia asta! si daca merge cum trebuie
 	    if (!empty($this->atts['custom_title'])) {
@@ -247,7 +262,10 @@ class td_block {
 
 
     /**
-     * this function adds the live filters atts (for example the current category or the current post)
+     * this function adds the live filters atts when $atts['live_filter'] is set. The attributs are imidiatly available to all
+     * after the render method is called
+     *   - $atts['live_filter_cur_post_id'] - the current post id
+     *   - $atts['live_filter_cur_post_author'] - the current post author
      * @param $atts
      * @return mixed
      */
@@ -406,7 +424,7 @@ class td_block {
 		    $buffy .= $block_item . '.post_count = "' . $this->td_query->post_count . '";' . "\n";
 		    $buffy .= $block_item . '.found_posts = "' . $this->td_query->found_posts . '";' . "\n";
 
-		    $buffy .= $block_item . '.header_color = "' . $atts['header_color'] . '";' . "\n";
+		    $buffy .= $block_item . '.header_color = "' . $atts['header_color'] . '";' . "\n"; // the header_color is needed for the animated loader
 		    $buffy .= $block_item . '.ajax_pagination_infinite_stop = "' . $atts['ajax_pagination_infinite_stop'] . '";' . "\n";
 
 
@@ -607,7 +625,7 @@ class td_block {
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
 
-					tdcDebug.log('tdComposerBlockItem.callbackDelete(' + blockUid + ') - td_block base callback runned');
+					tdcDebug.log('td_block.php js_tdc_get_composer_block  -  callbackDelete(' + blockUid + ') - td_block base callback runned');
 				};
 				tdcComposerBlocksApi.addItem(tdComposerBlockItem);
 			})();

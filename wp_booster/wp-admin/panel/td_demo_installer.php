@@ -14,6 +14,11 @@ class td_demo_installer {
 
 
     function ajax_demos_controller() {
+
+
+		// die if request is fake
+	    check_ajax_referer('td-demo-install', 'td_magic_token');
+
         if (!current_user_can('switch_themes')) {
             die;
         }
@@ -195,7 +200,10 @@ class td_demo_installer {
             // we empty the ignored settings
             td_global::$td_options = $file_settings;
             foreach ($ignored_settings as $setting) {
-                td_global::$td_options[$setting] = '';
+	            if (isset(td_global::$td_options[$setting])) {
+		            unset(td_global::$td_options[$setting]);
+	            }
+                //td_global::$td_options[$setting] = '';
             }
         } else {
             // we leave the ignored settings alone

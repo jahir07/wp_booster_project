@@ -18,7 +18,16 @@
 
 $show_update_msg = 0;
 
+
+// import theme settings
 if(!empty($_REQUEST['action_import']) && $_REQUEST['action_import'] == 'import_theme_settings') {
+
+
+	if (empty($_POST['td_magic_token']) || wp_verify_nonce($_POST['td_magic_token'], 'td-import-panel') === false) {
+		echo 'Permission denied';
+		die;
+	}
+
 
     if (!empty($_POST['td_update_theme_options']['tds_update_theme_options'])) {
         if (update_option(TD_THEME_OPTIONS_NAME, @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options'])))) {
@@ -27,7 +36,14 @@ if(!empty($_REQUEST['action_import']) && $_REQUEST['action_import'] == 'import_t
     }
 }
 
+
+// reset theme settings
 if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_theme_settings') {
+
+	if (empty($_POST['td_magic_token']) || wp_verify_nonce($_POST['td_magic_token'], 'td-import-panel') === false) {
+		echo 'Permission denied';
+		die;
+	}
 
     if(isset($_POST['td_unregistered']['tds_reset_theme_options']) && $_POST['td_unregistered']['tds_reset_theme_options'] == 'reset') {
 
@@ -104,6 +120,7 @@ if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_them
 
                 <!-- Import/Export theme settings -->
                 <form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_import=import_theme_settings" method="post" onsubmit="return confirm('Are you sure you want to import this settings?\nIt will overwrite the one that you have now!');">
+	                <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-import-panel") ?>"/>
                     <input type="hidden" name="action" value="td_ajax_update_panel">
 
                         <div class="td-box-row">
@@ -155,6 +172,7 @@ if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_them
 
                 <!-- Reset theme settings -->
                 <form id="td_panel_reset_settings" name="td_panel_reset_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_reset=reset_theme_settings" method="post" onsubmit="return tdValidateReset();">
+	                <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-import-panel") ?>"/>
                     <input type="hidden" name="action" value="td_ajax_update_panel">
 
                         <div class="td-box-row">
