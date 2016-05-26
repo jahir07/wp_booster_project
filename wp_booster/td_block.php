@@ -74,6 +74,7 @@ class td_block {
 			    'class' => '',
 			    'offset' => '', // the offset
 
+			    'css' => '', //custom css
 
 			    // live filters
 			    // $atts['live_filter'] is set by the 'user'. cur_post_same_tags | cur_post_same_author | cur_post_same_categories
@@ -649,13 +650,16 @@ class td_block {
      * @param $additional_classes_array array - of classes to add to the block
      * @return string
      */
-    function get_block_classes($additional_classes_array = array()) {
+    protected function get_block_classes($additional_classes_array = array()) {
 
 
 	    $class = $this->get_att('class');
 	    $color_preset = $this->get_att('color_preset');
 		$ajax_pagination = $this->get_att('ajax_pagination');
 	    $border_top = $this->get_att('border_top');
+	    $css = $this->get_att('css');
+
+
 
 
 
@@ -666,7 +670,20 @@ class td_block {
 	        get_class($this)
         );
 
-        //add the classes that we receive via shortcode
+
+	    // get the design tab css classes
+	    $css_classes_array = $this->parse_css_att($css, true);
+	    if ( $css_classes_array !== false ) {
+		    $block_classes = array_merge(
+			    $block_classes,
+			    $css_classes_array
+		    );
+	    }
+
+
+
+
+	    //add the classes that we receive via shortcode
         if (!empty($class)) {
             $class_array = explode(' ', $class);
             $block_classes = array_merge(
@@ -757,13 +774,49 @@ class td_block {
 		}
 
 		if (!isset($this->atts[$att_name])) {
-			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! The list with available atts is in td_block::render');
+			print_r($this->atts);
+			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! class_name: ' . get_class($this) . '  Att name: "' . $att_name . '" The list with available atts is in td_block::render');
 			die;
 		}
 
 		return $this->atts[$att_name];
 	}
 
+
+	/**
+	 * parses a design panel generated css string and get's the classes and the
+	 * @param $user_css_att
+	 * @param bool $get_only_classes
+	 *
+	 * @return array|bool - array of results
+	 *      if $get_only_classes = true  - get an array of classes (without '.')
+	 *                           = false - get an array of [class_name] => css
+	 */
+	private function parse_css_att($user_css_att, $get_only_classes = false) {
+		if (empty($user_css_att)) {
+			return false;
+		}
+
+		$matches = array();
+		$preg_match_ret = preg_match_all ( '/\s*\.\s*([^\{]+)\s*\{\s*([^\}]+)\s*\}\s*/', $user_css_att, $matches);
+
+
+		if ( $preg_match_ret === 0 || $preg_match_ret === false || empty($matches[1]) || empty($matches[2]) ) {
+			return false;
+		}
+
+		// get only the selectors
+		if ( $get_only_classes === true ) {
+			return $matches[1];
+		}
+
+
+		$buffy_array = array();
+		foreach ( $matches[1] as $index => $selector ) {
+			$buffy_array [ trim($selector) ] = trim( $matches[2][$index] );
+		}
+		return $buffy_array;
+	}
 
 
 	/**
