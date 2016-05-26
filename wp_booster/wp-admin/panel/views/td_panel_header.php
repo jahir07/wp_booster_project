@@ -236,7 +236,7 @@
         </div>
     </div>
 
-<?php if (td_global::$feature_locked === false) { ?>
+
 <div class="td-box-section-separator"></div>
 	<!-- Weather: enable disable -->
 	<div class="td-box-row">
@@ -293,7 +293,7 @@
 			?>
 		</div>
 	</div>
-<?php } ?>
+
 
 
 
