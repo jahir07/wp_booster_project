@@ -736,8 +736,15 @@ function td_get_document_height() {
  */
 function setMenuMinHeight() {
     var tdMobileMenu = jQuery( '#td-mobile-nav' );
+    var tdMobileBg = jQuery( '.td-menu-background' );
+    var tdMobileBgSearch = jQuery( '.td-search-background' );
 
     if ( tdMobileMenu.length ) {
         tdMobileMenu.css( 'min-height' , (tdEvents.window_innerHeight+1) + 'px' );
+    }
+
+    if ( tdMobileBg.length ) {
+        tdMobileBg.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
+        tdMobileBgSearch.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
     }
 }
