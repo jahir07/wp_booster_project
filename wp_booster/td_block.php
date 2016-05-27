@@ -776,7 +776,7 @@ class td_block {
 		}
 
 		if (!isset($this->atts[$att_name])) {
-			print_r($this->atts);
+			var_dump($this->atts);
 			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! class_name: ' . get_class($this) . '  Att name: "' . $att_name . '" The list with available atts is in td_block::render');
 			die;
 		}
