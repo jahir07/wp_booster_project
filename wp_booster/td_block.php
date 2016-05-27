@@ -613,6 +613,8 @@ class td_block {
 		?>
 		<script>
 			(function () {
+				// js_tdc_get_composer_block code for "<?php echo get_class($this) ?>"
+
 				var tdComposerBlockItem = new tdcComposerBlocksApi.item();
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
