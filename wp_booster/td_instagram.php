@@ -5,6 +5,12 @@ class td_instagram {
     private static $caching_time = 10800;  // 3 hours
 
     public static function render_generic($atts) {
+
+        // Instagram id is not set
+        if (empty($atts['instagram_id'])) {
+            return '';
+        }
+
         // prepare the data
         $instragram_data = array(
             'user' => '',

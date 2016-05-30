@@ -591,7 +591,7 @@ class td_util {
 
 	/**
 	 * safe way to call the tdc_state::is_live_editor_iframe() function
-	 * @return bool
+	 * @return bool  Note that ajax requests do not toggle this to true
 	 */
 	static function tdc_is_live_editor_iframe() {
 		if (class_exists('tdc_state', false) === true && method_exists('tdc_state', 'is_live_editor_iframe') === true) {
@@ -601,6 +601,9 @@ class td_util {
 	}
 
 
+	/**
+	 * @return bool returns true only when the pagebuilder makes an ajax request
+	 */
 	static function tdc_is_live_editor_ajax() {
 		if (class_exists('tdc_state', false) === true && method_exists('tdc_state', 'is_live_editor_ajax') === true) {
 			return tdc_state::is_live_editor_ajax();
@@ -608,6 +611,58 @@ class td_util {
 		return false;
 	}
 
+	/**
+	 * safe way to see if tdc is installed
+	 * @return bool
+	 */
+	static function tdc_is_installed() {
+		if (defined('TDC_VERSION')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Checks a page content and tries to determin if a page was build with a pagebuilder (tdc or vc)
+	 * @param $post WP_Post
+	 * @return bool
+	 */
+	static function is_pagebuilder_content($post) {
+
+		if (empty($post->post_content)) {
+			return false;
+		}
+
+		/**
+		 * detect the page builder
+		 */
+		if (method_exists('WPBMap', 'getShortCodes')) {
+			$short_codes_buffer = array();
+			$td_page_builder_short_codes = array_keys(WPBMap::getShortCodes());
+			if (is_array($td_page_builder_short_codes) && !empty($td_page_builder_short_codes)) {
+				foreach ($td_page_builder_short_codes as $short_code_name){
+					// we have to add [ before the shortcode name, else it may target simple words that match with the shortcode name
+					$short_codes_buffer[] = '[' .  $short_code_name;
+				}
+			}
+			if (!empty($short_codes_buffer) && td_util::strpos_array($post->post_content, $short_codes_buffer) === true) {
+				return true;
+			}
+		}
+
+		/**
+		 * for TDC we use a simpler method, evey pagebuilder page must have vc_row in it
+		 */
+		$matches = array();
+		$preg_match_ret = preg_match('/\[.*vc_row.*\]/', $post->post_content, $matches);
+		if ($preg_match_ret !== 0 && $preg_match_ret !== false ) {
+			return true;
+		}
+
+		return false;
+	}
 
 
 

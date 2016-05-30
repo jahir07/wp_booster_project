@@ -173,6 +173,8 @@ class td_exchange {
      * @return $new_rate (array) - new rate based on the base rate
      */
     private static function td_calculate_new_rates($base_currency_code, $base_currency_rate, $default_api_rates) {
+        //return buffer
+        $new_rates = array();
         foreach ($default_api_rates as $rate_code => $rate_value) {
             // remove the custom selected base rate from the the list
             if ($base_currency_code != $rate_code) {
@@ -231,7 +233,7 @@ class td_exchange {
     private static function fixer_get_data($atts, &$exchange_data){
 
         // default base currency is eur and it returns all rates
-        $api_url = 'https://api.fixer.io/latest';
+        $api_url = 'http://api.fixer.io/latest';
         $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
 
         // check for a response

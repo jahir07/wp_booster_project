@@ -613,6 +613,8 @@ class td_block {
 		?>
 		<script>
 			(function () {
+				// js_tdc_get_composer_block code for "<?php echo get_class($this) ?>"
+
 				var tdComposerBlockItem = new tdcComposerBlocksApi.item();
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
@@ -622,6 +624,9 @@ class td_block {
 
 					// delete the animation sprite if it exits
 					tdAnimationSprite.deleteItem(blockUid);
+
+					// delete the homepagefull if it exits
+					tdHomepageFull.deleteItem( blockUid );
 
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
@@ -774,7 +779,7 @@ class td_block {
 		}
 
 		if (!isset($this->atts[$att_name])) {
-			print_r($this->atts);
+			var_dump($this->atts);
 			td_util::error(__FILE__, 'Internal error: The system tried to use an att that does not exists! class_name: ' . get_class($this) . '  Att name: "' . $att_name . '" The list with available atts is in td_block::render');
 			die;
 		}

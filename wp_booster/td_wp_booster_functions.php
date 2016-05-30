@@ -180,17 +180,6 @@ add_theme_support('woocommerce');
 
 
 /* ----------------------------------------------------------------------------
- * front end js composer file @todo - check it why is this way
- */
-add_action('wp_enqueue_scripts',  'load_js_composer_front', 1000);
-function load_js_composer_front() {
-	wp_enqueue_style('js_composer_front');
-}
-
-
-
-
-/* ----------------------------------------------------------------------------
  * front end css files
  */
 add_action('wp_enqueue_scripts', 'load_front_css', 1001);   // 1001 priority because visual composer uses 1000
