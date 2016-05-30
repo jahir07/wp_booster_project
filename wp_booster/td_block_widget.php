@@ -181,16 +181,15 @@ class td_block_widget extends WP_Widget {
 	* @return array
     */
 	function update($new_instance, $old_instance) {
-
 	    $instance = $old_instance;
-
 	    foreach ($this->map_param_default_array as $param_name => $param_value) {
-	        //if we need aditional procesing, we will do it here
-	        $instance[$param_name] = $new_instance[$param_name];
+	        // we must check for isset, because otherwise we will end up with NULL if a field type is not declare above
+		    // like the problem we had with the css att/field
+		    if (isset($new_instance[$param_name])) {
+			    $instance[$param_name] = $new_instance[$param_name];
+		    }
 	    }
-
 	    return $instance;
-
 	}
 
 
