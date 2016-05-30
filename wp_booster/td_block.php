@@ -625,6 +625,9 @@ class td_block {
 					// delete the animation sprite if it exits
 					tdAnimationSprite.deleteItem(blockUid);
 
+					// delete the homepagefull if it exits
+					tdHomepageFull.deleteItem( blockUid );
+
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
 

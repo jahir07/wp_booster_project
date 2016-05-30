@@ -16,7 +16,7 @@ class td_page_generator {
          * via @see td_page_generator::get_custom_post_type_breadcrumbs() - in this file
          */
         global $post;
-        if ($post->post_type != 'post') {
+        if (isset($post) && $post->post_type != 'post') {
             return self::get_custom_post_type_breadcrumbs();
         }
 
