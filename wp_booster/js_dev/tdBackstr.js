@@ -16,6 +16,9 @@ var tdBackstr = {};
 
         item: function() {
 
+            // OPTIONAL - here we store the block Unique ID. This enables us to delete the item via this id @see tdBackstr.deleteItem
+            this.blockUid = '';
+
             // check if is necessary to apply modification (css)
             this.previous_value = 0;
 
@@ -78,6 +81,17 @@ var tdBackstr = {};
                 //    }
                 //}, 0);
             }
+        },
+
+
+        deleteItem: function( blockUid ) {
+            for (var i = 0; i < tdBackstr.items.length; i++) {
+                if ( tdBackstr.items[ i ].blockUid === blockUid ) {
+                    tdBackstr.items.splice(i, 1); // remove the item from the "array"
+                    return true;
+                }
+            }
+            return false;
         },
 
 
