@@ -23,8 +23,6 @@ class td_block {
 
     /**
      * the base render function. This is called by all the child classes of this class
-     * this function also ECHOES the block specific css to the buffer (for hover and stuff)
-     * WARNING! THIS FUNCTIONS ECHOs THE CSS - it was made to work this way as a hack because the blocks do not get the returned value of render in a buffer
      * @param $atts
      * @param $content
      * @return string ''
@@ -145,11 +143,33 @@ class td_block {
 
 
 
-        // echo the default style of the block
-        echo $this->block_template()->get_css();
 
         return '';
     }
+
+
+	/**
+	 * Returns the block css
+	 * @since 30 may 2016 - before it was echoed on render - no bueno
+	 */
+	protected function get_block_css() {
+		$buffy = $this->block_template()->get_css();
+
+		$css = $this->get_att('css');
+
+		// VC adds the CSS att automatically so we don't have to do it
+		if (!td_util::is_vc_installed() && !empty($css)) {
+			$buffy .= PHP_EOL . '/* inline css att */' . PHP_EOL . $css;
+		}
+
+		if (!empty($buffy)) {
+			/** scoped - @link http://www.w3schools.com/tags/att_style_scoped.asp */
+			$buffy = PHP_EOL . '<style scoped>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
+			return $buffy;
+		}
+
+		return '';
+	}
 
 
 	/**
