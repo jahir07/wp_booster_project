@@ -756,9 +756,7 @@ class td_block {
         //remove duplicates
         $block_classes = array_unique($block_classes);
 
-
-	    // @warning :) we also append the data block uid here. Ugly hack but it should work for now
-        return implode(' ', $block_classes);
+	    return implode(' ', $block_classes);
     }
 
 
