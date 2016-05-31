@@ -742,7 +742,7 @@ function setMenuMinHeight() {
         return;
     }
 
-    if ( 'undefined' === tdEvents.previousWindowInnerWidth ) {
+    if ( 'undefined' === typeof tdEvents.previousWindowInnerWidth ) {
 
         // Save the previous width
         tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
@@ -752,6 +752,8 @@ function setMenuMinHeight() {
         // Stop if the width has not been modified
         return;
     }
+
+    tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
 
     var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
         $tdMobileBg = jQuery( '.td-menu-background' ),
@@ -769,4 +771,6 @@ function setMenuMinHeight() {
     if ( $tdMobileBgSearch.length ) {
         $tdMobileBgSearch.css( 'height' , ( cssHeight + 70 ) + 'px' );
     }
+
+
 }
