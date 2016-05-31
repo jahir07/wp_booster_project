@@ -611,17 +611,19 @@ class td_util {
 		return false;
 	}
 
+
 	/**
-	 * safe way to see if tdc is installed
-	 * @return bool
+	 * Checks if VC is installed
+	 * @return bool true if visual composer is installed
 	 */
-	static function tdc_is_installed() {
-		if (defined('TDC_VERSION')) {
+	static function is_vc_installed() {
+		if (defined('WPB_VC_VERSION')) {
 			return true;
 		}
 
 		return false;
 	}
+
 
 
 	/**
