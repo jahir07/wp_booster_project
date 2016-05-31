@@ -735,6 +735,24 @@ function td_get_document_height() {
 
  */
 function setMenuMinHeight() {
+
+    if ( ! tdDetect.isMobileDevice ) {
+
+        // Stop if we are not on mobile
+        return;
+    }
+
+    if ( 'undefined' === tdEvents.previousWindowInnerWidth ) {
+
+        // Save the previous width
+        tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
+
+    } else if ( tdEvents.previousWindowInnerWidth === tdEvents.window_innerWidth ) {
+
+        // Stop if the width has not been modified
+        return;
+    }
+
     var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
         $tdMobileBg = jQuery( '.td-menu-background' ),
         $tdMobileBgSearch = jQuery( '.td-search-background' ),
@@ -745,10 +763,10 @@ function setMenuMinHeight() {
     }
 
     if ( $tdMobileBg.length ) {
-        $tdMobileBg.css( 'height' , cssHeight + 'px' );
+        $tdMobileBg.css( 'height' , ( cssHeight + 70 ) + 'px' );
     }
 
     if ( $tdMobileBgSearch.length ) {
-        $tdMobileBgSearch.css( 'height' , cssHeight + 'px' );
+        $tdMobileBgSearch.css( 'height' , ( cssHeight + 70 ) + 'px' );
     }
 }
