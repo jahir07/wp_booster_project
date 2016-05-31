@@ -745,7 +745,7 @@ function setMenuMinHeight() {
     }
 
     if ( $tdMobileBg.length ) {
-        $tdMobileBgSearch.css( 'height' , cssHeight + 'px' );
+        $tdMobileBg.css( 'height' , cssHeight + 'px' );
     }
 
     if ( $tdMobileBgSearch.length ) {
