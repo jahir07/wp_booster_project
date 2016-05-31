@@ -735,16 +735,20 @@ function td_get_document_height() {
 
  */
 function setMenuMinHeight() {
-    var tdMobileMenu = jQuery( '#td-mobile-nav' );
-    var tdMobileBg = jQuery( '.td-menu-background' );
-    var tdMobileBgSearch = jQuery( '.td-search-background' );
+    var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
+        $tdMobileBg = jQuery( '.td-menu-background' ),
+        $tdMobileBgSearch = jQuery( '.td-search-background' ),
+        cssHeight = tdEvents.window_innerHeight + 1;
 
-    if ( tdMobileMenu.length ) {
-        tdMobileMenu.css( 'min-height' , (tdEvents.window_innerHeight+1) + 'px' );
+    if ( $tdMobileMenu.length ) {
+        $tdMobileMenu.css( 'min-height' , cssHeight + 'px' );
     }
 
-    if ( tdMobileBg.length ) {
-        tdMobileBg.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
-        tdMobileBgSearch.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
+    if ( $tdMobileBg.length ) {
+        $tdMobileBgSearch.css( 'height' , cssHeight + 'px' );
+    }
+
+    if ( $tdMobileBgSearch.length ) {
+        $tdMobileBgSearch.css( 'height' , cssHeight + 'px' );
     }
 }
