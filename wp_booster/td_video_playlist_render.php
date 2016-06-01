@@ -40,6 +40,10 @@ class td_video_playlist_render {
 			$list_name = 'vimeo_ids'; //array key for vimeo in the pos meta db array
 		}
 
+		// Use the $post given by $atts['post_id'] if it's set
+		if (!empty($atts['post_id'])) {
+			$post = get_post($atts['post_id']);
+		}
 
 		// read the youtube and vimeo ids from the DB
 		$td_playlist_videos = get_post_meta($post->ID, 'td_playlist_video', true);
@@ -240,10 +244,19 @@ class td_video_playlist_render {
 				$td_video_title = '<div class="td_video_playlist_title"><div class="td_video_title_text">' . $atts['playlist_title'] . '</div></div>';
 			}
 
+	        // When the tagDiv composer is not available, DO NOT add the css class ('td_wrapper_playlist_player_youtube' or 'td_wrapper_playlist_player_vimeo')
+	        // They are used by the tdVideoPlaylist js script, as player selectors
+	        $cssWrapperPlayer = 'td_wrapper_playlist_player_' . $list_type;
+	        $playerPlaceholder = '';
+
+	        if (td_util::tdc_is_live_editor_iframe() or td_util::tdc_is_live_editor_ajax()) {
+		        $cssWrapperPlayer = '';
+		        $playerPlaceholder = "<div>$list_type placeholder</div>";
+	        }
 
 			//$js_object is there so we can take the string and parsit as json to create an object in jQuery
-			return '<div class="' . $column_number_class . '">' . $td_video_title  . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player td_wrapper_playlist_player_' . $list_type . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
-                            <div id="player_' . $list_type . '"></div>
+			return '<div class="' . $column_number_class . '">' . $td_video_title  . '<div class="td_wrapper_video_playlist"><div class="td_wrapper_player ' . $cssWrapperPlayer . '" data-first-video="' . esc_attr($first_video_id) . '" data-autoplay="' . $td_playlist_autoplay . '">
+                            <div id="player_' . $list_type . '">' . $playerPlaceholder . '</div>
                        </div><div class="td_container_video_playlist " >
                                                 <div class="td_video_controls_playlist_wrapper"><div class="td_video_stop_play_control"><a class="' . $td_class_autoplay_control . ' td-sp td_' . $list_type . '_control"></a></div><div class="td_current_video_play_title_' . $list_type . ' td_video_title_playing"></div><div class="td_current_video_play_time_' . $list_type . ' td_video_time_playing"></div></div>
                                                 <div id="td_' . $list_type . '_playlist_video" class="td_playlist_clickable ' . $td_class_number_video_ids . '">' . $click_video_container . '</div>
