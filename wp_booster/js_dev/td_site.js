@@ -735,16 +735,42 @@ function td_get_document_height() {
 
  */
 function setMenuMinHeight() {
-    var tdMobileMenu = jQuery( '#td-mobile-nav' );
-    var tdMobileBg = jQuery( '.td-menu-background' );
-    var tdMobileBgSearch = jQuery( '.td-search-background' );
 
-    if ( tdMobileMenu.length ) {
-        tdMobileMenu.css( 'min-height' , (tdEvents.window_innerHeight+1) + 'px' );
+    if ( ! tdDetect.isMobileDevice ) {
+
+        // Stop if we are not on mobile
+        return;
     }
 
-    if ( tdMobileBg.length ) {
-        tdMobileBg.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
-        tdMobileBgSearch.css( 'height' , (tdEvents.window_innerHeight+70) + 'px' );
+    if ( 'undefined' === typeof tdEvents.previousWindowInnerWidth ) {
+
+        // Save the previous width
+        tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
+
+    } else if ( tdEvents.previousWindowInnerWidth === tdEvents.window_innerWidth ) {
+
+        // Stop if the width has not been modified
+        return;
     }
+
+    tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
+
+    var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
+        $tdMobileBg = jQuery( '.td-menu-background' ),
+        $tdMobileBgSearch = jQuery( '.td-search-background' ),
+        cssHeight = tdEvents.window_innerHeight + 1;
+
+    if ( $tdMobileMenu.length ) {
+        $tdMobileMenu.css( 'min-height' , cssHeight + 'px' );
+    }
+
+    if ( $tdMobileBg.length ) {
+        $tdMobileBg.css( 'height' , ( cssHeight + 70 ) + 'px' );
+    }
+
+    if ( $tdMobileBgSearch.length ) {
+        $tdMobileBgSearch.css( 'height' , ( cssHeight + 70 ) + 'px' );
+    }
+
+
 }

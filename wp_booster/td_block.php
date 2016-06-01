@@ -149,7 +149,10 @@ class td_block {
 
 
 	/**
-	 * Returns the block css
+	 * Returns the block css.
+	 *
+	 * !!WARNING - blocks that don't use this will not work with the TD composer design tab when Visual Composer is disabled
+	 *              BUT the block will work just fine when VC is enabled
 	 * @since 30 may 2016 - before it was echoed on render - no bueno
 	 */
 	protected function get_block_css() {
@@ -697,7 +700,7 @@ class td_block {
 
 
 	    // get the design tab css classes
-	    $css_classes_array = $this->parse_css_att($css, true);
+	    $css_classes_array = $this->parse_css_att($css);
 	    if ( $css_classes_array !== false ) {
 		    $block_classes = array_merge(
 			    $block_classes,
@@ -753,9 +756,7 @@ class td_block {
         //remove duplicates
         $block_classes = array_unique($block_classes);
 
-
-	    // @warning :) we also append the data block uid here. Ugly hack but it should work for now
-        return implode(' ', $block_classes);
+	    return implode(' ', $block_classes);
     }
 
 
@@ -810,14 +811,12 @@ class td_block {
 
 	/**
 	 * parses a design panel generated css string and get's the classes and the
+	 * It's not private because it's used by td_block_ad_box because that block uses special classes to avoid adblock
 	 * @param $user_css_att
-	 * @param bool $get_only_classes
 	 *
-	 * @return array|bool - array of results
-	 *      if $get_only_classes = true  - get an array of classes (without '.')
-	 *                           = false - get an array of [class_name] => css
+	 * @return array|bool - array of results or false if no classes are available
 	 */
-	private function parse_css_att($user_css_att, $get_only_classes = false) {
+	protected function parse_css_att($user_css_att) {
 		if (empty($user_css_att)) {
 			return false;
 		}
@@ -831,16 +830,7 @@ class td_block {
 		}
 
 		// get only the selectors
-		if ( $get_only_classes === true ) {
-			return $matches[1];
-		}
-
-
-		$buffy_array = array();
-		foreach ( $matches[1] as $index => $selector ) {
-			$buffy_array [ trim($selector) ] = trim( $matches[2][$index] );
-		}
-		return $buffy_array;
+		return $matches[1];
 	}
 
 
