@@ -161,7 +161,9 @@ class td_block {
 		$css = $this->get_att('css');
 
 		// VC adds the CSS att automatically so we don't have to do it
-		if (!td_util::is_vc_installed() && !empty($css)) {
+		if (
+			( !td_util::is_vc_installed() || td_util::tdc_is_live_editor_iframe() || td_util::tdc_is_live_editor_ajax() ) && !empty($css)
+		) {
 			$buffy .= PHP_EOL . '/* inline css att */' . PHP_EOL . $css;
 		}
 
