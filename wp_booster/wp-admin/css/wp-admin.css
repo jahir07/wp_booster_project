@@ -2816,7 +2816,6 @@ title one row controls
 }
 .td-admin-wrap .theme .theme-actions .button {
   margin: 0;
-  line-height: 14px;
 }
 .td-admin-wrap .theme .theme-actions .button:first-child {
   margin-right: 5px;
@@ -2847,6 +2846,9 @@ title one row controls
 }
 .td-admin-wrap.td-admin-plugins .theme:nth-of-type(3n+1) {
   margin-left: 0 !important;
+}
+.td-demo-page-content .theme .theme-actions .button {
+  line-height: 14px;
 }
 /*  ----------------------------------------------------------------------------
     ap-admin header tabs
