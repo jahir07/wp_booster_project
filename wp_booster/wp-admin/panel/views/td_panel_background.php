@@ -111,6 +111,11 @@
 
 <!-- BACKGROUND UPLOAD -->
 <div class="td-box-row">
+    <div class="td-box-description td-box-full">
+        <span class="td-box-title">Instructions:</span>
+        <p>If you are using a background image, go to <strong>Theme Colors ⇢ Mobile menu</strong> and adjust the <strong>opacity</strong> for the <strong>Background Gradient Color</strong></p>
+    </div>
+    <div class="td-box-row-margin-bottom"></div>
     <div class="td-box-description">
         <span class="td-box-title">BACKGROUND IMAGE</span>
         <p>Upload a background image</p>
