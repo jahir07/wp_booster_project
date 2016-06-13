@@ -177,7 +177,14 @@ add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 
 add_theme_support('woocommerce');
 
 
-
+/*
+ * front end js composer file @todo - check it why is this way
+ * without this code - on newsmag the composer.min.css is loaded in footer and overwrite our style.css from head (this happens only on other pages like categoris or post - on frontpage works fine)
+ */
+add_action('wp_enqueue_scripts',  'load_js_composer_front', 1000);
+function load_js_composer_front() {
+	wp_enqueue_style('js_composer_front');
+}
 
 /* ----------------------------------------------------------------------------
  * front end css files

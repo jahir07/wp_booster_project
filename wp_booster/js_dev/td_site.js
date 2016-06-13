@@ -736,12 +736,6 @@ function td_get_document_height() {
  */
 function setMenuMinHeight() {
 
-    if ( ! tdDetect.isMobileDevice ) {
-
-        // Stop if we are not on mobile
-        return;
-    }
-
     if ( 'undefined' === typeof tdEvents.previousWindowInnerWidth ) {
 
         // Save the previous width
@@ -756,13 +750,19 @@ function setMenuMinHeight() {
     tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
 
     var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
-        $tdMobileBg = jQuery( '.td-menu-background' ),
-        $tdMobileBgSearch = jQuery( '.td-search-background' ),
         cssHeight = tdEvents.window_innerHeight + 1;
 
     if ( $tdMobileMenu.length ) {
         $tdMobileMenu.css( 'min-height' , cssHeight + 'px' );
     }
+
+    // Stop if we are not on mobile
+    if ( ! tdDetect.isMobileDevice ) {
+        return;
+    }
+
+    var $tdMobileBg = jQuery( '.td-menu-background' ),
+        $tdMobileBgSearch = jQuery( '.td-search-background' );
 
     if ( $tdMobileBg.length ) {
         $tdMobileBg.css( 'height' , ( cssHeight + 70 ) + 'px' );
