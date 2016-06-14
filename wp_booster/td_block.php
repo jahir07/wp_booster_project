@@ -650,6 +650,9 @@ class td_block {
 					// delete the animation sprite if it exits
 					tdAnimationSprite.deleteItem(blockUid);
 
+					// delete the animation sprite if it exits
+					tdTrendingNow.deleteItem(blockUid);
+
 					// delete the homepagefull if it exits
 					tdHomepageFull.deleteItem( blockUid );
 
