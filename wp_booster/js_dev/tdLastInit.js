@@ -50,8 +50,6 @@ jQuery( window ).ready(function() {
 
         //block unique ID
         item.blockUid = jQuery(this).data('td-block-uid');
-        //wrapper unique ID
-        item.wrapperUid = wrapper.attr('id');
 
         //set trendingNowAutostart
         if (autoStart !== 'manual') {
@@ -59,7 +57,7 @@ jQuery( window ).ready(function() {
         }
 
         //take the text from each post from current trending-now-wrapper
-        jQuery('#' + item.wrapperUid + ' .td-trending-now-post').each(function() {
+        jQuery('#' + item.blockUid + ' .td-trending-now-post').each(function() {
             //trending_list_posts[i_cont] = jQuery(this)[0].outerHTML;
             item.trendingNowPosts[iCont] = jQuery(this);
             //increment the counter
@@ -71,12 +69,12 @@ jQuery( window ).ready(function() {
     });
     jQuery('.td-trending-now-nav-left').on('click', function(event) {
         event.preventDefault();
-        var blockUid = jQuery(this).data('wrapper-id');
+        var blockUid = jQuery(this).data('block-id');
         tdTrendingNow.itemPrev(blockUid);
     });
     jQuery('.td-trending-now-nav-right').on('click', function(event) {
         event.preventDefault();
-        var blockUid = jQuery(this).data('wrapper-id');
+        var blockUid = jQuery(this).data('block-id');
         tdTrendingNow.itemNext(blockUid);
 
     });
