@@ -15,7 +15,7 @@ class td_video_playlist_render {
 	 * @return string the playlist HTML
 	 */
     static function render_generic($atts, $list_type){
-        $block_uid = td_global::td_generate_unique_id(); //update unique id on each render
+	    $block_uid = td_global::td_generate_unique_id(); //update unique id on each render
         $buffy = ''; //output buffer
         $buffy .= '<div class="td_block_wrap td_block_video_playlist">';
 	        $buffy .= '<div id=' . $block_uid . ' class="td_block_inner">';
@@ -32,6 +32,13 @@ class td_video_playlist_render {
 	private static function get_video_data($atts, $list_type) {
 		global $post;
 
+		// When the TagDiv composer is requesting by ajax, the $postId is set by the 'postId' param
+		if ( td_util::tdc_is_live_editor_ajax() ) {
+			$postId = $_POST['postId'];
+		} else {
+			$postId = $post->ID;
+		}
+
 		$atts_playlist_name = 'playlist_yt';
 		$list_name = 'youtube_ids'; //array key for youtube in the pos meta db array
 
@@ -40,13 +47,8 @@ class td_video_playlist_render {
 			$list_name = 'vimeo_ids'; //array key for vimeo in the pos meta db array
 		}
 
-		// Use the $post given by $atts['post_id'] if it's set
-		if (!empty($atts['post_id'])) {
-			$post = get_post($atts['post_id']);
-		}
-
 		// read the youtube and vimeo ids from the DB
-		$td_playlist_videos = get_post_meta($post->ID, 'td_playlist_video', true);
+		$td_playlist_videos = get_post_meta($postId, 'td_playlist_video', true);
 
 		//print_r($td_playlist_videos);
 
@@ -78,7 +80,8 @@ class td_video_playlist_render {
 						// array_merge can't be used because it reindex integer indexes ( and youtube indexes are integers)
 						$td_playlist_videos[$list_name] = $td_playlist_videos[$list_name] + $uncached_videos;
 					}
-					update_post_meta($post->ID, 'td_playlist_video', $td_playlist_videos);
+//					var_dump( $post );
+					update_post_meta($postId, 'td_playlist_video', $td_playlist_videos);
 				}
 
 			}
