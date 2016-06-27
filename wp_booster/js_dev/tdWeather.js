@@ -54,9 +54,13 @@ var tdWeather = {};
         _currentLatitude: 0,
         _currentLongitude: 0,
         _currentPositionCacheKey: '',
+        _currentLocationCacheKey: '',
 
         // all the weather items
         items: [],  /** an item is json encoded from this in PHP: @see td_weather::$weather_data */
+
+        // location set filed open
+        _is_location_open: false,
 
 
 
@@ -78,7 +82,10 @@ var tdWeather = {};
                 // get the position + callback
                 var timeoutVal = 10 * 1000 * 1000;
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(tdWeather._updateLocationCallback, tdWeather._displayLocationApiError, {enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 600000});
+                    navigator.geolocation.getCurrentPosition(
+                        tdWeather._updateLocationCallback,
+                        tdWeather._displayLocationApiError,
+                        {enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 600000});
                 }
 
                 tdWeather._currentRequestInProgress = false;
@@ -93,6 +100,7 @@ var tdWeather = {};
 
                 // get the block id
                 tdWeather._currentItem = tdWeather._getItemByBlockID(jQuery(this).data('block-uid'));
+                //console.log(tdWeather._currentItem);
 
                 if (tdWeather._currentItem.current_unit === 1) {
                     tdWeather._currentItem.current_unit = 0;
@@ -100,6 +108,49 @@ var tdWeather = {};
                     tdWeather._currentItem.current_unit = 1;
                 }
                 tdWeather._renderCurrentItem();
+            });
+
+            /**
+             *  set manual location
+             *  */
+
+            jQuery('#location_form').submit( function(event){
+                event.preventDefault();
+
+                if (tdWeather._currentRequestInProgress === true) {
+                    return;
+                }
+
+                tdWeather._currentRequestInProgress = true;
+
+                //console.log(tdWeather._currentItem.block_uid);
+
+                tdWeather._currentItem = tdWeather._getItemByBlockID(tdWeather._currentItem.block_uid);
+
+                //tdWeather._currentItem = tdWeather._getItemByBlockID(jQuery(this).data('block-uid'));
+
+                //console.log(tdWeather._currentItem);
+
+                var location = jQuery('#location').val();
+                //console.log('location: ' + location);
+                //alert('form submitted!!');
+
+                tdWeather._updateLocationCallback2(location);
+
+                tdWeather._currentRequestInProgress = false;
+                tdWeather._hide_location();
+            });
+
+
+            jQuery(document).click(function(ev) {
+                //console.log(jQuery(ev.target));
+                //console.log('+++' + ev.target.className);
+                if ( tdWeather._is_location_open === true
+                    && jQuery(ev.target).hasClass('td-location-set-input') !== true
+                    && jQuery(ev.target).hasClass('td-location-set-button') !== true ) {
+                    tdWeather._hide_location();
+                }
+
             });
         },
 
@@ -192,6 +243,7 @@ var tdWeather = {};
                 tdWeather._owmGetFiveDaysData(tdLocalCache.get(tdWeather._currentPositionCacheKey));
             } else {
                 var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + tdWeather._currentLatitude + '&lon=' + tdWeather._currentLongitude + '&units=metric&lang=' + tdWeather._currentItem.api_language + '&appid=' + tdWeather._currentItem.api_key;
+                //console.log('forecast: ' + weather);
                 jQuery.ajax({
                     dataType: "jsonp",
                     url: weather,
@@ -323,8 +375,15 @@ var tdWeather = {};
                     return;
                 }
 
+                //alert("Permission denied. Enable GPS or Location services and reload the page");
 
-                alert("Permission denied. Enable GPS or Location services and reload the page");
+                /**
+                 * manual location field
+                 * */
+                tdWeather._show_location();
+
+                //alert('the js rounded value is: '+tdUtil.round(27.82));
+
                 return;
 
             }
@@ -363,7 +422,214 @@ var tdWeather = {};
          */
         _kmphToMph: function ($kmph) {
             return tdUtil.round($kmph * 0.621371192, 1);
-        }
+        },
+
+        /*************************************************************************************************************************************
+         * weather manual
+         * *************************************************************************************************************************************/
+
+        /**
+         * show location
+         */
+
+        _show_location: function (){
+
+            //console.log(jQuery(this).data('block-uid'));
+            //tdWeather._currentItem = tdWeather._getItemByBlockID(jQuery(this).data('block-uid'));
+            tdWeather._currentItem = tdWeather._getItemByBlockID(tdWeather._currentItem.block_uid);
+
+            jQuery('#' + tdWeather._currentItem.block_uid).find('.td-weather-set-location').addClass( 'td-show-location' );
+
+            tdWeather._is_location_open = true;
+
+        },
+
+        /**
+         * hide location
+         */
+
+        _hide_location: function (){
+
+            jQuery('#' + tdWeather._currentItem.block_uid).find('.td-weather-set-location').removeClass('td-show-location');
+            tdWeather._is_location_open = false;
+        },
+
+        /**
+         *  Location API - position callback 2 - used on chrome or other browsers that do not allow current position retrieving
+         * @param location
+         */
+
+        _updateLocationCallback2: function(location){
+
+            //console.log('se seteaza aici.. ');
+            //console.log('se seteaza aici - inainte: ' + tdWeather._currentLocationCacheKey);
+
+            tdWeather._currentLocationCacheKey = location;
+
+            //console.log('se seteaza aici - dupa: ' + tdWeather._currentLocationCacheKey);
+
+            console.log(tdLocalCache.exist(tdWeather._currentLocationCacheKey));
+
+            // check the cache first and avoid doing the same ajax request again
+            if (tdLocalCache.exist(tdWeather._currentLocationCacheKey + '_today')) {
+
+                //console.log('ajunge aici - city weather cache!! ');
+                //console.log(tdLocalCache.get(tdWeather._currentLocationCacheKey + '_today'));
+                tdWeather._owmGetTodayDataCallback2(tdLocalCache.get(tdWeather._currentLocationCacheKey + '_today'));
+
+            } else {
+
+                console.log('se face request la api!! ');
+
+                var weather = 'http://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(location) + '&lang=' + tdWeather._currentItem.api_language + '&units=metric&appid=' + tdWeather._currentItem.api_key;
+
+                console.log('dupa request city weather: ' + weather);
+
+                jQuery.ajax({
+                    dataType: "jsonp",
+                    url: weather,
+                    success: tdWeather._owmGetTodayDataCallback2,
+                    cache: true
+                });
+            }
+        },
+
+
+        /**
+         * AJAX callback for forecast and 5 days forecast for city location api request
+         * @param data - OWM api response
+         *
+         */
+
+        _owmGetTodayDataCallback2: function (data) {
+            // save the data to localCache
+
+            //console.log('before cache ' + tdWeather._currentLocationCacheKey + '_today');
+            tdLocalCache.set(tdWeather._currentLocationCacheKey + '_today', data);
+
+            //console.log('wafter cache ' + tdWeather._currentLocationCacheKey + '_today');
+
+            //console.log('data:');
+            //console.log(data);
+
+
+            // prepare the tdWeather._currentItem object, notice that tdWeather._currentItem is a reference to an object stored in tdWeather.items
+            tdWeather._currentItem.api_location = data.name;
+            tdWeather._currentItem.today_clouds = tdUtil.round(data.clouds.all);
+            tdWeather._currentItem.today_humidity = tdUtil.round(data.main.humidity);
+            tdWeather._currentItem.today_icon = tdWeather._icons[data.weather[0].icon];
+            tdWeather._currentItem.today_icon_text = data.weather[0].description;
+            tdWeather._currentItem.today_max[0] = tdUtil.round(data.main.temp_max, 1);                                  //celsius
+            tdWeather._currentItem.today_max[1] = tdWeather._celsiusToFahrenheit(data.main.temp_max);                   //imperial
+            tdWeather._currentItem.today_min[0] = tdUtil.round(data.main.temp_min, 1);                                  //celsius
+            tdWeather._currentItem.today_min[1] = tdWeather._celsiusToFahrenheit(data.main.temp_min);                   //imperial
+            tdWeather._currentItem.today_temp[0] = tdUtil.round(data.main.temp, 1);                                     //celsius
+            tdWeather._currentItem.today_temp[1] = tdWeather._celsiusToFahrenheit(data.main.temp);                      //imperial
+            tdWeather._currentItem.today_wind_speed[0] = tdUtil.round(data.wind.speed, 1);                              //metric
+            tdWeather._currentItem.today_wind_speed[1] = tdWeather._kmphToMph(data.wind.speed);                         //imperial
+
+            //console.log('current itemm: ');
+            //console.log(tdWeather._currentItem);
+            //console.log(data);
+
+            console.log(tdLocalCache.exist(tdWeather._currentLocationCacheKey));
+
+            // check the cache first and avoid doing the same ajax request again
+            if (tdLocalCache.exist(tdWeather._currentLocationCacheKey)) {
+                console.log('forecast cache key: ' + tdWeather._currentLocationCacheKey);
+
+                //console.log('forecast cache!!! ');
+                tdWeather._owmGetFiveDaysData2(tdLocalCache.get(tdWeather._currentLocationCacheKey));
+
+                //console.log('forecast data object:');
+                //console.log(tdLocalCache.get(tdWeather._currentLocationCacheKey));
+
+            } else {
+
+                console.log('se face request la api forecast!! ');
+                var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + tdWeather._currentItem.api_location + '&lang=' + tdWeather._currentItem.api_language + '&units=metric&cnt=7&appid=' + tdWeather._currentItem.api_key;
+
+                console.log('dupa request city forecast: ' + weather);
+                jQuery.ajax({
+                    dataType: "jsonp",
+                    url: weather,
+                    success: tdWeather._owmGetFiveDaysData2,
+                    cache:true
+                });
+            }
+
+        },
+
+
+        _owmGetFiveDaysData2: function (data) {
+            // save the data to localCache
+            tdLocalCache.set(tdWeather._currentLocationCacheKey, data);
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10) {
+                dd='0'+dd
+            }
+
+            if(mm<10) {
+                mm='0'+mm
+            }
+
+            today = yyyy+mm+dd;
+            console.log(today);
+            console.log(tdWeather._currentItem.forecast.length);
+
+            // process the data
+            for (var item_index = 0; item_index < tdWeather._currentItem.forecast.length ; item_index++) {
+                var current_forecast = tdWeather._currentItem.forecast[item_index];
+
+                var timestamp = data.list[current_forecast.owm_day_index].dt;
+
+                var date = new Date(timestamp * 1000);
+                var month = date.getMonth()+1;
+                var day = date.getDate();
+                var year = date.getFullYear();
+
+                if(day<10) {
+                    day='0'+day
+                }
+
+                if(mm<10) {
+                    month='0'+month
+                }
+
+                var forecast_day = year+month+day;
+                console.log(forecast_day);
+
+                if (today < forecast_day){
+                    console.log('false');
+                    //return;
+                }
+
+                //problema cu zilele de forecast decalate vine de la setarea initiala de forecast care vine din php..
+                //..daca din cauza la time zone trebuie excluse primele 2 zile din manual forecast api request data..
+                //..atunci orice manual request de acest gen nu o sa stie de asta si o sa reporteze la datele de forecast setate din php
+                //..la fel si daca avem owm indexul setat pe 2 initial si cu manual forecast setam o locatei care nu are nevoie de decalaj
+                //.. daca faci reuquest manual pt o locatie care nu are nevoie de delay se intoarce cu delay pe baza owm index-lui si din api se aduce cu o zi mai tarziu
+
+
+                current_forecast.day_temp[0] = tdUtil.round(data.list[current_forecast.owm_day_index].temp.day);        //celsius
+
+
+                console.log(data);
+
+                current_forecast.day_temp[1] = tdWeather._celsiusToFahrenheit(current_forecast.day_temp[0]);            //imperial
+            }
+            tdWeather._renderCurrentItem();
+        },
+
+
+
+
+
+
 
     };  // end tdWeather
 })();

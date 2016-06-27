@@ -80,7 +80,8 @@ class td_weather {
 			),
 			'today_clouds' => 0,
 			'current_unit' => $current_unit,
-			'forecast' => array()
+			'forecast' => array(),
+			'apidata' => ''
 		);
 
 
@@ -109,7 +110,9 @@ class td_weather {
 			$buffy .= self::render_top_bar_template($atts, $weather_data, $current_temp_label);
 		}
 
-
+//		echo '<pre>weather data ----> </br>';
+//		print_r($weather_data);
+//		echo '</pre>';
 		// do not add any items to tdWeather if we're on the front end editor / ajax front end editor
 		if (!td_util::tdc_is_live_editor_iframe() && !td_util::tdc_is_live_editor_ajax()) {
 			// render the JS
@@ -177,6 +180,17 @@ class td_weather {
 			<i class="td-location-icon td-icons-location"  data-block-uid="<?php echo $weather_data['block_uid'] ?>"></i>
 		</div>
 
+		<div class="td-weather-set-location">
+
+			<form id="location_form" action="#">
+
+				<input id="location" class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
+				<button type="submit" class="td-location-set-button wpb_button wpb_btn-inverse btn"><i class="td-icon-font td-icon-menu-right"></i></button>
+
+			</form>
+
+		</div>
+
 		<div class="td-weather-temperature">
 			<div class="td-weather-temp-wrap">
 				<div class="td-weather-animated-icon">
@@ -221,6 +235,11 @@ class td_weather {
 
 			<div class="td-weather-week">
 				<?php
+
+//				echo '<pre>';
+//				print_r($weather_data['forecast']);
+//				echo '</pre>';
+
 				foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
 					?>
 					<div class="td-weather-days">
@@ -381,7 +400,10 @@ class td_weather {
 	 */
 	private static function owm_get_today_data($atts, &$weather_data) {
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&appid=' . $weather_data['api_key'];
+		//print("<pre>".print_r($today_weather_url,true)."</pre>");
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
+
+		//print("<pre> json APi response: --->".print_r($json_api_response,true)."</pre>");
 
 		// fail
 		if ($json_api_response === false) {
@@ -406,6 +428,7 @@ class td_weather {
 			return 'OWM code != 200. No message provided';
 		}
 
+		//print("<pre> APi response: ---------------------------->".print_r($api_response,true)."</pre>");
 		//print_r($api_response);
 
 
@@ -523,10 +546,24 @@ class td_weather {
 		$today_date = date( 'Ymd', current_time( 'timestamp', 0 ) );
 
 
+		$weather_data['apidata'] = $api_response;
+
+//		echo '<pre>';
+//		var_dump($api_response);
+//		echo '</pre>';
+
 		if (!empty($api_response['list']) and is_array($api_response['list'])) {
 			$cnt = 0;
 
 			foreach ($api_response['list'] as $index => $day_forecast) {
+
+				echo $index . ' -- index </br></br>';
+				echo 'day forecast[dt]: ' . var_dump($day_forecast['dt']) . '</br></br>';
+				echo 'day forecast [temp][day]: ' . var_dump($day_forecast['temp']['day']) . '</br></br>';
+				echo 'today date check: ' . var_dump($today_date < date('Ymd', $day_forecast['dt'])) . '</br></br>';
+				echo 'today date check: ' . var_dump($today_date) . var_dump(date('Ymd', $day_forecast['dt'])) .'</br></br>';
+				echo 'the php rounded value is: ' . round(27.82);
+
 				if (
 					!empty($day_forecast['dt'])
 					and !empty($day_forecast['temp']['day'])
