@@ -19,8 +19,6 @@ var tdTrendingNow = {};
         item: function item() {
             //the block Unique id
             this.blockUid = '';
-            //wrapper Unique id
-            this.wrapperUid = '';
             //autostart
             this.trendingNowAutostart = 'manual';
             //autostart timer
@@ -56,9 +54,6 @@ var tdTrendingNow = {};
             if (typeof item.blockUid === 'undefined') {
                 throw 'item.blockUid is not valid';
             }
-            if (typeof item.wrapperUid === 'undefined') {
-                throw 'item.wrapperUid is not valid';
-            }
             if (typeof item.trendingNowPosts === 'undefined' || item.trendingNowPosts.length < 1) {
                 throw 'item.trendingNowPosts is not valid';
             }
@@ -70,7 +65,7 @@ var tdTrendingNow = {};
             tdTrendingNow._initialize_item( item );
 
             //autostart
-            tdTrendingNow.tdTrendingNowAutoStart(item.wrapperUid);
+            tdTrendingNow.tdTrendingNowAutoStart(item.blockUid);
         },
 
         //deletes an item base on blockUid
@@ -85,18 +80,18 @@ var tdTrendingNow = {};
         },
 
         //switch to the previous item
-        itemPrev: function( wrapperUid ) {
+        itemPrev: function( blockUid ) {
             //current item
             var i, currentItem;
             //get current item
             for (var cnt = 0; cnt < tdTrendingNow.items.length; cnt++) {
-                if (tdTrendingNow.items[cnt].wrapperUid === wrapperUid) {
+                if (tdTrendingNow.items[cnt].blockUid === blockUid) {
                     currentItem = tdTrendingNow.items[cnt];
                 }
             }
 
             // if there's just a single post to be shown, there's no need for next/prev/autostart
-            if ((wrapperUid !== undefined) && (1 >= currentItem.trendingNowPosts.length))  {
+            if ((blockUid !== undefined) && (1 >= currentItem.trendingNowPosts.length))  {
                 return;
             }
 
@@ -107,27 +102,27 @@ var tdTrendingNow = {};
             if ('manual' !== currentItem.trendingNowAutostart) {
                 clearInterval(currentItem.trendingNowTimer);
                 currentItem.trendingNowTimer = setInterval(function () {
-                    tdTrendingNow.tdTrendingNowChangeText([wrapperUid, 'left'], true);
+                    tdTrendingNow.tdTrendingNowChangeText([blockUid, 'left'], true);
                 }, 3000);
             }
 
             //call to change the text
-            tdTrendingNow.tdTrendingNowChangeText([wrapperUid, 'right'], false);
+            tdTrendingNow.tdTrendingNowChangeText([blockUid, 'right'], false);
         },
 
         //switch to the next item
-        itemNext: function ( wrapperUid ) {
+        itemNext: function ( blockUid ) {
             //current item
             var i, currentItem;
             //get current item
             for (var cnt = 0; cnt < tdTrendingNow.items.length; cnt++) {
-                if (tdTrendingNow.items[cnt].wrapperUid === wrapperUid) {
+                if (tdTrendingNow.items[cnt].blockUid === blockUid) {
                     currentItem = tdTrendingNow.items[cnt];
                 }
             }
 
             // if there's just a single post to be shown, there's no need for next/prev/autostart
-            if ((wrapperUid !== undefined) && (1 >= currentItem.trendingNowPosts.length))  {
+            if ((blockUid !== undefined) && (1 >= currentItem.trendingNowPosts.length))  {
                 return;
             }
 
@@ -138,12 +133,12 @@ var tdTrendingNow = {};
             if ('manual' !== currentItem.trendingNowAutostart) {
                 clearInterval(currentItem.trendingNowTimer);
                 currentItem.trendingNowTimer = setInterval(function () {
-                    tdTrendingNow.tdTrendingNowChangeText([wrapperUid, 'left'], true);
+                    tdTrendingNow.tdTrendingNowChangeText([blockUid, 'left'], true);
                 }, 3000);
             }
 
             //call to change the text
-            tdTrendingNow.tdTrendingNowChangeText([wrapperUid, 'left'], true);
+            tdTrendingNow.tdTrendingNowChangeText([blockUid, 'left'], true);
         },
 
         /*
@@ -155,14 +150,14 @@ var tdTrendingNow = {};
         tdTrendingNowChangeText: function(array_param, to_right) {
 
             //for consistency use the same variables names as thh parent function
-            var wrapperUid = array_param[0],
+            var blockUid = array_param[0],
                 movingDirection = array_param[1],
                 postsArrayListForThisTrend = [],
                 postsArrayListPosition = 0,
                 itemPosition;
 
             for (var cnt = 0; cnt < tdTrendingNow.items.length; cnt++) {
-                if (tdTrendingNow.items[cnt].wrapperUid === wrapperUid) {
+                if (tdTrendingNow.items[cnt].blockUid === blockUid) {
                     itemPosition = cnt;
                     postsArrayListForThisTrend = tdTrendingNow.items[cnt].trendingNowPosts;
                     postsArrayListPosition = tdTrendingNow.items[cnt].trendingNowPosition;
@@ -216,19 +211,19 @@ var tdTrendingNow = {};
         },
 
         //trending now function to auto start
-        tdTrendingNowAutoStart: function(wrapperUid) {
+        tdTrendingNowAutoStart: function(blockUid) {
             for (var cnt = 0; cnt < tdTrendingNow.items.length; cnt++) {
                 // if there's just a single post to be shown, there's no need for next/prev/autostart
-                if (tdTrendingNow.items[cnt].wrapperUid === wrapperUid) {
-                    tdTrendingNow.items[cnt].trendingNowTimer = tdTrendingNow.setTimerChangingText(wrapperUid);
+                if (tdTrendingNow.items[cnt].blockUid === blockUid && tdTrendingNow.items[cnt].trendingNowAutostart !== 'manual') {
+                    tdTrendingNow.items[cnt].trendingNowTimer = tdTrendingNow.setTimerChangingText(blockUid);
                 }
             }
         },
 
-        setTimerChangingText: function( wrapperUid ) {
+        setTimerChangingText: function( blockUid ) {
             return setInterval(function () {
                 //console.log(i + "=>" + list[i] + "\n");
-                tdTrendingNow.tdTrendingNowChangeText([wrapperUid, 'left'], true);
+                tdTrendingNow.tdTrendingNowChangeText([blockUid, 'left'], true);
             }, 3000);
         }
 
