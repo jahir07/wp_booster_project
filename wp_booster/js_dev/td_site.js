@@ -393,12 +393,12 @@ if(!tdDetect.isTouchDevice && tdUtil.getBackendVar('td_ad_background_click_link'
         var target_jquery_obj = jQuery(target);
 
         // td-content-wrap for NEWSMAG and td-boxex-layout for NEWSPAPER
-        if (target_jquery_obj.hasClass('td-content-wrap') || target_jquery_obj.hasClass('td-boxed-layout')) {
+        if (target_jquery_obj.hasClass('td-outer-container') || target_jquery_obj.hasClass('td-boxed-layout')) {
 
             //open the link ad page
             if(td_ad_background_click_target == '_blank') {
                 //open in a new window
-                window.open(td_ad_background_click_link)
+                window.open(td_ad_background_click_link);
             } else {
                 //open in the same window
                 location.href = td_ad_background_click_link;
@@ -736,12 +736,6 @@ function td_get_document_height() {
  */
 function setMenuMinHeight() {
 
-    if ( ! tdDetect.isMobileDevice ) {
-
-        // Stop if we are not on mobile
-        return;
-    }
-
     if ( 'undefined' === typeof tdEvents.previousWindowInnerWidth ) {
 
         // Save the previous width
@@ -756,13 +750,19 @@ function setMenuMinHeight() {
     tdEvents.previousWindowInnerWidth = tdEvents.window_innerWidth;
 
     var $tdMobileMenu = jQuery( '#td-mobile-nav' ),
-        $tdMobileBg = jQuery( '.td-menu-background' ),
-        $tdMobileBgSearch = jQuery( '.td-search-background' ),
         cssHeight = tdEvents.window_innerHeight + 1;
 
     if ( $tdMobileMenu.length ) {
         $tdMobileMenu.css( 'min-height' , cssHeight + 'px' );
     }
+
+    // Stop if we are not on mobile
+    if ( ! tdDetect.isMobileDevice ) {
+        return;
+    }
+
+    var $tdMobileBg = jQuery( '.td-menu-background' ),
+        $tdMobileBgSearch = jQuery( '.td-search-background' );
 
     if ( $tdMobileBg.length ) {
         $tdMobileBg.css( 'height' , ( cssHeight + 70 ) + 'px' );

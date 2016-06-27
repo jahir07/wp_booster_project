@@ -421,6 +421,13 @@ function td_upload_image(id_upload_field) {
         //
         //jQuery("#TB_window").css("margin-left", '-300px').css("top", '29px').css("margin-top",'0px').css("visibility", "visible").css("width", "670px");
 
+        //hide Create Gallery
+        jQuery('.media-menu .media-menu-item:nth-of-type(2)').addClass('hidden');
+        //hide Create Audio Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(3)').addClass('hidden');
+        //Create Video Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(4)').addClass('hidden');
+
         window.send_to_editor = function(html) {
             img_link = jQuery('img', html).attr('src');
             if(typeof img_link == 'undefined') {

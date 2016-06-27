@@ -633,6 +633,10 @@ class td_util {
 	 */
 	static function is_pagebuilder_content($post) {
 
+		if ( td_util::tdc_is_live_editor_iframe() ) {
+			return true;
+		}
+
 		if (empty($post->post_content)) {
 			return false;
 		}
