@@ -495,21 +495,14 @@ var tdWeather = {};
             tdWeather._currentItem.today_wind_speed[1] = tdWeather._kmphToMph(data.wind.speed);                         //imperial
 
 
-            console.log(tdLocalCache.exist(tdWeather._currentLocationCacheKey));
-
             // check the cache first and avoid doing the same ajax request again
             if (tdLocalCache.exist(tdWeather._currentLocationCacheKey)) {
-                console.log('forecast cache key: ' + tdWeather._currentLocationCacheKey);
-
-                //console.log('forecast cache!!! ');
+                //console.log('forecast cache!');
                 tdWeather._owmGetFiveDaysData2(tdLocalCache.get(tdWeather._currentLocationCacheKey));
-
             } else {
-
-                console.log('se face request la api forecast!! ');
+                //console.log('forecast api!');
                 var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + tdWeather._currentItem.api_location + '&lang=' + tdWeather._currentItem.api_language + '&units=metric&cnt=7&appid=' + tdWeather._currentItem.api_key;
 
-                console.log('dupa request city forecast: ' + weather);
                 jQuery.ajax({
                     dataType: "jsonp",
                     url: weather,
@@ -545,12 +538,10 @@ var tdWeather = {};
             }
 
             today = yyyy+mm+dd;
-            console.log(today);
+            //console.log(today);
 
             // process the data
             for (var item_index = 0; item_index < tdWeather._currentItem.forecast.length ; item_index++) {
-
-                //console.log('item: ' + item_index);
 
                 var current_forecast = tdWeather._currentItem.forecast[item_index];
 
@@ -572,37 +563,16 @@ var tdWeather = {};
                 var forecast_day = year+month+day;
                 //console.log(forecast_day);
 
-                //console.log(current_forecast.owm_day_index);
+                //if (today < forecast_day){
+                //
+                //}
 
-                if (today < forecast_day){
-
-
-                    current_forecast.owm_day_index = current_forecast.owm_day_index + 1;
-                    //console.log('true');
-                    console.log(current_forecast.owm_day_index);
-
-                    console.log('item indxe: '+ item_index);
-
-                    current_forecast.day_temp[0] = tdUtil.round(data.list[current_forecast.owm_day_index].temp.day);        //celsius
-                    current_forecast.day_temp[1] = tdWeather._celsiusToFahrenheit(current_forecast.day_temp[0]);    //imperial
-                }
-
-                //problema cu zilele de forecast decalate vine de la setarea initiala de forecast care vine din php..
-                //..daca din cauza la time zone trebuie excluse primele 2 zile din manual forecast api request data..
-                //..atunci orice manual request de acest gen nu o sa stie de asta si o sa raporteze la datele de forecast setate din php
-                //..la fel si daca avem owm indexul setat pe 2 initial si cu manual forecast setam o locatei care nu are nevoie de decalaj
-                //.. daca faci reuquest manual pt o locatie care nu are nevoie de delay se intoarce cu delay pe baza owm index-lui si din api se aduce cu o zi mai tarziu
-
+                current_forecast.day_temp[0] = tdUtil.round(data.list[current_forecast.owm_day_index].temp.day);        //celsius
+                current_forecast.day_temp[1] = tdWeather._celsiusToFahrenheit(current_forecast.day_temp[0]);    //imperial
 
             }
             tdWeather._renderCurrentItem();
         },
-
-
-
-
-
-
 
     };  // end tdWeather
 })();
