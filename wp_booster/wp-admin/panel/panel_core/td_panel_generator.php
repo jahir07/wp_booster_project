@@ -444,6 +444,31 @@ class td_panel_generator {
     }
 
 
+    //upload font file
+    static function upload_font_file($params_array) {
+        $contro_unique_id = td_global::td_generate_unique_id();
+
+        $class_hidden = ' td-class-hidden ';
+
+        //get control option
+        $control_value = td_panel_data_source::read($params_array);
+
+        if (!empty($control_value)) {
+            $class_hidden = '';
+        }
+        
+        $buffy = '
+            <div class="td_wrapper_upload_control">
+                <div class="td_upload_font_controls">
+                    <input type="text" id="' . $contro_unique_id .'" name="' . self::generate_name($params_array) . '" value="' . esc_attr(stripslashes($control_value)) . '" class="td_upload_field_link_font" />
+                    <div><a id="' . $contro_unique_id . '_button" class="td_upload_button">Upload</a><a id="' . $contro_unique_id . '_button_delete" class="td_delete_font_button ' . $class_hidden . '" data-control-id="' . $contro_unique_id . '">Remove</a><script language="JavaScript">td_upload_image_font("' . $contro_unique_id . '");</script></div>
+                </div>
+            </div>';
+
+        return $buffy;
+    }
+
+
     //upload image control
     static function upload_image($params_array) {
         $contro_unique_id = td_global::td_generate_unique_id();
@@ -468,7 +493,7 @@ class td_panel_generator {
                 <div id="' . $contro_unique_id . '_display" class="td_upload_container_for_image ' . $class_hidden . '"><img src="' . esc_attr(stripslashes($image_path)) .  '" id="' . $display_img_id . '" width="66" height="66" class="td_upd_image_display_small_image"></div>
                 <div class="td_upload_image_controls">
                     <input type="text" id="' . $contro_unique_id .'" name="' . self::generate_name($params_array) . '" value="' . esc_attr(stripslashes($control_value)) . '" class="td_upload_field_link_image" />
-                    <div><a id="' . $contro_unique_id . '_button" class="td_upload_button">Upload</a><a id="' . $contro_unique_id . '_button_delete" class="td_delete_image_button ' . $class_hidden . '" data-control-id="' . $contro_unique_id . '">Remove</a><script language="JavaScript">td_upload_image("' . $contro_unique_id . '");</script></div>
+                    <div><a id="' . $contro_unique_id . '_button" class="td_upload_button">Upload</a><a id="' . $contro_unique_id . '_button_delete" class="td_delete_image_button ' . $class_hidden . '" data-control-id="' . $contro_unique_id . '">Remove</a><script language="JavaScript">td_upload_image_font("' . $contro_unique_id . '");</script></div>
                 </div>
             </div>';
 
