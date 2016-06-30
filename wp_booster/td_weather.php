@@ -177,6 +177,17 @@ class td_weather {
 			<i class="td-location-icon td-icons-location"  data-block-uid="<?php echo $weather_data['block_uid'] ?>"></i>
 		</div>
 
+		<div class="td-weather-set-location">
+
+			<form class="td-manual-location-form" action="#">
+
+				<input class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
+				<button type="submit" class="td-location-set-button wpb_button wpb_btn-inverse btn"><i class="td-icon-font td-icon-menu-right"></i></button>
+
+			</form>
+
+		</div>
+
 		<div class="td-weather-temperature">
 			<div class="td-weather-temp-wrap">
 				<div class="td-weather-animated-icon">
@@ -221,6 +232,7 @@ class td_weather {
 
 			<div class="td-weather-week">
 				<?php
+
 				foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
 					?>
 					<div class="td-weather-days">
@@ -381,7 +393,9 @@ class td_weather {
 	 */
 	private static function owm_get_today_data($atts, &$weather_data) {
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&appid=' . $weather_data['api_key'];
+
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
+
 
 		// fail
 		if ($json_api_response === false) {
@@ -527,6 +541,7 @@ class td_weather {
 			$cnt = 0;
 
 			foreach ($api_response['list'] as $index => $day_forecast) {
+
 				if (
 					!empty($day_forecast['dt'])
 					and !empty($day_forecast['temp']['day'])
