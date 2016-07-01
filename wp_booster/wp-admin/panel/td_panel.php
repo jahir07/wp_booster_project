@@ -14,6 +14,11 @@ class td_panel {
             add_filter('admin_body_class', array($this, 'add_body_class'));
         }
 
+        add_filter('upload_mimes', 'td_upload_types');
+        function td_upload_types($mime_types){
+            $mime_types['woff'] = 'application/x-font-woff';
+            return $mime_types;
+        }
 
     }
 

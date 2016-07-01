@@ -39,7 +39,7 @@
 	</div>
 	<div class="td-box-control-full td-panel-input-wide">
 		<?php
-		echo td_panel_generator::input(array(
+		echo td_panel_generator::upload_font_file(array(
 			'ds' => 'td_fonts_user_insert',
 			'option_id' => 'font_file_1'
 		));
@@ -80,7 +80,7 @@
 	</div>
 	<div class="td-box-control-full td-panel-input-wide">
 		<?php
-		echo td_panel_generator::input(array(
+		echo td_panel_generator::upload_font_file(array(
 			'ds' => 'td_fonts_user_insert',
 			'option_id' => 'font_file_2'
 		));
@@ -121,7 +121,7 @@
 	</div>
 	<div class="td-box-control-full td-panel-input-wide">
 		<?php
-		echo td_panel_generator::input(array(
+		echo td_panel_generator::upload_font_file(array(
 			'ds' => 'td_fonts_user_insert',
 			'option_id' => 'font_file_3'
 		));
