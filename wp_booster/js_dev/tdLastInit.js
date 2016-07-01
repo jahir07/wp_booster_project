@@ -1,6 +1,6 @@
 /* global jQuery:{} */
 /* global tdUtil:{} */
-/* global tdTrendingNowObject:{} */
+/* global tdTrendingNow:{} */
 
 jQuery( window ).load(function() {
 
@@ -42,8 +42,46 @@ jQuery( window ).ready(function() {
     });
 
     //trending now
-    tdTrendingNowObject.tdTrendingNow();
+    jQuery('.td_block_trending_now').each(function(){
+        var item = new tdTrendingNow.item(),
+            wrapper = jQuery(this).find('.td-trending-now-wrapper'),
+            autoStart = wrapper.data('start'),
+            iCont = 0;
+
+        //block unique ID
+        item.blockUid = jQuery(this).data('td-block-uid');
+
+        //set trendingNowAutostart
+        if (autoStart !== 'manual') {
+            item.trendingNowAutostart = autoStart;
+        }
+
+        //take the text from each post from current trending-now-wrapper
+        jQuery('#' + item.blockUid + ' .td-trending-now-post').each(function() {
+            //trending_list_posts[i_cont] = jQuery(this)[0].outerHTML;
+            item.trendingNowPosts[iCont] = jQuery(this);
+            //increment the counter
+            iCont++;
+        });
+        //add the item
+        tdTrendingNow.addItem(item);
+
+    });
+    jQuery('.td-trending-now-nav-left').on('click', function(event) {
+        event.preventDefault();
+        var blockUid = jQuery(this).data('block-id');
+        tdTrendingNow.itemPrev(blockUid);
+    });
+    jQuery('.td-trending-now-nav-right').on('click', function(event) {
+        event.preventDefault();
+        var blockUid = jQuery(this).data('block-id');
+        tdTrendingNow.itemNext(blockUid);
+
+    });
+
+    //trending now
+    //tdTrendingNowObj.tdTrendingNow();
 
     //call to trending now function to start auto scroll
-    tdTrendingNowObject.tdTrendingNowAutoStart();
+    //tdTrendingNowObj.tdTrendingNowAutoStart();
 });

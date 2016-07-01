@@ -29,8 +29,8 @@ jQuery().ready(function() {
     //add events to visual pulldown sidebars
     td_sidebar_pulldown();
 
-    //add events to controlls to delete from the page (not from the database) the uploaded image
-    td_delete_uploaded_display_image();
+    //add events to controlls to delete from the page (not from the database) the uploaded font/image
+    td_delete_uploaded_font_image();
 
     //add evets to radio controlls
     td_panel_radio_control();
@@ -397,7 +397,7 @@ function replace_all(find, replace, str) {
 
 
 //upload image
-function td_upload_image(id_upload_field) {
+function td_upload_image_font(id_upload_field) {
     var button = '#' + id_upload_field + '_button';
     jQuery(button).click(function() {
 
@@ -421,10 +421,20 @@ function td_upload_image(id_upload_field) {
         //
         //jQuery("#TB_window").css("margin-left", '-300px').css("top", '29px').css("margin-top",'0px').css("visibility", "visible").css("width", "670px");
 
+        //hide Create Gallery
+        jQuery('.media-menu .media-menu-item:nth-of-type(2)').addClass('hidden');
+        //hide Create Audio Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(3)').addClass('hidden');
+        //Create Video Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(4)').addClass('hidden');
+
         window.send_to_editor = function(html) {
             img_link = jQuery('img', html).attr('src');
             if(typeof img_link == 'undefined') {
                 img_link = jQuery(html).attr('src');
+            }
+            if(typeof img_link == 'undefined') {
+                img_link = jQuery(html).attr('href'); //used on font files (woff)
             }
 
             //take the image name and return it to parent window
@@ -433,6 +443,19 @@ function td_upload_image(id_upload_field) {
             jQuery('#' + id_upload_field + '_button_delete').removeClass('td-class-hidden');
 
             jQuery('#' + id_upload_field + '_display img').attr('src', img_link);
+
+            //add font name based on the font file name
+            currentUploadField = jQuery('#' + id_upload_field);
+            if (currentUploadField.hasClass('td_upload_field_link_font')) {
+                //extract font file name from the font url
+                splitedFontFilePath = img_link.split('/');
+                fontFileName = splitedFontFilePath[splitedFontFilePath.length - 1].split('.');
+                //split the upload field name to retrieve the field number (ex. font 1, 2 or 3)
+                uploadFieldName =  currentUploadField.attr('name').split('_');
+                fontFile = uploadFieldName[uploadFieldName.length - 1];
+                //set font family based on the font file name
+                jQuery("input[name='td_fonts_user_insert[font_family_" + fontFile + "']").val(fontFileName[0]);
+            }
 
             //close the modal window
             tb_remove();
@@ -456,7 +479,7 @@ function td_upload_image(id_upload_field) {
 }
 
 //add events to controlls to delete from the page (not from the database) the uploaded image
-function td_delete_uploaded_display_image() {
+function td_delete_uploaded_font_image() {
     jQuery(document).on('click', '.td_delete_image_button', function() {
 
         if(confirm("Delete Image?")) {
@@ -468,6 +491,20 @@ function td_delete_uploaded_display_image() {
 
             //remove the link from image tag
             jQuery('#upd_img_id_' + control_id).attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/no_img_upload.png');
+
+            //empty the control input box
+            jQuery('#' + control_id).val('');
+        }
+    });
+
+    jQuery(document).on('click', '.td_delete_font_button', function() {
+
+        if(confirm("Delete Font?")) {
+            //take control id
+            var control_id = jQuery(this).data('control-id');
+
+            //hide the delete button
+            jQuery(this).addClass('td-class-hidden');//.hide();
 
             //empty the control input box
             jQuery('#' + control_id).val('');

@@ -650,6 +650,9 @@ class td_block {
 					// delete the animation sprite if it exits
 					tdAnimationSprite.deleteItem(blockUid);
 
+					// delete the animation sprite if it exits
+					tdTrendingNow.deleteItem(blockUid);
+
 					// delete the homepagefull if it exits
 					tdHomepageFull.deleteItem( blockUid );
 
@@ -813,7 +816,8 @@ class td_block {
 
 	/**
 	 * parses a design panel generated css string and get's the classes and the
-	 * It's not private because it's used by td_block_ad_box because that block uses special classes to avoid adblock
+	 *   - It's not private because it's used by td_block_ad_box because that block uses special classes to avoid adblock
+	 *   - it should be the same with @see tdc_composer_block::parse_css_att from the tdc plugin
 	 * @param $user_css_att
 	 *
 	 * @return array|bool - array of results or false if no classes are available
