@@ -179,9 +179,9 @@ class td_weather {
 
 		<div class="td-weather-set-location">
 
-			<form class="td-manual-location-form" action="#">
+			<form class="td-manual-location-form" action="#" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
 
-				<input class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
+				<input id="<?php echo $weather_data['block_uid'] ?>" class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
 				<button type="submit" class="td-location-set-button wpb_button wpb_btn-inverse btn"><i class="td-icon-font td-icon-menu-right"></i></button>
 
 			</form>
@@ -394,7 +394,11 @@ class td_weather {
 	private static function owm_get_today_data($atts, &$weather_data) {
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/weather?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&appid=' . $weather_data['api_key'];
 
+		//print("<pre>".print_r($today_weather_url,true)."</pre>");
+
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
+
+		//print("<pre> json city weather API response: ".print_r($json_api_response,true)."</pre>");
 
 
 		// fail
@@ -516,7 +520,12 @@ class td_weather {
 	private static function owm_get_five_days_data ($atts, &$weather_data) {
 		// request 7 days because the current day may be today in a different timezone
 		$today_weather_url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' . urlencode($atts['w_location']) . '&lang=' . $atts['w_language'] . '&units=metric&cnt=7&appid=' . $weather_data['api_key'];
+
+		//print("<pre>".print_r($today_weather_url,true)."</pre>");
+
 		$json_api_response = td_remote_http::get_page($today_weather_url, __CLASS__);
+
+		//print("<pre> json city forecast API response: ".print_r($json_api_response,true)."</pre>");
 
 
 		// fail

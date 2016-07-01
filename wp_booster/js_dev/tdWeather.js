@@ -56,6 +56,9 @@ var tdWeather = {};
         _currentPositionCacheKey: '',
         _currentLocationCacheKey: '',
 
+        //location
+        _currentLocation: '',
+
         // all the weather items
         items: [],  /** an item is json encoded from this in PHP: @see td_weather::$weather_data */
 
@@ -122,11 +125,12 @@ var tdWeather = {};
 
                 tdWeather._currentRequestInProgress = true;
 
-                tdWeather._currentItem = tdWeather._getItemByBlockID(tdWeather._currentItem.block_uid);
+                tdWeather._currentItem = tdWeather._getItemByBlockID(jQuery(this).data('block-uid'));
+                //console.debug(this);
 
-                var location = jQuery('.td-location-set-input').val();
+                tdWeather._currentLocation = jQuery('input#' + jQuery(this).data('block-uid')).val();
 
-                tdWeather._updateLocationCallback2(location);
+                tdWeather._updateLocationCallback2(tdWeather._currentLocation);
 
                 tdWeather._currentRequestInProgress = false;
                 tdWeather._hide_manual_location_form();
@@ -412,9 +416,11 @@ var tdWeather = {};
             return tdUtil.round($kmph * 0.621371192, 1);
         },
 
-        /*************************************************************************************************************************************
-         * set manual location for weather widget
-         * *************************************************************************************************************************************/
+        /**
+         * *************************************************************************************************************
+         *      set manual location for weather widget
+         * *************************************************************************************************************
+         */
 
         /**
          * shows the manual location form
@@ -425,7 +431,6 @@ var tdWeather = {};
             tdWeather._currentItem = tdWeather._getItemByBlockID(tdWeather._currentItem.block_uid);
 
             jQuery('#' + tdWeather._currentItem.block_uid).find('.td-weather-set-location').addClass( 'td-show-location' );
-
             tdWeather._is_location_open = true;
 
         },
@@ -455,7 +460,10 @@ var tdWeather = {};
 
             } else {
 
+                //console.log('city weather api request!');
                 var weather = 'http://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(location) + '&lang=' + tdWeather._currentItem.api_language + '&units=metric&appid=' + tdWeather._currentItem.api_key;
+
+                //console.log('city api request url: ' + weather);
 
                 jQuery.ajax({
                     dataType: "jsonp",
@@ -475,7 +483,6 @@ var tdWeather = {};
 
         _owmGetTodayDataCallback2: function (data) {
             // save the data to localCache
-
             tdLocalCache.set(tdWeather._currentLocationCacheKey + '_today', data);
 
 
@@ -497,11 +504,15 @@ var tdWeather = {};
 
             // check the cache first and avoid doing the same ajax request again
             if (tdLocalCache.exist(tdWeather._currentLocationCacheKey)) {
-                //console.log('forecast cache!');
                 tdWeather._owmGetFiveDaysData2(tdLocalCache.get(tdWeather._currentLocationCacheKey));
+
             } else {
-                //console.log('forecast api!');
+
+                //console.log('api forecast request!');
+
                 var weather = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + tdWeather._currentItem.api_location + '&lang=' + tdWeather._currentItem.api_language + '&units=metric&cnt=7&appid=' + tdWeather._currentItem.api_key;
+
+                //console.log('city forecast api request url: ' + weather);
 
                 jQuery.ajax({
                     dataType: "jsonp",
@@ -520,59 +531,68 @@ var tdWeather = {};
          *
          */
 
-
         _owmGetFiveDaysData2: function (data) {
             // save the data to localCache
             tdLocalCache.set(tdWeather._currentLocationCacheKey, data);
 
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            if(dd<10) {
-                dd='0'+dd
+            /**
+             * ---------------------------------------------------------------------------------------------------
+             * go through the api data list and increment the counter when we find a past day or the same as today
+             * ---------------------------------------------------------------------------------------------------
+             */
+            var counter = 0;
+            for (var list_item_index = 0; list_item_index <  data.list.length ; list_item_index++) {
+
+                var timestamp = data.list[list_item_index].dt;
+                //console.log(timestamp);
+
+                //the forecast day in a 'easy to read' format - for testing purposes
+                var forecast_day_format = td_date_i18n('Y m d, H:i a, T', timestamp);
+                //console.log(forecast_day_format);
+
+                var today_date = td_date_i18n('Ymd');
+                var forecast_day = td_date_i18n('Ymd', timestamp);
+
+                // compare today with the forecast date in the format 20150210, today must be smaller
+                if (today_date >= forecast_day){
+                    counter = counter + 1;
+                }
+
             }
 
-            if(mm<10) {
-                mm='0'+mm
-            }
-
-            today = yyyy+mm+dd;
-            //console.log(today);
-
-            // process the data
+            /**
+             * --------------------------------------------------------------------------------------------------
+             * check the data and set the current forecast day index accordingly
+             * --------------------------------------------------------------------------------------------------
+             */
             for (var item_index = 0; item_index < tdWeather._currentItem.forecast.length ; item_index++) {
-
                 var current_forecast = tdWeather._currentItem.forecast[item_index];
 
-                var timestamp = data.list[item_index].dt;
-
-                var date = new Date(timestamp * 1000);
-                var month = date.getMonth()+1;
-                var day = date.getDate();
-                var year = date.getFullYear();
-
-                if(day<10) {
-                    day='0'+day
+                //daca indexul ii pe 1 si trebuie trecut pe 2
+                if (item_index === 0 && counter > 1 && current_forecast.owm_day_index < 2){
+                    var current_forecast_owm_day_index_update_status_2 = true;
                 }
 
-                if(mm<10) {
-                    month='0'+month
+                //daca trebuie setat pe 2 actulizeaza indexul curent
+                if (current_forecast_owm_day_index_update_status_2) {
+                    current_forecast.owm_day_index = current_forecast.owm_day_index + 1;
                 }
 
-                var forecast_day = year+month+day;
-                //console.log(forecast_day);
+                //daca e pe 2 si trebuie trecut pe 1
+                if (item_index === 0 && counter < 2 && current_forecast.owm_day_index > 1){
+                    var current_forecast_owm_day_index_update_status_1 = true;
+                }
 
-                //if (today < forecast_day){
-                //
-                //}
+                //daca trebuie setat pe 1 actulizeaza indexul curent
+                if (current_forecast_owm_day_index_update_status_1) {
+                    current_forecast.owm_day_index = current_forecast.owm_day_index - 1;
+                }
 
                 current_forecast.day_temp[0] = tdUtil.round(data.list[current_forecast.owm_day_index].temp.day);        //celsius
-                current_forecast.day_temp[1] = tdWeather._celsiusToFahrenheit(current_forecast.day_temp[0]);    //imperial
-
+                current_forecast.day_temp[1] = tdWeather._celsiusToFahrenheit(current_forecast.day_temp[0]);            //imperial
             }
             tdWeather._renderCurrentItem();
-        },
+        }
 
     };  // end tdWeather
 })();
