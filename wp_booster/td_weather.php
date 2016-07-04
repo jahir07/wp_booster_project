@@ -178,14 +178,10 @@ class td_weather {
 		</div>
 
 		<div class="td-weather-set-location">
-
 			<form class="td-manual-location-form" action="#" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
-
-				<input id="<?php echo $weather_data['block_uid'] ?>" class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
-				<button type="submit" class="td-location-set-button wpb_button wpb_btn-inverse btn"><i class="td-icon-font td-icon-menu-right"></i></button>
-
+				<input id="<?php echo $weather_data['block_uid'] ?>" class="td-location-set-input" type="text" name="location" value="" >
+				<label>enter location</label>
 			</form>
-
 		</div>
 
 		<div class="td-weather-temperature">
