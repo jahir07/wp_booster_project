@@ -279,8 +279,16 @@ var tdWeather = {};
 
             var blockInner = jQuery('#' + tdWeather._currentItem.block_uid);
 
+            var currentLatitude = tdWeather._currentLatitude;
+            var currentLongitude = tdWeather._currentLongitude;
+            var currentLocation = tdWeather._currentLocation;
+
             // city
             blockInner.find('.td-weather-city').html(tdWeather._currentItem.api_location);
+
+            if (currentLocation === '' && ( currentLatitude === 0 && currentLongitude === 0)){
+                blockInner.find('.td-weather-city').html(tdWeather._currentItem.location);
+            }
 
             // conditions
             blockInner.find('.td-weather-condition').html(tdWeather._currentItem.today_icon_text);

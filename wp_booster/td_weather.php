@@ -56,6 +56,7 @@ class td_weather {
 		// prepare the data and do an api call
 		$weather_data = array (
 			'block_uid' => '',
+			'location' => $atts['w_location'],
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'api_language' => '', //this is set down bellow
 			//'api_key' => self::get_a_owm_key(),
