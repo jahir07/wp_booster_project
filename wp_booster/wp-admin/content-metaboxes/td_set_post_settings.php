@@ -179,7 +179,7 @@
             <?php $mb->the_field('td_via'); ?>
             <span class="td-page-o-custom-label">Via name:</span>
             <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-            <span class="td-page-o-info">Via (your soruce) name, this will appear at the end of the article in the "via" spot</span>
+            <span class="td-page-o-info">Via (your source) name, this will appear at the end of the article in the "via" spot</span>
 
         </div>
 
