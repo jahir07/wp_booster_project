@@ -368,6 +368,11 @@ class td_module_single_base extends td_module {
         $tds_inline_ad_paragraph = td_util::get_option('tds_inline_ad_paragraph');
         $tds_inline_ad_align = td_util::get_option('tds_inline_ad_align');
 
+        //ads titles
+        $tds_inline_ad_title = td_util::get_option('tds_inline_ad_title');
+        $tds_bottom_ad_title = td_util::get_option('tds_bottom_ad_title');
+        $tds_top_ad_title = td_util::get_option('tds_top_ad_title');
+
 
         //add the inline ad
         if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
@@ -391,15 +396,15 @@ class td_module_single_base extends td_module {
                         if ($tds_inline_ad_paragraph == $p_open_tag_count) {
                             switch ($tds_inline_ad_align) {
                                 case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
                                     break;
 
                                 case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
                                     break;
 
                                 default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
                                     break;
                             }
                         }
@@ -427,13 +432,13 @@ class td_module_single_base extends td_module {
 
         //add the top ad
         if (td_util::is_ad_spot_enabled('content_top') && is_single() && $td_display_top_ad === true) {
-            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top')) . $content;
+            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
         }
 
 
         //add bottom ad
         if (td_util::is_ad_spot_enabled('content_bottom') && is_single()) {
-            $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom'));
+            $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom', 'spot_title' => $tds_bottom_ad_title));
         }
 
 

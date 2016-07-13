@@ -76,7 +76,7 @@ class td_panel_core {
                                             case 'link':
                                                 ?>
                                                 <li>
-                                                    <a href="<?php echo $panel_array['url'] ?>">
+                                                    <a href="<?php echo $panel_array['url'] ?>" onclick="return confirm('You are about to leave the Theme Panel area, if you\'ve made any changes hit Cancel and Save Settings')">
                                                         <span class="td-sp-nav-icon td-ico-export"></span>
                                                         <?php echo $panel_array['text'] ?>
                                                         <span class="td-arrow"></span>
