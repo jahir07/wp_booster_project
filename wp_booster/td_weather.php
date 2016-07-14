@@ -40,7 +40,7 @@ class td_weather {
 	static function render_generic($atts, $block_uid, $template = 'block_template') {
 
 		if (empty($atts['w_location'])) {
-			return self::error('<strong>location</strong> is empty. Configure this block/widget and enter a location and we will show the weather from that location :) ');
+			return self::error('<div class="td-block-missing-settings"><span>weather widget</span> <strong>Location field</strong> is empty. Configure this block/widget and enter a location and we\'ll show the weather from that location.</div>');
 		}
 
 		$current_unit = 0; // 0 - metric
