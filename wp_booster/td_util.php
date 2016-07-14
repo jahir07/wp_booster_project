@@ -643,26 +643,10 @@ class td_util {
 
 		/**
 		 * detect the page builder
-		 */
-		if (method_exists('WPBMap', 'getShortCodes')) {
-			$short_codes_buffer = array();
-			$td_page_builder_short_codes = array_keys(WPBMap::getShortCodes());
-			if (is_array($td_page_builder_short_codes) && !empty($td_page_builder_short_codes)) {
-				foreach ($td_page_builder_short_codes as $short_code_name){
-					// we have to add [ before the shortcode name, else it may target simple words that match with the shortcode name
-					$short_codes_buffer[] = '[' .  $short_code_name;
-				}
-			}
-			if (!empty($short_codes_buffer) && td_util::strpos_array($post->post_content, $short_codes_buffer) === true) {
-				return true;
-			}
-		}
-
-		/**
-		 * for TDC we use a simpler method, evey pagebuilder page must have vc_row in it
+         * check for the vc_row, evey pagebuilder page must have vc_row in it
 		 */
 		$matches = array();
-		$preg_match_ret = preg_match('/\[.*vc_row.*\]/', $post->post_content, $matches);
+		$preg_match_ret = preg_match('/\[.*vc_row.*\]/s', $post->post_content, $matches);
 		if ($preg_match_ret !== 0 && $preg_match_ret !== false ) {
 			return true;
 		}
