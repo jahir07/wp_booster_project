@@ -111,8 +111,7 @@ jQuery().ready(function() {
         //hides or shows the divs with inputs
         tdLogin.showHideElements( [['#td-login-div', 1], ['#td-register-div', 0], ['#td-forgot-pass-div', 0]] );
 
-        //moves focus on the tab
-        tdLogin.showTabs( [['#login-link', 1], ['#register-link', 0]] );
+        jQuery( '#login-form' ).addClass( 'td-login-animation' );
 
         if ( jQuery(window).width() > 700 && tdDetect.isIe === false ) {
             jQuery( '#login_email' ).focus();
@@ -128,8 +127,7 @@ jQuery().ready(function() {
         //hides or shows the divs with inputs
         tdLogin.showHideElements( [['#td-login-div', 0], ['#td-register-div', 1], ['#td-forgot-pass-div', 0]] );
 
-        //moves focus on the tab
-        tdLogin.showTabs( [['#login-link', 0], ['#register-link', 1]] );
+        jQuery( '#login-form' ).addClass( 'td-login-animation' );
 
         if ( jQuery( window ).width() > 700  && false === tdDetect.isIe ) {
             jQuery( '#register_email' ).focus();
@@ -147,8 +145,7 @@ jQuery().ready(function() {
         //hides or shows the divs with inputs
         tdLogin.showHideElements( [['#td-login-div', 0], ['#td-register-div', 0], ['#td-forgot-pass-div', 1]] );
 
-        //moves focus on the tab
-        tdLogin.showTabs( [['#login-link', 0], ['#register-link', 0]] );
+        jQuery( '#login-form' ).addClass( 'td-login-animation' );
 
         if (jQuery( window ).width() > 700 && false === tdDetect.isIe ) {
             jQuery( '#forgot_email' ).focus();
@@ -195,6 +192,18 @@ jQuery().ready(function() {
         if ( ( event.which && 13 === event.which ) || ( event.keyCode && 13 === event.keyCode ) ) {
             tdLogin.handlerForgotPass();
         }
+    });
+
+
+    // marius
+    jQuery( '.td-back-button' ).on( 'click', function() {
+        //hides or shows the divs with inputs
+        tdLogin.showHideElements( [['#td-login-div', 1], ['#td-register-div', 0], ['#td-forgot-pass-div', 0]] );
+
+        jQuery( '#login-form' ).removeClass( 'td-login-animation' );
+
+        // clear the error message when press back
+        jQuery( '.td_display_err' ).hide();
     });
 });//end jquery ready
 

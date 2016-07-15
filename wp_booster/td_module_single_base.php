@@ -66,11 +66,11 @@ class td_module_single_base extends td_module {
     function get_author() {
         $buffy = '';
         if (td_util::get_option('tds_p_show_author_name') != 'hide') {
-            $buffy .= '<div class="td-post-author-name">' . __td('By', TD_THEME_NAME) . ' ';
+            $buffy .= '<div class="td-post-author-name"><div class="td-author-by">' . __td('By', TD_THEME_NAME) . '</div> ';
             $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
 
             if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
-                $buffy .= ' - ';
+                $buffy .= '<div class="td-author-line"> - </div> ';
             }
             $buffy .= '</div>';
         }
