@@ -50,7 +50,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW AUTHOR NAME</span>
-            <p>Enable or disable the author name (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the author name (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -68,7 +68,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW DATE</span>
-            <p>Enable or disable the post date (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the post date (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -87,7 +87,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW POST VIEWS</span>
-            <p>Enable or disable the post views (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the post views (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -106,7 +106,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW COMMENT COUNT</span>
-            <p>Enable or disable comment number (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable comment number (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
