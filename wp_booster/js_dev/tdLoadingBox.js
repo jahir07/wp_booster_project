@@ -50,14 +50,14 @@ var tdLoadingBox = {};
 
                 var rgbaString = "rgba(" + colRgba.r + ", " + colRgba.g + ", " + colRgba.b + ", ";
 
-                tdLoadingBox.arrayColors[7] = rgbaString + " 1)";
-                tdLoadingBox.arrayColors[6] = rgbaString + " 0.6)";
+                tdLoadingBox.arrayColors[7] = rgbaString + " 0.9)";
+                tdLoadingBox.arrayColors[6] = rgbaString + " 0.7)";
                 tdLoadingBox.arrayColors[5] = rgbaString + " 0.5)";
                 tdLoadingBox.arrayColors[4] = rgbaString + " 0.3)";
                 tdLoadingBox.arrayColors[3] = rgbaString + " 0.2)";
-                tdLoadingBox.arrayColors[2] = rgbaString + " 0.08)";
-                tdLoadingBox.arrayColors[1] = rgbaString + " 0.05)";
-                tdLoadingBox.arrayColors[0] = rgbaString + " 0)";
+                tdLoadingBox.arrayColors[2] = rgbaString + " 0.2)";
+                tdLoadingBox.arrayColors[1] = rgbaString + " 0.2)";
+                tdLoadingBox.arrayColors[0] = rgbaString + " 0.2)";
 
             } else {
                 //default array
