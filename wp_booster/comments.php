@@ -29,7 +29,7 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        ?>
 
             <div class="td-comments-title-wrap <?php echo $td_css_cls_pb_padding_side ?>">
-                <h4 class="<?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
+                <h4 class="td-comments-title <?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
             </div>
 
 		        <ol class="comment-list <?php echo $td_css_cls_pb_padding_side ?>">

@@ -1888,6 +1888,12 @@ title one row controls
   border: 0;
   margin-bottom: 30px;
 }
+.td_panel_box_meta_info_on_modulesblocks .td-box-description {
+  width: 400px;
+}
+.td_panel_box_meta_info_on_modulesblocks .td-box-control-full {
+  width: 320px;
+}
 /*  ----------------------------------------------------------------------------
     pagebuilder
 */

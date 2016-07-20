@@ -100,6 +100,11 @@ abstract class td_module {
             $buffy .= ' td_module_no_thumb';
         }
 
+        // fix the meta info space when all options are off
+        if (td_util::get_option('tds_m_show_author_name') == 'hide' and td_util::get_option('tds_m_show_date') == 'hide' and td_util::get_option('tds_m_show_comments') == 'hide') {
+            $buffy .= ' td-meta-info-hide';
+        }
+
 	    if ($additional_classes_array != '' && is_array($additional_classes_array)) {
 		    $buffy .= ' ' . implode(' ', $additional_classes_array);
 	    }
@@ -115,10 +120,10 @@ abstract class td_module {
         $buffy = '';
 
         if ($this->is_review === false) {
-            if (td_util::get_option('tds_p_show_author_name') != 'hide') {
+            if (td_util::get_option('tds_m_show_author_name') != 'hide') {
                 $buffy .= '<span class="td-post-author-name">';
                 $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
-                if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
+                if (td_util::get_option('tds_m_show_author_name') != 'hide' and td_util::get_option('tds_m_show_date') != 'hide') {
                     $buffy .= ' <span>-</span> ';
                 }
                 $buffy .= '</span>';
@@ -132,7 +137,7 @@ abstract class td_module {
 
     function get_date($show_stars_on_review = true) {
         $visibility_class = '';
-        if (td_util::get_option('tds_p_show_date') == 'hide') {
+        if (td_util::get_option('tds_m_show_date') == 'hide') {
             $visibility_class = ' td-visibility-hidden';
         }
 
@@ -144,7 +149,7 @@ abstract class td_module {
             $buffy .= '</div>';
 
         } else {
-            if (td_util::get_option('tds_p_show_date') != 'hide') {
+            if (td_util::get_option('tds_m_show_date') != 'hide') {
                 $td_article_date_unix = get_the_time('U', $this->post->ID);
                 $buffy .= '<span class="td-post-date">';
                     $buffy .= '<time class="entry-date updated td-module-date' . $visibility_class . '" datetime="' . date(DATE_W3C, $td_article_date_unix) . '" >' . get_the_time(get_option('date_format'), $this->post->ID) . '</time>';
@@ -157,7 +162,7 @@ abstract class td_module {
 
     function get_comments() {
         $buffy = '';
-        if (td_util::get_option('tds_p_show_comments') != 'hide') {
+        if (td_util::get_option('tds_m_show_comments') != 'hide') {
             $buffy .= '<div class="td-module-comments">';
                 $buffy .= '<a href="' . get_comments_link($this->post->ID) . '">';
                     $buffy .= get_comments_number($this->post->ID);
