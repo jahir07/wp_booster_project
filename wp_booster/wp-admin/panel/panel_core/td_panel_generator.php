@@ -846,8 +846,8 @@ class td_panel_generator {
             or $params_array['ds'] == 'td_taxonomy'
         ) {
             return $params_array['ds'] . '[' . $params_array['item_id'] . ']' . '[' . $params_array['option_id'] . ']';
-        } elseif($params_array['ds'] == 'wp_widget') {
-            return $params_array['ds'] . '[' . $params_array['sidebar'] . ']' . '[' . $params_array['widget_name'] . ']' . '[' . $params_array['attribute_key'] . ']';
+//        } elseif($params_array['ds'] == 'wp_widget') {
+//            return $params_array['ds'] . '[' . $params_array['sidebar'] . ']' . '[' . $params_array['widget_name'] . ']' . '[' . $params_array['attribute_key'] . ']';
         } else {
             return $params_array['ds'] . '[' . $params_array['option_id'] . ']';
         }

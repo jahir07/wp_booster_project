@@ -13,7 +13,7 @@ class td_panel_data_source {
      * 'ds' => 'data source ID',
       'item_id' = > 'the category id for example', - OPTIONAL category id or author id or page id
      * 'option_id' => 'the option id ex: background'
-     * @return returns the value of the setting
+     * @return string returns the value of the setting
      */
     static function read($read_array) {
         switch ($read_array['ds']) {
@@ -210,6 +210,7 @@ class td_panel_data_source {
                     self::update_td_option($post_value);
                     break;
 
+	            // wp
                 case 'wp_option':
                     self::update_wp_option($post_value);
                     break;
@@ -222,13 +223,12 @@ class td_panel_data_source {
                 case 'td_page_option':
                     break;
 
+	            //wp
                 case 'td_author':
                     self::update_td_author($post_value);
                     break;
 
-                case 'wp_widget':
-                    self::update_wp_widget($post_value);
-                    break;
+
 
                 case 'wp_theme_mod':
                     self::update_wp_theme_mod($post_value);
@@ -440,25 +440,6 @@ class td_panel_data_source {
     }
 
 
-    /**
-     * @param $wp_widgets_array
-     * Array (
-     * [testing] => Array (  //sidebar name
-     *  [td_block4_widget] => Array (  //widget name
-     *      [sort] => ra    //att_key => att value
-     *      [custom_title] => test )
-     *  )
-     * )
-     */
-    private static function update_wp_widget($wp_widgets_array) {
-        //print_r($wp_widgets_array);
-        $td_demo_site = new td_demo_site();
-        foreach($wp_widgets_array as $sidebar => $widgets) {
-            foreach ($widgets as $widget_name => $widget_atts) {
-                $td_demo_site->add_widget_to_sidebar($sidebar, $widget_name, $widget_atts);
-            }
-        }
-    }
 
 
     /**
@@ -572,7 +553,7 @@ class td_panel_data_source {
     }
 
 
-    public static function update_td_social_networks($social_networks_array) {
+    private static function update_td_social_networks($social_networks_array) {
         $save_social_networks = array();
 
         foreach ($social_networks_array as $social_net_id => $social_net_link) {
@@ -585,22 +566,6 @@ class td_panel_data_source {
     }
 
 
-    /**
-     * insert user fonts
-     * @param $user_font_option_array
-     * @return bool
-     */
-    public static function insert_in_system_fonts_user($user_font_option_array) {
-        //save the inserted user fonts into themes td_options
-        td_global::$td_options['td_fonts_user_inserted'] = $user_font_option_array;
-
-        //save all the themes settings
-        if(update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options )) {
-            return true;
-        } else{
-            return false;
-        }
-    }
 
 
 

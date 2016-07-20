@@ -294,7 +294,7 @@ class td_global {
 
 
     /**
-     * @var string here we keep the typography settings from the THEME FONTS panel.
+     * @var array string here we keep the typography settings from the THEME FONTS panel.
      * this is also used by the css compiler
      */
     public static $typography_settings_list = array ();
