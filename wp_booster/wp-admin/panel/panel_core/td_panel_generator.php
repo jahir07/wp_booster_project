@@ -846,8 +846,6 @@ class td_panel_generator {
             or $params_array['ds'] == 'td_taxonomy'
         ) {
             return $params_array['ds'] . '[' . $params_array['item_id'] . ']' . '[' . $params_array['option_id'] . ']';
-//        } elseif($params_array['ds'] == 'wp_widget') {
-//            return $params_array['ds'] . '[' . $params_array['sidebar'] . ']' . '[' . $params_array['widget_name'] . ']' . '[' . $params_array['attribute_key'] . ']';
         } else {
             return $params_array['ds'] . '[' . $params_array['option_id'] . ']';
         }
@@ -860,10 +858,14 @@ class td_panel_generator {
      * @return string
      */
     private static function generate_default_values_name($params_array) {
-        if ($params_array['ds'] == 'td_category' or $params_array['ds'] == 'td_author' or $params_array['ds'] == 'td_ads' or $params_array['ds'] == 'td_fonts' or $params_array['ds'] == 'td_block_styles') {
+        if (
+        	$params_array['ds'] == 'td_category'
+	        or $params_array['ds'] == 'td_author'
+	        or $params_array['ds'] == 'td_ads'
+	        or $params_array['ds'] == 'td_fonts'
+	        or $params_array['ds'] == 'td_block_styles'
+        ) {
             return 'td_default' . '[' . $params_array['ds'] . ']' . '[' . $params_array['item_id'] . ']' . '[' . $params_array['option_id'] . ']';
-        } elseif($params_array['ds'] == 'wp_widget') {
-            return 'td_default' . '[' . $params_array['ds'] . ']' . '[' . $params_array['sidebar'] . ']' . '[' . $params_array['widget_name'] . ']' . '[' . $params_array['attribute_key'] . ']';
         } else {
             return 'td_default' . '[' . $params_array['ds'] . ']' . '[' . $params_array['option_id'] . ']';
         }

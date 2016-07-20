@@ -34,7 +34,7 @@ class td_panel_data_source {
                 return td_util::get_option($read_array['option_id']);//htmlspecialchars()
                 break;
 
-            case 'wp_option':
+            case 'wp_option': //@todo - se poate sa nu mai fie folosita
                 return htmlspecialchars(get_option($read_array['option_id']));
                 break;
 
@@ -42,21 +42,18 @@ class td_panel_data_source {
                 // here we get all the options for the homepage (including widgets?)
                 break;
 
+	        // @todo - I cannot find where this is used
             case 'td_page_option':
-
                 break;
 
-            case 'td_widget':
-
-                break;
 
             //author metadata
-            case 'td_author':
+            case 'td_author': //@todo - se poate sa nu fie folosita
                 return get_the_author_meta($read_array['option_id'], $read_array['item_id']);
                 break;
 
 
-            //wordpress theme mod datasource
+            //wordpress theme mod datasource @todo - se poate a nu mai fie folosita
             case 'wp_theme_mod':
                 return htmlspecialchars(get_theme_mod($read_array['option_id']));
                 break;
@@ -211,7 +208,7 @@ class td_panel_data_source {
                     break;
 
 	            // wp
-                case 'wp_option':
+                case 'wp_option': //@todo - se poate sa nu mai fie folosita
                     self::update_wp_option($post_value);
                     break;
 
@@ -220,17 +217,19 @@ class td_panel_data_source {
 	            case 'td_default': // here we store the default values. Each datasource that needs defaults, will parse the $_POST['td_default'] directly
 		            break;
 
+
+	            // @todo - I cannot find where this is used
                 case 'td_page_option':
                     break;
 
 	            //wp
-                case 'td_author':
+                case 'td_author': //@todo - se poate sa nu mai fie folosita
                     self::update_td_author($post_value);
                     break;
 
 
 
-                case 'wp_theme_mod':
+                case 'wp_theme_mod': //@todo - se poate sa nu mai fie folosita
                     self::update_wp_theme_mod($post_value);
                     break;
 
