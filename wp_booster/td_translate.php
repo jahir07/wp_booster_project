@@ -187,6 +187,7 @@ $td_translation_map = array(
     'POPULAR POSTS' => __('POPULAR POSTS', TD_THEME_NAME),
     'EDITOR PICKS' => __('EDITOR PICKS', TD_THEME_NAME),
     'ABOUT US' => __('ABOUT US', TD_THEME_NAME),
+    'About me' => __('About me', TD_THEME_NAME),
     'FOLLOW US' => __('FOLLOW US', TD_THEME_NAME),
     'EVEN MORE NEWS' => __('EVEN MORE NEWS', TD_THEME_NAME),
 
