@@ -4,7 +4,121 @@
 
 class td_panel_data_source {
 
+	static function filter() {
 
+		// die if request is fake
+		check_ajax_referer('td-update-panel', 'td_magic_token');
+
+
+		//if user is logged in and can switch themes
+		if (!current_user_can('switch_themes')) {
+			die;
+		}
+
+		//load all the theme's settings
+		td_global::$td_options = get_option( TD_THEME_OPTIONS_NAME );
+
+
+		/*  ----------------------------------------------------------------------------
+		save the data
+	 */
+
+		//print_r($_POST);
+		foreach ($_POST as $post_data_source => $post_value) {
+			switch ($post_data_source) {
+
+				case 'td_taxonomy':
+					self::update_td_taxonomy($post_value);
+					break;
+
+
+				case 'td_cpt':
+					self::update_td_cpt($post_value);
+					break;
+
+				case 'td_category':
+					self::update_category($post_value);
+					break;
+
+				case 'td_option':
+					self::update_td_option($post_value);
+					break;
+
+				// wp
+				case 'wp_option': //@todo - se poate sa nu mai fie folosita
+					self::update_wp_option($post_value);
+					break;
+
+				case 'td_homepage':
+					break;
+				case 'td_default': // here we store the default values. Each datasource that needs defaults, will parse the $_POST['td_default'] directly
+					break;
+
+
+				// @todo - I cannot find where this is used
+				case 'td_page_option':
+					break;
+
+				//wp
+				case 'td_author': //@todo - se poate sa nu mai fie folosita
+					self::update_td_author($post_value);
+					break;
+
+
+
+				case 'wp_theme_mod': //@todo - se poate sa nu mai fie folosita
+					self::update_wp_theme_mod($post_value);
+					break;
+
+				case 'wp_theme_menu_spot':
+					self::update_wp_theme_menu_spot($post_value);
+					break;
+
+				case 'td_translate':
+					self::update_td_translate($post_value);
+					break;
+
+				case 'td_ads':
+					self::update_td_ads($post_value);
+					break;
+
+				//social networks
+				case 'td_social_networks':
+					self::update_td_social_networks($post_value);
+					break;
+
+				case 'td_fonts_user_insert':
+					self::update_td_fonts_user_insert($post_value);
+					break;
+
+				case 'td_fonts':
+					self::update_td_fonts($post_value);
+					break;
+
+				case 'td_block_styles':
+					self::update_td_block_styles($post_value);
+					break;
+
+				default:
+					//tdx_options::set_data_to_datasource($post_data_source, $post_value);
+					break;
+			}
+		}
+
+		// @todo This has been commented for tests!
+		//compile user css if any
+		//td_global::$td_options['tds_user_compile_css'] = td_css_generator();
+
+		/*
+		 * compile mobile theme user css only if the theme is installed
+		 * in wp-admin the main theme is loaded and the mobile theme functions are not included
+		 * td_css_generator_mob() - is loaded in functions.php
+		 * @todo - look for a more elegant solution
+		 */
+		if (td_util::is_mobile_theme() && function_exists('td_css_generator_mob')){
+			td_global::$td_options['tds_user_compile_css_mob'] = td_css_generator_mob();
+		}
+	}
 
 
     /**
@@ -177,22 +291,8 @@ class td_panel_data_source {
 		    die;
 	    }
 
-
-	    $preview_options = TD_THEME_OPTIONS_NAME . '_preview';
-
-	    if ( isset( $_POST[ 'tdc_action' ] ) ) {
-
-		    td_global::$td_options = get_option( $preview_options , false );
-
-		    if ( false === td_global::$td_options ) {
-			    td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
-			    update_option( $preview_options, td_global::$td_options );
-		    }
-
-	    } else {
 	    //load all the theme's settings
 	    td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
-	    }
 
 
 	    /*  ----------------------------------------------------------------------------
@@ -295,12 +395,8 @@ class td_panel_data_source {
         }
 
 
-	    if ( isset( $_POST[ 'tdc_action' ] ) ) {
-		    update_option( $preview_options, td_global::$td_options );
-	    } else {
-		    //save all the themes settings (td_options + td_category)
-		    update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
-	    }
+	    //save all the themes settings (td_options + td_category)
+	    update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
 
     }
 
