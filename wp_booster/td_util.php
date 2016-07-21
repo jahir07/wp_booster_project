@@ -13,9 +13,17 @@ class td_util {
      * if we are in demo mode looks for cookies
      * else takes the settings from database
     */
-    static function read_once_theme_settings() {
-        td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
-    }
+	static function read_once_theme_settings() {
+		if ( ( isset( $_GET[ 'td_action'] )  && 'tdc_edit' === $_GET[ 'td_action'] ) && ( isset( $_GET[ 'tdc_preview' ] ) && '1' === $_GET[ 'tdc_preview'] ) ) {
+			td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME . '_preview', false );
+
+			if ( false === td_global::$td_options ) {
+				td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+			}
+		} else {
+			td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+		}
+	}
 
     //returns the $class if the variable is not empty or false
     static function if_show($variable, $class) {

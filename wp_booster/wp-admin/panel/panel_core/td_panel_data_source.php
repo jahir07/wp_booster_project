@@ -178,13 +178,26 @@ class td_panel_data_source {
 	    }
 
 
-        //load all the theme's settings
-        td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+	    $preview_options = TD_THEME_OPTIONS_NAME . '_preview';
+
+	    if ( isset( $_POST[ 'tdc_action' ] ) ) {
+
+		    td_global::$td_options = get_option( $preview_options , false );
+
+		    if ( false === td_global::$td_options ) {
+			    td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+			    update_option( $preview_options, td_global::$td_options );
+		    }
+
+	    } else {
+	    //load all the theme's settings
+	    td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+	    }
 
 
-        /*  ----------------------------------------------------------------------------
-            save the data
-         */
+	    /*  ----------------------------------------------------------------------------
+		save the data
+	 */
 
         //print_r($_POST);
         foreach ($_POST as $post_data_source => $post_value) {
@@ -281,8 +294,13 @@ class td_panel_data_source {
             td_global::$td_options['tds_user_compile_css_mob'] = td_css_generator_mob();
         }
 
-        //save all the themes settings (td_options + td_category)
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options );
+
+	    if ( isset( $_POST[ 'tdc_action' ] ) ) {
+		    update_option( $preview_options, td_global::$td_options );
+	    } else {
+		    //save all the themes settings (td_options + td_category)
+		    update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
+	    }
 
     }
 
