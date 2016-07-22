@@ -8,23 +8,7 @@ class td_util {
 	private static $theme_options_is_shutdown_hooked = false; /** flag used by @see td_util::update_option to hook only once on shutdown hook */
 
 
-    /**
-     * reading the theme settings
-     * if we are in demo mode looks for cookies
-     * else takes the settings from database
-    */
-	static function read_once_theme_settings() {
 
-		if ( ( isset( $_GET[ 'td_action'] )  && 'tdc_edit' === $_GET[ 'td_action'] ) && ( isset( $_POST[ 'tdc_action' ] ) && 'preview' === $_POST[ 'tdc_action'] ) ) {
-
-			// @todo This should be removed!
-			require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
-
-			td_panel_data_source::filter();
-		} else {
-			td_global::$td_options = get_option( TD_THEME_OPTIONS_NAME );
-		}
-	}
 
     //returns the $class if the variable is not empty or false
     static function if_show($variable, $class) {
@@ -1021,8 +1005,7 @@ class td_util {
 }//end class td_util
 
 
-//read the theme settings once
-td_util::read_once_theme_settings();
+
 
 
 class td_category2id_array_walker extends Walker {

@@ -4,121 +4,6 @@
 
 class td_panel_data_source {
 
-	static function filter() {
-
-		// die if request is fake
-		check_ajax_referer('td-update-panel', 'td_magic_token');
-
-
-		//if user is logged in and can switch themes
-		if (!current_user_can('switch_themes')) {
-			die;
-		}
-
-		//load all the theme's settings
-		td_global::$td_options = get_option( TD_THEME_OPTIONS_NAME );
-
-
-		/*  ----------------------------------------------------------------------------
-		save the data
-	 */
-
-		//print_r($_POST);
-		foreach ($_POST as $post_data_source => $post_value) {
-			switch ($post_data_source) {
-
-				case 'td_taxonomy':
-					self::update_td_taxonomy($post_value);
-					break;
-
-
-				case 'td_cpt':
-					self::update_td_cpt($post_value);
-					break;
-
-				case 'td_category':
-					self::update_category($post_value);
-					break;
-
-				case 'td_option':
-					self::update_td_option($post_value);
-					break;
-
-				// wp
-				case 'wp_option': //@todo - se poate sa nu mai fie folosita
-					self::update_wp_option($post_value);
-					break;
-
-				case 'td_homepage':
-					break;
-				case 'td_default': // here we store the default values. Each datasource that needs defaults, will parse the $_POST['td_default'] directly
-					break;
-
-
-				// @todo - I cannot find where this is used
-				case 'td_page_option':
-					break;
-
-				//wp
-				case 'td_author': //@todo - se poate sa nu mai fie folosita
-					self::update_td_author($post_value);
-					break;
-
-
-
-				case 'wp_theme_mod': //@todo - se poate sa nu mai fie folosita
-					self::update_wp_theme_mod($post_value);
-					break;
-
-				case 'wp_theme_menu_spot':
-					self::update_wp_theme_menu_spot($post_value);
-					break;
-
-				case 'td_translate':
-					self::update_td_translate($post_value);
-					break;
-
-				case 'td_ads':
-					self::update_td_ads($post_value);
-					break;
-
-				//social networks
-				case 'td_social_networks':
-					self::update_td_social_networks($post_value);
-					break;
-
-				case 'td_fonts_user_insert':
-					self::update_td_fonts_user_insert($post_value);
-					break;
-
-				case 'td_fonts':
-					self::update_td_fonts($post_value);
-					break;
-
-				case 'td_block_styles':
-					self::update_td_block_styles($post_value);
-					break;
-
-				default:
-					//tdx_options::set_data_to_datasource($post_data_source, $post_value);
-					break;
-			}
-		}
-
-		// @todo This has been commented for tests!
-		//compile user css if any
-		//td_global::$td_options['tds_user_compile_css'] = td_css_generator();
-
-		/*
-		 * compile mobile theme user css only if the theme is installed
-		 * in wp-admin the main theme is loaded and the mobile theme functions are not included
-		 * td_css_generator_mob() - is loaded in functions.php
-		 * @todo - look for a more elegant solution
-		 */
-		if (td_util::is_mobile_theme() && function_exists('td_css_generator_mob')){
-			td_global::$td_options['tds_user_compile_css_mob'] = td_css_generator_mob();
-		}
-	}
 
 
     /**
@@ -274,13 +159,8 @@ class td_panel_data_source {
 
 
 
-    /*
-     * Updates all the settings for all of the types  [setting_type][etc]
-     * this called at the end of this file
-     * this function updates the form - first it reads all the settings from WordPress and then it saves them after the update
-     * NOTICE! $_POST is altered by WordPress and it has slashes added to "
-    */
-    static function update() {
+
+    static function preview_patch_options() {
 
 	    // die if request is fake
 	    check_ajax_referer('td-update-panel', 'td_magic_token');
@@ -291,13 +171,42 @@ class td_panel_data_source {
 		    die;
 	    }
 
-	    //load all the theme's settings
-	    td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
+
+	    foreach ($_POST as $post_data_source => $post_value) {
+		    switch ($post_data_source) {
+			    case 'td_option':
+				    self::update_td_option($post_value);
+				    break;
+		    }
+	    }
+
+
+
+	    //compile user css if any
+	    //td_global::$td_options['tds_user_compile_css'] = td_css_generator();
+    }
+
+    /*
+     * Updates all the settings for all of the types  [setting_type][etc]
+     * this called at the end of this file
+     * this function updates the form - first it reads all the settings from WordPress and then it saves them after the update
+     * NOTICE! $_POST is altered by WordPress and it has slashes added to "
+    */
+    static function update() {
+	    // die if request is fake
+	    check_ajax_referer('td-update-panel', 'td_magic_token');
+
+
+	    //if user is logged in and can switch themes
+	    if (!current_user_can('switch_themes')) {
+		    die;
+	    }
+
 
 
 	    /*  ----------------------------------------------------------------------------
-		save the data
-	 */
+			save the data
+	    */
 
         //print_r($_POST);
         foreach ($_POST as $post_data_source => $post_value) {
@@ -395,9 +304,8 @@ class td_panel_data_source {
         }
 
 
-	    //save all the themes settings (td_options + td_category)
-	    update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
-
+        //save all the themes settings (td_options + td_category)
+        update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
     }
 
 
@@ -569,16 +477,25 @@ class td_panel_data_source {
     /**
      * @param $td_option_array
      * Array ( [option_id] => options_value, [option_id_2] => options_value )
+     * Used to clean up default values, for example if the user submitted value is 5 and the default is 5, in the database we will
+     * save ''
      */
     private static function update_td_option($td_option_array) {
-        //get defaults array
-        $default_array = $_POST['td_default'];
+
 
         foreach($td_option_array as $options_id => $option_value) {
-            //check for default values
-            if(!empty($default_array['td_option'][$options_id]) and strtolower($default_array['td_option'][$options_id]) == strtolower($option_value)) {
-                $option_value = '';
-            }
+
+        	// search for the default value, only if we have at least one default. The live panel may not have defaults in testing
+        	if (isset($_POST['td_default'])) {
+		        //get defaults array
+		        $default_array = $_POST['td_default'];
+
+		        //check for default values
+		        if(!empty($default_array['td_option'][$options_id]) and strtolower($default_array['td_option'][$options_id]) == strtolower($option_value)) {
+			        $option_value = '';
+		        }
+	        }
+
             td_global::$td_options[$options_id] = $option_value;
         }
     }
@@ -917,3 +834,10 @@ class td_panel_data_source {
 
 //AJAX FORM SAVING
 add_action( 'wp_ajax_td_ajax_update_panel', array('td_panel_data_source', 'update') );//print_r($_POST);
+
+
+// patch td_global::$td_options
+if ( isset($_GET['td_action']) &&  $_GET['td_action'] == 'tdc_edit' && isset($_POST['tdc_action']) ) {
+	td_panel_data_source::preview_patch_options();
+}
+

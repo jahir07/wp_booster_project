@@ -12,10 +12,20 @@ if (TD_DEPLOY_MODE == 'dev') {
 
 // theme utility files
 require_once('td_global.php');
+td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME); //read the theme settings once
+
 require_once('td_util.php');
+
 
 // load the wp_booster_api
 require_once('td_api.php');
+
+
+// @todo 22.07.2016 - this should run on the td_global_after hook. BUT it should be first on that hook
+// I've checked td_global, td_util & td_api and it's safe to load this here for pathing the td_global::$td_options
+require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
+
+
 
 // hook here to use the theme api
 do_action('td_global_after');
@@ -2154,7 +2164,6 @@ if (is_admin()) {
 	 */
 	require_once('wp-admin/panel/panel_core/td_panel_core.php');
 	require_once('wp-admin/panel/panel_core/td_panel_generator.php');
-	require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
 
 	if (current_user_can('switch_themes')) {
 		// add the theme panel only if we have permissions
