@@ -54,10 +54,10 @@ var tdLoadingBox = {};
                 tdLoadingBox.arrayColors[6] = rgbaString + " 0.7)";
                 tdLoadingBox.arrayColors[5] = rgbaString + " 0.5)";
                 tdLoadingBox.arrayColors[4] = rgbaString + " 0.3)";
-                tdLoadingBox.arrayColors[3] = rgbaString + " 0.2)";
-                tdLoadingBox.arrayColors[2] = rgbaString + " 0.2)";
-                tdLoadingBox.arrayColors[1] = rgbaString + " 0.2)";
-                tdLoadingBox.arrayColors[0] = rgbaString + " 0.2)";
+                tdLoadingBox.arrayColors[3] = rgbaString + " 0.15)";
+                tdLoadingBox.arrayColors[2] = rgbaString + " 0.15)";
+                tdLoadingBox.arrayColors[1] = rgbaString + " 0.15)";
+                tdLoadingBox.arrayColors[0] = rgbaString + " 0.15)";
 
             } else {
                 //default array

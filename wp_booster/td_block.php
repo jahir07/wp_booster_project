@@ -608,7 +608,7 @@ class td_block {
 				pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
 				pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-subcat-dropdown:first');
 				pulldown_item_obj.horizontal_element_css_class = 'td-subcat-item';
-				pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td_block_wrap:first');
+				pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.closest( '.td-block-title-wrap' );
 				pulldown_item_obj.excluded_jquery_elements = [horizontal_jquery_obj.parent().siblings('.block-title:first')];
 				tdPullDown.add_item(pulldown_item_obj); // add the item
 
