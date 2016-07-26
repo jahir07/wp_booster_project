@@ -6,6 +6,7 @@
 class td_video_support{
 
 	private static $on_save_post_post_id; // here we keep the post_id when the save_post hook runs. We need the post_id to pass it to the other hook @see on_add_attachment_set_featured_image
+	private static $fb_access_token = 'EAAC0twN8wjQBAEksmaw1653RnNFVQC2gZAdW2nN9zMHsG8LDLWptfvQM1Vty1miNOPsfZBm49T8S2Q3MibZCSjs2Tdvp0tQRfRusVdInNBvElIn6MEZAB9RMnifqPfZCOnj0gVZA19ttZB6mcmAs43u73Be02qZCRfEJ4RZAFXZCxnOgZDZD';
 
 	/**
 	 * Render a video on the fornt end from URL
@@ -62,6 +63,13 @@ class td_video_support{
                     <iframe src="' . td_global::$http_or_https . '://player.vimeo.com/video/' . self::get_vimeo_id($videoUrl) . '" width="500" height="212" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                 </div>
                 ';
+				break;
+			case 'facebook':
+				$buffy = '
+				<div class="wpb_video_wrapper">
+					<iframe src="' . td_global::$http_or_https . '://www.facebook.com/plugins/video.php?href=' . urlencode($videoUrl) . '&show_text=0&width=560" width="560" height="315" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+				</div>
+				';
 				break;
 		}
 		return $buffy;
@@ -199,9 +207,28 @@ class td_video_support{
 					return ($td_result->thumbnail_url);
 				}
 				break;
+
+			case 'facebook':
+				$facebook_api_json = td_remote_http::get_page('https://graph.facebook.com/v2.7/' . self::get_facebook_id($videoUrl) . '/thumbnails?access_token=' . self::$fb_access_token , __CLASS__);
+
+				if ( $facebook_api_json !== false ) {
+					$facebook_api = @json_decode($facebook_api_json);
+					if ($facebook_api === null and json_last_error() !== JSON_ERROR_NONE) {
+						td_log::log(__FILE__, __FUNCTION__, 'json decode failed for facebook api', $videoUrl);
+						return '';
+					}
+
+					if (is_object($facebook_api) and !empty($facebook_api)) {
+						foreach ($facebook_api->data as $result) {
+							if ($result->is_preferred !== false) {
+								return ($result->uri);
+							}
+						}
+
+					}
+				}
+				break;
 		}
-
-
 		return '';
 	}
 
@@ -288,6 +315,34 @@ class td_video_support{
 
     }
 
+	/**
+	 * Facebook
+	 * @param $videoUrl
+	 * @return string - the fb video id
+	 */
+	private static function get_facebook_id($videoUrl) {
+
+		/**
+		 * https://www.facebook.com/{page-name}/videos/{video-id}/
+		 * https://www.facebook.com/{username}/videos/{video-id}/ - user's video must be public
+		 * https://www.facebook.com/video.php?v={video-id}
+		 * https://www.facebook.com/video.php?id={video-id} - this video url does not work in this format
+		 */
+
+		if (strpos($videoUrl, '//www.facebook.com') !== false) {
+
+			$id = basename($videoUrl);
+			if (strpos($id,'video.php?v=') !== false) {
+				$query = parse_url($videoUrl, PHP_URL_QUERY);
+				parse_str($query, $vars);
+				return $vars['v'];
+			} else {
+				return $id;
+			}
+		}
+		return '';
+	}
+
     /*
      * Detect the video service from url
      */
@@ -302,8 +357,11 @@ class td_video_support{
         if (strpos($videoUrl,'vimeo.com') !== false) {
             return 'vimeo';
         }
+		if (strpos($videoUrl,'facebook.com') !== false) {
+			return 'facebook';
+		}
 
-        return false;
+		return false;
     }
 
 

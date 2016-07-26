@@ -216,6 +216,23 @@ function td_resize_videos() {
 
     });
 
+    //facebook in content
+    jQuery(document).find('iframe[src*="facebook.com/plugins/video.php"]').each(function() {
+        var videoMainContainer = jQuery(this).parent().parent().parent(),
+            video43AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-43"), //video aspect ratio 4:3
+            video235AspectRatio = videoMainContainer.hasClass("vc_video-aspect-ratio-235"); //video aspect ratio 2.35:1
+        if (video43AspectRatio || video235AspectRatio) {
+            //do nothing for video aspect ratios 4:3 and 2.35:1
+            //the video aspect ratio can be set on Visual Composer - Video Player widget settings
+        } else {
+            var td_video = jQuery(this);
+            td_video.attr('width', '100%');
+            var td_video_width = td_video.width();
+            td_video.css('height', td_video_width * 0.5625, 'important');
+        }
+
+    });
+
 
     //wordpress embedded
     jQuery(document).find(".wp-video-shortcode").each(function() {
@@ -392,7 +409,7 @@ if(!tdDetect.isTouchDevice && tdUtil.getBackendVar('td_ad_background_click_link'
 
         var target_jquery_obj = jQuery(target);
 
-        // td-content-wrap for NEWSMAG and td-boxex-layout for NEWSPAPER
+        // td-outer-container for NEWSMAG and td-boxex-layout for NEWSPAPER
         if (target_jquery_obj.hasClass('td-outer-container') || target_jquery_obj.hasClass('td-boxed-layout')) {
 
             //open the link ad page
