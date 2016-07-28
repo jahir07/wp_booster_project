@@ -1149,7 +1149,7 @@ a.td-tooltip {
   transition: background-color 0.2s ease-in !important;
   transform: translateZ(0);
 }
-.td-radio-control-option span {
+.td-radio-control-option .td-radio-check {
   position: absolute;
   top: 3px;
   right: 5px;
@@ -1182,11 +1182,7 @@ a.td-tooltip {
   color: #333333;
   background-color: #fafbfb;
 }
-.td-radio-control-option-selected img {
-  opacity: 1;
-  transform: scale(1);
-}
-.td-radio-control-option-selected span {
+.td-radio-control-option-selected .td-radio-check {
   opacity: 1;
   transform: scale(1);
 }

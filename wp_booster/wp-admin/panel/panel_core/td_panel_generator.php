@@ -545,7 +545,7 @@ class td_panel_generator {
             }
 
             $buffy .= '
-                <a class="td-panel-remove-transitions td-radio-control-option' . $top_option_border_class . $radio_option_border_class_selected . '" title="' . strip_tags($radio_option['text']) . '" data-control-id="' . $contro_unique_id . '" data-option-value="' . $radio_option['val'] . '">' . $display_option . '<span></span></a>
+                <a class="td-panel-remove-transitions td-radio-control-option' . $top_option_border_class . $radio_option_border_class_selected . '" title="' . strip_tags($radio_option['text']) . '" data-control-id="' . $contro_unique_id . '" data-option-value="' . $radio_option['val'] . '">' . $display_option . '<span class="td-radio-check"></span></a>
             ';
             $icont++;
             $radio_option_border_class_selected = '';
