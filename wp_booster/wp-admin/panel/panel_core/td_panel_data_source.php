@@ -837,7 +837,7 @@ add_action( 'wp_ajax_td_ajax_update_panel', array('td_panel_data_source', 'updat
 
 
 // patch td_global::$td_options
-if ( isset($_GET['td_action']) &&  $_GET['td_action'] == 'tdc_edit' && isset($_POST['tdc_action']) ) {
+if ( isset($_GET['td_action']) &&  $_GET['td_action'] == 'tdc_edit' && isset($_POST['tdc_action']) && $_POST['tdc_action'] === 'preview' ) {
 	td_panel_data_source::preview_patch_options();
 }
 
