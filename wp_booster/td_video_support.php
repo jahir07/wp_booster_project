@@ -8,6 +8,8 @@ class td_video_support{
 	private static $on_save_post_post_id; // here we keep the post_id when the save_post hook runs. We need the post_id to pass it to the other hook @see on_add_attachment_set_featured_image
 	private static $fb_access_token = 'EAAC0twN8wjQBAEksmaw1653RnNFVQC2gZAdW2nN9zMHsG8LDLWptfvQM1Vty1miNOPsfZBm49T8S2Q3MibZCSjs2Tdvp0tQRfRusVdInNBvElIn6MEZAB9RMnifqPfZCOnj0gVZA19ttZB6mcmAs43u73Be02qZCRfEJ4RZAFXZCxnOgZDZD';
 
+	//private static $caching_time = 10800; //seconds -> 3 hours
+
 	/**
 	 * Render a video on the fornt end from URL
 	 * @param $videoUrl - the video url that we want to render
@@ -67,9 +69,49 @@ class td_video_support{
 			case 'facebook':
 				$buffy = '
 				<div class="wpb_video_wrapper">
-					<iframe src="' . td_global::$http_or_https . '://www.facebook.com/plugins/video.php?href=' . urlencode($videoUrl) . '&show_text=0&width=560" width="560" height="315" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+					<iframe src="' . td_global::$http_or_https . '://www.facebook.com/plugins/video.php?href=' . urlencode($videoUrl) . '&show_text=0&width=560" width="600" height="560" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true" ></iframe>
 				</div>
 				';
+
+				/**
+				 * cache & oembed implementation				 *
+				 */
+
+				/*$cache_key = self::get_facebook_id($videoUrl);
+				$group = 'td_facebook_video';
+
+
+				if (td_remote_cache::is_expired($group, $cache_key) === true) {
+
+					// cache is expired - do a request
+					$facebook_api_json = td_remote_http::get_page('https://www.facebook.com/plugins/video/oembed.json/?url=' . urlencode($videoUrl) , __CLASS__);
+
+					if ($facebook_api_json !== false) {
+						$facebook_api = @json_decode($facebook_api_json);
+
+						//json data decode
+						if ($facebook_api === null and json_last_error() !== JSON_ERROR_NONE) {
+							td_log::log(__FILE__, __FUNCTION__, 'json decode failed for facebook video embed api', $videoUrl);
+						}
+
+						if (is_object($facebook_api) and !empty($facebook_api->html)) {
+
+							//add the html to the buffer
+							$buffy = '<div class="wpb_video_wrapper">' . $facebook_api->html . '</div>';
+
+							//set the cache
+							td_remote_cache::set($group, $cache_key, $facebook_api->html, self::$caching_time);
+						}
+
+					} else {
+						td_log::log(__FILE__, __FUNCTION__, 'facebook api html data cannot be retrieved/json request failed', $videoUrl);
+					}
+
+				} else {
+					// cache is valid
+					$api_html_embed_data = td_remote_cache::get($group, $cache_key);
+					$buffy = '<div class="wpb_video_wrapper">' . $api_html_embed_data . '</div>';
+				}*/
 				break;
 		}
 		return $buffy;
