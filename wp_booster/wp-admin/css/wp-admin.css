@@ -298,6 +298,32 @@ a.td-tooltip {
 .td-theme-panel-body ul#adminmenu > li.current > a.current:after {
   border-right-color: #30749B;
 }
+/* --------- */
+/* IONMAG theme panel */
+/* --------- */
+.ionmag_page_td_theme_panel .td-checkbox-active,
+.ionmag_page_td_theme_panel .td_upload_button,
+.ionmag_page_td_theme_panel .td-big-button {
+  background-color: #ec4d4d;
+}
+.ionmag_page_td_theme_panel .td-panel-save-button {
+  background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #ec4d4d);
+  background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #ec4d4d);
+  background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #ec4d4d);
+  background-color: #ec4d4d;
+}
+.ionmag_page_td_theme_panel .td-panel-save-button:hover {
+  background: linear-gradient(bottom, rgba(255, 255, 255, 0) 100%, #ec4d4d);
+  background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) 100%, #ec4d4d);
+  background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) 100%, #ec4d4d);
+  background-color: #ec4d4d;
+}
+.ionmag_page_td_theme_panel .td-visual-selector-active {
+  border-color: #ec4d4d !important;
+}
+.ionmag_page_td_theme_panel .td-radio-control-option-selected span {
+  background-image: url("../images/panel/radio-check-r.png");
+}
 /*  ----------------------------------------------------------------------------
     header
 */
@@ -1123,10 +1149,13 @@ a.td-tooltip {
   transition: background-color 0.2s ease-in !important;
   transform: translateZ(0);
 }
-.td-radio-control-option img {
+.td-radio-control-option span {
   position: absolute;
-  right: 5px;
   top: 3px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  background: url("../images/panel/radio-check.png") no-repeat;
   transform: scale(0);
   opacity: 0;
   -webkit-transition: all 0.2s ease-in;
@@ -1154,6 +1183,10 @@ a.td-tooltip {
   background-color: #fafbfb;
 }
 .td-radio-control-option-selected img {
+  opacity: 1;
+  transform: scale(1);
+}
+.td-radio-control-option-selected span {
   opacity: 1;
   transform: scale(1);
 }
