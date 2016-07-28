@@ -555,7 +555,7 @@ class td_block {
                             tmpObj = JSON.parse(JSON.stringify(<?php echo $block_item ?>));
                             tmpObj.is_ajax_running = true;
                             tmpObj.td_current_page = 1;
-                            tmpObj.td_filter_value = <?php echo $item['id'] ?>;
+                            tmpObj.td_filter_value = <?php echo json_encode($item['id']) ?>;
                             var currentBlockObjSignature = JSON.stringify(tmpObj);
                             tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo td_ajax::on_ajax_block($ajax_parameters) ?>));
                         <?php

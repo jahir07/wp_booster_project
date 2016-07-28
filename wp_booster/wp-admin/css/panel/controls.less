@@ -416,17 +416,18 @@
   position: relative;
   transition: background-color 0.2s ease-in !important;
   transform: translateZ(0);
-  img {
+
+  .td-radio-check {
     position: absolute;
-    right:5px;
-    top:3px;
+    top: 3px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    background: url("../images/panel/radio-check.png") no-repeat;
     transform: scale(0);
     opacity: 0;
     .transition(all 0.2s ease-in);
   }
-
-
-
 }
 
 .td-radio-control-option:hover {
@@ -440,11 +441,11 @@
 .td-radio-control-option-selected {
   //background: url("../images/panel/radio-check.png") no-repeat 262px 3px;
 
-  img {
+  .td-radio-check {
     opacity: 1;
     transform: scale(1);
-
   }
+
   -webkit-transition-property: initial;
   -moz-transition-property: initial;
   transition-property: initial;
