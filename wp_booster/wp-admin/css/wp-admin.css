@@ -303,8 +303,12 @@ a.td-tooltip {
 /* --------- */
 .ionmag_page_td_theme_panel .td-checkbox-active,
 .ionmag_page_td_theme_panel .td_upload_button,
-.ionmag_page_td_theme_panel .td-big-button {
+.ionmag_page_td_theme_panel .td-big-button,
+.ionmag_page_td_theme_panel .td-button-add-new-sidebar {
   background-color: #ec4d4d;
+}
+.ionmag_page_td_theme_panel .wp-picker-container .button {
+  background-color: #ec4d4d !important;
 }
 .ionmag_page_td_theme_panel .td-panel-save-button {
   background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #ec4d4d);
@@ -323,6 +327,13 @@ a.td-tooltip {
 }
 .ionmag_page_td_theme_panel .td-radio-control-option-selected span {
   background-image: url("../images/panel/radio-check-r.png");
+}
+.ionmag_page_td_theme_panel input:focus,
+.ionmag_page_td_theme_panel select:focus,
+.ionmag_page_td_theme_panel textarea:focus {
+  border-color: #ddd;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 /*  ----------------------------------------------------------------------------
     header
