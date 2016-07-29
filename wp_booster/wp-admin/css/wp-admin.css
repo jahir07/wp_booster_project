@@ -336,6 +336,9 @@ a.td-tooltip {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.ionmag_page_td_theme_panel #wpcontent {
+  background: url('../images/panel/bg/bg-red.jpg');
+}
 /*  ----------------------------------------------------------------------------
     header
 */
