@@ -314,6 +314,10 @@ a.td-tooltip {
   background: none;
   background-color: #ec4d4d;
 }
+.ionmag_page_td_theme_panel .td-panel-save-button:focus {
+  outline: 0;
+  border-color: transparent;
+}
 .ionmag_page_td_theme_panel .td-panel-save-button:hover {
   background: linear-gradient(bottom, rgba(255, 255, 255, 0) 0%, #f13434);
   background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) 0%, #f13434);
@@ -326,7 +330,6 @@ a.td-tooltip {
 .ionmag_page_td_theme_panel .td-radio-control-option-selected span {
   background-image: url("../images/panel/radio-check-r.png");
 }
-.ionmag_page_td_theme_panel input:focus,
 .ionmag_page_td_theme_panel select:focus,
 .ionmag_page_td_theme_panel textarea:focus {
   border-color: #ddd;

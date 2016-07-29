@@ -34,6 +34,11 @@
     background-color: @red_panel_color;
   }
 
+  .td-panel-save-button:focus {
+    outline: 0;
+    border-color: transparent;
+  }
+
   .td-panel-save-button:hover {
     background: linear-gradient(bottom, rgba(255,255,255,0.0) 0%, #f13434);
     background: -moz-linear-gradient(bottom, rgba(255,255,255,0.0) 0%, #f13434);
@@ -49,7 +54,6 @@
     background-image: url("../images/panel/radio-check-r.png");
   }
 
-  input:focus,
   select:focus,
   textarea:focus {
     border-color: #ddd;
