@@ -20,8 +20,13 @@
 .ionmag_page_td_theme_panel {
   .td-checkbox-active,
   .td_upload_button,
-  .td-big-button {
+  .td-big-button,
+  .td-button-add-new-sidebar {
     background-color: @red_panel_color;
+  }
+
+  .wp-picker-container .button {
+    background-color: @red_panel_color !important;
   }
 
   .td-panel-save-button {
@@ -42,5 +47,13 @@
 
   .td-radio-control-option-selected span {
     background-image: url("../images/panel/radio-check-r.png");
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #ddd;
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 }
