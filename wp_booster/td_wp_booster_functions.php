@@ -1159,7 +1159,7 @@ function td_my_custom_class_names_on_body($classes) {
 
 
 
-/*  ----------------------------------------------------------------------------
+/*  ----------------------------------------------------------------------------\
     used by ie8 - there is no other way to add js for ie8 only
  */
 add_action('wp_head', 'add_ie_html5_shim');
@@ -2359,3 +2359,10 @@ function td_customize_js() {
          ";
 }
 
+
+
+add_filter('admin_body_class', 'td_on_admin_body_class' );
+function td_on_admin_body_class( $classes ) {
+	$classes .= ' td-theme-' . TD_THEME_NAME;
+	return $classes;
+}
