@@ -75,7 +75,7 @@
 
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">Template layout:</span>
-            <img class="td-doc-image-wp td-doc-image-homepage-loop" style="max-width: 100%" src="<?php echo get_template_directory_uri() ?>/includes/wp_booster/wp-admin/images/info-homepage-loop.jpg" />
+            <img class="td-doc-image-wp td-doc-image-homepage-loop" style="max-width: 100%" src="<?php echo get_template_directory_uri() ?>/images/pagebuilder/info-homepage-loop.jpg" />
         </div>
     </div>
 

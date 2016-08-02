@@ -339,6 +339,15 @@ a.td-tooltip {
 .ionmag_page_td_theme_panel #wpcontent {
   background: url('../images/panel/bg/bg-red.jpg');
 }
+.td-theme-Ionmag .td-visual-selector-active {
+  border-color: #ec4d4d !important;
+}
+.td-theme-Ionmag .td-button-add-new-sidebar {
+  background-color: #ec4d4d;
+}
+.td-theme-Ionmag .td-wpa-info strong {
+  color: #ec4d4d;
+}
 /*  ----------------------------------------------------------------------------
     header
 */
