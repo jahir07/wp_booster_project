@@ -274,6 +274,34 @@
         </div>
     </div>
 
+    <!-- Responsive images -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">RESPONSIVE IMAGES</span>
+            <p>
+                Add responsive image parameters.
+                <?php td_util::tooltip_html('
+                            <h3>Responsive images</h3>
+                            <ul>
+                                <li>Disable - default images</li>
+                                <li>Enable - adds "src_set" and "size" parameters to each image - these parameters were added in <a target="_blank" href="https://make.wordpress.org/core/2015/11/10/responsive-images-in-wordpress-4-4/">Wordpress 4.4</a></li>
+                            </ul>
+                          ', 'right')?>
+            </p>
+
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_responsive_images',
+                'true_value' => 'show',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+
 
     <!-- Featured image placeholder -->
     <div class="td-box-row">

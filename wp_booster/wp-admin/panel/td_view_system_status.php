@@ -499,7 +499,7 @@ require_once "td_view_header.php";
     // Clear the Remote cache - only if the reset button is used
     if(!empty($_REQUEST['clear_remote_cache']) && $_REQUEST['clear_remote_cache'] == 1) {
         //clear remote cache
-        update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', '');
+        update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', array());
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
