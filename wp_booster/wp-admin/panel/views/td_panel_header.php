@@ -260,9 +260,9 @@
     </div>
 
 
-<div class="td-box-section-separator"></div>
+<div class="td-box-section-separator td-box-weather"></div>
 	<!-- Weather: enable disable -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">SHOW WEATHER</span>
 			<p>Hide or show the weather info in the top menu</p>
@@ -281,7 +281,7 @@
 
 
 	<!-- Weather: location -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">Location</span>
 			<p><a href="http://openweathermap.org/find" target="_blank">Find your location</a> - You can use "city name" (ex: London) or "city name,country code" (ex: London,uk)</p>
@@ -298,7 +298,7 @@
 
 
 	<!-- Weather: Units -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">Units</span>
 			<p>Choose what units to use when showing the temperature</p>
