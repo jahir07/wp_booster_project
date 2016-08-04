@@ -599,7 +599,7 @@ class td_page_generator {
 			if(!empty($pages_text)) {
                 echo '<span class="pages">'.$pages_text.'</span>';
             }
-
+            echo '<div class="clearfix"></div>';
             echo '</div>';
 
         }

@@ -330,9 +330,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_archive_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -379,9 +379,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_attachment_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -447,9 +447,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_author_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -514,9 +514,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_home_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -569,9 +569,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_page_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -659,9 +659,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_search_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -727,9 +727,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_tag_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -773,9 +773,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_woo_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -807,9 +807,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_woo_single_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>
@@ -854,9 +854,9 @@
                     'ds' => 'td_option',
                     'option_id' => 'tds_bbpress_sidebar_pos',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     )
                 ));
                 ?>

@@ -40,7 +40,7 @@ class td_weather {
 	static function render_generic($atts, $block_uid, $template = 'block_template') {
 
 		if (empty($atts['w_location'])) {
-			return self::error('<strong>location</strong> is empty. Configure this block/widget and enter a location and we will show the weather from that location :) ');
+			return self::error('<div class="td-block-missing-settings"><span>weather widget</span> <strong>Location field</strong> is empty. Configure this block/widget and enter a location and we\'ll show the weather from that location.</div>');
 		}
 
 		$current_unit = 0; // 0 - metric
@@ -56,6 +56,7 @@ class td_weather {
 		// prepare the data and do an api call
 		$weather_data = array (
 			'block_uid' => '',
+			'location' => $atts['w_location'],
 			'api_location' => $atts['w_location'],  // the current location. It is updated by the wheater API
 			'api_language' => '', //this is set down bellow
 			//'api_key' => self::get_a_owm_key(),
@@ -178,14 +179,10 @@ class td_weather {
 		</div>
 
 		<div class="td-weather-set-location">
-
 			<form class="td-manual-location-form" action="#" data-block-uid="<?php echo $weather_data['block_uid'] ?>">
-
-				<input id="<?php echo $weather_data['block_uid'] ?>" class="td-location-set-input" type="text" name="location" value="" placeholder="set location here..">
-				<button type="submit" class="td-location-set-button wpb_button wpb_btn-inverse btn"><i class="td-icon-font td-icon-menu-right"></i></button>
-
+				<input id="<?php echo $weather_data['block_uid'] ?>" class="td-location-set-input" type="text" name="location" value="" >
+				<label>enter location</label>
 			</form>
-
 		</div>
 
 		<div class="td-weather-temperature">

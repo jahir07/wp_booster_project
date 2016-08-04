@@ -326,6 +326,8 @@ var tdBlocks = {};
             //change current filter value - the filter type is readed by td_ajax from the atts of the shortcode
             currentBlockObj.td_filter_value = jQuery(this).data('td_filter_value');
 
+            jQuery('.' + jQuery(this).data('td_block_id') + '_rand').find('.td-cur-simple-item').removeClass('td-cur-simple-item');
+            jQuery(this).addClass('td-cur-simple-item');
 
             currentBlockObj.td_current_page = 1;
 

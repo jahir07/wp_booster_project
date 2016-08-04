@@ -37,9 +37,9 @@
                 'item_id' => '',
                 'option_id' => 'td_sidebar_position',
                 'values' => array(
-                    array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                    array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                    array('text' => '', 'title' => '', 'val' => 'sidebar_right', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                    array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                    array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                    array('text' => '', 'title' => '', 'val' => 'sidebar_right', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                 ),
                 'selected_value' => $mb->get_the_value('td_sidebar_position')
             ));
@@ -75,7 +75,7 @@
 
         <div class="td-meta-box-row">
             <span class="td-page-o-custom-label">Template layout:</span>
-            <img class="td-doc-image-wp td-doc-image-homepage-loop" style="max-width: 100%" src="<?php echo get_template_directory_uri() ?>/includes/wp_booster/wp-admin/images/info-homepage-loop.jpg" />
+            <img class="td-doc-image-wp td-doc-image-homepage-loop" style="max-width: 100%" src="<?php echo get_template_directory_uri() ?>/images/pagebuilder/info-homepage-loop.png" />
         </div>
     </div>
 

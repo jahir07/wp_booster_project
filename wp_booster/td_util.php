@@ -8,14 +8,7 @@ class td_util {
 	private static $theme_options_is_shutdown_hooked = false; /** flag used by @see td_util::update_option to hook only once on shutdown hook */
 
 
-    /**
-     * reading the theme settings
-     * if we are in demo mode looks for cookies
-     * else takes the settings from database
-    */
-    static function read_once_theme_settings() {
-        td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME);
-    }
+
 
     //returns the $class if the variable is not empty or false
     static function if_show($variable, $class) {
@@ -643,26 +636,10 @@ class td_util {
 
 		/**
 		 * detect the page builder
-		 */
-		if (method_exists('WPBMap', 'getShortCodes')) {
-			$short_codes_buffer = array();
-			$td_page_builder_short_codes = array_keys(WPBMap::getShortCodes());
-			if (is_array($td_page_builder_short_codes) && !empty($td_page_builder_short_codes)) {
-				foreach ($td_page_builder_short_codes as $short_code_name){
-					// we have to add [ before the shortcode name, else it may target simple words that match with the shortcode name
-					$short_codes_buffer[] = '[' .  $short_code_name;
-				}
-			}
-			if (!empty($short_codes_buffer) && td_util::strpos_array($post->post_content, $short_codes_buffer) === true) {
-				return true;
-			}
-		}
-
-		/**
-		 * for TDC we use a simpler method, evey pagebuilder page must have vc_row in it
+         * check for the vc_row, evey pagebuilder page must have vc_row in it
 		 */
 		$matches = array();
-		$preg_match_ret = preg_match('/\[.*vc_row.*\]/', $post->post_content, $matches);
+		$preg_match_ret = preg_match('/\[.*vc_row.*\]/s', $post->post_content, $matches);
 		if ($preg_match_ret !== 0 && $preg_match_ret !== false ) {
 			return true;
 		}
@@ -1028,8 +1005,7 @@ class td_util {
 }//end class td_util
 
 
-//read the theme settings once
-td_util::read_once_theme_settings();
+
 
 
 class td_category2id_array_walker extends Walker {

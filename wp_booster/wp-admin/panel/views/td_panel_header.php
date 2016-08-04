@@ -19,6 +19,29 @@
         </div>
     </div>
 
+    <?php
+    if ('Ionmag' == TD_THEME_NAME) { ?>
+        <!-- SEARCH POSITION -->
+        <div class="td-box-row">
+            <div class="td-box-description">
+                <span class="td-box-title">SEARCH POSITION</span>
+                <p>Select the search button placement area</p>
+            </div>
+            <div class="td-box-control-full">
+                <?php
+                echo td_panel_generator::radio_button_control(array(
+                    'ds' => 'td_option',
+                    'option_id' => 'tds_search_placement',
+                    'values' => array (
+                        array('text' => '<strong>Main menu</strong> - Default', 'val' => ''),
+                        array('text' => '<strong>Top bar</strong>', 'val' => 'top_bar')
+                    )
+                ));
+                ?>
+            </div>
+        </div>
+    <?php } ?>
+
 
 <?php echo td_panel_generator::box_end();?>
 
@@ -237,9 +260,9 @@
     </div>
 
 
-<div class="td-box-section-separator"></div>
+<div class="td-box-section-separator td-box-weather"></div>
 	<!-- Weather: enable disable -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">SHOW WEATHER</span>
 			<p>Hide or show the weather info in the top menu</p>
@@ -258,7 +281,7 @@
 
 
 	<!-- Weather: location -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">Location</span>
 			<p><a href="http://openweathermap.org/find" target="_blank">Find your location</a> - You can use "city name" (ex: London) or "city name,country code" (ex: London,uk)</p>
@@ -275,7 +298,7 @@
 
 
 	<!-- Weather: Units -->
-	<div class="td-box-row">
+	<div class="td-box-row td-box-weather">
 		<div class="td-box-description">
 			<span class="td-box-title">Units</span>
 			<p>Choose what units to use when showing the temperature</p>

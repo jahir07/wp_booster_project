@@ -66,11 +66,11 @@ class td_module_single_base extends td_module {
     function get_author() {
         $buffy = '';
         if (td_util::get_option('tds_p_show_author_name') != 'hide') {
-            $buffy .= '<div class="td-post-author-name">' . __td('By', TD_THEME_NAME) . ' ';
+            $buffy .= '<div class="td-post-author-name"><div class="td-author-by">' . __td('By', TD_THEME_NAME) . '</div> ';
             $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
 
             if (td_util::get_option('tds_p_show_author_name') != 'hide' and td_util::get_option('tds_p_show_date') != 'hide') {
-                $buffy .= ' - ';
+                $buffy .= '<div class="td-author-line"> - </div> ';
             }
             $buffy .= '</div>';
         }
@@ -105,7 +105,6 @@ class td_module_single_base extends td_module {
             return '';
         }
 
-
         //handle video post format
         if (get_post_format($this->post->ID) == 'video') {
             //if it's a video post...
@@ -123,6 +122,14 @@ class td_module_single_base extends td_module {
                 $featured_image_id = get_post_thumbnail_id($this->post->ID);
                 $featured_image_info = td_util::attachment_get_full_info($featured_image_id, $thumbType);
 
+                //responsive images
+                $featured_image_srcset = '';
+                $featured_image_sizes = '';
+                if (td_util::get_option('tds_responsive_images') == 'show') {
+                    $featured_image_srcset .= ' src_set="' . wp_get_attachment_image_srcset($featured_image_id, $thumbType) . '""';
+                    $featured_image_sizes .= ' sizes="(max-width: ' . $featured_image_info['width'] . 'px) 100vw, ' . $featured_image_info['width'] . 'px"';
+                }
+
                 //get the full size for the popup
                 $featured_image_full_size_src = td_util::attachment_get_src($featured_image_id, 'full');
 
@@ -134,14 +141,14 @@ class td_module_single_base extends td_module {
                     if ($show_td_modal_image != 'no_modal') {
                         //wrap the image_html with a link + add td-modal-image class
                         $image_html = '<a href="' . $featured_image_full_size_src['src'] . '" data-caption="' . esc_attr($featured_image_info['caption'], ENT_QUOTES) . '">';
-                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
+                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '"' . $featured_image_srcset . $featured_image_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                         $image_html .= '</a>';
                     } else { //no_modal
                         $image_html = '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                     }
                 } else {
                     //on blog index page
-                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
+                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '"' . $featured_image_srcset . $featured_image_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
                 }
 
 
@@ -268,6 +275,32 @@ class td_module_single_base extends td_module {
     }
 
 
+    function get_date($show_stars_on_review = true) {
+        $visibility_class = '';
+        if (td_util::get_option('tds_p_show_date') == 'hide') {
+            $visibility_class = ' td-visibility-hidden';
+        }
+
+        $buffy = '';
+        if ($this->is_review and $show_stars_on_review === true) {
+            //if review show stars
+            $buffy .= '<div class="entry-review-stars">';
+            $buffy .=  td_review::render_stars($this->td_review);
+            $buffy .= '</div>';
+
+        } else {
+            if (td_util::get_option('tds_p_show_date') != 'hide') {
+                $td_article_date_unix = get_the_time('U', $this->post->ID);
+                $buffy .= '<span class="td-post-date">';
+                $buffy .= '<time class="entry-date updated td-module-date' . $visibility_class . '" datetime="' . date(DATE_W3C, $td_article_date_unix) . '" >' . get_the_time(get_option('date_format'), $this->post->ID) . '</time>';
+                $buffy .= '</span>';
+            }
+        }
+
+        return $buffy;
+    }
+
+
     function get_comments() {
         $buffy = '';
         if (td_util::get_option('tds_p_show_comments') != 'hide') {
@@ -368,6 +401,11 @@ class td_module_single_base extends td_module {
         $tds_inline_ad_paragraph = td_util::get_option('tds_inline_ad_paragraph');
         $tds_inline_ad_align = td_util::get_option('tds_inline_ad_align');
 
+        //ads titles
+        $tds_inline_ad_title = td_util::get_option('tds_inline_ad_title');
+        $tds_bottom_ad_title = td_util::get_option('tds_bottom_ad_title');
+        $tds_top_ad_title = td_util::get_option('tds_top_ad_title');
+
 
         //add the inline ad
         if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
@@ -391,15 +429,15 @@ class td_module_single_base extends td_module {
                         if ($tds_inline_ad_paragraph == $p_open_tag_count) {
                             switch ($tds_inline_ad_align) {
                                 case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
                                     break;
 
                                 case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
                                     break;
 
                                 default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline'));
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
                                     break;
                             }
                         }
@@ -427,13 +465,13 @@ class td_module_single_base extends td_module {
 
         //add the top ad
         if (td_util::is_ad_spot_enabled('content_top') && is_single() && $td_display_top_ad === true) {
-            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top')) . $content;
+            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
         }
 
 
         //add bottom ad
         if (td_util::is_ad_spot_enabled('content_bottom') && is_single()) {
-            $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom'));
+            $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom', 'spot_title' => $tds_bottom_ad_title));
         }
 
 

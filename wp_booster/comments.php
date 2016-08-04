@@ -29,7 +29,7 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        ?>
 
             <div class="td-comments-title-wrap <?php echo $td_css_cls_pb_padding_side ?>">
-                <h4 class="<?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
+                <h4 class="td-comments-title <?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
             </div>
 
 		        <ol class="comment-list <?php echo $td_css_cls_pb_padding_side ?>">
@@ -54,18 +54,18 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 
 	        $fields = array(
 		        'author' =>
-			        '<p class="comment-form-input-wrap">
+			        '<p class="comment-form-input-wrap td-form-author">
 			            <span class="comment-req-wrap">
 			            	<input class="" id="author" name="author" placeholder="' . __td('Name:', TD_THEME_NAME) . '" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' />' . ( $req ? '</span>' : '' ) .
 			        '</p>',
 
 		        'email'  =>
-			        '<p class="comment-form-input-wrap">
+			        '<p class="comment-form-input-wrap td-form-email">
 			            <span class="comment-req-wrap"><input class="" id="email" name="email" placeholder="' . __td('Email:', TD_THEME_NAME) . '" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' />' . ( $req ? '</span>' : '' ) .
 			        '</p>',
 
 		        'url' =>
-			        '<p class="comment-form-input-wrap">
+			        '<p class="comment-form-input-wrap td-form-url">
 			            <input class="" id="url" name="url" placeholder="' . __td('Website:', TD_THEME_NAME) . '" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" />' .
 			        '</p>',
             );
@@ -73,7 +73,7 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 		    $defaults = array('fields' => apply_filters('comment_form_default_fields', $fields));
 		    $defaults['comment_field'] =
 			    '<div class="clearfix"></div>
-				<p class="comment-form-input-wrap">
+				<p class="comment-form-input-wrap td-form-comment">
 					<textarea placeholder="' . __td('Comment:', TD_THEME_NAME) . '" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
 		        </p>';
 

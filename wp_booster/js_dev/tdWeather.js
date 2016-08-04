@@ -279,8 +279,16 @@ var tdWeather = {};
 
             var blockInner = jQuery('#' + tdWeather._currentItem.block_uid);
 
+            var currentLatitude = tdWeather._currentLatitude;
+            var currentLongitude = tdWeather._currentLongitude;
+            var currentLocation = tdWeather._currentLocation;
+
             // city
             blockInner.find('.td-weather-city').html(tdWeather._currentItem.api_location);
+
+            if (currentLocation === '' && ( currentLatitude === 0 && currentLongitude === 0)){
+                blockInner.find('.td-weather-city').html(tdWeather._currentItem.location);
+            }
 
             // conditions
             blockInner.find('.td-weather-condition').html(tdWeather._currentItem.today_icon_text);
@@ -360,8 +368,11 @@ var tdWeather = {};
 
             if (error.code === 1) {
                 if (tdDetect.isAndroid) {
-                    alert('Please enable your gps and reload the page.');
-                    return;
+
+                    //show manual location form
+                    tdWeather._show_manual_location_form();
+
+                    //alert('Please enable your gps and reload the page.');
                 }
 
                 else if (tdDetect.isIos) {
@@ -370,22 +381,12 @@ var tdWeather = {};
                 }
 
                 //alert("Permission denied. Enable GPS or Location services and reload the page");
-
-                /**
-                 * manual location field
-                 * */
+                //show manual location form
                 tdWeather._show_manual_location_form();
-
-                return;
-
             }
 
-            // the rest of the errors
-            var errors = {
-                2: 'Position unavailable',
-                3: 'Request timeout'
-            };
-            alert("Error: " + errors[error.code]);
+            //show manual location form
+            tdWeather._show_manual_location_form();
         },
 
 
@@ -431,6 +432,8 @@ var tdWeather = {};
             tdWeather._currentItem = tdWeather._getItemByBlockID(tdWeather._currentItem.block_uid);
 
             jQuery('#' + tdWeather._currentItem.block_uid).find('.td-weather-set-location').addClass( 'td-show-location' );
+            jQuery('.td-manual-location-form input').focus();
+
             tdWeather._is_location_open = true;
 
         },
@@ -442,6 +445,7 @@ var tdWeather = {};
         _hide_manual_location_form: function (){
 
             jQuery('#' + tdWeather._currentItem.block_uid).find('.td-weather-set-location').removeClass('td-show-location');
+
             tdWeather._is_location_open = false;
         },
 

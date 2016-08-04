@@ -105,10 +105,10 @@
                     'item_id' => '',
                     'option_id' => 'td_sidebar_position',
                     'values' => array(
-                        array('text' => '', 'title' => '', 'val' => '', 'class' => 'td-sidebar-position-default', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-default.png'),
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'class' => 'td-sidebar-position-left', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-left.png'),
-                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'class' => 'td-no-sidebar', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-full.png'),
-                        array('text' => '', 'title' => '', 'val' => 'sidebar_right', 'class' => 'td-sidebar-position-right','img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/sidebar-right.png')
+                        array('text' => '', 'title' => '', 'val' => '', 'class' => 'td-sidebar-position-default', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-default.png'),
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'class' => 'td-sidebar-position-left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                        array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'class' => 'td-no-sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                        array('text' => '', 'title' => '', 'val' => 'sidebar_right', 'class' => 'td-sidebar-position-right','img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
                     ),
                     'selected_value' => $mb->get_the_value('td_sidebar_position')
                 ));
@@ -179,7 +179,7 @@
             <?php $mb->the_field('td_via'); ?>
             <span class="td-page-o-custom-label">Via name:</span>
             <input class="td-input-text-post-settings" type="text" name="<?php $mb->the_name(); ?>" value="<?php $mb->the_value(); ?>"/>
-            <span class="td-page-o-info">Via (your soruce) name, this will appear at the end of the article in the "via" spot</span>
+            <span class="td-page-o-info">Via (your source) name, this will appear at the end of the article in the "via" spot</span>
 
         </div>
 

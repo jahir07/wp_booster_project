@@ -50,7 +50,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW AUTHOR NAME</span>
-            <p>Enable or disable the author name (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the author name (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -68,7 +68,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW DATE</span>
-            <p>Enable or disable the post date (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the post date (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -87,7 +87,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW POST VIEWS</span>
-            <p>Enable or disable the post views (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable the post views (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -106,7 +106,7 @@
     <div class="td-box-row">
         <div class="td-box-description">
             <span class="td-box-title">SHOW COMMENT COUNT</span>
-            <p>Enable or disable comment number (on blocks, modules &amp; single post page)</p>
+            <p>Enable or disable comment number (on single post page)</p>
         </div>
         <div class="td-box-control-full">
             <?php
@@ -269,6 +269,34 @@
                 'option_id' => 'tds_show_featured_image',
                 'true_value' => '',
                 'false_value' => 'hide'
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- Responsive images -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">RESPONSIVE IMAGES</span>
+            <p>
+                Add responsive image parameters.
+                <?php td_util::tooltip_html('
+                            <h3>Responsive images</h3>
+                            <ul>
+                                <li>Disable - default images</li>
+                                <li>Enable - adds "src_set" and "size" parameters to each image - these parameters were added in <a target="_blank" href="https://make.wordpress.org/core/2015/11/10/responsive-images-in-wordpress-4-4/">Wordpress 4.4</a></li>
+                            </ul>
+                          ', 'right')?>
+            </p>
+
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_responsive_images',
+                'true_value' => 'show',
+                'false_value' => ''
             ));
             ?>
         </div>
