@@ -129,8 +129,10 @@ class td_cake {
      */
 
     function td_cake_register_panel() {
-
-        add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
+        if (!isset(td_global::$td_backend_settings['activate_theme']) ||
+            (isset(td_global::$td_backend_settings['activate_theme']) && td_global::$td_backend_settings['activate_theme'] == true)) {
+            add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
+        }
     }
 
 
