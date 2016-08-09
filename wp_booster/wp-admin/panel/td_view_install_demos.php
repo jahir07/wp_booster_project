@@ -124,7 +124,9 @@ die;
     </div>
 
 
-	<?php if (!is_plugin_active('js_composer/js_composer.php')) { ?>
+	<?php if (!is_plugin_active('js_composer/js_composer.php') &&
+              (!isset(td_global::$td_backend_settings['vc_usage']) ||
+                    (isset(td_global::$td_backend_settings['vc_usage']) && td_global::$td_backend_settings['vc_usage'] == true))) { ?>
 		<div class="td-admin-box-text td-admin-required-plugins">
 			<div class="td-admin-required-plugins-wrap">
 				<p><strong>Please install Visual Composer.</strong></p>

@@ -19,7 +19,7 @@ require_once "td_view_header.php";
         <div class="td-admin-box-text td-admin-box-three">
             <h2>Support forum</h2>
             <p>We offer outstanding support through our forum. To get support first you need to register  (create an account) and open a thread in the <?php echo TD_THEME_NAME?> Section.</p>
-            <a class="button button-primary" href="http://forum.tagdiv.com" target="_blank">Open forum</a>
+            <a class="button button-primary" href="<?php echo TD_THEME_FORUM_URL?>" target="_blank">Open forum</a>
         </div>
         <div class="td-admin-box-text td-admin-box-three">
             <h2>Docs and learning</h2>
