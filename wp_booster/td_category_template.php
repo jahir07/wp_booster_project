@@ -100,7 +100,7 @@ abstract class td_category_template {
                                     array(
                                         'background-color' => $tdc_color_current_cat,
                                         'color' => $tdc_cat_title_color,
-                                        'border-color' => $tdc_cat_title_color
+                                        'border-color' => $tdc_color_current_cat
                                     )
                                 );
                             }
