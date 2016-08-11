@@ -95,9 +95,12 @@ abstract class td_category_template {
                             // @todo we can add more properties as needed, ex: show_border_color
                             if (!empty($params_array['show_background_color'])) {
                                 $tdc_color_current_cat = td_util::get_category_option($category_object->cat_ID, 'tdc_color');
+                                $tdc_cat_title_color = td_util::readable_colour($tdc_color_current_cat, 200, 'rgba(0, 0, 0, 0.9)', '#fff');
                                 $td_css_inline->add_css (
                                     array(
-                                        'background-color' => $tdc_color_current_cat
+                                        'background-color' => $tdc_color_current_cat,
+                                        'color' => $tdc_cat_title_color,
+                                        'border-color' => $tdc_color_current_cat
                                     )
                                 );
                             }
