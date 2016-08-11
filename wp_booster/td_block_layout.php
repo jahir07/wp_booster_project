@@ -14,11 +14,13 @@ class td_block_layout {
     var $row_is_open = false;
     var $span6_is_open = false;
     var $span4_is_open = false;
+    var $span3_is_open = false;
 
     var $span12_is_open = false; //
 
 
     var $row_class = 'td-block-row';
+    var $span3_class = 'td-block-span3';
     var $span4_class = 'td-block-span4';
     var $span6_class = 'td-block-span6';
     var $span12_class = 'td-block-span12'; // this one does not use rows
@@ -44,6 +46,22 @@ class td_block_layout {
     }
 
 
+
+
+    //span 3
+    function open3() {
+        if ($this->span3_is_open) {
+            //open row only onece
+            return;
+        }
+        $this->span3_is_open = true;
+        return "\n\n\t" . '<div class="' . $this->span3_class . '">' . "\n";
+    }
+
+    function close3() {
+        $this->span3_is_open = false;
+        return "\n\t" . '</div> <!-- ./' . $this->span3_class . ' -->';
+    }
 
 
     //span 4
@@ -102,6 +120,10 @@ class td_block_layout {
         $buffy = '';
         if ($this->span6_is_open) {
             $buffy .= $this->close6();
+        }
+
+        if ($this->span3_is_open) {
+            $buffy .= $this->close3();
         }
 
         if ($this->span4_is_open) {
