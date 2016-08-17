@@ -37,6 +37,19 @@ foreach (td_api_thumb::get_all() as $thumb) {
             ));
             ?>
             <div class="td-help-checkbox-inline">
+                <span>Retina:</span>
+            </div>
+            <?php
+            //enable retina thumb
+            echo td_panel_generator::checkbox(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_thumb_' . $thumb['name'] . '_retina',
+            'true_value' => 'yes',
+            'false_value' => ''
+            ));
+            ?>
+
+            <div class="td-help-checkbox-inline">
                 <?php
                 echo "<span>This thumb size is used for:</span> <ul><li>" . implode("</li><li>", $thumb['used_on']) . "</li></ul>";
                 ?>

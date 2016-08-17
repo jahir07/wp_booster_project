@@ -2074,6 +2074,10 @@ function td_init_booster() {
 	foreach (td_api_thumb::get_all() as $thumb_array) {
 		if (td_util::get_option('tds_thumb_' . $thumb_array['name']) != '') {
 			add_image_size($thumb_array['name'], $thumb_array['width'], $thumb_array['height'], $thumb_array['crop']);
+			//add retina thumb (only if it is enabled)
+			if (td_util::get_option('tds_thumb_' . $thumb_array['name'] . '_retina') != '') {
+				add_image_size($thumb_array['name'] . '_retina', $thumb_array['width']*2, $thumb_array['height']*2, $thumb_array['crop']);
+			}
 		}
 	}
 
