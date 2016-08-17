@@ -183,9 +183,8 @@ abstract class td_module {
     function get_image($thumbType) {
         $buffy = ''; //the output buffer
         $tds_hide_featured_image_placeholder = td_util::get_option('tds_hide_featured_image_placeholder');
-        //responsive image parameters - added in WP 4.4
-        $attachment_image_srcset = '';
-        $attachment_image_sizes = '';
+        //retina image
+        $srcset_sizes = '';
 
         // do we have a post thumb or a placeholder?
         if (!is_null($this->post_thumb_id) or ($tds_hide_featured_image_placeholder != 'hide_placeholder')) {
@@ -234,14 +233,22 @@ abstract class td_module {
                         $td_temp_image_url[2] = '';
                     }
 
-                    if (td_util::get_option('tds_responsive_images') == 'show') {
-                        $attachment_image_id = get_post_thumbnail_id($this->post->ID);
-                        $srcset_links = wp_get_attachment_image_srcset($attachment_image_id, $thumbType);
-                        if ($srcset_links !== false) {
-                            $attachment_image_srcset = ' src_set="' . wp_get_attachment_image_srcset($attachment_image_id, $thumbType) . '"';
-                            $attachment_image_sizes = ' sizes="(max-width:' . $td_temp_image_url[1] . 'px) 100vw, ' . $td_temp_image_url[1] . 'px"';
+                    //retina image
+                    if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes') {
+
+                        if (!empty($td_temp_image_url[1])) {
+                            $thumbnail_w = ' ' . $td_temp_image_url[1] . 'w';
+                            $retina_thumbnail = $thumbType . '_retina';
+                            $retina_thumbnail_w = ' ' . $td_temp_image_url[1] * 2 . 'w';
+                            //retrieve retina thumb url
+                            $retina_url = wp_get_attachment_image_src($this->post_thumb_id, $retina_thumbnail);
+                            //srcset and sizes
+                            if ($retina_url !== false) {
+                                $srcset_sizes .= ' srcset="' . $td_temp_image_url[0] . $thumbnail_w . ', ' . $retina_url[0] . $retina_thumbnail_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) 100vw, (min-resolution: 192dpi) 100vw, ' . $td_temp_image_url[1] . 'px"';
+                            }
                         }
                     }
+
                 } // end panel thumb enabled check
 
 
@@ -289,7 +296,7 @@ abstract class td_module {
                 }
 
                 $buffy .='<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
-                    $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" class="entry-thumb" src="' . $td_temp_image_url[0] . '"' . $attachment_image_srcset . $attachment_image_sizes . ' ' . $attachment_alt . $attachment_title . '/>';
+                    $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" class="entry-thumb" src="' . $td_temp_image_url[0] . '"' . $srcset_sizes . ' ' . $attachment_alt . $attachment_title . '/>';
 
                         // on videos add the play icon
                         if (get_post_format($this->post->ID) == 'video') {
