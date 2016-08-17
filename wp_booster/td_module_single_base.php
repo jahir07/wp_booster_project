@@ -122,12 +122,21 @@ class td_module_single_base extends td_module {
                 $featured_image_id = get_post_thumbnail_id($this->post->ID);
                 $featured_image_info = td_util::attachment_get_full_info($featured_image_id, $thumbType);
 
-                //responsive images
-                $featured_image_srcset = '';
-                $featured_image_sizes = '';
-                if (td_util::get_option('tds_responsive_images') == 'show') {
-                    $featured_image_srcset .= ' src_set="' . wp_get_attachment_image_srcset($featured_image_id, $thumbType) . '""';
-                    $featured_image_sizes .= ' sizes="(max-width: ' . $featured_image_info['width'] . 'px) 100vw, ' . $featured_image_info['width'] . 'px"';
+                //retina image
+                $srcset_sizes = '';
+                if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes') {
+
+                    if (!empty($featured_image_info['width'])) {
+                        $thumbnail_w = ' ' . $featured_image_info['width'] . 'w';
+                        $retina_thumbnail = $thumbType . '_retina';
+                        $retina_thumbnail_w = ' ' . $featured_image_info['width'] * 2 . 'w';
+                        //retrieve retina thumb url
+                        $retina_url = wp_get_attachment_image_src($featured_image_id, $retina_thumbnail);
+                        //srcset and sizes
+                        if ($retina_url !== false) {
+                            $srcset_sizes .= ' srcset="' . $featured_image_info['src'] . $thumbnail_w . ', ' . $retina_url[0] . $retina_thumbnail_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) 100vw, (min-resolution: 192dpi) 100vw, ' . $featured_image_info['width'] . 'px"';
+                        }
+                    }
                 }
 
                 //get the full size for the popup
@@ -141,14 +150,14 @@ class td_module_single_base extends td_module {
                     if ($show_td_modal_image != 'no_modal') {
                         //wrap the image_html with a link + add td-modal-image class
                         $image_html = '<a href="' . $featured_image_full_size_src['src'] . '" data-caption="' . esc_attr($featured_image_info['caption'], ENT_QUOTES) . '">';
-                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '"' . $featured_image_srcset . $featured_image_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
+                        $image_html .= '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb td-modal-image" src="' . $featured_image_info['src'] . '"' . $srcset_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                         $image_html .= '</a>';
                     } else { //no_modal
-                        $image_html = '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '" alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
+                        $image_html = '<img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '"' .  $srcset_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/>';
                     }
                 } else {
                     //on blog index page
-                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '"' . $featured_image_srcset . $featured_image_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
+                    $image_html = '<a href="' . $this->href . '"><img width="' . $featured_image_info['width'] . '" height="' . $featured_image_info['height'] . '" class="entry-thumb" src="' . $featured_image_info['src'] . '"' . $srcset_sizes . ' alt="' . $featured_image_info['alt']  . '" title="' . $featured_image_info['title'] . '"/></a>';
                 }
 
 
