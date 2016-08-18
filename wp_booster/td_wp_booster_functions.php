@@ -1579,21 +1579,24 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 			$td_temp_image_url_80x60 = wp_get_attachment_image_src($image_id, 'td_80x60'); //for the slide - for small images slide popup
 			$td_temp_image_url_full = $image_attachment['src'];                            //default big image - for magnific popup
 
-			//if we are on full wight (3 columns use the default images not the resize ones)
-			//if(td_global::$cur_single_template_sidebar_pos == 'no_sidebar') {
+			//image type and width - used to retrieve retina image
 			$thumbnail_type = 'td_0x420';
 			$thumbnail_width = '420';
+
+			//if we are on full wight (3 columns use the default images not the resize ones)
 			if ($loop_sidebar_position == 'no_sidebar' || $page_template_slug === 'page-pagebuilder-latest.php') {
 
 				switch (TD_THEME_NAME) {
 					case 'Newspaper' :
 						$td_temp_image_url = wp_get_attachment_image_src($image_id, 'td_1068x580');       //1021x580 images - for big slide
+						//change image type and width - used to retrieve retina image
 						$thumbnail_type = 'td_1068x580';
 						$thumbnail_width = '1068';
 						break;
 
 					case 'Newsmag' :
 						$td_temp_image_url = wp_get_attachment_image_src($image_id, 'td_1021x580');       //1021x580 images - for big slide
+						//image type and width - used to retrieve retina image
 						$thumbnail_type = 'td_1021x580';
 						$thumbnail_width = '1021';
 						break;
@@ -1602,21 +1605,18 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 				$td_temp_image_url = wp_get_attachment_image_src($image_id, 'td_0x420');       //0x420 image sizes - for big slide
 			}
 
-			//retina image
-			$srcset_sizes = '';
-			if (!empty($td_temp_image_url[0])) {
-				$srcset_sizes = td_util::get_retina_srcset_sizes($image_id, $thumbnail_type, $thumbnail_width, $td_temp_image_url[0]);
-			}
-			if (td_util::get_option('tds_thumb_td_80x60_retina') == 'yes') {
-				$small_thumb = wp_get_attachment_image_src($image_id, 'td_80x60_retina');
-				if ($small_thumb !== false) {
-					$td_temp_image_url_80x60[0] = $small_thumb[0];
-				}
-			}
-
 
 			//check if we have all the images
 			if(!empty($td_temp_image_url[0]) and !empty($td_temp_image_url_80x60[0]) and !empty($td_temp_image_url_full)) {
+
+				//retina image
+				$srcset_sizes = td_util::get_retina_srcset_sizes($image_id, $thumbnail_type, $thumbnail_width, $td_temp_image_url[0]);
+				if (td_util::get_option('tds_thumb_td_80x60_retina') == 'yes') {
+					$small_thumb = wp_get_attachment_image_src($image_id, 'td_80x60_retina');
+					if ($small_thumb !== false) {
+						$td_temp_image_url_80x60[0] = $small_thumb[0];
+					}
+				}
 
 				//css for display the small cursor image
 				$slide_images_thumbs_css .= '
