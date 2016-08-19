@@ -27,6 +27,13 @@ class td_api_thumb extends td_api_base {
     }
 
 	static function update($thumb_id, $params_array = '') {
+
+		$thumbs = self::get_all();
+
+		// When thumbs are used in multiple modules registered by the theme and others plugins, all these modules' ids must be shown all together
+		if (!empty( $params_array ) && array_key_exists($thumb_id, $thumbs) && array_key_exists('used_on', $params_array)) {
+			$params_array['used_on'] = array_merge($thumbs[$thumb_id]['used_on'], $params_array['used_on']);
+		}
 		parent::update_component(__CLASS__, $thumb_id, $params_array);
 	}
 
