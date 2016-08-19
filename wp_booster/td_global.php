@@ -82,8 +82,7 @@ class td_global {
 
 	static $td_animation_stack_effects = array();
 
-    // store different settings to hide sections in backend
-	static $td_backend_settings = array();
+
 
 
     /**
