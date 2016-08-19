@@ -22,7 +22,7 @@ class td_cake {
      */
     function __construct() {
         // not admin
-        if (!is_admin()) {
+        if ( !is_admin() || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
 
@@ -47,13 +47,13 @@ class td_cake {
             if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
                 td_util::update_option('td_cake_lp_status', 'lp_sent');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
-                return $td_theme_version;
+                return;
             }
 
 
             // the theme is registered, return
             if ($td_cake_status == 2) {
-                return '';
+                return;
             }
 
 
@@ -71,7 +71,7 @@ class td_cake {
                 if ($td_cake_status != '4') {
                     td_util::update_option('td_cake_status', '4');
                 }
-                return '';
+                return;
             }
 
             if (TD_DEPLOY_MODE == 'dev') {
@@ -84,7 +84,7 @@ class td_cake {
                 if ($td_cake_status != '3') {
                     td_util::update_option('td_cake_status', '3');
                 }
-                return '';
+                return;
             }
 
             // if some time passed and status is empty - do ping
@@ -92,7 +92,7 @@ class td_cake {
                 td_util::update_option('td_cake_status_time', time());
                 td_util::update_option('td_cake_status', '1');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
-                return $td_theme_version;
+                return;
             }
 
         } else {
@@ -102,7 +102,6 @@ class td_cake {
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
         }
 
-        return '';
     }
 
 
@@ -129,10 +128,7 @@ class td_cake {
      */
 
     function td_cake_register_panel() {
-        if (!isset(td_global::$td_backend_settings['activate_theme']) ||
-            (isset(td_global::$td_backend_settings['activate_theme']) && td_global::$td_backend_settings['activate_theme'] == true)) {
-            add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
-        }
+        add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
     }
 
 

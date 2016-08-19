@@ -19,9 +19,7 @@ require_once "td_view_header.php";
     </div>
 
 
-    <?php if (!is_plugin_active('js_composer/js_composer.php') &&
-              (!isset(td_global::$td_backend_settings['vc_usage']) ||
-                    (isset(td_global::$td_backend_settings['vc_usage']) && td_global::$td_backend_settings['vc_usage'] == true))) { ?>
+    <?php if (td_api_features::is_enabled('require_vc') && !is_plugin_active('js_composer/js_composer.php')) { ?>
         <div class="td-admin-box-text td-admin-required-plugins">
             <div class="td-admin-required-plugins-wrap">
                 <p><strong>Please install Visual Composer.</strong></p>
@@ -36,7 +34,7 @@ require_once "td_view_header.php";
     <div class="feature-section two-col">
         <div class="col">
             <h3>Fast start:</h3>
-            <p>Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a></p>
+            <p><?php echo td_api_text::get('welcome_fast_start') ?></p>
             <p><a href="admin.php?page=td_theme_demos">Try our demos</a> on your testing site. Our demo system supports complete uninstalling + rollback to your original site.</p>
 
 
