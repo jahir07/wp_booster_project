@@ -123,21 +123,7 @@ class td_module_single_base extends td_module {
                 $featured_image_info = td_util::attachment_get_full_info($featured_image_id, $thumbType);
 
                 //retina image
-                $srcset_sizes = '';
-                if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes') {
-
-                    if (!empty($featured_image_info['width'])) {
-                        $thumbnail_w = ' ' . $featured_image_info['width'] . 'w';
-                        $retina_thumbnail = $thumbType . '_retina';
-                        $retina_thumbnail_w = ' ' . $featured_image_info['width'] * 2 . 'w';
-                        //retrieve retina thumb url
-                        $retina_url = wp_get_attachment_image_src($featured_image_id, $retina_thumbnail);
-                        //srcset and sizes
-                        if ($retina_url !== false) {
-                            $srcset_sizes .= ' srcset="' . $featured_image_info['src'] . $thumbnail_w . ', ' . $retina_url[0] . $retina_thumbnail_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) 100vw, (min-resolution: 192dpi) 100vw, ' . $featured_image_info['width'] . 'px"';
-                        }
-                    }
-                }
+                $srcset_sizes = td_util::get_retina_srcset_sizes($featured_image_id, $thumbType, $featured_image_info['width'], $featured_image_info['src']);
 
                 //get the full size for the popup
                 $featured_image_full_size_src = td_util::attachment_get_src($featured_image_id, 'full');

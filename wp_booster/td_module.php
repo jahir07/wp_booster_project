@@ -234,20 +234,7 @@ abstract class td_module {
                     }
 
                     //retina image
-                    if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes') {
-
-                        if (!empty($td_temp_image_url[1])) {
-                            $thumbnail_w = ' ' . $td_temp_image_url[1] . 'w';
-                            $retina_thumbnail = $thumbType . '_retina';
-                            $retina_thumbnail_w = ' ' . $td_temp_image_url[1] * 2 . 'w';
-                            //retrieve retina thumb url
-                            $retina_url = wp_get_attachment_image_src($this->post_thumb_id, $retina_thumbnail);
-                            //srcset and sizes
-                            if ($retina_url !== false) {
-                                $srcset_sizes .= ' srcset="' . $td_temp_image_url[0] . $thumbnail_w . ', ' . $retina_url[0] . $retina_thumbnail_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) 100vw, (min-resolution: 192dpi) 100vw, ' . $td_temp_image_url[1] . 'px"';
-                            }
-                        }
-                    }
+                    $srcset_sizes = td_util::get_retina_srcset_sizes($this->post_thumb_id, $thumbType, $td_temp_image_url[1], $td_temp_image_url[0]);
 
                 } // end panel thumb enabled check
 

@@ -645,17 +645,25 @@ class td_block {
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
 
-					// delete the existing pulldown if it exists
-					tdPullDown.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdPullDown ) {
+						// delete the existing pulldown if it exists
+						tdPullDown.deleteItem(blockUid);
+					}
 
-					// delete the animation sprite if it exits
-					tdAnimationSprite.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdAnimationSprite ) {
+						// delete the animation sprite if it exits
+						tdAnimationSprite.deleteItem(blockUid);
+					}
 
-					// delete the animation sprite if it exits
-					tdTrendingNow.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdTrendingNow ) {
+						// delete the animation sprite if it exits
+						tdTrendingNow.deleteItem(blockUid);
+					}
 
-					// delete the homepagefull if it exits
-					tdHomepageFull.deleteItem( blockUid );
+					if ( 'undefined' !== typeof window.tdHomepageFull ) {
+						// delete the homepagefull if it exits
+						tdHomepageFull.deleteItem( blockUid );
+					}
 
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
