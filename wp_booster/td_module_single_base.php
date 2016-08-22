@@ -123,7 +123,7 @@ class td_module_single_base extends td_module {
                 $featured_image_info = td_util::attachment_get_full_info($featured_image_id, $thumbType);
 
                 //retina image
-                $srcset_sizes = td_util::get_retina_srcset_sizes($featured_image_id, $thumbType, $featured_image_info['width'], $featured_image_info['src']);
+                $srcset_sizes = td_util::get_srcset_sizes($featured_image_id, $thumbType, $featured_image_info['width'], $featured_image_info['src']);
 
                 //get the full size for the popup
                 $featured_image_full_size_src = td_util::attachment_get_src($featured_image_id, 'full');

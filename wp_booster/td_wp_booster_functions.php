@@ -1610,7 +1610,7 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 			if(!empty($td_temp_image_url[0]) and !empty($td_temp_image_url_80x60[0]) and !empty($td_temp_image_url_full)) {
 
 				//retina image
-				$srcset_sizes = td_util::get_retina_srcset_sizes($image_id, $thumbnail_type, $thumbnail_width, $td_temp_image_url[0]);
+				$srcset_sizes = td_util::get_srcset_sizes($image_id, $thumbnail_type, $thumbnail_width, $td_temp_image_url[0]);
 				if (td_util::get_option('tds_thumb_td_80x60_retina') == 'yes') {
 					$small_thumb = wp_get_attachment_image_src($image_id, 'td_80x60_retina');
 					if ($small_thumb !== false) {
