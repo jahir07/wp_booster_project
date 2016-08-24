@@ -891,7 +891,7 @@ class td_panel_generator {
                     if ($module_array['enabled_on_loops'] === true) {
                         $modules_array[] = array(
 	                        'text' => '',
-	                        'title' => '',
+	                        'title' => $module_array['text'] . ' - module file: ' . TD_THEME_NAME . '/includes/modules/' . $module_class . '.php',
 	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
 	                        'img' => $module_array['img']
                         );
@@ -904,7 +904,8 @@ class td_panel_generator {
                 foreach (td_api_module::get_all() as $module_class => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
                         $modules_array[] = array(
-	                        'text' => '', 'title' => '',
+	                        'text' => '',
+	                        'title' => $module_array['text'] . ' - module file: ' . TD_THEME_NAME . '/includes/modules/' . $module_class . '.php',
 	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
 	                        'img' => $module_array['img']
                         );
@@ -918,7 +919,7 @@ class td_panel_generator {
                     if ($module_array['enabled_on_more_articles_box'] === true) {
                         $modules_array[] = array(
 	                        'text' => '',
-	                        'title' => '',
+	                        'title' => $module_array['text'] . ' - module file: ' . TD_THEME_NAME . '/includes/modules/' . $module_class . '.php',
 	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
 	                        'img' => $module_array['img']
                         );
