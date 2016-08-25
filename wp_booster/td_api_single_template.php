@@ -22,6 +22,13 @@ class td_api_single_template extends td_api_base {
      * @throws ErrorException new exception, fatal error if the $id already exists
      */
     static function add($single_template_id, $params_array = '') {
+
+	    // put a default image if we don't have any image, useful when developing a new item
+	    if (empty($params_array['img'])) {
+		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/panel-placeholders/no_single_template.png';
+	    }
+
+
         parent::add_component(__CLASS__, $single_template_id, $params_array);
     }
 
@@ -68,11 +75,11 @@ class td_api_single_template extends td_api_base {
     static function _helper_td_global_list_to_panel_values() {
         $buffy_array = array();
 
-        foreach (self::get_all() as $template_value => $template_config) {
-	        if ($template_value == 'single_template') {
+        foreach (self::get_all() as $id => $template_config) {
+	        if ($id == 'single_template') {
 		        $buffy_array[] = array(
 			        'text' => '',
-			        'title' => '',
+			        'title' => self::_display_file_path($id),
 			        'val' => '',
 			        'img' => $template_config['img']
 		        );
@@ -80,8 +87,8 @@ class td_api_single_template extends td_api_base {
 	        }
             $buffy_array[] = array(
                 'text' => '',
-                'title' => '',
-                'val' => $template_value,
+                'title' => self::_display_file_path($id),
+                'val' => $id,
                 'img' => $template_config['img']
             );
         }
@@ -103,11 +110,11 @@ class td_api_single_template extends td_api_base {
 	static function _helper_td_global_list_to_metaboxes() {
 		$buffy_array = array();
 
-		foreach (self::get_all() as $template_value => $template_config) {
+		foreach (self::get_all() as $id => $template_config) {
 			$buffy_array[] = array(
 				'text' => '',
-				'title' => '',
-				'val' => $template_value,
+				'title' => self::_display_file_path($id),
+				'val' => $id,
 				'img' => $template_config['img']
 			);
 		}
@@ -117,7 +124,7 @@ class td_api_single_template extends td_api_base {
             $buffy_array,
             array(
                 'text' => '',
-                'title' => '',
+                'title' => 'This will load the post template that is set in Theme panel - Post settings - Default post template (site wide)',
                 'val' => '',
                 'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
             )

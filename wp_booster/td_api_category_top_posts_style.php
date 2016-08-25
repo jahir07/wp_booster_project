@@ -24,6 +24,12 @@ class td_api_category_top_posts_style extends td_api_base {
      * @throws ErrorException new exception, fatal error if the $id already exists
      */
     static function add($id, $params_array) {
+
+	    // put a default image if we don't have any image, useful when developing a new module
+	    if (empty($params_array['img'])) {
+		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/panel-placeholders/no_module_image.png';
+	    }
+
         parent::add_component(__CLASS__, $id, $params_array);
     }
 
@@ -99,7 +105,7 @@ class td_api_category_top_posts_style extends td_api_base {
                 //add default style
                 $buffy_array[] = array(
                     'text' => 'Default',
-                    'title' => '',
+                    'title' => 'This category will use the site wide category top post style setting.',
                     'val' => '',
                     'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/module-default.png'
                 );
@@ -108,7 +114,7 @@ class td_api_category_top_posts_style extends td_api_base {
                 foreach (self::get_all() as $id => $config) {
                     $buffy_array[] = array(
                         'text' => $config['text'],
-                        'title' => '',
+                        'title' => self::_display_file_path($id),
                         'val' => $id,
                         'img' => $config['img']
                     );
@@ -121,7 +127,7 @@ class td_api_category_top_posts_style extends td_api_base {
                 foreach (self::get_all() as $id => $config) {
                     $buffy_array[] = array(
                         'text' => $config['text'],
-                        'title' => '',
+                        'title' => self::_display_file_path($id),
                         'val' => $id,
                         'img' => $config['img']
                     );

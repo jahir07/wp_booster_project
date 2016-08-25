@@ -36,7 +36,7 @@ class td_api_module extends td_api_base {
 
     	// put a default image if we don't have any image, useful when developing a new module
     	if (empty($params_array['img'])) {
-		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/no_module_image.png';
+		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/panel-placeholders/no_module_image.png';
 	    }
 
         parent::add_component(__CLASS__, $module_id, $params_array);

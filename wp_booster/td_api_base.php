@@ -55,6 +55,7 @@ class td_api_base {
             if (isset($component_value[self::TYPE])
                 and $component_value[self::TYPE] == $class_name) {
 
+            	// to get the actual final file :) you need to use get_key 'file'. This is because a child theme can overwrite the file
 	            if (isset($component_value['file'])) {
 		            unset($component_value['file']);
 	            }
@@ -160,6 +161,16 @@ class td_api_base {
 	    return self::$components_list[$id][$key];
     }
 
+
+	/**
+	 * @internal Use only for display-ing the file path of a component by id. It's used all over the panel to show a nice
+	 * path for a component
+	 * @param $id
+	 * @return mixed
+	 */
+    static function _display_file_path($id) {
+       return 'file path: ' . str_replace(td_global::$get_template_directory, '', self::get_key($id, 'file'));
+    }
 
 
     /**
