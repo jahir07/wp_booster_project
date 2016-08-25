@@ -234,7 +234,7 @@ abstract class td_module {
                     }
 
                     //retina image
-                    $srcset_sizes = td_util::get_retina_srcset_sizes($this->post_thumb_id, $thumbType, $td_temp_image_url[1], $td_temp_image_url[0]);
+                    $srcset_sizes = td_util::get_srcset_sizes($this->post_thumb_id, $thumbType, $td_temp_image_url[1], $td_temp_image_url[0]);
 
                 } // end panel thumb enabled check
 

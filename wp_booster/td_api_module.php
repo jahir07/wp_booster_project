@@ -33,6 +33,12 @@ class td_api_module extends td_api_base {
      * @throws ErrorException new exception, fatal error if the $id already exists
      */
     static function add($module_id, $params_array = '') {
+
+    	// put a default image if we don't have any image, useful when developing a new module
+    	if (empty($params_array['img'])) {
+		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/no_module_image.png';
+	    }
+
         parent::add_component(__CLASS__, $module_id, $params_array);
     }
 
@@ -97,16 +103,28 @@ class td_api_module extends td_api_base {
     }
 
 
+
+
+
+
 	/**
-	 * converts module classes to module id's for loop settings. td_module_2 -> 2 (we store the 2 in the database)
+	 * FOR LEGACY MODULES that have names like td_module_x (where x is a number)
+	 *  - converts module classes to module id's for loop settings. td_module_2 -> 2 (we store the 2 in the database)
 	 *
-	 * WARNING (2 now 2015): we tried to refactor this multiple times. It is not worth it because all the theme including the panel
-	 * have to work with the new and old settings - resulting in added complexity without any real benefits
 	 * @param $module_class
-	 * @return mixed id of the module td_module_2 returns 2
+	 * @return integer id of the module td_module_2 returns 2
 	 */
 	static function _helper_get_module_loop_id ($module_class){
-		return filter_var($module_class, FILTER_SANITIZE_NUMBER_INT);
+
+		// DEAL WITH LEGACY MODULE NAMES
+		// if we get a string, try to trim td_module_ and see if we are left with a number
+		$trim_result = str_replace('td_module_', '', $module_class);
+		if ( is_numeric($trim_result) ) {
+			return filter_var($module_class, FILTER_SANITIZE_NUMBER_INT);
+		}
+
+
+		return $module_class;
 	}
 
 
@@ -122,14 +140,20 @@ class td_api_module extends td_api_base {
 
 
 	/**
-	 * Gets the class from a loop id that is stored in the database. ex: 2 -> td_module_2
+	 * FOR LEGACY MODULES that have names like td_module_x (where x is a number)
+	 *  - Gets the class from a loop id that is stored in the database. ex: 2 -> td_module_2
 	 *
- 	 * WARNING (2 now 2015): we tried to refactor this multiple times. It is not worth it because all the theme including the panel
-	 * have to work with the new and old settings - resulting in added complexity without any real benefits
-	 * @param $module_id
+ 	 * @param $module_id
 	 * @return string
 	 */
 	static function _helper_get_module_class_from_loop_id ($module_id) {
-		return 'td_module_'  . $module_id;
+		// DEAL WITH LEGACY MODULE NAMES where we only have the id in the database, we can't have a module that is
+		// all numbers because php dosn't allow classes like that
+		if (is_numeric($module_id)) {
+			return 'td_module_'  . $module_id;
+		}
+		return $module_id;
 	}
 }
+
+

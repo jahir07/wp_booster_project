@@ -1011,8 +1011,9 @@ class td_util {
      * @param $thumb_url - thumbnail url
      * @return string
      */
-	static function get_retina_srcset_sizes($thumb_id, $thumb_type, $thumb_width, $thumb_url) {
+	static function get_srcset_sizes($thumb_id, $thumb_type, $thumb_width, $thumb_url) {
         $return_buffer = '';
+        //retina srcset and sizes
         if (td_util::get_option('tds_thumb_' . $thumb_type . '_retina') == 'yes' && !empty($thumb_width)) {
             $thumb_w = ' ' . $thumb_width . 'w';
             $retina_thumb_width = $thumb_width * 2;
@@ -1021,7 +1022,15 @@ class td_util {
             $retina_url = wp_get_attachment_image_src($thumb_id, $thumb_type . '_retina');
             //srcset and sizes
             if ($retina_url !== false) {
-                $return_buffer .= ' srcset="' . $thumb_url . $thumb_w . ', ' . $retina_url[0] . $retina_thumb_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) ' . $retina_thumb_width . 'px, (min-resolution: 192dpi) ' . $retina_thumb_width . 'px, ' . $thumb_width . 'px"';
+                $return_buffer .= ' srcset="' . $thumb_url . $thumb_w . ', ' . $retina_url[0] . $retina_thumb_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) ' . $retina_thumb_width . 'px, (min-resolution: 192dpi) ' . $retina_thumb_width . 'px, (max-width: 768px) ' . $retina_thumb_width . 'px, ' . $thumb_width . 'px"';
+            }
+
+        //responsive srcset and sizes
+        } else {
+            $thumb_srcset = wp_get_attachment_image_srcset($thumb_id, $thumb_type);
+            $thumb_sizes = wp_get_attachment_image_sizes($thumb_id, $thumb_type);
+            if ($thumb_srcset !== false && $thumb_sizes !== false) {
+                $return_buffer .=  ' srcset="' . $thumb_srcset . '" sizes="' . $thumb_sizes . '"';
             }
         }
 
