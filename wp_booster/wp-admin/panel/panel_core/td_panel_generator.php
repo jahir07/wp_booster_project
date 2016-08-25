@@ -885,14 +885,19 @@ class td_panel_generator {
         switch ($view_name) {
             case 'default+enabled_on_loops':
                 // all modules that have enabled_on_loops + default
-                $modules_array[] = array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/module-default.png');
+                $modules_array[] = array(
+                	'text' => '',
+	                'title' => 'Use the default site wide module.',
+	                'val' => '',
+	                'img' => get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/panel/module-default.png'
+                );
 
-                foreach (td_api_module::get_all() as $module_class => $module_array) {
+                foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
                         $modules_array[] = array(
 	                        'text' => '',
-	                        'title' => '',
-	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
                     }
@@ -901,11 +906,12 @@ class td_panel_generator {
 
             case 'enabled_on_loops':
                 // all modules that have enabled_on_loops
-                foreach (td_api_module::get_all() as $module_class => $module_array) {
+                foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
                         $modules_array[] = array(
-	                        'text' => '', 'title' => '',
-	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'text' => '',
+	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
                     }
@@ -914,12 +920,12 @@ class td_panel_generator {
 
             case 'enabled_on_more_articles_box':
                 // all modules that are enabled on the more articles box
-                foreach (td_api_module::get_all() as $module_class => $module_array) {
+                foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_more_articles_box'] === true) {
                         $modules_array[] = array(
 	                        'text' => '',
-	                        'title' => '',
-	                        'val' => td_api_module::_helper_get_module_loop_id($module_class),
+	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
                     }

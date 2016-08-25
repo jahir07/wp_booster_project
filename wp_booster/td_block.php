@@ -70,6 +70,7 @@ class td_block {
 			    'color_preset' => '',
 			    'border_top' => '',
 			    'class' => '',
+			    'el_class' => '',
 			    'offset' => '', // the offset
 
 			    'css' => '', //custom css
@@ -644,17 +645,25 @@ class td_block {
 				tdComposerBlockItem.blockUid = '<?php echo $this->block_uid ?>';
 				tdComposerBlockItem.callbackDelete = function(blockUid) {
 
-					// delete the existing pulldown if it exists
-					tdPullDown.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdPullDown ) {
+						// delete the existing pulldown if it exists
+						tdPullDown.deleteItem(blockUid);
+					}
 
-					// delete the animation sprite if it exits
-					tdAnimationSprite.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdAnimationSprite ) {
+						// delete the animation sprite if it exits
+						tdAnimationSprite.deleteItem(blockUid);
+					}
 
-					// delete the animation sprite if it exits
-					tdTrendingNow.deleteItem(blockUid);
+					if ( 'undefined' !== typeof window.tdTrendingNow ) {
+						// delete the animation sprite if it exits
+						tdTrendingNow.deleteItem(blockUid);
+					}
 
-					// delete the homepagefull if it exits
-					tdHomepageFull.deleteItem( blockUid );
+					if ( 'undefined' !== typeof window.tdHomepageFull ) {
+						// delete the homepagefull if it exits
+						tdHomepageFull.deleteItem( blockUid );
+					}
 
 					// delete the weather item if available NOTE USED YET
 					//tdWeather.deleteItem(blockUid);
@@ -687,6 +696,7 @@ class td_block {
 
 
 	    $class = $this->get_att('class');
+	    $el_class = $this->get_att('el_class');
 	    $color_preset = $this->get_att('color_preset');
 		$ajax_pagination = $this->get_att('ajax_pagination');
 	    $border_top = $this->get_att('border_top');
@@ -707,7 +717,7 @@ class td_block {
 	    // get the design tab css classes
 	    $css_classes_array = $this->parse_css_att($css);
 	    if ( $css_classes_array !== false ) {
-		    $block_classes = array_merge(
+		    $block_classes = array_merge (
 			    $block_classes,
 			    $css_classes_array
 		    );
@@ -716,10 +726,12 @@ class td_block {
 
 
 
-	    //add the classes that we receive via shortcode
+
+
+	    //add the classes that we receive via shortcode. @17 aug 2016 - this att may be used internally - by ra
         if (!empty($class)) {
             $class_array = explode(' ', $class);
-            $block_classes = array_merge(
+            $block_classes = array_merge (
                 $block_classes,
                 $class_array
             );
@@ -727,7 +739,7 @@ class td_block {
 
         //marge the additional classes received from blocks code
         if (!empty($additional_classes_array)) {
-            $block_classes = array_merge(
+            $block_classes = array_merge (
                 $block_classes,
                 $additional_classes_array
             );
@@ -756,6 +768,15 @@ class td_block {
         if (empty($border_top)) {
             $block_classes[]= 'td-pb-border-top';
         }
+
+	    // this is the field that all the shortcodes have (or at least should have)
+	    if (!empty($el_class)) {
+		    $el_class_array = explode(' ', $el_class);
+		    $block_classes = array_merge (
+			    $block_classes,
+			    $el_class_array
+		    );
+	    }
 
 
         //remove duplicates
@@ -798,7 +819,7 @@ class td_block {
 	 * @param $att_name
 	 * @return mixed
 	 */
-	private function get_att($att_name) {
+	protected function get_att($att_name) {
 		if (empty($this->atts)) {
 			td_util::error(__FILE__, get_class($this) . '->get_att(' . $att_name . ') Internal error: The atts are not set yet(AKA: the render method was not called yet and the system tried to read an att)');
 			die;

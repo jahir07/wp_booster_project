@@ -88,7 +88,7 @@ class td_wp_editor {
 		// The nonce action of an instance is composed from td_wp_editor::$nonce_action . td_wp_editor::$counter_editor . '-' . $post->ID. So it's unique.
 		td_wp_editor::$counter_editor++;
 
-		add_action( 'edit_form_after_editor', array( $this, 'on_edit_form_after_editor' ) );
+		add_action( 'edit_page_form', array( $this, 'on_edit_form_after_editor' ) );
 		add_action( 'save_post', array( $this, 'on_save_post' ) );
 	}
 

@@ -57,16 +57,16 @@ class td_api_smart_list extends td_api_base {
         // add the default smart list
         $buffy_array[] =  array(
             'text' => '',
-            'title' => '',
+            'title' => 'This article will not use the smart list system.',
             'val' => '',
             'img' => td_global::$get_template_directory_uri . '/images/panel/smart_lists/td_smart_list_default.png'
         );
 
-        foreach (self::get_all() as $template_value => $template_config) {
+        foreach (self::get_all() as $id => $template_config) {
             $buffy_array[] = array(
                 'text' => '',
-                'title' => '',
-                'val' => $template_value,
+                'title' => self::_display_file_path($id),
+                'val' => $id,
                 'img' => $template_config['img']
             );
         }
