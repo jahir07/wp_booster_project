@@ -89,7 +89,8 @@ td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/inclu
  */
 td_api_autoload::add('td_video_support', td_global::$get_template_directory . '/includes/wp_booster/td_video_support.php');
 add_action('save_post', array('td_video_support', 'on_save_post_get_video_thumb'), 12 );
-
+add_action('admin_notices', array('td_video_support', 'td_twitter_on_admin_notices') );
+add_action('admin_notices', array('td_video_support', 'td_twitter_class_on_admin_notices') );
 
 
 /* ----------------------------------------------------------------------------

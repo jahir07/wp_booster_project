@@ -8,7 +8,7 @@ class td_video_support{
 	private static $on_save_post_post_id; // here we keep the post_id when the save_post hook runs. We need the post_id to pass it to the other hook @see on_add_attachment_set_featured_image
 	private static $fb_access_token = 'EAAC0twN8wjQBAEksmaw1653RnNFVQC2gZAdW2nN9zMHsG8LDLWptfvQM1Vty1miNOPsfZBm49T8S2Q3MibZCSjs2Tdvp0tQRfRusVdInNBvElIn6MEZAB9RMnifqPfZCOnj0gVZA19ttZB6mcmAs43u73Be02qZCRfEJ4RZAFXZCxnOgZDZD';
 
-	//private static $caching_time = 10800; //seconds -> 3 hours
+	private static $caching_time = 10800; //seconds -> 3 hours
 
 	/**
 	 * Render a video on the fornt end from URL
@@ -113,6 +113,49 @@ class td_video_support{
 					$buffy = '<div class="wpb_video_wrapper">' . $api_html_embed_data . '</div>';
 				}*/
 				break;
+			case 'twitter':
+
+				/**
+				 * cache & oembed implementation
+				 */
+
+				$cache_key = self::get_twitter_id($videoUrl);
+				$group = 'td_twitter_video';
+
+
+				if (td_remote_cache::is_expired($group, $cache_key) === true) {
+
+					// cache is expired - do a request
+					$twitter_json = td_remote_http::get_page('https://publish.twitter.com/oembed?url=' . urlencode($videoUrl) . '&widget_type=video&align=center' , __CLASS__);
+
+					if ($twitter_json !== false) {
+					$twitter_api = @json_decode($twitter_json);
+
+						//json data decode
+						if ($twitter_api === null and json_last_error() !== JSON_ERROR_NONE) {
+							td_log::log(__FILE__, __FUNCTION__, 'json decode failed for twitter video embed api', $videoUrl);
+						}
+
+						if (is_object($twitter_api) and !empty($twitter_api->html)) {
+
+							//add the html to the buffer
+							$buffy = '<div class="wpb_video_wrapper">' . $twitter_api->html . '</div>';
+
+							//set the cache
+							td_remote_cache::set($group, $cache_key, $twitter_api->html, self::$caching_time);
+						}
+
+					} else {
+						td_log::log(__FILE__, __FUNCTION__, 'twitter api html data cannot be retrieved/json request failed', $videoUrl);
+					}
+
+				} else {
+					// cache is valid
+					$api_html_embed_data = td_remote_cache::get($group, $cache_key);
+					$buffy = '<div class="wpb_video_wrapper">' . $api_html_embed_data . '</div>';
+				}
+
+				break;
 		}
 		return $buffy;
 	}
@@ -123,6 +166,7 @@ class td_video_support{
 	 * @param $post_id
 	 */
 	static function on_save_post_get_video_thumb($post_id) {
+
 		//verify post is not a revision
 		if ( !wp_is_post_revision( $post_id ) ) {
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -215,8 +259,6 @@ class td_video_support{
 				}
 				break;
 
-
-
 			case 'dailymotion':
 				$dailymotion_api_json = td_remote_http::get_page('https://api.dailymotion.com/video/' . self::get_dailymotion_id($videoUrl) . '?fields=thumbnail_url', __CLASS__);
 				if ($dailymotion_api_json !== false) {
@@ -231,8 +273,6 @@ class td_video_support{
 					}
 				}
 				break;
-
-
 
 			case 'vimeo':
 				//@todo e stricat nu mai merge de ceva timp cred
@@ -270,10 +310,42 @@ class td_video_support{
 					}
 				}
 				break;
+
+			case 'twitter':
+			if (!class_exists('TwitterApiClient')) {
+				require_once 'wp-admin/external/twitter-client.php';
+				$Client = new TwitterApiClient;
+				$Client->set_oauth (YOUR_CONSUMER_KEY, YOUR_CONSUMER_SECRET, SOME_ACCESS_KEY, SOME_ACCESS_SECRET);
+				try {
+					$path = 'statuses/show';
+					$args = array (
+						'id' => self::get_twitter_id($videoUrl),
+						'include_entities' => true
+					);
+					$data = @$Client->call( $path, $args, 'GET' );
+
+					//json data decode
+					if ($data === null) {
+						td_log::log(__FILE__, __FUNCTION__, 'api call failed for twitter video thumbnail request api', $videoUrl);
+					}
+
+					if (empty($data['entities']['media'])){
+						add_filter( 'redirect_post_location', array( __CLASS__, 'td_twitter_notice_on_redirect_post_location' ), 99 );
+
+					} else  {
+						return $data['entities']['media'][0]['media_url'] . ':large';
+					}
+				}
+				catch( TwitterApiException $Ex ){
+					//twitter rate limit will show here
+					//print_r($Ex);
+				}
+			} else {
+				add_filter( 'redirect_post_location', array( __CLASS__, 'td_twitter_class_notice_on_redirect_post_location' ), 99 );
+			}
 		}
 		return '';
 	}
-
 
 
 	/*
@@ -298,8 +370,6 @@ class td_video_support{
             return $query_string["v"];
         }
     }
-
-
 
     /*
      * youtube t param from url (ex: http://youtu.be/AgFeZr5ptV8?t=5s)
@@ -354,7 +424,7 @@ class td_video_support{
         } else {
             return $id;
         }
-
+		return '';
     }
 
 	/**
@@ -385,6 +455,75 @@ class td_video_support{
 		return '';
 	}
 
+	/**
+	 * Twitter
+	 * @param $videoUrl
+	 * @return string - the tweet id
+	 */
+	private static function get_twitter_id($videoUrl) {
+
+		/**
+		 * https://twitter.com/video/status/760619209114071040
+		 */
+
+		if (strpos($videoUrl, 'twitter.com') !== false) {
+			$id = basename($videoUrl);
+			return $id;
+		}
+		return '';
+	}
+
+	/**
+	 * appends a query variable to the URL query, to show the 'non supported embeddable twitter videos' notice, on the redirect_post_location hook
+	 * @param $location - the destination URL
+	 * @return mixed
+	 */
+	static function td_twitter_notice_on_redirect_post_location( $location ) {
+		remove_filter( 'redirect_post_location', array( __CLASS__, 'td_twitter_notice_on_redirect_post_location' ), 99 );
+		return add_query_arg( 'td_twitter_video', 'error_notice', $location );
+	}
+
+	/**
+	 * the twitter video notice for non supported embeddable twitter videos
+	 */
+	static function td_twitter_on_admin_notices() {
+		if ( ! isset( $_GET['td_twitter_video'] ) ) {
+			return;
+		}
+
+		?>
+		<div class="notice notice-error is-dismissible">
+			<p>Sorry, but the twitter video you have used is not supported by twitter api, so the video thumb image cannot be retrieved!<br>
+			Some twitter videos, like Vine and Amplify or other content videos are not available through the twitter API therefore resources, like video thumb images, are not available.</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * appends a query variable to the URL query, to show the 'class already defined' notice, on the redirect_post_location hook
+	 * @param $location - the destination URL
+	 * @return mixed
+	 */
+	static function td_twitter_class_notice_on_redirect_post_location( $location ) {
+		remove_filter( 'redirect_post_location', array( __CLASS__, 'td_twitter_class_notice_on_redirect_post_location' ), 99 );
+		return add_query_arg( 'td_twitter_video_class', 'class_notice', $location );
+	}
+
+	/**
+	 * the twitter video notice for class already defined
+	 */
+	static function td_twitter_class_on_admin_notices() {
+		if ( ! isset( $_GET['td_twitter_video_class'] ) ) {
+			return;
+		}
+
+		?>
+		<div class="notice notice-error">
+			<p>The twitter api class is already defined! It might have been already defined by one of your plugins so please try without having any plugins active!</p>
+		</div>
+		<?php
+	}
+
     /*
      * Detect the video service from url
      */
@@ -403,10 +542,18 @@ class td_video_support{
 			return 'facebook';
 		}
 
+		if (strpos($videoUrl,'twitter.com') !== false) {
+			return 'twitter';
+		}
+
 		return false;
     }
 
-
+	/**
+	 * detect a 404 page
+	 * @param $url
+	 * @return bool
+	 */
     private static function is_404($url) {
         $headers = @get_headers($url);
 	    if (!empty($headers[0]) and strpos($headers[0],'404') !== false) {
@@ -414,7 +561,6 @@ class td_video_support{
 	    }
 	    return false;
     }
-
 
 
 }
