@@ -32,7 +32,7 @@ class td_api_text {
 
 		'welcome_docs' => '
 			<h2>Docs and learning</h2>
-            <p>Our online documentation will give you important information about the theme. This is a exceptional resource to start discovering the theme’s true potential.</p>
+            <p>Our online documentation will give you important information about the theme. This is a exceptional resource to start discovering the theme?s true potential.</p>
             <a class="button button-primary" href="#" target="_blank">Open documentation</a>',
 
 		'welcome_video_tutorials' => '
