@@ -209,15 +209,7 @@ $wp_plugin_list = get_plugins();
     </div>
 
     <div class="td-supported-plugin-list">
-        <div class="td-supported-plugin">WP Super Cache <span> - caching plugin</span></div>
-        <div class="td-supported-plugin">Contact form 7 <span>- used to make contact forms</span></div>
-        <div class="td-supported-plugin">bbPress <span>- forum plugin</span></div>
-        <div class="td-supported-plugin">BuddyPress<span>- social network plugin</span></div>
-        <div class="td-supported-plugin">Font Awesome 4 Menus<span>- icon pack, supported in the theme menus</span></div>
-        <div class="td-supported-plugin">Jetpack  <span>- plugin with lots of features *it may slow down your site</span></div>
-        <div class="td-supported-plugin">WooCommerce <span>- eCommerce solution</span></div>
-        <div class="td-supported-plugin">WordPress SEO <span> - SEO plugin</span></div>
-        <div class="td-supported-plugin">Wp User Avatar <span> - Change users avatars</span></div>
+        <?php echo td_api_text::get('supported_plugins_list') ?>
     </div>
 
 

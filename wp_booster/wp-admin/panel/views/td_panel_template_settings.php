@@ -2,7 +2,6 @@
 <?php echo td_panel_generator::box_start('Smart sidebar', false); ?>
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
-            <p>From here you can enable and disable the smart sidebar on all the templates. The smart sidebar is an affix (sticky) sidebar that has auto resize and it scrolls with the content. The smart sidebar reverts back to a normal sidebar on iOS (iPad) and on mobile devices. The following widgets are not supported in the smart sidebar:</p>
             <?php echo td_api_text::get('text_smart_sidebar_widget_support') ?>
         </div>
 

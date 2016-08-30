@@ -14,7 +14,7 @@ require_once "td_view_header.php";
     <div class="td-welcome-header">
         <h1>Welcome to <?php echo TD_THEME_NAME?> <div class="td-welcome-version">V <?php echo TD_THEME_VERSION?></div></h1>
         <div class="about-text">
-            Thanks for using our theme, we had worked very hard to release a great product and we will do our absolute best to support this theme and fix all the issues.
+            Thanks for using our theme, we have worked very hard to release a great product and we will do our absolute best to support this theme and fix all the issues.
         </div>
     </div>
 
@@ -58,19 +58,13 @@ require_once "td_view_header.php";
 
     <div style="margin-top: 26px;">
         <div class="td-admin-box-text td-admin-box-three">
-            <h2>Support forum</h2>
-            <p>We offer outstanding support through our forum. To get support first you need to register  (create an account) and open a thread in the <?php echo TD_THEME_NAME?> Section.</p>
-            <a class="button button-primary" href="<?php echo TD_THEME_FORUM_URL?>" target="_blank">Open forum</a>
+            <?php echo td_api_text::get('welcome_support_forum') ?>
         </div>
         <div class="td-admin-box-text td-admin-box-three">
-            <h2>Docs and learning</h2>
-            <p>Our online documentation will give you important information about the theme. This is a exceptional resource to start discovering the theme’s true potential.</p>
-            <a class="button button-primary" href="<?php echo TD_THEME_DOC_URL?>" target="_blank">Open documentation</a>
+            <?php echo td_api_text::get('welcome_docs') ?>
         </div>
         <div class="td-admin-box-text td-admin-box-three td-admin-box-last">
-            <h2>Video tutorials</h2>
-            <p>We believe that the easiest way to learn is watching a video tutorial. We have a growing library of narrated video tutorials to help you do just that.</p>
-            <a class="button button-primary" href="<?php echo TD_THEME_VIDEO_TUTORIALS_URL?>" target="_blank">View tutorials</a>
+            <?php echo td_api_text::get('welcome_video_tutorials') ?>
         </div>
     </div>
 
