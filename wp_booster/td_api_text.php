@@ -25,21 +25,12 @@ class td_api_text {
 		//@todo in 012 sa fie overwritten
 		'welcome_fast_start' => 'Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a>',
 
-		'welcome_support_forum' => '
-			<h2>Support forum</h2>
-            <p>We offer outstanding support through our forum. To get support first you need to register (create an account) and open a thread in the ' . TD_THEME_NAME . ' Section.</p>
-            <a class="button button-primary" href="#" target="_blank">Open forum</a>',
+		// welcome and support panels
+		'welcome_support_forum' => '',
+		'welcome_docs' => '',
+		'welcome_video_tutorials' => '',
 
-		'welcome_docs' => '
-			<h2>Docs and learning</h2>
-            <p>Our online documentation will give you important information about the theme. This is a exceptional resource to start discovering the theme?s true potential.</p>
-            <a class="button button-primary" href="#" target="_blank">Open documentation</a>',
-
-		'welcome_video_tutorials' => '
-			<h2>Video tutorials</h2>
-            <p>We believe that the easiest way to learn is watching a video tutorial. We have a growing library of narrated video tutorials to help you do just that.</p>
-            <a class="button button-primary" href="#" target="_blank">View tutorials</a>',
-
+		// supported plugins list
 		'supported_plugins_list' => '
 				<div class="td-supported-plugin">WP Super Cache <span> - caching plugin</span></div>
 				<div class="td-supported-plugin">Contact form 7 <span>- used to make contact forms</span></div>
