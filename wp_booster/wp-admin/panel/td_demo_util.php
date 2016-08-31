@@ -601,7 +601,7 @@ class td_demo_content extends td_demo_base {
 	    }
 
 	    if ($page_id === 0) {
-		    self::kill(__CLASS__, __FUNCTION__, 'wp_insert_post returned 0. Not ok!');
+		    self::kill(__CLASS__, __FUNCTION__, 'wp_insert_post returned 0. Not ok! Page title: ' . $params['title']);
 	    }
 
         // add our demo custom meta field, using this field we will delete all the pages

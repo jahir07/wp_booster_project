@@ -14,7 +14,7 @@ require_once('td_api_smart_list.php');
 require_once('td_api_thumb.php');
 require_once('td_api_top_bar_template.php');
 require_once('td_api_tinymce_formats.php');
-require_once('td_api_features.php');
 require_once('td_api_text.php');
+require_once('td_api_features.php');
 require_once('td_api_autoload.php');
 /* @td_end_get_inline */
