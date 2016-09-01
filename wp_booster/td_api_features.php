@@ -7,7 +7,8 @@
 class td_api_features {
 	private static $features = array (
 		'require_activation' => true,
-		'require_vc' => true
+		'require_vc' => true,
+		'page_mega_menu' => true
 	);
 
 

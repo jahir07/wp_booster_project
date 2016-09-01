@@ -151,7 +151,7 @@ class td_menu {
 
 
 
-            elseif ($td_mega_menu_page_id != '') {
+            elseif ($td_mega_menu_page_id != '' && td_api_features::is_enabled('page_mega_menu') === true) {
                 // a item with a page - pege mega menu
 
                 // the parent item (the one that appears in the main menu)

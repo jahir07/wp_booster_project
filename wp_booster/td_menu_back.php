@@ -25,23 +25,22 @@ class td_nav_menu_edit_walker extends Walker_Nav_Menu_Edit {
             $control_buffy .= ' </select>';
         $control_buffy .= '</p>';
 
-        $control_buffy .= '<br>OR<br>';
+
+        if (td_api_features::is_enabled('page_mega_menu') === true){
+            $control_buffy .= '<br>OR<br>';
+
+            //make a new ui control ( dropdown )
+            $control_buffy .= '<p class="description description-wide">';
+
+                $control_buffy .= '<label>';
+                    $control_buffy .= 'Load a page in the menu (enter the page ID)';
+                $control_buffy .= '</label><br>';
+                $control_buffy .= '<input name="td_mega_menu_page_id[' . $item->ID . ']" type="text" value="' . $td_mega_menu_page_id . '" />';
+                $control_buffy .= '<span class="td-wpa-info"><strong>Just a tip:</strong> If you choose to load a mega menu or a page, please do not add submenus to this item. The mega menu and mega page menu have to be the top most menu item. <a href="http://forum.tagdiv.com/menus-newsmag/" target="_blank">Read more</a></span>';
 
 
-
-
-        //make a new ui control ( dropdown )
-        $control_buffy .= '<p class="description description-wide">';
-
-            $control_buffy .= '<label>';
-                $control_buffy .= 'Load a page in the menu (enter the page ID)';
-            $control_buffy .= '</label><br>';
-            $control_buffy .= '<input name="td_mega_menu_page_id[' . $item->ID . ']" type="text" value="' . $td_mega_menu_page_id . '" />';
-            $control_buffy .= '<span class="td-wpa-info"><strong>Just a tip:</strong> If you choose to load a mega menu or a page, please do not add submenus to this item. The mega menu and mega page menu have to be the top most menu item. <a href="http://forum.tagdiv.com/menus-newsmag/" target="_blank">Read more</a></span>';
-
-
-        $control_buffy .= '</p>';
-
+            $control_buffy .= '</p>';
+        }
 
         //run the parent and add in $buffy (byref) our code via regex
         $buffy = '';
