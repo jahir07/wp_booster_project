@@ -22,7 +22,8 @@ class td_api_text {
 		'text_smart_sidebar_widget_support' => '<p>From here you can enable and disable the smart sidebar on all the templates. The smart sidebar is an affix (sticky) sidebar that has auto resize and it scrolls with the content. The smart sidebar reverts back to a normal sidebar on iOS (iPad) and on mobile devices. The following widgets are not supported in the smart sidebar:</p>',
 
 
-		//@todo in 012 sa fie overwritten
+		// fast start notification on welcome page
+		// *overwritten in 012 for tagDiv composer
 		'welcome_fast_start' => 'Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a>',
 
 		// welcome and support panels
@@ -41,6 +42,10 @@ class td_api_text {
 				<div class="td-supported-plugin">WooCommerce <span>- eCommerce solution</span></div>
 				<div class="td-supported-plugin">WordPress SEO <span> - SEO plugin</span></div>
 				<div class="td-supported-plugin">Wp User Avatar <span> - Change users avatars</span></div>',
+
+		// existing content documentation url
+		// *overwritten in 012
+		'panel_existing_content_url' => '<a href="http://forum.tagdiv.com/existing-content/" target="_blank">read more</a>'
 	);
 
 
