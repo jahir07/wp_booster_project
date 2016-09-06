@@ -2063,7 +2063,9 @@ title one row controls
 .vc_modal-content #td_block_exchange,
 .vc_ui-panel-content-container #td_block_exchange,
 .vc_modal-content #td_block_weather,
-.vc_ui-panel-content-container #td_block_weather {
+.vc_ui-panel-content-container #td_block_weather,
+.vc_modal-content #td_block_list_menu,
+.vc_ui-panel-content-container #td_block_list_menu {
   padding-left: 75px;
 }
 .icon-pagebuilder-td_block_1,
@@ -2120,7 +2122,8 @@ title one row controls
 .icon-pagebuilder-title,
 .icon-pagebuilder-td-instagram,
 .icon-pagebuilder-td-exchange,
-.icon-pagebuilder-td-weather {
+.icon-pagebuilder-td-weather,
+.icon-pagebuilder-td_block_list_menu {
   position: relative;
   width: 60px !important;
   height: 44px !important;
@@ -2181,7 +2184,8 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-title,
 .wpb_element_title .icon-pagebuilder-td-instagram,
 .wpb_element_title .icon-pagebuilder-td-exchange,
-.wpb_element_title .icon-pagebuilder-td-weather {
+.wpb_element_title .icon-pagebuilder-td-weather,
+.wpb_element_title .icon-pagebuilder-td_block_list_menu {
   top: -5px !important;
 }
 .td_block_1 .wpb_element_wrapper div,
@@ -2240,7 +2244,8 @@ title one row controls
 .wpb_td_block_weather .wpb_element_wrapper div,
 .wpb_td_block_instagram .wpb_element_wrapper div,
 .wpb_td_block_exchange .wpb_element_wrapper div,
-.wpb_td_block_ad_box .wpb_element_wrapper div {
+.wpb_td_block_ad_box .wpb_element_wrapper div,
+.wpb_td_block_list_menu .wpb_element_wrapper div {
   display: none;
   font-size: 11px;
   margin-right: 12px;
@@ -2301,7 +2306,8 @@ title one row controls
 .wpb_td_block_weather .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_exchange .wpb_element_wrapper div[name="custom_title"],
-.wpb_td_block_ad_box .wpb_element_wrapper div[name="custom_title"] {
+.wpb_td_block_ad_box .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_list_menu .wpb_element_wrapper div[name="custom_title"] {
   display: inline-block;
 }
 /* display some extra information on some widgets - above will hide all info - show only widget title */
@@ -2484,6 +2490,9 @@ title one row controls
 }
 .icon-pagebuilder-td-instagram {
   background-image: url('../../../../images/pagebuilder/instagram.png') !important;
+}
+.icon-pagebuilder-td_block_list_menu {
+  background-image: url('../../../../images/pagebuilder/list-menu.png') !important;
 }
 .wpb-content-layouts .td_popular_categories_nav {
   padding: 0;
