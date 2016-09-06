@@ -673,7 +673,13 @@
     <!-- text -->
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
-            <p>Enabling this feature will update the post view count using ajax on both pages and single post page. This feature is best used if you have a caching plugin active. On pages it will retrieve from the server the correct post view count. On single post page this feature will also increment the post view counter. When this feature is enabled, the default (classic) post counter incrementation is disabled. After enabling or disabling this feature please be sure to empty all caches.  </p>
+            <p>Enabling this feature will update the post view count, on single post page, using ajax.</p>
+            <ul>
+                <li>This feature is best used if you have a caching plugin active.</li>
+                <li>When enabled, on single post pages, this feature will also increment the post view counter.</li>
+                <li>When this feature is enabled, the default(classic) post counter incrementation is disabled.</li>
+                <li>After enabling or disabling this feature make sure to empty all caches.</li>
+            </ul>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
