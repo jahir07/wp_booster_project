@@ -72,6 +72,10 @@ function td_js_generator() {
         ));
     }
 
+    //tinymce video playlits shortcodes
+    if (td_api_features::is_enabled('video_playlists') === false){
+        td_js_buffer::add_variable('tds_video_playlists', false);
+    }
 
 
 
@@ -168,6 +172,7 @@ function td_js_generator() {
     </script>
     <?php
     td_js_buffer::add_to_header(td_util::remove_script_tag(ob_get_clean()));
+
 
 
 
