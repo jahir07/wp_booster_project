@@ -10,7 +10,8 @@ class td_api_features {
 		'require_vc' => true,
 		'page_mega_menu' => true,
 		'video_playlists' => true,
-		'tagdiv_slide_gallery' => true
+		'tagdiv_slide_gallery' => true,
+		'text_logo' => true
 	);
 
 

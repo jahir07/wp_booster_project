@@ -503,7 +503,9 @@
         </div>
     </div>
 
+<?php if (td_api_features::is_enabled('text_logo') === true) { ?>
 
+    <!-- Text header LOGO description -->
     <div class="td-box-row" style="margin-top: 85px;">
         <div class="td-box-description td-box-full">
             <span class="td-box-title"><?php echo td_api_text::get('text_header_logo') ?></span>
@@ -511,6 +513,7 @@
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
+
 
 	<!-- Text LOGO -->
 	<div class="td-box-row">
@@ -546,6 +549,9 @@
 			?>
 		</div>
 	</div>
+
+<?php } ?>
+
 <?php echo td_panel_generator::box_end();?>
 
 
@@ -556,9 +562,9 @@
 
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
-            <p>You can optionally load a different logo on mobile phones and small screens. Usually the logo is smaller so that it can fit in the smart affix menu. iPhone, iPad, Samsung S3 S4 S5 and a lot of phones use the retina logo.</p>
+            <p>You can optionally load a different logo on mobile phones and small screens. Usually the logo is smaller so that it can fit in the smart affix menu. iPhone, iPad, Samsung and a lot of phones use the retina logo.</p>
             <p>If you don't upload any Logo Mobile by default will be used the Logo that you uploaded in the section above. This Option is recommended when your logo will not scale perfect on mobile devices.</p>
-	        <p><strong>Notice: </strong>Don't upload a logo for Mobile if you use <strong>Header Style: </strong><?php echo td_api_text::get('text_header_logo_mobile') ?></strong>, It's not necessary.</p>
+	        <p><strong>Notice: </strong>Don't upload a logo for Mobile if you use <strong>Header Style: </strong> <?php echo td_api_text::get('text_header_logo_mobile') ?>, It's not necessary.</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
