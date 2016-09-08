@@ -9,7 +9,8 @@ class td_api_features {
 		'require_activation' => true,
 		'require_vc' => true,
 		'page_mega_menu' => true,
-		'video_playlists' => true
+		'video_playlists' => true,
+		'tagdiv_slide_gallery' => true
 	);
 
 

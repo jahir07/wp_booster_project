@@ -1297,8 +1297,13 @@ function td_vc_init() {
 /* ----------------------------------------------------------------------------
  * TagDiv gallery - tinyMCE hooks
  */
-add_action('print_media_templates', 'td_custom_gallery_settings_hook');
-add_action('print_media_templates', 'td_change_backbone_js_hook');
+
+//add the gallery tinyMCE hooks only if it's enabled
+if (td_api_features::is_enabled('tagdiv_slide_gallery') === true) {
+	add_action('print_media_templates', 'td_custom_gallery_settings_hook');
+	add_action('print_media_templates', 'td_change_backbone_js_hook');
+}
+
 /**
  * custom gallery setting
  */
@@ -1510,7 +1515,12 @@ function td_change_backbone_js_hook() {
 /* ----------------------------------------------------------------------------
  * TagDiv gallery - front end hooks
  */
-add_filter('post_gallery', 'td_gallery_shortcode', 10, 4);
+
+//add the gallery frontend hook only if it's enabled
+if (td_api_features::is_enabled('tagdiv_slide_gallery') === true) {
+	add_filter('post_gallery', 'td_gallery_shortcode', 10, 4);
+}
+
 /**
  * @param string $output - is empty !!!
  * @param $atts
@@ -1842,7 +1852,11 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 /* ----------------------------------------------------------------------------
  * filter the gallery shortcode
  */
-add_filter('shortcode_atts_gallery', 'td_gallery_atts_modifier', 1); //run with 1 priority, allow anyone to overwrite our hook.
+
+//add the gallery shortcode filter only if the tagdiv slide gallery feature is enabled
+if (td_api_features::is_enabled('tagdiv_slide_gallery') === true) {
+	add_filter('shortcode_atts_gallery', 'td_gallery_atts_modifier', 1); //run with 1 priority, allow anyone to overwrite our hook.
+}
 /**
  * @todo trebuie fixuite toate tipurile de imagini din gallerie in functie de setarile template-ului
  */
