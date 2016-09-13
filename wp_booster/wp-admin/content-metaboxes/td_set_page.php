@@ -8,7 +8,7 @@
 
     <!-- page option general -->
     <div class="td-page-option-panel td-page-option-panel-active td-page-option-general">
-        <p><strong>Note:</strong> The settings from this box only work if you do not use visual composer on this template. The template detects if visual composer is used and it removes the title and sidebars if that's the case. </p>
+        <p><strong>Note:</strong> The settings from this box only work if you do not use the page builder on this template. The template detects if the page builder is used and it removes the title and sidebars if that's the case. </p>
 
 
         <!-- sidebar position -->
@@ -22,9 +22,9 @@
                         <ul>
                             <li><strong>This setting overrides</strong> the Theme panel setting from <i>Template settings > Page template</i></li>
                             <li><strong>On default</strong> - the template will load the sidebar position that is set in the Theme panel: <i>Template settings > Page template</i></li>
-                            <li>This setting is intended to be use for content pages, When this template detects
-                            that Visual Composer is used, it will switch to a full width layout (with no sidebar). </li>
-                            <li>If you want to use a sidebar with Visual Composer please use the Widgetised Sidebar block</li>
+                            <li>This setting is intended to be used for content pages; when this template detects
+                            that the page builder is used, it will switch to a full width layout (with no sidebar). </li>
+                            <li>If you want to use a sidebar with the page builder please use the <strong>Widget Sidebar</strong> block</li>
 
                         </ul>
                     ', 'right')
@@ -59,10 +59,10 @@
                         <p>From here you can set a custom sidebar for this page only.</p>
                         <ul>
                             <li><strong>This setting overrides</strong> the Theme panel setting from <i>Template settings > Page template</i></li>
-                            <li><strong>On default</strong> - the template will load the sidebar that is set in the Theme panel: <i>Template settings > Page template</i></li>
-                            <li>This setting is intended to be use for content pages, When this template detects
-                            that Visual Composer is used, it will switch to a full width layout (with no sidebar). </li>
-                            <li>If you want to use a sidebar with Visual Composer please use the Widgetised Sidebar block</li>
+                            <li><strong>On default</strong> - the template will load the sidebar position set in the Theme panel: <i>Template settings > Page template</i></li>
+                            <li>This setting is intended to be used for content pages; when this template detects
+                            that the page builder is used, it will switch to a full width layout (with no sidebar). </li>
+                            <li>If you want to use a sidebar with the page builder please use the <strong>Widget Sidebar</strong> block</li>
                         </ul>
                     ', 'right')
                 ?>
