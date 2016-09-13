@@ -127,9 +127,18 @@ die;
 	<?php if (td_api_features::is_enabled('require_vc') && !is_plugin_active('js_composer/js_composer.php')) { ?>
 		<div class="td-admin-box-text td-admin-required-plugins">
 			<div class="td-admin-required-plugins-wrap">
-				<p><strong>Please install Visual Composer.</strong></p>
-				<p>Visual Composer is a required plugin for this theme to work best.</p>
-				<a class="button button-primary" href="admin.php?page=td_theme_plugins">Go to plugin installer</a>
+                <p><strong>Please install and activate the Visual Composer plugin - </strong> Visual Composer is a required plugin for this theme to work best.</p>
+                <a class="button button-primary" href="admin.php?page=td_theme_plugins">Go to plugin installer</a>
+			</div>
+		</div>
+	<?php } ?>
+
+
+    <?php if (td_api_features::is_enabled('require_td_composer') && !is_plugin_active('td-composer/td-composer.php')) { ?>
+		<div class="td-admin-box-text td-admin-required-plugins">
+			<div class="td-admin-required-plugins-wrap">
+                <p><strong>Please install and activate the tagDiv Composer plugin - </strong> tagDiv Composer is a required plugin for this theme to work best.</p>
+                <a class="button button-primary" href="admin.php?page=td_theme_plugins">Go to plugin installer</a>
 			</div>
 		</div>
 	<?php } ?>
