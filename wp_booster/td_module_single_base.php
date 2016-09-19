@@ -83,7 +83,7 @@ class td_module_single_base extends td_module {
      * @param $thumbType
      * @return string
      */
-    function get_image($thumbType) {
+    function get_image($thumbType, $css_image = false) {
         global $page;
 
 

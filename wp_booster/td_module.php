@@ -180,7 +180,7 @@ abstract class td_module {
      * @param $thumbType
      * @return string
      */
-    function get_image($thumbType) {
+    function get_image($thumbType, $css_image = false) {
         $buffy = ''; //the output buffer
         $tds_hide_featured_image_placeholder = td_util::get_option('tds_hide_featured_image_placeholder');
         //retina image
@@ -282,28 +282,42 @@ abstract class td_module {
                     $buffy .= '<a class="td-admin-edit" href="' . get_edit_post_link($this->post->ID) . '">edit</a>';
                 }
 
-                $buffy .='<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
-                    $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" class="entry-thumb" src="' . $td_temp_image_url[0] . '"' . $srcset_sizes . ' ' . $attachment_alt . $attachment_title . '/>';
 
-                        // on videos add the play icon
-                        if (get_post_format($this->post->ID) == 'video') {
+                $buffy .= '<a href="' . $this->href . '" rel="bookmark" title="' . $this->title_attribute . '">';
 
-                            $use_small_post_format_icon_size = false;
-                            // search in all the thumbs for the one that we are currently using here and see if it has post_format_icon_size = small
-                            foreach (td_api_thumb::get_all() as $thumb_from_thumb_list) {
-                                if ($thumb_from_thumb_list['name'] == $thumbType and $thumb_from_thumb_list['post_format_icon_size'] == 'small') {
-                                    $use_small_post_format_icon_size = true;
-                                    break;
-                                }
+                    // css image
+                    if ($css_image === true) {
+                        // retina image
+                        if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes' && !empty($td_temp_image_url[1])) {
+                            $retina_url = wp_get_attachment_image_src($this->post_thumb_id, $thumbType . '_retina');
+                            $td_temp_image_url[0] = $retina_url[0];
+                        }
+                        $buffy .= '<span class="entry-thumb td-thumb-css" style="background-image: url(' . $td_temp_image_url[0] . ')"></span>';
+
+                    // normal image
+                    } else {
+                        $buffy .= '<img width="' . $td_temp_image_url[1] . '" height="' . $td_temp_image_url[2] . '" class="entry-thumb" src="' . $td_temp_image_url[0] . '"' . $srcset_sizes . ' ' . $attachment_alt . $attachment_title . '/>';
+                    }
+
+                    // on videos add the play icon
+                    if (get_post_format($this->post->ID) == 'video') {
+
+                        $use_small_post_format_icon_size = false;
+                        // search in all the thumbs for the one that we are currently using here and see if it has post_format_icon_size = small
+                        foreach (td_api_thumb::get_all() as $thumb_from_thumb_list) {
+                            if ($thumb_from_thumb_list['name'] == $thumbType and $thumb_from_thumb_list['post_format_icon_size'] == 'small') {
+                                $use_small_post_format_icon_size = true;
+                                break;
                             }
+                        }
 
-                            // load the small or medium play icon
-                            if ($use_small_post_format_icon_size === true) {
-                                $buffy .= '<span class="td-video-play-ico td-video-small"><img width="20" height="20" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/video-small.png' . '" alt="video"/></span>';
-                            } else {
-                                $buffy .= '<span class="td-video-play-ico"><img width="40" height="40" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' . '" alt="video"/></span>';
-                            }
-                        } // end on video if
+                        // load the small or medium play icon
+                        if ($use_small_post_format_icon_size === true) {
+                            $buffy .= '<span class="td-video-play-ico td-video-small"><img width="20" height="20" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/video-small.png' . '" alt="video"/></span>';
+                        } else {
+                            $buffy .= '<span class="td-video-play-ico"><img width="40" height="40" class="td-retina" src="' . td_global::$get_template_directory_uri . '/images/icons/ico-video-large.png' . '" alt="video"/></span>';
+                        }
+                    } // end on video if
 
                 $buffy .= '</a>';
             $buffy .= '</div>'; //end wrapper
