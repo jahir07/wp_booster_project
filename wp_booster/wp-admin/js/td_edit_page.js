@@ -42,13 +42,13 @@ var td_edit_page = {
             case 'Pagebuilder + page title':
                 jQuery('#td_homepage_loop_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
-                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using visual composer. We recommend that you select a <span style="color:#ff6a5e; text-decoration: underline">no sidebar</span> layout for best results.</span>');
+                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using the page builder. We recommend that you select a <span style="color:#ff6a5e; text-decoration: underline">no sidebar</span> layout for best results.</span>');
                 break;
 
             default: //default template
                 jQuery('#td_homepage_loop_metabox').hide();
                 jQuery('#td_page_metabox').slideDown();
-                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for visual composer or content pages. <ul><li>If visual composer is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
+                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for <em>page builder</em> or content pages. <ul><li>If the page builder is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
                 break;
         }
     },

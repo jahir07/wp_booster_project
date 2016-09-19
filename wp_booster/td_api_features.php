@@ -8,6 +8,7 @@ class td_api_features {
 	private static $features = array (
 		'require_activation' => true,
 		'require_vc' => true,
+		'require_td_composer' => true,
 		'page_mega_menu' => true,
 		'video_playlists' => true,
 		'tagdiv_slide_gallery' => true,
