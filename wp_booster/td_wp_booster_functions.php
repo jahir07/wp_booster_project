@@ -76,11 +76,6 @@ td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
 
-// aurora framework
-td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
-td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
-td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
-td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_options.php');
 
 
 
@@ -211,6 +206,7 @@ function load_front_css() {
 	if (TD_DEBUG_USE_LESS) {
 		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
 
+		// load WooCommerce LESS only when needed
 		if (td_global::$is_woocommerce_installed === true) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
 		}
@@ -220,10 +216,13 @@ function load_front_css() {
 		}
 	} else {
 		wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
+
+		// load the WooCommerce CSS only when needed
 		if (td_global::$is_woocommerce_installed === true) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/style-woocommerce.css',  '', TD_THEME_VERSION, 'all' );
 		}
 
+		// If we have a DEMO installed - load the demo CSS
 		if ($demo_id !== false and td_global::$demo_list[$demo_id]['uses_custom_style_css'] === true) {
 			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/includes/demos/' . $demo_id . '/demo_style.css', '', TD_THEME_VERSION, 'all');
 		}
@@ -2204,7 +2203,6 @@ if (is_admin()) {
 	if (current_user_can('switch_themes')) {
 		// add the theme panel only if we have permissions
 		require_once('wp-admin/panel/td_panel.php');
-		require_once('wp-admin/panel/td_panel_woo.php'); //add the woocommerce panel
 	}
 
 
@@ -2354,9 +2352,8 @@ function td_template_include_filter( $wordpress_template_path ) {
 	           and is_single()
 	               and (($wordpress_template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
 	                    or ($wordpress_template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
-
-
-		//echo 'SINGLE PRODUCT detected<br>';
+		// @todo - this section is not used. Here we can load single product templates on WooCommerce
+		// echo 'SINGLE PRODUCT detected<br>';
 	}
 
 	return $wordpress_template_path;

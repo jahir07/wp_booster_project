@@ -37,13 +37,6 @@ class td_panel_data_source {
                 return htmlspecialchars(get_option($read_array['option_id']));
                 break;
 
-            case 'td_homepage':
-                // here we get all the options for the homepage (including widgets?)
-                break;
-
-	        // @todo - I cannot find where this is used
-            case 'td_page_option':
-                break;
 
 
             //author metadata
@@ -130,31 +123,9 @@ class td_panel_data_source {
                     return $td_block_styles[$read_array['item_id']][$read_array['option_id']];
                 }
                 break;
-
-
-            // fake datasource for demo import panel, we just use the panel to render controls but we save on our own @todo - find a solution to this
-            case 'td_import_theme_styles':
-                break;
-
-            // fake datasource for metaboxes, we just use the panel to render controls but we save on our own  @todo - find a solution to this
-            case 'td_page':
-                break;
-            case 'td_homepage_loop':
-                break;
-            case 'td_post_theme_settings':
-                break;
-            case 'td_update_theme_options':
-                break;
-            case 'td_unregistered': // used for unregistered data sources - panel generator input fields
-                break;
-
-
-            default:
-                // try to get options for plugins
-                return tdx_options::get_option($read_array['ds'], $read_array['option_id']);
-                //return tdx_api_panel::get_data_from_datasource($read_array['ds'], $read_array['option_id']);
-                break;
         }
+
+        return '';
     }
 
 
@@ -193,22 +164,20 @@ class td_panel_data_source {
      * NOTICE! $_POST is altered by WordPress and it has slashes added to "
     */
     static function update() {
+
 	    // die if request is fake
 	    check_ajax_referer('td-update-panel', 'td_magic_token');
-
 
 	    //if user is logged in and can switch themes
 	    if (!current_user_can('switch_themes')) {
 		    die;
 	    }
 
-
-
-	    /*  ----------------------------------------------------------------------------
-			save the data
-	    */
-
-        //print_r($_POST);
+	    /**
+	     * @since 20 sept 2016
+	     *  - we look in the $_POST variable and we save if we recognize the keys. Otherwise we ignore them (keys like td_magic_token, action etc are ignored)
+	     *  - we removed the aurora hook
+	     */
         foreach ($_POST as $post_data_source => $post_value) {
             switch ($post_data_source) {
 
@@ -239,17 +208,10 @@ class td_panel_data_source {
 	            case 'td_default': // here we store the default values. Each datasource that needs defaults, will parse the $_POST['td_default'] directly
 		            break;
 
-
-	            // @todo - I cannot find where this is used
-                case 'td_page_option':
-                    break;
-
 	            //wp
                 case 'td_author': //@todo - se poate sa nu mai fie folosita
                     self::update_td_author($post_value);
                     break;
-
-
 
                 case 'wp_theme_mod': //@todo - se poate sa nu mai fie folosita
                     self::update_wp_theme_mod($post_value);
@@ -285,7 +247,8 @@ class td_panel_data_source {
                     break;
 
                 default:
-                    tdx_options::set_data_to_datasource($post_data_source, $post_value);
+	                // here we had aurora hooked - removed in 20 sep 2016
+                    //tdx_options::set_data_to_datasource($post_data_source, $post_value);
                     break;
             }
         }
@@ -302,7 +265,6 @@ class td_panel_data_source {
         if (td_util::is_mobile_theme() && function_exists('td_css_generator_mob')){
             td_global::$td_options['tds_user_compile_css_mob'] = td_css_generator_mob();
         }
-
 
         //save all the themes settings (td_options + td_category)
         update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );

@@ -75,7 +75,7 @@ function td_register_post_metaboxes() {
         'names' //return the names in an array
     );
 
-    // remove the woo_commerce post tyep from the array if it's available and the woo_commerce plugin is installed
+    // remove the woo_commerce post type from the array if it's available and the woo_commerce plugin is installed
     if (td_global::$is_woocommerce_installed === true) {
         $woo_key = array_search('product', $td_custom_post_types);
         if($woo_key !== false) {
