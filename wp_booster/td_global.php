@@ -363,7 +363,7 @@ if (is_ssl()) {
 }
 
 
-//require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 if (is_plugin_active('woocommerce/woocommerce.php')) {
     td_global::$is_woocommerce_installed = true;
 }
