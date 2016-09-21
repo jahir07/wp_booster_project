@@ -2239,7 +2239,7 @@ if (is_admin()) {
 			array(
 				'id' => 'vc_columns_pointer',   // unique id for this pointer
 				'screen' => 'page', // this is the page hook we want our pointer to show on
-				'target' => '.composer-switch', // the css selector for the pointer to be tied to, best to use ID's
+				'target' => '.composer-switch .logo-icon', // the css selector for the pointer to be tied to, best to use ID's
 				'title' => TD_THEME_NAME . ' (tagDiv) tip',
 				'content' => '<img class="td-tip-vc-columns" style="max-width:100%" src="' . td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/td_helper_pointers/vc-columns.png' . '">',
 				'position' => array(
