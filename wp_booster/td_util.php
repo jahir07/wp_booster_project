@@ -541,15 +541,15 @@ class td_util {
 
 
     /**
-     * generates a category tree
+     * generates a category tree, only on /wp_admin/, uses a buffer
      * @param bool $add_all_category = if true ads - All categories - at the begining of the list (used for dropdowns)
-     * @return mixed
+     * @return array
      */
-    static $td_category2id_array_walker_buffer = array();
+    private static $td_category2id_array_walker_buffer = array();
     static function get_category2id_array($add_all_category = true) {
 
         if (is_admin() === false) {
-            return;
+            return array();
         }
 
         if (empty(self::$td_category2id_array_walker_buffer)) {
@@ -1070,13 +1070,11 @@ class td_category2id_array_walker extends Walker {
 /*  ----------------------------------------------------------------------------
     mbstring support - if missing from host
  */
-
 if (!function_exists('mb_strlen')) {
     function mb_strlen ($string, $encoding = '') {
         return strlen($string);
     }
 }
-
 if (!function_exists('mb_strpos')) {
     function mb_strpos($haystack,$needle,$offset=0) {
         return strpos($haystack,$needle,$offset);
