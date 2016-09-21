@@ -75,8 +75,7 @@ td_api_autoload::add('td_instagram', td_global::$get_template_directory . '/incl
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
-
-
+td_api_autoload::add('td_help_pointers', td_global::$get_template_directory . '/includes/wp_booster/td_help_pointers.php');
 
 
 /* ----------------------------------------------------------------------------
@@ -2229,11 +2228,9 @@ if (is_admin()) {
 	/**
 	 * Helper pointers
 	 */
-	require_once('td_help_pointers.php');
 
 	add_action('admin_enqueue_scripts', 'td_help_pointers');
-	function td_help_pointers()
-	{
+	function td_help_pointers() {
 		//First we define our pointers
 		$pointers = array(
 			array(
@@ -2249,17 +2246,15 @@ if (is_admin()) {
 			)
 			// more as needed
 		);
+
 		//Now we instantiate the class and pass our pointer array to the constructor
-		$myPointers = new td_help_pointers($pointers);
+		new td_help_pointers($pointers);
 	}
 
 	/*  -----------------------------------------------------------------------------
 		TGM_Plugin_Activation
 	 */
-	require_once 'external/class-tgm-plugin-activation.php';
-
-
-
+	require_once 'external/class-tgm-plugin-activation.php'; // it cannot be autoloaded
 
 	add_action('tgmpa_register', 'td_required_plugins');
 	function td_required_plugins() {
@@ -2294,10 +2289,7 @@ if (is_admin()) {
 			)
 		);
 
-
 		tgmpa(td_global::$theme_plugins_list, $config);
-
-
 	}
 }
 

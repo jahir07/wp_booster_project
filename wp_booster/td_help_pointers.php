@@ -3,7 +3,7 @@
 /**
  * tagDiv Help Pointer, based on https://github.com/rawcreative/wp-help-pointers
  * GPL LICENSE
- * @version 1.0
+ * @version 1.1
  *
  *
  * Original author:
@@ -16,51 +16,38 @@
 
 class td_help_pointers {
 
-    public $screen_id;
-    public $valid;
-    public $pointers;
+    private $screen_id;
+    private $valid;
+    private $pointers;
 
-    public function __construct( $pntrs = array() ) {
-
-        // Don't run on WP < 3.3
-        if ( get_bloginfo( 'version' ) < '3.3' ) {
-            return;
-        }
-
+    public function __construct( $help_pointers = array() ) {
 
         $screen = get_current_screen();
         $this->screen_id = $screen->id;
 
-        $this->register_pointers($pntrs);
+
+	    foreach( $help_pointers as $help_pointer ) {
+		    if( $help_pointer['screen'] == $this->screen_id ) {
+			    $this->pointers[$help_pointer['id']] = array(
+				    'screen' => $help_pointer['screen'],
+				    'target' => $help_pointer['target'],
+				    'options' => array(
+					    'content' => sprintf( '<h3> %s </h3> <p> %s </p>',
+						    $help_pointer['title'],
+						    $help_pointer['content']
+					    ),
+					    'position' => $help_pointer['position']
+				    )
+			    );
+		    }
+	    }
+
 
         add_action( 'admin_enqueue_scripts', array( &$this, 'add_pointers' ), 1000 );
         add_action( 'admin_head', array( &$this, 'add_scripts' ) );
     }
 
-    public function register_pointers( $pntrs ) {
-        $pointers ='';
-        foreach( $pntrs as $ptr ) {
 
-            if( $ptr['screen'] == $this->screen_id ) {
-
-                $pointers[$ptr['id']] = array(
-                    'screen' => $ptr['screen'],
-                    'target' => $ptr['target'],
-                    'options' => array(
-                        'content' => sprintf( '<h3> %s </h3> <p> %s </p>',
-                            $ptr['title'],
-                            $ptr['content']
-                        ),
-                        'position' => $ptr['position']
-                    )
-                );
-
-            }
-        }
-
-        $this->pointers = $pointers;
-
-    }
 
     public function add_pointers() {
 
