@@ -348,6 +348,19 @@ a.td-tooltip {
 .ionmag_page_td_theme_panel .td-box-weather {
   display: none;
 }
+.ionmag_page_td_theme_panel .td_panel_box_default_post_template_site_wide .td-box-description {
+  float: none;
+  width: auto;
+  padding-bottom: 18px;
+}
+.ionmag_page_td_theme_panel .td_panel_box_default_post_template_site_wide .td-box-control-full {
+  float: none;
+  width: auto;
+}
+.ionmag_page_td_theme_panel .td_panel_box_default_post_template_site_wide .td-small-wrapper-o-separator {
+  margin-right: 15px;
+  margin-bottom: 11px;
+}
 .td-theme-Ionmag .td-visual-selector-active {
   border-color: #ec4d4d !important;
 }
