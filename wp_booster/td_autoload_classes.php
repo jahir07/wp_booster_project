@@ -20,7 +20,7 @@ class td_autoload_classes {
         // foreach regex path, the class name is verified for a start matching
         if ((strpos($class_name, $path_regex) !== false) and (strpos($class_name, $path_regex) === 0)) {
 
-            $class_settings = td_api_base::get_by_id($class_name);
+            $class_settings = td_api_autoload::get_by_id($class_name);
 
             if (!empty($class_settings)) {
                 if (array_key_exists('file', $class_settings)) {
@@ -28,7 +28,7 @@ class td_autoload_classes {
 
                     if (isset($class_file_path) and !empty($class_file_path)) {
                         // set the autoloaded key for that component
-                        td_api_base::_debug_set_class_is_autoloaded($class_name);
+	                    td_api_autoload::_debug_set_class_is_autoloaded($class_name);
 
 
 //	                    if ($class_name == 'td_page_views') {

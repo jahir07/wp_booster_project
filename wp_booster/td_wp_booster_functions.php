@@ -75,13 +75,7 @@ td_api_autoload::add('td_instagram', td_global::$get_template_directory . '/incl
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
-
-// aurora framework
-td_api_autoload::add('tdx_api_plugin', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_plugin.php');
-td_api_autoload::add('tdx_api_panel', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_api_panel.php');
-td_api_autoload::add('tdx_util', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_util.php');
-td_api_autoload::add('tdx_options', td_global::$get_template_directory . '/includes/wp_booster/aurora/tdx_options.php');
-
+td_api_autoload::add('td_help_pointers', td_global::$get_template_directory . '/includes/wp_booster/td_help_pointers.php');
 
 
 /* ----------------------------------------------------------------------------
@@ -211,6 +205,7 @@ function load_front_css() {
 	if (TD_DEBUG_USE_LESS) {
 		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
 
+		// load WooCommerce LESS only when needed
 		if (td_global::$is_woocommerce_installed === true) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
 		}
@@ -220,10 +215,13 @@ function load_front_css() {
 		}
 	} else {
 		wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
+
+		// load the WooCommerce CSS only when needed
 		if (td_global::$is_woocommerce_installed === true) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/style-woocommerce.css',  '', TD_THEME_VERSION, 'all' );
 		}
 
+		// If we have a DEMO installed - load the demo CSS
 		if ($demo_id !== false and td_global::$demo_list[$demo_id]['uses_custom_style_css'] === true) {
 			wp_enqueue_style('td-theme-demo-style', td_global::$get_template_directory_uri . '/includes/demos/' . $demo_id . '/demo_style.css', '', TD_THEME_VERSION, 'all');
 		}
@@ -2204,7 +2202,6 @@ if (is_admin()) {
 	if (current_user_can('switch_themes')) {
 		// add the theme panel only if we have permissions
 		require_once('wp-admin/panel/td_panel.php');
-		require_once('wp-admin/panel/td_panel_woo.php'); //add the woocommerce panel
 	}
 
 
@@ -2231,17 +2228,15 @@ if (is_admin()) {
 	/**
 	 * Helper pointers
 	 */
-	require_once('td_help_pointers.php');
 
 	add_action('admin_enqueue_scripts', 'td_help_pointers');
-	function td_help_pointers()
-	{
+	function td_help_pointers() {
 		//First we define our pointers
 		$pointers = array(
 			array(
 				'id' => 'vc_columns_pointer',   // unique id for this pointer
 				'screen' => 'page', // this is the page hook we want our pointer to show on
-				'target' => '.composer-switch', // the css selector for the pointer to be tied to, best to use ID's
+				'target' => '.composer-switch .logo-icon', // the css selector for the pointer to be tied to, best to use ID's
 				'title' => TD_THEME_NAME . ' (tagDiv) tip',
 				'content' => '<img class="td-tip-vc-columns" style="max-width:100%" src="' . td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/td_helper_pointers/vc-columns.png' . '">',
 				'position' => array(
@@ -2251,17 +2246,15 @@ if (is_admin()) {
 			)
 			// more as needed
 		);
+
 		//Now we instantiate the class and pass our pointer array to the constructor
-		$myPointers = new td_help_pointers($pointers);
+		new td_help_pointers($pointers);
 	}
 
 	/*  -----------------------------------------------------------------------------
 		TGM_Plugin_Activation
 	 */
-	require_once 'external/class-tgm-plugin-activation.php';
-
-
-
+	require_once 'external/class-tgm-plugin-activation.php'; // it cannot be autoloaded
 
 	add_action('tgmpa_register', 'td_required_plugins');
 	function td_required_plugins() {
@@ -2296,10 +2289,7 @@ if (is_admin()) {
 			)
 		);
 
-
 		tgmpa(td_global::$theme_plugins_list, $config);
-
-
 	}
 }
 
@@ -2354,9 +2344,8 @@ function td_template_include_filter( $wordpress_template_path ) {
 	           and is_single()
 	               and (($wordpress_template_path == TEMPLATEPATH . '/woocommerce/single-product.php')
 	                    or ($wordpress_template_path == STYLESHEETPATH . '/woocommerce/single-product.php'))) {
-
-
-		//echo 'SINGLE PRODUCT detected<br>';
+		// @todo - this section is not used. Here we can load single product templates on WooCommerce
+		// echo 'SINGLE PRODUCT detected<br>';
 	}
 
 	return $wordpress_template_path;
