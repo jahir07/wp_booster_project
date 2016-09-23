@@ -290,7 +290,9 @@ abstract class td_module {
                         // retina image
                         if (td_util::get_option('tds_thumb_' . $thumbType . '_retina') == 'yes' && !empty($td_temp_image_url[1])) {
                             $retina_url = wp_get_attachment_image_src($this->post_thumb_id, $thumbType . '_retina');
-                            $td_temp_image_url[0] = $retina_url[0];
+                            if (!empty($retina_url[0])) {
+                                $td_temp_image_url[0] = $retina_url[0];
+                            }
                         }
                         $buffy .= '<span class="entry-thumb td-thumb-css" style="background-image: url(' . $td_temp_image_url[0] . ')"></span>';
 
