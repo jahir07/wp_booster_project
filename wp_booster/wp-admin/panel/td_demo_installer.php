@@ -79,17 +79,19 @@ class td_demo_installer {
             td_demo_widgets::remove();
 
 
+	        $td_options = &td_options::update_by_ref();
+
             // remove panel settings and recompile the css as empty
-            foreach (td_global::$td_options as $option_id => $option_value) {
-                td_global::$td_options[$option_id] = '';
+            foreach ($td_options as $option_id => $option_value) {
+	            $td_options[$option_id] = '';
             }
             //typography settings
-            td_global::$td_options['td_fonts'] = '';
+	        $td_options['td_fonts'] = '';
             //css font files (google) buffer
-            td_global::$td_options['td_fonts_css_files'] = '';
+	        $td_options['td_fonts_css_files'] = '';
             //compile user css if any
-            td_global::$td_options['tds_user_compile_css'] = td_css_generator();
-            update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	        $td_options['tds_user_compile_css'] = td_css_generator();
+            //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
         }
 
         /*  ----------------------------------------------------------------------------
@@ -170,6 +172,7 @@ class td_demo_installer {
 
 
     public function import_panel_settings($file_path, $empty_ignored_settings = false) { //it's public only for testing
+	    $td_options = &td_options::update_by_ref();
 
         // this settings will be "" out when any of the imports is runned
         $ignored_settings = array(
@@ -198,10 +201,10 @@ class td_demo_installer {
 
         if ($empty_ignored_settings === true) {
             // we empty the ignored settings
-            td_global::$td_options = $file_settings;
+	        $td_options = $file_settings;
             foreach ($ignored_settings as $setting) {
-	            if (isset(td_global::$td_options[$setting])) {
-		            unset(td_global::$td_options[$setting]);
+	            if (isset($td_options[$setting])) {
+		            unset($td_options[$setting]);
 	            }
                 //td_global::$td_options[$setting] = '';
             }
@@ -209,15 +212,15 @@ class td_demo_installer {
             // we leave the ignored settings alone
             foreach ($file_settings as $setting_id => $setting_value) {
                 if (!in_array($setting_id, $ignored_settings)) {
-                    td_global::$td_options[$setting_id] = $setting_value;
+	                $td_options[$setting_id] = $setting_value;
                 }
             }
         }
 
         //compile user css if any
-        td_global::$td_options['tds_user_compile_css'] = td_css_generator();
+	    $td_options['tds_user_compile_css'] = td_css_generator();
         //write the changes to the database
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
     }
 
 }

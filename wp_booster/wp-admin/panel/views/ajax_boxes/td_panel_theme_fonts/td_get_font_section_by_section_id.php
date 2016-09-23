@@ -56,10 +56,12 @@ class td_panel_custom_typography_ajax {
 
         $buffy[] = array('text' => 'Default font', 'val' => '');
 
-        //read the user fonts array
-        if(!empty(td_global::$td_options['td_fonts_user_inserted'])) {
+	    $td_options = &td_options::update_by_ref();
 
-            $user_fonts = td_global::$td_options['td_fonts_user_inserted'];
+        //read the user fonts array
+        if(!empty($td_options['td_fonts_user_inserted'])) {
+
+            $user_fonts = $td_options['td_fonts_user_inserted'];
 
 
             //custom font links & typekit

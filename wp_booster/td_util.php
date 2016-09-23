@@ -5,7 +5,6 @@ class td_util {
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
 
-	private static $theme_options_is_shutdown_hooked = false; /** flag used by @see td_util::update_option to hook only once on shutdown hook */
 
 
 
@@ -40,8 +39,10 @@ class td_util {
      * @return string
      */
     static function get_category_option($category_id, $option_id) {
-        if (isset(td_global::$td_options['category_options'][$category_id][$option_id])) {
-            return td_global::$td_options['category_options'][$category_id][$option_id];
+    	$td_options = td_options::get_all();
+
+        if (isset($td_options['category_options'][$category_id][$option_id])) {
+            return $td_options['category_options'][$category_id][$option_id];
         } else {
             return '';
         }
@@ -60,8 +61,10 @@ class td_util {
      * @return string
      */
     static function get_ctp_option($custom_post_type, $option_id) {
-        if (isset(td_global::$td_options['td_cpt'][$custom_post_type][$option_id])) {
-            return td_global::$td_options['td_cpt'][$custom_post_type][$option_id];
+	    $td_options = td_options::get_all();
+
+        if (isset($td_options['td_cpt'][$custom_post_type][$option_id])) {
+            return $td_options['td_cpt'][$custom_post_type][$option_id];
         } else {
             return '';
         }
@@ -78,8 +81,10 @@ class td_util {
      * @return string
      */
     static function get_taxonomy_option($taxonomy_name, $option_id) {
-        if (isset(td_global::$td_options['td_taxonomy'][$taxonomy_name][$option_id])) {
-            return td_global::$td_options['td_taxonomy'][$taxonomy_name][$option_id];
+	    $td_options = td_options::get_all();
+
+        if (isset($td_options['td_taxonomy'][$taxonomy_name][$option_id])) {
+            return $td_options['td_taxonomy'][$taxonomy_name][$option_id];
         } else {
             return '';
         }
@@ -95,9 +100,11 @@ class td_util {
      * @return string
      */
     static function get_td_ads($ad_position_id) {
+	    $td_options = td_options::get_all();
+
         //print_r(td_global::$td_options);
-        if (isset(td_global::$td_options['td_ads'][$ad_position_id])) {
-            return td_global::$td_options['td_ads'];
+        if (isset($td_options['td_ads'][$ad_position_id])) {
+            return $td_options['td_ads'];
         } else {
             return '';
         }
@@ -110,7 +117,9 @@ class td_util {
      * @return bool
      */
     static function is_ad_spot_enabled($ad_spot_id) {
-        if (empty(td_global::$td_options['td_ads'][$ad_spot_id]['ad_code'])) {
+	    $td_options = td_options::get_all();
+
+        if (empty($td_options['td_ads'][$ad_spot_id]['ad_code'])) {
             return false;
         } else {
             return true;
@@ -125,36 +134,15 @@ class td_util {
      * @return string|array
      */
     static function get_option($optionName, $default_value = '') {
-        //$theme_options = get_option(TD_THEME_OPTIONS_NAME);
-
-        if (!empty(td_global::$td_options[$optionName])) {
-            return td_global::$td_options[$optionName];
-        } else {
-            if (!empty($default_value)) {
-                return $default_value;
-            } else {
-                return '';
-            }
-        }
+    	return td_options::get($optionName, $default_value);
     }
 
     //updates a theme option @todo sa updateze globala td_util::$td_options
     static function update_option($optionName, $newValue) {
-        td_global::$td_options[$optionName] = $newValue;
-
-	    //  hook the shutdown action only once - on shutdown we save the theme settings to the DB
-	    if (self::$theme_options_is_shutdown_hooked === false) {
-		    add_action('shutdown', array(__CLASS__, 'on_shutdown_save_theme_options'));
-		    self::$theme_options_is_shutdown_hooked = true;
-	    }
+		td_options::update($optionName, $newValue);
     }
 
 
-
-	// hook used to save the theme options to the database on update
-	static function on_shutdown_save_theme_options() {
-		update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
-	}
 
 
     /**

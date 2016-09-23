@@ -757,6 +757,9 @@ class td_fonts {
 
     //returns the font family for css generator
     public static function css_get_font_family($css_array) {
+
+    	$td_options = &td_options::update_by_ref();
+
         if(!empty($css_array['font_family'])) {
             $explode_font_family = explode('_', $css_array['font_family']);
 
@@ -765,12 +768,12 @@ class td_fonts {
             switch ($explode_font_family[0]) {
                 //fonts from files (links to files)
                 case 'file':
-                    $css_array['font_family'] = stripcslashes(td_global::$td_options['td_fonts_user_inserted']['font_family_' . $font_id]);
+                    $css_array['font_family'] = stripcslashes($td_options['td_fonts_user_inserted']['font_family_' . $font_id]);
                     break;
 
                 //fonts from type kit
                 case 'tk':
-                    $css_array['font_family'] = stripcslashes(td_global::$td_options['td_fonts_user_inserted']['type_kit_font_family_' . $font_id]);
+                    $css_array['font_family'] = stripcslashes($td_options['td_fonts_user_inserted']['type_kit_font_family_' . $font_id]);
                     break;
 
                 //fonts from font stacks
@@ -803,14 +806,15 @@ class td_fonts {
      */
     public static function td_get_typography_sections_from_db() {
 
+	    $td_options = &td_options::update_by_ref();
         $typography_sections_css_array = array();
 
         foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
             foreach($font_settings_array as $font_setting_id => $font_setting_name) {
 
                 //store $typography section array in a variable
-                if(!empty(td_global::$td_options['td_fonts'][$font_setting_id])) {
-                    $section_css = td_global::$td_options['td_fonts'][$font_setting_id];
+                if(!empty($td_options['td_fonts'][$font_setting_id])) {
+                    $section_css = $td_options['td_fonts'][$font_setting_id];
                     /**
                      * replace the font family in this section
                      * - in database the font family is stored like g_xxx for google, tk_x for typekit, fs_x for font stacks, where x are integers
@@ -868,6 +872,10 @@ class td_fonts {
 
 
     static function get_google_fonts_subset_query() {
+
+	    $td_options = &td_options::update_by_ref();
+
+
         //check the character set saved in the database
         $array_google_char_set = array(
             'g_arabic',
@@ -890,11 +898,11 @@ class td_fonts {
 
         $tmp_google_subset = '';
         foreach($array_google_char_set as $val_charset) {
-            if(!empty(td_global::$td_options['td_fonts_user_inserted'][$val_charset])) {
+            if(!empty($td_options['td_fonts_user_inserted'][$val_charset])) {
                 if (empty($tmp_google_subset)) {
-                    $tmp_google_subset = td_global::$td_options['td_fonts_user_inserted'][$val_charset];
+                    $tmp_google_subset = $td_options['td_fonts_user_inserted'][$val_charset];
                 } else {
-                    $tmp_google_subset .= ',' . td_global::$td_options['td_fonts_user_inserted'][$val_charset];
+                    $tmp_google_subset .= ',' . $td_options['td_fonts_user_inserted'][$val_charset];
                 }
 
             }

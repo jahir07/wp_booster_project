@@ -11,9 +11,11 @@
 class td_global {
 
 
-
-    static $td_options; //here we store all the options of the theme will be used in td_first_install.php
-	static $td_options_changed_flag = false;
+	/**
+	 * @deprecated
+	 * @var :)
+	 */
+    //static $td_options; //here we store all the options of the theme will be used in td_first_install.php
 
     static $current_template = ''; //used by page-homepage-loop, 404
 
@@ -179,7 +181,7 @@ class td_global {
 
 
     /**
-     * @var array
+     * @var array here we keep all the panels from the theme panel
      */
     static $all_theme_panels_list = array();
 

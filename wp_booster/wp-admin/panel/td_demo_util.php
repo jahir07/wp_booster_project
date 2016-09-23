@@ -127,10 +127,11 @@ class td_demo_history extends td_demo_base {
         }
 
 
+	    $td_options = &td_options::update_by_ref();
 
 		// put the old theme settings back
-	    td_global::$td_options = $this->td_demo_history['theme_options'];
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	    $td_options = $this->td_demo_history['theme_options'];
+        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 
 	    // ?
         update_option('td_social_networks', $this->td_demo_history['td_social_networks']);
@@ -343,6 +344,8 @@ class td_demo_category extends td_demo_base {
 
 
     static function add_category($params_array) {
+	    $td_options = &td_options::update_by_ref();
+
 
 		self::check_params(__CLASS__, __FUNCTION__, $params_array, array(
 		    'category_name' => 'Param is requiered!',
@@ -367,51 +370,51 @@ class td_demo_category extends td_demo_base {
 
         // update the category top post style
         if (!empty($params_array['top_posts_style'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
+	        $td_options['category_options'][$new_cat_id]['tdc_category_top_posts_style'] = $params_array['top_posts_style'];
         }
 
 
         // update the category top post grid style
         if (!empty($params_array['tdc_category_td_grid_style'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_td_grid_style'] = $params_array['tdc_category_td_grid_style'];
+	        $td_options['category_options'][$new_cat_id]['tdc_category_td_grid_style'] = $params_array['tdc_category_td_grid_style'];
         }
 
         if (!empty($params_array['tdc_color'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_color'] = $params_array['tdc_color'];
+	        $td_options['category_options'][$new_cat_id]['tdc_color'] = $params_array['tdc_color'];
         }
 
 
         // update the category template
         if (!empty($params_array['category_template'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
+	        $td_options['category_options'][$new_cat_id]['tdc_category_template'] = $params_array['category_template'];
         }
 
 
         // update the background if needed
         if (!empty($params_array['background_td_pic_id'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_image'] = td_demo_media::get_image_url_by_td_id($params_array['background_td_pic_id']);
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_bg_repeat'] = 'stretch';
+	        $td_options['category_options'][$new_cat_id]['tdc_image'] = td_demo_media::get_image_url_by_td_id($params_array['background_td_pic_id']);
+	        $td_options['category_options'][$new_cat_id]['tdc_bg_repeat'] = 'stretch';
         }
 
 
         // update the sidebar if needed
         if (!empty($params_array['sidebar_id'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_name'] = $params_array['sidebar_id'];
+	        $td_options['category_options'][$new_cat_id]['tdc_sidebar_name'] = $params_array['sidebar_id'];
         }
 
         // moduel id to sue 123456 (NO MODULE JUST THE NUMBER)
         if (!empty($params_array['tdc_layout'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_layout'] = $params_array['tdc_layout'];
+	        $td_options['category_options'][$new_cat_id]['tdc_layout'] = $params_array['tdc_layout'];
         }
 
         // update the sidebar position
         // sidebar_left, sidebar_right, no_sidebar
         if (!empty($params_array['tdc_sidebar_pos'])) {
-            td_global::$td_options['category_options'][$new_cat_id]['tdc_sidebar_pos'] = $params_array['tdc_sidebar_pos'];
+	        $td_options['category_options'][$new_cat_id]['tdc_sidebar_pos'] = $params_array['tdc_sidebar_pos'];
         }
 
         //update once the category options
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 
 
 

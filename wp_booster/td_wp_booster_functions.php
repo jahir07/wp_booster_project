@@ -12,7 +12,9 @@ if (TD_DEPLOY_MODE == 'dev') {
 
 // theme utility files
 require_once('td_global.php');
-td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME); //read the theme settings once
+require_once('td_options.php');
+
+//td_global::$td_options = get_option(TD_THEME_OPTIONS_NAME); //read the theme settings once
 
 require_once('td_util.php');
 
@@ -633,8 +635,8 @@ function hook_wp_head() {
 
 		// js variable td_animation_stack_effect added to the window object
 		$td_animation_stack_effect_type = 'type0';
-		if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-			$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
+		if (td_options::get('tds_animation_stack_effect') != '' ) {
+			$td_animation_stack_effect_type = td_options::get('tds_animation_stack_effect');
 		}
 
 		td_js_buffer::add_variable('td_animation_stack_effect', $td_animation_stack_effect_type);
@@ -671,11 +673,11 @@ function hook_wp_head() {
  */
 function td_hook_add_custom_body_class($classes) {
 
-	if (empty(td_global::$td_options['tds_animation_stack'])) {
+	if (td_options::get('tds_animation_stack') == '') {
 
 		$td_animation_stack_effect_type = 'type0';
-		if (!empty(td_global::$td_options['tds_animation_stack_effect'])) {
-			$td_animation_stack_effect_type = td_global::$td_options['tds_animation_stack_effect'];
+		if (td_options::get('tds_animation_stack_effect') != '') {
+			$td_animation_stack_effect_type = td_options::get('tds_animation_stack_effect');
 		}
 
 		$classes[] = 'td-animation-stack-' . $td_animation_stack_effect_type;
@@ -2071,13 +2073,15 @@ function td_modify_main_query_for_category_page($query) {
  */
 add_action('split_shared_term', 'td_category_split_shared_term', 10, 4);
 function td_category_split_shared_term($term_id, $new_term_id, $term_taxonomy_id, $taxonomy) {
-	if (($taxonomy === 'category') and (isset(td_global::$td_options['category_options'][$term_id]))) {
+	$td_options = &td_options::update_by_ref();
 
-		$current_settings = td_global::$td_options['category_options'][$term_id];
-		td_global::$td_options['category_options'][$new_term_id] = $current_settings;
-		unset(td_global::$td_options['category_options'][$term_id]);
+	if (($taxonomy === 'category') and (isset($td_options['category_options'][$term_id]))) {
 
-		update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+		$current_settings = $td_options['category_options'][$term_id];
+		$td_options['category_options'][$new_term_id] = $current_settings;
+		unset($td_options['category_options'][$term_id]);
+
+
 	}
 }
 

@@ -3,7 +3,8 @@
 function td_first_install_setup() {
     $td_isFirstInstall = td_util::get_option('firstInstall');
     if (empty($td_isFirstInstall)) {
-        td_util::update_option('firstInstall', 'themeInstalled');
+    	td_options::update('firstInstall', 'themeInstalled');
+        //td_util::update_option('firstInstall', 'themeInstalled');
 
         wp_insert_term('Featured', 'category', array(
             'description' => 'Featured posts',
@@ -14,9 +15,10 @@ function td_first_install_setup() {
         // bulk enable all the theme thumbs!
         $td_theme_thumbs = td_api_thumb::get_all();
         foreach ($td_theme_thumbs as $td_theme_thumb_id => $td_theme_thumb_params) {
-            td_global::$td_options['tds_thumb_' . $td_theme_thumb_id] = 'yes';
+        	td_options::update('tds_thumb_' . $td_theme_thumb_id, 'yes');
+            //td_global::$td_options['tds_thumb_' . $td_theme_thumb_id] = 'yes';
         }
-        update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options); // force an update of the options ()
+        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options); // force an update of the options ()
 
     }
 }
