@@ -56,7 +56,7 @@ class td_panel_custom_typography_ajax {
 
         $buffy[] = array('text' => 'Default font', 'val' => '');
 
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = &td_options::get_all();
 
         //read the user fonts array
         if(!empty($td_options['td_fonts_user_inserted'])) {

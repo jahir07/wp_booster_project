@@ -273,10 +273,13 @@ class td_util {
     }
 
 
-
-    /*  ----------------------------------------------------------------------------
-        used by the css compiler in /includes/app/td_css_generator.php
-     */
+	/**
+	 * used by the css compiler in /includes/app/td_css_generator.php on 010
+	 * @param $hex
+	 * @param $steps
+	 *
+	 * @return string
+	 */
     static function adjustBrightness($hex, $steps) {
         // Steps should be between -255 and 255. Negative = darker, positive = lighter
         $steps = max(-255, min(255, $steps));
@@ -305,7 +308,13 @@ class td_util {
     }
 
 
-    //converts a hex to rgba
+	/**
+	 * converts a hex to rgba. Used on 010
+	 * @param $hex
+	 * @param $opacity
+	 *
+	 * @return bool|string
+	 */
     static function hex2rgba($hex, $opacity) {
         if ( $hex[0] == '#' ) {
             $hex = substr( $hex, 1 );
@@ -324,8 +333,13 @@ class td_util {
     }
 
 
-    //converts hex (html) to rga
-    //return array
+
+	/**
+	 * converts hex (html) to rga. Used on 010
+	 * @param $htmlCode
+	 *
+	 * @return array
+	 */
     static function html2rgb($htmlCode) {
         if($htmlCode[0] == '#') {
             $htmlCode = substr($htmlCode, 1);
@@ -342,8 +356,14 @@ class td_util {
         return array($r, $g, $b);
     }
 
-    //converts to rga to Hsl
-    //return array
+	/**
+	 * converts to rga to Hsl. Used on 010
+	 * @param $r
+	 * @param $g
+	 * @param $b
+	 *
+	 * @return array
+	 */
     static function rgb2Hsl( $r, $g, $b ) {
         $oldR = $r;
         $oldG = $g;
@@ -390,7 +410,7 @@ class td_util {
 
 
     /**
-     * calculate the contrast of a color and return:
+     * calculate the contrast of a color and return. Used by 011
      * @param $bg - string - background color (ex. #23f100)
      * @param $contrast_limit - integer - contrast limit (ex. 200)
      * @param $color_one - string - returned color (ex. #000)

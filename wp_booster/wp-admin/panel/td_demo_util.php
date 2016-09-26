@@ -344,6 +344,8 @@ class td_demo_category extends td_demo_base {
 
 
     static function add_category($params_array) {
+
+    	// it's probably safe to also schedule a save here
 	    $td_options = &td_options::update_by_ref();
 
 

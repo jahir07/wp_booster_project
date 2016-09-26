@@ -40,6 +40,15 @@ class td_options {
 	}
 
 
+	/**
+	 * @param $optionName
+	 * @param $newValue
+	 * @deprecated - do not use, it's used as a hack in td composer and we will remove it soon
+	 */
+	static function update_temp($optionName, $newValue) {
+		self::$td_options[$optionName] = $newValue;
+	}
+
 
 
 	/**
@@ -48,6 +57,8 @@ class td_options {
 	 * @return mixed
 	 */
 	static function &update_by_ref() {
+//		echo 'CALLEDDD';
+//		var_dump(debug_backtrace());
 		self::read_from_db();
 		self::schedule_save();
 		return self::$td_options;
@@ -90,6 +101,7 @@ class td_options {
 	 */
 	static function on_shutdown_save_options() {
 		update_option( TD_THEME_OPTIONS_NAME, self::$td_options );
+		//echo "SETTINGS SAVED";
 	}
 
 }

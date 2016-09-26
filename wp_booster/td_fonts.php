@@ -758,7 +758,7 @@ class td_fonts {
     //returns the font family for css generator
     public static function css_get_font_family($css_array) {
 
-    	$td_options = &td_options::update_by_ref();
+    	$td_options = td_options::get_all();
 
         if(!empty($css_array['font_family'])) {
             $explode_font_family = explode('_', $css_array['font_family']);
@@ -806,7 +806,7 @@ class td_fonts {
      */
     public static function td_get_typography_sections_from_db() {
 
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = td_options::get_all();
         $typography_sections_css_array = array();
 
         foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
@@ -873,7 +873,7 @@ class td_fonts {
 
     static function get_google_fonts_subset_query() {
 
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = td_options::get_all();
 
 
         //check the character set saved in the database
