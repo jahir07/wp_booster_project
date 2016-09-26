@@ -87,10 +87,6 @@ class td_options {
 	 */
 	static private function read_from_db() {
 		if (is_null(self::$td_options)) {
-			if (class_exists('td_log')) {
-				td_log::log(__FILE__, __FUNCTION__, 'read_from_db');
-			}
-
 			self::$td_options = get_option(TD_THEME_OPTIONS_NAME);
 		}
 	}
@@ -99,6 +95,7 @@ class td_options {
 	 * Schedules a save on the shutdown hook. It's public because it's also used with @see td_options::get_all_by_ref()
 	 */
 	static function schedule_save() {
+
 		// make sure that we hook only once
 		if (self::$is_shutdown_hooked === false) {
 			add_action('shutdown', array(__CLASS__, 'on_shutdown_save_options'));
@@ -112,7 +109,6 @@ class td_options {
 	 * save the options hook
 	 */
 	static function on_shutdown_save_options() {
-		td_log::log(__FILE__, __FUNCTION__, 'save');
 
 		update_option( TD_THEME_OPTIONS_NAME, self::$td_options );
 		//echo "SETTINGS SAVED";

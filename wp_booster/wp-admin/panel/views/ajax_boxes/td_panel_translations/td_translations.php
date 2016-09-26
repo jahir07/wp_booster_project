@@ -26,7 +26,7 @@ global $td_translation_map;
 
                         // 'tds_language' is the value of the 'option_id' parameter used for the next td_panel_generator::dropdown
                         // 'tds_language' option is cleared before usage, for not saving a language in the select input
-                        td_util::update_option('tds_language', '');
+                        //td_util::update_option('tds_language', '');
 
                         $languages[] = array(
                             'text' => 'Translation language...',
