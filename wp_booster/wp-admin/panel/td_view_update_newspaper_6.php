@@ -179,9 +179,11 @@ class td_update_to_newspaper6 {
             }
         }
 
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = &td_options::get_all_by_ref();
 	    $td_options = $settings_buffer;
-        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	    td_options::schedule_save();
+
+	    //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
     }
 
 

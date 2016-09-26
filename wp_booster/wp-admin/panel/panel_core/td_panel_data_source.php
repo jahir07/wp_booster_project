@@ -269,7 +269,8 @@ class td_panel_data_source {
         }
 
         //save all the themes settings (td_options + td_category)
-        //update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
+	    td_options::schedule_save();
+	    //update_option( TD_THEME_OPTIONS_NAME, td_global::$td_options );
     }
 
 
@@ -302,7 +303,8 @@ class td_panel_data_source {
      * @param $ds string - the data source that you want to update
      */
     private static function update_array_data_source($post_values, $ds) {
-    	$td_options = &td_options::update_by_ref();
+    	/** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+    	$td_options = &td_options::get_all_by_ref();
 
         foreach ($post_values as $item_id => $options) {
             foreach ($options as $option_id => $option_value) {
@@ -374,7 +376,8 @@ class td_panel_data_source {
         }       // end for each
 
 
-	    $td_options = &td_options::update_by_ref();
+	    /** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+	    $td_options = &td_options::get_all_by_ref();
         foreach($wp_option_array as $box_add => $values){
 	        $td_options['td_ads'][$box_add] = $values;
         }
@@ -451,7 +454,8 @@ class td_panel_data_source {
      */
     private static function update_td_option($td_option_array) {
 
-    	$td_options = &td_options::update_by_ref();
+	    /** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+    	$td_options = &td_options::get_all_by_ref();
 
         foreach($td_option_array as $options_id => $option_value) {
 
@@ -531,7 +535,8 @@ class td_panel_data_source {
     //it is also used by the import script
     public static function update_category_option($category_id, $option_id, $new_value) {
 
-    	$td_options = &td_options::update_by_ref();
+	    /** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+    	$td_options = &td_options::get_all_by_ref();
 	    //print_r($td_options);
 
         if ($new_value != '') {
@@ -684,7 +689,8 @@ class td_panel_data_source {
      */
     private static function update_td_fonts_user_insert($td_option_array) {
 
-    	$td_options = &td_options::update_by_ref();
+	    /** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+    	$td_options = &td_options::get_all_by_ref();
 
         //get defaults array
         $default_array = $_POST['td_fonts_user_insert'];
@@ -788,7 +794,8 @@ class td_panel_data_source {
      */
     private static function update_td_block_styles($td_option_array) {
 
-    	$td_options = &td_options::update_by_ref();
+	    /** we schedule a save in @see td_panel_data_source::update() this function is used only there */
+    	$td_options = &td_options::get_all_by_ref();
 
         //get defaults array
         $default_array = $_POST['td_default'];

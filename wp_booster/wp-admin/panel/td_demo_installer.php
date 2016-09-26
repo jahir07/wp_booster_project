@@ -79,7 +79,7 @@ class td_demo_installer {
             td_demo_widgets::remove();
 
 
-	        $td_options = &td_options::update_by_ref();
+	        $td_options = &td_options::get_all_by_ref();
 
             // remove panel settings and recompile the css as empty
             foreach ($td_options as $option_id => $option_value) {
@@ -91,7 +91,9 @@ class td_demo_installer {
 	        $td_options['td_fonts_css_files'] = '';
             //compile user css if any
 	        $td_options['tds_user_compile_css'] = td_css_generator();
-            //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+
+	        td_options::schedule_save();
+	        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
         }
 
         /*  ----------------------------------------------------------------------------
@@ -172,7 +174,7 @@ class td_demo_installer {
 
 
     public function import_panel_settings($file_path, $empty_ignored_settings = false) { //it's public only for testing
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = &td_options::get_all_by_ref();
 
         // this settings will be "" out when any of the imports is runned
         $ignored_settings = array(
@@ -220,6 +222,7 @@ class td_demo_installer {
         //compile user css if any
 	    $td_options['tds_user_compile_css'] = td_css_generator();
         //write the changes to the database
+	    td_options::schedule_save();
         //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
     }
 

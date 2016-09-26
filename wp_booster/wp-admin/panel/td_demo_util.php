@@ -127,11 +127,14 @@ class td_demo_history extends td_demo_base {
         }
 
 
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = &td_options::get_all_by_ref();
 
 		// put the old theme settings back
 	    $td_options = $this->td_demo_history['theme_options'];
-        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+
+	    td_options::schedule_save();
+
+	    //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 
 	    // ?
         update_option('td_social_networks', $this->td_demo_history['td_social_networks']);
@@ -346,7 +349,7 @@ class td_demo_category extends td_demo_base {
     static function add_category($params_array) {
 
     	// it's probably safe to also schedule a save here
-	    $td_options = &td_options::update_by_ref();
+	    $td_options = &td_options::get_all_by_ref();
 
 
 		self::check_params(__CLASS__, __FUNCTION__, $params_array, array(
@@ -416,7 +419,9 @@ class td_demo_category extends td_demo_base {
         }
 
         //update once the category options
-        //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
+	    td_options::schedule_save();
+
+	    //update_option(TD_THEME_OPTIONS_NAME, td_global::$td_options);
 
 
 

@@ -39,7 +39,7 @@ class td_log {
 
 		// make sure that we hook only once
 		if (self::$is_shutdown_hooked === false) {
-			add_action('shutdown', array(__CLASS__, 'on_shutdown_save_log'));
+			add_action('shutdown', array(__CLASS__, 'on_shutdown_save_log'), 11); // we sometimes have to log from the shutdown hook with 10 priority
 			self::$is_shutdown_hooked = true;
 		}
 
