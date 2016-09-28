@@ -2120,6 +2120,34 @@ function td_init_booster() {
 	}
 
 
+	/**
+	 * Add default render function for 'td_block_social_counter' shortcode.
+	 * It's overwritten by the social counter plugin.
+	 */
+	add_shortcode('td_block_social_counter', 'td_block_social_counter_func');
+	function td_block_social_counter_func($atts) {
+		if ( current_user_can( 'administrator' ) ) {
+			$buffer = '';
+			$buffer .= '<style>
+				.td-block-social-counter {
+				  border: 1px solid red;
+				  min-height: 50px;
+				  line-height: 50px;
+				  vertical-align: middle;
+				  text-align: center;
+				}
+				.td-block-social-counter:before {
+				  content: "Activate Social Counter plugin";
+				}
+				</style>';
+			$buffer .= '<div class="td-block-social-counter"></div>';
+			return $buffer;
+		}
+		return '';
+	}
+
+
+
 	/* ----------------------------------------------------------------------------
 	 * Add lazy shortcodes of the registered blocks
 	 */

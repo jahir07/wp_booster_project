@@ -13,10 +13,10 @@ if (empty($ad_spot_id)) {
 $ad_fields = td_api_ad::get_key( $ad_spot_id, 'fields' );
 
 $ad_field_code_title = 'YOUR AD CODE';
-//$ad_field_code_description = 'Paste your ad code here. Google adsense will be made responsive automatically. <br><br> To add non adsense responsive ads, <br> <a target="_blank" href="http://forum.tagdiv.com/using-other-ads/">click here</a>';
 $ad_field_code_description = 'Paste your ad code here. Google adsense will be made responsive automatically.';
 
-
+// ad_field_notice - if is present => it is shown
+// all other fields - (if is present and not 'false') or it is not preset => it is shown
 if (isset($ad_fields['ad_field_notice']) && $ad_fields['ad_field_notice'] !== false) {
 	?>
 	<div class="td-box-row">
