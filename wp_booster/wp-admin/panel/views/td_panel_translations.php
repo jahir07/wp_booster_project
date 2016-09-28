@@ -15,7 +15,7 @@
             <div class="td-box-control-full">
                 <?php
 
-                td_util::update_option('tds_language', '');
+                //td_util::update_option('tds_language', '');
 
                 $languages[] = array(
                     'text' => 'Choose a language...',
