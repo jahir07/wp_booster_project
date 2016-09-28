@@ -7,6 +7,7 @@ require_once('td_api_block_template.php');
 require_once('td_api_category_template.php');
 require_once('td_api_category_top_posts_style.php');
 require_once('td_api_footer_template.php');
+require_once('td_api_ad.php');
 require_once('td_api_header_style.php');
 require_once('td_api_module.php');
 require_once('td_api_single_template.php');

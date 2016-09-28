@@ -356,7 +356,8 @@ class td_global {
     }
 
 
-
+	//current ad in panel
+	static $current_ad_id = '';
 }
 
 
