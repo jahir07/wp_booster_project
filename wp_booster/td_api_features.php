@@ -12,7 +12,8 @@ class td_api_features {
 		'page_mega_menu' => true,
 		'video_playlists' => true,
 		'tagdiv_slide_gallery' => true,
-		'text_logo' => true
+		'text_logo' => true,
+		'check_for_updates' => false
 	);
 
 

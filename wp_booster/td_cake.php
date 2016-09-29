@@ -19,10 +19,11 @@ class td_cake {
 
     /**
      * is running on each page load
+     * || td_api_features::is_enabled('require_activation') === false
      */
     function __construct() {
         // not admin
-        if ( !is_admin() || td_api_features::is_enabled('require_activation') === false) {
+        if ( !is_admin()) {
             return;
         }
 
@@ -106,7 +107,7 @@ class td_cake {
 
 
 
-    function td_cake_server_id() {
+    private function td_cake_server_id() {
         ob_start();
         phpinfo(INFO_GENERAL);
         echo TD_THEME_NAME;
@@ -114,7 +115,7 @@ class td_cake {
     }
 
 
-    function td_cake_manual($s_id, $e_id, $t_id) {
+    private function td_cake_manual($s_id, $e_id, $t_id) {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
@@ -128,10 +129,18 @@ class td_cake {
      */
 
     function td_cake_register_panel() {
-        add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array($this, 'td_cake_panel'), null );
+        if (td_api_features::is_enabled('require_activation') === true) {
+            add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array(
+                $this,
+                'td_cake_panel'
+            ), null );
+        }
+
     }
 
-
+	/**
+	 * show the activate theme panel
+	 */
     function td_cake_panel() {
         ?>
         <style type="text/css">
@@ -411,7 +420,7 @@ class td_cake {
 
 
     function td_cake_msg() {
-        if ($this->check_if_is_our_page() === true) {
+        if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
         ?>
@@ -423,7 +432,7 @@ class td_cake {
 
 
     function td_cake_msg_2() {
-        if ($this->check_if_is_our_page() === true) {
+        if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
         ?>
@@ -442,4 +451,45 @@ class td_cake {
 }
 
 
+
+//class td_check_version {
+//	private $cron_task_name = 'td_check_version';
+//
+//
+//	function __construct() {
+//
+//
+//		add_action($this->cron_task_name, array($this, '_check_for_updates'));
+//
+//		//add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
+//
+//
+//		if (wp_next_scheduled($this->cron_task_name) === false) {
+//			wp_schedule_event(time(), 'hourly', $this->cron_task_name);
+//		}
+//
+//
+//	}
+//
+//
+//	function _check_for_updates() {
+//
+//	}
+//
+//
+//	/**
+//	 * USED only for testing
+//	 * @return mixed
+//	 */
+//	function _test_schedule_modify_add_trei() {
+//		$schedules['trei'] = array(
+//			'interval' => 30, // 30 seconds schedule
+//			'display' => 'trei'
+//		);
+//		return $schedules;
+//
+//	}
+//}
+
+//new td_check_version();
 new td_cake();
