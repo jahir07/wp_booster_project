@@ -71,7 +71,6 @@ require_once "td_view_header.php";
 
     // Theme remote http channel used by the theme
     $td_remote_http = td_util::get_option('td_remote_http');
-    print_r($td_remote_http);
     $http_reset_button = ' <a class="td-button-system-status td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
 
     if (empty($td_remote_http['test_status'])) {
