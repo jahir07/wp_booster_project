@@ -55,7 +55,7 @@ class td_block {
 			    'header_text_color' => '',  // used in td_block_template_1.php
 
 			    'ajax_pagination_infinite_stop' => '',
-			    'td_column_number' => td_util::vc_get_column_number(), // if no column number passed, get from VC
+			    'td_column_number' => td_global::vc_get_column_number(), // if no column number passed, get from VC
 
 			    // ajax preloader
 			    'td_ajax_preloading' => '',
@@ -478,7 +478,7 @@ class td_block {
 
         $td_column_number = $this->get_att('td_column_number');
         if (empty($td_column_number)) {
-            $td_column_number = td_util::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
+            $td_column_number = td_global::vc_get_column_number(); // get the column width of the block so we can sent it to the server. If the shortcode already has a user defined column number, we use that
         }
 
 

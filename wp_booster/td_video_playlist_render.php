@@ -122,7 +122,7 @@ class td_video_playlist_render {
                 $td_column_number = 3;
             } else {
                 //page
-                $td_column_number = td_util::vc_get_column_number(); // get the column width of the block
+                $td_column_number = td_global::vc_get_column_number(); // get the column width of the block
             }
         }
 

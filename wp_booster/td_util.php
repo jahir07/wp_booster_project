@@ -672,24 +672,6 @@ class td_util {
 
 
 
-    static function vc_set_column_number($td_columns) {
-        global $td_row_count, $td_column_count;
-        $td_row_count = 1;
-
-        switch ($td_columns) {
-            case '1':
-                $td_column_count = '1/3';
-                break;
-            case '2':
-                $td_column_count = '2/3';
-                break;
-            case '3':
-                $td_column_count = '1/1';
-                break;
-
-        }
-    }
-
 
 
     /**
@@ -706,91 +688,6 @@ class td_util {
         }
 	    // the array_merge is used to remove unset int keys and reindex the array for int keys, preserving string keys - Visual Composer needs this
         return array_merge($vc_map_array);
-    }
-
-
-
-    /**
-     * tries to determine on how many td-columns a block is  (1, 2 or 3)
-     * $td_row_count, $td_column_count are from the pagebuilder
-     * @return int
-     */
-    static function vc_get_column_number() {
-        global $td_row_count, $td_column_count, $post;
-
-        //echo 'xxxxx col: ' . $td_column_count . ' row: ' . $td_row_count;
-        $columns = 1;//number of column
-
-        if ($td_row_count == 1) {
-            //first row
-            switch ($td_column_count) {
-                case '1/1':
-                    $columns = 3;
-                    break;
-
-                case '2/3' :
-                    $columns = 2;
-                    break;
-
-                case '1/3' :
-                    $columns = 1;
-                    break;
-
-                case '1/2': //half a row + sidebar
-                    $columns = 2;
-                    break;
-            }
-        } else {
-            //row in row
-            if ($td_column_count == '1/2') {
-                $columns = 1;
-            }
-
-            if ($td_column_count == '1/3') {
-                // works if parent is empty (1/1)
-                $columns = 1;
-            }
-        }
-
-
-        /**
-         * we are on 'page-title-sidebar' template here
-         * we have to recalculate the columns to account for the optional sidebar of the template
-         */
-        if(td_global::$current_template == 'page-title-sidebar'){
-            $td_page = get_post_meta($post->ID, 'td_page', true);
-
-            //check for this page sidebar position
-            if (!empty($td_page['td_sidebar_position'])) {
-                $sidebar_position_pos = $td_page['td_sidebar_position'];
-            } else {
-                //if sidebar position is set to default, then check the Default Sidebar Position (from Theme Panel - Template Settings - Page template)
-                $sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
-            }
-
-            switch ($sidebar_position_pos) {
-                case 'sidebar_right':
-                case 'sidebar_left':
-                case '':
-                    // if we are in the sidebar and on page-title-sidebar do not make the $columns = 1-1 > 0
-                    if ($columns != 1) {
-                        $columns = $columns - 1;
-                    }
-
-                    break;
-
-                case 'no_sidebar':
-                    if($columns < 3) {
-                        //
-                    } else {
-                        $columns = 3;
-                    }
-                    break;
-            }//end switch
-        } //end if  page-title-sidebar
-
-        //default
-        return $columns;
     }
 
 

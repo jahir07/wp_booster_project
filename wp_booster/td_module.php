@@ -521,7 +521,7 @@ abstract class td_module {
     function get_quotes_on_blocks() {
 
         // do not show the quote on WordPress loops
-        if (td_global::$is_wordpress_loop === true or td_util::vc_get_column_number() != 1) {
+        if (td_global::$is_wordpress_loop === true or td_global::vc_get_column_number() != 1) {
             return '';
         }
 
