@@ -1432,6 +1432,7 @@ title one row controls
 .td_panel_box_thumb_on_modules .td-help-checkbox-inline li span {
   float: none;
   margin: 0;
+  font-weight: normal;
 }
 /* Post settings - Post and Custom Post Types */
 #td-panel-post-settings .td_panel_box_post_and_custom_post_types .td-box-description {
