@@ -26,6 +26,16 @@ require_once "td_view_header.php";
         Theme config
      */
 
+    // Theme registration key - display it only if the theme requires activation
+    if (td_api_features::is_enabled('require_activation')) {
+        td_system_status::add('Theme config', array(
+            'check_name' => 'Registration key',
+            'tooltip' => 'Registration key',
+            'value' =>  td_util::get_registration(),
+            'status' => 'info'
+        ));
+    }
+
     // Theme name
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme name',
@@ -61,6 +71,7 @@ require_once "td_view_header.php";
 
     // Theme remote http channel used by the theme
     $td_remote_http = td_util::get_option('td_remote_http');
+    $http_reset_button = ' <a class="td-button-system-status td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
 
     if (empty($td_remote_http['test_status'])) {
 //	    // not runned yet - DO NOTHING BECAUSE IT CREATES PANIC if not runned yet is shown
@@ -84,7 +95,7 @@ require_once "td_view_header.php";
 	    td_system_status::add('Theme config', array(
 		    'check_name' => 'HTTP channel test',
 		    'tooltip' => 'The theme has multiple ways to get information (like count, tweet count etc) from other sites and this is the channel that was detected to work with your host.',
-		    'value' =>  $td_remote_http['test_status'],
+		    'value' =>  $td_remote_http['test_status'] . $http_reset_button,
 		    'status' => 'green'
 	    ));
     }
@@ -505,6 +516,32 @@ require_once "td_view_header.php";
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
 
     <?php
+    }
+
+    //Remove the registration key
+    if(!empty($_REQUEST['reset_registration'] && $_REQUEST['reset_registration'] == 1)) {
+        td_util::update_option('td_cake_status_time', 0);
+        td_util::update_option('td_cake_status', 0);
+        td_util::update_option('td_cake_lp_status', '');
+        td_util::update_option('envato_key', '');
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+
+    <?php
+    }
+
+    //Remove the registration key
+    if(!empty($_REQUEST['reset_http_channel'] && $_REQUEST['reset_http_channel'] == 1)) {
+        //reset http channel
+        td_util::update_option('td_remote_http', array());
+        //reset cache
+        update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', array());
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+
+        <?php
     }
 
     // on dev it displays the debug area

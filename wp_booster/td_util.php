@@ -918,28 +918,49 @@ class td_util {
      */
 	static function get_srcset_sizes($thumb_id, $thumb_type, $thumb_width, $thumb_url) {
         $return_buffer = '';
-        //retina srcset and sizes
-        if (td_util::get_option('tds_thumb_' . $thumb_type . '_retina') == 'yes' && !empty($thumb_width)) {
-            $thumb_w = ' ' . $thumb_width . 'w';
-            $retina_thumb_width = $thumb_width * 2;
-            $retina_thumb_w = ' ' . $retina_thumb_width . 'w';
-            //retrieve retina thumb url
-            $retina_url = wp_get_attachment_image_src($thumb_id, $thumb_type . '_retina');
-            //srcset and sizes
-            if ($retina_url !== false) {
-                $return_buffer .= ' srcset="' . $thumb_url . $thumb_w . ', ' . $retina_url[0] . $retina_thumb_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) ' . $retina_thumb_width . 'px, (min-resolution: 192dpi) ' . $retina_thumb_width . 'px, (max-width: 768px) ' . $retina_thumb_width . 'px, ' . $thumb_width . 'px"';
-            }
+        //backwards compatibility - check if wp_get_attachment_image_srcset is defined, it was introduced only in WP 4.4
+        if (function_exists('wp_get_attachment_image_srcset')) {
+            //retina srcset and sizes
+            if (td_util::get_option('tds_thumb_' . $thumb_type . '_retina') == 'yes' && !empty($thumb_width)) {
+                $thumb_w = ' ' . $thumb_width . 'w';
+                $retina_thumb_width = $thumb_width * 2;
+                $retina_thumb_w = ' ' . $retina_thumb_width . 'w';
+                //retrieve retina thumb url
+                $retina_url = wp_get_attachment_image_src($thumb_id, $thumb_type . '_retina');
+                //srcset and sizes
+                if ($retina_url !== false) {
+                    $return_buffer .= ' srcset="' . $thumb_url . $thumb_w . ', ' . $retina_url[0] . $retina_thumb_w . '" sizes="(-webkit-min-device-pixel-ratio: 2) ' . $retina_thumb_width . 'px, (min-resolution: 192dpi) ' . $retina_thumb_width . 'px, (max-width: 768px) ' . $retina_thumb_width . 'px, ' . $thumb_width . 'px"';
+                }
 
-        //responsive srcset and sizes
-        } else {
-            $thumb_srcset = wp_get_attachment_image_srcset($thumb_id, $thumb_type);
-            $thumb_sizes = wp_get_attachment_image_sizes($thumb_id, $thumb_type);
-            if ($thumb_srcset !== false && $thumb_sizes !== false) {
-                $return_buffer .=  ' srcset="' . $thumb_srcset . '" sizes="' . $thumb_sizes . '"';
+                //responsive srcset and sizes
+            } else {
+                $thumb_srcset = wp_get_attachment_image_srcset($thumb_id, $thumb_type);
+                $thumb_sizes = wp_get_attachment_image_sizes($thumb_id, $thumb_type);
+                if ($thumb_srcset !== false && $thumb_sizes !== false) {
+                    $return_buffer .=  ' srcset="' . $thumb_srcset . '" sizes="' . $thumb_sizes . '"';
+                }
             }
         }
 
         return $return_buffer;
+    }
+
+    /**
+     * get the censored registration key (for display in theme status section)
+     * @return mixed|string
+     */
+    static function get_registration() {
+        $censored_key = '<strong style="color: red;">Please activate the theme!</strong> - <a href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Click here to enter your code</a>';
+        $registration_key = self::get_option('envato_key');
+        //censure key display (for safety)
+        if (!empty($registration_key)) {
+            $censored_area = substr($registration_key, 8, strlen($registration_key) - 20);
+            $replacement = ' - **** - **** - **** - ';
+            $censored_key = str_replace($censored_area, $replacement, $registration_key);
+            //add key reset button
+            $censored_key .= ' <a class="td-button-system-status td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+        }
+        return $censored_key;
     }
 
 }//end class td_util

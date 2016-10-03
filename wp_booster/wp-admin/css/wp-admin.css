@@ -1429,6 +1429,11 @@ title one row controls
 .td_panel_box_thumb_on_modules .td-help-checkbox-inline li {
   margin: 0 16px 0;
 }
+.td_panel_box_thumb_on_modules .td-help-checkbox-inline li span {
+  float: none;
+  margin: 0;
+  font-weight: normal;
+}
 /* Post settings - Post and Custom Post Types */
 #td-panel-post-settings .td_panel_box_post_and_custom_post_types .td-box-description {
   width: 300px;
@@ -4017,7 +4022,8 @@ title one row controls
 .td-array-viewer-visible {
   display: block;
 }
-.td-button-system-status-details {
+.td-button-system-status-details,
+.td-button-system-status {
   display: inline-block;
   font-size: 13px;
   line-height: 26px;
@@ -4042,12 +4048,16 @@ title one row controls
   text-decoration: none;
 }
 .td-button-system-status-details:hover,
+.td-button-system-status:hover,
 .td-button-ss-pressed {
   background: #9FB8BF;
   border-color: #8C989B;
   -webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.6);
   box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.6);
   color: #fff;
+}
+.td-button-system-status {
+  margin-left: 10px;
 }
 .td-debug-area {
   display: none;
