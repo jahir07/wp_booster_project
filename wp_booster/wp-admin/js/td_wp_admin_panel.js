@@ -53,6 +53,9 @@ jQuery().ready(function() {
     //update custom fonts on input field focusout
     updateCustomFontsOnFocusout();
 
+    //click event on system status buttons
+    tdButtonSystemStatus();
+
 });
 
 //function to add click events on all checkboxes
@@ -891,4 +894,18 @@ function td_resize_tiny_mce_for_sidebar() {
             td_resize_tiny_mce_for_sidebar();
         }
     }, 1000);
+}
+
+
+//click event on system status buttons
+function tdButtonSystemStatus() {
+    jQuery('.td-button-system-status').on('click', function(event){
+        event.preventDefault();
+        var curentElement = jQuery(this),
+            currentElementHref = curentElement.attr('href'),
+            alertMessage = curentElement.data('action');
+        if(confirm('Are you sure you want to ' + alertMessage)) {
+            window.location.replace(currentElementHref);
+        }
+    })
 }
