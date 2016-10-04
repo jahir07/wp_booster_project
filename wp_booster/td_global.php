@@ -34,51 +34,18 @@ class td_global {
 	private static $inner_column_width = '1/1';
 
 
-	// true - for 'page_title_sidebar' template
-	private static $is_page_title_sidebar_template;
+	// set from td_util::is_pagebuilder_content($post);
+	private static $is_page_builder_content;
 
 
 	/**
-	 * Set the $in_row and the $is_page_title_sidebar_template
+	 * Set the $in_row
 	 * Used in vc_row template
 	 *
 	 * @param $in_row
 	 */
 	static function set_in_row($in_row) {
 		self::$in_row = $in_row;
-
-		/**
-		 * - the self::$is_page_title_sidebar_template is set only when we are on 'page-title-sidebar' template
-		 * - the flag is used by vc_column and vc_column_inner
-		 */
-
-		if ( !isset(self::$is_page_title_sidebar_template) && td_global::$current_template == 'page-title-sidebar') {
-
-			global $post;
-			$td_page = get_post_meta($post->ID, 'td_page', true);
-
-			//check for this page sidebar position
-			if (!empty($td_page['td_sidebar_position'])) {
-				$sidebar_position_pos = $td_page['td_sidebar_position'];
-			} else {
-				//if sidebar position is set to default, then check the Default Sidebar Position (from Theme Panel - Template Settings - Page template)
-				$sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
-			}
-
-			switch ($sidebar_position_pos) {
-				case 'sidebar_right':
-				case 'sidebar_left':
-				case '':
-					self::$is_page_title_sidebar_template = true;
-					return;
-
-//				case 'no_sidebar':
-//					self::$page_title_sidebar_on = false;
-//					break;
-			}
-			// Set it to false to avoid reenter in this routine
-			self::$is_page_title_sidebar_template = false;
-		}
 	}
 
 	/**
@@ -131,9 +98,9 @@ class td_global {
 				break;
 		}
 
-		if (self::$is_page_title_sidebar_template === true && $columns > 1) {
-			$columns--;
-		}
+//		if (self::$is_page_builder_content === false && $columns > 1) {
+//			$columns--;
+//		}
 
 		self::$column_number = $columns;
 	}
@@ -191,11 +158,17 @@ class td_global {
 
 
 	/**
-	 * Just get $is_page_title_sidebar_template
+	 * Just get $is_page_builder_content
+	 * It doesn't make sense to have a set, so function isn't in 'get' format
 	 * @return mixed
 	 */
-	static function is_page_title_sidebar_template() {
-		return self::$is_page_title_sidebar_template;
+	static function is_page_builder_content() {
+
+		if (!isset(self::$is_page_builder_content)) {
+			global $post;
+			self::$is_page_builder_content = td_util::is_pagebuilder_content($post);
+		}
+		return self::$is_page_builder_content;
 	}
 
 
