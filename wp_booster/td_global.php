@@ -160,47 +160,21 @@ class td_global {
 			case '1/1':
 
 				switch (self::$column_number) {
-					case 1:
-						$columns = 1;
-						break;
-
 					case 2:
-						$columns = 2;
-						break;
-
 					case 3:
-						$columns = 3;
+						$columns = self::$column_number;
 						break;
 				}
-				break;
-
-			case '1/3':
-
-				// It doesn't matter the self::$column_number
-				$columns = 1;
 				break;
 
 			case '2/3':
 
 				switch (self::$column_number) {
-					case 1:
-						$columns = 1;
-						break;
-
 					case 2:
-						$columns = 2;
-						break;
-
 					case 3:
 						$columns = 2;
 						break;
 				}
-				break;
-
-			case '1/2':
-
-				// It doesn't matter the self::$column_number
-				$columns = 1;
 				break;
 		}
 
