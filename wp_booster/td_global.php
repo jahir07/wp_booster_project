@@ -16,8 +16,8 @@ class td_global {
 	// Flag set by vc_row_inner template
 	private static $in_inner_row = false;
 
-	// Flag set by vc_set_footer_column_number
-	private static $in_footer = false;
+	// Flag set by vc_set_custom_column_number
+	private static $in_custom_area = false;
 
 
 	// The column number - default 1
@@ -200,27 +200,26 @@ class td_global {
 
 
 	/**
-	 * Used only in footer templates!
+	 * Used only in custom area templates (there where we aren't in row. For example: footer, sidebar, etc)
 	 * Set $column_number to be later used by 'vc_get_column_number' (from block render)	 *
 	 * @param $column_number
 	 */
-	static function vc_set_footer_column_number($column_number) {
-
-		// Usually the footer is the last element in page, that's why $in_footer is only set to true
-		self::$in_footer = true;
+	static function vc_set_custom_column_number($column_number) {
+		self::$in_custom_area = true;
 		self::$column_number = $column_number;
 	}
+
 	static function vc_get_column_number() {
 
-		if (self::$in_row || self::$in_footer) {
+		if (self::$in_row || self::$in_custom_area) {
 			if (self::$in_inner_row) {
 				return self::$inner_column_number;
-			} else {
-				return self::$column_number;
 			}
+			return self::$column_number;
+
 		} else {
 
-			// For special situations like sidebar, or any place outside of row or footer, where 1 column should be
+			// For special situations like sidebar, or any place outside of row or custom area, where 1 column should be.
 			return 1;
 		}
 	}

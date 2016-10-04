@@ -974,7 +974,7 @@ class td_util {
 	}
 
 	static function vc_set_column_number($column_number) {
-		td_global::vc_set_footer_column_number($column_number);
+		td_global::vc_set_custom_column_number($column_number);
 	}
 
 }//end class td_util
