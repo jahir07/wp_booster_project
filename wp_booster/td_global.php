@@ -10,45 +10,146 @@
 
 class td_global {
 
+	// Flag set by vc_row template
 	private static $in_row = false;
+
+	// Flag set by vc_row_inner template
 	private static $in_inner_row = false;
+
+	// Flag set by vc_set_footer_column_number
 	private static $in_footer = false;
 
+
+	// The column number - default 1
 	private static $column_number = 1;
+
+	// The inner column number - default 1
 	private static $inner_column_number = 1;
 
 
-	private static $column_width = '1/1'; // full width
-	private static $inner_column_width = '1/1'; // full width
+	// The column width - default 1/1 (full width)
+	private static $column_width = '1/1';
 
-	// If sidebar is on or off
-	static $page_title_sidebar_on;
+	// The inner column width - default 1/1 (full width)
+	private static $inner_column_width = '1/1';
 
 
+	// true - for 'page_title_sidebar' template
+	private static $is_page_title_sidebar_template;
+
+
+	/**
+	 * Set the $in_row and the $is_page_title_sidebar_template
+	 * Used in vc_row template
+	 *
+	 * @param $in_row
+	 */
 	static function set_in_row($in_row) {
 		self::$in_row = $in_row;
-		self::check_sidebar();
+
+		/**
+		 * - the self::$is_page_title_sidebar_template is set only when we are on 'page-title-sidebar' template
+		 * - the flag is used by vc_column and vc_column_inner
+		 */
+
+		if ( !isset(self::$is_page_title_sidebar_template) && td_global::$current_template == 'page-title-sidebar') {
+
+			global $post;
+			$td_page = get_post_meta($post->ID, 'td_page', true);
+
+			//check for this page sidebar position
+			if (!empty($td_page['td_sidebar_position'])) {
+				$sidebar_position_pos = $td_page['td_sidebar_position'];
+			} else {
+				//if sidebar position is set to default, then check the Default Sidebar Position (from Theme Panel - Template Settings - Page template)
+				$sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
+			}
+
+			switch ($sidebar_position_pos) {
+				case 'sidebar_right':
+				case 'sidebar_left':
+				case '':
+					self::$is_page_title_sidebar_template = true;
+					return;
+
+//				case 'no_sidebar':
+//					self::$page_title_sidebar_on = false;
+//					break;
+			}
+			// Set it to false to avoid reenter in this routine
+			self::$is_page_title_sidebar_template = false;
+		}
 	}
+
+	/**
+	 * Just get the $in_row flag
+	 * @return bool
+	 */
 	static function get_in_row() {
 		return self::$in_row;
 	}
 
+	/**
+	 * Set the $in_inner_row flag
+	 * Used in vc_row_inner template
+	 *
+	 * @param $in_inner_row
+	 */
 	static function set_in_inner_row($in_inner_row) {
 		self::$in_inner_row = $in_inner_row;
 	}
+
+	/**
+	 * Just get $in_inner_row
+	 * @return bool
+	 */
 	static function get_in_inner_row() {
 		return self::$in_inner_row;
 	}
 
 
+	/**
+	 * Set $column_width and $column_number
+	 * @param $column_width
+	 */
 	static function set_column_width($column_width) {
 		self::$column_width = $column_width;
-		self::set_column_number_from_width($column_width);
+
+		$columns = 1;
+
+		switch ($column_width) {
+			case '1/1':
+				$columns = 3;
+				break;
+
+			case '1/3':
+				$columns = 1;
+				break;
+
+			case '2/3':
+				$columns = 2;
+				break;
+		}
+
+		if (self::$is_page_title_sidebar_template === true && $columns > 1) {
+			$columns--;
+		}
+
+		self::$column_number = $columns;
 	}
+
+	/**
+	 * Just get $column_width
+	 * @return string
+	 */
 	static function get_column_width() {
 		return self::$column_width;
 	}
 
+	/**
+	 * Set $inner_column_width and $inner_column_number
+	 * @param $inner_column_width
+	 */
 	static function set_inner_column_width($inner_column_width) {
 		self::$inner_column_width = $inner_column_width;
 
@@ -105,74 +206,28 @@ class td_global {
 
 		self::$inner_column_number = $columns;
 	}
+
+	/**
+	 * Just get $inner_column_width
+	 * @return string
+	 */
 	static function get_inner_column_width() {
 		return self::$inner_column_width;
 	}
 
 
-	private static function set_column_number_from_width($column_width) {
-		$columns = 1;
-
-		switch ($column_width) {
-			case '1/1':
-				$columns = 3;
-				break;
-
-			case '1/3':
-				$columns = 1;
-				break;
-
-			case '2/3':
-				$columns = 2;
-				break;
-		}
-
-		if (self::$page_title_sidebar_on === true && $columns > 1) {
-			$columns--;
-		}
-
-		self::$column_number = $columns;
-	}
-
-	private static function check_sidebar() {
-		/**
-		 * the self::$page_title_sidebar_on isn't set and we are on 'page-title-sidebar' template here
-		 * we have to recalculate the columns to account for the optional sidebar of the template
-		 */
-
-		if ( !isset(self::$page_title_sidebar_on) && td_global::$current_template == 'page-title-sidebar') {
-
-			global $post;
-			$td_page = get_post_meta($post->ID, 'td_page', true);
-
-			//check for this page sidebar position
-			if (!empty($td_page['td_sidebar_position'])) {
-				$sidebar_position_pos = $td_page['td_sidebar_position'];
-			} else {
-				//if sidebar position is set to default, then check the Default Sidebar Position (from Theme Panel - Template Settings - Page template)
-				$sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
-			}
-
-			switch ($sidebar_position_pos) {
-				case 'sidebar_right':
-				case 'sidebar_left':
-				case '':
-					self::$page_title_sidebar_on = true;
-					return;
-
-//				case 'no_sidebar':
-//					self::$page_title_sidebar_on = false;
-//					break;
-			}
-			// Set it to false to avoid reenter in this routine
-			self::$page_title_sidebar_on = false;
-		}
+	/**
+	 * Just get $is_page_title_sidebar_template
+	 * @return mixed
+	 */
+	static function is_page_title_sidebar_template() {
+		return self::$is_page_title_sidebar_template;
 	}
 
 
 	/**
-	 * Helper function used to set the $column_number obtained later by vc_get_column_number calls (from block render)
-	 * Used only in footer templates
+	 * Used only in footer templates!
+	 * Set $column_number to be later used by 'vc_get_column_number' (from block render)	 *
 	 * @param $column_number
 	 */
 	static function vc_set_footer_column_number($column_number) {
@@ -191,7 +246,7 @@ class td_global {
 			}
 		} else {
 
-			// For special situations like sidebar, or any place outside of row or footer
+			// For special situations like sidebar, or any place outside of row or footer, where 1 column should be
 			return 1;
 		}
 	}
