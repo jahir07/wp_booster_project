@@ -10,107 +10,78 @@
 
 class td_global {
 
+	// Flag set by vc_row template
 	private static $in_row = false;
-	private static $in_inner_row = false;
-	private static $in_footer = false;
 
+	// Flag set by vc_row_inner template
+	private static $in_inner_row = false;
+
+	// Flag set by vc_set_custom_column_number
+	private static $in_custom_area = false;
+
+
+	// The column number - default 1
 	private static $column_number = 1;
+
+	// The inner column number - default 1
 	private static $inner_column_number = 1;
 
 
-	private static $column_width = '1/1'; // full width
-	private static $inner_column_width = '1/1'; // full width
+	// The column width - default 1/1 (full width)
+	private static $column_width = '1/1';
 
-	// If sidebar is on or off
-	static $page_title_sidebar_on;
+	// The inner column width - default 1/1 (full width)
+	private static $inner_column_width = '1/1';
 
 
+	// set from td_util::is_pagebuilder_content($post);
+	private static $is_page_builder_content;
+
+
+	/**
+	 * Set the $in_row
+	 * Used in vc_row template
+	 *
+	 * @param $in_row
+	 */
 	static function set_in_row($in_row) {
 		self::$in_row = $in_row;
-		self::check_sidebar();
 	}
+
+	/**
+	 * Just get the $in_row flag
+	 * @return bool
+	 */
 	static function get_in_row() {
 		return self::$in_row;
 	}
 
+	/**
+	 * Set the $in_inner_row flag
+	 * Used in vc_row_inner template
+	 *
+	 * @param $in_inner_row
+	 */
 	static function set_in_inner_row($in_inner_row) {
 		self::$in_inner_row = $in_inner_row;
 	}
+
+	/**
+	 * Just get $in_inner_row
+	 * @return bool
+	 */
 	static function get_in_inner_row() {
 		return self::$in_inner_row;
 	}
 
 
+	/**
+	 * Set $column_width and $column_number
+	 * @param $column_width
+	 */
 	static function set_column_width($column_width) {
 		self::$column_width = $column_width;
-		self::set_column_number_from_width($column_width);
-	}
-	static function get_column_width() {
-		return self::$column_width;
-	}
 
-	static function set_inner_column_width($inner_column_width) {
-		self::$inner_column_width = $inner_column_width;
-
-		$columns = 1;
-
-		switch (self::$inner_column_width) {
-
-			case '1/1':
-
-				switch (self::$column_number) {
-					case 1:
-						$columns = 1;
-						break;
-
-					case 2:
-						$columns = 2;
-						break;
-
-					case 3:
-						$columns = 3;
-						break;
-				}
-				break;
-
-			case '1/3':
-
-				// It doesn't matter the self::$column_number
-				$columns = 1;
-				break;
-
-			case '2/3':
-
-				switch (self::$column_number) {
-					case 1:
-						$columns = 1;
-						break;
-
-					case 2:
-						$columns = 2;
-						break;
-
-					case 3:
-						$columns = 2;
-						break;
-				}
-				break;
-
-			case '1/2':
-
-				// It doesn't matter the self::$column_number
-				$columns = 1;
-				break;
-		}
-
-		self::$inner_column_number = $columns;
-	}
-	static function get_inner_column_width() {
-		return self::$inner_column_width;
-	}
-
-
-	private static function set_column_number_from_width($column_width) {
 		$columns = 1;
 
 		switch ($column_width) {
@@ -127,71 +98,101 @@ class td_global {
 				break;
 		}
 
-		if (self::$page_title_sidebar_on === true && $columns > 1) {
-			$columns--;
-		}
+//		if (self::$is_page_builder_content === false && $columns > 1) {
+//			$columns--;
+//		}
 
 		self::$column_number = $columns;
 	}
 
-	private static function check_sidebar() {
-		/**
-		 * the self::$page_title_sidebar_on isn't set and we are on 'page-title-sidebar' template here
-		 * we have to recalculate the columns to account for the optional sidebar of the template
-		 */
+	/**
+	 * Just get $column_width
+	 * @return string
+	 */
+	static function get_column_width() {
+		return self::$column_width;
+	}
 
-		if ( !isset(self::$page_title_sidebar_on) && td_global::$current_template == 'page-title-sidebar') {
+	/**
+	 * Set $inner_column_width and $inner_column_number
+	 * @param $inner_column_width
+	 */
+	static function set_inner_column_width($inner_column_width) {
+		self::$inner_column_width = $inner_column_width;
 
-			global $post;
-			$td_page = get_post_meta($post->ID, 'td_page', true);
+		$columns = 1;
 
-			//check for this page sidebar position
-			if (!empty($td_page['td_sidebar_position'])) {
-				$sidebar_position_pos = $td_page['td_sidebar_position'];
-			} else {
-				//if sidebar position is set to default, then check the Default Sidebar Position (from Theme Panel - Template Settings - Page template)
-				$sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
-			}
+		switch (self::$inner_column_width) {
 
-			switch ($sidebar_position_pos) {
-				case 'sidebar_right':
-				case 'sidebar_left':
-				case '':
-					self::$page_title_sidebar_on = true;
-					return;
+			case '1/1':
 
-//				case 'no_sidebar':
-//					self::$page_title_sidebar_on = false;
-//					break;
-			}
-			// Set it to false to avoid reenter in this routine
-			self::$page_title_sidebar_on = false;
+				switch (self::$column_number) {
+					case 2:
+					case 3:
+						$columns = self::$column_number;
+						break;
+				}
+				break;
+
+			case '2/3':
+
+				switch (self::$column_number) {
+					case 2:
+					case 3:
+						$columns = 2;
+						break;
+				}
+				break;
 		}
+
+		self::$inner_column_number = $columns;
+	}
+
+	/**
+	 * Just get $inner_column_width
+	 * @return string
+	 */
+	static function get_inner_column_width() {
+		return self::$inner_column_width;
 	}
 
 
 	/**
-	 * Helper function used to set the $column_number obtained later by vc_get_column_number calls (from block render)
-	 * Used only in footer templates
+	 * Just get $is_page_builder_content
+	 * It doesn't make sense to have a set, so function isn't in 'get' format
+	 * @return mixed
+	 */
+	static function is_page_builder_content() {
+
+		if (!isset(self::$is_page_builder_content)) {
+			global $post;
+			self::$is_page_builder_content = td_util::is_pagebuilder_content($post);
+		}
+		return self::$is_page_builder_content;
+	}
+
+
+	/**
+	 * Used only in custom area templates (there where we aren't in row. For example: footer, sidebar, etc)
+	 * Set $column_number to be later used by 'vc_get_column_number' (from block render)	 *
 	 * @param $column_number
 	 */
-	static function vc_set_footer_column_number($column_number) {
-
-		// Usually the footer is the last element in page, that's why $in_footer is only set to true
-		self::$in_footer = true;
+	static function vc_set_custom_column_number($column_number) {
+		self::$in_custom_area = true;
 		self::$column_number = $column_number;
 	}
+
 	static function vc_get_column_number() {
 
-		if (self::$in_row || self::$in_footer) {
+		if (self::$in_row || self::$in_custom_area) {
 			if (self::$in_inner_row) {
 				return self::$inner_column_number;
-			} else {
-				return self::$column_number;
 			}
+			return self::$column_number;
+
 		} else {
 
-			// For special situations like sidebar, or any place outside of row or footer
+			// For special situations like sidebar, or any place outside of row or custom area, where 1 column should be.
 			return 1;
 		}
 	}
