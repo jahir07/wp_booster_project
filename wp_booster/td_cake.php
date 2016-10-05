@@ -452,44 +452,99 @@ class td_cake {
 
 
 
-//class td_check_version {
-//	private $cron_task_name = 'td_check_version';
-//
-//
-//	function __construct() {
-//
-//
-//		add_action($this->cron_task_name, array($this, '_check_for_updates'));
-//
-//		//add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
-//
-//
-//		if (wp_next_scheduled($this->cron_task_name) === false) {
-//			wp_schedule_event(time(), 'hourly', $this->cron_task_name);
-//		}
-//
-//
-//	}
-//
-//
-//	function _check_for_updates() {
-//
-//	}
-//
-//
-//	/**
-//	 * USED only for testing
-//	 * @return mixed
-//	 */
-//	function _test_schedule_modify_add_trei() {
-//		$schedules['trei'] = array(
-//			'interval' => 30, // 30 seconds schedule
-//			'display' => 'trei'
-//		);
-//		return $schedules;
-//
-//	}
-//}
+class td_check_version {
+	private $cron_task_name = 'td_check_version';
 
-//new td_check_version();
+
+	function __construct()
+    {
+
+        add_action('td_wp_booster_loaded', array($this, '_compare_theme_versions'));
+
+        add_action($this->cron_task_name, array($this, '_check_for_updates'));
+
+        //add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
+
+
+        if (wp_next_scheduled($this->cron_task_name) === false) {
+            wp_schedule_event(time(), 'hourly', $this->cron_task_name);
+        }
+
+    }
+
+    //connect to theme version server and check if a new version is available
+	function _check_for_updates() {
+        $td_theme_version = TD_THEME_VERSION;
+        // default base currency is eur and it returns all rates
+        $api_url = 'http://td_cake.tagdiv.com/td_cake/get_current_version.php?n=ionMag&v=' . $td_theme_version;
+        $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
+
+        // check for a response
+        if ($json_api_response === false) {
+            td_log::log(__FILE__, __FUNCTION__, 'Api call failed', $api_url);
+        }
+
+        // try to decode the json
+        $api_response = @json_decode($json_api_response, true);
+        if ($api_response === null and json_last_error() !== JSON_ERROR_NONE) {
+            td_log::log(__FILE__, __FUNCTION__, 'Error decoding the json', $api_response);
+        }
+
+	    //valid response
+        if (!empty($api_response['version']) && !empty($api_response['update_url'])) {
+            td_util::update_option('td_latest_version', $api_response['version']);
+            td_util::update_option('td_update_url', $api_response['update_url']);
+        }
+	}
+
+
+    //compare current version with latest version
+	function _compare_theme_versions() {
+        $td_theme_version = TD_THEME_VERSION;
+        //don't run on deploy
+        if ($td_theme_version == '__td_deploy_version__') {
+            return;
+        }
+
+	    $td_latest_version = td_util::get_option('td_latest_version');
+        //$td_latest_version = '2.0';
+        //latest version is not set
+        if (empty($td_latest_version)) {
+            return;
+        }
+
+        $td_update_url = td_util::get_option('td_update_url');
+        //update url is not set
+        if (empty($td_update_url)) {
+            return;
+        }
+
+        //compare theme's current version with the official version
+        $compare_versions = version_compare($td_theme_version, $td_latest_version, '<');
+
+        if ($compare_versions === true) {
+            //a new theme update is available
+            td_js_buffer::add_to_wp_admin_footer('var tdUpdateAvailable = "' . $td_latest_version . '";');
+            td_js_buffer::add_to_wp_admin_footer('var tdUpdateUrl = "' . $td_update_url . '";');
+        }
+    }
+
+
+	/**
+	 * USED only for testing
+	 * @return mixed
+	 */
+	function _test_schedule_modify_add_trei() {
+		$schedules['trei'] = array(
+			'interval' => 30, // 30 seconds schedule
+			'display' => 'trei'
+		);
+		return $schedules;
+
+	}
+}
+//execute only if the updates flag is enabled
+if (td_api_features::is_enabled('check_for_updates')) {
+    new td_check_version();
+}
 new td_cake();

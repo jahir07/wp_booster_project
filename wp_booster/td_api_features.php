@@ -13,7 +13,7 @@ class td_api_features {
 		'video_playlists' => true,
 		'tagdiv_slide_gallery' => true,
 		'text_logo' => true,
-		'check_for_updates' => false
+		'check_for_updates' => true
 	);
 
 
