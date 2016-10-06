@@ -462,14 +462,14 @@ class td_check_version {
 
         add_action($this->cron_task_name, array($this, '_check_for_updates'));
 
+        add_filter( 'cron_schedules', array($this, '_schedule_modify_add_three_days') );
 
         if (wp_next_scheduled($this->cron_task_name) === false) {
-            wp_schedule_event(time(), 'hourly', $this->cron_task_name);
+            wp_schedule_event(time(), 'three_days', $this->cron_task_name);
         }
 
         add_action('switch_theme', array($this, 'on_switch_theme_remove_cron'));
 
-        //add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
     }
 
 
@@ -543,13 +543,12 @@ class td_check_version {
 
 
 	/**
-	 * USED only for testing
 	 * @return mixed
 	 */
-	function _test_schedule_modify_add_trei() {
-		$schedules['trei'] = array(
-			'interval' => 30, // 30 seconds schedule
-			'display' => 'trei'
+	function _schedule_modify_add_three_days() {
+		$schedules['three_days'] = array(
+			'interval' => 259200, // 3 days in seconds
+			'display' => 'three_days'
 		);
 		return $schedules;
 
