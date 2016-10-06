@@ -946,7 +946,7 @@ class td_util {
     }
 
     /**
-     * get the censored registration key (for display in theme status section)
+     * get the censored registration key (for display in theme System Status section)
      * @return mixed|string
      */
     static function get_registration() {
@@ -965,6 +965,25 @@ class td_util {
 
 
 
+    /**
+     * get theme version and update button (if an update is available)
+     * @return string
+     */
+    static function get_theme_version() {
+        $td_theme_version = TD_THEME_VERSION;
+
+        $td_latest_version = td_util::get_option('td_latest_version');
+        $td_update_url = td_util::get_option('td_update_url');
+        if (!empty($td_latest_version) && !empty($td_update_url)) {
+            //compare theme's current version with latest version
+            $compare_versions = version_compare($td_theme_version, $td_latest_version, '<');
+            if ($compare_versions === true) {
+                $td_theme_version .= ' - <span style="color: red;">Version ' . $td_latest_version . ' is available</span><a class="td-button-system-status td-theme-update" href="' . $td_update_url . '">Update now</a>';
+            }
+        }
+
+        return $td_theme_version;
+    }
 
 
 

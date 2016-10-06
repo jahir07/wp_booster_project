@@ -48,7 +48,7 @@ require_once "td_view_header.php";
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme version',
         'tooltip' => 'Theme current version',
-        'value' =>  TD_THEME_VERSION,
+        'value' =>  td_util::get_theme_version(),
         'status' => 'info'
     ));
 
