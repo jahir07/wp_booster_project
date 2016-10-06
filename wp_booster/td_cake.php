@@ -505,6 +505,7 @@ class td_check_version {
      */
 	function _compare_theme_versions() {
         $td_theme_version = TD_THEME_VERSION;
+
         //don't run on deploy
         if ($td_theme_version == '__td_deploy_version__') {
             return;
