@@ -458,21 +458,24 @@ class td_check_version {
 
 	function __construct()
     {
-
         add_action('td_wp_booster_loaded', array($this, '_compare_theme_versions'));
 
         add_action($this->cron_task_name, array($this, '_check_for_updates'));
-
-        //add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
 
 
         if (wp_next_scheduled($this->cron_task_name) === false) {
             wp_schedule_event(time(), 'hourly', $this->cron_task_name);
         }
 
+        add_action('switch_theme', array($this, 'on_switch_theme_remove_cron'));
+
+        //add_filter( 'cron_schedules', array($this, '_test_schedule_modify_add_trei') );
     }
 
-    //connect to theme version server and check if a new version is available
+
+    /**
+     * connect to api server and check if a new version is available
+     */
 	function _check_for_updates() {
         $td_theme_version = TD_THEME_VERSION;
         // default base currency is eur and it returns all rates
@@ -498,7 +501,9 @@ class td_check_version {
 	}
 
 
-    //compare current version with latest version
+    /**
+     * compare current version with latest version
+     */
 	function _compare_theme_versions() {
         $td_theme_version = TD_THEME_VERSION;
         //don't run on deploy
@@ -507,7 +512,6 @@ class td_check_version {
         }
 
 	    $td_latest_version = td_util::get_option('td_latest_version');
-        //$td_latest_version = '2.0';
         //latest version is not set
         if (empty($td_latest_version)) {
             return;
@@ -523,11 +527,20 @@ class td_check_version {
         $compare_versions = version_compare($td_theme_version, $td_latest_version, '<');
 
         if ($compare_versions === true) {
-            //a new theme update is available
+            //update is available - add variables used by td_theme_update js function
             td_js_buffer::add_to_wp_admin_footer('var tdUpdateAvailable = "' . $td_latest_version . '";');
             td_js_buffer::add_to_wp_admin_footer('var tdUpdateUrl = "' . $td_update_url . '";');
         }
     }
+
+
+    /**
+     * on switch theme remove wp cron task
+     */
+    function on_switch_theme_remove_cron() {
+        wp_clear_scheduled_hook($this->cron_task_name);
+    }
+
 
 
 	/**
