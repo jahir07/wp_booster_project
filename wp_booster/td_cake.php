@@ -556,8 +556,10 @@ class td_check_version {
 
 	}
 }
+
 //execute only if the updates flag is enabled
 if (td_api_features::is_enabled('check_for_updates')) {
     new td_check_version();
 }
+
 new td_cake();
