@@ -477,9 +477,8 @@ class td_check_version {
      * connect to api server and check if a new version is available
      */
 	function _check_for_updates() {
-        $td_theme_version = TD_THEME_VERSION;
         // default base currency is eur and it returns all rates
-        $api_url = 'http://td_cake.tagdiv.com/td_cake/get_current_version.php?n=ionMag&v=' . $td_theme_version;
+        $api_url = 'http://td_cake.tagdiv.com/td_cake/get_current_version.php?n=' . TD_THEME_NAME . '&v=' . TD_THEME_VERSION;
         $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
 
         // check for a response
