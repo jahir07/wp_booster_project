@@ -412,38 +412,122 @@ class td_module_single_base extends td_module {
             $cnt = 0;
             $content_buffer = ''; // we replace the content with this buffer at the end
 
-            $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+            //DOMDocument method
+            $dom = new DOMDocument(); //since 5.0
+            libxml_use_internal_errors(true); //since 5.1.0
+            //$dom->loadHTML('<?xml encoding="UTF-8">' . $content); //since 5.0
+            $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8')); //since 5.0
 
-            $p_open_tag_count = 0; // count how many <p> tags we have added to the buffer
-            foreach ($content_parts as $content_part_index => $content_part_value) {
-                if (!empty($content_part_value)) {
-
-                    // Show the ad ONLY IF THE CURRENT PART IS A <p> opening tag and before the <p> -> so we will have <p>content</p>  ~ad~ <p>content</p>
-                    // and prevent cases like <p> ~ad~ content</p>
-                    if (preg_match('/(<p.*>)/U', $content_part_value) === 1) {
-                        if ($tds_inline_ad_paragraph == $p_open_tag_count) {
-                            switch ($tds_inline_ad_align) {
-                                case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
-                                    break;
-
-                                case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
-                                    break;
-
-                                default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
-                                    break;
-                            }
-                        }
-                        $p_open_tag_count ++;
-                    }
-                    $content_buffer .= $content_part_value;
-                    $cnt++;
+            $html_error = false;
+            $html_errors = libxml_get_errors(); //since 5.1.0
+            foreach ($html_errors as $error) {
+//                echo $error->message . '<br/>';
+//                echo $error->code . '<br/>';
+                //check for non-html5 errors (Ignore invalid tag (801) and redefined ID (513) errors)
+                if ($error->code != 801 && $error->code != 513) {
+                    $html_error = true;
+                    break;
                 }
             }
-            $content = $content_buffer;
+            //clear errors
+            libxml_clear_errors(); //since 5.1.0
+
+            //$html_error = libxml_get_last_error(); //since 5.1.0
+
+            $inline_ad = '';
+            switch ($tds_inline_ad_align) {
+                case 'left':
+                    $inline_ad .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
+                    break;
+
+                case 'right':
+                    $inline_ad .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
+                    break;
+
+                default:
+                    $inline_ad .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
+                    break;
+            }
+
+            //$html_error = true;
+
+            if ($html_error === false) {
+                $i = 0; //node count
+                $ad_is_set = false; //ad is set flag
+                foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
+                    if ($node->nodeType === XML_ELEMENT_NODE) {
+
+                        if ($node->nodeName == 'p') {
+                            if ($tds_inline_ad_paragraph == $i) {
+                                //create fragment
+                                $frag = $dom->createDocumentFragment();
+                                //insert html into the fragment
+                                $frag->appendXML($inline_ad);
+                                //insert inline ad
+                                $node->parentNode->insertBefore($frag, $node);
+                                $ad_is_set = true;
+                            }
+                            $i++;
+                        }
+
+                        if ($node->nodeName == 'div') {
+                            foreach ($node->childNodes as $child) {
+                                if ($child->nodeName == 'p') {
+                                    if ($tds_inline_ad_paragraph == $i) {
+                                        //create fragment
+                                        $frag = $dom->createDocumentFragment();
+                                        //insert html into the fragment
+                                        $frag->appendXML($inline_ad);
+                                        //insert inline ad
+                                        $child->parentNode->insertBefore($frag, $child);
+                                        $ad_is_set = true;
+                                    }
+                                    $i++;
+                                }
+                            }
+                        }
+
+//                        print_r($node);
+//                        echo '<br/><br/>';
+                    }
+
+                    //break execution once the ad is set
+                    if ($ad_is_set === true) {
+                        break;
+                    }
+                }
+
+                $content = $dom->saveHTML();
+
+            } else {
+
+                //RegEx method
+                $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+                $p_open_tag_count = 0; // count how many <p> tags we have added to the buffer
+                foreach ($content_parts as $content_part_index => $content_part_value) {
+                    if (!empty($content_part_value)) {
+
+                        // Show the ad ONLY IF THE CURRENT PART IS A <p> opening tag and before the <p> -> so we will have <p>content</p>  ~ad~ <p>content</p>
+                        // and prevent cases like <p> ~ad~ content</p>
+                        if (preg_match('/(<p.*>)/U', $content_part_value) === 1) {
+                            if ($tds_inline_ad_paragraph == $p_open_tag_count) {
+                                //insert inline ad
+                                $content_buffer .= $inline_ad;
+                            }
+                            $p_open_tag_count ++;
+                        }
+                        $content_buffer .= $content_part_value;
+                        $cnt++;
+                    }
+                }
+                $content = $content_buffer;
+            }
         }
+
+
+
+
 
         $td_display_top_ad = true;
         //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
