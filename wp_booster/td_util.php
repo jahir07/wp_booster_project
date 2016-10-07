@@ -950,7 +950,7 @@ class td_util {
      * @return mixed|string
      */
     static function get_registration() {
-        $censored_key = '<strong style="color: red;">Please activate the theme!</strong> - <a href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Click here to enter your code</a>';
+        $censored_key = '<strong style="color: red;">Your theme is not registered!</strong><a class="td-button-system-status td-theme-activation" href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Activate now</a>';
         $registration_key = self::get_option('envato_key');
         //censure key display (for safety)
         if (!empty($registration_key)) {
