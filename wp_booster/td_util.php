@@ -979,7 +979,7 @@ class td_util {
                 //compare theme's current version with latest version
                 $compare_versions = version_compare($td_theme_version, $td_latest_version, '<');
                 if ($compare_versions === true) {
-                    $td_theme_version .= ' - <span style="color: red;">Version ' . $td_latest_version . ' is available</span><a target="_blank" class="td-button-system-status td-theme-update" href="' . $td_update_url . '">Update now</a>';
+                    $td_theme_version .= ' - <span class="td-theme-update-log">Version ' . $td_latest_version . ' is available</span><a target="_blank" class="td-button-system-status td-theme-update" href="' . $td_update_url . '">Update now</a>';
                 }
             }
         }
