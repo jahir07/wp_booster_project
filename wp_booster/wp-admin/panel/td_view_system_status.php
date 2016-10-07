@@ -495,7 +495,7 @@ require_once "td_view_header.php";
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
-        <?php
+    <?php
     }
 
     // Clear Remote cache individual items
@@ -541,7 +541,7 @@ require_once "td_view_header.php";
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
 
-        <?php
+    <?php
     }
 
     // on dev it displays the debug area

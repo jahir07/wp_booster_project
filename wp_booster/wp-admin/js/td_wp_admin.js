@@ -37,7 +37,7 @@ function td_widget_attach_color_picker() {
 
 
 function td_theme_update() {
-    if (typeof tdUpdateAvailable !== undefined && tdUpdateAvailable !== null) {
+    if (typeof tdUpdateAvailable !== 'undefined' && tdUpdateAvailable !== null) {
         //appearance menu
         updateCount = ' <span class="update-plugins"><span class="update-count">1</span></span>';
         jQuery('#menu-appearance .wp-menu-name').append(updateCount);
