@@ -946,11 +946,11 @@ class td_util {
     }
 
     /**
-     * get the censored registration key (for display in theme status section)
+     * get the censored registration key (for display in theme System Status section)
      * @return mixed|string
      */
     static function get_registration() {
-        $censored_key = '<strong style="color: red;">Please activate the theme!</strong> - <a href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Click here to enter your code</a>';
+        $censored_key = '<strong style="color: red;">Your theme is not registered!</strong><a class="td-button-system-status td-theme-activation" href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Activate now</a>';
         $registration_key = self::get_option('envato_key');
         //censure key display (for safety)
         if (!empty($registration_key)) {
@@ -958,13 +958,34 @@ class td_util {
             $replacement = ' - **** - **** - **** - ';
             $censored_key = str_replace($censored_area, $replacement, $registration_key);
             //add key reset button
-            $censored_key .= ' <a class="td-button-system-status td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+            $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
         }
         return $censored_key;
     }
 
 
 
+    /**
+     * get theme version and update button (if an update is available)
+     * @return string
+     */
+    static function get_theme_version() {
+        $td_theme_version = TD_THEME_VERSION;
+
+        if (td_api_features::is_enabled('check_for_updates')) {
+            $td_latest_version = td_util::get_option('td_latest_version');
+            $td_update_url = td_util::get_option('td_update_url');
+            if (!empty($td_latest_version) && !empty($td_update_url)) {
+                //compare theme's current version with latest version
+                $compare_versions = version_compare($td_theme_version, $td_latest_version, '<');
+                if ($compare_versions === true) {
+                    $td_theme_version .= ' - <span class="td-theme-update-log">Version ' . $td_latest_version . ' is available</span><a target="_blank" class="td-button-system-status td-theme-update" href="' . $td_update_url . '">Update now</a>';
+                }
+            }
+        }
+
+        return $td_theme_version;
+    }
 
 
 

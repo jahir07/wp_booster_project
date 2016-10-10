@@ -899,7 +899,7 @@ function td_resize_tiny_mce_for_sidebar() {
 
 //click event on system status buttons
 function tdButtonSystemStatus() {
-    jQuery('.td-button-system-status').on('click', function(event){
+    jQuery('.td-action-alert').on('click', function(event){
         event.preventDefault();
         var curentElement = jQuery(this),
             currentElementHref = curentElement.attr('href'),

@@ -48,7 +48,7 @@ require_once "td_view_header.php";
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme version',
         'tooltip' => 'Theme current version',
-        'value' =>  TD_THEME_VERSION,
+        'value' =>  td_util::get_theme_version(),
         'status' => 'info'
     ));
 
@@ -71,7 +71,7 @@ require_once "td_view_header.php";
 
     // Theme remote http channel used by the theme
     $td_remote_http = td_util::get_option('td_remote_http');
-    $http_reset_button = ' <a class="td-button-system-status td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
+    $http_reset_button = ' <a class="td-button-system-status td-action-alert td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
 
     if (empty($td_remote_http['test_status'])) {
 //	    // not runned yet - DO NOTHING BECAUSE IT CREATES PANIC if not runned yet is shown
@@ -87,7 +87,7 @@ require_once "td_view_header.php";
 		    'check_name' => 'HTTP channel test',
 		    'tooltip' => 'The theme cannot connect to other data sources. We are unable to get the number of likes, video information, tweets etc. This is usually due to a
 		    misconfigured server or firewall',
-		    'value' =>  $td_remote_http['test_status'],
+		    'value' =>  $td_remote_http['test_status'] . $http_reset_button,
 		    'status' => 'red'
 	    ));
     } else {
@@ -95,7 +95,7 @@ require_once "td_view_header.php";
 	    td_system_status::add('Theme config', array(
 		    'check_name' => 'HTTP channel test',
 		    'tooltip' => 'The theme has multiple ways to get information (like count, tweet count etc) from other sites and this is the channel that was detected to work with your host.',
-		    'value' =>  $td_remote_http['test_status'] . $http_reset_button,
+		    'value' =>  $td_remote_http['test_status'],
 		    'status' => 'green'
 	    ));
     }
@@ -495,7 +495,7 @@ require_once "td_view_header.php";
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
-        <?php
+    <?php
     }
 
     // Clear Remote cache individual items
@@ -519,7 +519,7 @@ require_once "td_view_header.php";
     }
 
     //Remove the registration key
-    if(!empty($_REQUEST['reset_registration'] && $_REQUEST['reset_registration'] == 1)) {
+    if(!empty($_REQUEST['reset_registration']) && $_REQUEST['reset_registration'] == 1) {
         td_util::update_option('td_cake_status_time', 0);
         td_util::update_option('td_cake_status', 0);
         td_util::update_option('td_cake_lp_status', '');
@@ -532,7 +532,7 @@ require_once "td_view_header.php";
     }
 
     //Remove the registration key
-    if(!empty($_REQUEST['reset_http_channel'] && $_REQUEST['reset_http_channel'] == 1)) {
+    if(!empty($_REQUEST['reset_http_channel']) && $_REQUEST['reset_http_channel'] == 1) {
         //reset http channel
         td_util::update_option('td_remote_http', array());
         //reset cache
@@ -541,7 +541,7 @@ require_once "td_view_header.php";
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
 
-        <?php
+    <?php
     }
 
     // on dev it displays the debug area
