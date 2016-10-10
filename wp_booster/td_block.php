@@ -411,7 +411,8 @@ class td_block {
 	    // @see tdc_ajax.php -> on_ajax_render_shortcode in td-composer
 	    do_action('td_block__get_block_js', array(&$this));
 
-	    if (td_util::tdc_is_live_editor_iframe()) {
+	    // Allow the scripts of mega menu blocks
+	    if (!($this instanceof td_block_mega_menu) && td_util::tdc_is_live_editor_iframe()) {
 		    td_js_buffer::add_to_footer($this->js_tdc_get_composer_block());
 		    return '';
 	    }
