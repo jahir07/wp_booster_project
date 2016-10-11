@@ -20,7 +20,7 @@
     </div>
 
     <?php
-    if ('Ionmag' == TD_THEME_NAME) { ?>
+    if ('ionMag' == TD_THEME_NAME) { ?>
         <!-- SEARCH POSITION -->
         <div class="td-box-row">
             <div class="td-box-description">
