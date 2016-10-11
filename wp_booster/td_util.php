@@ -1061,3 +1061,8 @@ if (!function_exists('mb_substr')) {
         return substr($string,$start,$length);
     }
 }
+if (!function_exists('mb_convert_encoding')) {
+    function mb_convert_encoding($string, $to_encoding = '', $from_encoding = '') {
+        return htmlspecialchars_decode(utf8_decode(htmlentities($string, ENT_QUOTES | ENT_HTML5, 'utf-8', false)));
+    }
+}
