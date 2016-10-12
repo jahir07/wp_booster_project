@@ -350,10 +350,10 @@ class td_module_single_base extends td_module {
          * @see td_autoload_classes::loading_classes
          */
         //$td_smart_list = get_post_meta($this->post->ID, 'td_smart_list', true);
-        $td_smart_list = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
-        if (!empty($td_smart_list['smart_list_template'])) {
+	    $td_post_theme_settings = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
+        if (!empty($td_post_theme_settings['smart_list_template'])) {
 
-            $td_smart_list_class = $td_smart_list['smart_list_template'];
+            $td_smart_list_class = $td_post_theme_settings['smart_list_template'];
             if (class_exists($td_smart_list_class)) {
                 /**
                  * @var $td_smart_list_obj td_smart_list
@@ -368,12 +368,12 @@ class td_module_single_base extends td_module {
                     'extract_first_image' => td_api_smart_list::get_key($td_smart_list_class, 'extract_first_image')
                 );
 
-                if (!empty($td_smart_list['td_smart_list_order'])) {
+                if (!empty($td_post_theme_settings['td_smart_list_order'])) {
                     $smart_list_settings['counting_order_asc'] = true;
                 }
 
-                if (!empty($td_smart_list['td_smart_list_h'])) {
-                    $smart_list_settings['td_smart_list_h'] = $td_smart_list['td_smart_list_h'];
+                if (!empty($td_post_theme_settings['td_smart_list_h'])) {
+                    $smart_list_settings['td_smart_list_h'] = $td_post_theme_settings['td_smart_list_h'];
                 }
                 return $td_smart_list_obj->render_from_post_content($smart_list_settings);
             } else {
@@ -529,22 +529,21 @@ class td_module_single_base extends td_module {
 
 
 
-        $td_display_top_ad = true;
-        //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
-        if (isset($td_smart_list['td_post_template']) && $td_smart_list['td_post_template'] == 'single_template_1') {
-            $td_display_top_ad = false;
-
-        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
-        } elseif (empty($td_smart_list['td_post_template'])) {
-            $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
-            if(!empty($td_default_site_post_template) and $td_default_site_post_template == 'single_template_1') {
-                $td_display_top_ad = false;
-            }
-        }
-
         //add the top ad
-        if (td_util::is_ad_spot_enabled('content_top') && is_single() && $td_display_top_ad === true) {
-            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
+        if (td_util::is_ad_spot_enabled('content_top') && is_single()) {
+
+	        //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
+	        if (!empty($td_post_theme_settings['td_post_template'])) {
+		        $td_default_site_post_template = $td_post_theme_settings['td_post_template'];
+
+	        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
+	        } else {
+		        $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+	        }
+
+	        if ( !empty($td_default_site_post_template) && !td_api_single_template::get_key($td_default_site_post_template, 'exclude_ad_content_top')) {
+		        $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
+	        }
         }
 
 
