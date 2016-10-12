@@ -128,13 +128,13 @@ var tdPullDown = {};
 
             // check to see if the item is ok
             if (item.vertical_jquery_obj.length !== 1) {
-                throw 'item.vertical_jquery_obj is more or less than one!';
+                throw 'item.vertical_jquery_obj is more or less than one: ' + item.vertical_jquery_obj.length;
             }
             if (item.horizontal_jquery_obj.length !== 1) {
-                throw 'item.horizontal_jquery_obj is more or less than one!';
+                throw 'item.horizontal_jquery_obj is more or less than one: ' + item.horizontal_jquery_obj.length;
             }
             if (item.container_jquery_obj.length !== 1) {
-                throw 'item.container_jquery_obj is more or less than one!';
+                throw 'item.container_jquery_obj is more or less than one: ' + item.container_jquery_obj.length;
             }
             if (item.horizontal_element_css_class === '') {
                 throw 'item.horizontal_element_css_class is empty';
