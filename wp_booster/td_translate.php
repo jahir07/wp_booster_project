@@ -53,6 +53,8 @@ $td_translation_map = array(
     'SHARE' => __('SHARE', TD_THEME_NAME),
     'Continue' => __('Continue', TD_THEME_NAME),
     'Read more' => __('Read more', TD_THEME_NAME),
+    'views' => __('views', TD_THEME_NAME),
+
 
     //comments
 

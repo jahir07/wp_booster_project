@@ -122,12 +122,12 @@ class td_block_layout {
             $buffy .= $this->close6();
         }
 
-        if ($this->span3_is_open) {
-            $buffy .= $this->close3();
-        }
-
         if ($this->span4_is_open) {
             $buffy .= $this->close4();
+        }
+
+        if ($this->span3_is_open) {
+            $buffy .= $this->close3();
         }
 
         if ($this->row_is_open) {
