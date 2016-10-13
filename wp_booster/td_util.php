@@ -986,18 +986,6 @@ class td_util {
 
         return $td_theme_version;
     }
-
-
-
-	// THESE WILL BE REMOVED WHEN ALL THEMES WILL BE UPDATED!
-	static function vc_get_column_number() {
-		return td_global::vc_get_column_number();
-	}
-
-	static function vc_set_column_number($column_number) {
-		td_global::vc_set_custom_column_number($column_number);
-	}
-
 }//end class td_util
 
 
