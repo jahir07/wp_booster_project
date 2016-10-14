@@ -441,7 +441,11 @@ class td_module_single_base extends td_module {
                 foreach ($html_errors as $error) {
                     // check for errors (Ignore invalid tag (801) and redefined ID (513) errors)
                     if ($error->code != 801 && $error->code != 513) {
-                        td_log::log(__FILE__, __FUNCTION__, 'DOMDocument html content errors', $html_errors);
+                        $log = array(
+                            'post_url' => get_permalink($this->post->ID),
+                            'errors' => $html_errors
+                        );
+                        td_log::log(__FILE__, __FUNCTION__, 'DOMDocument html content errors', $log);
                         $html_error = true;
                         break;
                     }
