@@ -354,14 +354,14 @@ require_once "td_view_header.php";
     if (class_exists('DOMDocument')) {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'DOMDocument',
-            'tooltip' => 'DOMDocument class is available',
+            'tooltip' => 'DOMDocument class is available. The theme uses it to place the post content inline ad.',
             'value' => 'available',
             'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'DOMDocument',
-            'tooltip' => 'DOMDocument class is not available. The theme uses it to place the content inline ad. Functionality is not broken, regex is used as an alternative.',
+            'tooltip' => 'DOMDocument class is not available. The theme uses it to place the post content inline ad. Functionality is not broken, regex is used as an alternative.',
             'value' => 'not available',
             'status' => 'yellow'
         ));
@@ -371,14 +371,14 @@ require_once "td_view_header.php";
     if (extension_loaded('mbstring')) {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'mbstring',
-            'tooltip' => 'mbstring extension is loaded',
+            'tooltip' => 'mbstring extension is loaded. The thmeme uses it\'s functions for various string operations.',
             'value' => 'available',
             'status' => 'green'
         ));
     } else {
         td_system_status::add('php.ini configuration', array(
             'check_name' => 'mbstring',
-            'tooltip' => 'mbstring extension is not available. Functionality is not broken, we use alternative functions.',
+            'tooltip' => 'mbstring extension is not available. The thmeme uses it\'s functions for various string operations. Functionality is not broken, we use alternative functions.',
             'value' => 'not available',
             'status' => 'yellow'
         ));
