@@ -350,10 +350,10 @@ class td_module_single_base extends td_module {
          * @see td_autoload_classes::loading_classes
          */
         //$td_smart_list = get_post_meta($this->post->ID, 'td_smart_list', true);
-        $td_smart_list = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
-        if (!empty($td_smart_list['smart_list_template'])) {
+	    $td_post_theme_settings = get_post_meta($this->post->ID, 'td_post_theme_settings', true);
+        if (!empty($td_post_theme_settings['smart_list_template'])) {
 
-            $td_smart_list_class = $td_smart_list['smart_list_template'];
+            $td_smart_list_class = $td_post_theme_settings['smart_list_template'];
             if (class_exists($td_smart_list_class)) {
                 /**
                  * @var $td_smart_list_obj td_smart_list
@@ -368,12 +368,12 @@ class td_module_single_base extends td_module {
                     'extract_first_image' => td_api_smart_list::get_key($td_smart_list_class, 'extract_first_image')
                 );
 
-                if (!empty($td_smart_list['td_smart_list_order'])) {
+                if (!empty($td_post_theme_settings['td_smart_list_order'])) {
                     $smart_list_settings['counting_order_asc'] = true;
                 }
 
-                if (!empty($td_smart_list['td_smart_list_h'])) {
-                    $smart_list_settings['td_smart_list_h'] = $td_smart_list['td_smart_list_h'];
+                if (!empty($td_post_theme_settings['td_smart_list_h'])) {
+                    $smart_list_settings['td_smart_list_h'] = $td_post_theme_settings['td_smart_list_h'];
                 }
                 return $td_smart_list_obj->render_from_post_content($smart_list_settings);
             } else {
@@ -392,26 +392,48 @@ class td_module_single_base extends td_module {
             ad support on content
         */
 
-        // read the current ad settings
+        //read the current ad settings
         $tds_inline_ad_paragraph = td_util::get_option('tds_inline_ad_paragraph');
         $tds_inline_ad_align = td_util::get_option('tds_inline_ad_align');
 
-        // ads titles
+        //ads titles
         $tds_inline_ad_title = td_util::get_option('tds_inline_ad_title');
         $tds_bottom_ad_title = td_util::get_option('tds_bottom_ad_title');
         $tds_top_ad_title = td_util::get_option('tds_top_ad_title');
 
 
-        // add the inline ad
+        //add the inline ad
         if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
 
             if (empty($tds_inline_ad_paragraph)) {
                 $tds_inline_ad_paragraph = 0;
             }
 
+            $cnt = 0;
             $content_buffer = ''; // we replace the content with this buffer at the end
 
-            // inline ad buffer - based on the align position set in Theme Panel
+            //DOMDocument method
+            $dom = new DOMDocument(); //since 5.0
+            libxml_use_internal_errors(true); //since 5.1.0
+            //$dom->loadHTML('<?xml encoding="UTF-8">' . $content); //since 5.0
+            $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8')); //since 5.0
+
+            $html_error = false;
+            $html_errors = libxml_get_errors(); //since 5.1.0
+            foreach ($html_errors as $error) {
+//                echo $error->message . '<br/>';
+//                echo $error->code . '<br/>';
+                //check for non-html5 errors (Ignore invalid tag (801) and redefined ID (513) errors)
+                if ($error->code != 801 && $error->code != 513) {
+                    $html_error = true;
+                    break;
+                }
+            }
+            //clear errors
+            libxml_clear_errors(); //since 5.1.0
+
+            //$html_error = libxml_get_last_error(); //since 5.1.0
+
             $inline_ad = '';
             switch ($tds_inline_ad_align) {
                 case 'left':
@@ -426,7 +448,6 @@ class td_module_single_base extends td_module {
                     $inline_ad .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
                     break;
             }
-
 
             $html_error = true; // DOMDocument html errors flag
 
@@ -533,23 +554,25 @@ class td_module_single_base extends td_module {
 
 
 
-        $td_display_top_ad = true;
-        //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
-        if (isset($td_smart_list['td_post_template']) && $td_smart_list['td_post_template'] == 'single_template_1') {
-            $td_display_top_ad = false;
 
-        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
-        } elseif (empty($td_smart_list['td_post_template'])) {
-            $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
-            if(!empty($td_default_site_post_template) and $td_default_site_post_template == 'single_template_1') {
-                $td_display_top_ad = false;
-            }
-        }
 
         //add the top ad
-        if (td_util::is_ad_spot_enabled('content_top') && is_single() && $td_display_top_ad === true) {
-            $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
+        if (td_util::is_ad_spot_enabled('content_top') && is_single()) {
+
+	        //disable the top ad on post template 1, it breaks the layout, the top image and ad should float on the left side of the content
+	        if (!empty($td_post_theme_settings['td_post_template'])) {
+		        $td_default_site_post_template = $td_post_theme_settings['td_post_template'];
+
+	        //if the post individual template is not set, check the global settings, if template 1 is set disable the top ad
+	        } else {
+		        $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
+	        }
+
+	        if ( !empty($td_default_site_post_template) && !td_api_single_template::get_key($td_default_site_post_template, 'exclude_ad_content_top')) {
+		        $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
+	        }
         }
+
 
         //add bottom ad
         if (td_util::is_ad_spot_enabled('content_bottom') && is_single()) {

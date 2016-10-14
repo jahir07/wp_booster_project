@@ -69,7 +69,7 @@ class td_social_icons {
             <span class="td-social-icon-wrap">
                 <a' . $td_a_target . ' href="' . $url . '" title="' . self::$td_social_icons_array[$icon_id] . '">
                     <i class="td-icon-font td-icon-' . $icon_id . '"></i>
-                    <span class="td-social-name">' . $icon_id . '</span>
+                    <span class="td-social-name">' . self::$td_social_icons_array[$icon_id] . '</span>
                 </a>
             </span>';
         }

@@ -141,6 +141,10 @@ function td_js_generator() {
                 htmlTag.className += ' td-md-is-safari';
             }
 
+            if( -1 !== navigator.userAgent.indexOf('IEMobile') ){
+                htmlTag.className += ' td-md-is-iemobile';
+            }
+
         })();
 
 

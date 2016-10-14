@@ -210,7 +210,7 @@ abstract class td_module {
                     }
 
 
-                    $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/thumb-disabled/' . $thumbType . '.png';
+                    $td_temp_image_url[0] = td_api_thumb::get_key($thumbType, 'no_image_path') . '/images/thumb-disabled/' . $thumbType . '.png';
                     $attachment_alt = 'alt=""';
                     $attachment_title = '';
 
@@ -269,8 +269,7 @@ abstract class td_module {
                     $td_temp_image_url[2] = $td_thumb_parameters['height'];
                 }
 
-
-                $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/no-thumb/' . $thumbType . '.png';
+	            $td_temp_image_url[0] = rtrim( td_api_thumb::get_key($thumbType, 'no_image_path'), '/') . '/images/no-thumb/' . $thumbType . '.png';
                 $attachment_alt = 'alt=""';
                 $attachment_title = '';
             } //end    if ($this->post_has_thumb) {
