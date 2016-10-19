@@ -98,9 +98,28 @@ class td_global {
 				break;
 		}
 
-//		if (self::$is_page_builder_content === false && $columns > 1) {
-//			$columns--;
-//		}
+
+		/**
+		 * For 'page-title-sidebar' current template (the version of page-pagebuilder-title.php file that still has sidebar)
+		 * set properly the column number
+		 */
+
+		if (td_global::$current_template === 'page-title-sidebar') {
+			global $post;
+
+			$td_page = get_post_meta($post->ID, 'td_page', true);
+
+			//check for this page sidebar position
+			if (empty($td_page['td_sidebar_position'])) {
+				$sidebar_position_pos = td_util::get_option('tds_page_sidebar_pos');
+			} else {
+				$sidebar_position_pos = $td_page['td_sidebar_position'];
+			}
+
+			if ($sidebar_position_pos !== 'no_sidebar' && $columns > 1) {
+				--$columns;
+			}
+		}
 
 		self::$column_number = $columns;
 	}
