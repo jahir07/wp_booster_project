@@ -7,11 +7,16 @@ var td_edit_page = {
 
     init: function () {
         jQuery().ready(function() {
-            td_edit_page.show_template_settings();
-
-            jQuery('#page_template').change(function() {
+            //hide boxes - avoid displaying both at the same time
+            jQuery('#td_page_metabox').hide();
+            jQuery('#td_homepage_loop_metabox').hide();
+            setTimeout( function() {
                 td_edit_page.show_template_settings();
-            });
+
+                jQuery('#page_template').change(function () {
+                    td_edit_page.show_template_settings();
+                });
+            }, 200);
         });
 
     },
@@ -26,28 +31,40 @@ var td_edit_page = {
         //text and image after template drop down
         td_edit_page.change_content();
 
+        var cur_template = jQuery('#page_template option:selected').text(),
+            td_page_metabox = jQuery('#td_page_metabox'),
+            td_homepage_loop_metabox = jQuery('#td_homepage_loop_metabox');
 
-        //hide all elements
-
-        var cur_template = jQuery('#page_template option:selected').text();
-
-        // the show only unique articles box is always visible
+        // the "show only unique articles" box is always visible
+        // 'postbox' class is removed/added to avoid a flickering bug that appears when you change the position of a metabox by dragging it over another metabox
         switch (cur_template) {
             case 'Pagebuilder + latest articles + pagination':
-                jQuery('#td_page_metabox').hide();
-                jQuery('#td_homepage_loop_metabox').slideDown();
+                //hide default page settings
+                td_page_metabox.removeClass('postbox');
+                td_page_metabox.hide();
+                //display homepage loop settings
+                td_homepage_loop_metabox.addClass('postbox');
+                td_homepage_loop_metabox.slideDown();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Homepage made from a pagebuilder section and a loop below. <ul><li>The loop supports an optional sidebar and advanced filtering options. </li> <li>You can find all the options of this template if you scroll down.</li></ul></span>');
                 break;
 
             case 'Pagebuilder + page title':
-                jQuery('#td_homepage_loop_metabox').hide();
-                jQuery('#td_page_metabox').slideDown();
+                //hide homepage loop settings
+                td_homepage_loop_metabox.hide();
+                td_homepage_loop_metabox.removeClass('postbox');
+                //display default page settings
+                td_page_metabox.addClass('postbox');
+                td_page_metabox.slideDown();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using the page builder. We recommend that you select a <span style="color:#ff6a5e; text-decoration: underline">no sidebar</span> layout for best results.</span>');
                 break;
 
             default: //default template
-                jQuery('#td_homepage_loop_metabox').hide();
-                jQuery('#td_page_metabox').slideDown();
+                //hide homepage loop settings
+                td_homepage_loop_metabox.removeClass('postbox');
+                td_homepage_loop_metabox.hide();
+                //display default page settings
+                td_page_metabox.addClass('postbox');
+                td_page_metabox.slideDown();
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for <em>page builder</em> or content pages. <ul><li>If the page builder is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
                 break;
         }

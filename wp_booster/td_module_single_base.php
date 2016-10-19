@@ -449,59 +449,87 @@ class td_module_single_base extends td_module {
                     break;
             }
 
-            //$html_error = true;
+            $html_error = true; // DOMDocument html errors flag
 
+            if (class_exists('DOMDocument') && !empty($content)) {
+                $dom = new DOMDocument();
+                libxml_use_internal_errors(true);
+                // $dom->loadHTML('<?xml encoding="UTF-8">' . $content);
+                $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+
+                $html_error = false;
+                $html_errors = libxml_get_errors();
+                foreach ($html_errors as $error) {
+                    // check for errors (Ignore invalid tag (801) and redefined ID (513) errors)
+                    if ($error->code != 801 && $error->code != 513) {
+                        $log = array(
+                            'post_url' => get_permalink($this->post->ID),
+                            'errors' => $html_errors
+                        );
+                        td_log::log(__FILE__, __FUNCTION__, 'DOMDocument html content errors', $log);
+                        $html_error = true;
+                        break;
+                    }
+                }
+                // clear error buffer
+                libxml_clear_errors();
+            }
+
+
+            // DOMDocument method - class exists and the content has no html errors
             if ($html_error === false) {
-                $i = 0; //node count
-                $ad_is_set = false; //ad is set flag
-                foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
-                    if ($node->nodeType === XML_ELEMENT_NODE) {
+                $p_count = 0; // <p> node count
+                $ad_is_set = false; // used to break execution when ad is set
+                $content_body = $dom->getElementsByTagName('body');
+                if ($content_body->length != 0) {
+                    foreach ($content_body->item(0)->childNodes as $node) {
+                        // skip empty nodes (XML_ELEMENT_NODE - node is a dom element)
+                        if ($node->nodeType === XML_ELEMENT_NODE) {
 
-                        if ($node->nodeName == 'p') {
-                            if ($tds_inline_ad_paragraph == $i) {
-                                //create fragment
-                                $frag = $dom->createDocumentFragment();
-                                //insert html into the fragment
-                                $frag->appendXML($inline_ad);
-                                //insert inline ad
-                                $node->parentNode->insertBefore($frag, $node);
-                                $ad_is_set = true;
+                            if ($node->nodeName == 'p') {
+                                if ($tds_inline_ad_paragraph == $p_count) {
+                                    // create fragment
+                                    $frag = $dom->createDocumentFragment();
+                                    // insert html into the fragment
+                                    $frag->appendXML($inline_ad);
+                                    // insert inline ad
+                                    $node->parentNode->insertBefore($frag, $node);
+                                    $ad_is_set = true;
+                                }
+                                $p_count++;
                             }
-                            $i++;
-                        }
 
-                        if ($node->nodeName == 'div') {
-                            foreach ($node->childNodes as $child) {
-                                if ($child->nodeName == 'p') {
-                                    if ($tds_inline_ad_paragraph == $i) {
-                                        //create fragment
-                                        $frag = $dom->createDocumentFragment();
-                                        //insert html into the fragment
-                                        $frag->appendXML($inline_ad);
-                                        //insert inline ad
-                                        $child->parentNode->insertBefore($frag, $child);
-                                        $ad_is_set = true;
+                            if ($node->nodeName == 'div') {
+                                // explore first childs on all divs
+                                foreach ($node->childNodes as $child) {
+                                    if ($child->nodeName == 'p') {
+                                        if ($tds_inline_ad_paragraph == $p_count) {
+                                            // create fragment
+                                            $frag = $dom->createDocumentFragment();
+                                            // insert html into the fragment
+                                            $frag->appendXML($inline_ad);
+                                            // insert inline ad
+                                            $child->parentNode->insertBefore($frag, $child);
+                                            $ad_is_set = true;
+                                        }
+                                        $p_count++;
                                     }
-                                    $i++;
                                 }
                             }
                         }
 
-//                        print_r($node);
-//                        echo '<br/><br/>';
-                    }
-
-                    //break execution once the ad is set
-                    if ($ad_is_set === true) {
-                        break;
+                        // break execution once the ad is set
+                        if ($ad_is_set === true) {
+                            break;
+                        }
                     }
                 }
 
                 $content = $dom->saveHTML();
 
-            } else {
 
-                //RegEx method
+            // RegEx method - DOMDocument class doesn't exist or the content has html errors
+            } else {
                 $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
                 $p_open_tag_count = 0; // count how many <p> tags we have added to the buffer
@@ -512,13 +540,12 @@ class td_module_single_base extends td_module {
                         // and prevent cases like <p> ~ad~ content</p>
                         if (preg_match('/(<p.*>)/U', $content_part_value) === 1) {
                             if ($tds_inline_ad_paragraph == $p_open_tag_count) {
-                                //insert inline ad
+                                // insert inline ad
                                 $content_buffer .= $inline_ad;
                             }
                             $p_open_tag_count ++;
                         }
                         $content_buffer .= $content_part_value;
-                        $cnt++;
                     }
                 }
                 $content = $content_buffer;
