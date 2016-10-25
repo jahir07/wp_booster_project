@@ -194,7 +194,8 @@ function td_date_i18n(format, timestamp) {
             // timezone_abbreviations_list() function.
             /*              return that.date_default_timezone_get();
              */
-            throw 'Not supported (see source code of date() for timezone on how to add support)';
+            //throw 'Not supported (see source code of date() for timezone on how to add support)';
+            console.log('Not supported (see source code of date() for timezone on how to add support)');
         },
         I: function () { // DST observed?; 0 or 1
             // Compares Jan 1 minus Jan 1 UTC to Jul 1 minus Jul 1 UTC.
