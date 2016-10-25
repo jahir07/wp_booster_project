@@ -210,11 +210,11 @@ abstract class td_module {
                     }
 
 					// For custom wordpress sizes (not 'thumbnail', 'medium', 'medium_large' or 'large'), get the image path using the api (no_image_path)
+	                $thumb_disabled_path = td_global::$get_template_directory_uri;
 	                if (strpos($thumbType, 'td_') === 0) {
-			            $td_temp_image_url[0] = td_api_thumb::get_key($thumbType, 'no_image_path') . '/images/thumb-disabled/' . $thumbType . '.png';
-		            } else {
-			            $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/thumb-disabled/' . $thumbType . '.png';
+			            $thumb_disabled_path = td_api_thumb::get_key($thumbType, 'no_image_path');
 		            }
+			        $td_temp_image_url[0] = $thumb_disabled_path . '/images/thumb-disabled/' . $thumbType . '.png';
 
                     $attachment_alt = 'alt=""';
                     $attachment_title = '';
@@ -275,11 +275,11 @@ abstract class td_module {
                 }
 
 	            // For custom wordpress sizes (not 'thumbnail', 'medium', 'medium_large' or 'large'), get the image path using the api (no_image_path)
+	            $no_thumb_path = td_global::$get_template_directory_uri;
 	            if (strpos($thumbType, 'td_') === 0) {
-		            $td_temp_image_url[0] = rtrim(td_api_thumb::get_key($thumbType, 'no_image_path'), '/') . '/images/no-thumb/' . $thumbType . '.png';
-	            } else {
-		            $td_temp_image_url[0] = td_global::$get_template_directory_uri . '/images/no-thumb/' . $thumbType . '.png';
+		            $no_thumb_path = rtrim(td_api_thumb::get_key($thumbType, 'no_image_path'), '/');
 	            }
+		        $td_temp_image_url[0] = $no_thumb_path . '/images/no-thumb/' . $thumbType . '.png';
 
                 $attachment_alt = 'alt=""';
                 $attachment_title = '';
