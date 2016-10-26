@@ -355,9 +355,9 @@ class td_api_base {
 		}
 
 		if (($the_component != null)
-		    and (stripos($the_component['file'], TEMPLATEPATH) == 0)
 		    and !empty($the_component['file'])
-            and !isset($the_component['located_in_child'])) {
+            and (stripos($the_component['file'], TEMPLATEPATH) == 0)
+		    and !isset($the_component['located_in_child'])) {
 
 			$child_path = STYLESHEETPATH . str_replace(TEMPLATEPATH, '', $the_component['file']);
 
