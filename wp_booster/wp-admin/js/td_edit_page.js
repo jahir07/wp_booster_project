@@ -65,7 +65,7 @@ var td_edit_page = {
                 td_homepage_loop_metabox.hide();
                 //display default page settings
                 td_page_metabox.slideDown();
-                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using the page builder. We recommend that you select a <span style="color:#ff6a5e; text-decoration: underline">no sidebar</span> layout for best results.</span>');
+                td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using the page builder. <ul><li>This template will remove the sidebar when a Visual Composer or other composers are used.</li> <li>Use the  Widgetised Sidebar block to add a sidebar.</li></ul>');
                 break;
 
             default: //default template
