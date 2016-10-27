@@ -76,6 +76,10 @@
             ));
             ?>
         </div>
+
+        <div class="td-disble-message" style="display: none;">
+            <p>While using Visual Composer sidebar settings are not available. To add a sidebar on page use the widgetised sidebar block.</p>
+        </div>
     </div> <!-- /page option general -->
 
 
