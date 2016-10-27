@@ -4112,6 +4112,28 @@ title one row controls
   font-weight: normal;
   padding: 0 !important;
 }
+.td-page-option-panel {
+  position: relative;
+}
+.td-disble-message {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  color: red;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+.td-disble-message p {
+  display: block;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-top: 52px;
+}
+.td-disable-settings .td-disble-message {
+  display: block !important;
+}
 .td-page-options-tab-wrap {
   background-color: #f1f1f1;
   padding: 20px 10px 0 13px;
