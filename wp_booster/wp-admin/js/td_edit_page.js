@@ -7,16 +7,36 @@ var td_edit_page = {
 
     init: function () {
         jQuery().ready(function() {
+            var td_page_metabox = jQuery('#td_page_metabox'),
+                td_homepage_loop_metabox = jQuery('#td_homepage_loop_metabox');
+
             //hide boxes - avoid displaying both at the same time
-            jQuery('#td_page_metabox').hide();
-            jQuery('#td_homepage_loop_metabox').hide();
+            td_page_metabox.hide();
+            td_homepage_loop_metabox.hide();
             setTimeout( function() {
                 td_edit_page.show_template_settings();
 
                 jQuery('#page_template').change(function () {
                     td_edit_page.show_template_settings();
                 });
+
             }, 200);
+
+            //hide td_page_metabox - if any vc_row is present in the page content
+            setInterval(function() {
+                var cur_template = jQuery('#page_template option:selected').text();
+                if (cur_template !== 'Pagebuilder + latest articles + pagination') {
+                    var vcRows = jQuery('#visual_composer_content .wpb_vc_row');
+                    if (vcRows.length !== 0) {
+                        td_page_metabox.removeClass('postbox');
+                        td_page_metabox.hide();
+                    } else {
+                        td_page_metabox.addClass('postbox');
+                        td_page_metabox.slideDown();
+                    }
+                }
+            }, 500);
+
         });
 
     },
@@ -33,7 +53,8 @@ var td_edit_page = {
 
         var cur_template = jQuery('#page_template option:selected').text(),
             td_page_metabox = jQuery('#td_page_metabox'),
-            td_homepage_loop_metabox = jQuery('#td_homepage_loop_metabox');
+            td_homepage_loop_metabox = jQuery('#td_homepage_loop_metabox'),
+            vcRows = jQuery('#visual_composer_content .wpb_vc_row');
 
         // the "show only unique articles" box is always visible
         // 'postbox' class is removed/added to avoid a flickering bug that appears when you change the position of a metabox by dragging it over another metabox
@@ -50,11 +71,13 @@ var td_edit_page = {
 
             case 'Pagebuilder + page title':
                 //hide homepage loop settings
-                td_homepage_loop_metabox.hide();
                 td_homepage_loop_metabox.removeClass('postbox');
-                //display default page settings
-                td_page_metabox.addClass('postbox');
-                td_page_metabox.slideDown();
+                td_homepage_loop_metabox.hide();
+                //display default page settings - only if no vc_row is present in the page content
+                if (vcRows.length === 0) {
+                    td_page_metabox.addClass('postbox');
+                    td_page_metabox.slideDown();
+                }
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Useful when you want to create a page that has a standard title using the page builder. We recommend that you select a <span style="color:#ff6a5e; text-decoration: underline">no sidebar</span> layout for best results.</span>');
                 break;
 
@@ -62,9 +85,11 @@ var td_edit_page = {
                 //hide homepage loop settings
                 td_homepage_loop_metabox.removeClass('postbox');
                 td_homepage_loop_metabox.hide();
-                //display default page settings
-                td_page_metabox.addClass('postbox');
-                td_page_metabox.slideDown();
+                //display default page settings - only if no vc-row is present in the page content
+                if (vcRows.length === 0) {
+                    td_page_metabox.addClass('postbox');
+                    td_page_metabox.slideDown();
+                }
                 td_edit_page.change_content('<span class="td-wpa-info"><strong>Tip:</strong> Default template, perfect for <em>page builder</em> or content pages. <ul><li>If the page builder is used, the page will be without a title.</li> <li>If it\'s a content page the template will generate a title</li></ul></span>');
                 break;
         }

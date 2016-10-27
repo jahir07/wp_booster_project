@@ -72,23 +72,6 @@ function td_theme_update() {
 document.addEventListener("DOMContentLoaded", td_theme_update);
 
 
-//display-hide the page template settings panel
-function td_page_template_settings() {
-    "use strict";
-    var td_page_metabox = jQuery('#td_page_metabox');
-    if (td_page_metabox.length !== 0) {
-        setInterval(function() {
-            var vcRows = jQuery('#visual_composer_content .wpb_vc_row');
-            if (vcRows.length !== 0) {
-                td_page_metabox.hide();
-            } else {
-                td_page_metabox.show();
-            }
-        }, 500);
-    }
-}
-
-
 jQuery().ready(function() {
 
 
@@ -113,17 +96,5 @@ jQuery().ready(function() {
         jQuery('.td-modal').hide('fast');
     });
 
-    //display-hide the page template settings panel
-    td_page_template_settings();
-
-
-
-
-
-
-
 
 });
-
-
-
