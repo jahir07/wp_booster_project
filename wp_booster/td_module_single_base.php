@@ -409,31 +409,9 @@ class td_module_single_base extends td_module {
                 $tds_inline_ad_paragraph = 0;
             }
 
-            $cnt = 0;
             $content_buffer = ''; // we replace the content with this buffer at the end
 
-            //DOMDocument method
-            $dom = new DOMDocument(); //since 5.0
-            libxml_use_internal_errors(true); //since 5.1.0
-            //$dom->loadHTML('<?xml encoding="UTF-8">' . $content); //since 5.0
-            $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8')); //since 5.0
-
-            $html_error = false;
-            $html_errors = libxml_get_errors(); //since 5.1.0
-            foreach ($html_errors as $error) {
-//                echo $error->message . '<br/>';
-//                echo $error->code . '<br/>';
-                //check for non-html5 errors (Ignore invalid tag (801) and redefined ID (513) errors)
-                if ($error->code != 801 && $error->code != 513) {
-                    $html_error = true;
-                    break;
-                }
-            }
-            //clear errors
-            libxml_clear_errors(); //since 5.1.0
-
-            //$html_error = libxml_get_last_error(); //since 5.1.0
-
+            // inline ad buffer - based on the align position set in Theme Panel
             $inline_ad = '';
             switch ($tds_inline_ad_align) {
                 case 'left':
