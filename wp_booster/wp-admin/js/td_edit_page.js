@@ -24,8 +24,8 @@ var td_edit_page = {
 
             //disable sidebar settings - if any vc_row is present in the page content
             setInterval(function() {
-                var vcRows = jQuery('#visual_composer_content .wpb_vc_row');
-                if (vcRows.length !== 0) {
+                var vcRows = jQuery('#content_ifr').contents().find('#tinymce').text().match(/\[.*vc_row.*\]/m);
+                if (vcRows !== null) {
                     td_page_metabox.addClass('td-disable-settings');
                 } else {
                     td_page_metabox.removeClass('td-disable-settings');
