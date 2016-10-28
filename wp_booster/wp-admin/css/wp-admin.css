@@ -4120,7 +4120,7 @@ title one row controls
   width: 100%;
   height: 100%;
   position: absolute;
-  color: red;
+  color: #000;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
 }
@@ -4133,6 +4133,9 @@ title one row controls
 }
 .td-disable-settings .td-disble-message {
   display: block !important;
+}
+.td-hide-metabox {
+  display: none !important;
 }
 .td-page-options-tab-wrap {
   background-color: #f1f1f1;
