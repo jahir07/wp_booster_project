@@ -438,7 +438,6 @@ class td_module_single_base extends td_module {
                         $p_open_tag_count ++;
                     }
                     $content_buffer .= $content_part_value;
-                    $cnt++;
                 }
             }
             $content = $content_buffer;
