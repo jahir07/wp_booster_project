@@ -350,22 +350,6 @@ require_once "td_view_header.php";
 
     }
 
-    // DOMDocument
-    if (class_exists('DOMDocument')) {
-        td_system_status::add('php.ini configuration', array(
-            'check_name' => 'DOMDocument',
-            'tooltip' => 'DOMDocument class is available. The theme uses it to place the post content inline ad.',
-            'value' => 'available',
-            'status' => 'green'
-        ));
-    } else {
-        td_system_status::add('php.ini configuration', array(
-            'check_name' => 'DOMDocument',
-            'tooltip' => 'DOMDocument class is not available. The theme uses it to place the post content inline ad. Functionality is not broken, regex is used as an alternative.',
-            'value' => 'not available',
-            'status' => 'yellow'
-        ));
-    }
 
     // mbstring
     if (extension_loaded('mbstring')) {
