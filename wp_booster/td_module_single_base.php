@@ -413,6 +413,7 @@ class td_module_single_base extends td_module {
 
             $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
+            $content_part_count = 0; //count the content parts
             $p_open_tag_count = 0; // count how many <p> tags we have added to the buffer
             foreach ($content_parts as $content_part_index => $content_part_value) {
                 if (!empty($content_part_value)) {
@@ -421,24 +422,33 @@ class td_module_single_base extends td_module {
                     // and prevent cases like <p> ~ad~ content</p>
                     if (preg_match('/(<p.*>)/U', $content_part_value) === 1) {
                         if ($tds_inline_ad_paragraph == $p_open_tag_count) {
-                            switch ($tds_inline_ad_align) {
-                                case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
-                                    break;
 
-                                case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
-                                    break;
+                            //check if this section contains a </blockquote>
+                            if (preg_match('/<\/blockquote/', $content_parts[$content_part_count + 1]) === 1) {
+                                //ad should not appear inside a blockquote - skip this part and place the ad after
+                                $tds_inline_ad_paragraph++;
+                            } else {
+                                switch ($tds_inline_ad_align) {
+                                    case 'left':
+                                        $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
+                                        break;
 
-                                default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
-                                    break;
+                                    case 'right':
+                                        $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
+                                        break;
+
+                                    default:
+                                        $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
+                                        break;
+                                }
                             }
+
                         }
                         $p_open_tag_count ++;
                     }
                     $content_buffer .= $content_part_value;
                 }
+                $content_part_count++;
             }
             $content = $content_buffer;
         }
