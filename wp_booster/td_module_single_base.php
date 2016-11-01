@@ -409,7 +409,6 @@ class td_module_single_base extends td_module {
                 $tds_inline_ad_paragraph = 0;
             }
 
-            $cnt = 0;
             $content_buffer = ''; // we replace the content with this buffer at the end
 
             $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -439,7 +438,6 @@ class td_module_single_base extends td_module {
                         $p_open_tag_count ++;
                     }
                     $content_buffer .= $content_part_value;
-                    $cnt++;
                 }
             }
             $content = $content_buffer;
