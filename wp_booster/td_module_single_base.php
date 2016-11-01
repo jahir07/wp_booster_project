@@ -455,6 +455,11 @@ class td_module_single_base extends td_module {
 		        $td_default_site_post_template = td_util::get_option('td_default_site_post_template');
 	        }
 
+	        //default post template - is empty, check td_api_single_template::_helper_td_global_list_to_metaboxes()
+	        if (empty($td_default_site_post_template)) {
+                $td_default_site_post_template = 'single_template';
+            }
+
 	        if ( !empty($td_default_site_post_template) && !td_api_single_template::get_key($td_default_site_post_template, 'exclude_ad_content_top')) {
 		        $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
 	        }
