@@ -61,114 +61,214 @@ class td_block_widget extends WP_Widget {
 
 
 
-	function form($instance) {
-	    $instance = wp_parse_args((array) $instance, $this->map_param_default_array);
+	function _render_block_param($instance, $param, $show = false) {
 
+		ob_start();
+
+		switch ($param['type']) {
+
+            case 'textarea_html':
+                //print_r($param);
+
+                ?>
+                <p>
+                    <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
+
+                    <textarea  class="widefat" name="<?php echo $this->get_field_name($param['param_name']); ?>" id="<?php echo $this->get_field_id($param['param_name']); ?>" cols="30" rows="10"><?php echo esc_textarea($instance[$param['param_name']]); ?></textarea>
+
+
+                    <div class="td-wpa-info">
+                        <?php echo $param['description']; ?>
+                    </div>
+
+                </p>
+                <?php
+                break;
+
+            case 'textfield':
+
+				// we have to change custom_title to custom-title to have "-title" at the end. That's what
+                // WordPress uses to put the title of the widget on post @see widgets.js
+                // suggested at: http://forum.tagdiv.com/topic/please-add-block-title-to-backend-widget-title/#post-58087
+                if ($param['param_name'] == 'custom_title') {
+                    $field_id = $this->get_field_id('custom-title');
+                } else {
+                    $field_id = $this->get_field_id($param['param_name']);
+                }
+
+                ?>
+                <p>
+                    <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
+                    <input class="widefat" id="<?php echo $field_id; ?>"
+                           name="<?php echo $this->get_field_name($param['param_name']); ?>" type="text"
+                           value="<?php echo $instance[$param['param_name']]; ?>" />
+
+                    <div class="td-wpa-info">
+                        <?php echo $param['description']; ?>
+                    </div>
+
+                </p>
+                <?php
+                break;
+
+
+
+            case 'dropdown':
+                ?>
+                <p>
+                    <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
+                    <select name="<?php echo $this->get_field_name($param['param_name']); ?>" id="<?php echo $this->get_field_id($param['param_name']); ?>" class="widefat">
+                        <?php
+                        foreach ($param['value'] as $param_name => $param_value) {
+                            ?>
+                            <option value="<?php echo $param_value; ?>"<?php selected($instance[$param['param_name']], $param_value); ?>><?php echo $param_name; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+
+                    <div class="td-wpa-info">
+                        <?php echo $param['description']; ?>
+                    </div>
+                </p>
+                <?php
+                break;
+
+
+
+            case 'colorpicker':
+                $empty_color_fix = '#';
+                if (!empty($instance[$param['param_name']])) {
+                    $empty_color_fix = $instance[$param['param_name']];
+                }
+
+
+                $widget_color_picker_id = td_global::td_generate_unique_id();
+                ?>
+                <p>
+                    <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
+                    <input data-td-w-color="<?php echo $widget_color_picker_id?>" class="widefat td-color-picker-field" id="<?php echo $this->get_field_id($param['param_name']); ?>"
+                           name="<?php echo $this->get_field_name($param['param_name']); ?>" type="text"
+                           value="<?php echo $empty_color_fix; ?>" />
+                    <div id="<?php echo $widget_color_picker_id?>" class="td-color-picker-widget" rel="<?php echo $this->get_field_id($param['param_name']); ?>"></div>
+                </p>
+
+                <div class="td-wpa-info">
+                    <?php echo $param['description']; ?>
+                </div>
+
+                <script>
+                    td_widget_attach_color_picker();
+                </script>
+
+                <?php
+                break;
+        }
+
+		$buffer = ob_get_clean();
+
+		if ($show === true) {
+			echo $buffer;
+		} else {
+            return $buffer;
+        }
+	}
+
+
+
+	function form($instance) {
+
+	    $instance = wp_parse_args((array) $instance, $this->map_param_default_array);
 
 	    //print_r($instance);
 
 	    if (!empty($this->map_array['params'])) {
+
+			if (class_exists('tdc_state')) {
+
+				// step 1 - make the tabs
+			    $allGroupNames = array();
+
+			    foreach ($this->map_array['params'] as $param) {
+				    $current_tab_name = 'General';
+				    if (!empty($param['group'])) {
+					    $current_tab_name = $param['group'];
+				    }
+				    $allGroupNames[] = $current_tab_name;
+			    }
+			    $allGroupNames = array_unique($allGroupNames);
+
+				ob_start();
+
+				$buffer = '<div class="tdc-tabs-wrapper">';
+			    $buffer .= '<div class="tdc-tabs">';
+
+
+			    $class_tab_active = 'tdc-tab-active';
+
+			    foreach ($allGroupNames as $groupName) {
+				    switch ($groupName) {
+					    case 'Design options':
+						    $newGroupName = 'Css';
+						    break;
+					    case 'Pagination':
+						    $newGroupName = 'Extra';
+						    break;
+					    case 'Ajax filter':
+						    $newGroupName = 'Ajax';
+						    break;
+					    default:
+						    $newGroupName = $groupName;
+				    }
+
+				    $buffer .= '<a href="#" data-tab-id="td-tab-' . strtolower($newGroupName) . '" class="' . $class_tab_active . '">' . $newGroupName . '</a>';
+				    $class_tab_active = '';
+			    }
+		        $buffer .= '</div>';
+			    $buffer .= '<div class="tdc-tab-content-wrap">';
+
+			    $class_tab_content_visible = ' tdc-tab-content-visible';
+
+			    foreach ($allGroupNames as $groupName) {
+
+				    switch ($groupName) {
+					    case 'Design options':
+						    $newGroupName = 'Css';
+						    break;
+					    case 'Pagination':
+						    $newGroupName = 'Extra';
+						    break;
+					    case 'Ajax filter':
+						    $newGroupName = 'Ajax';
+						    break;
+					    default:
+						    $newGroupName = $groupName;
+				    }
+
+				    $buffer .= '<div class="tdc-tab-content td-tab-' . strtolower($newGroupName) . $class_tab_content_visible . '">';
+				    $class_tab_content_visible = '';
+
+				    foreach ($this->map_array['params'] as $param) {
+					    if ((isset($param['group']) && $groupName !== 'General' && $groupName === $param['group']) ||
+					        (!isset($param['group']) && $groupName === 'General')){
+
+						    $buffer .= $this->_render_block_param($instance, $param);
+					    }
+				    }
+				    $buffer .= '</div>';
+			    }
+			    $buffer .= '</div>';
+				$buffer .= '</div>';
+
+			    echo $buffer;
+
+				return;
+		    }
+
+
+
 	        foreach ($this->map_array['params'] as $param) {
-	            switch ($param['type']) {
-
-	                case 'textarea_html':
-	                    //print_r($param);
-
-
-	                    ?>
-	                    <p>
-	                        <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
-
-	                        <textarea  class="widefat" name="<?php echo $this->get_field_name($param['param_name']); ?>" id="<?php echo $this->get_field_id($param['param_name']); ?>" cols="30" rows="10"><?php echo esc_textarea($instance[$param['param_name']]); ?></textarea>
-
-
-	                        <div class="td-wpa-info">
-	                            <?php echo $param['description']; ?>
-	                        </div>
-
-	                    </p>
-	                    <?php
-	                    break;
-
-	                case 'textfield':
-	                    // we have to change custom_title to custom-title to have "-title" at the end. That's what
-	                    // WordPress uses to put the title of the widget on post @see widgets.js
-	                    // suggested at: http://forum.tagdiv.com/topic/please-add-block-title-to-backend-widget-title/#post-58087
-	                    if ($param['param_name'] == 'custom_title') {
-	                        $field_id = $this->get_field_id('custom-title');
-	                    } else {
-	                        $field_id = $this->get_field_id($param['param_name']);
-	                    }
-
-	                    ?>
-	                    <p>
-	                        <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
-	                        <input class="widefat" id="<?php echo $field_id; ?>"
-	                               name="<?php echo $this->get_field_name($param['param_name']); ?>" type="text"
-	                               value="<?php echo $instance[$param['param_name']]; ?>" />
-
-	                        <div class="td-wpa-info">
-	                            <?php echo $param['description']; ?>
-	                        </div>
-
-	                    </p>
-	                    <?php
-	                    break;
-
-
-
-	                case 'dropdown':
-	                    ?>
-	                    <p>
-	                        <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
-	                        <select name="<?php echo $this->get_field_name($param['param_name']); ?>" id="<?php echo $this->get_field_id($param['param_name']); ?>" class="widefat">
-	                            <?php
-	                            foreach ($param['value'] as $param_name => $param_value) {
-	                                ?>
-	                                <option value="<?php echo $param_value; ?>"<?php selected($instance[$param['param_name']], $param_value); ?>><?php echo $param_name; ?></option>
-	                            <?php
-	                            }
-	                            ?>
-	                        </select>
-
-	                        <div class="td-wpa-info">
-	                            <?php echo $param['description']; ?>
-	                        </div>
-	                    </p>
-	                    <?php
-	                    break;
-
-
-
-	                case 'colorpicker':
-	                    $empty_color_fix = '#';
-	                    if (!empty($instance[$param['param_name']])) {
-	                        $empty_color_fix = $instance[$param['param_name']];
-	                    }
-
-
-	                    $widget_color_picker_id = td_global::td_generate_unique_id();
-	                    ?>
-	                    <p>
-	                        <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
-	                        <input data-td-w-color="<?php echo $widget_color_picker_id?>" class="widefat td-color-picker-field" id="<?php echo $this->get_field_id($param['param_name']); ?>"
-	                               name="<?php echo $this->get_field_name($param['param_name']); ?>" type="text"
-	                               value="<?php echo $empty_color_fix; ?>" />
-	                        <div id="<?php echo $widget_color_picker_id?>" class="td-color-picker-widget" rel="<?php echo $this->get_field_id($param['param_name']); ?>"></div>
-	                    </p>
-
-	                    <div class="td-wpa-info">
-	                        <?php echo $param['description']; ?>
-	                    </div>
-
-	                    <script>
-	                        td_widget_attach_color_picker();
-	                    </script>
-
-
-	                    <?php
-	                    break;
-	            }
+	            $this->_render_block_param($instance, $param, true);
 	        }
 	    }
 	}
