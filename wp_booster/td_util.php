@@ -1054,3 +1054,26 @@ if (!function_exists('mb_convert_encoding')) {
         return htmlspecialchars_decode(utf8_decode(htmlentities($string, ENT_QUOTES | ENT_HTML5, 'utf-8', false)));
     }
 }
+
+
+/**
+ * legacy code for our Aurora plugin framework that was removed from the theme in Newspaper 7.5
+ * This code allows older woo_ plugins to at least run and not give a white screen of death
+ */
+if (!class_exists('tdx_options')) {
+    class tdx_options  {
+        static function get_option($datasource, $option_id ) { }
+        static function update_option_in_cache($datasource, $option_id, $option_value) {}
+        static function update_options_in_cache($datasource, $options_array) {}
+        static function flush_options() {}
+        static function register_data_source($data_source_id) {}
+        static function set_data_to_datasource($datasource, $options_array) {}
+    }
+}
+
+if (!class_exists('tdx_api_panel')) {
+    class tdx_api_panel {
+        static function add($panel_spot_id, $params_array) {}
+        static function update_panel_spot($panel_spot_id, $update_array) {}
+    }
+}
