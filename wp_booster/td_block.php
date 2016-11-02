@@ -73,7 +73,9 @@ class td_block {
 			    'el_class' => '',
 			    'offset' => '', // the offset
 
-			    'css' => '', //custom css
+			    'css' => '', //custom css - used by VC
+
+			    'tdc_css' => '', //custom css - used by TagDiv Composer
 
 			    // live filters
 			    // $atts['live_filter'] is set by the 'user'. cur_post_same_tags | cur_post_same_author | cur_post_same_categories
@@ -159,14 +161,249 @@ class td_block {
 	protected function get_block_css() {
 		$buffy = $this->block_template()->get_css();
 
-		$css = $this->get_att('css');
+		$css = $this->get_att( 'css' );
 
 		// VC adds the CSS att automatically so we don't have to do it
-		if (
-			( !td_util::is_vc_installed() || td_util::tdc_is_live_editor_iframe() || td_util::tdc_is_live_editor_ajax() ) && !empty($css)
-		) {
+		if (!td_util::is_vc_installed() && !empty($css)) {
 			$buffy .= PHP_EOL . '/* inline css att */' . PHP_EOL . $css;
 		}
+
+
+		$tdcCss = $this->get_att( 'tdc_css' );
+		if (!empty($tdcCss)) {
+			$tdcCssDecoded = base64_decode($tdcCss);
+
+			if ( $tdcCssDecoded !== false ) {
+				$tdcCssArray = json_decode( $tdcCssDecoded, true );
+
+				if (!is_null($tdcCssArray) && is_array($tdcCssArray)) {
+					$tdcCssProcessed = '';
+
+					// Values of these properties must be numeric
+					$numericCssProps = array(
+						'border-radius',
+
+						'margin-top',
+						'margin-right',
+						'margin-bottom',
+						'margin-left',
+
+						'border-top-width',
+						'border-right-width',
+						'border-bottom-width',
+						'border-left-width',
+
+						'padding-top',
+						'padding-right',
+						'padding-bottom',
+						'padding-left',
+					);
+
+					$beforeCssProps = array(
+						'background-image',
+						'background-size',
+					);
+
+					$afterCssProps = array(
+						'color-1-overlay',
+						'color-2-overlay',
+						'opacity',
+					);
+
+					$cssBeforeSettings =
+						"content: '';" . PHP_EOL .
+				        "width: 100%;" . PHP_EOL .
+				        "height: 100%;" . PHP_EOL .
+				        "position: absolute;" . PHP_EOL .
+				        "top: 0;" . PHP_EOL .
+				        "left: 0;" . PHP_EOL .
+				        "background-position: top;" . PHP_EOL .
+				        "z-index: -1;" . PHP_EOL .
+				        "opacity: 1;" . PHP_EOL;
+
+					$cssAfterSettings =
+						"content: '';" . PHP_EOL .
+					    "width: 100%;" . PHP_EOL .
+					    "height: 100%;" . PHP_EOL .
+					    "position: absolute;" . PHP_EOL .
+					    "top: 0;" . PHP_EOL .
+					    "left: 0;" . PHP_EOL .
+					    "z-index: -1;" . PHP_EOL;
+
+
+					// 'all' css settings
+					if (array_key_exists('all', $tdcCssArray)) {
+
+						$mediaCss = '';
+						$cssBefore = '';
+						$cssAfter = array();
+
+						foreach ($tdcCssArray['all'] as $k1 => $v1) {
+							if (in_array($k1, $numericCssProps) && is_numeric($v1)) {
+								$v1 .= 'px';
+							}
+
+							if (in_array($k1, $beforeCssProps)) {
+								$cssBefore .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+								continue;
+							}
+
+							if (in_array($k1, $afterCssProps)) {
+								$cssAfter[$k1] = $v1;
+								continue;
+							}
+
+							$mediaCss .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+						}
+
+						unset($tdcCssArray['all']);
+
+						// all css
+						if ($mediaCss !== '') {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+						}
+
+						// all ::before
+						if ($cssBefore !== '') {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+						}
+
+						// all ::after
+						if (!empty($cssAfter)) {
+
+							$css = '';
+
+							if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
+								$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
+							} else if (array_key_exists('color-1-overlay', $cssAfter)) {
+								$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
+							} else if (array_key_exists('color-2-overlay', $cssAfter)) {
+								$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+							}
+
+							if (array_key_exists('opacity', $cssAfter)) {
+								$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
+							}
+
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+						}
+					}
+
+
+					// @todo The css media queries must be output in reverse order. Maybe this generated css should be managed all at once, in page.
+					// Multiple solutions have been tested to sort them in reverse order at creation. Issues: json.stringify work well only with object, and an object does not keep the order of its properties.
+					// For this, javascript array should be used, but in that case, an array with undefined elements it would be created by json_decode php function. So, not good.
+
+					$limits = array();
+					foreach ($tdcCssArray as $key => $val) {
+
+						if (stripos($key, '_max_width') !== false) {
+
+							$new_key = str_replace( '_max_width', '', $key);
+
+							if ( !isset( $limits[ $new_key ] ) ) {
+								$limits[ $new_key ] = array();
+							}
+							$limits[ $new_key ]['max_width'] = $val;
+						}
+
+						if (stripos($key, '_min_width') !== false) {
+
+							$new_key = str_replace( '_min_width', '', $key);
+
+							if ( !isset( $limits[ $new_key ] ) ) {
+								$limits[ $new_key ] = array();
+							}
+							$limits[ $new_key ]['min_width'] = $val;
+						}
+					}
+
+					foreach ($limits as $key => $val) {
+
+						$mediaArray = $tdcCssArray[ $key ];
+
+						$mediaCss = '';
+						$cssBefore = '';
+						$cssAfter = array();
+
+						foreach ($mediaArray as $k2 => $v2) {
+							if ( ! empty( $v2 ) ) {
+								if (in_array($k2, $numericCssProps) && is_numeric($v2)) {
+									$v2 .= 'px';
+								}
+
+								if (in_array($k2, $beforeCssProps)) {
+									$cssBefore .= $k2 . ':' . $v2 . ';' . PHP_EOL;
+									continue;
+								}
+
+								if (in_array($k2, $afterCssProps)) {
+									$cssAfter[$k2] = $v2;
+									continue;
+								}
+
+								$mediaCss .= $k2 . ':' . $v2 . ';' . PHP_EOL;
+							}
+						}
+
+						if ( $mediaCss !== '' || $cssBefore !== '') {
+
+							$mediaQuery = '';
+							if ( isset( $val['min_width'] ) ) {
+								$mediaQuery = '(min-width: ' . $val['min_width'] . 'px)';
+							}
+
+							if ( isset( $val['max_width'] ) ) {
+
+								if ( '' !== $mediaQuery ) {
+									$mediaQuery .= ' and ';
+								}
+								$mediaQuery .= '(max-width: ' . $val['max_width'] . 'px)';
+							}
+
+							if ( '' !== $mediaQuery ) {
+								$tdcCssProcessed .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+								$tdcCssProcessed .= '@media ' . $mediaQuery . PHP_EOL;
+								$tdcCssProcessed .= '{'. PHP_EOL;
+
+								if ($mediaCss !== '') {
+									$tdcCssProcessed .= '.' . $this->get_att('class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+								}
+
+								if ($cssBefore !== '') {
+									$tdcCssProcessed .= '.' . $this->get_att('class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								}
+
+								if (!empty($cssAfter)) {
+
+									$css = '';
+
+									if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
+										$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
+									} else if (array_key_exists('color-1-overlay', $cssAfter)) {
+										$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
+									} else if (array_key_exists('color-2-overlay', $cssAfter)) {
+										$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+									}
+
+									if (array_key_exists('opacity', $cssAfter)) {
+										$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
+									}
+
+									$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+								}
+
+								$tdcCssProcessed .= '}'. PHP_EOL;
+							}
+						}
+					}
+					if (!empty($tdcCssProcessed)) {
+						$buffy .= PHP_EOL . '/* inline tdc_css att */' . PHP_EOL . $tdcCssProcessed;
+					}
+				}
+			}
+		}
+
 
 		if (!empty($buffy)) {
 			/** scoped - @link http://www.w3schools.com/tags/att_style_scoped.asp */
@@ -705,6 +942,7 @@ class td_block {
 		$ajax_pagination = $this->get_att('ajax_pagination');
 	    $border_top = $this->get_att('border_top');
 	    $css = $this->get_att('css');
+	    $tdc_css = $this->get_att('tdc_css');
 
 
 
@@ -720,6 +958,14 @@ class td_block {
 
 	    // get the design tab css classes
 	    $css_classes_array = $this->parse_css_att($css);
+	    if ( $css_classes_array !== false ) {
+		    $block_classes = array_merge (
+			    $block_classes,
+			    $css_classes_array
+		    );
+	    }
+
+	    $css_classes_array = $this->parse_css_att($tdc_css);
 	    if ( $css_classes_array !== false ) {
 		    $block_classes = array_merge (
 			    $block_classes,
