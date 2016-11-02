@@ -972,7 +972,8 @@ class td_util {
     static function get_theme_version() {
         $td_theme_version = TD_THEME_VERSION;
 
-        if (td_api_features::is_enabled('check_for_updates')) {
+        //disable update on deploy
+        if ($td_theme_version != '__td_deploy_version__' && td_api_features::is_enabled('check_for_updates')) {
             $td_latest_version = td_util::get_option('td_latest_version');
             $td_update_url = td_util::get_option('td_update_url');
             if (!empty($td_latest_version) && !empty($td_update_url)) {

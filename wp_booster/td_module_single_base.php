@@ -404,44 +404,57 @@ class td_module_single_base extends td_module {
 
         //add the inline ad
         if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
-
             if (empty($tds_inline_ad_paragraph)) {
                 $tds_inline_ad_paragraph = 0;
             }
 
             $content_buffer = ''; // we replace the content with this buffer at the end
-
-            $content_parts = preg_split('/(<p.*>)/U', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+            $content_parts = preg_split('/(<blockquote.*\/blockquote>)/Us', $content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
             $p_open_tag_count = 0; // count how many <p> tags we have added to the buffer
             foreach ($content_parts as $content_part_index => $content_part_value) {
                 if (!empty($content_part_value)) {
 
-                    // Show the ad ONLY IF THE CURRENT PART IS A <p> opening tag and before the <p> -> so we will have <p>content</p>  ~ad~ <p>content</p>
-                    // and prevent cases like <p> ~ad~ content</p>
-                    if (preg_match('/(<p.*>)/U', $content_part_value) === 1) {
-                        if ($tds_inline_ad_paragraph == $p_open_tag_count) {
-                            switch ($tds_inline_ad_align) {
-                                case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
-                                    break;
+                    //skip <blockquote> parts - look for <p> in the other parts
+                    if (preg_match('/(<blockquote.*>)/U', $content_part_value) !== 1) {
+                        $section_parts = preg_split('/(<p.*>)/U', $content_part_value, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-                                case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
-                                    break;
+                        foreach ($section_parts as $section_part_index => $section_part_value) {
+                            if (!empty($section_part_value)) {
+                                // Show the ad ONLY IF THE CURRENT PART IS A <p> opening tag and before the <p> -> so we will have <p>content</p>  ~ad~ <p>content</p>
+                                // and prevent cases like <p> ~ad~ content</p>
+                                if (preg_match('/(<p.*>)/U', $section_part_value) === 1) {
+                                    if ($tds_inline_ad_paragraph == $p_open_tag_count) {
+                                        switch ($tds_inline_ad_align) {
+                                            case 'left':
+                                                $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
+                                                break;
 
-                                default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
-                                    break;
+                                            case 'right':
+                                                $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
+                                                break;
+
+                                            default:
+                                                $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
+                                                break;
+                                        }
+                                    }
+                                    $p_open_tag_count ++;
+                                }
+                                //add section to buffer
+                                $content_buffer .= $section_part_value;
                             }
                         }
-                        $p_open_tag_count ++;
+
+                    } else {
+                        //add <blockquote> to buffer
+                        $content_buffer .= $content_part_value;
                     }
-                    $content_buffer .= $content_part_value;
                 }
             }
             $content = $content_buffer;
         }
+
 
         //add the top ad
         if (td_util::is_ad_spot_enabled('content_top') && is_single()) {
@@ -460,7 +473,8 @@ class td_module_single_base extends td_module {
                 $td_default_site_post_template = 'single_template';
             }
 
-	        if ( !empty($td_default_site_post_template) && !td_api_single_template::get_key($td_default_site_post_template, 'exclude_ad_content_top')) {
+            //check if ad is excluded from current post template
+	        if (td_api_single_template::get_key($td_default_site_post_template, 'exclude_ad_content_top') === false) {
 		        $content = td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_top', 'spot_title' => $tds_top_ad_title)) . $content;
 	        }
         }
