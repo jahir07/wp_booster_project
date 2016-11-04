@@ -2427,3 +2427,8 @@ function td_on_admin_body_class( $classes ) {
 	$classes .= ' td-theme-' . TD_THEME_NAME;
 	return $classes;
 }
+
+add_action( 'load-widgets.php', 'td_load_widget' );
+function td_load_widget() {
+	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
+}

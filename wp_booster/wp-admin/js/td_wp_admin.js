@@ -97,4 +97,45 @@ jQuery().ready(function() {
     });
 
 
+    jQuery( 'body' ).on( 'click', '.td-widget-tabs > a', function( event ) {
+
+        event.preventDefault();
+
+        var $this = jQuery( this ),
+            $tdWidgetTabs =  $this.parent( '.td-widget-tabs' ),
+            $tdWidgetTabsContent =  $tdWidgetTabs.siblings( '.td-widget-tab-content-wrap' );
+
+        if ( $this.hasClass( 'td-widget-tab-active' ) ) {
+            return;
+        }
+
+        $tdWidgetTabs.find( 'a' ).removeClass( 'td-widget-tab-active' );
+        $this.addClass( 'td-widget-tab-active' );
+
+        // content - remove all visible classes
+        $tdWidgetTabsContent.find( '.td-widget-tab-content' ).removeClass( 'td-widget-tab-content-visible' );
+
+        // add the class to the good content
+        var tabContentId = $this.data( 'tab-id' ),
+            $currentWidgetTabsContent = $tdWidgetTabsContent.find( '.' + tabContentId );
+
+        $currentWidgetTabsContent.addClass( 'td-widget-tab-content-visible' );
+
+        if ( 'td-widget-tab-css' === tabContentId ) {
+
+            var dataTdcCss = $currentWidgetTabsContent.data( 'tdc_css' );
+
+            tdcCssEditor.init();
+
+            $currentWidgetTabsContent.html(
+                tdcCssEditor.addWidgetCssEditor(
+                    {
+                        param_name: 'tdc_css'
+                    },
+                    dataTdcCss
+                )
+            );
+        }
+    });
+
 });
