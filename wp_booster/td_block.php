@@ -76,6 +76,7 @@ class td_block {
 			    'css' => '', //custom css - used by VC
 
 			    'tdc_css' => '', //custom css - used by TagDiv Composer
+			    'tdc_css_class' => '', // unique css class - used by TagDiv Composer to add inline css ('class' could not be used because it's not unique)
 
 			    // live filters
 			    // $atts['live_filter'] is set by the 'user'. cur_post_same_tags | cur_post_same_author | cur_post_same_categories
@@ -106,6 +107,10 @@ class td_block {
 	    /** add the unique class to the block. The _rand class is used by the blocks js. @see tdBlocks.js  */
 	    $unique_block_class = $this->block_uid . '_rand';
 	    $this->add_class($unique_block_class);
+
+	    // Set the 'tdc_css_class' parameter
+	    $this->atts['tdc_css_class'] = $unique_block_class;
+
 
 
 	    $td_pull_down_items = array();
@@ -202,12 +207,12 @@ class td_block {
 					$beforeCssProps = array(
 						'background-image',
 						'background-size',
+						'opacity',
 					);
 
 					$afterCssProps = array(
 						'color-1-overlay',
 						'color-2-overlay',
-						'opacity',
 					);
 
 					$cssBeforeSettings =
@@ -260,12 +265,12 @@ class td_block {
 
 						// all css
 						if ($mediaCss !== '') {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
 						}
 
 						// all ::before
 						if ($cssBefore !== '') {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 						}
 
 						// all ::after
@@ -285,7 +290,7 @@ class td_block {
 								$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
 							}
 
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 						}
 					}
 
@@ -367,11 +372,11 @@ class td_block {
 								$tdcCssProcessed .= '{'. PHP_EOL;
 
 								if ($mediaCss !== '') {
-									$tdcCssProcessed .= '.' . $this->get_att('class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
 								}
 
 								if ($cssBefore !== '') {
-									$tdcCssProcessed .= '.' . $this->get_att('class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								}
 
 								if (!empty($cssAfter)) {
@@ -390,7 +395,7 @@ class td_block {
 										$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
 									}
 
-									$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 								}
 
 								$tdcCssProcessed .= '}'. PHP_EOL;

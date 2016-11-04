@@ -184,92 +184,100 @@ class td_block_widget extends WP_Widget {
 
 	    if (!empty($this->map_array['params'])) {
 
-			if (class_exists('tdc_state')) {
+		    $defaultTab = 'General';
 
-				// step 1 - make the tabs
-			    $allGroupNames = array();
+			// step 1 - make the tabs
+		    $allGroupNames = array();
 
-			    foreach ($this->map_array['params'] as $param) {
-				    $current_tab_name = 'General';
-				    if (!empty($param['group'])) {
-					    $current_tab_name = $param['group'];
-				    }
-				    $allGroupNames[] = $current_tab_name;
+		    foreach ($this->map_array['params'] as $param) {
+			    $current_tab_name = $defaultTab;
+			    if (!empty($param['group'])) {
+				    $current_tab_name = $param['group'];
 			    }
-			    $allGroupNames = array_unique($allGroupNames);
+			    $allGroupNames[] = $current_tab_name;
+		    }
+		    $allGroupNames = array_unique($allGroupNames);
+		    $newGroupNames = array();
 
-				ob_start();
+		    foreach ($allGroupNames as $groupName) {
 
-				$buffer = '<div class="tdc-tabs-wrapper">';
-			    $buffer .= '<div class="tdc-tabs">';
+			    $newValue = array(
+				    'mapped_name' => $groupName,
+			    );
 
+			    switch ($groupName) {
+				    case 'Design options':
 
-			    $class_tab_active = 'tdc-tab-active';
-
-			    foreach ($allGroupNames as $groupName) {
-				    switch ($groupName) {
-					    case 'Design options':
-						    $newGroupName = 'Css';
-						    break;
-					    case 'Pagination':
-						    $newGroupName = 'Extra';
-						    break;
-					    case 'Ajax filter':
-						    $newGroupName = 'Ajax';
-						    break;
-					    default:
-						    $newGroupName = $groupName;
-				    }
-
-				    $buffer .= '<a href="#" data-tab-id="td-tab-' . strtolower($newGroupName) . '" class="' . $class_tab_active . '">' . $newGroupName . '</a>';
-				    $class_tab_active = '';
-			    }
-		        $buffer .= '</div>';
-			    $buffer .= '<div class="tdc-tab-content-wrap">';
-
-			    $class_tab_content_visible = ' tdc-tab-content-visible';
-
-			    foreach ($allGroupNames as $groupName) {
-
-				    switch ($groupName) {
-					    case 'Design options':
-						    $newGroupName = 'Css';
-						    break;
-					    case 'Pagination':
-						    $newGroupName = 'Extra';
-						    break;
-					    case 'Ajax filter':
-						    $newGroupName = 'Ajax';
-						    break;
-					    default:
-						    $newGroupName = $groupName;
-				    }
-
-				    $buffer .= '<div class="tdc-tab-content td-tab-' . strtolower($newGroupName) . $class_tab_content_visible . '">';
-				    $class_tab_content_visible = '';
-
-				    foreach ($this->map_array['params'] as $param) {
-					    if ((isset($param['group']) && $groupName !== 'General' && $groupName === $param['group']) ||
-					        (!isset($param['group']) && $groupName === 'General')){
-
-						    $buffer .= $this->_render_block_param($instance, $param);
+					    if (!class_exists('tdc_state')) {
+				            unset($newValue);
+			            } else {
+							$newValue['show_name'] = 'Css';
 					    }
-				    }
-				    $buffer .= '</div>';
+
+					    break;
+				    case 'Pagination':
+					    $newValue['show_name'] = 'Extra';
+					    break;
+				    case 'Ajax filter':
+					    $newValue['show_name'] = 'Ajax';
+					    break;
+				    default:
+					    $newValue['show_name'] = $groupName;
 			    }
-			    $buffer .= '</div>';
-				$buffer .= '</div>';
 
-			    echo $buffer;
-
-				return;
+			    if (isset($newValue)) {
+					$newGroupNames[] = $newValue;
+			    }
 		    }
 
+		    ob_start();
+
+			$buffer = '<div class="td-widget-tabs-wrapper">';
+		    $buffer .= '<div class="td-widget-tabs">';
 
 
-	        foreach ($this->map_array['params'] as $param) {
-	            $this->_render_block_param($instance, $param, true);
-	        }
+		    $class_tab_active = 'td-widget-tab-active';
+
+		    foreach ($newGroupNames as $groupName) {
+			    $buffer .= '<a href="#" data-tab-id="td-widget-tab-' . strtolower($groupName['show_name']) . '" class="' . $class_tab_active . '">' . $groupName['show_name'] . '</a>';
+			    $class_tab_active = '';
+		    }
+	        $buffer .= '</div>';
+		    $buffer .= '<div class="td-widget-tab-content-wrap">';
+
+		    $class_tab_content_visible = ' td-widget-tab-content-visible';
+
+		    foreach ($newGroupNames as $groupName) {
+
+			    if ($groupName['show_name'] === 'Css') {
+
+				    $tdc_css_value = '';
+
+				    if (isset($instance['tdc_css'])) {
+					    $tdc_css_value = $instance['tdc_css'];
+				    }
+
+				    $data_tdc_css = ' data-tdc_css="' . $tdc_css_value .'"';
+			    } else {
+				    $data_tdc_css = '';
+			    }
+
+			    $buffer .= '<div class="td-widget-tab-content td-widget-tab-' . strtolower($groupName['show_name']) . $class_tab_content_visible . '"' . $data_tdc_css . '>';
+			    $class_tab_content_visible = '';
+
+			    foreach ($this->map_array['params'] as $param) {
+				    if ((isset($param['group']) && $groupName['show_name'] !== $defaultTab && $groupName['mapped_name'] === $param['group']) ||
+				        (!isset($param['group']) && $groupName['show_name'] === $defaultTab)){
+
+					    $buffer .= $this->_render_block_param($instance, $param);
+				    }
+			    }
+			    $buffer .= '</div>';
+		    }
+		    $buffer .= '</div>';
+			$buffer .= '</div>';
+
+		    echo $buffer;
 	    }
 	}
 
