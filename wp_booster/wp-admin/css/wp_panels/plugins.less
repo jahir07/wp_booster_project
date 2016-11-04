@@ -74,7 +74,7 @@
   }
 
   .td-plugin-button {
-    color: #808080;
+    color: #888;
     line-height: 1;
     text-decoration: none;
     padding: 10px 20px 9px;
@@ -83,6 +83,7 @@
     margin: 0 auto 26px;
     text-transform: uppercase;
     font-size: 11px;
+    opacity: 0.5;
 
     &:before {
       content: '';
@@ -90,16 +91,16 @@
       top: 0;
       left: 0;
       border-radius: 50px;
-      border: 1px solid #000;
+      border: 1px solid #888;
       width: 100%;
       height: 100%;
-      opacity: 0.08;
-      .transition(opacity 0.3s ease)
+      opacity: 0.4;
+      .transition(opacity 0.3s ease);
     }
 
     &:hover {
       &:before {
-        opacity: 0.2;
+        opacity: 0.6;
       }
     }
   }
@@ -111,6 +112,11 @@
 .td-wp-admin-plugin {
   .td-button-install-plugin{
     display: none;
+    color: #0085ba;
+
+    &:before {
+      border-color: #0085ba;
+    }
   }
 
   .td-button-uninstall-plugin {
@@ -120,6 +126,11 @@
 
   .td-button-activate-plugin {
     display: none;
+    color: #40a200;
+
+    &:before {
+      border-color: #40a200;
+    }
   }
 }
 
