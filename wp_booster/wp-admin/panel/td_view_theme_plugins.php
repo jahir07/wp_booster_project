@@ -131,63 +131,58 @@ $wp_plugin_list = get_plugins();
 
         ?>
 
-        <div class="td-wp-admin-plugin theme <?php echo $tmp_class ?>">
+        <div class="td-wp-admin-plugin <?php echo $tmp_class ?>">
 
             <!-- Import content -->
-            <div class="theme-screenshot">
+            <div class="td-plugin-image">
                 <span class="td-plugin-required td-<?php echo $required_label; ?>"><?php echo $required_label; ?></span>
                 <img class="td-demo-thumb" src="<?php echo $td_tgm_theme_plugin['img'] ?>"/>
-            </div>
 
-            <div class="td-admin-title">
-                <div class="td-progress-bar-wrap"><div class="td-progress-bar"></div></div>
-                <h3 class="theme-name"><?php echo $td_tgm_theme_plugin['name'] ?></h3>
-            </div>
+                <div class="td-plugin-meta">
+                    <h3 class="theme-name"><?php echo $td_tgm_theme_plugin['name'] ?></h3>
+                    <p><?php echo $td_tgm_theme_plugin['text'] ?></p>
+                    <div class="td-plugin-buttons">
+                        <a class="td-plugin-button td-button-install-plugin" href="<?php
+                        echo esc_url( wp_nonce_url(
+                            add_query_arg(
+                                array(
+                                    'page'		  	=> urlencode(TGM_Plugin_Activation::$instance->menu),
+                                    'plugin'		=> urlencode($td_tgm_theme_plugin['slug']),
+                                    'plugin_name'   => urlencode($td_tgm_theme_plugin['name']),
+                                    'plugin_source' => urlencode($td_tgm_theme_plugin['source']),
+                                    'tgmpa-install' => 'install-plugin',
+                                    'return_url' => 'td_theme_plugins'
+                                ),
+                                admin_url('themes.php')
+                            ),
+                            'tgmpa-install'
+                        ));
+                        ?>">Available to install</a>
+                        <a class="td-plugin-button td-button-uninstall-plugin" href="<?php
+                        echo esc_url(
+                            add_query_arg(
+                                array(
+                                    'page'		  	            => urlencode('td_theme_plugins'),
+                                    'td_deactivate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
+                                    'td_magic_token' => wp_create_nonce('td-panel-plugins')
+                                ),
+                                admin_url('admin.php')
+                            ));
+                        ?>"">Deactivate</a>
 
-            <div class="td-admin-checkbox td-small-checkbox">
-                <p><?php echo $td_tgm_theme_plugin['text'] ?></p>
-            </div>
-
-            <div class="theme-actions">
-                <a class="button button-primary td-button-install-plugin" href="<?php
-                echo esc_url( wp_nonce_url(
-                    add_query_arg(
-                        array(
-                            'page'		  	=> urlencode(TGM_Plugin_Activation::$instance->menu),
-                            'plugin'		=> urlencode($td_tgm_theme_plugin['slug']),
-                            'plugin_name'   => urlencode($td_tgm_theme_plugin['name']),
-                            'plugin_source' => urlencode($td_tgm_theme_plugin['source']),
-                            'tgmpa-install' => 'install-plugin',
-                            'return_url' => 'td_theme_plugins'
-                        ),
-                        admin_url('themes.php')
-                    ),
-                    'tgmpa-install'
-                ));
-                ?>">Install</a>
-                <a class="button button-secondary td-button-uninstall-plugin" href="<?php
-                echo esc_url(
-                    add_query_arg(
-                        array(
-                            'page'		  	            => urlencode('td_theme_plugins'),
-                            'td_deactivate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
-	                        'td_magic_token' => wp_create_nonce('td-panel-plugins')
-                        ),
-                        admin_url('admin.php')
-                    ));
-                ?>"">Deactivate</a>
-
-                <a class="button button-primary td-button-activate-plugin" href="<?php
-                echo esc_url(
-                    add_query_arg(
-                        array(
-                            'page'		  	            => urlencode('td_theme_plugins'),
-                            'td_activate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
-                            'td_magic_token' => wp_create_nonce('td-panel-plugins')
-                        ),
-                        admin_url('admin.php')
-                    ));
-                ?>"">Activate</a>
+                        <a class="td-plugin-button td-button-activate-plugin" href="<?php
+                        echo esc_url(
+                            add_query_arg(
+                                array(
+                                    'page'		  	            => urlencode('td_theme_plugins'),
+                                    'td_activate_plugin_slug'	=> urlencode($td_tgm_theme_plugin['slug']),
+                                    'td_magic_token' => wp_create_nonce('td-panel-plugins')
+                                ),
+                                admin_url('admin.php')
+                            ));
+                        ?>"">Activate</a>
+                    </div>
+                </div>
             </div>
         </div>
 

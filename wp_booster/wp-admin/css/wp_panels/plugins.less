@@ -1,3 +1,113 @@
+/*  ----------------------------------------------------------------------------
+    plugins list
+*/
+.td-admin-plugins {
+  .td-admin-columns {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  max-width: none;
+  .about-text {
+    max-width: 1050px;
+  }
+}
+.td-wp-admin-plugin {
+  max-width: 300px;
+  display: inline-block;
+  padding: 0 15px 30px;
+
+  &:hover {
+    .td-plugin-image {
+      .box-shadow(0 0 21px 0 rgba(0, 0, 0, 0.12))
+    }
+  }
+}
+
+.td-plugin-image {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  height: 360px;
+  background-color: #fff;
+  .transition(box-shadow 0.3s ease)
+}
+
+
+.td-plugin-meta {
+  font-size: 13px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Open Sans', arial, sans-serif;
+
+  .theme-name {
+    font-size: 17px;
+    text-align: center;
+    font-weight: bold;
+    margin: 0;
+    padding: 20px 10px 0;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    font-family: 'Open Sans', arial, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
+    display: block;
+    margin: 12px 30px 18px;
+    color: #999;
+    height: 51px;
+    overflow: hidden;
+
+    strong {
+      color: #888;
+    }
+  }
+
+  .td-plugin-buttons {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .td-plugin-button {
+    color: #808080;
+    line-height: 1;
+    text-decoration: none;
+    padding: 10px 20px 9px;
+    display: block;
+    position: relative;
+    margin: 0 auto 26px;
+    text-transform: uppercase;
+    font-size: 11px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 50px;
+      border: 1px solid #000;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      .transition(opacity 0.3s ease)
+    }
+
+    &:hover {
+      &:before {
+        opacity: 0.2;
+      }
+    }
+  }
+}
+
+/*  ----------------------------------------------------------------------------
+    buttons
+*/
 .td-wp-admin-plugin {
   .td-button-install-plugin{
     display: none;
@@ -12,8 +122,6 @@
     display: none;
   }
 }
-
-
 
 .td-plugin-active {
   .td-button-uninstall-plugin {

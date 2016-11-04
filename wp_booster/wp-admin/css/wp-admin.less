@@ -121,6 +121,13 @@
   -o-transform: 		 @string;
 }
 
+// Drop shadows
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow;
+  -moz-box-shadow: @shadow;
+  box-shadow: @shadow;
+}
+
 // remove links outline
 .td-visual-selector-o a {
     outline: 0;
