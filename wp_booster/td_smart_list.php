@@ -811,7 +811,7 @@ class td_tokenizer {
 
     private function get_caption_from_token($token) {
         $matches = array();
-        preg_match('/<figcaption[^<>]*>([^<]*)<\/figcaption>/', $token, $matches);
+        preg_match('/<figcaption[^<>]*>(.*)<\/figcaption>/', $token, $matches);
         if (!empty($matches[1])) {
             return $matches[1];
         } else {
