@@ -2431,4 +2431,10 @@ function td_on_admin_body_class( $classes ) {
 add_action( 'load-widgets.php', 'td_load_widget' );
 function td_load_widget() {
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
+
+	add_action( 'admin_enqueue_scripts', 'on_load_widget_admin_enqueue_scripts' );
+	function on_load_widget_admin_enqueue_scripts() {
+		wp_enqueue_media();
+	}
 }
+
