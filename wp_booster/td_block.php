@@ -223,8 +223,7 @@ class td_block {
 				        "top: 0;" . PHP_EOL .
 				        "left: 0;" . PHP_EOL .
 				        "background-position: top;" . PHP_EOL .
-				        "z-index: -1;" . PHP_EOL .
-				        "opacity: 1;" . PHP_EOL;
+				        "z-index: -1;" . PHP_EOL;
 
 					$cssAfterSettings =
 						"content: '';" . PHP_EOL .

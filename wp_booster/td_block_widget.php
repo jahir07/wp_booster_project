@@ -208,10 +208,10 @@ class td_block_widget extends WP_Widget {
 			    switch ($groupName) {
 				    case 'Design options':
 
-					    if (!class_exists('tdc_state')) {
-				            unset($newValue);
+					    if ( td_util::tdc_is_installed()) {
+						    $newValue['show_name'] = 'Css';
 			            } else {
-							$newValue['show_name'] = 'Css';
+							unset($newValue);
 					    }
 
 					    break;
@@ -230,9 +230,7 @@ class td_block_widget extends WP_Widget {
 			    }
 		    }
 
-		    ob_start();
-
-			$buffer = '<div class="tdc-tabs-wrapper">';
+		    $buffer = '<div class="tdc-tabs-wrapper">';
 		    $buffer .= '<div class="tdc-tabs">';
 
 
