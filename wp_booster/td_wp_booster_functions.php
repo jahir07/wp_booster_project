@@ -1970,18 +1970,6 @@ function td_add_category_template_class($classes) {
 
 
 /* ----------------------------------------------------------------------------
- * add `filter_by` URL variable so I can retrieve it with  `get_query_var` function
- */
-add_filter('query_vars', 'td_category_big_grid_add_query_vars_filter');
-function td_category_big_grid_add_query_vars_filter($vars) {
-	$vars[] = "filter_by";
-	return $vars;
-}
-
-
-
-
-/* ----------------------------------------------------------------------------
  * modify the main query for category pages
  */
 add_action('pre_get_posts', 'td_modify_main_query_for_category_page');
@@ -2009,7 +1997,10 @@ function td_modify_main_query_for_category_page($query) {
 		$paged = get_query_var('paged');
 
 		//get the `filter_by` URL($_GET) variable
-		$filter_by = get_query_var('filter_by');
+		$filter_by = '';
+		if (isset($_GET['filter_by'])) {
+			$filter_by = $_GET['filter_by'];
+		}
 
 		//get the limit of posts on the category page
 		$limit = get_option('posts_per_page');
@@ -2431,4 +2422,10 @@ function td_on_admin_body_class( $classes ) {
 add_action( 'load-widgets.php', 'td_load_widget' );
 function td_load_widget() {
 	td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
+
+	add_action( 'admin_enqueue_scripts', 'on_load_widget_admin_enqueue_scripts' );
+	function on_load_widget_admin_enqueue_scripts() {
+		wp_enqueue_media();
+	}
 }
+

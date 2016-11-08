@@ -232,20 +232,20 @@ class td_block_widget extends WP_Widget {
 
 		    ob_start();
 
-			$buffer = '<div class="td-widget-tabs-wrapper">';
-		    $buffer .= '<div class="td-widget-tabs">';
+			$buffer = '<div class="tdc-tabs-wrapper">';
+		    $buffer .= '<div class="tdc-tabs">';
 
 
-		    $class_tab_active = 'td-widget-tab-active';
+		    $class_tab_active = 'tdc-tab-active';
 
 		    foreach ($newGroupNames as $groupName) {
-			    $buffer .= '<a href="#" data-tab-id="td-widget-tab-' . strtolower($groupName['show_name']) . '" class="' . $class_tab_active . '">' . $groupName['show_name'] . '</a>';
+			    $buffer .= '<a href="#" data-tab-id="tdc-tab-' . strtolower($groupName['show_name']) . '" class="' . $class_tab_active . '">' . $groupName['show_name'] . '</a>';
 			    $class_tab_active = '';
 		    }
 	        $buffer .= '</div>';
-		    $buffer .= '<div class="td-widget-tab-content-wrap">';
+		    $buffer .= '<div class="tdc-tab-content-wrap">';
 
-		    $class_tab_content_visible = ' td-widget-tab-content-visible';
+		    $class_tab_content_visible = ' tdc-tab-content-visible';
 
 		    foreach ($newGroupNames as $groupName) {
 
@@ -262,7 +262,7 @@ class td_block_widget extends WP_Widget {
 				    $data_tdc_css = '';
 			    }
 
-			    $buffer .= '<div class="td-widget-tab-content td-widget-tab-' . strtolower($groupName['show_name']) . $class_tab_content_visible . '"' . $data_tdc_css . '>';
+			    $buffer .= '<div class="tdc-tab-content tdc-tab-' . strtolower($groupName['show_name']) . $class_tab_content_visible . '"' . $data_tdc_css . '>';
 			    $class_tab_content_visible = '';
 
 			    foreach ($this->map_array['params'] as $param) {

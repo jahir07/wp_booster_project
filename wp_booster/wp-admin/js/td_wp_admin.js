@@ -97,31 +97,31 @@ jQuery().ready(function() {
     });
 
 
-    jQuery( 'body' ).on( 'click', '.td-widget-tabs > a', function( event ) {
+    jQuery( 'body' ).on( 'click', '.tdc-tabs > a', function( event ) {
 
         event.preventDefault();
 
         var $this = jQuery( this ),
-            $tdWidgetTabs =  $this.parent( '.td-widget-tabs' ),
-            $tdWidgetTabsContent =  $tdWidgetTabs.siblings( '.td-widget-tab-content-wrap' );
+            $tdWidgetTabs =  $this.parent( '.tdc-tabs' ),
+            $tdWidgetTabsContent =  $tdWidgetTabs.siblings( '.tdc-tab-content-wrap' );
 
-        if ( $this.hasClass( 'td-widget-tab-active' ) ) {
+        if ( $this.hasClass( 'tdc-tab-active' ) ) {
             return;
         }
 
-        $tdWidgetTabs.find( 'a' ).removeClass( 'td-widget-tab-active' );
-        $this.addClass( 'td-widget-tab-active' );
+        $tdWidgetTabs.find( 'a' ).removeClass( 'tdc-tab-active' );
+        $this.addClass( 'tdc-tab-active' );
 
         // content - remove all visible classes
-        $tdWidgetTabsContent.find( '.td-widget-tab-content' ).removeClass( 'td-widget-tab-content-visible' );
+        $tdWidgetTabsContent.find( '.tdc-tab-content' ).removeClass( 'tdc-tab-content-visible' );
 
         // add the class to the good content
         var tabContentId = $this.data( 'tab-id' ),
             $currentWidgetTabsContent = $tdWidgetTabsContent.find( '.' + tabContentId );
 
-        $currentWidgetTabsContent.addClass( 'td-widget-tab-content-visible' );
+        $currentWidgetTabsContent.addClass( 'tdc-tab-content-visible' );
 
-        if ( 'td-widget-tab-css' === tabContentId ) {
+        if ( 'tdc-tab-css' === tabContentId ) {
 
             var dataTdcCss = $currentWidgetTabsContent.data( 'tdc_css' );
 
@@ -135,6 +135,8 @@ jQuery().ready(function() {
                     dataTdcCss
                 )
             );
+
+            tdcCssEditor.doActionPanelRender();
         }
     });
 

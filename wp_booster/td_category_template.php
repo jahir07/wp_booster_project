@@ -152,7 +152,10 @@ abstract class td_category_template {
         }
 
         //get the `filter_by` URL ($_GET) variable
-        $filter_by = get_query_var('filter_by');
+        $filter_by = '';
+        if (isset($_GET['filter_by'])) {
+            $filter_by = $_GET['filter_by'];
+        }
 
         $td_category_big_grid_drop_down_filter_options = array(
             array('id' => 'latest', 'value' => $this->current_category_link, 'caption' => __td('Latest', TD_THEME_NAME)),
