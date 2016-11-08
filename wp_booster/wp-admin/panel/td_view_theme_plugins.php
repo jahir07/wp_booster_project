@@ -157,7 +157,7 @@ $wp_plugin_list = get_plugins();
                             ),
                             'tgmpa-install'
                         ));
-                        ?>">Available to install</a>
+                        ?>">Install</a>
                         <a class="td-plugin-button td-button-uninstall-plugin" href="<?php
                         echo esc_url(
                             add_query_arg(
