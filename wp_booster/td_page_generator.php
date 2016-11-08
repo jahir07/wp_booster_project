@@ -809,19 +809,26 @@ class td_page_generator {
 
         foreach ($breadcrumbs_array as $key => $breadcrumb) {
 
-            if (empty($breadcrumb['url'])) {
-                if ($key != 0) { //add separator only after first
-                    $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
-                }
+            echo $breadcrumb['url'] . '<br/>';
+
+            if ($key == 0) {
+                //home - breadcrumb
+                $buffy .=  '<span class="td-bred-first"><a href="' . $breadcrumb['url'] . '">';
+                $buffy .= $breadcrumb['display_name'];
+                $buffy .= '</a></span>';
+            } elseif (empty($breadcrumb['url'])) {
+                //add separator
+                $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
+
                 //no link - breadcrumb
                 $buffy .=  '<span class="td-bred-no-url-last">';
                 $buffy .= $breadcrumb['display_name'];
                 $buffy .= '</span>';
             } else {
-                if ($key != 0) { //add separator only after first
-                    $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
-                }
-                //normal links
+                //add separator
+                $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
+
+                //normal breadcrumb
                 $buffy .= '<span itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                                <a title="' . $breadcrumb['title_attribute'] . '" class="entry-crumb" itemscope itemprop="item" itemtype="http://schema.org/Thing" href="' . $breadcrumb['url'] . '">
                                   <span itemprop="name">' . $breadcrumb['display_name'] . '</span>';
