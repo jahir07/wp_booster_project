@@ -83,7 +83,7 @@
     margin: 0 auto 26px;
     text-transform: uppercase;
     font-size: 11px;
-    opacity: 0.5;
+    opacity: 0.8;
 
     &:before {
       content: '';
@@ -95,7 +95,8 @@
       width: 100%;
       height: 100%;
       opacity: 0.4;
-      .transition(opacity 0.3s ease);
+      z-index: -1;
+      .transition(all 0.3s ease);
     }
 
     &:hover {
@@ -110,12 +111,21 @@
     buttons
 */
 .td-wp-admin-plugin {
-  .td-button-install-plugin{
+  .td-button-install-plugin {
     display: none;
-    color: #0085ba;
+    color: #fff;
 
     &:before {
       border-color: #0085ba;
+      background-color: #0085ba;
+      opacity: 0.85;
+    }
+
+    &:hover {
+      &:before {
+        opacity: 1;
+        box-shadow: 0 2px 8px 0 rgba(0, 133, 186, 0.6);
+      }
     }
   }
 
@@ -126,10 +136,19 @@
 
   .td-button-activate-plugin {
     display: none;
-    color: #40a200;
+    color: #fff;
 
     &:before {
       border-color: #40a200;
+      background-color: #40a200;
+      opacity: 0.85;
+    }
+
+    &:hover {
+      &:before {
+        opacity: 1;
+        box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
+      }
     }
   }
 }

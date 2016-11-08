@@ -613,6 +613,18 @@ class td_util {
 	}
 
 
+	/**	 *
+	 * @return bool returns true if the TagDiv Composer is installed
+	 */
+	static function tdc_is_installed() {
+		if (class_exists('tdc_state', false) === true ) {
+			return true;
+		}
+		return false;
+	}
+
+
+
 	/**
 	 * Checks if VC is installed
 	 * @return bool true if visual composer is installed
