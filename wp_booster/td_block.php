@@ -505,8 +505,10 @@ class td_block {
 						break;
 
 					case 'td_tag_slug_filter': // by tag slug
+						$tag_ids = explode(',', trim($td_ajax_filter_ids));
 						$td_tags = get_tags(array(
-							'include' => $td_ajax_filter_ids
+							'include' => $tag_ids,
+							'orderby' => 'include'
 						));
 						foreach ($td_tags as $td_tag) {
 							$td_pull_down_items []= array (
