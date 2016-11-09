@@ -500,7 +500,8 @@ class td_block {
 
 					case 'td_tag_slug_filter': // by tag slug
 						$td_tags = get_tags(array(
-							'include' => $td_ajax_filter_ids
+							'include' => $td_ajax_filter_ids,
+							'orderby' => 'include'
 						));
 						foreach ($td_tags as $td_tag) {
 							$td_pull_down_items []= array (
