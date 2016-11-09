@@ -184,6 +184,12 @@ class td_block {
 				if (!is_null($tdcCssArray) && is_array($tdcCssArray)) {
 					$tdcCssProcessed = '';
 
+					// General css settings
+					// this will fix the z-index issue on background and overlay color/gradient
+					$generalCssSettings =
+						"transform: translateZ(0);" . PHP_EOL .
+                        "-webkit-transform: translateZ(0);" . PHP_EOL;
+
 					// Values of these properties must be numeric
 					$numericCssProps = array(
 						'border-radius',
@@ -264,7 +270,7 @@ class td_block {
 
 						// all css
 						if ($mediaCss !== '') {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
 						}
 
 						// all ::before
@@ -371,7 +377,7 @@ class td_block {
 								$tdcCssProcessed .= '{'. PHP_EOL;
 
 								if ($mediaCss !== '') {
-									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
 								}
 
 								if ($cssBefore !== '') {
