@@ -809,6 +809,7 @@ class td_page_generator {
 
         //check for home url, the name can be changed from translations
         $home_url = get_home_url() . '/';
+        $count = 1;
 
         foreach ($breadcrumbs_array as $key => $breadcrumb) {
 
@@ -838,8 +839,10 @@ class td_page_generator {
                                <a title="' . $breadcrumb['title_attribute'] . '" class="entry-crumb" itemscope itemprop="item" itemtype="http://schema.org/Thing" href="' . $breadcrumb['url'] . '">
                                   <span itemprop="name">' . $breadcrumb['display_name'] . '</span>';
                 $buffy .= '    </a>';
-                $buffy .= '    <meta itemprop="position" content = "' . ($key + 1) . '">';
+                $buffy .= '    <meta itemprop="position" content = "' . $count . '">';
                 $buffy .= '</span>';
+
+                $count++;
             }
 
         }
