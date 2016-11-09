@@ -4491,10 +4491,10 @@ a:focus {
 .widget-content {
   padding-bottom: 20px;
 }
-.td-widget-tabs {
+.tdc-tabs {
   padding: 0 12px;
 }
-.td-widget-tabs a {
+.tdc-tabs a {
   padding: 8px 12px 7px 12px;
   display: inline-block;
   position: relative;
@@ -4503,7 +4503,7 @@ a:focus {
   text-decoration: none;
   font-size: 12px;
 }
-.td-widget-tabs .td-widget-tab-active {
+.tdc-tabs .tdc-tab-active {
   -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
@@ -4511,7 +4511,7 @@ a:focus {
   position: relative;
   z-index: 1;
 }
-.td-widget-tabs .td-widget-tab-active:before {
+.tdc-tabs .tdc-tab-active:before {
   content: '';
   position: absolute;
   bottom: -11px;
@@ -4521,7 +4521,7 @@ a:focus {
   height: 12px;
   background-color: #fff;
 }
-.td-widget-tab-content-wrap {
+.tdc-tab-content-wrap {
   -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   -moz-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1) !important;
@@ -4529,7 +4529,7 @@ a:focus {
   background-color: #fff;
   position: relative;
 }
-.td-widget-tab-content-wrap:before {
+.tdc-tab-content-wrap:before {
   content: '';
   position: absolute;
   bottom: -10px;
@@ -4539,10 +4539,10 @@ a:focus {
   height: 20px;
   background-color: #fff;
 }
-.td-widget-tab-content-wrap .td-widget-tab-content {
+.tdc-tab-content-wrap .tdc-tab-content {
   display: none;
 }
-.td-widget-tab-content-wrap .td-widget-tab-content-visible {
+.tdc-tab-content-wrap .tdc-tab-content-visible {
   display: block;
 }
 /*
@@ -4764,6 +4764,7 @@ a:focus {
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 1;
 }
 .tdc-property-undefined .tdc-css-box-input-padding-top {
   position: absolute;
@@ -4783,6 +4784,7 @@ a:focus {
   margin-top: -11px;
   top: 50%;
   right: -12px;
+  z-index: 1;
 }
 .tdc-property-undefined .tdc-css-box-input-padding-right {
   position: absolute;
@@ -4803,6 +4805,7 @@ a:focus {
   left: 0;
   right: 0;
   margin: 0 auto;
+  z-index: 1;
 }
 .tdc-property-undefined .tdc-css-box-input-padding-bottom {
   position: absolute;
@@ -4822,6 +4825,7 @@ a:focus {
   margin-top: -11px;
   top: 50%;
   left: -12px;
+  z-index: 1;
 }
 .tdc-property-undefined .tdc-css-box-input-padding-left {
   position: absolute;
@@ -5196,5 +5200,5 @@ input[type=checkbox] {
   display: inline-block;
 }
 .tdc-css-inherited {
-  border: 1px solid red !important;
+  background-color: #EAEACB;
 }

@@ -807,18 +807,22 @@ class td_page_generator {
 
         $buffy .= '<div class="entry-crumbs" itemscope itemtype="http://schema.org/BreadcrumbList">';
 
+        //check for home url, the name can be changed from translations
+        $home_url = get_home_url() . '/';
+        $count = 1;
+
         foreach ($breadcrumbs_array as $key => $breadcrumb) {
 
-            echo $breadcrumb['url'] . '<br/>';
-
-            if ($key == 0) {
+            if ($breadcrumb['url'] == $home_url) {
                 //home - breadcrumb
                 $buffy .=  '<span class="td-bred-first"><a href="' . $breadcrumb['url'] . '">';
                 $buffy .= $breadcrumb['display_name'];
                 $buffy .= '</a></span>';
             } elseif (empty($breadcrumb['url'])) {
                 //add separator
-                $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
+                if ($key != 0) {
+                    $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
+                }
 
                 //no link - breadcrumb
                 $buffy .=  '<span class="td-bred-no-url-last">';
@@ -826,15 +830,19 @@ class td_page_generator {
                 $buffy .= '</span>';
             } else {
                 //add separator
-                $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
+                if ($key != 0) {
+                    $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
+                }
 
                 //normal breadcrumb
                 $buffy .= '<span itemscope itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                                <a title="' . $breadcrumb['title_attribute'] . '" class="entry-crumb" itemscope itemprop="item" itemtype="http://schema.org/Thing" href="' . $breadcrumb['url'] . '">
                                   <span itemprop="name">' . $breadcrumb['display_name'] . '</span>';
                 $buffy .= '    </a>';
-                $buffy .= '    <meta itemprop="position" content = "' . ($key + 1) . '">';
+                $buffy .= '    <meta itemprop="position" content = "' . $count . '">';
                 $buffy .= '</span>';
+
+                $count++;
             }
 
         }
