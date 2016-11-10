@@ -1761,32 +1761,32 @@ title one row controls
 */
 .td-panel-font-family .td-select-style-overwrite {
   width: 138px;
-  background-position: 107px 0px;
+  background-position: 107px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-size .td-select-style-overwrite {
   width: 83px;
-  background-position: 52px 0px;
+  background-position: 52px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-line-height .td-select-style-overwrite {
   width: 83px;
-  background-position: 52px 0px;
+  background-position: 52px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-style .td-select-style-overwrite {
   width: 83px;
-  background-position: 52px 0px;
+  background-position: 52px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-weight .td-select-style-overwrite {
   width: 83px;
-  background-position: 52px 0px;
+  background-position: 52px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-transform .td-select-style-overwrite {
   width: 100px;
-  background-position: 69px 0px;
+  background-position: 69px 0;
   margin-bottom: 18px;
 }
 .td-panel-font-family,
@@ -1804,8 +1804,7 @@ title one row controls
 .td-panel-font-style .td-select-style-overwrite select,
 .td-panel-font-weight .td-select-style-overwrite select,
 .td-panel-font-transform .td-select-style-overwrite select {
-  padding-right: 40px;
-  padding-left: 0px;
+  padding-right: 42px;
 }
 .td-panel-font-typography .td-box-description {
   width: 150px;
@@ -1861,22 +1860,28 @@ title one row controls
 }
 @-moz-document url-prefix() {
   .td-panel-font-family .td-select-style-overwrite select {
-    width: 154px;
+    width: 155px;
+    padding-left: 2px;
   }
   .td-panel-font-size .td-select-style-overwrite select {
     width: 105px;
+    padding-left: 2px;
   }
   .td-panel-font-line-height .td-select-style-overwrite select {
     width: 105px;
+    padding-left: 2px;
   }
   .td-panel-font-style .td-select-style-overwrite select {
     width: 105px;
+    padding-left: 2px;
   }
   .td-panel-font-weight .td-select-style-overwrite select {
     width: 105px;
+    padding-left: 2px;
   }
   .td-panel-font-transform .td-select-style-overwrite select {
-    width: 121px;
+    width: 123px;
+    padding-left: 2px;
   }
 }
 .td-panel-font-typography .td-box-control-full select::-ms-expand {
@@ -5200,5 +5205,5 @@ input[type=checkbox] {
   display: inline-block;
 }
 .tdc-css-inherited {
-  background-color: #EAEACB;
+  background-color: #EAEACB !important;
 }
