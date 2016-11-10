@@ -5,8 +5,12 @@
 <div class="td-box-row">
     <div class="td-box-description td-box-full">
         <span class="td-box-title">MORE INFORMATION:</span>
-        <p>Available translations: English, Dutch, Finnish, German, Greek, Hindi, Indonesian, Japanese, Marathi, Polish, Portuguese, Romanian, Russian, Spanish, Tamil, Thai, Turkish and Urdu. The rest are translated via google translate. Please note that the translations are loaded from our servers.</p>
-        <p><strong style="margin-right: 2px">Note:</strong>English translation being the default translation of our theme, will set default values for your translate input fields.</p>
+        <p>The theme has available translations for 90 languages. Most of them are submitted by our theme users and you can also always submit your own version or correction with one click.</p>
+        <span class="td-box-title">Note:</span>
+        <ul>
+            <li>Please note that the translations are loaded from our servers.</li>
+            <li>English translation being the default translation of our theme, will set default values for your translate input fields.</li>
+        </ul>
     </div>
 </div>
 
