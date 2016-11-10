@@ -61,7 +61,17 @@ jQuery().ready(function() {
             jQuery( '#td-header-search-button-mob' ).click(function(event){
                 jQuery( 'body' ).addClass( 'td-search-opened' );
 
-                var current_query = jQuery('#td-header-search-mob').val().trim();
+                var search_input = jQuery('#td-header-search-mob');
+
+                /**
+                 * Note: the autofocus does not work for iOS and windows phone devices as it's considered bad user experience
+                 */
+                    //autofocus
+                setTimeout(function(){
+                    search_input.focus();
+                }, 1300);
+
+                var current_query = search_input.val().trim();
                 if ( current_query.length > 0 ) {
                     tdAjaxSearch.do_ajax_call_mob();
                 }
