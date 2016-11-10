@@ -574,14 +574,6 @@ class td_block {
 
 
 	/**
-	 * Block header title
-	 */
-	function get_block_header() {
-		return $this->block_template()->get_block_header();
-	}
-
-
-	/**
 	 * retrivs the block pagination
 	 * @return string
 	 */
