@@ -270,6 +270,8 @@ class td_block {
 						// all css
 						if ($mediaCssAll !== '') {
 							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCssAll . '}' . PHP_EOL;
+						} else {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
 						}
 
 						// all ::before
@@ -377,6 +379,8 @@ class td_block {
 
 								if ($mediaCss !== '') {
 									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
+								} else {
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
 								}
 
 								if ($cssBefore !== '') {
