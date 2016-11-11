@@ -1,13 +1,14 @@
 <?php
 
 //removing the comments sidewide
-if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_supports(get_post_type(), 'comments')) { ?>
+if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_supports(get_post_type(), 'comments')) {
 
+    if (post_password_required()) {
+        return;
+    }
+    ?>
 	<div class="comments" id="comments">
-        <?php if (post_password_required()) {
-            return;
-        }
-
+        <?php
         if (have_comments()) {
 
 	        // on Newspaper the css class 'td-pb-padding-side' is not applied

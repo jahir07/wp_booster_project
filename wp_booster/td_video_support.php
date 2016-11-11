@@ -69,7 +69,7 @@ class td_video_support{
 			case 'facebook':
 				$buffy = '
 				<div class="wpb_video_wrapper">
-					<iframe src="' . td_global::$http_or_https . '://www.facebook.com/plugins/video.php?href=' . urlencode($videoUrl) . '&show_text=0" width="696" height="560" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true" ></iframe>
+					<iframe src="' . td_global::$http_or_https . '://www.facebook.com/plugins/video.php?href=' . urlencode($videoUrl) . '&show_text=0&width=560" width="600" height="560" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true" ></iframe>
 				</div>
 				';
 
