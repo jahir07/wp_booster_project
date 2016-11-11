@@ -240,13 +240,12 @@ class td_block {
 					    "left: 0;" . PHP_EOL .
 					    "z-index: -1;" . PHP_EOL;
 
+					$mediaCssAll = '';
+					$cssBeforeAll = '';
+					$cssAfterAll = array();
 
 					// 'all' css settings
 					if (array_key_exists('all', $tdcCssArray)) {
-
-						$mediaCss = '';
-						$cssBefore = '';
-						$cssAfter = array();
 
 						foreach ($tdcCssArray['all'] as $k1 => $v1) {
 							if (in_array($k1, $numericCssProps) && is_numeric($v1)) {
@@ -254,45 +253,47 @@ class td_block {
 							}
 
 							if (in_array($k1, $beforeCssProps)) {
-								$cssBefore .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+								$cssBeforeAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
 								continue;
 							}
 
 							if (in_array($k1, $afterCssProps)) {
-								$cssAfter[$k1] = $v1;
+								$cssAfterAll[$k1] = $v1;
 								continue;
 							}
 
-							$mediaCss .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+							$mediaCssAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
 						}
 
 						unset($tdcCssArray['all']);
 
 						// all css
-						if ($mediaCss !== '') {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
+						if ($mediaCssAll !== '') {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCssAll . '}' . PHP_EOL;
+						} else {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
 						}
 
 						// all ::before
-						if ($cssBefore !== '') {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+						if ($cssBeforeAll !== '') {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 						}
 
 						// all ::after
-						if (!empty($cssAfter)) {
+						if (!empty($cssAfterAll)) {
 
 							$css = '';
 
-							if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
-								$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
-							} else if (array_key_exists('color-1-overlay', $cssAfter)) {
-								$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
-							} else if (array_key_exists('color-2-overlay', $cssAfter)) {
-								$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+							if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
+								$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
+							} else if (array_key_exists('color-1-overlay', $cssAfterAll)) {
+								$css .= 'background: ' . $cssAfterAll['color-1-overlay'] .';' . PHP_EOL;
+							} else if (array_key_exists('color-2-overlay', $cssAfterAll)) {
+								$css .= 'background: ' . $cssAfterAll['color-2-overlay'] .';' . PHP_EOL;
 							}
 
-							if (array_key_exists('opacity', $cssAfter)) {
-								$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
+							if (array_key_exists('opacity', $cssAfterAll)) {
+								$css .= 'opacity: ' . $cssAfterAll['opacity'] .';' . PHP_EOL;
 							}
 
 							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
@@ -378,6 +379,8 @@ class td_block {
 
 								if ($mediaCss !== '') {
 									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
+								} else {
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
 								}
 
 								if ($cssBefore !== '') {
@@ -391,9 +394,17 @@ class td_block {
 									if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
 										$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
 									} else if (array_key_exists('color-1-overlay', $cssAfter)) {
-										$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
+										if (array_key_exists('color-2-overlay', $cssAfterAll)) {
+											$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
+										} else {
+											$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
+										}
 									} else if (array_key_exists('color-2-overlay', $cssAfter)) {
-										$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+										if (array_key_exists('color-1-overlay', $cssAfterAll)) {
+											$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
+										} else {
+											$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+										}
 									}
 
 									if (array_key_exists('opacity', $cssAfter)) {
