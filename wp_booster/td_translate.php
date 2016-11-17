@@ -72,7 +72,10 @@ $td_translation_map = array(
     '1 COMMENT' => __('1 COMMENT', TD_THEME_NAME),
     'COMMENTS' => __('COMMENTS', TD_THEME_NAME),
     'Your comment is awaiting moderation' => __('Your comment is awaiting moderation', TD_THEME_NAME),
-
+    'Please enter your name here' => __('Please enter your name here', TD_THEME_NAME),
+    'Please enter your email address here' => __('Please enter your email address here', TD_THEME_NAME),
+    'You have entered an incorrect email address!' => __('You have entered an incorrect email address!', TD_THEME_NAME),
+    'Please enter your comment!' => __('Please enter your comment!', TD_THEME_NAME),
 
     //review
     'REVIEW OVERVIEW' => __('REVIEW OVERVIEW', TD_THEME_NAME),  //on Newspaper4 it was lowercase

@@ -14,6 +14,8 @@ var tdUtil = {};
 
     tdUtil = {
 
+        //patern to check emails
+        email_pattern : /^[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-zA-Z0-9]@[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-z0-9][\.][a-z0-9]{2,4}$/,
 
         /**
          * stop propagation of an event - we should check this if we can remove window.event.cancelBubble - possible
@@ -26,6 +28,15 @@ var tdUtil = {};
             } else {
                 window.event.cancelBubble=true;
             }
+        },
+
+        /**
+         * checks if a form input field value is a valid email address
+         * @param val
+         * @returns {boolean}
+         */
+        isEmail: function( val ) {
+            return tdUtil.email_pattern.test(val);
         },
 
         /**
