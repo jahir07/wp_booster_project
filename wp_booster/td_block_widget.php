@@ -243,7 +243,7 @@ class td_block_widget extends WP_Widget {
 	        $buffer .= '</div>';
 		    $buffer .= '<div class="tdc-tab-content-wrap">';
 
-		    $class_tab_content_visible = ' tdc-tab-content-visible';
+		    $class_tab_content_visible = 'tdc-tab-content-visible';
 
 		    foreach ($newGroupNames as $groupName) {
 
@@ -256,11 +256,14 @@ class td_block_widget extends WP_Widget {
 				    }
 
 				    $data_tdc_css = ' data-tdc_css="' . $tdc_css_value .'"';
+				    $class_tab_design = 'tdc-tab-design';
+
 			    } else {
 				    $data_tdc_css = '';
+				    $class_tab_design = '';
 			    }
 
-			    $buffer .= '<div class="tdc-tab-content tdc-tab-' . strtolower($groupName['show_name']) . $class_tab_content_visible . '"' . $data_tdc_css . '>';
+			    $buffer .= '<div class="tdc-tab-content tdc-tab-widget tdc-tab-' . strtolower($groupName['show_name']) . ' ' . $class_tab_content_visible . ' ' . $class_tab_design . '"' . $data_tdc_css . '>';
 			    $class_tab_content_visible = '';
 
 			    foreach ($this->map_array['params'] as $param) {
