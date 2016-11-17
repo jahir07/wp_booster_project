@@ -48,35 +48,37 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        <?php }
 
             $commenter = wp_get_current_commenter();
-
-	        if (empty($aria_req)) {
-	            $aria_req = '';
-	        }
+            $req = get_option( 'require_name_email' );
+            $aria_req = ( $req ? " aria-required='true'" : '' );
 
 	        $fields = array(
 		        'author' =>
-			        '<p class="comment-form-input-wrap td-form-author">
-			            <span class="comment-req-wrap">
-			            	<input class="" id="author" name="author" placeholder="' . __td('Name:', TD_THEME_NAME) . '" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' />' . ( $req ? '</span>' : '' ) .
-			        '</p>',
+			        '<div class="comment-form-input-wrap td-form-author">
+			            <input class="" id="author" name="author" placeholder="' . __td('Name:', TD_THEME_NAME) . ( $req ? '*' : '' ) . '" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" ' . $aria_req . ' />
+			            <div class="td-warning-author">' . __td('Please enter your name here', TD_THEME_NAME) . '</div>
+			         </div>',
 
 		        'email'  =>
-			        '<p class="comment-form-input-wrap td-form-email">
-			            <span class="comment-req-wrap"><input class="" id="email" name="email" placeholder="' . __td('Email:', TD_THEME_NAME) . '" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' />' . ( $req ? '</span>' : '' ) .
-			        '</p>',
+			        '<div class="comment-form-input-wrap td-form-email">
+			            <input class="" id="email" name="email" placeholder="' . __td('Email:', TD_THEME_NAME) . ( $req ? '*' : '' ) . '" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" ' . $aria_req . ' />
+			            <div class="td-warning-email-error">' . __td('You have entered an incorrect email address!', TD_THEME_NAME) . '</div>
+			            <div class="td-warning-email">' . __td('Please enter your email address here', TD_THEME_NAME) . '</div>
+			         </div>',
 
 		        'url' =>
-			        '<p class="comment-form-input-wrap td-form-url">
-			            <input class="" id="url" name="url" placeholder="' . __td('Website:', TD_THEME_NAME) . '" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" />' .
-			        '</p>',
+			        '<div class="comment-form-input-wrap td-form-url">
+			            <input class="" id="url" name="url" placeholder="' . __td('Website:', TD_THEME_NAME) . '" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" />
+                     </div>',
             );
 
 		    $defaults = array('fields' => apply_filters('comment_form_default_fields', $fields));
 		    $defaults['comment_field'] =
 			    '<div class="clearfix"></div>
-				<p class="comment-form-input-wrap td-form-comment">
+				<div class="comment-form-input-wrap td-form-comment">
 					<textarea placeholder="' . __td('Comment:', TD_THEME_NAME) . '" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
-		        </p>';
+					<div class="td-warning-comment">' . __td('Please enter your comment!', TD_THEME_NAME) . '</div>
+				</div>
+		        ';
 
 		    $defaults['comment_notes_before'] = '';
 		    $defaults['comment_notes_after'] = '';

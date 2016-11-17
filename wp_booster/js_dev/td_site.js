@@ -62,6 +62,9 @@ jQuery().ready(function jQuery_ready() {
 
     setMenuMinHeight();
 
+    // prevents comments form submission without filing the required form fields
+    td_comments_form_validation();
+
 }); //end on load
 
 
@@ -785,4 +788,69 @@ function setMenuMinHeight() {
     }
 
 
+}
+
+/**
+ * Used on comments form to prevent comments form submission without filing the required fields
+ */
+
+function td_comments_form_validation() {
+
+    //on form submit
+    jQuery('.comment-form').submit( function(event) {
+
+        jQuery('form#commentform :input').each( function() {
+
+            var current_input_field = jQuery(this);
+            var form = jQuery(this).parent().parent();
+
+            if (current_input_field.attr('aria-required')){
+                if (current_input_field.val() == '') {
+                    event.preventDefault();
+                    form.addClass('td-comment-form-warnings');
+
+                    if (current_input_field.attr('id') == 'comment') {
+                        form.find('.td-warning-comment').show(200);
+                        current_input_field.css('border', '1px solid #ff7a7a');
+                    } else if (current_input_field.attr('id') == 'author') {
+                        form.find('.td-warning-author').show(200);
+                        current_input_field.css('border', '1px solid #ff7a7a');
+                    } else if (current_input_field.attr('id') == 'email') {
+                        form.find('.td-warning-email').show(200);
+                        current_input_field.css('border', '1px solid #ff7a7a');
+                    }
+                } else if ( current_input_field.attr('id') == 'email' && tdUtil.isEmail( current_input_field.val() ) === false ) {
+                    event.preventDefault();
+                    form.addClass('td-comment-form-warnings');
+                    form.find('.td-warning-email-error').show(200);
+                }
+            }
+        });
+
+    });
+
+    //on form input fields focus
+    jQuery('form#commentform :input').each( function() {
+
+        var form = jQuery(this).parent().parent();
+        var current_input_field = jQuery(this);
+
+        current_input_field.focus( function(){
+
+            if (current_input_field.attr('id') == 'comment') {
+                form.find('.td-warning-comment').hide(200);
+                current_input_field.css('border', '1px solid #e1e1e1');
+
+            } else if (current_input_field.attr('id') == 'author') {
+                form.find('.td-warning-author').hide(200);
+                current_input_field.css('border', '1px solid #e1e1e1');
+
+
+            } else if (current_input_field.attr('id') == 'email') {
+                form.find('.td-warning-email').hide(200);
+                form.find('.td-warning-email-error').hide(200);
+                current_input_field.css('border', '1px solid #e1e1e1');
+            }
+        });
+    })
 }
