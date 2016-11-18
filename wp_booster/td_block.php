@@ -376,9 +376,15 @@ class td_block {
 								// Change to 'transparent' for 'background-color: no_value'
 								// Change to 'transparent' for 'color-1-overlay: no_value'
 								// Change to 'transparent' for 'color-2-overlay: no_value'
-								if ($v2 === 'no_value' && ($k2 === 'border-color' || $k2 === 'background-color' || $k2 === 'color-1-overlay' || $k2 === 'color-2-overlay')) {
-
-									$v2 = 'transparent';
+								// Change to 'none' for 'background-image: no_value'
+								if ($v2 === 'no_value') {
+									switch ($k2) {
+										case 'border-color':
+										case 'background-color':
+										case 'color-1-overlay':
+										case 'color-2-overlay': $v2 = 'transparent'; break;
+										case 'background-image': $v2 = 'none'; break;
+									}
 								}
 
 
