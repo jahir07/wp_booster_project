@@ -244,6 +244,8 @@ class td_block {
 					$cssBeforeAll = '';
 					$cssAfterAll = array();
 
+					$borderInAll = false;
+
 					// 'all' css settings
 					if (array_key_exists('all', $tdcCssArray)) {
 
@@ -263,7 +265,29 @@ class td_block {
 							}
 
 							$mediaCssAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+
+
+							// Check for 'border'
+							// Default value for border-color is added!
+							if (!$borderInAll && strpos($k1, 'border') !== false) {
+								$borderInAll = true;
+							}
 						}
+
+
+
+						// Add default value for 'border-style'
+						// Add default value for 'border-color'
+						if ($borderInAll) {
+							if (!isset($tdcCssArray['all']['border-style'])) {
+								$mediaCssAll .= 'border-style:solid;' . PHP_EOL;
+							}
+							if (!isset($tdcCssArray['all']['border-color'])) {
+								$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
+							}
+						}
+
+
 
 						unset($tdcCssArray['all']);
 
@@ -329,6 +353,8 @@ class td_block {
 						}
 					}
 
+
+
 					foreach ($limits as $key => $val) {
 
 						$mediaArray = $tdcCssArray[ $key ];
@@ -337,11 +363,24 @@ class td_block {
 						$cssBefore = '';
 						$cssAfter = array();
 
+						$borderInLimit = false;
+
 						foreach ($mediaArray as $k2 => $v2) {
 							if ( ! empty( $v2 ) ) {
+
 								if (in_array($k2, $numericCssProps) && is_numeric($v2)) {
 									$v2 .= 'px';
 								}
+
+								// Change to 'transparent' for 'border-color: no_value'
+								// Change to 'transparent' for 'background-color: no_value'
+								// Change to 'transparent' for 'color-1-overlay: no_value'
+								// Change to 'transparent' for 'color-2-overlay: no_value'
+								if ($v2 === 'no_value' && ($k2 === 'border-color' || $k2 === 'background-color' || $k2 === 'color-1-overlay' || $k2 === 'color-2-overlay')) {
+
+									$v2 = 'transparent';
+								}
+
 
 								if (in_array($k2, $beforeCssProps)) {
 									$cssBefore .= $k2 . ':' . $v2 . ';' . PHP_EOL;
@@ -353,9 +392,34 @@ class td_block {
 									continue;
 								}
 
+
+
 								$mediaCss .= $k2 . ':' . $v2 . ';' . PHP_EOL;
+
+
+
+								// Check for 'border'
+								// Default value for border-color is added!
+								if (!$borderInLimit && strpos($k2, 'border') !== false) {
+									$borderInLimit = true;
+								}
 							}
 						}
+
+
+
+						// Add default value for 'border-style'
+						// Add default value for 'border-color'
+						if ($borderInLimit && !$borderInAll) {
+							if (!isset($mediaArray['border-style'])) {
+								$mediaCss .= 'border-style:solid;' . PHP_EOL;
+							}
+							if (!isset($mediaArray['border-color'])) {
+								$mediaCss .= 'border-color:#888888;' . PHP_EOL;
+							}
+						}
+
+
 
 						if ( $mediaCss !== '' || $cssBefore !== '') {
 
