@@ -56,6 +56,9 @@ jQuery().ready(function() {
     //click event on system status buttons
     tdButtonSystemStatus();
 
+    //social fields validation
+    td_add_event_to_validate_panel_social_fields();
+
 });
 
 //function to add click events on all checkboxes
@@ -908,4 +911,62 @@ function tdButtonSystemStatus() {
             window.location.replace(currentElementHref);
         }
     })
+}
+
+//  regex url validation function
+function isUrlValid(url) {
+    return /^(https?|s?ftp):(\/\/|)(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+}
+
+//  regex email validation function
+function isEmailUrlValid(url) {
+    return /^(mailto):([a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-zA-Z0-9]@[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-z0-9][\.][a-z0-9]{2,4}?$)/i.test(url);
+}
+
+/**
+ * function for panel > social networks validation
+ * it displays an error message and a description note if a non valid url is used on each social network field
+ */
+
+function td_add_event_to_validate_panel_social_fields() {
+
+    var panel_social_input_fields = jQuery ('#td-panel-social-networks .td-panel-input');
+
+    panel_social_input_fields.each( function() {
+        var current_input_filed = jQuery(this);
+
+        td_input_field_check(current_input_filed);
+
+        current_input_filed.on('input',function() {
+            td_input_field_check(current_input_filed);
+        });
+    });
+
+    function td_input_field_check(input_element){
+
+        var current_input_filed_name = input_element.attr("name");
+        var current_social_network_name = input_element.parent().attr("id");
+
+        if ( input_element.val() != '' && isUrlValid(input_element.val()) === false && input_element.attr("name") !== 'td_social_networks[mail-1]') {
+
+            if (input_element.hasClass("td-url-error")) {
+                return;
+            }
+
+            input_element.addClass("td-url-error");
+            input_element.after('<span id="field-error" class="error" for="'+ current_input_filed_name +'">' + 'Please enter a valid URL. </span><br />' +
+                                '<span class="error error-note"> NOTE: ** This field should contain the unique URL for your ' + current_social_network_name + ' profile!</span>');
+
+        } else {
+            input_element.removeClass("td-url-error");
+            input_element.siblings().remove();
+
+            if (input_element.attr("name") === 'td_social_networks[mail-1]' && input_element.val() != '' && isEmailUrlValid(input_element.val()) === false) {
+                input_element.addClass("td-url-error");
+                input_element.after('<span id="field-error" class="error" for="'+ current_input_filed_name +'">' + 'Please enter a valid <b>"mailto:"</b> HTML e-mail link </span><br />' +
+                    '<span class="error error-note"> NOTE: ** This field should contain the unique HTML e-mail link for your ' + current_social_network_name + ' address!</span>');
+            }
+        }
+    }
+
 }
