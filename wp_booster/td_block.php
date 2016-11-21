@@ -206,8 +206,9 @@ class td_block {
 				// General css settings
 				// this will fix the z-index issue on background and overlay color/gradient
 				$generalCssSettings =
-					"transform: translateZ(0);" . PHP_EOL .
-                    "-webkit-transform: translateZ(0);" . PHP_EOL;
+					'transform: translateZ(0);' . PHP_EOL .
+                    '-webkit-transform: translateZ(0);' . PHP_EOL .
+                    'position: relative;' . PHP_EOL;
 
 				// Values of these properties must be numeric
 				$numericCssProps = array(
@@ -249,6 +250,7 @@ class td_block {
 			        "top: 0;" . PHP_EOL .
 			        "left: 0;" . PHP_EOL .
 			        "background-position: top;" . PHP_EOL .
+			        "display: block;" . PHP_EOL .
 			        "z-index: -1;" . PHP_EOL;
 
 				$cssAfterSettings =
