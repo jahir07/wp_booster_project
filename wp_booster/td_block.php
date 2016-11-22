@@ -625,7 +625,7 @@ class td_block {
 					$borderCss = $this->getBorderWidth($borderWidthCssProps);
 
 					if ($borderCss !== '') {
-						$mediaCssAll .= $borderCss;
+						$mediaCss .= $borderCss;
 					}
 
 
