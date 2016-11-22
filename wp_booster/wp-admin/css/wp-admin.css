@@ -5014,7 +5014,8 @@ input[type=checkbox] {
 .tdc-property-attach_image .tdc-property-title {
   margin-bottom: 0;
 }
-.tdc-property-attach_image .tdc-image-wrap {
+.tdc-property-attach_image .tdc-image-wrap,
+.tdc-property-attach_image .tdc-css-image-wrap {
   width: 27px;
   height: 27px;
   cursor: pointer;
@@ -5026,7 +5027,8 @@ input[type=checkbox] {
   top: 0;
   right: 0;
 }
-.tdc-property-attach_image .tdc-image-remove {
+.tdc-property-attach_image .tdc-image-remove,
+.tdc-property-attach_image .tdc-css-image-remove {
   position: absolute;
   top: 0;
   right: 27px;
