@@ -548,7 +548,7 @@ class td_block {
 					$borderInLimit = false;
 
 
-					// Reset $beforeCs
+					// Reset $beforeCss
 					foreach ($borderWidthCssProps as $borderCssKey => $borderCssValue) {
 						$borderWidthCssProps[$borderCssKey] = '';
 					}
@@ -572,6 +572,12 @@ class td_block {
 							if (!$borderInLimit && strpos($k2, 'border') !== false) {
 								$borderInLimit = true;
 							}
+
+							if (array_key_exists($k2, $borderWidthCssProps)) {
+								$borderWidthCssProps[$k2] = $v2;
+								continue;
+							}
+
 
 							// Change to 'transparent' for 'border-color: no_value'
 							// Change to 'transparent' for 'background-color: no_value'
