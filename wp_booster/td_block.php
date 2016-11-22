@@ -191,7 +191,65 @@ class td_block {
 
 
 
-	private function getBackground( $beforeCssProps ) {
+	private function getBorderWidth($borderWidthCssProps) {
+
+		$borderWidthCss = '';
+
+		$borderSet = false;
+		$borderSettings = array(
+			'border-top-width' => '0px',
+			'border-right-width' => '0px',
+			'border-bottom-width' => '0px',
+			'border-left-width' => '0px',
+		);
+
+		foreach ($borderWidthCssProps as $key => $val) {
+			switch ($key) {
+				case 'border-top-width':
+					if (!empty($val)) {
+						$borderSet = true;
+						$borderSettings[$key] = $val;
+					}
+					break;
+
+				case 'border-right-width':
+					if (!empty($val)) {
+						$borderSet = true;
+						$borderSettings[$key] = $val;
+					}
+					break;
+
+				case 'border-bottom-width':
+					if (!empty($val)) {
+						$borderSet = true;
+						$borderSettings[$key] = $val;
+					}
+					break;
+
+				case 'border-left-width':
+					if (!empty($val)) {
+						$borderSet = true;
+						$borderSettings[$key] = $val;
+					}
+					break;
+			}
+		}
+
+		if ($borderSet) {
+
+			$borderWidthCss = 'border-width:';
+			foreach ($borderSettings as $key => $val) {
+				$borderWidthCss .= ' ' . $val;
+			}
+			$borderWidthCss .= ';' . PHP_EOL;
+		}
+
+		return $borderWidthCss;
+	}
+
+
+
+	private function getBackground($beforeCssProps) {
 
 		$backgroundCss = '';
 
@@ -205,38 +263,38 @@ class td_block {
 			'background-repeat' => '',
 		);
 
-		foreach( $beforeCssProps as $keyBeforeAll => $valueBeforeAll) {
-			switch ($keyBeforeAll) {
+		foreach( $beforeCssProps as $key => $val) {
+			switch ($key) {
 				case 'background-color':
-					if (!empty($valueBeforeAll)) {
+					if (!empty($val)) {
 						$backgroundSet = true;
-						$backgroundSettings[$keyBeforeAll] = $valueBeforeAll;
+						$backgroundSettings[$key] = $val;
 					}
 					break;
 
 				case 'background-image':
-					if (!empty($valueBeforeAll)) {
+					if (!empty($val)) {
 						$backgroundSet = true;
-						$backgroundSettings[$keyBeforeAll] = $valueBeforeAll;
+						$backgroundSettings[$key] = $val;
 					}
 					break;
 
 				case 'background-size':
 
-					switch ($beforeCssProps[$keyBeforeAll]) {
+					switch ($beforeCssProps[$key]) {
 						case 'cover':
 						case 'contain':
-							if (!empty($valueBeforeAll)) {
+							if (!empty($val)) {
 								$backgroundSet = true;
-								$backgroundSettings[$keyBeforeAll] = 'top/' . $valueBeforeAll;
+								$backgroundSettings[$key] = 'top/' . $val;
 							}
 							break;
 
 						case 'repeat':
 						case 'no-repeat':
-							if (!empty($valueBeforeAll)) {
+							if (!empty($val)) {
 								$backgroundSet = true;
-								$backgroundSettings[$keyBeforeAll] = $valueBeforeAll;
+								$backgroundSettings[$key] = $val;
 							}
 							break;
 					}
@@ -246,14 +304,12 @@ class td_block {
 
 		if ($backgroundSet) {
 
-			$backgroundCss = 'background: ';
-
-			foreach ($backgroundSettings as $backgroundSettingKey => $backgroundSettingValue) {
-				if (!empty($backgroundSettingValue)) {
-					$backgroundCss .= $backgroundSettingValue . ' ';
+			$backgroundCss = 'background:';
+			foreach ($backgroundSettings as $key => $val) {
+				if (!empty($val)) {
+					$backgroundCss .= $val . ' ';
 				}
 			}
-
 			$backgroundCss .= ';' . PHP_EOL;
 		}
 
@@ -301,6 +357,13 @@ class td_block {
 					'padding-left',
 				);
 
+				$borderWidthCssProps = array(
+					'border-top-width' => '',
+					'border-right-width' => '',
+					'border-bottom-width' => '',
+					'border-left-width' => '',
+				);
+
 				$beforeCssProps = array(
 					'background-color' => '',
 					'background-image' => '',
@@ -343,8 +406,20 @@ class td_block {
 				if (array_key_exists('all', $tdcCssArray)) {
 
 					foreach ($tdcCssArray['all'] as $k1 => $v1) {
+
 						if (in_array($k1, $numericCssProps) && is_numeric($v1)) {
 							$v1 .= 'px';
+						}
+
+						// Check for 'border'
+						// Default value for border-color is added!
+						if (!$borderInAll && strpos($k1, 'border') !== false) {
+							$borderInAll = true;
+						}
+
+						if (array_key_exists($k1, $borderWidthCssProps)) {
+							$borderWidthCssProps[$k1] = $v1;
+							continue;
 						}
 
 						if (array_key_exists($k1, $beforeCssProps)) {
@@ -358,13 +433,6 @@ class td_block {
 						}
 
 						$mediaCssAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
-
-
-						// Check for 'border'
-						// Default value for border-color is added!
-						if (!$borderInAll && strpos($k1, 'border') !== false) {
-							$borderInAll = true;
-						}
 					}
 
 
@@ -378,6 +446,16 @@ class td_block {
 						if (!isset($tdcCssArray['all']['border-color'])) {
 							$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
 						}
+					}
+
+
+
+
+					// Set border width css for 'all'
+					$borderCss = $this->getBorderWidth($borderWidthCssProps);
+
+					if ($borderCss !== '') {
+						$mediaCssAll .= $borderCss;
 					}
 
 
@@ -469,6 +547,12 @@ class td_block {
 
 					$borderInLimit = false;
 
+
+					// Reset $beforeCs
+					foreach ($borderWidthCssProps as $borderCssKey => $borderCssValue) {
+						$borderWidthCssProps[$borderCssKey] = '';
+					}
+
 					// Reset $beforeCssProps
 					foreach ($beforeCssProps as $beforeCssKey => $beforeCssValue) {
 						$beforeCssProps[$beforeCssKey] = '';
@@ -480,6 +564,13 @@ class td_block {
 
 							if (in_array($k2, $numericCssProps) && is_numeric($v2)) {
 								$v2 .= 'px';
+							}
+
+							// Check for 'border'
+							// Default value for border-style is added!
+							// Default value for border-color is added!
+							if (!$borderInLimit && strpos($k2, 'border') !== false) {
+								$borderInLimit = true;
 							}
 
 							// Change to 'transparent' for 'border-color: no_value'
@@ -511,14 +602,6 @@ class td_block {
 
 
 							$mediaCss .= $k2 . ':' . $v2 . ';' . PHP_EOL;
-
-
-
-							// Check for 'border'
-							// Default value for border-color is added!
-							if (!$borderInLimit && strpos($k2, 'border') !== false) {
-								$borderInLimit = true;
-							}
 						}
 					}
 
@@ -537,13 +620,23 @@ class td_block {
 
 
 
+
+					// Set border width css for 'all'
+					$borderCss = $this->getBorderWidth($borderWidthCssProps);
+
+					if ($borderCss !== '') {
+						$mediaCssAll .= $borderCss;
+					}
+
+
+
+
 					// Set background css for limit
 					$backgroundCss = $this->getBackground($beforeCssProps);
 
 					if ($backgroundCss !== '') {
 						$mediaCss .= $backgroundCss;
 					}
-
 
 
 
