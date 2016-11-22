@@ -920,7 +920,7 @@ function isUrlValid(url) {
 
 //  regex email validation function
 function isEmailUrlValid(url) {
-    return /^(mailto):([a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-zA-Z0-9]@[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-z0-9][\.][a-z0-9]{2,4}?$)/i.test(url);
+    return /^[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-zA-Z0-9]@[a-zA-Z0-9][a-zA-Z0-9_\.-]{0,}[a-z0-9][\.][a-z0-9]{2,4}?$/i.test(url);
 }
 
 /**
