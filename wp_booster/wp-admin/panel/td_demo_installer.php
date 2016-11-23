@@ -124,16 +124,18 @@ class td_demo_installer {
             td_demo_category::remove();
             td_demo_menus::remove();
             td_demo_widgets::remove();
-        }
-        /*  ----------------------------------------------------------------------------
-            install Full
-        */
-        else if ($td_demo_action == 'td_media_1') {
+
             // change our state
             td_demo_state::update_state($td_demo_id, 'full');
 
             // load panel settings
             $this->import_panel_settings(td_global::$demo_list[$td_demo_id]['folder'] . 'td_panel_settings.txt', true);
+        }
+        /*  ----------------------------------------------------------------------------
+            install Full
+        */
+        else if ($td_demo_action == 'td_media_1') {
+
 
             // load the media import script
             require_once(td_global::$demo_list[$td_demo_id]['folder'] . 'td_media_1.php');
