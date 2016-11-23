@@ -318,7 +318,7 @@ class td_block {
 
 
 
-	protected function generate_css( $tdcCss, $flag = false ) {
+	protected function generate_css( $tdcCss, $removeMainCssSetting = false ) {
 
 		$buffy = '';
 
@@ -330,16 +330,16 @@ class td_block {
 			if (!is_null($tdcCssArray) && is_array($tdcCssArray)) {
 				$tdcCssProcessed = '';
 
-				// General css settings
+				// Main css settings
 				// this will fix the z-index issue on background and overlay color/gradient
-				$generalCssSettings =
+				$mainCssSettings =
 					'transform: translateZ(0);' . PHP_EOL .
                     '-webkit-transform: translateZ(0);' . PHP_EOL .
                     'position: relative;' . PHP_EOL;
 
 
-				if ($flag) {
-					$generalCssSettings = '';
+				if ($removeMainCssSetting) {
+					$mainCssSettings = '';
 				}
 
 				// Values of these properties must be numeric
@@ -491,9 +491,9 @@ class td_block {
 
 					// all css
 					if ($mediaCssAll !== '') {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCssAll . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . $mediaCssAll . '}' . PHP_EOL;
 					} else {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
 					}
 
 					// all ::before
@@ -689,9 +689,9 @@ class td_block {
 							$tdcCssProcessed .= '{'. PHP_EOL;
 
 							if ($mediaCss !== '') {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . $mediaCss . '}' . PHP_EOL;
 							} else {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
