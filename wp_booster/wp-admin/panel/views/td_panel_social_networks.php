@@ -12,7 +12,7 @@ foreach(td_social_icons::$td_social_icons_array as $panel_social_id => $panel_so
         <span class="td-box-title"><?php echo strtoupper($panel_social_name);?></span>
         <p>Link to : <?php echo $panel_social_name;?></p>
     </div>
-    <div class="td-box-control-full">
+    <div id="<?php echo $panel_social_name;?>" class="td-box-control-full" >
         <?php
         echo td_panel_generator::input(array(
             'ds' => 'td_social_networks',
