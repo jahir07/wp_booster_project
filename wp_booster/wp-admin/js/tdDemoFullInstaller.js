@@ -126,7 +126,7 @@ var tdDemoFullInstaller = {};
                     data: {
                         action: 'td_ajax_demo_install',
                         td_demo_action: 'remove_content_before_install',
-                        td_demo_id: ''
+                        td_demo_id: demoId
                     }
                 },
                 1: {
