@@ -125,7 +125,7 @@ class td_cake {
 
 
     /**
-     * the cake panel
+     * the cake panel t
      */
 
     function td_cake_register_panel() {
