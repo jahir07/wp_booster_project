@@ -166,7 +166,7 @@ class td_block {
 	protected function get_block_css() {
 		$buffy = $this->block_template()->get_css();
 
-		$css = $this->get_att( 'css' );
+		$css = $this->get_att('css');
 
 		// VC adds the CSS att automatically so we don't have to do it
 		if (!td_util::is_vc_installed() && !empty($css)) {
@@ -174,9 +174,9 @@ class td_block {
 		}
 
 
-		$tdcCss = $this->get_att( 'tdc_css' );
+		$tdcCss = $this->get_att('tdc_css');
 		if (!empty($tdcCss)) {
-			$buffy .= td_block::generate_css( $tdcCss );
+			$buffy .= td_block::generate_css($tdcCss);
 		}
 
 
@@ -318,7 +318,7 @@ class td_block {
 
 
 
-	protected function generate_css( $tdcCss ) {
+	protected function generate_css( $tdcCss, $removeMainCssSetting = false ) {
 
 		$buffy = '';
 
@@ -330,12 +330,17 @@ class td_block {
 			if (!is_null($tdcCssArray) && is_array($tdcCssArray)) {
 				$tdcCssProcessed = '';
 
-				// General css settings
+				// Main css settings
 				// this will fix the z-index issue on background and overlay color/gradient
-				$generalCssSettings =
+				$mainCssSettings =
 					'transform: translateZ(0);' . PHP_EOL .
                     '-webkit-transform: translateZ(0);' . PHP_EOL .
                     'position: relative;' . PHP_EOL;
+
+
+				if ($removeMainCssSetting) {
+					$mainCssSettings = '';
+				}
 
 				// Values of these properties must be numeric
 				$numericCssProps = array(
@@ -365,10 +370,10 @@ class td_block {
 				);
 
 				$beforeCssProps = array(
-					'background-color' => '',
-					'background-image' => '',
-					'background-size' => '',
-					'opacity' => '',
+					'background-color',
+					'background-image',
+					'background-size',
+					'opacity',
 				);
 
 				$afterCssProps = array(
@@ -422,8 +427,13 @@ class td_block {
 							continue;
 						}
 
-						if (array_key_exists($k1, $beforeCssProps)) {
-							$beforeCssProps[$k1] = $v1;
+//						if (array_key_exists($k1, $beforeCssProps)) {
+//							$beforeCssProps[$k1] = $v1;
+//							continue;
+//						}
+
+						if (in_array($k1, $beforeCssProps)) {
+							$cssBeforeAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
 							continue;
 						}
 
@@ -446,6 +456,12 @@ class td_block {
 						if (!isset($tdcCssArray['all']['border-color'])) {
 							$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
 						}
+						if (!isset($tdcCssArray['all']['border-top-width']) &&
+							!isset($tdcCssArray['all']['border-right-width']) &&
+							!isset($tdcCssArray['all']['border-bottom-width']) &&
+							!isset($tdcCssArray['all']['border-left-width'])) {
+							$mediaCssAll .= 'border-width:0;' . PHP_EOL;
+						}
 					}
 
 
@@ -461,12 +477,12 @@ class td_block {
 
 
 
-					// Set background css for 'all'
-					$backgroundCss = $this->getBackground($beforeCssProps);
-
-					if ($backgroundCss !== '') {
-						$mediaCssAll .= $backgroundCss;
-					}
+//					// Set background css for 'all'
+//					$backgroundCss = $this->getBackground($beforeCssProps);
+//
+//					if ($backgroundCss !== '') {
+//						$mediaCssAll .= $backgroundCss;
+//					}
 
 
 
@@ -475,9 +491,9 @@ class td_block {
 
 					// all css
 					if ($mediaCssAll !== '') {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . $mediaCssAll . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . $mediaCssAll . '}' . PHP_EOL;
 					} else {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
 					}
 
 					// all ::before
@@ -553,10 +569,10 @@ class td_block {
 						$borderWidthCssProps[$borderCssKey] = '';
 					}
 
-					// Reset $beforeCssProps
-					foreach ($beforeCssProps as $beforeCssKey => $beforeCssValue) {
-						$beforeCssProps[$beforeCssKey] = '';
-					}
+//					// Reset $beforeCssProps
+//					foreach ($beforeCssProps as $beforeCssKey => $beforeCssValue) {
+//						$beforeCssProps[$beforeCssKey] = '';
+//					}
 
 
 					foreach ($mediaArray as $k2 => $v2) {
@@ -595,8 +611,13 @@ class td_block {
 							}
 
 
-							if (array_key_exists($k2, $beforeCssProps)) {
-								$beforeCssProps[$k2] = $v2;
+//							if (array_key_exists($k2, $beforeCssProps)) {
+//								$beforeCssProps[$k2] = $v2;
+//								continue;
+//							}
+
+							if (in_array($k2, $beforeCssProps)) {
+								$cssBefore .= $k2 . ':' . $v2 . ';' . PHP_EOL;
 								continue;
 							}
 
@@ -637,17 +658,17 @@ class td_block {
 
 
 
-					// Set background css for limit
-					$backgroundCss = $this->getBackground($beforeCssProps);
-
-					if ($backgroundCss !== '') {
-						$mediaCss .= $backgroundCss;
-					}
-
-
+//					// Set background css for limit
+//					$backgroundCss = $this->getBackground($beforeCssProps);
+//
+//					if ($backgroundCss !== '') {
+//						$mediaCss .= $backgroundCss;
+//					}
 
 
-					if ( $mediaCss !== '' || $cssBefore !== '') {
+
+
+					if ( $mediaCss !== '' || $cssBefore !== '' || $cssAfter !== '') {
 
 						$mediaQuery = '';
 						if ( isset( $val['min_width'] ) ) {
@@ -668,9 +689,9 @@ class td_block {
 							$tdcCssProcessed .= '{'. PHP_EOL;
 
 							if ($mediaCss !== '') {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . $mediaCss . '}' . PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . $mediaCss . '}' . PHP_EOL;
 							} else {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $generalCssSettings . '}' . PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
