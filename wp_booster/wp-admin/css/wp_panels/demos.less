@@ -133,7 +133,8 @@
 }
 
 // disabled
-.td-demo-disabled {
+.td-demo-disabled,
+.td-req-demo-disabled {
   opacity: 0.3;
 
 
@@ -145,8 +146,44 @@
   }
 }
 
+// demo required plugins -> tooltip style
+.td-demo-req-plug-tooltip {
 
+  // demo required plugins -> tooltip button style
+  .td-tooltip {
+    font-weight: 200;
+    font-family: inherit;
+  }
 
+  // demo required plugins -> tooltip popup style
+  .tooltipster-content {
+    max-width: 350px;
+
+    ul li {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 16px;
+      color: #333;
+      list-style: none;
+      margin-left: 20px;
+
+      span {
+        margin-left: 10px;
+      }
+
+      &:before {
+        content: ' ';
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        float: left;
+        background-color: #4db2ec;
+        position: relative;
+        top: 7px;
+      }
+    }
+  }
+}
 
 // Demos page
 .td-demo-page-content {
@@ -436,7 +473,8 @@
 
 
 
-    .td-demo-disabled {
+    .td-demo-disabled,
+    .td-req-demo-disabled {
       &:hover {
         text-decoration: none;
         color: #333;
