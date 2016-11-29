@@ -789,9 +789,9 @@ class td_tokenizer {
 
     private function get_image_link_from_token($token) {
         $matches = array();
-        preg_match('/href="([^\\"]+)"/', $token, $matches);
-        if (!empty($matches[1])) {
-            return $matches[1];
+        preg_match('/<figure(.*)href="([^\\"]+)(.*)<figcaption/', $token, $matches);
+        if (!empty($matches[2])) {
+            return $matches[2];
         } else {
             return '';
         }
