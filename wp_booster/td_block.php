@@ -531,6 +531,14 @@ class td_block {
 					if (!empty($cssAfterAll)) {
 
 						$css = '';
+						$childElement = '';
+
+						// Important! A child element selector is used for 'vc_row' and 'vc_row_inner' :after. Otherwise the height of the parent will be made 0, because of an existing :after (clear:both)
+						if ( $this instanceof vc_row ) {
+							$childElement = ' .tdc-columns';
+						} else if ( $this instanceof vc_row_inner ) {
+							$childElement = ' .tdc-inner-columns';
+						}
 
 						if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
 							$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
@@ -544,7 +552,7 @@ class td_block {
 							$css .= 'opacity: ' . $cssAfterAll['opacity'] .';' . PHP_EOL;
 						}
 
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 					}
 
 					unset($tdcCssArray['all']);
@@ -756,6 +764,14 @@ class td_block {
 							if (!empty($cssAfter)) {
 
 								$css = '';
+								$childElement = '';
+
+								// Important! A child element selector is used for 'vc_row' and 'vc_row_inner' :after. Otherwise the height of the parent will be made 0, because of an existing :after (clear:both)
+								if ( $this instanceof vc_row ) {
+									$childElement = ' .tdc-columns';
+								} else if ( $this instanceof vc_row_inner ) {
+									$childElement = ' .tdc-inner-columns';
+								}
 
 								if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
 									$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
@@ -777,7 +793,7 @@ class td_block {
 									$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
 								}
 
-								$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+								$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 							}
 
 							$tdcCssProcessed .= '}'. PHP_EOL;
