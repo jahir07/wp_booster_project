@@ -151,6 +151,7 @@ die;
 
             $installed_demo = td_demo_state::get_installed_demo();
             $td_demo_names = array();
+            $td_demo_names_with_req_plugins = array();
 
             foreach (td_global::$demo_list as $demo_id => $stack_params) {
                 $td_demo_names[$stack_params['text']] = $demo_id;
@@ -159,9 +160,27 @@ die;
                 if ($installed_demo !== false and $installed_demo['demo_id'] == $demo_id) {
                     $tmp_class = 'td-demo-installed';
                 }
+
+                $demo_required_plugins_array = array();
+                $demo_req_plugin_class = '';
+
+                if ( !empty ($stack_params['required_plugins']) ) {
+
+                    foreach ($stack_params['required_plugins'] as $demo_req_plugin => $plugin_path) {
+                        if ( !is_plugin_active($plugin_path) ) {
+                            $demo_required_plugins_array[]= $demo_req_plugin;
+                        }
+                    }
+
+                    if ( !empty ($demo_required_plugins_array) ) {
+                        $demo_req_plugin_class = 'td-demo-req-plugins-disabled';
+                        $td_demo_names_with_req_plugins[] = $stack_params['text'];
+                    }
+                }
+
                 ?>
 
-                <div class="td-demo-<?php echo $demo_id ?> td-wp-admin-demo theme <?php echo $tmp_class ?>">
+                <div class="td-demo-<?php echo $demo_id ?> td-wp-admin-demo theme <?php echo $tmp_class . $demo_req_plugin_class ?>">
 
                     <!-- Import content -->
 
@@ -177,10 +196,29 @@ die;
 
                         <div class="theme-actions">
                             <a class="button button-secondary td-button-demo-preview" href="<?php echo td_global::$demo_list[$demo_id]['demo_url'] ?>" target="_blank">Preview</a>
-                            <a class="button button-secondary td-button-install-demo" href="#" data-demo-id="<?php echo $demo_id ?>">Install</a>
+
+                            <?php if ( empty( $demo_required_plugins_array ) ) { ?>
+                                <a class="button button-secondary td-button-install-demo" href="#" data-demo-id="<?php echo $demo_id ?>">Install</a>
+                            <?php } else {
+
+                                $plugins_list_html = '';
+                                $plugins_list_html .= '<h3>Demo Info:</h3>';
+                                $plugins_list_html .= '<span>For this demo to work properly you will need to install and activate the following theme plugins:</span>';
+                                $plugins_list_html .= '<ul>';
+
+                                foreach ( $demo_required_plugins_array as $demo_req_plugin ) {
+                                    $plugins_list_html .= '<li><span>' . $demo_req_plugin . '</span></li>';
+                                }
+
+                                $plugins_list_html .= '</ul>';
+
+                                echo '<a href="#" class="button button-secondary td-tooltip td-req-demo-disabled disabled" data-position="right" data-content-as-html="true" title="' . esc_attr($plugins_list_html) . '">Install</a>';
+
+                            } ?>
+
                             <a class="button button-primary td-button-uninstall-demo" href="#" data-demo-id="<?php echo $demo_id ?>">Uninstall</a>
                             <a class="button button-primary disabled td-button-installing-demo" href="#" data-demo-id="<?php echo $demo_id ?>">Installing...</a>
-                            <a class="button button-secondary disabled td-button-demo-disabled" href="#"">Install</a>
+                            <a class="button button-secondary disabled td-button-demo-disabled" href="#">Install</a>
                             <a class="button button-primary disabled td-button-uninstalling-demo" href="#" data-demo-id="<?php echo $demo_id ?>">Uninstalling...</a>
                         </div>
 
@@ -217,7 +255,6 @@ die;
             <ul>
                 <?php
                 ksort($td_demo_names);
-                //print_r($td_demo_names);
 
                 foreach ($td_demo_names as $td_name => $demo_id) {
 
@@ -226,6 +263,9 @@ die;
 		                $tmp_class = 'td-demo-installed';
 	                }
 
+                    if ( in_array($td_name, $td_demo_names_with_req_plugins)) {
+                        $tmp_class = $tmp_class . ' td-req-demo-disabled';
+                    }
 
                     echo '<li><a class="td-wp-admin-demo td-demo-' . $demo_id . ' td-button-install-demo-quick ' . $tmp_class . '" data-demo-id="'. $demo_id . '" href="#">' . $td_name . '</a></li>';
                 }?>

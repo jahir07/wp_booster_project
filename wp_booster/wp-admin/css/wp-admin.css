@@ -3419,14 +3419,45 @@ title one row controls
 .td-demo-uninstalling .td-demo-install-content {
   visibility: hidden;
 }
-.td-demo-disabled {
+.td-demo-disabled,
+.td-req-demo-disabled {
   opacity: 0.3;
 }
-.td-demo-disabled .td-button-install-demo {
+.td-demo-disabled .td-button-install-demo,
+.td-req-demo-disabled .td-button-install-demo {
   display: none;
 }
-.td-demo-disabled .td-button-demo-disabled {
+.td-demo-disabled .td-button-demo-disabled,
+.td-req-demo-disabled .td-button-demo-disabled {
   display: inline-block;
+}
+.td-demo-req-plug-tooltip .td-tooltip {
+  font-weight: 200;
+  font-family: inherit;
+}
+.td-demo-req-plug-tooltip .tooltipster-content {
+  max-width: 350px;
+}
+.td-demo-req-plug-tooltip .tooltipster-content ul li {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #333;
+  list-style: none;
+  margin-left: 20px;
+}
+.td-demo-req-plug-tooltip .tooltipster-content ul li span {
+  margin-left: 10px;
+}
+.td-demo-req-plug-tooltip .tooltipster-content ul li:before {
+  content: ' ';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  float: left;
+  background-color: #4db2ec;
+  position: relative;
+  top: 7px;
 }
 .td-demo-page-content {
   position: relative;
@@ -3697,7 +3728,8 @@ title one row controls
   text-decoration: none;
   cursor: default;
 }
-.td-demo-page-content .td-demos-summary .td-demo-disabled:hover {
+.td-demo-page-content .td-demos-summary .td-demo-disabled:hover,
+.td-demo-page-content .td-demos-summary .td-req-demo-disabled:hover {
   text-decoration: none;
   color: #333;
   cursor: default;

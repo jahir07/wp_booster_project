@@ -32,12 +32,25 @@ var td_wp_admin_demos = {};
 
             jQuery().ready(function() {
 
+                //add custom body class for disabled demos tooltip popup style
+                var body = jQuery(document.body);
+
+                if ( jQuery('.td-demo-req-plugins-disabled').length !== 0 ) {
+                    body.addClass('td-demo-req-plug-tooltip');
+                }
+
+
+                // disable the demo install button for demos that require additional plugins installation/activation
+                jQuery('.td-req-demo-disabled').click( function(event) {
+                    event.preventDefault();
+                });
+
 
                 // quick install - right menu
                 jQuery('.td-button-install-demo-quick').click(function(event) {
                     event.preventDefault();
 
-                    if (jQuery(this).hasClass('td-demo-installing') || jQuery(this).hasClass('td-demo-disabled') || jQuery(this).hasClass('td-demo-installed')) {
+                    if (jQuery(this).hasClass('td-demo-installing') || jQuery(this).hasClass('td-demo-disabled') || jQuery(this).hasClass('td-demo-installed') || jQuery(this).hasClass('td-req-demo-disabled')) {
                         return;
                     }
 
