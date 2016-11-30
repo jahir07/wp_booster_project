@@ -176,7 +176,7 @@ class td_block {
 
 		$tdcCss = $this->get_att('tdc_css');
 		if (!empty($tdcCss)) {
-			$buffy .= td_block::generate_css($tdcCss);
+			$buffy .= td_block::generate_css($tdcCss );
 		}
 
 
@@ -248,77 +248,16 @@ class td_block {
 	}
 
 
-
-//	private function getBackground($beforeCssProps) {
-//
-//		$backgroundCss = '';
-//
-//		// CSS syntax
-//		// background: bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
-//		$backgroundSet = false;
-//		$backgroundSettings = array(
-//			'background-color' => '',
-//			'background-image' => '',
-//			'background-size' => 'top/cover',
-//			'background-repeat' => '',
-//		);
-//
-//		foreach( $beforeCssProps as $key => $val) {
-//			switch ($key) {
-//				case 'background-color':
-//					if (!empty($val)) {
-//						$backgroundSet = true;
-//						$backgroundSettings[$key] = $val;
-//					}
-//					break;
-//
-//				case 'background-image':
-//					if (!empty($val)) {
-//						$backgroundSet = true;
-//						$backgroundSettings[$key] = $val;
-//					}
-//					break;
-//
-//				case 'background-size':
-//
-//					switch ($beforeCssProps[$key]) {
-//						case 'cover':
-//						case 'contain':
-//							if (!empty($val)) {
-//								$backgroundSet = true;
-//								$backgroundSettings[$key] = 'top/' . $val;
-//							}
-//							break;
-//
-//						case 'repeat':
-//						case 'no-repeat':
-//							if (!empty($val)) {
-//								$backgroundSet = true;
-//								$backgroundSettings[$key] = $val;
-//							}
-//							break;
-//					}
-//					break;
-//			}
-//		}
-//
-//		if ($backgroundSet) {
-//
-//			$backgroundCss = 'background:';
-//			foreach ($backgroundSettings as $key => $val) {
-//				if (!empty($val)) {
-//					$backgroundCss .= $val . ' ';
-//				}
-//			}
-//			$backgroundCss .= ';' . PHP_EOL;
-//		}
-//
-//		return $backgroundCss;
-//	}
-
-
-
-	protected function generate_css( $tdcCss, $removeMainCssSetting = false ) {
+	/**
+	 * Generate css for blocks, inner columns, inner rows, columns and rows
+	 * For inner rows and rows a new '.tdc-css' child element is added and its css is generated (This solution was adopted because we need an ::after element, and rows and inner rows already have an ::after element)
+	 *
+	 * @param $tdcCss - the property that will be decoded and parsed
+	 * @param bool $tdcCssElement - flag used to know outside if the '.tdc-css' element must be created in DOM
+	 *
+	 * @return string
+	 */
+	protected function generate_css( $tdcCss, &$tdcCssElement = false ) {
 
 		$buffy = '';
 
@@ -337,10 +276,6 @@ class td_block {
                     '-webkit-transform: translateZ(0);' . PHP_EOL .
                     'position: relative;' . PHP_EOL;
 
-
-				if ($removeMainCssSetting) {
-					$mainCssSettings = '';
-				}
 
 				// Values of these properties must be numeric
 				$numericCssProps = array(
@@ -533,12 +468,13 @@ class td_block {
 						$css = '';
 						$childElement = '';
 
+
 						// Important! A child element selector is used for 'vc_row' and 'vc_row_inner' :after. Otherwise the height of the parent will be made 0, because of an existing :after (clear:both)
-						if ( $this instanceof vc_row ) {
-							$childElement = ' .tdc-columns';
-						} else if ( $this instanceof vc_row_inner ) {
-							$childElement = ' .tdc-inner-columns';
+						if ( $this instanceof vc_row || $this instanceof vc_row_inner ) {
+							$childElement = ' .tdc-css';
+							$tdcCssElement = true;
 						}
+
 
 						if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
 							$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
@@ -552,7 +488,7 @@ class td_block {
 							$css .= 'opacity: ' . $cssAfterAll['opacity'] .';' . PHP_EOL;
 						}
 
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' {' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 					}
 
 					unset($tdcCssArray['all']);
@@ -766,12 +702,13 @@ class td_block {
 								$css = '';
 								$childElement = '';
 
+
 								// Important! A child element selector is used for 'vc_row' and 'vc_row_inner' :after. Otherwise the height of the parent will be made 0, because of an existing :after (clear:both)
-								if ( $this instanceof vc_row ) {
-									$childElement = ' .tdc-columns';
-								} else if ( $this instanceof vc_row_inner ) {
-									$childElement = ' .tdc-inner-columns';
+								if ( $this instanceof vc_row || $this instanceof vc_row_inner ) {
+									$childElement = ' .tdc-css';
+									$tdcCssElement = true;
 								}
+
 
 								if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
 									$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
