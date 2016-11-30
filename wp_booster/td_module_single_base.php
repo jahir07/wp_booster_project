@@ -397,9 +397,9 @@ class td_module_single_base extends td_module {
         $tds_inline_ad_align = td_util::get_option('tds_inline_ad_align');
 
         //ads titles
-        $tds_inline_ad_title = td_util::get_option('tds_inline_ad_title');
-        $tds_bottom_ad_title = td_util::get_option('tds_bottom_ad_title');
-        $tds_top_ad_title = td_util::get_option('tds_top_ad_title');
+        $tds_inline_ad_title = td_util::get_option('tds_content_inline_title');
+        $tds_bottom_ad_title = td_util::get_option('tds_content_bottom_title');
+        $tds_top_ad_title = td_util::get_option('tds_content_top_title');
 
 
         //add the inline ad
