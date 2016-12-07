@@ -139,6 +139,21 @@ class td_block {
          */
         $td_block_template_id = 'td_block_template_1';
 
+
+        /**
+         * This allows us to overwrite the block templates that are in the theme on each demo.
+         * it loads the block template from the demo folder ONLY IF it exists
+         * @since 7/12/2016
+         */
+        $demo_id = td_util::get_loaded_demo_id();
+        if ($demo_id !== false) {
+            $custom_block_template_path = td_global::$demo_list[$demo_id]['folder']  . $td_block_template_id . '.php';
+            if (file_exists($custom_block_template_path)) {
+                require_once $custom_block_template_path;
+            }
+        }
+
+
         $this->td_block_template_data = array(
             'atts' => $this->atts,
             'block_uid' => $this->block_uid,
