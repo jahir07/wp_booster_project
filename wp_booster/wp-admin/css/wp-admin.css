@@ -3792,6 +3792,9 @@ title one row controls
   margin-left: -15px;
   margin-right: -15px;
 }
+.td-admin-plugins .td-demo-thumb {
+  border: none;
+}
 .td-admin-plugins .about-text {
   max-width: 1050px;
 }
