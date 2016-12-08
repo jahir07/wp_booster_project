@@ -568,7 +568,7 @@ class td_block {
 
 
 					foreach ($mediaArray as $k2 => $v2) {
-						if ( ! empty( $v2 ) ) {
+						//if ( ! isset( $v2 ) ) {
 
 							if (in_array($k2, $numericCssProps) && is_numeric($v2)) {
 								$v2 .= 'px';
@@ -636,8 +636,7 @@ class td_block {
 
 							$mediaCss .= $k2 . ':' . $v2 . ';' . PHP_EOL;
 						}
-					}
-
+					//}
 
 
 					// Add default value for 'border-style'
