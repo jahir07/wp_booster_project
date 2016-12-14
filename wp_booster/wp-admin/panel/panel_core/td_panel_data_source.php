@@ -157,6 +157,35 @@ class td_panel_data_source {
 	    //td_global::$td_options['tds_user_compile_css'] = td_css_generator();
     }
 
+
+
+//* --------------------------------------------
+//* This will be used by preview '.tdc-view-page'
+//* --------------------------------------------
+//	static function post_preview_patch_options( $post_id ) {
+//
+////	    // die if request is fake
+////	    check_ajax_referer('td-update-panel', 'td_magic_token');
+////
+////
+////	    //if user is logged in and can switch themes
+////	    if (!current_user_can('switch_themes')) {
+////		    die;
+////	    }
+//
+//		$td_options = &td_options::get_all_by_ref();
+//
+//		$tdc_preview_options = get_post_meta( $post_id, 'tdc_preview_options', true );
+//
+//		//var_dump( $tdc_preview_options );
+//
+//	    foreach($tdc_preview_options as $options_id => $option_value) {
+//
+//        	$td_options[$options_id] = $option_value;
+//		}
+//    }
+
+
     /*
      * Updates all the settings for all of the types  [setting_type][etc]
      * this called at the end of this file
