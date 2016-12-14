@@ -309,7 +309,7 @@ a:focus {
     cursor: pointer;
 
     .tdc-all-icon {
-      background: url('../images/widgets.png');
+      background: url('../images/spritesheet.png');
       background-repeat: no-repeat;
       position: absolute;
       top: 5px;
@@ -323,7 +323,7 @@ a:focus {
       background-color: #4eb2ec;
 
       .tdc-all-icon {
-        background: url('../images/widgets.png');
+        background: url('../images/spritesheet.png');
         .stitches-sprite(-35px, -65px, 20px, 20px);
       }
     }
@@ -338,7 +338,7 @@ a:focus {
     cursor: pointer;
 
     .tdc-tablet-landscape-icon {
-      background: url('../images/widgets.png');
+      background: url('../images/spritesheet.png');
       background-repeat: no-repeat;
       position: absolute;
       top: 4px;
@@ -366,7 +366,7 @@ a:focus {
     cursor: pointer;
 
     .tdc-tablet-portrait-icon {
-      background: url('../images/widgets.png');
+      background: url('../images/spritesheet.png');
       background-repeat: no-repeat;
       position: absolute;
       top: 4px;
@@ -394,7 +394,7 @@ a:focus {
     cursor: pointer;
 
     .tdc-phone-icon {
-      background: url('../images/widgets.png');
+      background: url('../images/spritesheet.png');
       background-repeat: no-repeat;
       position: absolute;
       top: 4px;
@@ -431,6 +431,7 @@ a:focus {
 
   span[title] {
     cursor: pointer;
+    position: relative;
   }
 }
 
@@ -1057,21 +1058,31 @@ input[type=checkbox] {
 }
 
 .tdc-css-inherited {
-  background-color: #EAEACB !important;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -18px;
+    background-color: #4db2ec;
+    opacity: 0.8;
+    width: 10px;
+    height: 100%;
+    display: block;
+  }
+}
+.tdc-css-box-input.tdc-css-inherited {
+  background-color: #edf8fd;
 }
 
 .tdc-inherit {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   position: absolute;
-  left: 126px;
-  top: 10px;
+  right: -23px;
+  top: 2px;
   cursor: pointer;
-  background-color: #780000;
+  background: url(../images/spritesheet.png);
+  background-repeat: no-repeat;
+  background-position: -129px -127px;
   display: none;
 }
-
-.tdc-inherit-image {
-  left: -126px;
-}
-

@@ -4471,7 +4471,7 @@ a:focus {
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-all .tdc-all-icon {
-  background: url('../images/widgets.png');
+  background: url('../images/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 5px;
@@ -4486,7 +4486,7 @@ a:focus {
   background-color: #4eb2ec;
 }
 .tdc-responsive-buttons .tdc-responsive-all:active .tdc-all-icon {
-  background: url('../images/widgets.png');
+  background: url('../images/spritesheet.png');
   background-position: -35px -65px;
   width: 20px;
   height: 20px;
@@ -4500,7 +4500,7 @@ a:focus {
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-landscape .tdc-tablet-landscape-icon {
-  background: url('../images/widgets.png');
+  background: url('../images/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
@@ -4528,7 +4528,7 @@ a:focus {
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-tablet-portrait .tdc-tablet-portrait-icon {
-  background: url('../images/widgets.png');
+  background: url('../images/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
@@ -4556,7 +4556,7 @@ a:focus {
   cursor: pointer;
 }
 .tdc-responsive-buttons .tdc-responsive-phone .tdc-phone-icon {
-  background: url('../images/widgets.png');
+  background: url('../images/spritesheet.png');
   background-repeat: no-repeat;
   position: absolute;
   top: 4px;
@@ -4587,6 +4587,7 @@ a:focus {
 }
 .tdc-property-title span[title] {
   cursor: pointer;
+  position: relative;
 }
 /*
   css box editor
@@ -5107,19 +5108,29 @@ input[type=checkbox] {
   text-decoration: none;
   display: inline-block;
 }
-.tdc-css-inherited {
-  background-color: #EAEACB !important;
+.tdc-css-inherited:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -18px;
+  background-color: #4db2ec;
+  opacity: 0.8;
+  width: 10px;
+  height: 100%;
+  display: block;
+}
+.tdc-css-box-input.tdc-css-inherited {
+  background-color: #edf8fd;
 }
 .tdc-inherit {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   position: absolute;
-  left: 126px;
-  top: 10px;
+  right: -23px;
+  top: 2px;
   cursor: pointer;
-  background-color: #780000;
+  background: url(../images/spritesheet.png);
+  background-repeat: no-repeat;
+  background-position: -129px -127px;
   display: none;
-}
-.tdc-inherit-image {
-  left: -126px;
 }
