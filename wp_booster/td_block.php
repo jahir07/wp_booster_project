@@ -191,7 +191,7 @@ class td_block {
 
 		$tdcCss = $this->get_att('tdc_css');
 		if (!empty($tdcCss)) {
-			$buffy .= td_block::generate_css($tdcCss );
+			$buffy .= $this->generate_css($tdcCss );
 		}
 
 
@@ -274,6 +274,21 @@ class td_block {
 	 */
 	protected function generate_css( $tdcCss, &$clearfixColumns = false ) {
 
+		//
+		// Very Important! For stretched rows move the 'border' css settings on ::before, for all viewport settings
+		//
+		$moveBorderSettingsOnBefore = false;
+		if (class_exists('vc_row') && $this instanceof vc_row) {
+			$attFullWidth = $this->get_att( 'full_width' );
+			if ($attFullWidth !== '') {
+				$moveBorderSettingsOnBefore = true;
+			}
+		}
+
+
+
+
+
 		$buffy = '';
 
 		$tdcCssDecoded = base64_decode($tdcCss);
@@ -327,6 +342,16 @@ class td_block {
 					'background-repeat',
 					'opacity',
 				);
+
+				if ($moveBorderSettingsOnBefore) {
+					$beforeCssProps[] = 'border-style';
+                    $beforeCssProps[] = 'border-color';
+                    $beforeCssProps[] = 'border-width';
+					$beforeCssProps[] = 'border-top-width';
+					$beforeCssProps[] = 'border-right-width';
+					$beforeCssProps[] = 'border-bottom-width';
+					$beforeCssProps[] = 'border-left-width';
+				}
 
 				$afterCssProps = array(
 					'color-1-overlay',
@@ -420,16 +445,28 @@ class td_block {
 					// Add default value for 'border-color'
 					if ($borderInAll) {
 						if (!isset($tdcCssArray['all']['border-style'])) {
-							$mediaCssAll .= 'border-style:solid;' . PHP_EOL;
+							if ($moveBorderSettingsOnBefore) {
+								$cssBeforeAll .= 'border-style:solid;' . PHP_EOL;
+							} else {
+								$mediaCssAll .= 'border-style:solid;' . PHP_EOL;
+							}
 						}
 						if (!isset($tdcCssArray['all']['border-color'])) {
-							$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
+							if ($moveBorderSettingsOnBefore) {
+								$cssBeforeAll .= 'border-color:#888888;' . PHP_EOL;
+							} else {
+								$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
+							}
 						}
 						if (!isset($tdcCssArray['all']['border-top-width']) &&
 							!isset($tdcCssArray['all']['border-right-width']) &&
 							!isset($tdcCssArray['all']['border-bottom-width']) &&
 							!isset($tdcCssArray['all']['border-left-width'])) {
-							$mediaCssAll .= 'border-width:0;' . PHP_EOL;
+							if ($moveBorderSettingsOnBefore) {
+								$cssBeforeAll .= 'border-width:0;' . PHP_EOL;
+							} else {
+								$mediaCssAll .= 'border-width:0;' . PHP_EOL;
+							}
 						}
 					}
 
@@ -440,7 +477,11 @@ class td_block {
 					$borderCss = $this->getBorderWidth($borderWidthCssProps);
 
 					if ($borderCss !== '') {
-						$mediaCssAll .= $borderCss;
+						if ($moveBorderSettingsOnBefore) {
+							$cssBeforeAll .= $borderCss;
+						} else {
+							$mediaCssAll .= $borderCss;
+						}
 					}
 
 
@@ -643,10 +684,18 @@ class td_block {
 					// Add default value for 'border-color'
 					if ($borderInLimit && !$borderInAll) {
 						if (!isset($mediaArray['border-style'])) {
-							$mediaCss .= 'border-style:solid;' . PHP_EOL;
+							if ($moveBorderSettingsOnBefore) {
+								$cssBefore .= 'border-style:solid;' . PHP_EOL;
+							} else {
+								$mediaCss .= 'border-style:solid;' . PHP_EOL;
+							}
 						}
 						if (!isset($mediaArray['border-color'])) {
-							$mediaCss .= 'border-color:#888888;' . PHP_EOL;
+							if ($moveBorderSettingsOnBefore) {
+								$cssBefore .= 'border-color:#888888;' . PHP_EOL;
+							} else {
+								$mediaCss .= 'border-color:#888888;' . PHP_EOL;
+							}
 						}
 					}
 
@@ -658,7 +707,11 @@ class td_block {
 					$borderCss = $this->getBorderWidth($borderWidthCssProps);
 
 					if ($borderCss !== '') {
-						$mediaCss .= $borderCss;
+						if ($moveBorderSettingsOnBefore) {
+							$cssBefore .= $borderCss;
+						} else {
+							$mediaCss .= $borderCss;
+						}
 					}
 
 
