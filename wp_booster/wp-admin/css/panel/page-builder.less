@@ -572,6 +572,15 @@
 #visual_composer_content {
   > .wpb_vc_row  {
     > .vc_controls {
+
+      // fix for VC 5
+      .vc-c-icon-1-1,
+      .vc-c-icon-2-3_1-3,
+      .vc-c-icon-1-3_1-3_1-3 {
+        color: #80b5d3;
+      }
+
+
       .set_columns.l_11 {
         background-image: url('../images/vc/1_high.gif') !important;
       }
@@ -591,6 +600,13 @@
 
 
 .vc_col-sm-12 {
+  // fix for VC 5
+  .vc-c-icon-1-1,
+  .vc-c-icon-2-3_1-3,
+  .vc-c-icon-1-3_1-3_1-3 {
+    color: #80b5d3;
+  }
+
   .wpb_element_wrapper .l_11 {
     background-image: url('../images/vc/1_high.gif') !important;
   }
@@ -606,6 +622,12 @@
 
 
 .vc_col-sm-8 {
+  // fix for VC 5
+  .vc-c-icon-1-1,
+  .vc-c-icon-1-2_1-2 {
+    color: #80b5d3;
+  }
+
   .wpb_element_wrapper .l_11 {
     background-image: url('../images/vc/1_high.gif') !important;
   }
@@ -616,8 +638,32 @@
 }
 
 .vc_col-sm-4 {
+  // fix for VC 5
+  .vc-c-icon-1-1 {
+    color: #80b5d3;
+  }
+
   .wpb_element_wrapper .l_11 {
     background-image: url('../images/vc/1_high.gif') !important;
+  }
+}
+
+// fix for VC 5
+.vc_edit_form_elements .vc_layout-panel-switcher {
+  .vc-c-icon-1-1,
+  .vc-c-icon-1-2_1-2,
+  .vc-c-icon-2-3_1-3,
+  .vc-c-icon-1-3_1-3_1-3 {
+    color: #A0A0A0;
+  }
+
+  .vc_layout-btn:hover {
+    .vc-c-icon-1-1,
+    .vc-c-icon-1-2_1-2,
+    .vc-c-icon-2-3_1-3,
+    .vc-c-icon-1-3_1-3_1-3 {
+      color: #fff;
+    }
   }
 }
 
