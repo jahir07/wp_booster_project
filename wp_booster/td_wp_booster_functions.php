@@ -2419,26 +2419,3 @@ function td_on_admin_body_class( $classes ) {
 	return $classes;
 }
 
-add_action( 'load-widgets.php', 'td_load_widget' );
-function td_load_widget() {
-
-	if (td_util::tdc_is_installed()) {
-
-		// Load tdc js scripts
-		wp_enqueue_script( 'tdcAdminIFrameUI', TDC_URL . '/assets/js/tdcAdminIFrameUI.js', array( 'underscore', 'backbone' ) );
-		wp_enqueue_script( 'tdcCssEditor', TDC_URL . '/assets/js/tdcCssEditor.js', array( 'underscore' ) );
-		wp_enqueue_script( 'tdcSidebarPanel', TDC_URL . '/assets/js/tdcSidebarPanel.js' );
-		wp_enqueue_script( 'tdcUtil', TDC_URL . '/assets/js/tdcUtil.js' );
-		wp_enqueue_script( 'tdcJobManager', TDC_URL . '/assets/js/tdcJobManager.js' );
-
-		// Add viewport intervals
-		td_js_buffer::add_variable('td_viewport_interval_list', td_global::$td_viewport_intervals);
-
-		// Load media
-		add_action( 'admin_enqueue_scripts', 'on_load_widget_admin_enqueue_scripts' );
-		function on_load_widget_admin_enqueue_scripts() {
-			wp_enqueue_media();
-		}
-	}
-}
-
