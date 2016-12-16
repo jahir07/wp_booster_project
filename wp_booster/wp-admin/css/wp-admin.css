@@ -2557,32 +2557,95 @@ title one row controls
 .wpb-content-layouts .td_popular_categories_nav {
   padding: 0;
 }
-#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_11 {
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-1,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-2-3_1-3,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-3_1-3_1-3 {
+  background-position-x: 3px;
+  background-position-y: 0px;
+  background-repeat: no-repeat;
+}
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-1:before,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-2-3_1-3:before,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-3_1-3_1-3:before {
+  opacity: 0;
+}
+#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_11,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-1 {
   background-image: url('../images/vc/1_high.gif') !important;
 }
-#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_23_13 {
+#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_23_13,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-2-3_1-3 {
   background-image: url('../images/vc/23_13_high.gif') !important;
 }
-#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_13_13_13 {
+#visual_composer_content > .wpb_vc_row > .vc_controls .set_columns.l_13_13_13,
+#visual_composer_content > .wpb_vc_row > .vc_controls .vc-c-icon-1-3_1-3_1-3 {
   background-image: url('../images/vc/13_13_13_high.gif') !important;
 }
-.vc_col-sm-12 .wpb_element_wrapper .l_11 {
+.vc_col-sm-12 .vc-c-icon-1-1,
+.vc_col-sm-12 .vc-c-icon-2-3_1-3,
+.vc_col-sm-12 .vc-c-icon-1-3_1-3_1-3 {
+  background-position-x: 3px;
+  background-position-y: 0px;
+  background-repeat: no-repeat;
+}
+.vc_col-sm-12 .vc-c-icon-1-1:before,
+.vc_col-sm-12 .vc-c-icon-2-3_1-3:before,
+.vc_col-sm-12 .vc-c-icon-1-3_1-3_1-3:before {
+  opacity: 0;
+}
+.vc_col-sm-12 .wpb_element_wrapper .l_11,
+.vc_col-sm-12 .vc-c-icon-1-1 {
   background-image: url('../images/vc/1_high.gif') !important;
 }
-.vc_col-sm-12 .wpb_element_wrapper .l_23_13 {
+.vc_col-sm-12 .wpb_element_wrapper .l_23_13,
+.vc_col-sm-12 .vc-c-icon-2-3_1-3 {
   background-image: url('../images/vc/23_13_high.gif') !important;
 }
-.vc_col-sm-12 .wpb_element_wrapper .l_13_13_13 {
+.vc_col-sm-12 .wpb_element_wrapper .l_13_13_13,
+.vc_col-sm-12 .vc-c-icon-1-3_1-3_1-3 {
   background-image: url('../images/vc/13_13_13_high.gif') !important;
 }
-.vc_col-sm-8 .wpb_element_wrapper .l_11 {
+.vc_col-sm-8 .vc-c-icon-1-1,
+.vc_col-sm-8 .vc-c-icon-1-2_1-2 {
+  background-position-x: 3px;
+  background-position-y: 0px;
+  background-repeat: no-repeat;
+}
+.vc_col-sm-8 .vc-c-icon-1-1:before,
+.vc_col-sm-8 .vc-c-icon-1-2_1-2:before {
+  opacity: 0;
+}
+.vc_col-sm-8 .wpb_element_wrapper .l_11,
+.vc_col-sm-8 .vc-c-icon-1-1 {
   background-image: url('../images/vc/1_high.gif') !important;
 }
-.vc_col-sm-8 .wpb_element_wrapper .l_12_12 {
+.vc_col-sm-8 .wpb_element_wrapper .l_12_12,
+.vc_col-sm-8 .vc-c-icon-1-2_1-2 {
   background-image: url('../images/vc/12_12_high.gif') !important;
 }
-.vc_col-sm-4 .wpb_element_wrapper .l_11 {
+.vc_col-sm-4 .vc-c-icon-1-1 {
+  background-position-x: 3px;
+  background-position-y: 0px;
+  background-repeat: no-repeat;
+}
+.vc_col-sm-4 .vc-c-icon-1-1:before {
+  opacity: 0;
+}
+.vc_col-sm-4 .wpb_element_wrapper .l_11,
+.vc_col-sm-4 .vc-c-icon-1-1 {
   background-image: url('../images/vc/1_high.gif') !important;
+}
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-1,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-2_1-2,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-2-3_1-3,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-3_1-3_1-3 {
+  background-image: none !important;
+}
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-1:before,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-2_1-2:before,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-2-3_1-3:before,
+.vc_edit_form_elements .vc_layout-panel-switcher .vc-c-icon-1-3_1-3_1-3:before {
+  opacity: 1;
 }
 /* Flags */
 .td-flags {
