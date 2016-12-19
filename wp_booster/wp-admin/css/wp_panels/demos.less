@@ -106,7 +106,8 @@
   }
 
   .td-button-demo-preview,
-  .td-button-install-demo {
+  .td-button-install-demo,
+  .td-req-demo-disabled {
     display: none;
   }
 
@@ -123,7 +124,8 @@
   }
 
   .td-button-install-demo,
-  .td-button-demo-preview {
+  .td-button-demo-preview,
+  .td-req-demo-disabled {
     display: none;
   }
 
@@ -144,6 +146,14 @@
   }
   .td-button-demo-disabled {
     display: inline-block;
+  }
+}
+
+//required plugins for demo
+.td-demo-req-plugins-disabled {
+  .td-demo-install-content {
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 

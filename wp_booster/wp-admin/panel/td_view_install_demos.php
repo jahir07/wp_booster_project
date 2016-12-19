@@ -180,7 +180,7 @@ die;
 
                 ?>
 
-                <div class="td-demo-<?php echo $demo_id ?> td-wp-admin-demo theme <?php echo $tmp_class . $demo_req_plugin_class ?>">
+                <div class="td-demo-<?php echo $demo_id ?> td-wp-admin-demo theme <?php echo $tmp_class . ' ' . $demo_req_plugin_class ?>">
 
                     <!-- Import content -->
 
