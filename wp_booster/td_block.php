@@ -256,7 +256,7 @@ class td_block {
 			foreach ($borderSettings as $key => $val) {
 				$borderWidthCss .= ' ' . $val;
 			}
-			$borderWidthCss .= ';' . PHP_EOL;
+			$borderWidthCss .= ' !important;' . PHP_EOL;
 		}
 
 		return $borderWidthCss;
@@ -302,9 +302,9 @@ class td_block {
 				// Main css settings
 				// this will fix the z-index issue on background and overlay color/gradient
 				$mainCssSettings =
-					'transform: translateZ(0);' . PHP_EOL .
-                    '-webkit-transform: translateZ(0);' . PHP_EOL .
-                    'position: relative;' . PHP_EOL;
+					'transform: translateZ(0) !important;' . PHP_EOL .
+                    '-webkit-transform: translateZ(0) !important;' . PHP_EOL .
+                    'position: relative !important;' . PHP_EOL;
 
 
 				// Values of these properties must be numeric
@@ -359,24 +359,24 @@ class td_block {
 				);
 
 				$cssBeforeSettings =
-					"content: '';" . PHP_EOL .
-			        "width: 100%;" . PHP_EOL .
-			        "height: 100%;" . PHP_EOL .
-			        "position: absolute;" . PHP_EOL .
-			        "top: 0;" . PHP_EOL .
-			        "left: 0;" . PHP_EOL .
-			        "display: block;" . PHP_EOL .
-			        "z-index: -1;" . PHP_EOL;
+					"content: '' !important;" . PHP_EOL .
+			        "width: 100% !important;" . PHP_EOL .
+			        "height: 100% !important;" . PHP_EOL .
+			        "position: absolute !important;" . PHP_EOL .
+			        "top: 0 !important;" . PHP_EOL .
+			        "left: 0 !important;" . PHP_EOL .
+			        "display: block !important;" . PHP_EOL .
+			        "z-index: -1 !important;" . PHP_EOL;
 
 				$cssAfterSettings =
-					"content: '';" . PHP_EOL .
-				    "width: 100%;" . PHP_EOL .
-				    "height: 100%;" . PHP_EOL .
-				    "position: absolute;" . PHP_EOL .
-				    "top: 0;" . PHP_EOL .
-				    "left: 0;" . PHP_EOL .
-				    "z-index: -1;" . PHP_EOL .
-				    "display: block;" . PHP_EOL;
+					"content: '' !important;" . PHP_EOL .
+				    "width: 100% !important;" . PHP_EOL .
+				    "height: 100% !important;" . PHP_EOL .
+				    "position: absolute !important;" . PHP_EOL .
+				    "top: 0 !important;" . PHP_EOL .
+				    "left: 0 !important;" . PHP_EOL .
+				    "z-index: -1 !important;" . PHP_EOL .
+				    "display: block !important;" . PHP_EOL;
 
 
 				$mediaCssAll = '';
@@ -412,7 +412,7 @@ class td_block {
 							if ($v1 === 'repeat' || $v1 === 'no-repeat') {
 								$setting = 'background-repeat';
 							}
-							$cssBeforeAll .= $setting . ':' . $v1 . ';' . PHP_EOL;
+							$cssBeforeAll .= $setting . ':' . $v1 . ' !important;' . PHP_EOL;
 							continue;
 						}
 
@@ -427,7 +427,7 @@ class td_block {
 //						}
 
 						if (in_array($k1, $beforeCssProps)) {
-							$cssBeforeAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+							$cssBeforeAll .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
 							continue;
 						}
 
@@ -436,7 +436,7 @@ class td_block {
 							continue;
 						}
 
-						$mediaCssAll .= $k1 . ':' . $v1 . ';' . PHP_EOL;
+						$mediaCssAll .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
 					}
 
 
@@ -446,16 +446,16 @@ class td_block {
 					if ($borderInAll) {
 						if (!isset($tdcCssArray['all']['border-style'])) {
 							if ($moveBorderSettingsOnBefore) {
-								$cssBeforeAll .= 'border-style:solid;' . PHP_EOL;
+								$cssBeforeAll .= 'border-style:solid !important;' . PHP_EOL;
 							} else {
-								$mediaCssAll .= 'border-style:solid;' . PHP_EOL;
+								$mediaCssAll .= 'border-style:solid !important;' . PHP_EOL;
 							}
 						}
 						if (!isset($tdcCssArray['all']['border-color'])) {
 							if ($moveBorderSettingsOnBefore) {
-								$cssBeforeAll .= 'border-color:#888888;' . PHP_EOL;
+								$cssBeforeAll .= 'border-color:#888888 !important;' . PHP_EOL;
 							} else {
-								$mediaCssAll .= 'border-color:#888888;' . PHP_EOL;
+								$mediaCssAll .= 'border-color:#888888 !important;' . PHP_EOL;
 							}
 						}
 						if (!isset($tdcCssArray['all']['border-top-width']) &&
@@ -463,9 +463,9 @@ class td_block {
 							!isset($tdcCssArray['all']['border-bottom-width']) &&
 							!isset($tdcCssArray['all']['border-left-width'])) {
 							if ($moveBorderSettingsOnBefore) {
-								$cssBeforeAll .= 'border-width:0;' . PHP_EOL;
+								$cssBeforeAll .= 'border-width:0 !important;' . PHP_EOL;
 							} else {
-								$mediaCssAll .= 'border-width:0;' . PHP_EOL;
+								$mediaCssAll .= 'border-width:0 !important;' . PHP_EOL;
 							}
 						}
 					}
@@ -510,10 +510,10 @@ class td_block {
 						// Add default value for 'background-size'
 						if ($backgroundInAll) {
 							if (!isset($tdcCssArray['all']['background-style'])) {
-								$cssBeforeAll .= 'background-size:cover;' . PHP_EOL;
+								$cssBeforeAll .= 'background-size:cover !important;' . PHP_EOL;
 							}
 							if (!isset($tdcCssArray['all']['background-position'])) {
-								$cssBeforeAll .= 'background-position:center top;' . PHP_EOL;
+								$cssBeforeAll .= 'background-position:center top !important;' . PHP_EOL;
 							}
 						}
 
@@ -528,15 +528,15 @@ class td_block {
 
 
 						if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
-							$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
+							$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
 						} else if (array_key_exists('color-1-overlay', $cssAfterAll)) {
-							$css .= 'background: ' . $cssAfterAll['color-1-overlay'] .';' . PHP_EOL;
+							$css .= 'background: ' . $cssAfterAll['color-1-overlay'] .' !important;' . PHP_EOL;
 						} else if (array_key_exists('color-2-overlay', $cssAfterAll)) {
-							$css .= 'background: ' . $cssAfterAll['color-2-overlay'] .';' . PHP_EOL;
+							$css .= 'background: ' . $cssAfterAll['color-2-overlay'] .' !important;' . PHP_EOL;
 						}
 
 						if (array_key_exists('opacity', $cssAfterAll)) {
-							$css .= 'opacity: ' . $cssAfterAll['opacity'] .';' . PHP_EOL;
+							$css .= 'opacity: ' . $cssAfterAll['opacity'] .' !important;' . PHP_EOL;
 						}
 
 
@@ -632,7 +632,7 @@ class td_block {
 								if ($v2 === 'repeat' || $v2 === 'no-repeat') {
 									$setting = 'background-repeat';
 								}
-								$cssBeforeAll .= $setting . ':' . $v2 . ';' . PHP_EOL;
+								$cssBeforeAll .= $setting . ':' . $v2 . ' !important;' . PHP_EOL;
 								continue;
 							}
 
@@ -664,7 +664,7 @@ class td_block {
 //							}
 
 							if (in_array($k2, $beforeCssProps)) {
-								$cssBefore .= $k2 . ':' . $v2 . ';' . PHP_EOL;
+								$cssBefore .= $k2 . ':' . $v2 . ' !important;' . PHP_EOL;
 								continue;
 							}
 
@@ -675,7 +675,7 @@ class td_block {
 
 
 
-							$mediaCss .= $k2 . ':' . $v2 . ';' . PHP_EOL;
+							$mediaCss .= $k2 . ':' . $v2 . ' !important;' . PHP_EOL;
 						}
 					//}
 
@@ -685,16 +685,16 @@ class td_block {
 					if ($borderInLimit && !$borderInAll) {
 						if (!isset($mediaArray['border-style'])) {
 							if ($moveBorderSettingsOnBefore) {
-								$cssBefore .= 'border-style:solid;' . PHP_EOL;
+								$cssBefore .= 'border-style:solid !important;' . PHP_EOL;
 							} else {
-								$mediaCss .= 'border-style:solid;' . PHP_EOL;
+								$mediaCss .= 'border-style:solid !important;' . PHP_EOL;
 							}
 						}
 						if (!isset($mediaArray['border-color'])) {
 							if ($moveBorderSettingsOnBefore) {
-								$cssBefore .= 'border-color:#888888;' . PHP_EOL;
+								$cssBefore .= 'border-color:#888888 !important;' . PHP_EOL;
 							} else {
-								$mediaCss .= 'border-color:#888888;' . PHP_EOL;
+								$mediaCss .= 'border-color:#888888 !important;' . PHP_EOL;
 							}
 						}
 					}
@@ -758,10 +758,10 @@ class td_block {
 								// Add default value for 'background-style'
 								if ($backgroundInLimit && !$backgroundInAll) {
 									if (!isset($mediaArray['background-style'])) {
-										$cssBefore .= 'background-size:cover;' . PHP_EOL;
+										$cssBefore .= 'background-size:cover !important;' . PHP_EOL;
 									}
 									if (!isset($mediaArray['background-position'])) {
-										$cssBefore .= 'background-position:center top;' . PHP_EOL;
+										$cssBefore .= 'background-position:center top !important;' . PHP_EOL;
 									}
 								}
 
@@ -775,23 +775,23 @@ class td_block {
 
 
 								if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
-									$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
+									$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
 								} else if (array_key_exists('color-1-overlay', $cssAfter)) {
 									if (array_key_exists('color-2-overlay', $cssAfterAll)) {
-										$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ');' . PHP_EOL;
+										$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
 									} else {
-										$css .= 'background: ' . $cssAfter['color-1-overlay'] .';' . PHP_EOL;
+										$css .= 'background: ' . $cssAfter['color-1-overlay'] .' !important;' . PHP_EOL;
 									}
 								} else if (array_key_exists('color-2-overlay', $cssAfter)) {
 									if (array_key_exists('color-1-overlay', $cssAfterAll)) {
-										$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfter['color-2-overlay'] . ');' . PHP_EOL;
+										$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
 									} else {
-										$css .= 'background: ' . $cssAfter['color-2-overlay'] .';' . PHP_EOL;
+										$css .= 'background: ' . $cssAfter['color-2-overlay'] .' !important;' . PHP_EOL;
 									}
 								}
 
 								if (array_key_exists('opacity', $cssAfter)) {
-									$css .= 'opacity: ' . $cssAfter['opacity'] .';' . PHP_EOL;
+									$css .= 'opacity: ' . $cssAfter['opacity'] .' !important;' . PHP_EOL;
 								}
 
 								if ( '' !== $css ) {
