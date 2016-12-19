@@ -29,10 +29,13 @@ class td_menu {
 
     function hook_wp_update_nav_menu_item ($menu_id, $menu_item_db_id, $args) {
 
-        //echo $menu_item_db_id;
+        //mega menu category
         if (isset($_POST['td_mega_menu_cat'][$menu_item_db_id])) {
             //print_r($_POST);
             update_post_meta($menu_item_db_id, 'td_mega_menu_cat', $_POST['td_mega_menu_cat'][$menu_item_db_id]);
+        }
+        //mega menu page
+        if (isset($_POST['td_mega_menu_page_id'][$menu_item_db_id])) {
             update_post_meta($menu_item_db_id, 'td_mega_menu_page_id', $_POST['td_mega_menu_page_id'][$menu_item_db_id]);
         }
 

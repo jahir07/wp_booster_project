@@ -3592,7 +3592,8 @@ title one row controls
   display: none;
 }
 .td-demo-installed .td-button-demo-preview,
-.td-demo-installed .td-button-install-demo {
+.td-demo-installed .td-button-install-demo,
+.td-demo-installed .td-req-demo-disabled {
   display: none;
 }
 .td-demo-installed .td-button-uninstall-demo {
@@ -3602,7 +3603,8 @@ title one row controls
   display: inline-block;
 }
 .td-demo-uninstalling .td-button-install-demo,
-.td-demo-uninstalling .td-button-demo-preview {
+.td-demo-uninstalling .td-button-demo-preview,
+.td-demo-uninstalling .td-req-demo-disabled {
   display: none;
 }
 .td-demo-uninstalling .td-demo-install-content {
@@ -3620,6 +3622,10 @@ title one row controls
 .td-demo-disabled .td-button-demo-disabled,
 .td-req-demo-disabled .td-button-demo-disabled {
   display: inline-block;
+}
+.td-demo-req-plugins-disabled .td-demo-install-content {
+  pointer-events: none;
+  opacity: 0.5;
 }
 .td-demo-req-plug-tooltip .td-tooltip {
   font-weight: 200;
