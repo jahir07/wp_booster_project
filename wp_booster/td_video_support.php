@@ -338,6 +338,7 @@ class td_video_support{
 				}
 				catch( TwitterApiException $Ex ){
 					//twitter rate limit will show here
+					//echo 'Caught exception: ',  $Ex->getMessage();
 					//print_r($Ex);
 				}
 			} else {
