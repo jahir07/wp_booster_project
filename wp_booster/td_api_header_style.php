@@ -18,6 +18,12 @@ class td_api_header_style extends td_api_base {
      * @throws ErrorException new exception, fatal error if the $id already exists
      */
     static function add($thumb_id, $params_array = '') {
+
+        // put a default image if we don't have any image, useful when developing a new module
+        if (empty($params_array['img'])) {
+            $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/panel-placeholders/no_header_template.png';
+        }
+
         parent::add_component(__CLASS__, $thumb_id, $params_array);
     }
 
@@ -45,6 +51,8 @@ class td_api_header_style extends td_api_base {
             $buffy_array[] = array(
                 'text' => $config['text'],
                 'val' => $id,
+                'title' => '',
+                'img' => $config['img'],
             );
         }
 
