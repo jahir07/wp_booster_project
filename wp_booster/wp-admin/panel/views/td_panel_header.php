@@ -10,7 +10,7 @@
         </div>
         <div class="td-box-control-full">
             <?php
-            echo td_panel_generator::radio_button_control(array(
+            echo td_panel_generator::visual_select_o(array(
                 'ds' => 'td_option',
                 'option_id' => 'tds_header_style',
                 'values' => td_api_header_style::_helper_generate_tds_header_style()
