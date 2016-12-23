@@ -778,7 +778,11 @@ function theme_get_archives_link ( $link_html ) {
 	global $wp;
 	static $current_url;
 	if ( empty( $current_url ) ) {
-		$current_url = esc_url(add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) ));
+		if ( isset ( $_SERVER ['QUERY_STRING'] ) ) {
+			$current_url = esc_url( add_query_arg ( $_SERVER ['QUERY_STRING'], '', home_url ( $wp->request . '/' ) ) );
+		} else {
+			$current_url = esc_url ( home_url ( $wp->request . '/' ) );
+		}
 	}
 	if ( stristr( $current_url, 'page' ) !== false ) {
 		$current_url = substr($current_url, 0, strrpos($current_url, 'page'));
