@@ -35,5 +35,31 @@ class td_api_block_template extends td_api_base{
     static function get_all() {
         return parent::get_all_components_metadata(__CLASS__);
     }
+
+
+    /**
+     * get all the header styles as a array for the panel ui controll. It also adds the default value
+     *
+     * @internal
+     * @return array
+     */
+    static function _helper_generate_block_templates() {
+        $buffy_array = array();
+
+
+        //add each value
+        foreach (self::get_all() as $id => $config) {
+            $buffy_array[] = array(
+                'text' => $config['text'],
+                'val' => $id,
+                'title' => '',
+                'img' => $config['img'],
+            );
+        }
+
+        // the first template is the default one, ex: it has no value in the database
+        $buffy_array[0]['val'] = '';
+        return $buffy_array;
+    }
 }
 

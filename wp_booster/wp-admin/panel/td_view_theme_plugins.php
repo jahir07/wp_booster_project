@@ -101,6 +101,8 @@ $wp_plugin_list = get_plugins();
 	$td_tgm_theme_plugins = array_merge($td_tgm_theme_plugins, td_global::$theme_plugins_for_info_list);
 
 
+
+
     foreach ($td_tgm_theme_plugins as $td_tgm_theme_plugin) {
 
         $tmp_class = 'td-plugin-not-installed';

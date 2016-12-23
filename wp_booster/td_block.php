@@ -137,7 +137,10 @@ class td_block {
          * td_block_template_x - Loaded via autoload
          * @see td_autoload_classes::loading_classes
          */
-        $td_block_template_id = 'td_block_template_1';
+
+        $td_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+
+        //$td_block_template_id = 'td_block_template_1';
 
 
         /**

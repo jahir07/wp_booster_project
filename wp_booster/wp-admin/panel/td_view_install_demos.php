@@ -137,7 +137,7 @@ die;
     <?php if (td_api_features::is_enabled('require_td_composer') && !is_plugin_active('td-composer/td-composer.php')) { ?>
 		<div class="td-admin-box-text td-admin-required-plugins">
 			<div class="td-admin-required-plugins-wrap">
-                <p><strong>Please install and activate the tagDiv Composer plugin - </strong> tagDiv Composer is a required plugin for this theme to work best.</p>
+                <p><strong>Please install and activate the tagDiv Composer plugin - </strong> Our plugin is required for this theme to work best.</p>
                 <a class="button button-primary" href="admin.php?page=td_theme_plugins">Go to plugin installer</a>
 			</div>
 		</div>
