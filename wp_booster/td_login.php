@@ -45,10 +45,16 @@ class td_login {
      */
     static function login_user($username, $password) {
         $credentials = array();
+        $secure_cookie = false;
+
+        if (is_ssl()) {
+            $secure_cookie = true;
+        }
+
         $credentials['user_login'] = $username;
         $credentials['user_password'] = $password;
         $credentials['remember'] = true;
-        $user_obj = wp_signon($credentials, false);
+        $user_obj = wp_signon($credentials, $secure_cookie);
         return $user_obj;
     }
 
