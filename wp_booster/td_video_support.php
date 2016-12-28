@@ -275,7 +275,6 @@ class td_video_support{
 				break;
 
 			case 'vimeo':
-				//@todo e stricat nu mai merge de ceva timp cred
 				$url = 'http://vimeo.com/api/oembed.json?url=https://vimeo.com/' . self::get_vimeo_id($videoUrl);
 
 				$response = wp_remote_get($url, array(
@@ -286,7 +285,10 @@ class td_video_support{
 
 				if (!is_wp_error($response)) {
 					$td_result = @json_decode(wp_remote_retrieve_body($response));
-					return ($td_result->thumbnail_url);
+					$result = $td_result->thumbnail_url;
+					$result = preg_replace("#_[0-9]+(x)?[0-9]+\.jpg#", '.jpg', $result);
+
+					return $result;
 				}
 				break;
 
