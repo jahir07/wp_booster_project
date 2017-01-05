@@ -446,6 +446,22 @@ class td_module_single_base extends td_module {
                             }
                         }
 
+                        if ( $tds_inline_ad_paragraph > $p_open_tag_count && td_util::is_ad_spot_enabled('content_bottom') === false ) {
+                            switch ($tds_inline_ad_align) {
+                                case 'left':
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
+                                    break;
+
+                                case 'right':
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
+                                    break;
+
+                                default:
+                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
+                                    break;
+                            }
+                        }
+
                     } else {
                         //add <blockquote> to buffer
                         $content_buffer .= $content_part_value;

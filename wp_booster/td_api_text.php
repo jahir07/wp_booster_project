@@ -40,7 +40,7 @@ class td_api_text {
 				<div class="td-supported-plugin">Font Awesome 4 Menus<span>- icon pack, supported in the theme menus</span></div>
 				<div class="td-supported-plugin">Jetpack  <span>- plugin with lots of features *it may slow down your site</span></div>
 				<div class="td-supported-plugin">WooCommerce <span>- eCommerce solution</span></div>
-				<div class="td-supported-plugin">WordPress SEO <span> - SEO plugin</span></div>
+				<div class="td-supported-plugin">WordPress (Yoast) SEO <span> - SEO plugin</span></div>
 				<div class="td-supported-plugin">Wp User Avatar <span> - Change users avatars</span></div>',
 
 		// existing content documentation url
