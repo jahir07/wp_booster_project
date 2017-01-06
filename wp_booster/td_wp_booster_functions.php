@@ -274,24 +274,6 @@ add_action('wp_head', 'td_include_user_compiled_css', 10);
 add_action('wp_enqueue_scripts', 'td_load_css_fonts');
 function td_load_css_fonts() {
 
-	$td_user_fonts_list = array();
-	$td_user_fonts_db = td_util::get_option('td_fonts');
-
-	if(!empty($td_user_fonts_db)) {
-		foreach($td_user_fonts_db as $td_font_setting_key => $td_font_setting_val) {
-			if(!empty($td_font_setting_val) and !empty($td_font_setting_val['font_family'])) {
-				$td_user_fonts_list[] = $td_font_setting_val['font_family'];
-			}
-		}
-	}
-
-
-	foreach (td_global::$default_google_fonts_list as $default_font_id => $default_font_params) {
-		if(!in_array('g_' . $default_font_id, $td_user_fonts_list)) {
-			wp_enqueue_style($default_font_params['css_style_id'], $default_font_params['url'] . td_fonts::get_google_fonts_subset_query()); //used on menus/small text
-		}
-	}
-
 	/*
 	 * add the google link for fonts used by user
 	 *
