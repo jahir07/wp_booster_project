@@ -235,6 +235,8 @@
 <div class="td-box-row">
 	<div class="td-box-description td-box-full">
 		<p>You can select from here what character subsets will be loaded for each google font. The character subset will be loaded only if the font supports the specific glyphs. Try to enable only the subsets that you use because the site will load slower with each additional subset.</p>
+
+		<p><strong>Notice: </strong> Please note that if a client browser supports <a href="http://caniuse.com/#feat=font-unicode-range" target="_blank" >unicode-range</a> the subset parameter is ignored; the browser will select from the subsets supported by the font to get what it needs to render the text.</p>
 	</div>
 </div>
 
@@ -535,6 +537,333 @@
 			'ds' => 'td_fonts_user_insert',
 			'option_id' => 'g_vietnamese',
 			'true_value' => 'vietnamese',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+
+<?php echo td_panel_generator::box_end();?>
+
+
+<div class="td-clear"></div>
+
+<?php echo td_panel_generator::box_start('Google Fonts Styles', false); ?>
+
+
+<!-- info text -->
+<div class="td-box-row">
+	<div class="td-box-description td-box-full">
+		<span class="td-box-title">More information:</span>
+		<p>From here you can set global theme fonts weights & styles.</p>
+		<p><strong>Notice: </strong> The <b>400 - NORMAL</b> font width is missing from settings because it's hardcoded. If a font has only <b>400 normal</b> width available, if 400 is missing, the font will not load for other widths.</p>
+	</div>
+	<div class="td-box-row-margin-bottom"></div>
+</div>
+<div class="td-box-section-separator"></div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">100 - Thin (Hairline)</span>
+		<p>Load the font files with your chosen weights & styles, if available.</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_100_thin',
+			'true_value' => '100',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">100 - Thin Italic</span>
+		<p>Load the font files with your chosen weights & styles, if available.</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_100_thin_italic',
+			'true_value' => '100italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">200 - Extra Light (Ultra Light)</span>
+		<p>Load the font files with your chosen weights & styles, if available.</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_200_extra_light',
+			'true_value' => '200',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">200 - Extra Light (Ultra Light) Italic</span>
+		<p>Load the font files with your chosen weights & styles, if available.</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_200_extra_light_italic',
+			'true_value' => '200italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">300 - Light</span>
+		<p>Load the font files with your chosen weights & styles, if available.</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_300_light',
+			'true_value' => '300',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">300 - Light Italic</span>
+		<p>Load the font files with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_300_light_italic',
+			'true_value' => '300italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">400 - Normal Italic</span>
+		<p>Load the font files with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_400_normal_italic',
+			'true_value' => '400italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">500 - Medium</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_500_medium',
+			'true_value' => '500',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">500 - Medium Italic</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_500_medium_italic',
+			'true_value' => '500italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">600 - Semi Bold (Demi Bold)</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_600_semi_bold',
+			'true_value' => '600',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">600 - Semi Bold (Demi Bold) Italic</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_600_semi_bold_italic',
+			'true_value' => '600italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">700 - Bold</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_700_bold',
+			'true_value' => '700',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">700 - Bold Italic</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_700_bold_italic',
+			'true_value' => '700italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">800 - Extra Bold (Ultra Bold)</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_800_extra_bold',
+			'true_value' => '800',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">800 italic - Extra Bold (Ultra Bold) Italic</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_800_extra_bold_italic',
+			'true_value' => '800italic',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">900 - Black (Heavy)</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_900_black',
+			'true_value' => '900',
+			'false_value' => ''
+		));
+		?>
+	</div>
+</div>
+
+<!-- google fonts style/type settings-->
+<div class="td-box-row">
+	<div class="td-box-description">
+		<span class="td-box-title">900 - Extra Bold (Ultra Bold) Italic</span>
+		<p>Load the font file with your chosen weights & styles if available</p>
+	</div>
+	<div class="td-box-control-full">
+		<?php
+		echo td_panel_generator::checkbox(array(
+			'ds' => 'td_fonts_user_insert',
+			'option_id' => 'g_900_black_italic',
+			'true_value' => '900italic',
 			'false_value' => ''
 		));
 		?>

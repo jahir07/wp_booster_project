@@ -868,14 +868,43 @@ class td_fonts {
      */
     static function get_google_fonts_names($fonts_ids_array) {
 
+        $td_options = td_options::get_all();
 
-
-
-        //@todo read from theme panel @luci
-        $theme_width_settings = array (
-            400, // ramane default
-            300
+        //check the character set saved in the database
+        $array_google_font_styles = array(
+            'g_100_thin',
+            'g_100_thin_italic',
+            'g_200_extra_light',
+            'g_200_extra_light_italic',
+            'g_300_light',
+            'g_300_light_italic',
+            'g_400_normal_italic',
+            'g_500_medium',
+            'g_500_medium_italic',
+            'g_600_semi_bold',
+            'g_600_semi_bold_italic',
+            'g_700_bold',
+            'g_700_bold_italic',
+            'g_800_extra_bold',
+            'g_800_extra_bold_italic',
+            'g_900_black',
+            'g_900_black_italic'
         );
+
+
+        $tmp_google_font_styles_array = array();
+        foreach($array_google_font_styles as $val_font_style ) {
+            if(!empty($td_options['td_fonts_user_inserted'][$val_font_style])) {
+                $tmp_google_font_styles_array[] = $td_options['td_fonts_user_inserted'][$val_font_style];
+            }
+        }
+
+        $theme_width_settings = array (
+            400 // ramane default
+        );
+
+        //merge the panel font settings
+        $theme_width_settings = array_merge($theme_width_settings, $tmp_google_font_styles_array);
 
         $load_ids_array = array();
 
