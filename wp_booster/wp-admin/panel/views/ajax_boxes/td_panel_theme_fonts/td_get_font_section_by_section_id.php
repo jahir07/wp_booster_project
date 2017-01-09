@@ -182,20 +182,16 @@ class td_panel_custom_typography_ajax {
      *
      */
     public function get_td_font_weight() {
-        $buffy_font_weight[0] = array(
-            'text' => 'Default font weight',
-            'val' => ''
-        );
-        $buffy_font_weight[1] = array('text' => '100 - Thin (Hairline)', 'val' => '100');
-        $buffy_font_weight[3] = array('text' => '200 - Extra light (Ultra light)', 'val' => '200');
-        $buffy_font_weight[4] = array('text' => '300 - Light', 'val' => '300');
-        $buffy_font_weight[5] = array('text' => '400 - Normal', 'val' => '400');
-        $buffy_font_weight[6] = array('text' => '500 - Medium', 'val' => '500');
-        $buffy_font_weight[7] = array('text' => '600 - Semi Bold (Demi bold)', 'val' => '600');
-        $buffy_font_weight[8] = array('text' => '700 - Bold', 'val' => '700');
-        $buffy_font_weight[9] = array('text' => '800 - Extra Bold (Ultra bold)', 'val' => '800');
-        $buffy_font_weight[10] = array('text' => '900 - Black (Heavy)', 'val' => '900');
-
+        $buffy_font_weight[] = array('text' => 'Default font weight', 'val' => '');
+        $buffy_font_weight[] = array('text' => '100 - Thin (Hairline)', 'val' => '100');
+        $buffy_font_weight[] = array('text' => '200 - Extra light (Ultra light)', 'val' => '200');
+        $buffy_font_weight[] = array('text' => '300 - Light', 'val' => '300');
+        $buffy_font_weight[] = array('text' => '400 - Normal', 'val' => 'normal');
+        $buffy_font_weight[] = array('text' => '500 - Medium', 'val' => '500');
+        $buffy_font_weight[] = array('text' => '600 - Semi Bold (Demi bold)', 'val' => '600');
+        $buffy_font_weight[] = array('text' => '700 - Bold', 'val' => 'bold');
+        $buffy_font_weight[] = array('text' => '800 - Extra Bold (Ultra bold)', 'val' => '800');
+        $buffy_font_weight[] = array('text' => '900 - Black (Heavy)', 'val' => '900');
         return $buffy_font_weight;
     }
 
