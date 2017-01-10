@@ -121,7 +121,9 @@ class td_update_to_newspaper6 {
         'td_fonts',   // de verificat
         'td_fonts_js_buffer',
         'td_fonts_css_buffer',
-        'td_fonts_css_files',
+        /** since 10.01.2017 the google fonts moved at run time
+        and do not store the g fonts css files to the database therefore this key is not used anymore */
+        //'td_fonts_css_files',
         'tds_logo_menu_upload',
         'tds_logo_menu_upload_r',
         'tds_tweeter_username',

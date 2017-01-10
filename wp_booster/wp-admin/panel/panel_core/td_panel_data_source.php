@@ -282,10 +282,6 @@ class td_panel_data_source {
             }
         }
 
-
-        // make google fonts style URL (one url for all fonts and all subsets and widths)
-        self::update_google_fonts_url();
-
         //compile user css if any
 	    td_options::update('tds_user_compile_css', td_css_generator());
         //td_global::$td_options['tds_user_compile_css'] = td_css_generator();
@@ -735,42 +731,6 @@ class td_panel_data_source {
 	    td_options::update('td_fonts', $td_fonts_save);
 
     }
-
-
-    /**
-     * after all the data is saved in the database, this function reads the needed info and
-     * saves the FULL google font url for ALL fonts including the default ones from td_config to: td_fonts_css_files
-     * @since 6.1.2017
-     */
-    private static function update_google_fonts_url(){
-
-        $cur_td_fonts = td_options::get('td_fonts');
-
-        $unique_google_fonts_ids = array();
-
-        if (!empty($cur_td_fonts)) {
-            foreach ($cur_td_fonts as $section_font_settings) {
-                if (isset($section_font_settings['font_family'])) {
-                    $explode_font_family = explode('_', $section_font_settings['font_family']);
-                    if ($explode_font_family[0] == 'g') {
-                        $unique_google_fonts_ids[] = $explode_font_family[1];
-                    }
-                }
-            }
-
-            // remove duplicated font ids
-            $unique_google_fonts_ids = array_unique($unique_google_fonts_ids);
-        }
-
-
-        //used to pull fonts from google
-        $css_files = '://fonts.googleapis.com/css?family=' . td_fonts::get_google_fonts_names($unique_google_fonts_ids) . td_fonts::get_google_fonts_subset_query();
-
-        //add the font buffers to the option string that going to the database
-        td_options::update('td_fonts_css_files', $css_files);
-    }
-
-
 
 
     /**

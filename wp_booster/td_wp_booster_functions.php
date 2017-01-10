@@ -270,18 +270,41 @@ add_action('wp_head', 'td_include_user_compiled_css', 10);
 
 /* ----------------------------------------------------------------------------
  * CSS fonts / google fonts in front end
+ *
+ * this function reads the google fonts used by user and all needed info and
+ * builds the FULL google font url for ALL fonts including the default ones from td_config to: td_fonts_css_files
+ * @since 10.1.2017
  */
 add_action('wp_enqueue_scripts', 'td_load_css_fonts');
 function td_load_css_fonts() {
 
+	$cur_td_fonts = td_util::get_option('td_fonts'); // get the google fonts used by user
+
+	$unique_google_fonts_ids = array();
+
+	//filter the google fonts used by user
+	if (!empty($cur_td_fonts)) {
+		foreach ($cur_td_fonts as $section_font_settings) {
+			if (isset($section_font_settings['font_family'])) {
+				$explode_font_family = explode('_', $section_font_settings['font_family']);
+				if ($explode_font_family[0] == 'g') {
+					$unique_google_fonts_ids[] = $explode_font_family[1];
+				}
+			}
+		}
+
+		// remove duplicated font ids
+		$unique_google_fonts_ids = array_unique($unique_google_fonts_ids);
+	}
+
+	//used to pull fonts from google
+	$td_fonts_css_files = '://fonts.googleapis.com/css?family=' . td_fonts::get_google_fonts_names($unique_google_fonts_ids) . td_fonts::get_google_fonts_subset_query();
+
 	/*
 	 * add the google link for fonts used by user
-	 *
-	 * td_fonts_css_files : holds the link to fonts.googleapis.com in the database
-	 *
+	 * td_fonts_css_files: holds the link to fonts.googleapis.com built above
 	 * this section will appear in the header of the source of the page
 	 */
-	$td_fonts_css_files = td_util::get_option('td_fonts_css_files');
 	if(!empty($td_fonts_css_files)) {
 		wp_enqueue_style('google-fonts-style', td_global::$http_or_https . $td_fonts_css_files);
 	}
