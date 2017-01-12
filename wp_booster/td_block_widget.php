@@ -266,13 +266,71 @@ class td_block_widget extends WP_Widget {
 			    $buffer .= '<div class="tdc-tab-content tdc-tab-widget tdc-tab-' . strtolower($groupName['show_name']) . ' ' . $class_tab_content_visible . ' ' . $class_tab_design . '"' . $data_tdc_css . '>';
 			    $class_tab_content_visible = '';
 
-			    foreach ($this->map_array['params'] as $param) {
-				    if ((isset($param['group']) && $groupName['show_name'] !== $defaultTab && $groupName['mapped_name'] === $param['group']) ||
-				        (!isset($param['group']) && $groupName['show_name'] === $defaultTab)){
+			    if ($groupName['show_name'] === 'General' && !empty($instance['block_template_id'])) {
 
-					    $buffer .= $this->_render_block_param($instance, $param);
+				    $customTitleParam = null;
+					$customUrlParam = null;
+				    $blockTemplateIdParam = null;
+
+				    $block_template_map_array = td_api_block_template::get_by_id($instance['block_template_id']);
+
+				    $tdTypeParams = array();
+
+				    foreach ($this->map_array['params'] as $param) {
+
+					    if ((isset($param['group']) && $groupName['show_name'] !== $defaultTab && $groupName['mapped_name'] === $param['group']) ||
+					        (!isset($param['group']) && $groupName['show_name'] === $defaultTab)){
+
+				            if ($param['param_name'] === 'custom_title') {
+							    $customTitleParam = $param;
+							    continue;
+						    } else if ($param['param_name'] === 'custom_url') {
+							    $customUrlParam = $param;
+							    continue;
+						    } else if ($param['param_name'] === 'block_template_id') {
+							    $blockTemplateIdParam = $param;
+							    continue;
+						    } else {
+							    $tdTypeParams[] = $param;
+						    }
+					    }
+				    }
+
+				    // Render 'custom_title', 'custom_url' and 'block_template_id' params (IN THIS ORDER)
+				    if (!is_null($customTitleParam)) {
+					    $buffer .= $this->_render_block_param($instance, $customTitleParam);
+				    }
+
+				    if (!is_null($customUrlParam)) {
+					    $buffer .= $this->_render_block_param($instance, $customUrlParam);
+				    }
+
+				    if (!is_null($blockTemplateIdParam)) {
+					    $buffer .= $this->_render_block_param($instance, $blockTemplateIdParam);
+				    }
+
+				    foreach ($block_template_map_array['params'] as $block_template_param) {
+					    $buffer .= $this->_render_block_param($instance, $block_template_param);
+				    }
+
+				    foreach ($tdTypeParams as $param) {
+					    if (!isset($param['td_type'])) {
+						    $buffer .= $this->_render_block_param( $instance, $param );
+					    }
+				    }
+
+			    } else {
+
+				    foreach ($this->map_array['params'] as $param) {
+
+					    if ((isset($param['group']) && $groupName['show_name'] !== $defaultTab && $groupName['mapped_name'] === $param['group']) ||
+					        (!isset($param['group']) && $groupName['show_name'] === $defaultTab)){
+
+						    $buffer .= $this->_render_block_param($instance, $param);
+					    }
 				    }
 			    }
+
 			    $buffer .= '</div>';
 		    }
 		    $buffer .= '</div>';

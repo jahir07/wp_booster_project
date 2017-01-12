@@ -2327,6 +2327,17 @@ if (is_admin()) {
 
 		tgmpa(td_global::$theme_plugins_list, $config);
 	}
+
+
+	// Important! For the shortcode widgets that have 'block_template_id' param, the new instance (the modified instance) is returned.
+	// This BECAUSE the new instance have the all modifications (including new params)
+	add_filter('widget_update_callback', 'td_widget_update', 10, 2);
+	function td_widget_update($instance, $new_instance) {
+		if (array_key_exists('block_template_id', $new_instance)) {
+			return $new_instance;
+		}
+		return $instance;
+	}
 }
 
 
