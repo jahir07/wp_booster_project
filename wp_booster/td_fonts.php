@@ -856,21 +856,97 @@ class td_fonts {
         }
     }
 
+
+    /**
+     * Generate the google font family and font width string: ex: ABeeZee:400,700|Abel:400,700
+     * NOTE: it also applies the default font family's from @see td_config @see td_global::$default_google_fonts_list
+     *          - on the default font widths it will also add the global panel font width settings
+     *          - 400 font width is hardcoded because if a font has only 400 the font will not load for other widths if 400 is missing
+     * @param $fonts_ids_array - array of google fonts IDs from td_fonts::$font_names_google_list
+     * @return string - font string for google ABeeZee:400,700|Abel:400,700
+     * @since 6.1.2017
+     */
     static function get_google_fonts_names($fonts_ids_array) {
-        $temp_css_google_files = '';
-        if(!empty($fonts_ids_array)) {
-            foreach($fonts_ids_array as $g_font_id) {
-                $font_id = str_replace('g_', '', $g_font_id);
-                if(!empty($temp_css_google_files)) {
-                    $temp_css_google_files .= '|';
-                }
-                $temp_css_google_files .= str_replace(' ', '+', td_fonts::$font_names_google_list[$font_id]);
+
+        $td_options = td_options::get_all();
+
+        //check the character set saved in the database
+        $array_google_font_styles = array(
+            'g_100_thin',
+            'g_100_thin_italic',
+            'g_200_extra_light',
+            'g_200_extra_light_italic',
+            'g_300_light',
+            'g_300_light_italic',
+            'g_400_normal_italic',
+            'g_500_medium',
+            'g_500_medium_italic',
+            'g_600_semi_bold',
+            'g_600_semi_bold_italic',
+            'g_700_bold',
+            'g_700_bold_italic',
+            'g_800_extra_bold',
+            'g_800_extra_bold_italic',
+            'g_900_black',
+            'g_900_black_italic'
+        );
+
+
+        $tmp_google_font_styles_array = array();
+        foreach($array_google_font_styles as $val_font_style ) {
+            if(!empty($td_options['td_fonts_user_inserted'][$val_font_style])) {
+                $tmp_google_font_styles_array[] = $td_options['td_fonts_user_inserted'][$val_font_style];
             }
         }
-        return $temp_css_google_files;
+
+        $theme_width_settings = array (
+            400 // ramane default
+        );
+
+        //merge the panel font settings
+        $theme_width_settings = array_merge($theme_width_settings, $tmp_google_font_styles_array);
+
+        $load_ids_array = array();
+
+
+        // 1. make our ids array from the theme panel settings
+        if(!empty($fonts_ids_array)) {
+            foreach($fonts_ids_array as $g_font_id) {
+                $load_ids_array[$g_font_id] = $theme_width_settings;
+            }
+        }
+
+
+        // 2. marge the default font list with the list from the panel
+        if (!empty(td_global::$default_google_fonts_list)) {
+            foreach (td_global::$default_google_fonts_list  as $default_g_font_id => $default_g_font_widths_array) {
+                $load_ids_array[$default_g_font_id] = array_unique(array_merge($default_g_font_widths_array, $theme_width_settings));
+            }
+        }
+
+
+
+        // 3. render the font id array to string...
+        $tmp_google_font_family = ''; // ex: ABeeZee:400,700|Abel:400,700 (it holds the width and style too)
+        foreach($load_ids_array as $g_font_id => $g_font_widths_array) {
+            $font_id = str_replace('g_', '', $g_font_id);
+            if(!empty($tmp_google_font_family)) {
+                $tmp_google_font_family .= '|';
+            }
+            $tmp_google_font_family .= str_replace(' ', '+', td_fonts::$font_names_google_list[$font_id]) . ':' . implode(',', $g_font_widths_array);
+        }
+
+
+        //print_r($tmp_google_font_family);
+        return $tmp_google_font_family;
     }
 
 
+
+    /**
+     * reads the google fonts subset from the database and makes it a string for the URL
+     * @return string
+     */
     static function get_google_fonts_subset_query() {
 
 	    $td_options = td_options::get_all();

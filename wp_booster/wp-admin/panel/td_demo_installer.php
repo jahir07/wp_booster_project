@@ -87,8 +87,13 @@ class td_demo_installer {
             }
             //typography settings
 	        $td_options['td_fonts'] = '';
-            //css font files (google) buffer
-	        $td_options['td_fonts_css_files'] = '';
+
+            /**
+             * css font files (google) buffer
+             * since 10.01.2017 the google fonts moved at run time
+            and do not store the g fonts css files to the database therefore this key is not used anymore */
+	        //$td_options['td_fonts_css_files'] = '';
+
             //compile user css if any
 	        $td_options['tds_user_compile_css'] = td_css_generator();
 
