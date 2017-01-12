@@ -140,4 +140,14 @@ jQuery().ready(function() {
         }
     });
 
+    jQuery( 'body' ).on( 'change', '.tdc-tab-content-wrap select[name$="[block_template_id]"]', function( event ) {
+
+        event.preventDefault();
+
+        var $this = jQuery( this ),
+            $saveWidget = $this.closest( 'form' ).find( 'input[name="savewidget"]' );
+
+        $saveWidget.trigger( 'click' );
+    });
+
 });

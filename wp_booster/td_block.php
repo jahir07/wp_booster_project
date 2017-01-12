@@ -85,6 +85,8 @@ class td_block {
 			    // the two live filters are set by @see td_block::add_live_filter_atts
 			    'live_filter_cur_post_id' => '',      /** @see td_block::add_live_filter_atts */
 			    'live_filter_cur_post_author' => '',  /** @see td_block::add_live_filter_atts */
+
+			    'block_template_id' => '',
 		    ),
 		    $atts
 	    );
@@ -138,9 +140,10 @@ class td_block {
          * @see td_autoload_classes::loading_classes
          */
 
-        $td_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
-
-        //$td_block_template_id = 'td_block_template_1';
+        $td_block_template_id = $this->atts['block_template_id'];
+	    if (empty($td_block_template_id)) {
+		    $td_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+	    }
 
 
         /**

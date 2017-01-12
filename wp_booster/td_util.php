@@ -584,6 +584,26 @@ class td_util {
     }
 
 
+	/**
+	 * Get the block template ids
+	 * @return array
+	 */
+	static function get_block_template_ids() {
+
+		if (is_admin() === false) {
+            return array();
+        }
+
+		$block_template_ids = array();
+
+		foreach (td_api_block_template::get_all() as $block_template_id => $block_template_settings) {
+			$block_template_ids[$block_template_settings['text']] = $block_template_id;
+		}
+
+		return array_merge( array( '- Global Header -' => ''), $block_template_ids );
+	}
+
+
     //generates one breadcrumb
     static function get_html5_breadcrumb($display_name, $title_attribute, $url) {
         return '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a title="' . $title_attribute . '" class="entry-crumb" itemprop="url" href="' . $url . '"><span itemprop="title">' . $display_name . '</span></a></span>';
