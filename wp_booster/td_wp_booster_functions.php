@@ -1049,6 +1049,8 @@ function add_slug_to_body_class( $classes ) {
 		}
 		$i++;
 	}
+	$td_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+	$classes[] = str_replace('td', 'global', str_replace('_', '-', $td_block_template_id));
 	return $classes;
 }
 
