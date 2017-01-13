@@ -1296,9 +1296,11 @@ function td_vc_init() {
 	if (function_exists('vc_disable_frontend')) {
 		vc_disable_frontend();
 	}
-    
 
 }
+
+
+
 
 
 
@@ -2438,4 +2440,27 @@ function td_on_admin_body_class( $classes ) {
 	$classes .= ' td-theme-' . TD_THEME_NAME;
 	return $classes;
 }
+
+
+// Remove 'block_template_id' param from VC params
+add_action('vc_edit_form_fields_after_render', 'td_vc_edit_form_fields_after_render');
+function td_vc_edit_form_fields_after_render() {
+	ob_start();
+	?>
+	<script type="text/javascript">
+		(function(){
+			var $panelEditElement = jQuery('#vc_ui-panel-edit-element');
+	        if ($panelEditElement.length) {
+				var $selectBlockTemplateId = $panelEditElement.find("select[name='block_template_id']");
+				if ($selectBlockTemplateId.length) {
+					$selectBlockTemplateId.closest('.vc_shortcode-param').hide();
+				}
+			}
+		})();
+
+	</script>
+	<?php
+	echo ob_get_clean();
+}
+
 
