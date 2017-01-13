@@ -1568,7 +1568,7 @@ title one row controls
 .td-box-close-open-icon {
   width: 38px;
   height: 38px;
-  background: #ffffff url("../images/panel/panel-wrap/panel-arrow-close.png") repeat-y;
+  background: white url("../images/panel/panel-wrap/panel-arrow-close.png") repeat-y;
   background-position: 0px 0px;
 }
 .td-box-close .td-box-close-open-icon {
@@ -2005,12 +2005,10 @@ title one row controls
   border: 0;
   margin-bottom: 30px;
 }
-.td_panel_box_meta_info_on_modulesblocks .td-box-description,
-.td_panel_box_google_fonts_styles .td-box-description {
+.td_panel_box_meta_info_on_modulesblocks .td-box-description {
   width: 400px;
 }
-.td_panel_box_meta_info_on_modulesblocks .td-box-control-full,
-.td_panel_box_google_fonts_styles .td-box-control-full {
+.td_panel_box_meta_info_on_modulesblocks .td-box-control-full {
   width: 320px;
 }
 .td_panel_box_header_style .td-small-wrapper-o-separator {
@@ -2034,6 +2032,44 @@ title one row controls
 }
 .td_panel_box_header_style .td-box-control-full .td-small-wrapper-o:nth-child(4n) {
   margin-right: 0;
+}
+.td_panel_box_google_fonts_styles .td-checkbox {
+  margin: 0;
+}
+.td_panel_box_google_fonts_styles .td-box-row {
+  margin-right: 22px;
+  border-bottom: 1px solid #f7f7f7;
+}
+.td_panel_box_google_fonts_styles .td-box-row .td-box-control-full {
+  padding-top: 12px;
+  width: 130px;
+}
+.td_panel_box_google_fonts_styles .td-box-row .td-box-description {
+  padding-top: 18px;
+  padding-bottom: 20px;
+  width: 250px;
+}
+.td_panel_box_google_fonts_styles .td-box-row .td-box-description .td-box-title {
+  top: 0;
+}
+.td_panel_box_google_fonts_styles .td-box-row .td-always-on {
+  text-align: center;
+  padding-top: 18px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333333;
+  text-transform: uppercase;
+}
+.td_panel_box_google_fonts_styles .td-box-row .td-always-on span {
+  padding-right: 62px;
+}
+.td_panel_box_google_fonts_styles .td-box-content {
+  padding-bottom: 18px;
+  padding-top: 0;
+}
+.td_panel_box_google_fonts_styles .td-box-content .td-box-row:first-child {
+  border: 0;
 }
 /*  ----------------------------------------------------------------------------
     pagebuilder
