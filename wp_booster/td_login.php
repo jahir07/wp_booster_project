@@ -103,7 +103,7 @@ class td_login {
                 $wp_hasher = new PasswordHash( 8, true );
             }
 
-            $key_hash = $wp_hasher->HashPassword( $key );
+            $key_hash = time() . ':' . $wp_hasher->HashPassword( $key );
 
             // Now insert the new md5 key into the db
             $wpdb->update($wpdb->users, array('user_activation_key' => $key_hash), array('user_login' => $user_login));
