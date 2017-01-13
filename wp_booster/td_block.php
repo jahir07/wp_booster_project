@@ -1356,6 +1356,7 @@ class td_block {
 	    $border_top = $this->get_att('border_top');
 	    $css = $this->get_att('css');
 	    $tdc_css = $this->get_att('tdc_css');
+	    $block_template_id = $this->get_att('block_template_id');
 
 
 
@@ -1440,6 +1441,15 @@ class td_block {
 			    $el_class_array
 		    );
 	    }
+
+
+	    /**
+	     * add block template id - comes from atts
+	     */
+	    if (empty($block_template_id)) {
+		    $block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+	    }
+	    $block_classes[] = $block_template_id;
 
 
         //remove duplicates
