@@ -86,7 +86,7 @@ class td_block {
 			    'live_filter_cur_post_id' => '',      /** @see td_block::add_live_filter_atts */
 			    'live_filter_cur_post_author' => '',  /** @see td_block::add_live_filter_atts */
 
-			    'block_template_id' => '',
+			    'block_template_id' => '', // used to load a different block template on this specific block. By default the block will load the global block template from the panel
 		    ),
 		    $atts
 	    );
