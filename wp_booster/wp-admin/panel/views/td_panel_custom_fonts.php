@@ -555,19 +555,19 @@
 <!-- info text -->
 <div class="td-box-row">
 	<div class="td-box-description td-box-full">
-		<span class="td-box-title">More information:</span>
-		<p>From here you can set global theme fonts weights & styles.</p>
-		<p><strong>Notice: </strong> The <b>400 - NORMAL</b> font width is missing from settings because it's hardcoded. If a font has only <b>400 normal</b> width available, if 400 is missing, the font will not load for other widths.</p>
+		<p>More information:</p>
+		<ul>
+			<li>From here you can set global theme fonts weights & styles.</li>
+			<li>These settings will load the font files with your chosen weights & styles, if available.</li>
+		</ul>
+		<p><strong>Notice: </strong> The <b>400 - NORMAL</b> font weight is missing from settings because it's hardcoded. If a font has only <b>400 normal</b> weight available, if 400 is missing, the font will not load for other weights.</p>
 	</div>
-	<div class="td-box-row-margin-bottom"></div>
 </div>
-<div class="td-box-section-separator"></div>
 
 <!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">100 - Thin (Hairline)</span>
-		<p>Load the font files with your chosen weights & styles, if available.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -579,13 +579,9 @@
 		));
 		?>
 	</div>
-</div>
 
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">100 - Thin Italic</span>
-		<p>Load the font files with your chosen weights & styles, if available.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -599,11 +595,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">200 - Extra Light (Ultra Light)</span>
-		<p>Load the font files with your chosen weights & styles, if available.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -615,13 +609,9 @@
 		));
 		?>
 	</div>
-</div>
 
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">200 - Extra Light (Ultra Light) Italic</span>
-		<p>Load the font files with your chosen weights & styles, if available.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -636,11 +626,9 @@
 </div>
 
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">300 - Light</span>
-		<p>Load the font files with your chosen weights & styles, if available.</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -652,13 +640,9 @@
 		));
 		?>
 	</div>
-</div>
 
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">300 - Light Italic</span>
-		<p>Load the font files with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -672,11 +656,17 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
+
+	<div class="td-box-description">
+		<span class="td-box-title">400 - Normal</span>
+	</div>
+	<div class="td-box-control-full td-always-on">
+		<span>Active</span>
+	</div>
+
 	<div class="td-box-description">
 		<span class="td-box-title">400 - Normal Italic</span>
-		<p>Load the font files with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -690,11 +680,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">500 - Medium</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -706,13 +694,8 @@
 		));
 		?>
 	</div>
-</div>
-
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">500 - Medium Italic</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -726,11 +709,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">600 - Semi Bold (Demi Bold)</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -742,13 +723,8 @@
 		));
 		?>
 	</div>
-</div>
-
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">600 - Semi Bold (Demi Bold) Italic</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -762,11 +738,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">700 - Bold</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -778,13 +752,8 @@
 		));
 		?>
 	</div>
-</div>
-
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">700 - Bold Italic</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -798,11 +767,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">800 - Extra Bold (Ultra Bold)</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -814,13 +781,8 @@
 		));
 		?>
 	</div>
-</div>
-
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
-		<span class="td-box-title">800 italic - Extra Bold (Ultra Bold) Italic</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
+		<span class="td-box-title">800 - Extra Bold (Ultra Bold) Italic</span>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -834,11 +796,9 @@
 	</div>
 </div>
 
-<!-- google fonts style/type settings-->
 <div class="td-box-row">
 	<div class="td-box-description">
 		<span class="td-box-title">900 - Black (Heavy)</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -850,13 +810,8 @@
 		));
 		?>
 	</div>
-</div>
-
-<!-- google fonts style/type settings-->
-<div class="td-box-row">
 	<div class="td-box-description">
-		<span class="td-box-title">900 - Extra Bold (Ultra Bold) Italic</span>
-		<p>Load the font file with your chosen weights & styles if available</p>
+		<span class="td-box-title">900 - Black (Heavy) Italic</span>
 	</div>
 	<div class="td-box-control-full">
 		<?php
@@ -870,8 +825,6 @@
 	</div>
 </div>
 
-
 <?php echo td_panel_generator::box_end();?>
-
 
 <div class="td-clear"></div>
