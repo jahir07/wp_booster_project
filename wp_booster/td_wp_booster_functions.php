@@ -78,7 +78,7 @@ td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/i
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
 td_api_autoload::add('td_help_pointers', td_global::$get_template_directory . '/includes/wp_booster/td_help_pointers.php');
-
+td_api_autoload::add('td_block_template', td_global::$get_template_directory . '/includes/wp_booster/td_block_template.php');
 
 /* ----------------------------------------------------------------------------
  * video thumbnail & featured video embeds support
