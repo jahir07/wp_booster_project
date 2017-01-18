@@ -161,7 +161,7 @@ class td_block {
 
 
         $this->td_block_template_data = array(
-            'atts' => $this->atts,
+            'atts' => $atts,
             'block_uid' => $this->block_uid,
             'unique_block_class' => $unique_block_class,
             'td_pull_down_items' => $td_pull_down_items,
