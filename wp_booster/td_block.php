@@ -140,24 +140,30 @@ class td_block {
          * @see td_autoload_classes::loading_classes
          */
 
-        $td_block_template_id = $this->atts['block_template_id'];
-	    if (empty($td_block_template_id)) {
-		    $td_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+	    if (td_util::is_mobile_theme()) {
+
+		    // The mobile theme uses only 'td_block_template_1' (in api this is the only registered block template)
+		    $td_block_template_id = 'td_block_template_1';
+
+	    } else {
+		    $td_block_template_id = $this->atts['block_template_id'];
+		    if ( empty( $td_block_template_id ) ) {
+			    $td_block_template_id = td_options::get( 'tds_global_block_template', 'td_block_template_1' );
+		    }
+
+		    /**
+	         * This allows us to overwrite the block templates that are in the theme on each demo.
+	         * it loads the block template from the demo folder ONLY IF it exists
+	         * @since 7/12/2016
+	         */
+	        $demo_id = td_util::get_loaded_demo_id();
+	        if ($demo_id !== false) {
+		        $custom_block_template_path = td_global::$demo_list[$demo_id]['folder']  . $td_block_template_id . '.php';
+	            if (file_exists($custom_block_template_path)) {
+	                require_once $custom_block_template_path;
+	            }
+	        }
 	    }
-
-
-        /**
-         * This allows us to overwrite the block templates that are in the theme on each demo.
-         * it loads the block template from the demo folder ONLY IF it exists
-         * @since 7/12/2016
-         */
-        $demo_id = td_util::get_loaded_demo_id();
-        if ($demo_id !== false) {
-            $custom_block_template_path = td_global::$demo_list[$demo_id]['folder']  . $td_block_template_id . '.php';
-            if (file_exists($custom_block_template_path)) {
-                require_once $custom_block_template_path;
-            }
-        }
 
 
         $this->td_block_template_data = array(
