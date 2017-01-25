@@ -29,7 +29,10 @@ class td_css_compiler {
 
     function load_setting_raw($full_name, $value) {
 
-        $this->settings[$full_name] = $value;
+	    // # css values are removed!
+	    if ($value !== '#') {
+			$this->settings[$full_name] = $value;
+	    }
         //print_r($this->settings) ;
     }
 
