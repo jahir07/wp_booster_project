@@ -2466,3 +2466,22 @@ function td_vc_edit_form_fields_after_render() {
 }
 
 
+/**
+ * filter sets the global block template to the wp widgets
+ */
+add_filter('widget_display_callback', 'on_widget_display_callback', 10, 3);
+function on_widget_display_callback($instance, $this, $args) {
+
+	if ( strpos($args['widget_id'], 'td_block') !== 0) {
+//		var_dump($args);
+//		var_dump($this);
+		$global_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
+		$args['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $args['before_widget']);
+		$args['before_title'] = '<div class="td-block-title"></span>';
+		$args['after_title'] = '</span></div>';
+		call_user_func_array(array($this, 'widget'), array($args, $instance));
+		return false;
+	}
+
+	return $instance;
+}
