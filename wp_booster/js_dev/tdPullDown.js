@@ -400,7 +400,7 @@ var tdPullDown = {};
 
                 // then this space is reduced by the widths of the excluded elements
                 for ( var i = item.excluded_jquery_elements.length - 1; i >= 0; i-- ) {
-                    space_for_horizontal_elements -= item.excluded_jquery_elements[ i ].contents().outerWidth( true );
+                    space_for_horizontal_elements -= item.excluded_jquery_elements[ i ].outerWidth( true );
                 }
             }
 
