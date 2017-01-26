@@ -2477,8 +2477,14 @@ function on_widget_display_callback($instance, $this, $args) {
 //		var_dump($this);
 		$global_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
 		$args['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $args['before_widget']);
-		$args['before_title'] = '<div class="td-block-title"></span>';
-		$args['after_title'] = '</span></div>';
+
+		$block_title_class = 'td-block-title';
+		if ($global_block_template_id === 'td_block_template_1') {
+			$block_title_class = 'block-title';
+		}
+		$args['before_title'] = '<h4 class="' . $block_title_class . '"><span>';
+		$args['after_title'] = '</span></h4>';
+
 		call_user_func_array(array($this, 'widget'), array($args, $instance));
 		return false;
 	}
