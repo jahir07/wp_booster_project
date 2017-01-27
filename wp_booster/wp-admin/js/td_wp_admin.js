@@ -3,6 +3,7 @@
     used on posts meta options and in different places in the theme
  */
 
+/* global jQuery:{} */
 
 //init the variable if it's undefined, sometimes wordpress will not run the wp_footer hooks in wp-admin (in modals for example)
 if (typeof td_get_template_directory_uri === 'undefined') {
@@ -148,6 +149,74 @@ jQuery().ready(function() {
             $saveWidget = $this.closest( 'form' ).find( 'input[name="savewidget"]' );
 
         $saveWidget.trigger( 'click' );
+    });
+
+
+    /**
+     * Used on widgets.php
+     */
+    jQuery( 'body' ).on( 'click', '.td-widget-attach-image', function(event) {
+
+        var $this = jQuery( this );
+
+        window.original_send_to_editor = window.send_to_editor;
+        wp.media.editor.open( $this );
+
+        //hide Create Gallery
+        jQuery('.media-menu .media-menu-item:nth-of-type(2)').addClass('hidden');
+        //hide Create Audio Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(3)').addClass('hidden');
+        //Create Video Playlist
+        jQuery('.media-menu .media-menu-item:nth-of-type(4)').addClass('hidden');
+
+
+        window.send_to_editor = function( html ) {
+
+            var imgLink = jQuery('img', html).attr('src'),
+                imgClass = '';
+
+            if ('undefined' === typeof imgLink) {
+                imgLink = jQuery(html).attr('src');
+                imgClass = jQuery(html).attr('class');
+            } else {
+                imgClass = jQuery('img', html).attr('class');
+            }
+
+            var regex = /wp-image-(\d+)/gi,
+                matches = regex.exec(imgClass);
+
+            var imgId = matches[1];
+
+            //console.log(matches);
+            //console.log(imgId);
+
+            $this.attr( 'style', 'background-image: url( \'' + imgLink + '\') ');
+            $this.data( 'image_link', imgLink );
+            $this.data( 'image_id', imgId );
+
+            $this.parent().find('input[type=hidden]').val(imgLink);
+
+            //reset the send_to_editor function to its original state
+            window.send_to_editor = window.original_send_to_editor;
+        };
+
+        return false;
+    });
+
+
+    /**
+     * Used on widgets.php
+     */
+    jQuery( 'body' ).on( 'click', '.td-widget-remove-image', function(event) {
+        var $this = jQuery( this ),
+            $input = $this.siblings('input[type=hidden]'),
+            $attachImage = $this.siblings('.td-widget-attach-image');
+
+        $input.val('');
+
+        $attachImage.attr( 'style', 'background-image: url("' + td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/no_img.png") ');
+        $attachImage.data( 'image_link', '' );
+        $attachImage.data( 'image_id', '' );
     });
 
 });
