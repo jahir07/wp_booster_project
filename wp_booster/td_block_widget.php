@@ -169,7 +169,7 @@ class td_block_widget extends WP_Widget {
 			case 'attach_image':
 				$backgroundImage = get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/no_img.png';
 				if ( ! empty( $instance[$param['param_name']] ) ) {
-					$backgroundImage = $instance[$param['param_name']];
+					$backgroundImage = wp_get_attachment_url($instance[$param['param_name']]);
 				}
 
 

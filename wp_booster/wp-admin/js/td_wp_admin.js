@@ -194,7 +194,7 @@ jQuery().ready(function() {
             $this.data( 'image_link', imgLink );
             $this.data( 'image_id', imgId );
 
-            $this.parent().find('input[type=hidden]').val(imgLink);
+            $this.parent().find('input[type=hidden]').val(imgId);
 
             //reset the send_to_editor function to its original state
             window.send_to_editor = window.original_send_to_editor;
