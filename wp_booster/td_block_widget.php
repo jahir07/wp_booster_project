@@ -174,7 +174,7 @@ class td_block_widget extends WP_Widget {
 
 
                 ?>
-                <p>
+                <div class="td-widget-attach-image-wrap">
                     <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
                     <div class="td-widget-attach-image" style="background-image: url('<?php echo $backgroundImage ?>')"></div>
                     <input type="hidden" name="<?php echo $this->get_field_name($param['param_name']); ?>" value="<?php echo $instance[$param['param_name']]; ?>" />
@@ -185,7 +185,7 @@ class td_block_widget extends WP_Widget {
                         <?php echo $param['description']; ?>
                     </div>
 
-                </p>
+                </div>
                 <?php
 				break;
         }
