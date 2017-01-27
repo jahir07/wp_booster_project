@@ -14,11 +14,16 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        // on Newspaper the css class 'td-pb-padding-side' is not applied
 	        $td_css_cls_pb_padding_side = '';
 	        $td_css_cls_block_title = '';
+            $global_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
 
 	        if ('Newsmag' == TD_THEME_NAME) {
 		        $td_css_cls_pb_padding_side = 'td-pb-padding-side';
 	        } else if ('Newspaper' == TD_THEME_NAME) {
-		        $td_css_cls_block_title = 'block-title';
+		        $td_css_cls_block_title = 'td-block-title';
+
+                if ($global_block_template_id === 'td_block_template_1') {
+                    $td_css_cls_block_title = 'block-title';
+                }
 	        }
 
 	        $num_comments = get_comments_number(); // get_comments_number returns only a numeric value
@@ -29,8 +34,8 @@ if ((td_util::get_option('tds_disable_comments_sidewide') == '') && post_type_su
 	        }
 	        ?>
 
-            <div class="td-comments-title-wrap <?php echo $td_css_cls_pb_padding_side ?>">
-                <h4 class="td-comments-title <?php echo $td_css_cls_block_title ?>"><span><?php echo $td_comments_no_text?></span></h4>
+            <div class="td-comments-title-wrap <?php echo $td_css_cls_pb_padding_side . $global_block_template_id?>">
+                <h4 class="td-comments-title <?php echo $td_css_cls_block_title?>"><span><?php echo $td_comments_no_text?></span></h4>
             </div>
 
 		        <ol class="comment-list <?php echo $td_css_cls_pb_padding_side ?>">
