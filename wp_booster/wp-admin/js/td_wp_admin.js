@@ -195,6 +195,7 @@ jQuery().ready(function() {
             $this.data( 'image_id', imgId );
 
             $this.parent().find('input[type=hidden]').val(imgId);
+            $this.parent().find('.td-widget-remove-image').removeClass( 'td-hidden-button' );
 
             //reset the send_to_editor function to its original state
             window.send_to_editor = window.original_send_to_editor;
@@ -211,6 +212,8 @@ jQuery().ready(function() {
         var $this = jQuery( this ),
             $input = $this.siblings('input[type=hidden]'),
             $attachImage = $this.siblings('.td-widget-attach-image');
+
+        $this.addClass( 'td-hidden-button' );
 
         $input.val('');
 
