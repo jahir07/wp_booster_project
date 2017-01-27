@@ -163,6 +163,31 @@ class td_block_widget extends WP_Widget {
 
                 <?php
                 break;
+
+
+
+			case 'attach_image':
+				$backgroundImage = get_template_directory_uri() . '/includes/wp_booster/wp-admin/images/no_img.png';
+				if ( ! empty( $instance[$param['param_name']] ) ) {
+					$backgroundImage = $instance[$param['param_name']];
+				}
+
+
+                ?>
+                <p>
+                    <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
+                    <div class="td-widget-attach-image" style="background-image: url('<?php echo $backgroundImage ?>')"></div>
+                    <input type="hidden" name="<?php echo $this->get_field_name($param['param_name']); ?>" value="<?php echo $instance[$param['param_name']]; ?>" />
+
+					<a class="td-widget-remove-image" href="#">Remove</a>
+
+                    <div class="td-wpa-info">
+                        <?php echo $param['description']; ?>
+                    </div>
+
+                </p>
+                <?php
+				break;
         }
 
 		$buffer = ob_get_clean();
