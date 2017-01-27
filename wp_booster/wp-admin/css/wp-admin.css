@@ -4763,6 +4763,7 @@ a:focus {
   position: absolute;
   top: 0;
   right: 0;
+  background-size: cover;
 }
 .td-widget-attach-image-wrap .td-widget-remove-image {
   cursor: pointer;
@@ -4773,4 +4774,7 @@ a:focus {
   text-decoration: none;
   margin-right: 10px;
   line-height: 27px;
+}
+.td-widget-attach-image-wrap .td-hidden-button {
+  display: none;
 }
