@@ -142,7 +142,7 @@ function td_theme_migration() {
 	    // Reset 'td_timestamp_install_plugins' flag - 'td_auto_install_plugins' function will check it
 	    // 'td_timestamp_install_plugins' possible values:
 	    //      1. (empty string) : td_auto_install_plugins will do plugin installation
-	    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds
+	    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
 	    //      3. 'install': td_auto_install_plugins will do nothing next time
 	    td_util::update_option('td_timestamp_install_plugins', '');
     }
@@ -160,17 +160,42 @@ function td_check_install_plugins() {
 
 	$td_timestamp_install_plugins = td_util::get_option('td_timestamp_install_plugins');
 
-	if (empty($td_timestamp_install_plugins) ||
-	    (('installed' !== $td_timestamp_install_plugins) && time() > intval( $td_timestamp_install_plugins ) + 3 * MINUTE_IN_SECONDS)) {
+	if ('installed' !== $td_timestamp_install_plugins) {
+
+		$settings = explode('-', $td_timestamp_install_plugins);
+		$install_attempt = 0;
+
+		if (!empty($td_timestamp_install_plugins) && count($settings) !== 2) {
+			// Bail out, some strange value has been set.
+			return;
+
+		} else if (!empty($td_timestamp_install_plugins)) {
+			$install_attempt = intval($settings[1]) + 1;
+		}
+
+		$timestamp = $settings[0];
+
+
+		if (time() < intval($timestamp) + 1 * MINUTE_IN_SECONDS) {
+			// 180 seconds not elapsed
+			return;
+		}
+
+		if ($install_attempt > 3) {
+			// at least 3 attempts have been done
+
+			td_util::update_option('td_timestamp_install_plugins', 'installed');
+			return;
+		}
 
 		// Reset 'td_timestamp_install_plugins' flag to the current time (we wait 180 seconds till to the next retry)
 		// 'td_timestamp_install_plugins' possible values:
-	    //      1. (empty string) : td_auto_install_plugins will do plugin installation
-	    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds
+	    //      1. '' (empty string): td_auto_install_plugins will do plugin installation
+	    //      2. timestamp-index: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
 	    //      3. 'install': td_auto_install_plugins will do nothing next time
-		td_util::update_option('td_timestamp_install_plugins', time());
+		td_util::update_option('td_timestamp_install_plugins', time() . '-' .  $install_attempt );
 
-		// Install plugins
+		// Install plugins - add action to 'tgmpa_register' with 11 priority, to be sure the plugins have been registered
 		add_action('tgmpa_register', 'td_auto_install_plugins', 11);
 	}
 }
@@ -213,10 +238,12 @@ function td_auto_install_plugins() {
 		}
 
 		// Delete existing plugin
+
 		$existing_plugin_dir_path = $wp_filesystem->find_folder(WP_PLUGIN_DIR . '/' . $plugin['slug']);
 		$removed = $upgrader->clear_destination($existing_plugin_dir_path);
 
 		if (is_wp_error($removed)) {
+			// $removed->get_error_message();
 			// error message must be registered somewhere
 			continue;
 		}
@@ -238,7 +265,7 @@ function td_auto_install_plugins() {
 		$working_dir = $upgrader->unpack_package($download, $delete_package);
 
 		if (is_wp_error($working_dir)) {
-			//throw new Exception( $working_dir->get_error_message() );
+			// $working_dir->get_error_message();
 			// error message must be registered somewhere
 			continue;
 		}
@@ -256,7 +283,7 @@ function td_auto_install_plugins() {
 		) );
 
 		if (is_wp_error($result)) {
-			//throw new Exception( $result->get_error_message() );
+			// $result->get_error_message();
 			// error message must be registered somewhere
 			continue;
 		}
@@ -264,7 +291,7 @@ function td_auto_install_plugins() {
 
 	// 'td_timestamp_install_plugins' possible values:
     //      1. (empty string) : td_auto_install_plugins will do plugin installation
-    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds
+    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
     //      3. 'install': td_auto_install_plugins will do nothing next time
 	td_util::update_option('td_timestamp_install_plugins', 'installed');
 }
