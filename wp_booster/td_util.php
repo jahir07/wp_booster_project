@@ -983,15 +983,20 @@ class td_util {
      */
     static function get_registration() {
         $censored_key = '<strong style="color: red;">Your theme is not registered!</strong><a class="td-button-system-status td-theme-activation" href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Activate now</a>';
-        $registration_key = self::get_option('envato_key');
-        //censure key display (for safety)
-        if (!empty($registration_key)) {
-            $censored_area = substr($registration_key, 8, strlen($registration_key) - 20);
-            $replacement = ' - **** - **** - **** - ';
-            $censored_key = str_replace($censored_area, $replacement, $registration_key);
-            //add key reset button
-            $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+
+        // check if the theme is registered
+        if ( self::get_option('td_cake_status') == 2 ) {
+            $registration_key = self::get_option('envato_key');
+            //censure key display (for safety)
+            if (!empty($registration_key)) {
+                $censored_area = substr($registration_key, 8, strlen($registration_key) - 20);
+                $replacement = ' - **** - **** - **** - ';
+                $censored_key = str_replace($censored_area, $replacement, $registration_key);
+                //add key reset button
+                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+            }
         }
+
         return $censored_key;
     }
 
