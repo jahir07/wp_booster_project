@@ -4746,3 +4746,35 @@ a:focus {
 .tdc-tab-content-wrap .tdc-tab-content-visible {
   display: block;
 }
+.td-widget-attach-image-wrap {
+  position: relative;
+  margin: 14px 0;
+}
+.td-widget-attach-image-wrap .td-wpa-info {
+  margin-top: 0 !important;
+}
+.td-widget-attach-image-wrap label {
+  line-height: 27px;
+}
+.td-widget-attach-image-wrap .td-widget-attach-image {
+  width: 27px;
+  height: 27px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: cover;
+}
+.td-widget-attach-image-wrap .td-widget-remove-image {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 27px;
+  font-size: 12px;
+  text-decoration: none;
+  margin-right: 10px;
+  line-height: 27px;
+}
+.td-widget-attach-image-wrap .td-hidden-button {
+  display: none;
+}

@@ -177,18 +177,18 @@ class td_block_widget extends WP_Widget {
 
 
                 ?>
-                <p>
+                <div class="td-widget-attach-image-wrap">
                     <label for="<?php echo $this->get_field_id($param['param_name']); ?>"><?php echo $param['heading']; ?></label>
                     <div class="td-widget-attach-image" style="background-image: url('<?php echo $backgroundImage ?>')"></div>
                     <input type="hidden" name="<?php echo $this->get_field_name($param['param_name']); ?>" value="<?php echo $instance[$param['param_name']]; ?>" />
 
-					<a class="td-widget-remove-image <?php echo $hideRemoveButton ?>" href="#">Remove</a>
+					<div class="td-widget-remove-image <?php echo $hideRemoveButton ?>">Remove</div>
 
                     <div class="td-wpa-info">
                         <?php echo $param['description']; ?>
                     </div>
 
-                </p>
+                </div>
                 <?php
 				break;
         }

@@ -337,15 +337,38 @@ a:focus {
   display: block;
 }
 
-.td-widget-attach-image {
-  width: 27px;
-  height: 27px;
-  cursor: pointer;
-  background-size: cover;
-}
-.td-widget-remove-image {
-  cursor: pointer;
-}
-.td-hidden-button {
-  visibility: hidden;
+// image controller - on widgets
+.td-widget-attach-image-wrap {
+  position: relative;
+  margin: 14px 0;
+
+  .td-wpa-info {
+    margin-top: 0 !important;
+  }
+
+  label {
+    line-height: 27px;
+  }
+  .td-widget-attach-image {
+    width: 27px;
+    height: 27px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-size: cover;
+  }
+  .td-widget-remove-image {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 27px;
+    font-size: 12px;
+    text-decoration: none;
+    margin-right: 10px;
+    line-height: 27px;
+  }
+  .td-hidden-button {
+    display: none;
+  }
 }
