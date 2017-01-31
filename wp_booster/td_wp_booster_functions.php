@@ -2471,27 +2471,27 @@ function td_vc_edit_form_fields_after_render() {
  * @see 'widget_display_callback' hook on 'class-wp-widget.php'
  */
 add_filter('widget_display_callback', 'on_widget_display_callback', 10, 3);
-function on_widget_display_callback($instance, $this, $args) {
+function on_widget_display_callback($currentWidgetInstanceSettings, $currentWidgetInstance, $widgetArgs) {
 
-	if (strpos($args['widget_id'], 'td_block') !== 0) {
-//		var_dump($args);
-//		var_dump($this);
+	if (strpos($widgetArgs['widget_id'], 'td_block') !== 0) {
+//		var_dump($widgetArgs);
+//		var_dump($currentWidgetInstance);
 		$global_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
-		$args['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $args['before_widget']);
+		$widgetArgs['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $widgetArgs['before_widget']);
 
 		$block_title_class = 'td-block-title';
 		if ($global_block_template_id === 'td_block_template_1') {
 			$block_title_class = 'block-title';
 		}
-		$args['before_title'] = '<h4 class="' . $block_title_class . '"><span>';
-		$args['after_title'] = '</span></h4>';
+		$widgetArgs['before_title'] = '<h4 class="' . $block_title_class . '"><span>';
+		$widgetArgs['after_title'] = '</span></h4>';
 
-		call_user_func_array(array($this, 'widget'), array($args, $instance));
+		call_user_func_array(array($currentWidgetInstance, 'widget'), array($widgetArgs, $currentWidgetInstanceSettings));
 
 		// Returning false will effectively short-circuit display of the widget.
 		return false;
 	}
 
-	// Returning $instance, as the apply_filters of this hook require
-	return $instance;
+	// Returning $currentWidgetInstanceSettings, as the apply_filters of this hook require
+	return $currentWidgetInstanceSettings;
 }
