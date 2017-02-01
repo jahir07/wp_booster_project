@@ -1709,7 +1709,7 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 			         $slide_images_thumbs_css . '
                 </style>
 
-                <div id="' . $gallery_slider_unique_id . '" class="' . $td_nr_columns_slide . '">
+                <div id="' . $gallery_slider_unique_id . '" class="td-gallery ' . $td_nr_columns_slide . '">
                     <div class="post_td_gallery">
                         <div class="td-gallery-slide-top">
                            <div class="td-gallery-title">' . $title_slide . '</div>
