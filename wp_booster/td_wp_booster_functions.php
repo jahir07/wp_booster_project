@@ -2497,3 +2497,12 @@ function on_widget_display_callback($currentWidgetInstanceSettings, $currentWidg
 	// Returning $currentWidgetInstanceSettings, as the apply_filters of this hook require
 	return $currentWidgetInstanceSettings;
 }
+
+
+/**
+ * Reset the 'td_timestamp_install_plugins' option - the registered plugins are checked again in td_first_install.php
+ */
+add_action('switch_theme', 'on_switch_theme_reset_install_plugin');
+function on_switch_theme_reset_install_plugin() {
+	td_util::update_option('td_timestamp_install_plugins', '');
+}
