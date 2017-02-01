@@ -296,7 +296,7 @@ function td_auto_install_plugins() {
 
 		// Activate plugin
 
-		if (isset($plugin['td_install']) && $plugin['td_install']) {
+		if (isset($plugin['td_activate']) && $plugin['td_activate']) {
 			$activate_result = activate_plugin( $plugin['file_path'] );
 
 			if (is_wp_error($activate_result)) {
