@@ -576,10 +576,12 @@ function hook_wp_head() {
 			}
 		}
 
-		// show author meta tag on sigle pages
-		$td_post_author = get_the_author_meta('display_name', $post->post_author);
-		if ($td_post_author) {
-			echo '<meta name="author" content="'.$td_post_author.'">'."\n";
+		// show author meta tag on single pages if it's not disabled from theme's panel
+		if (td_util::get_option('tds_p_show_author_name') != 'hide') {
+			$td_post_author = get_the_author_meta('display_name', $post->post_author);
+			if ($td_post_author) {
+				echo '<meta name="author" content="' . $td_post_author . '">' . "\n";
+			}
 		}
 	}
 
