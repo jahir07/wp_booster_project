@@ -135,11 +135,163 @@ function td_theme_migration() {
 	}
 
 
-    // update the database version
+	// update the database version
     if ($td_db_version != TD_THEME_VERSION) {
         td_util::update_option('td_version', TD_THEME_VERSION);
+
+	    // Reset 'td_timestamp_install_plugins' flag - 'td_auto_install_plugins' function will check it
+	    // 'td_timestamp_install_plugins' possible values:
+	    //      1. (empty string) : td_auto_install_plugins will do plugin installation
+	    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
+	    //      3. 'install': td_auto_install_plugins will do nothing next time
+	    td_util::update_option('td_timestamp_install_plugins', '');
     }
-
-
 }
 td_theme_migration();
+
+
+
+function td_check_install_plugins() {
+
+	// Temporary available only for 'ionMag'
+	if (TD_THEME_NAME !== 'ionMag' || TD_DEPLOY_MODE == 'dev' || TD_DEPLOY_MODE == 'demo' ) {
+		return;
+	}
+
+	$td_timestamp_install_plugins = td_util::get_option('td_timestamp_install_plugins');
+
+	if ('installed' !== $td_timestamp_install_plugins) {
+
+		$settings = explode('-', $td_timestamp_install_plugins);
+		$install_attempt = 0;
+
+		if (!empty($td_timestamp_install_plugins) && count($settings) !== 2) {
+			// Bail out, some strange value has been set.
+			return;
+
+		} else if (!empty($td_timestamp_install_plugins)) {
+			$install_attempt = intval($settings[1]) + 1;
+		}
+
+		$timestamp = $settings[0];
+
+
+		if (time() < intval($timestamp) + 1 * MINUTE_IN_SECONDS) {
+			// 180 seconds not elapsed
+			return;
+		}
+
+		if ($install_attempt > 3) {
+			// at least 3 attempts have been done
+
+			td_util::update_option('td_timestamp_install_plugins', 'installed');
+			return;
+		}
+
+		// Reset 'td_timestamp_install_plugins' flag to the current time (we wait 180 seconds till to the next retry)
+		// 'td_timestamp_install_plugins' possible values:
+	    //      1. '' (empty string): td_auto_install_plugins will do plugin installation
+	    //      2. timestamp-index: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
+	    //      3. 'install': td_auto_install_plugins will do nothing next time
+		td_util::update_option('td_timestamp_install_plugins', time() . '-' .  $install_attempt );
+
+		// Install plugins - add action to 'tgmpa_register' with 11 priority, to be sure the plugins have been registered
+		add_action('tgmpa_register', 'td_auto_install_plugins', 11);
+	}
+}
+td_check_install_plugins();
+
+
+function td_auto_install_plugins() {
+	global $wp_filesystem;
+
+	require_once(ABSPATH . 'wp-admin/includes/file.php');
+	require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
+	require_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
+	require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+	$instance = call_user_func(array(get_class( $GLOBALS['tgmpa']), 'get_instance'));
+
+	if ( ! current_user_can('install_plugins')) {
+		return;
+	}
+
+
+
+//		echo 'GET_PLUGINS';
+//		var_dump(get_plugins());
+//		echo 'INSTANCE_PLUGINS';
+//		var_dump($instance->plugins);
+//      die;
+
+
+
+	WP_Filesystem();
+
+	$skin = new Automatic_Upgrader_Skin();
+	$upgrader = new WP_Upgrader($skin);
+
+	foreach ($instance->plugins as $plugin) {
+
+		if (!isset($plugin['force_install']) || !$plugin['force_install']) {
+			continue;
+		}
+
+		// Delete existing plugin
+
+		$existing_plugin_dir_path = $wp_filesystem->find_folder(WP_PLUGIN_DIR . '/' . $plugin['slug']);
+		$removed = $upgrader->clear_destination($existing_plugin_dir_path);
+
+		if (is_wp_error($removed)) {
+			// $removed->get_error_message();
+			// error message must be registered somewhere
+			continue;
+		}
+
+
+
+
+		// Install plugin
+
+		$download = $upgrader->download_package($plugin['source']);
+		if (is_wp_error($download)) {
+			// error message must be registered somewhere
+			continue;
+		}
+
+		// Don't accidentally delete a local file.
+        $delete_package = ($download !== $plugin['source']);
+
+		$working_dir = $upgrader->unpack_package($download, $delete_package);
+
+		if (is_wp_error($working_dir)) {
+			// $working_dir->get_error_message();
+			// error message must be registered somewhere
+			continue;
+		}
+
+		$result = $upgrader->install_package(array(
+			'source'                      => $working_dir,
+			'destination'                 => WP_PLUGIN_DIR,
+			'clear_destination'           => false,
+			'abort_if_destination_exists' => false,
+			'clear_working'               => true,
+			'hook_extra'                  => array(
+				'type'   => 'plugin',
+				'action' => 'install',
+			),
+		) );
+
+		if (is_wp_error($result)) {
+			// $result->get_error_message();
+			// error message must be registered somewhere
+			continue;
+		}
+	}
+
+	// 'td_timestamp_install_plugins' possible values:
+    //      1. (empty string) : td_auto_install_plugins will do plugin installation
+    //      2. timestamp: td_auto_install_plugins will try a new plugin installation over 180 seconds (it will try to do this 3 times)
+    //      3. 'install': td_auto_install_plugins will do nothing next time
+	td_util::update_option('td_timestamp_install_plugins', 'installed');
+}
