@@ -669,6 +669,9 @@ class td_demo_content extends td_demo_base {
 		    update_post_meta($page_id, 'td_page', $td_page);
 	    }
 
+	    // Flag used by tagDiv Composer - do not set the page as modified in wp admin backend (there's a 'save_post' hook on composer which set it to 1)
+	    update_post_meta($page_id, 'tdc_dirty_content', false);
+
         return $page_id;
     }
 
